@@ -1,0 +1,71 @@
+language: cpp
+
+services:
+  - docker
+
+sudo: required
+dist: trusty
+osx_image: xcode9.2
+
+env:
+  global:
+    - QPMX_CACHE_DIR=$HOME/.qpmx-cache
+    - QT_VER=5.10.0
+    - EXTRA_MODULES=.skycoder42
+
+matrix:
+  include:
+    - os: linux
+      env:
+        - PLATFORM=gcc_64
+        - BUILD_DOC=true
+    - os: linux
+      env:
+        - PLATFORM=android_armv7
+    - os: linux
+      env:
+        - PLATFORM=android_x86
+    - os: osx
+      env:
+        - PLATFORM=clang_64
+    - os: osx
+      env:
+        - PLATFORM=ios
+    # only when using static tools
+    - os: linux
+      env:
+        - PLATFORM=static
+    - os: osx
+      env:
+        - PLATFORM=static
+
+before_install:
+  - git clone https://github.com/Skycoder42/QtModules.git ./qtmodules-travis
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then travis_wait 40 ./qtmodules-travis/ci/$TRAVIS_OS_NAME/setup.sh; else ./qtmodules-travis/ci/$TRAVIS_OS_NAME/setup.sh; fi
+
+script:
+  - ./qtmodules-travis/ci/$TRAVIS_OS_NAME/build.sh
+
+before_deploy:
+  - ./qtmodules-travis/ci/$TRAVIS_OS_NAME/upload-prepare.sh
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: <travis encrypted key>
+  file_glob: true
+  file: install/opt/build_*_$QT_VER.tar.xz
+  on:
+    repo: <user/repository>
+    tags: true
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+  - rm -fr $QPMX_CACHE_DIR/locks
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
+    - $QPMX_CACHE_DIR
