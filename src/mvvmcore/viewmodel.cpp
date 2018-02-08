@@ -36,6 +36,11 @@ void ViewModel::onShow() {}
 
 void ViewModel::onClose() {}
 
+void ViewModel::showImp(const QMetaObject *mo, QObject *parent)
+{
+	Q_UNIMPLEMENTED();
+}
+
 // ------------- Private Implementation -------------
 
 ViewModelPrivate::ViewModelPrivate() :

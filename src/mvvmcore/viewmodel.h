@@ -1,6 +1,8 @@
 #ifndef QTMVVM_VIEWMODEL_H
 #define QTMVVM_VIEWMODEL_H
 
+#include <type_traits>
+
 #include <QtCore/qobject.h>
 #include <QtCore/qscopedpointer.h>
 
@@ -23,6 +25,9 @@ public:
 
 	bool deleteOnClose() const;
 
+	template <typename TViewModel>
+	static void show(QObject *parent = nullptr);
+
 public Q_SLOTS:
 	void setDeleteOnClose(bool deleteOnClose);
 
@@ -37,8 +42,22 @@ protected:
 
 private:
 	QScopedPointer<ViewModelPrivate> d;
+
+	static void showImp(const QMetaObject *mo, QObject *parent);
 };
 
+template<typename TViewModel>
+void ViewModel::show(QObject *parent)
+{
+	static_assert(std::is_base_of<ViewModel, TViewModel>::value, "TViewModel must extend QtMvvm::ViewModel");
+	showImp(&TViewModel::staticMetaObject, parent);
 }
+
+}
+
+#define QTMVVM_INJECT(x) Q_CLASSINFO("inject-" #x, "true")
+#define QTMVVM_INJECT_PROP(type, name, member) \
+	Q_PROPERTY(type name MEMBER member) \
+	QTMVVM_INJECT(name)
 
 #endif // QTMVVM_VIEWMODEL_H

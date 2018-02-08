@@ -8,10 +8,13 @@ DEFINES += SAMPLECORE_LIBRARY
 
 HEADERS += \
 		samplecore_global.h \
-	samplecoreapp.h
+	samplecoreapp.h \
+    sampleviewmodel.h \
+    ieventservice.h
 
 SOURCES += \
-	samplecoreapp.cpp
+	samplecoreapp.cpp \
+    sampleviewmodel.cpp
 
 target.path = $$[QT_INSTALL_EXAMPLES]/mvvmcore/$$TARGET
 INSTALLS += target

@@ -1,4 +1,5 @@
 #include "samplecoreapp.h"
+#include "sampleviewmodel.h"
 
 #include <QtCore/QCommandLineParser>
 
@@ -23,5 +24,6 @@ int SampleCoreApp::startApp(const QStringList &arguments)
 		return EXIT_SUCCESS;
 
 	//TODO implement app code
+	QtMvvm::ViewModel::show<SampleViewModel>();
 	return EXIT_FAILURE;
 }
