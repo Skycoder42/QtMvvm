@@ -36,26 +36,26 @@ matrix:
       image: Visual Studio 2015
 
 install:
-  - git clone https://github.com/Skycoder42/QtModules.git .qtmodules-travis
-  - .qtmodules-travisciwinsetup.bat
+  - git clone https://github.com/Skycoder42/QtModules.git .\qtmodules-travis
+  - .\qtmodules-travis\ci\win\setup.bat
 
 build_script:
-  - .qtmodules-travisciwinbuild.bat
+  - .\qtmodules-travis\ci\win\build.bat
 
 after_build:
-  - .qtmodules-travisciwinupload-prepare.bat
+  - .\qtmodules-travis\ci\win\upload-prepare.bat
 
 artifacts:
-  - path: installbuild_*_%QT_VER%.zip
+  - path: install\build_*_%QT_VER%.zip
 
 deploy:
   provider: GitHub
   auth_token:
     secure: Cp5GRQku2ZWnKPE12NB5q11ZO0Fr5mlzdUTjnLpYJr/dki4LPVqm231edFggogy8
-  artifact: /.*.zip/
+  artifact: /.*\.zip/
   force_update: false
   on:
     appveyor_repo_tag: true
 
 cache:
-  - 'C:UsersappveyorAppDataLocalSkycoder42qpmxcache -> appveyor.yml'
+  - 'C:\Users\appveyor\AppData\Local\Skycoder42\qpmx\cache -> appveyor.yml'
