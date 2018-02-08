@@ -8,6 +8,7 @@ HEADERS += \
 SOURCES +=
 
 TRANSLATIONS += \
+	translations/qtmvvmquick_de.ts \
 	translations/qtmvvmquick_template.ts
 
 DISTFILES += $$TRANSLATIONS

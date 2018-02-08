@@ -15,4 +15,6 @@ lrelease.recurse += sub_src
 QMAKE_EXTRA_TARGETS += lrelease
 
 DISTFILES += .qmake.conf \
-	sync.profile
+	sync.profile \
+	.travis.yml \
+	appveyor.yml

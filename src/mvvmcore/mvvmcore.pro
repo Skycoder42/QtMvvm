@@ -8,6 +8,7 @@ HEADERS += \
 SOURCES +=
 
 TRANSLATIONS += \
+	translations/qtmvvmcore_de.ts \
 	translations/qtmvvmcore_template.ts
 
 DISTFILES += $$TRANSLATIONS

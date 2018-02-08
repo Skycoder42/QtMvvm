@@ -9,35 +9,27 @@ osx_image: xcode9.2
 
 env:
   global:
-    - QPMX_CACHE_DIR=$HOME/.qpmx-cache
-    - QT_VER=5.10.0
-    - EXTRA_MODULES=.skycoder42
+	- QPMX_CACHE_DIR=$HOME/.qpmx-cache
+	- QT_VER=5.10.0
 
 matrix:
   include:
-    - os: linux
-      env:
-        - PLATFORM=gcc_64
-        - BUILD_DOC=true
-    - os: linux
-      env:
-        - PLATFORM=android_armv7
-    - os: linux
-      env:
-        - PLATFORM=android_x86
-    - os: osx
-      env:
-        - PLATFORM=clang_64
-    - os: osx
-      env:
-        - PLATFORM=ios
-    # only when using static tools
-    - os: linux
-      env:
-        - PLATFORM=static
-    - os: osx
-      env:
-        - PLATFORM=static
+	- os: linux
+	  env:
+		- PLATFORM=gcc_64
+		- BUILD_DOC=true
+	- os: linux
+	  env:
+		- PLATFORM=android_armv7
+	- os: linux
+	  env:
+		- PLATFORM=android_x86
+	- os: osx
+	  env:
+		- PLATFORM=clang_64
+	- os: osx
+	  env:
+		- PLATFORM=ios
 
 before_install:
   - git clone https://github.com/Skycoder42/QtModules.git ./qtmodules-travis
@@ -52,12 +44,12 @@ deploy:
   provider: releases
   skip_cleanup: true
   api_key:
-    secure: <travis encrypted key>
+    secure: DNJ5j4HmaEKSrFk+4+hMBAiM4eEJJrfvrSPgY37S1rVByFmtfpAF3ZDb0UuJpD7PEWP5cOOOwg5t7pjh3FBREQYgSxmigmJuBH7Y660+NJ+yn+iZyQJO6aNl4wLhzLBKFq7vgWTaoovM7URVYfBrY++NvoIpHWsd+rxohNcF/xiFTbKtwa9qh82SGtAdnrvYGaQ/Je8q7i9Uhh9vE4hnDauzGSrMCpr5mzbyvtYTKTfzEadty2wTXETboCd6dDg6GLFvxwxeNxe4/gg4kRVEPk/pAU1skNwsfjInBS2EqlWvOqoHggkl726+3E4QcHlL0AkkTpEafPb2zDUKsV8YlnFs3ckL1/c6+ict7iX5tt4woug940CvzU7cTOXTvinZPoFmFDv9d46CU5vYEuXUy4ExQCxHDeimk0VwICxJNxkYS+CNCSrGAMkwHZV3V6SUcoPuha4zz7mKpP0IGOmQhG/ZBtRNryh7tyI/dqhMu6j5RhqoBIPkVJdbgHC5tXgLfAmQOeE+jXLeYXV0oVine2Oof7E4WNVvS1if2HXUxB5S8wNnS3qQ7tNHtxk0gHRa5YvBOyV80ApVhmf/3cO/AXvBMT0rR3FhOso+drd8RiTLgYn5qNV9t0Bq9ykm1GAIAwIJVieyV69b43qqOfhuUA9v1y7dpzn7HYjUYUWCo90=
   file_glob: true
   file: install/opt/build_*_$QT_VER.tar.xz
   on:
-    repo: <user/repository>
-    tags: true
+	repo: <user/repository>
+	tags: true
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -65,7 +57,7 @@ before_cache:
   - rm -fr $QPMX_CACHE_DIR/locks
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-    - $HOME/.android/build-cache
-    - $QPMX_CACHE_DIR
+	- $HOME/.gradle/caches/
+	- $HOME/.gradle/wrapper/
+	- $HOME/.android/build-cache
+	- $QPMX_CACHE_DIR
