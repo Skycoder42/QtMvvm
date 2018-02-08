@@ -3,7 +3,7 @@ TARGET = QtMvvmWidgets
 QT = core gui widgets mvvmcore
 
 HEADERS += \
-	qt_mvvmwidgets_global.h
+    qtmvvmwidgets_global.h
 
 SOURCES +=
 

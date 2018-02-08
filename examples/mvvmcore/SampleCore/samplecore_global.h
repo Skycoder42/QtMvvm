@@ -1,0 +1,12 @@
+#ifndef SAMPLECORE_GLOBAL_H
+#define SAMPLECORE_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(SAMPLECORE_LIBRARY)
+#  define SAMPLECORESHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define SAMPLECORESHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // SAMPLECORE_GLOBAL_H

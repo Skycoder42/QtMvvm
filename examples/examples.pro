@@ -1,3 +1,4 @@
 TEMPLATE = subdirs
 
-SUBDIRS = mvvmcore
+SUBDIRS = mvvmcore \
+    mvvmwidgets

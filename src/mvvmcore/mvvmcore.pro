@@ -1,11 +1,17 @@
 TARGET = QtMvvmCore
 
-QT = core
+QT = core gui
 
 HEADERS += \
-	qt_mvvmcore_global.h
+	viewmodel.h \
+	qtmvvmcore_global.h \
+	viewmodel_p.h \
+	coreapp.h \
+	coreapp_p.h
 
-SOURCES +=
+SOURCES += \
+	viewmodel.cpp \
+	coreapp.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmcore_de.ts \
