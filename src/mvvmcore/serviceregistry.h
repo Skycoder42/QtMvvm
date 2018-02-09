@@ -34,7 +34,7 @@ public:
 	void registerService(const QByteArray &iid,
 						 const QMetaObject *metaObject);
 	void registerService(const QByteArray &iid,
-						 const std::function<QObject*(const QVariantList&)> &fn,
+						 const std::function<QObject*(const QObjectList &)> &fn,
 						 QByteArrayList injectables);
 
 private:
@@ -65,7 +65,7 @@ template<typename TInterface, typename TService>
 void ServiceRegistry::registerInterface(TService *service)
 {
 	QTMVVM_SERVICE_ASSERT(TInterface, TService)
-	registerService(qobject_interface_iid<TInterface*>(), [service](const QVariantList &params) -> QObject* {
+	registerService(qobject_interface_iid<TInterface*>(), [service](const QObjectList &params) -> QObject* {
 		Q_UNUSED(params);
 		return service;
 	}, QByteArrayList());
@@ -95,7 +95,7 @@ template<typename TService>
 void ServiceRegistry::registerObject(TService *service)
 {
 	QTMVVM_SERVICE_ASSERT(TService)
-	registerService(__helpertypes::qobject_iid<TService*>(), [service](const QVariantList &params) -> QObject* {
+	registerService(__helpertypes::qobject_iid<TService*>(), [service](const QObjectList &params) -> QObject* {
 		Q_UNUSED(params);
 		return service;
 	}, QByteArrayList());
