@@ -3,9 +3,11 @@ TARGET = QtMvvmQuick
 QT = core gui widgets mvvmcore
 
 HEADERS += \
-    qtmvvmquick_global.h
+    qtmvvmquick_global.h \
+    builddummy.h
 
-SOURCES +=
+SOURCES += \
+    builddummy.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmquick_de.ts \

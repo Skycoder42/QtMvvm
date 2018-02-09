@@ -55,9 +55,4 @@ void ViewModel::show(QObject *parent)
 
 }
 
-#define QTMVVM_INJECT(x) Q_CLASSINFO("inject-" #x, "true")
-#define QTMVVM_INJECT_PROP(type, name, member) \
-	Q_PROPERTY(type name MEMBER member) \
-	QTMVVM_INJECT(name)
-
 #endif // QTMVVM_VIEWMODEL_H

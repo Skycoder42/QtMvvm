@@ -5,4 +5,4 @@
 );
 
 # Force generation of camel case headers for classes inside QtDataSync namespaces
-$publicclassregexp = "QtMvvm::.+";
+$publicclassregexp = "QtMvvm::(?!__helpertypes).+";

@@ -5,11 +5,13 @@ QT  += core gui widgets mvvmwidgets
 TARGET = SampleWidgets
 
 HEADERS += \
-		mainwindow.h
+		mainwindow.h \
+    widgetseventservice.h
 
 SOURCES += \
 		main.cpp \
-		mainwindow.cpp
+		mainwindow.cpp \
+    widgetseventservice.cpp
 
 FORMS += \
 		mainwindow.ui

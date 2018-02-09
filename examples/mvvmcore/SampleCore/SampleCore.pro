@@ -10,11 +10,13 @@ HEADERS += \
 		samplecore_global.h \
 	samplecoreapp.h \
     sampleviewmodel.h \
-    ieventservice.h
+    ieventservice.h \
+    echoservice.h
 
 SOURCES += \
 	samplecoreapp.cpp \
-    sampleviewmodel.cpp
+    sampleviewmodel.cpp \
+    echoservice.cpp
 
 target.path = $$[QT_INSTALL_EXAMPLES]/mvvmcore/$$TARGET
 INSTALLS += target

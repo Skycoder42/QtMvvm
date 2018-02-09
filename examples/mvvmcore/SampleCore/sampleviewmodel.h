@@ -16,7 +16,7 @@ class SampleViewModel : public QtMvvm::ViewModel
 	QTMVVM_INJECT_PROP(IEventService*, eventService, _eventService)
 
 public:
-	explicit SampleViewModel(QObject *parent = nullptr);
+	Q_INVOKABLE explicit SampleViewModel(QObject *parent = nullptr);
 
 	QString name() const;
 	bool active() const;

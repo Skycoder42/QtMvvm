@@ -7,11 +7,15 @@ HEADERS += \
 	qtmvvmcore_global.h \
 	viewmodel_p.h \
 	coreapp.h \
-	coreapp_p.h
+	coreapp_p.h \
+    serviceregistry.h \
+    serviceregistry_p.h \
+    qtmvvmcore_helpertypes.h
 
 SOURCES += \
 	viewmodel.cpp \
-	coreapp.cpp
+	coreapp.cpp \
+    serviceregistry.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmcore_de.ts \

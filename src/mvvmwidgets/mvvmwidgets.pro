@@ -3,9 +3,11 @@ TARGET = QtMvvmWidgets
 QT = core gui widgets mvvmcore
 
 HEADERS += \
-    qtmvvmwidgets_global.h
+    qtmvvmwidgets_global.h \
+    builddummy.h
 
-SOURCES +=
+SOURCES += \
+    builddummy.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmwidgets_de.ts \
