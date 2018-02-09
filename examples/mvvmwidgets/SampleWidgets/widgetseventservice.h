@@ -18,7 +18,7 @@ class WidgetsEventService : public QObject, public IEventService
 	QTMVVM_INJECT_PROP(EchoService*, echoService, _echoService)
 
 public:
-	explicit WidgetsEventService(QObject *parent = nullptr);
+	Q_INVOKABLE explicit WidgetsEventService(QObject *parent = nullptr);
 	explicit WidgetsEventService(EchoService* svc, QObject *parent = nullptr);
 
 	int addEvent(const QString &name) override;
@@ -31,6 +31,8 @@ private:
 	int _cnt;
 	QHash<int, QSharedPointer<QTimer>> _events;
 	EchoService* _echoService;
+
+	Q_INVOKABLE void qtmvvm_init();
 };
 
 #endif // WIDGETSEVENTSERVICE_H

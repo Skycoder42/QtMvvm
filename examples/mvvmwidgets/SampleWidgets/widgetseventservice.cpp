@@ -14,7 +14,9 @@ WidgetsEventService::WidgetsEventService(EchoService *svc, QObject *parent) :
 	_cnt(0),
 	_events(),
 	_echoService(svc)
-{}
+{
+	qtmvvm_init();
+}
 
 int WidgetsEventService::addEvent(const QString &name)
 {
@@ -35,4 +37,12 @@ int WidgetsEventService::addEvent(const QString &name)
 void WidgetsEventService::removeEvent(int eventId)
 {
 	_events.remove(eventId);
+}
+
+void WidgetsEventService::qtmvvm_init()
+{
+	qDebug(Q_FUNC_INFO);
+	Q_ASSERT(_echoService);
+	connect(_echoService, &EchoService::pong,
+			this, &WidgetsEventService::eventTriggered);
 }

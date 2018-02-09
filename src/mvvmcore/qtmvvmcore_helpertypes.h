@@ -44,6 +44,11 @@ inline QByteArray inject_iid() {
 }
 
 template <typename TFunc, typename T1, typename... TArgs>
+inline std::function<QObject*(QObjectList)> pack_function_imp(const TFunc &fn, QByteArrayList &injectables);
+template <typename TFunc>
+inline std::function<QObject*(QObjectList)> pack_function_imp(const TFunc &fn, QByteArrayList &injectables);
+
+template <typename TFunc, typename T1, typename... TArgs>
 inline std::function<QObject*(QObjectList)> pack_function_imp(const TFunc &fn, QByteArrayList &injectables) {
 	injectables.append(inject_iid<T1>());
 	auto subFn = [fn](const QObjectList &params, int index, TArgs... tArgs) {

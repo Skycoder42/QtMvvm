@@ -10,12 +10,14 @@ HEADERS += \
 	coreapp_p.h \
     serviceregistry.h \
     serviceregistry_p.h \
-    qtmvvmcore_helpertypes.h
+    qtmvvmcore_helpertypes.h \
+    qtmvvmcore_logging_p.h
 
 SOURCES += \
 	viewmodel.cpp \
 	coreapp.cpp \
-    serviceregistry.cpp
+    serviceregistry.cpp \
+    qtmvvmcore_global.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmcore_de.ts \

@@ -2,6 +2,7 @@
 #define QTMVVM_SERVICEREGISTRY_P_H
 
 #include <QtCore/QMutex>
+#include <QtCore/QSharedPointer>
 
 #include "qtmvvmcore_global.h"
 #include "serviceregistry.h"
@@ -16,7 +17,7 @@ public:
 		ServiceInfo();
 		virtual ~ServiceInfo();
 
-		QObject *instance(ServiceRegistryPrivate *d);
+		QObject *instance(ServiceRegistryPrivate *d, const QByteArray &iid);
 
 	protected:
 		virtual QObject *construct(ServiceRegistryPrivate *d) const = 0;

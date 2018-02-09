@@ -5,6 +5,7 @@
 
 #include <QtCore/qscopedpointer.h>
 #include <QtCore/qvariant.h>
+#include <QtCore/qexception.h>
 
 #include "QtMvvmCore/qtmvvmcore_global.h"
 
@@ -37,9 +38,59 @@ public:
 						 const std::function<QObject*(const QObjectList &)> &fn,
 						 QByteArrayList injectables);
 
+	template <typename TInterface>
+	TInterface *acquireInstance();
+	QObject *acquireInstanceObject(const QByteArray &iid);
+
 private:
 	QScopedPointer<ServiceRegistryPrivate> d;
 };
+
+class Q_MVVMCORE_EXPORT ServiceExistsException : public QException
+{
+public:
+	ServiceExistsException(const QByteArray &iid);
+
+	const char *what() const noexcept override;
+
+	void raise() const override;
+	QException *clone() const override;
+
+protected:
+	ServiceExistsException(const ServiceExistsException * const other);
+
+	const QByteArray _msg;
+};
+
+class Q_MVVMCORE_EXPORT ServiceConstructionException : public QException
+{
+public:
+	ServiceConstructionException(const QByteArray &message);
+
+	const char *what() const noexcept override;
+
+	void raise() const override;
+	QException *clone() const override;
+
+protected:
+	ServiceConstructionException(const ServiceConstructionException * const other);
+
+	const QByteArray _msg;
+};
+
+class Q_MVVMCORE_EXPORT ServiceDependencyException : public ServiceConstructionException
+{
+public:
+	ServiceDependencyException(const QByteArray &iid);
+
+	void raise() const override;
+	QException *clone() const override;
+
+protected:
+	ServiceDependencyException(const ServiceDependencyException * const other);
+};
+
+// ------------- Generic Implementation -------------
 
 #define QTMVVM_SERVICE_ASSERT(tint, tsvc) \
 	static_assert(__helpertypes::is_valid_interface<TInterface, TService>::value, "TService must implement the given TInterface interface and be a qobject class"); \
@@ -102,6 +153,12 @@ void ServiceRegistry::registerObject(TService *service)
 }
 
 #undef QTMVVM_SERVICE_ASSERT
+
+template<typename TInterface>
+TInterface *ServiceRegistry::acquireInstance()
+{
+	return qobject_cast<TInterface*>(acquireInstanceObject(__helpertypes::inject_iid<TInterface*>()));
+}
 
 }
 

@@ -30,7 +30,10 @@ int main(int argc, char *argv[])
 			return new WidgetsEventService(echo, nullptr);
 		});
 	if(TEST_CURRENT == TEST_INST)
-		QtMvvm::ServiceRegistry::instance()->registerInterface<IEventService>(new WidgetsEventService());
+		QtMvvm::ServiceRegistry::instance()->registerInterface<IEventService>(new WidgetsEventService(QtMvvm::ServiceRegistry::instance()->acquireInstance<EchoService>()));
+
+	//debug test
+	auto event = QtMvvm::ServiceRegistry::instance()->acquireInstance<IEventService>();
 
 	return a.exec();
 }

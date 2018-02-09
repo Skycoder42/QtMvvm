@@ -8,7 +8,7 @@ class EchoService : public QObject
 	Q_OBJECT
 
 public:
-	explicit EchoService(QObject *parent = nullptr);
+	Q_INVOKABLE explicit EchoService(QObject *parent = nullptr);
 
 public Q_SLOTS:
 	void ping(const QString &message);
