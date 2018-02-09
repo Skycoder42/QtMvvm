@@ -4,7 +4,16 @@ WidgetsEventService::WidgetsEventService(QObject *parent) :
 	QObject(parent),
 	IEventService(),
 	_cnt(0),
-	_events()
+	_events(),
+	_echoService(nullptr)
+{}
+
+WidgetsEventService::WidgetsEventService(EchoService *svc, QObject *parent) :
+	QObject(parent),
+	IEventService(),
+	_cnt(0),
+	_events(),
+	_echoService(svc)
 {}
 
 int WidgetsEventService::addEvent(const QString &name)
@@ -16,7 +25,7 @@ int WidgetsEventService::addEvent(const QString &name)
 
 	_events.insert(_cnt, timer);
 	connect(timer.data(), &QTimer::timeout, this, [this, name]() {
-		emit eventTriggered(name);
+		_echoService->ping(name);//TODO event triggered signal
 	});
 	timer->start(1000);
 

@@ -3,7 +3,7 @@
 
 #include <QtCore/qglobal.h>
 
-#if defined(QT_BUILD_MVVM_LIB)
+#if defined(QT_BUILD_MVVMQUICK_LIB)
 #	define Q_MVVMQUICK_EXPORT Q_DECL_EXPORT
 #else
 #	define Q_MVVMQUICK_EXPORT Q_DECL_IMPORT

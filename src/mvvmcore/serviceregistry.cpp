@@ -19,7 +19,7 @@ ServiceRegistry *ServiceRegistry::instance()
 
 void ServiceRegistry::registerService(const QByteArray &iid, const QMetaObject *metaObject)
 {
-
+	//TODO create function with injectables and pass to other overload
 }
 
 void ServiceRegistry::registerService(const QByteArray &iid, const std::function<QObject *(const QVariantList &)> &fn, QByteArrayList injectables)

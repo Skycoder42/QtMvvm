@@ -15,5 +15,6 @@ Q_SIGNALS:
 
 #define IEventServiceIid "de.skycoder42.qtmvvm.sample.IEventService"
 Q_DECLARE_INTERFACE(IEventService, IEventServiceIid)
+Q_DECLARE_METATYPE(IEventService*)
 
 #endif // IEVENTSERVICE_H

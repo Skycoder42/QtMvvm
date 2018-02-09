@@ -19,6 +19,7 @@ class WidgetsEventService : public QObject, public IEventService
 
 public:
 	explicit WidgetsEventService(QObject *parent = nullptr);
+	explicit WidgetsEventService(EchoService* svc, QObject *parent = nullptr);
 
 	int addEvent(const QString &name) override;
 	void removeEvent(int eventId) override;
