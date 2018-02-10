@@ -3,9 +3,7 @@
 
 #include <QtMvvmCore/CoreApp>
 
-#include "samplecore_global.h"
-
-class SAMPLECORESHARED_EXPORT SampleCoreApp : public QtMvvm::CoreApp
+class SampleCoreApp : public QtMvvm::CoreApp
 {
 	Q_OBJECT
 

@@ -3,9 +3,11 @@
 
 #include <QtCore/qobject.h>
 #include <QtCore/qscopedpointer.h>
+#include <QtCore/qcoreapplication.h>
 class QCommandLineParser;
 
 #include "QtMvvmCore/qtmvvmcore_global.h"
+#include "QtMvvmCore/viewmodel.h"
 
 namespace QtMvvm {
 
@@ -27,14 +29,23 @@ public Q_SLOTS:
 	void bootApp();
 
 protected:
+	virtual void performRegistrations();
 	virtual int startApp(const QStringList &arguments) = 0;
 	virtual void closeApp();
 
 	bool autoParse(QCommandLineParser &parser, const QStringList &arguments);
+	template <typename TViewModel>
+	inline void show(const QVariantHash &params = {}) const;
 
 private:
 	QScopedPointer<CoreAppPrivate> d;
 };
+
+template<typename TViewModel>
+inline void CoreApp::show(const QVariantHash &params) const
+{
+	ViewModel::show<TViewModel>(params);
+}
 
 }
 

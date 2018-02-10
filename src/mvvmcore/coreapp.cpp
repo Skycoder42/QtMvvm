@@ -29,6 +29,7 @@ void CoreApp::registerApp()
 	//register metatypes
 	setParent(qApp);
 	CoreAppPrivate::instance = this;
+	performRegistrations();
 	if(CoreAppPrivate::bootEnabled)
 		QMetaObject::invokeMethod(this, "bootApp", Qt::QueuedConnection);
 }
@@ -42,6 +43,8 @@ void CoreApp::bootApp()
 	} else
 		qApp->exit(res);
 }
+
+void CoreApp::performRegistrations() {}
 
 void CoreApp::closeApp() {}
 

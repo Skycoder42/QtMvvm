@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include <QApplication>
-
 #include <QtMvvmCore/ServiceRegistry>
+#include <samplecoreapp.h>
 
 #include "widgetseventservice.h"
 
@@ -9,6 +9,8 @@
 #define TEST_FN 1
 #define TEST_INST 2
 #define TEST_CURRENT TEST_DIRECT
+
+QTMVVM_REGISTER_CORE_APP(SampleCoreApp)
 
 int main(int argc, char *argv[])
 {
@@ -30,10 +32,10 @@ int main(int argc, char *argv[])
 			return new WidgetsEventService(echo, nullptr);
 		});
 	if(TEST_CURRENT == TEST_INST)
-		QtMvvm::ServiceRegistry::instance()->registerInterface<IEventService>(new WidgetsEventService(QtMvvm::ServiceRegistry::instance()->acquireInstance<EchoService>()));
+		QtMvvm::ServiceRegistry::instance()->registerInterface<IEventService>(new WidgetsEventService(QtMvvm::ServiceRegistry::instance()->service<EchoService>()));
 
 	//debug test
-	auto event = QtMvvm::ServiceRegistry::instance()->acquireInstance<IEventService>();
+	auto event = QtMvvm::ServiceRegistry::instance()->service<IEventService>();
 
 	return a.exec();
 }

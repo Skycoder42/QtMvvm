@@ -36,7 +36,7 @@ void ViewModel::onShow() {}
 
 void ViewModel::onClose() {}
 
-void ViewModel::showImp(const QMetaObject *mo, QObject *parent)
+void ViewModel::showImp(const QMetaObject *mo, const QVariantHash &params, ViewModel *parent)
 {
 	Q_UNIMPLEMENTED();
 }

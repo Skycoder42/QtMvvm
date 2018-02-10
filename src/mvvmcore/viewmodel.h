@@ -5,6 +5,7 @@
 
 #include <QtCore/qobject.h>
 #include <QtCore/qscopedpointer.h>
+#include <QtCore/qvariant.h>
 
 #include "QtMvvmCore/qtmvvmcore_global.h"
 
@@ -26,7 +27,7 @@ public:
 	bool deleteOnClose() const;
 
 	template <typename TViewModel>
-	static void show(QObject *parent = nullptr);
+	inline static void show(const QVariantHash &params = {});
 
 public Q_SLOTS:
 	void setDeleteOnClose(bool deleteOnClose);
@@ -40,17 +41,27 @@ protected:
 	virtual void onShow();
 	virtual void onClose();
 
+	template <typename TViewModel>
+	inline void showChild(const QVariantHash &params = {}) const;
+
 private:
 	QScopedPointer<ViewModelPrivate> d;
 
-	static void showImp(const QMetaObject *mo, QObject *parent);
+	static void showImp(const QMetaObject *mo, const QVariantHash &params, ViewModel *parent);
 };
 
 template<typename TViewModel>
-void ViewModel::show(QObject *parent)
+inline void ViewModel::show(const QVariantHash &params)
 {
 	static_assert(std::is_base_of<ViewModel, TViewModel>::value, "TViewModel must extend QtMvvm::ViewModel");
-	showImp(&TViewModel::staticMetaObject, parent);
+	showImp(&TViewModel::staticMetaObject, params, nullptr);
+}
+
+template<typename TViewModel>
+inline void ViewModel::showChild(const QVariantHash &params) const
+{
+	static_assert(std::is_base_of<ViewModel, TViewModel>::value, "TViewModel must extend QtMvvm::ViewModel");
+	showImp(&TViewModel::staticMetaObject, params, const_cast<ViewModel*>(this));
 }
 
 }

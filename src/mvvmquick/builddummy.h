@@ -1,8 +1,9 @@
 #ifndef BUILDDUMMY_H
 #define BUILDDUMMY_H
 
+#include "qtmvvmquick_global.h"
 
-class builddummy
+class Q_MVVMQUICK_EXPORT builddummy
 {
 public:
 	builddummy();

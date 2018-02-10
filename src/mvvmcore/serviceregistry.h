@@ -39,8 +39,8 @@ public:
 						 QByteArrayList injectables);
 
 	template <typename TInterface>
-	TInterface *acquireInstance();
-	QObject *acquireInstanceObject(const QByteArray &iid);
+	TInterface *service();
+	QObject *serviceObj(const QByteArray &iid);
 
 private:
 	QScopedPointer<ServiceRegistryPrivate> d;
@@ -155,9 +155,9 @@ void ServiceRegistry::registerObject(TService *service)
 #undef QTMVVM_SERVICE_ASSERT
 
 template<typename TInterface>
-TInterface *ServiceRegistry::acquireInstance()
+TInterface *ServiceRegistry::service()
 {
-	return qobject_cast<TInterface*>(acquireInstanceObject(__helpertypes::inject_iid<TInterface*>()));
+	return qobject_cast<TInterface*>(serviceObj(__helpertypes::inject_iid<TInterface*>()));
 }
 
 }

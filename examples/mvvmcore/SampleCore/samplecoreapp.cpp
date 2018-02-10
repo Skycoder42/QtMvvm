@@ -3,8 +3,6 @@
 
 #include <QtCore/QCommandLineParser>
 
-QTMVVM_REGISTER_CORE_APP(SampleCoreApp)
-
 SampleCoreApp::SampleCoreApp(QObject *parent) :
 	CoreApp(parent)
 {}
@@ -23,7 +21,6 @@ int SampleCoreApp::startApp(const QStringList &arguments)
 	if(!autoParse(parser, arguments))
 		return EXIT_SUCCESS;
 
-	//TODO implement app code
-	QtMvvm::ViewModel::show<SampleViewModel>();
-	return EXIT_FAILURE;
+	show<SampleViewModel>();
+	return EXIT_SUCCESS;
 }

@@ -36,7 +36,7 @@ void ServiceRegistry::registerService(const QByteArray &iid, const std::function
 	d->services.insert(iid, QSharedPointer<ServiceRegistryPrivate::FnServiceInfo>::create(fn, injectables));
 }
 
-QObject *ServiceRegistry::acquireInstanceObject(const QByteArray &iid)
+QObject *ServiceRegistry::serviceObj(const QByteArray &iid)
 {
 	QMutexLocker _(&d->serviceMutex);
 	auto ref = d->services.value(iid);
@@ -138,7 +138,7 @@ QObject *ServiceRegistryPrivate::MetaServiceInfo::construct(ServiceRegistryPriva
 			}
 		}
 
-		auto initMethod = metaObject->indexOfMethod("qtmvvm_init()");
+		auto initMethod = metaObject->indexOfMethod("qtmvvm_init()"); //TODO document
 		if(initMethod != -1) {
 			auto method = metaObject->method(initMethod);
 			method.invoke(instance);
