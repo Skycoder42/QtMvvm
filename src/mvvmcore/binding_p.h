@@ -1,0 +1,48 @@
+#ifndef QTMVVM_BINDING_P_H
+#define QTMVVM_BINDING_P_H
+
+#include <QtCore/QObject>
+#include <QtCore/QPointer>
+
+#include "qtmvvmcore_global.h"
+#include "binding.h"
+
+namespace QtMvvm {
+
+class BindingPrivate : public QObject
+{
+	friend class QtMvvm::Binding;
+	Q_OBJECT
+
+public:
+	static Binding bind(QObject *viewModel, const QMetaProperty &viewModelProperty,
+						QObject *view, const QMetaProperty &viewProperty,
+						Binding::BindingDirection type,
+						const QMetaMethod &viewModelChangeSignal,
+						const QMetaMethod &viewChangeSignal);
+
+private Q_SLOTS:
+	void viewModelTrigger();
+	void viewTrigger();
+
+private:
+	BindingPrivate(QObject *viewModel, const QMetaProperty &viewModelProperty,
+				   QObject *view, const QMetaProperty &viewProperty);
+
+	void init();
+	void bindFrom(QMetaMethod changeSignal);
+	void bindTo(QMetaMethod changeSignal);
+
+	QPointer<QObject> viewModel;
+	QPointer<QObject> view;
+	QMetaProperty viewModelProperty;
+	QMetaProperty viewProperty;
+
+	void testReadable(const QMetaProperty &property, bool asView) const;
+	void testWritable(const QMetaProperty &property, bool asView) const;
+	void testNotifier(const QMetaProperty &property, bool asView) const;
+};
+
+}
+
+#endif // QTMVVM_BINDING_P_H

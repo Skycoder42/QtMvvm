@@ -8,17 +8,20 @@ HEADERS += \
 	viewmodel_p.h \
 	coreapp.h \
 	coreapp_p.h \
-    serviceregistry.h \
-    serviceregistry_p.h \
-    qtmvvmcore_helpertypes.h \
-    ipresenter.h \
-    qtmvvm_logging_p.h
+	serviceregistry.h \
+	serviceregistry_p.h \
+	qtmvvmcore_helpertypes.h \
+	ipresenter.h \
+	qtmvvm_logging_p.h \
+	binding.h \
+	binding_p.h
 
 SOURCES += \
 	viewmodel.cpp \
 	coreapp.cpp \
-    serviceregistry.cpp \
-    qtmvvmcore_global.cpp
+	serviceregistry.cpp \
+	qtmvvmcore_global.cpp \
+	binding.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmcore_de.ts \
@@ -45,3 +48,5 @@ else: include($$OUT_PWD/qpmx_generated.pri)
 
 qpmx_ts_target.files -= $$OUT_PWD/$$QPMX_WORKINGDIR/qtmvvmcore_template.qm
 qpmx_ts_target.files += translations/qtmvvmcore_template.ts
+
+message(CONFIG = $$CONFIG) # TODO debug remove
