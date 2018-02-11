@@ -7,6 +7,10 @@
 
 #include "QtMvvmCore/qtmvvmcore_global.h"
 
+#if defined(QT_BUILD_MVVMCORE_LIB) && defined(Q_MOC_RUN)
+#include "binding_p.h"
+#endif
+
 namespace QtMvvm {
 
 class BindingPrivate;
