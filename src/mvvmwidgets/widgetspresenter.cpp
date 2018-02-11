@@ -60,20 +60,10 @@ void WidgetsPresenter::present(ViewModel *viewModel, const QVariantHash &params,
 	}
 
 	// initialize viewmodel and view relationship
-	QMetaObject::Connection noCycleDestroyCon;
 	viewModel->setParent(view);
 	auto hasCycle = setupLifeCycle(viewModel, view);
-	if(hasCycle) {
-		QObject::connect(view, &QWidget::destroyed,
-						 viewModel, &ViewModel::onDestroy,
-						 Qt::DirectConnection);
-	} else {
+	if(!hasCycle)
 		view->setAttribute(Qt::WA_DeleteOnClose);
-		noCycleDestroyCon = QObject::connect(view, &QWidget::destroyed, viewModel, [viewModel](){
-			viewModel->onClose();
-			viewModel->onDestroy();
-		}, Qt::DirectConnection);
-	}
 	viewModel->onInit(params);
 
 	// present the view
@@ -87,16 +77,10 @@ void WidgetsPresenter::present(ViewModel *viewModel, const QVariantHash &params,
 	//handle the present result
 	if(presented) {
 		//if no lifecycle explicit on show is needed
-		if(!hasCycle)
-			viewModel->onShow();
+		//TODO needed?
 	} else {
 		logCritical() << "Unable to find a method that is able to present a view of type"
 					  << viewMetaObject->className();
-		//if no lifecycle only destroy on error, not close and destroy
-		if(!hasCycle) {
-			view->disconnect(noCycleDestroyCon);
-			viewModel->onDestroy();
-		}
 		view->deleteLater();
 	}
 }
@@ -153,7 +137,7 @@ bool WidgetsPresenter::tryPresent(QWidget *view, QWidget *parentView)
 	}
 
 	// for both, the parent and the central view, depending on which is available
-	for(auto pView : QList<QWidget*>{} << parentView << central) {
+	for(auto pView : { parentView, central }) {
 		if(!pView)
 			continue;
 
@@ -173,6 +157,9 @@ bool WidgetsPresenter::tryPresent(QWidget *view, QWidget *parentView)
 
 bool WidgetsPresenter::setupLifeCycle(ViewModel *viewModel, QWidget *view)
 {
+	//TODO fix
+	return false;
+
 	auto viewMo = view->metaObject();
 	if(viewMo->indexOfSignal("qtmvvm_visibleChanged(bool)") != -1) {
 		connect(view, SIGNAL(qtmvvm_visibleChanged(bool)),

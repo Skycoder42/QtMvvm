@@ -1,14 +1,23 @@
 #include "sampleviewmodel.h"
 #include <QDebug>
 
+const QString SampleViewModel::KeyActive = QStringLiteral("active");
+const QString SampleViewModel::KeyNames = QStringLiteral("names");
+
 SampleViewModel::SampleViewModel(QObject *parent) :
 	ViewModel(parent),
 	_name(),
 	_active(false),
-	_events(),
+	_eventsModel(new QStringListModel(this)),
 	_eventService(nullptr),
 	_eventId(-1)
 {}
+
+SampleViewModel::~SampleViewModel()
+{
+	qInfo(Q_FUNC_INFO);
+	setActive(false);
+}
 
 QString SampleViewModel::name() const
 {
@@ -20,9 +29,9 @@ bool SampleViewModel::active() const
 	return _active;
 }
 
-QStringList SampleViewModel::events() const
+QStringListModel *SampleViewModel::eventsModel() const
 {
-	return _events;
+	return _eventsModel;
 }
 
 void SampleViewModel::setName(QString name)
@@ -55,8 +64,7 @@ void SampleViewModel::setActive(bool active)
 
 void SampleViewModel::clearEvents()
 {
-	_events.clear();
-	emit eventsChanged(_events);
+	_eventsModel->setStringList({});
 }
 
 void SampleViewModel::onInit(const QVariantHash &params)
@@ -65,35 +73,17 @@ void SampleViewModel::onInit(const QVariantHash &params)
 	Q_ASSERT(_eventService);
 	connect(dynamic_cast<QObject*>(_eventService), SIGNAL(eventTriggered(QString)),
 			this, SLOT(addEvent(QString)));
-}
 
-void SampleViewModel::onDestroy()
-{
-	qInfo(Q_FUNC_INFO);
-	dynamic_cast<QObject*>(_eventService)->disconnect(this);
-}
-
-void SampleViewModel::onShow()
-{
-	qInfo(Q_FUNC_INFO);
-	if(_active)
-		_eventId = _eventService->addEvent(_name);
-}
-
-void SampleViewModel::onClose()
-{
-	qInfo(Q_FUNC_INFO);
-	if(_active)
-		_eventService->removeEvent(_eventId);
+	auto names = params.value(KeyNames).toStringList();
+	if(!names.isEmpty())
+		setName(names.join(QLatin1Char(' ')));
+	setActive(params.value(KeyActive, false).toBool());
 }
 
 void SampleViewModel::addEvent(const QString &event)
 {
-	_events.append(event);
-	emit eventsChanged(_events);
-}
-
-void SampleViewModel::setEventService(IEventService *eventService)
-{
-    _eventService = eventService;
+	qDebug() << event;
+	auto row = _eventsModel->rowCount();
+	if(_eventsModel->insertRow(row))
+		_eventsModel->setData(_eventsModel->index(row), event);
 }

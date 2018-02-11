@@ -6,6 +6,7 @@ SampleView::SampleView(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 	_viewModel(static_cast<SampleViewModel*>(viewModel)),
 	ui(new Ui::SampleView)
 {
+	Q_ASSERT(_viewModel);
 	ui->setupUi(this);
 }
 

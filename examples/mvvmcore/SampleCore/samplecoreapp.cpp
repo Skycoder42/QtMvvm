@@ -19,13 +19,19 @@ int SampleCoreApp::startApp(const QStringList &arguments)
 	parser.addHelpOption();
 
 	parser.addOption({
-						 {QStringLiteral("n"), QStringLiteral("nothing")},
-						 QStringLiteral("Pointless action")
+						 {QStringLiteral("a"), QStringLiteral("active")},
+						 QStringLiteral("Start with the active checkbox already checked")
 					 });
+	parser.addPositionalArgument(QStringLiteral("names"),
+								 QStringLiteral("A list of names, joined together as one string"),
+								 QStringLiteral("[name..."));
 
 	if(!autoParse(parser, arguments))
 		return EXIT_SUCCESS;
 
-	show<SampleViewModel>();
+	QVariantHash args;
+	args.insert(SampleViewModel::KeyActive, parser.isSet(QStringLiteral("active")));
+	args.insert(SampleViewModel::KeyNames, parser.positionalArguments());
+	show<SampleViewModel>(args);
 	return EXIT_SUCCESS;
 }

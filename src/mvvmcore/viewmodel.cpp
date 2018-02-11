@@ -31,20 +31,6 @@ void ViewModel::setDeleteOnClose(bool deleteOnClose)
 
 void ViewModel::onInit(const QVariantHash &) {}
 
-void ViewModel::onDestroy() {}
-
-void ViewModel::onShow() {}
-
-void ViewModel::onClose() {}
-
-void ViewModel::updateVisible(bool visible)
-{
-	if(visible)
-		onShow();
-	else
-		onClose();
-}
-
 void ViewModel::showImp(const QMetaObject *mo, const QVariantHash &params, QPointer<ViewModel> parent)
 {
 	CoreAppPrivate::dInstance()->showViewModel(mo, params, parent);
