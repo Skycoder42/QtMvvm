@@ -1,13 +1,15 @@
 TARGET = QtMvvmWidgets
 
-QT = core gui widgets mvvmcore
+QT = core gui widgets mvvmcore mvvmcore-private
 
 HEADERS += \
-    qtmvvmwidgets_global.h \
-    builddummy.h
+	qtmvvmwidgets_global.h \
+	widgetspresenter.h \
+	ipresentingview.h \
+	widgetspresenter_p.h
 
 SOURCES += \
-    builddummy.cpp
+	widgetspresenter.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmwidgets_de.ts \

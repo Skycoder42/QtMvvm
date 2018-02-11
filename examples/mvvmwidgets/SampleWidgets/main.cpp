@@ -1,9 +1,10 @@
-#include "mainwindow.h"
 #include <QApplication>
 #include <QtMvvmCore/ServiceRegistry>
+#include <QtMvvmWidgets/WidgetsPresenter>
 #include <samplecoreapp.h>
 
 #include "widgetseventservice.h"
+#include "sampleview.h"
 
 #define TEST_DIRECT 0
 #define TEST_FN 1
@@ -15,6 +16,9 @@ QTMVVM_REGISTER_CORE_APP(SampleCoreApp)
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
+
+	QtMvvm::WidgetsPresenter::registerAsPresenter();
+	QtMvvm::WidgetsPresenter::registerView<SampleView>();
 
 	if(TEST_CURRENT == TEST_DIRECT)
 			QtMvvm::ServiceRegistry::instance()->registerObject<EchoService>();
@@ -33,9 +37,6 @@ int main(int argc, char *argv[])
 		});
 	if(TEST_CURRENT == TEST_INST)
 		QtMvvm::ServiceRegistry::instance()->registerInterface<IEventService>(new WidgetsEventService(QtMvvm::ServiceRegistry::instance()->service<EchoService>()));
-
-	//debug test
-	auto event = QtMvvm::ServiceRegistry::instance()->service<IEventService>();
 
 	return a.exec();
 }

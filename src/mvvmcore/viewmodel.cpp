@@ -1,5 +1,6 @@
 #include "viewmodel.h"
 #include "viewmodel_p.h"
+#include "coreapp_p.h"
 using namespace QtMvvm;
 
 ViewModel::ViewModel(QObject *parent) :
@@ -11,7 +12,7 @@ ViewModel::~ViewModel() {}
 
 ViewModel *ViewModel::parentViewModel() const
 {
-	return qobject_cast<ViewModel*>(parent());
+	return qobject_cast<ViewModel*>(parent()); //TODO not working that way, parent is always the view...
 }
 
 bool ViewModel::deleteOnClose() const
@@ -28,7 +29,7 @@ void ViewModel::setDeleteOnClose(bool deleteOnClose)
 	emit deleteOnCloseChanged(deleteOnClose, {});
 }
 
-void ViewModel::onInit() {}
+void ViewModel::onInit(const QVariantHash &) {}
 
 void ViewModel::onDestroy() {}
 
@@ -36,9 +37,17 @@ void ViewModel::onShow() {}
 
 void ViewModel::onClose() {}
 
-void ViewModel::showImp(const QMetaObject *mo, const QVariantHash &params, ViewModel *parent)
+void ViewModel::updateVisible(bool visible)
 {
-	Q_UNIMPLEMENTED();
+	if(visible)
+		onShow();
+	else
+		onClose();
+}
+
+void ViewModel::showImp(const QMetaObject *mo, const QVariantHash &params, QPointer<ViewModel> parent)
+{
+	CoreAppPrivate::dInstance()->showViewModel(mo, params, parent);
 }
 
 // ------------- Private Implementation -------------

@@ -6,6 +6,7 @@
 #include <QtCore/qobject.h>
 #include <QtCore/qscopedpointer.h>
 #include <QtCore/qvariant.h>
+#include <QtCore/qpointer.h>
 
 #include "QtMvvmCore/qtmvvmcore_global.h"
 
@@ -32,22 +33,24 @@ public:
 public Q_SLOTS:
 	void setDeleteOnClose(bool deleteOnClose);
 
-Q_SIGNALS:
-	void deleteOnCloseChanged(bool deleteOnClose, QPrivateSignal);
-
-protected:
-	virtual void onInit();
+	virtual void onInit(const QVariantHash &params);
 	virtual void onDestroy();
 	virtual void onShow();
 	virtual void onClose();
 
+	void updateVisible(bool visible);
+
+Q_SIGNALS:
+	void deleteOnCloseChanged(bool deleteOnClose, QPrivateSignal);
+
+protected:
 	template <typename TViewModel>
 	inline void showChild(const QVariantHash &params = {}) const;
 
 private:
 	QScopedPointer<ViewModelPrivate> d;
 
-	static void showImp(const QMetaObject *mo, const QVariantHash &params, ViewModel *parent);
+	static void showImp(const QMetaObject *mo, const QVariantHash &params, QPointer<ViewModel> parent);
 };
 
 template<typename TViewModel>

@@ -1,7 +1,10 @@
 #include "coreapp.h"
 #include "coreapp_p.h"
+#include "qtmvvm_logging_p.h"
+#include "serviceregistry_p.h"
 
 #include <QtCore/QCommandLineParser>
+#include <QtCore/QRegularExpression>
 
 #include <QtGui/QGuiApplication>
 
@@ -17,6 +20,14 @@ CoreApp::~CoreApp() {}
 CoreApp *CoreApp::instance()
 {
 	return CoreAppPrivate::instance;
+}
+
+void CoreApp::setMainPresenter(IPresenter *presenter)
+{
+	if(!CoreAppPrivate::instance)
+		logCritical() << "Failed to set presenter - no core app has been created yet";
+	else
+		CoreAppPrivate::instance->d->presenter.reset(presenter);
 }
 
 void CoreApp::disableAutoBoot()
@@ -36,6 +47,8 @@ void CoreApp::registerApp()
 
 void CoreApp::bootApp()
 {
+	if(!d->presenter)
+		logWarning() << "No presenter has been set before the app start";
 	auto res = startApp(QCoreApplication::arguments());
 	if(res == EXIT_SUCCESS) {
 		connect(qApp, &QCoreApplication::aboutToQuit,
@@ -73,7 +86,38 @@ bool CoreApp::autoParse(QCommandLineParser &parser, const QStringList &arguments
 bool CoreAppPrivate::bootEnabled = true;
 QPointer<CoreApp> CoreAppPrivate::instance = nullptr;
 
-CoreAppPrivate::CoreAppPrivate()
-{
+CoreAppPrivate::CoreAppPrivate() :
+	presenter(nullptr)
+{}
 
+QScopedPointer<CoreAppPrivate> &CoreAppPrivate::dInstance()
+{
+	return instance->d;
+}
+
+void CoreAppPrivate::showViewModel(const QMetaObject *metaObject, const QVariantHash &params, QPointer<ViewModel> parent)
+{
+	if(presenter) {
+		try {
+			auto obj = ServiceRegistryPrivate::constructInjected(metaObject);
+			auto vm = qobject_cast<ViewModel*>(obj);
+			if(!vm)
+				throw ServiceConstructionException("Invalid types - not at QtMvvm::ViewModel");
+			presenter->present(vm, params, parent);
+		} catch(QException &e) {
+			logCritical() << "Failed to present viewmodel of type"
+						  << metaObject->className()
+						  << "with error:"
+						  << e.what();
+		}
+	} else {
+		logCritical() << "Failed to present viewmodel of type"
+					  << metaObject->className()
+					  << "- no presenter was set";
+	}
+}
+
+IPresenter *CoreAppPrivate::currentPresenter() const
+{
+	return presenter.data();
 }

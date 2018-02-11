@@ -53,6 +53,9 @@ public:
 	QHash<QByteArray, QSharedPointer<ServiceInfo>> services;
 
 	ServiceRegistryPrivate();
+
+	static QObject *constructInjected(const QMetaObject *metaObject);
+	QObject *constructInjectedLocked(const QMetaObject *metaObject);
 };
 
 }

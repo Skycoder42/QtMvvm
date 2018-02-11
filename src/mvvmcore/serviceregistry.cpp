@@ -1,6 +1,6 @@
 #include "serviceregistry.h"
 #include "serviceregistry_p.h"
-#include "qtmvvmcore_logging_p.h"
+#include "qtmvvm_logging_p.h"
 
 #include <QtCore/QGlobalStatic>
 #include <QtCore/QRegularExpression>
@@ -53,6 +53,62 @@ ServiceRegistryPrivate::ServiceRegistryPrivate() :
 	services()
 {}
 
+QObject *ServiceRegistryPrivate::constructInjected(const QMetaObject *metaObject)
+{
+	auto &d = ServiceRegistry::instance()->d;
+	QMutexLocker _(&d->serviceMutex);
+	return d->constructInjectedLocked(metaObject);
+}
+
+QObject *ServiceRegistryPrivate::constructInjectedLocked(const QMetaObject *metaObject)
+{
+	auto instance = metaObject->newInstance();
+	if(!instance) {
+		throw ServiceConstructionException(QByteArrayLiteral("Failed to construct object of type ") +
+										   metaObject->className() +
+										   QByteArrayLiteral(" - make shure there is an invokable constructor of the format: Q_INVOKABLE MyClass(QObject*)"));
+	}
+
+	static QRegularExpression nameRegex(QStringLiteral(R"__(^__qtmvvm_inject_(.+)$)__"),
+										QRegularExpression::OptimizeOnFirstUsageOption);
+
+	try {
+		for(auto i = 0; i < metaObject->propertyCount(); i++) {
+			auto prop = metaObject->property(i);
+			auto match = nameRegex.match(QString::fromUtf8(prop.name()));
+			if(match.hasMatch()) {
+				auto tPropIndex = metaObject->indexOfProperty(qUtf8Printable(match.captured(1)));
+				if(tPropIndex == -1) {
+					logWarning().noquote() << "Found hint to inject property"
+										   << match.captured(1)
+										   << "but no property of that name was found";
+					continue;
+				}
+				auto tProp = metaObject->property(tPropIndex);
+
+				auto iid = prop.read(instance).toByteArray();
+				auto ref = services.value(iid);
+				if(!ref)
+					throw ServiceDependencyException(iid);
+				auto injObj = ref->instance(this, iid);
+				auto variant = QVariant::fromValue(injObj);
+				if(!variant.convert(tProp.userType())) {
+					throw ServiceConstructionException("Failed to convert QObject to interface with iid \"" +
+													   iid +
+													   "\". Use QtMvvm::registerInterfaceConverter to make it convertable "
+													   "or change the properties type to \"QObject*\"");
+				}
+				tProp.write(instance, variant); //TODO check if casting works
+			}
+		}
+
+		return instance;
+	} catch (...) {
+		instance->deleteLater();
+		throw;
+	}
+}
+
 
 
 ServiceRegistryPrivate::ServiceInfo::ServiceInfo() :
@@ -88,7 +144,7 @@ ServiceRegistryPrivate::FnServiceInfo::FnServiceInfo(const std::function<QObject
 QObject *ServiceRegistryPrivate::FnServiceInfo::construct(ServiceRegistryPrivate *d) const
 {
 	QObjectList params;
-	foreach(auto iid, injectables) {
+	for(auto iid : injectables) {
 		auto ref = d->services.value(iid);
 		if(!ref)
 			throw ServiceDependencyException(iid);
@@ -105,50 +161,13 @@ ServiceRegistryPrivate::MetaServiceInfo::MetaServiceInfo(const QMetaObject *meta
 
 QObject *ServiceRegistryPrivate::MetaServiceInfo::construct(ServiceRegistryPrivate *d) const
 {
-	auto instance = metaObject->newInstance();
-	if(!instance) {
-		throw ServiceConstructionException(QByteArrayLiteral("Failed to construct object of type ") +
-										   metaObject->className() +
-										   QByteArrayLiteral(" - make shure there is an invokable constructor of the format: Q_INVOKABLE MyClass(QObject*)"));
+	auto instance = d->constructInjectedLocked(metaObject);
+	auto initMethod = metaObject->indexOfMethod("qtmvvm_init()"); //TODO document
+	if(initMethod != -1) {
+		auto method = metaObject->method(initMethod);
+		method.invoke(instance);
 	}
-
-	static QRegularExpression nameRegex(QStringLiteral(R"__(^__qtmvvm_inject_(.+)$)__"),
-										QRegularExpression::OptimizeOnFirstUsageOption);
-
-	try {
-		for(auto i = 0; i < metaObject->propertyCount(); i++) {
-			auto prop = metaObject->property(i);
-			auto match = nameRegex.match(QString::fromUtf8(prop.name()));
-			if(match.hasMatch()) {
-				auto tPropIndex = metaObject->indexOfProperty(qUtf8Printable(match.captured(1)));
-				if(tPropIndex == -1) {
-					logWarning().noquote() << "Found hint to inject property"
-										   << match.captured(1)
-										   << "but no property of that name was found";
-					continue;
-				}
-				auto tProp = metaObject->property(tPropIndex);
-
-				auto iid = prop.read(instance).toByteArray();
-				auto ref = d->services.value(iid);
-				if(!ref)
-					throw ServiceDependencyException(iid);
-				auto injObj = ref->instance(d, iid);
-				tProp.write(instance, QVariant::fromValue(injObj)); //TODO check if casting works
-			}
-		}
-
-		auto initMethod = metaObject->indexOfMethod("qtmvvm_init()"); //TODO document
-		if(initMethod != -1) {
-			auto method = metaObject->method(initMethod);
-			method.invoke(instance);
-		}
-
-		return instance;
-	} catch (...) {
-		instance->deleteLater();
-		throw;
-	}
+	return instance;
 }
 
 // ------------- Exceptions Implementation -------------

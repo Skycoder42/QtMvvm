@@ -8,6 +8,7 @@ class QCommandLineParser;
 
 #include "QtMvvmCore/qtmvvmcore_global.h"
 #include "QtMvvmCore/viewmodel.h"
+#include "QtMvvmCore/ipresenter.h"
 
 namespace QtMvvm {
 
@@ -21,6 +22,7 @@ public:
 	~CoreApp();
 
 	static CoreApp *instance();
+	static void setMainPresenter(IPresenter *presenter);
 	static void disableAutoBoot();
 
 	void registerApp();
@@ -38,6 +40,7 @@ protected:
 	inline void show(const QVariantHash &params = {}) const;
 
 private:
+	friend class QtMvvm::CoreAppPrivate;
 	QScopedPointer<CoreAppPrivate> d;
 };
 

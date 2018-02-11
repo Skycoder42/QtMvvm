@@ -11,6 +11,17 @@
 #	define Q_MVVMCORE_EXPORT Q_DECL_IMPORT
 #endif
 
+namespace QtMvvm {
+
+template <typename TInterface>
+inline void registerInterfaceConverter() {
+	QMetaType::registerConverter<QObject*, TInterface*>([](QObject *o) {
+		return qobject_cast<TInterface*>(o);
+	});
+}
+
+}
+
 #define QTMVVM_INJECT(classType, name) \
 	static inline QByteArray __qtmvvm_inject_##name() { \
 		return QtMvvm::__helpertypes::inject_iid<classType>(); \

@@ -11,7 +11,8 @@ HEADERS += \
     serviceregistry.h \
     serviceregistry_p.h \
     qtmvvmcore_helpertypes.h \
-    qtmvvmcore_logging_p.h
+    ipresenter.h \
+    qtmvvm_logging_p.h
 
 SOURCES += \
 	viewmodel.cpp \

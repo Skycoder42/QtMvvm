@@ -43,6 +43,7 @@ public:
 	QObject *serviceObj(const QByteArray &iid);
 
 private:
+	friend class QtMvvm::ServiceRegistryPrivate;
 	QScopedPointer<ServiceRegistryPrivate> d;
 };
 

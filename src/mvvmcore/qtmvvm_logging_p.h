@@ -1,5 +1,5 @@
-#ifndef LOGGING_P_H
-#define LOGGING_P_H
+#ifndef QTMVVM_LOGGING_P_H
+#define QTMVVM_LOGGING_P_H
 
 #include <QtCore/QLoggingCategory>
 
@@ -7,7 +7,7 @@
 
 namespace QtMvvm {
 
-Q_DECLARE_LOGGING_CATEGORY(mvvmcore)
+Q_MVVMCORE_EXPORT Q_DECLARE_LOGGING_CATEGORY(mvvmcore)
 
 }
 
@@ -16,4 +16,4 @@ Q_DECLARE_LOGGING_CATEGORY(mvvmcore)
 #define logWarning(...) qCWarning(mvvmcore, __VA_ARGS__)
 #define logCritical(...) qCCritical(mvvmcore, __VA_ARGS__)
 
-#endif // LOGGING_P_H
+#endif // QTMVVM_LOGGING_P_H

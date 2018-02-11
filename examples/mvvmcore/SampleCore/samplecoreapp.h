@@ -11,6 +11,7 @@ public:
 	SampleCoreApp(QObject *parent = nullptr);
 
 protected:
+	void performRegistrations() override;
 	int startApp(const QStringList &arguments) override;
 };
 

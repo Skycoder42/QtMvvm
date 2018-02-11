@@ -7,6 +7,11 @@ SampleCoreApp::SampleCoreApp(QObject *parent) :
 	CoreApp(parent)
 {}
 
+void SampleCoreApp::performRegistrations()
+{
+	QtMvvm::registerInterfaceConverter<IEventService>();
+}
+
 int SampleCoreApp::startApp(const QStringList &arguments)
 {
 	QCommandLineParser parser;

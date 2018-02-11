@@ -1,5 +1,5 @@
 #include "qtmvvmcore_global.h"
-#include "qtmvvmcore_logging_p.h"
+#include "qtmvvm_logging_p.h"
 
 namespace QtMvvm {
 

@@ -1,4 +1,5 @@
 #include "sampleviewmodel.h"
+#include <QDebug>
 
 SampleViewModel::SampleViewModel(QObject *parent) :
 	ViewModel(parent),
@@ -58,9 +59,9 @@ void SampleViewModel::clearEvents()
 	emit eventsChanged(_events);
 }
 
-void SampleViewModel::onInit()
+void SampleViewModel::onInit(const QVariantHash &params)
 {
-	qInfo(Q_FUNC_INFO);
+	qInfo() << Q_FUNC_INFO << params;
 	Q_ASSERT(_eventService);
 	connect(dynamic_cast<QObject*>(_eventService), SIGNAL(eventTriggered(QString)),
 			this, SLOT(addEvent(QString)));
@@ -90,4 +91,9 @@ void SampleViewModel::addEvent(const QString &event)
 {
 	_events.append(event);
 	emit eventsChanged(_events);
+}
+
+void SampleViewModel::setEventService(IEventService *eventService)
+{
+    _eventService = eventService;
 }

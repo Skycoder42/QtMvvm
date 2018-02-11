@@ -5,16 +5,16 @@ QT  += core gui widgets mvvmwidgets
 TARGET = SampleWidgets
 
 HEADERS += \
-		mainwindow.h \
-	widgetseventservice.h
+	widgetseventservice.h \
+    sampleview.h
 
 SOURCES += \
 		main.cpp \
-		mainwindow.cpp \
-	widgetseventservice.cpp
+	widgetseventservice.cpp \
+    sampleview.cpp
 
 FORMS += \
-		mainwindow.ui
+    sampleview.ui
 
 target.path = $$[QT_INSTALL_EXAMPLES]/mvvmwidgets/$$TARGET
 INSTALLS += target
