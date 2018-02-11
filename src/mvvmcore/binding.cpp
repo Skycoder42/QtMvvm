@@ -159,7 +159,6 @@ void BindingPrivate::bindTo(QMetaMethod changeSignal)
 		testNotifier(viewProperty, true);
 		changeSignal = viewProperty.notifySignal();
 	}
-	auto signal = viewProperty.notifySignal();
 	auto trigger = metaObject()->method(metaObject()->indexOfSlot("viewTrigger()"));
 	connect(view, changeSignal, this, trigger);
 }

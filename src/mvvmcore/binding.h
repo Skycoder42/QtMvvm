@@ -32,7 +32,7 @@ public:
 	bool isValid() const;
 
 private:
-	QPointer<BindingPrivate> d;
+	QPointer<QObject> d;
 };
 
 Q_MVVMCORE_EXPORT Binding bind(QObject *viewModel, const char *viewModelProperty,
