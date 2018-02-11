@@ -7,10 +7,6 @@
 
 #include "QtMvvmCore/qtmvvmcore_global.h"
 
-#if defined(QT_BUILD_MVVMCORE_LIB) && defined(Q_MOC_RUN)
-#include "binding_p.h"
-#endif
-
 namespace QtMvvm {
 
 class BindingPrivate;
@@ -58,5 +54,9 @@ Q_MVVMCORE_EXPORT Binding bind(QObject *viewModel, const QMetaProperty &viewMode
 }
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(QtMvvm::Binding::BindingDirection)
+
+#if defined(QT_BUILD_MVVMCORE_LIB) && defined(Q_MOC_RUN)
+#include "binding_p.h"
+#endif
 
 #endif // QTMVVM_BINDING_H
