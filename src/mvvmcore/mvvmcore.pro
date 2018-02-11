@@ -14,14 +14,18 @@ HEADERS += \
 	ipresenter.h \
 	qtmvvm_logging_p.h \
 	binding.h \
-	binding_p.h
+	binding_p.h \
+    message.h \
+    message_p.h
 
 SOURCES += \
 	viewmodel.cpp \
 	coreapp.cpp \
 	serviceregistry.cpp \
 	qtmvvmcore_global.cpp \
-	binding.cpp
+	binding.cpp \
+    message.cpp \
+    ipresenter.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmcore_de.ts \

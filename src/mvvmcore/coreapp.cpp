@@ -95,20 +95,28 @@ QScopedPointer<CoreAppPrivate> &CoreAppPrivate::dInstance()
 	return instance->d;
 }
 
-void CoreAppPrivate::showViewModel(const QMetaObject *metaObject, const QVariantHash &params, QPointer<ViewModel> parent)
+void CoreAppPrivate::showViewModel(const QMetaObject *metaObject, const QVariantHash &params, QPointer<ViewModel> parent, quint32 requestCode)
 {
 	if(presenter) {
+		QPointer<ViewModel> vm;
 		try {
 			auto obj = ServiceRegistryPrivate::constructInjected(metaObject);
-			auto vm = qobject_cast<ViewModel*>(obj);
+			vm = qobject_cast<ViewModel*>(obj);
 			if(!vm)
 				throw ServiceConstructionException("Invalid types - not at QtMvvm::ViewModel");
 			presenter->present(vm, params, parent);
+			if(requestCode != 0) {
+				QObject::connect(vm, &ViewModel::resultReady,
+								 parent, &ViewModel::onResult,
+								 Qt::UniqueConnection);
+			}
 		} catch(QException &e) {
 			logCritical() << "Failed to present viewmodel of type"
 						  << metaObject->className()
 						  << "with error:"
 						  << e.what();
+			if(vm)
+				vm->deleteLater();
 		}
 	} else {
 		logCritical() << "Failed to present viewmodel of type"

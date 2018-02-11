@@ -39,12 +39,8 @@ void WidgetsPresenter::present(ViewModel *viewModel, const QVariantHash &params,
 {
 	// find and create view
 	auto viewMetaObject = findWidgetMetaObject(viewModel->metaObject());
-	if(!viewMetaObject) {
-		logCritical() << "Unable to find view for viewmodel of type"
-					  << viewModel->metaObject()->className();
-		viewModel->deleteLater();
-		return;
-	}
+	if(!viewMetaObject)
+		throw PresenterException("Unable to find view any matching view");
 
 	auto parentView = parent ?
 						  qobject_cast<QWidget*>(parent->parent()) :
@@ -52,11 +48,10 @@ void WidgetsPresenter::present(ViewModel *viewModel, const QVariantHash &params,
 	auto view = qobject_cast<QWidget*>(viewMetaObject->newInstance(Q_ARG(QtMvvm::ViewModel*, viewModel),
 																   Q_ARG(QWidget*, parentView)));
 	if(!view) {
-		logCritical() << "Failed to create view of type"
-					  << viewMetaObject->className()
-					  << "(did you mark the constructor as Q_INVOKABLE? Required signature: \"Q_INVOKABLE Contructor(QtMvvm::ViewModel *, QWidget*);\")";
-		viewModel->deleteLater();
-		return;
+		throw PresenterException(QByteArrayLiteral("Failed to create view of type") +
+								 viewMetaObject->className() +
+								 QByteArrayLiteral("(did you mark the constructor as Q_INVOKABLE? "
+												   "Required signature: \"Q_INVOKABLE Contructor(QtMvvm::ViewModel *, QWidget*);\")"));
 	}
 
 	// initialize viewmodel and view relationship
@@ -75,13 +70,10 @@ void WidgetsPresenter::present(ViewModel *viewModel, const QVariantHash &params,
 		presented = tryPresent(view, parentView);
 
 	//handle the present result
-	if(presented) {
-		//if no lifecycle explicit on show is needed
-		//TODO needed?
-	} else {
-		logCritical() << "Unable to find a method that is able to present a view of type"
-					  << viewMetaObject->className();
+	if(!presented) {
 		view->deleteLater();
+		throw PresenterException(QByteArrayLiteral("Unable to find a method that is able to present a view of type") +
+								 viewMetaObject->className());
 	}
 }
 

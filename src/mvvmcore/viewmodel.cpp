@@ -1,6 +1,7 @@
 #include "viewmodel.h"
 #include "viewmodel_p.h"
 #include "coreapp_p.h"
+#include "qtmvvm_logging_p.h"
 using namespace QtMvvm;
 
 ViewModel::ViewModel(QObject *parent) :
@@ -10,34 +11,27 @@ ViewModel::ViewModel(QObject *parent) :
 
 ViewModel::~ViewModel() {}
 
-ViewModel *ViewModel::parentViewModel() const
-{
-	return qobject_cast<ViewModel*>(parent()); //TODO not working that way, parent is always the view...
-}
-
-bool ViewModel::deleteOnClose() const
-{
-	return d->deleteOnClose;
-}
-
-void ViewModel::setDeleteOnClose(bool deleteOnClose)
-{
-	if (d->deleteOnClose == deleteOnClose)
-		return;
-
-	d->deleteOnClose = deleteOnClose;
-	emit deleteOnCloseChanged(deleteOnClose, {});
-}
-
 void ViewModel::onInit(const QVariantHash &) {}
+
+void ViewModel::onResult(quint32 requestCode, const QVariant &result)
+{
+	Q_UNUSED(result)
+	logDebug() << "Unused result on" << metaObject()->className()
+			   << "with request code" << requestCode;
+}
 
 void ViewModel::showImp(const QMetaObject *mo, const QVariantHash &params, QPointer<ViewModel> parent)
 {
-	CoreAppPrivate::dInstance()->showViewModel(mo, params, parent);
+	CoreAppPrivate::dInstance()->showViewModel(mo, params, parent, 0);
+}
+
+void ViewModel::showResultImp(quint32 requestCode, const QMetaObject *mo, const QVariantHash &params) const
+{
+	Q_ASSERT_X(requestCode != 0, Q_FUNC_INFO, "requestCode must not be 0");
+	CoreAppPrivate::dInstance()->showViewModel(mo, params, const_cast<ViewModel*>(this), requestCode);
 }
 
 // ------------- Private Implementation -------------
 
-ViewModelPrivate::ViewModelPrivate() :
-	deleteOnClose(true)
+ViewModelPrivate::ViewModelPrivate()
 {}

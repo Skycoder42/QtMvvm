@@ -26,7 +26,8 @@ public:
 	Q_DECLARE_FLAGS(BindingDirection, BindingDirectionFlag)
 	Q_FLAG(BindingDirection)
 
-	Binding(QPointer<BindingPrivate> d_ptr = nullptr);
+	Binding();
+	Binding(QPointer<BindingPrivate> d_ptr);
 	~Binding();
 
 	bool isValid() const;

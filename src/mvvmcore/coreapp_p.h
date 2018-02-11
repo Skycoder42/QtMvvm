@@ -14,7 +14,7 @@ class Q_MVVMCORE_EXPORT CoreAppPrivate
 
 public:
 	static QScopedPointer<CoreAppPrivate> &dInstance();
-	void showViewModel(const QMetaObject *metaObject, const QVariantHash &params, QPointer<ViewModel> parent);
+	void showViewModel(const QMetaObject *metaObject, const QVariantHash &params, QPointer<ViewModel> parent, quint32 requestCode);
 
 	IPresenter *currentPresenter() const;
 

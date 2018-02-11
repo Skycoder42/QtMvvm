@@ -85,6 +85,10 @@ Binding QtMvvm::bind(QObject *viewModel, const QMetaProperty &viewModelProperty,
 }
 
 
+Binding::Binding() :
+	d(nullptr)
+{}
+
 Binding::Binding(QPointer<BindingPrivate> d_ptr) :
 	d(d_ptr)
 {}

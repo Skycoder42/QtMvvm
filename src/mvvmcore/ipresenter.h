@@ -1,10 +1,28 @@
 #ifndef QTMVVM_IPRESENTER_H
 #define QTMVVM_IPRESENTER_H
 
+#include <QtCore/qexception.h>
+
 #include "QtMvvmCore/qtmvvmcore_global.h"
 #include "QtMvvmCore/viewmodel.h"
 
 namespace QtMvvm {
+
+class Q_MVVMCORE_EXPORT PresenterException : public QException
+{
+public:
+	PresenterException(const QByteArray &what);
+
+	const char *what() const noexcept override;
+
+	void raise() const override;
+	QException *clone() const override;
+
+protected:
+	PresenterException(const PresenterException * const other);
+
+	const QByteArray _what;
+};
 
 class Q_MVVMCORE_EXPORT IPresenter
 {

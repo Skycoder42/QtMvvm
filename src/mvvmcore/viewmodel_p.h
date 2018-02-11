@@ -10,8 +10,6 @@ class ViewModelPrivate
 {
 public:
 	ViewModelPrivate();
-
-	bool deleteOnClose;
 };
 
 }

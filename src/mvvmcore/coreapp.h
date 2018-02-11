@@ -47,7 +47,8 @@ private:
 template<typename TViewModel>
 inline void CoreApp::show(const QVariantHash &params) const
 {
-	ViewModel::show<TViewModel>(params);
+	static_assert(std::is_base_of<ViewModel, TViewModel>::value, "TViewModel must extend QtMvvm::ViewModel");
+	ViewModel::showImp(&TViewModel::staticMetaObject, params, nullptr);
 }
 
 }
