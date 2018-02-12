@@ -15,18 +15,15 @@ class Q_MVVMCORE_EXPORT CoreAppPrivate : public QObject
 
 public:
 	static QScopedPointer<CoreAppPrivate> &dInstance();
+
+	IPresenter *currentPresenter() const;
+
+public Q_SLOTS:
 	void showViewModel(const QMetaObject *metaObject,
 					   const QVariantHash &params,
 					   QPointer<ViewModel> parent,
 					   quint32 requestCode);
-
-	IPresenter *currentPresenter() const;
-
-private Q_SLOTS:
-	void showViewModelPrivate(const QMetaObject *metaObject,
-							  const QVariantHash &params,
-							  QPointer<ViewModel> parent,
-							  quint32 requestCode);
+	void showDialog(const MessageConfig &config, MessageResult *result);
 
 private:
 	CoreAppPrivate();

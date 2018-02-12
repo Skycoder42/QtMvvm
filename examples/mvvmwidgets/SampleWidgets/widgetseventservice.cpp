@@ -27,7 +27,7 @@ int WidgetsEventService::addEvent(const QString &name)
 
 	_events.insert(_cnt, timer);
 	connect(timer.data(), &QTimer::timeout, this, [this, name]() {
-		_echoService->ping(name);//TODO event triggered signal
+		_echoService->ping(name);
 	});
 	timer->start(1000);
 

@@ -45,8 +45,7 @@ private:
 
 	QScopedPointer<ViewModelPrivate> d;
 
-	static void showImp(const QMetaObject *mo, const QVariantHash &params, QPointer<ViewModel> parent);
-	void showResultImp(quint32 requestCode, const QMetaObject *mo, const QVariantHash &params) const;
+	static void showImp(const QMetaObject *metaObject, const QVariantHash &params, QPointer<ViewModel> parent, quint32 requestCode = 0);
 };
 
 // ------------- Generic Implementation -------------
@@ -62,7 +61,7 @@ template<typename TViewModel>
 void ViewModel::showForResult(quint32 requestCode, const QVariantHash &params) const
 {
 	static_assert(std::is_base_of<ViewModel, TViewModel>::value, "TViewModel must extend QtMvvm::ViewModel");
-	showResultImp(requestCode, &TViewModel::staticMetaObject, params);
+	showImp(&TViewModel::staticMetaObject, params, const_cast<ViewModel*>(this), requestCode);
 }
 
 }

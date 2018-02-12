@@ -61,18 +61,16 @@ void ViewModel::showForResult(quint32 requestCode, const QMetaObject *viewMetaOb
 								 viewMetaObject->className() +
 								 QByteArrayLiteral(") is not a class that extends QtMvvm::ViewModel"));
 	}
-	showResultImp(requestCode, viewMetaObject, params);
+	showImp(viewMetaObject, params, const_cast<ViewModel*>(this), requestCode);
 }
 
-void ViewModel::showImp(const QMetaObject *mo, const QVariantHash &params, QPointer<ViewModel> parent)
+void ViewModel::showImp(const QMetaObject *metaObject, const QVariantHash &params, QPointer<ViewModel> parent, quint32 requestCode)
 {
-	CoreAppPrivate::dInstance()->showViewModel(mo, params, parent, 0);
-}
-
-void ViewModel::showResultImp(quint32 requestCode, const QMetaObject *mo, const QVariantHash &params) const
-{
-	Q_ASSERT_X(requestCode != 0, Q_FUNC_INFO, "requestCode must not be 0");
-	CoreAppPrivate::dInstance()->showViewModel(mo, params, const_cast<ViewModel*>(this), requestCode);
+	QMetaObject::invokeMethod(CoreAppPrivate::dInstance().data(), "showViewModel", Qt::QueuedConnection,
+							  Q_ARG(const QMetaObject*, metaObject),
+							  Q_ARG(const QVariantHash&, params),
+							  Q_ARG(QPointer<ViewModel>, parent),
+							  Q_ARG(quint32, requestCode));
 }
 
 // ------------- Private Implementation -------------

@@ -9,6 +9,7 @@ class QCommandLineParser;
 #include "QtMvvmCore/qtmvvmcore_global.h"
 #include "QtMvvmCore/viewmodel.h"
 #include "QtMvvmCore/ipresenter.h"
+#include "QtMvvmCore/message.h"
 
 namespace QtMvvm {
 
@@ -28,6 +29,13 @@ public:
 	void registerApp();
 	IPresenter *presenter() const;
 
+	template <typename TViewModel>
+	static inline void show(const QVariantHash &params = {});
+	static void show(const char *viewModelName, const QVariantHash &params = {});
+	static void show(const QMetaObject *viewMetaObject, const QVariantHash &params = {});
+
+	static MessageResult *showDialog(const MessageConfig &config);
+
 public Q_SLOTS:
 	void bootApp();
 
@@ -37,18 +45,16 @@ protected:
 	virtual void closeApp();
 
 	bool autoParse(QCommandLineParser &parser, const QStringList &arguments);
-	template <typename TViewModel>
-	inline void show(const QVariantHash &params = {}) const;
-	void show(const char *viewModelName, const QVariantHash &params = {}) const;
-	void show(const QMetaObject *viewMetaObject, const QVariantHash &params = {}) const;
 
 private:
 	friend class QtMvvm::CoreAppPrivate;
 	QScopedPointer<CoreAppPrivate> d;
+
+	static void showImp(const QMetaObject *metaObject, const QVariantHash &params);
 };
 
 template<typename TViewModel>
-inline void CoreApp::show(const QVariantHash &params) const
+inline void CoreApp::show(const QVariantHash &params)
 {
 	static_assert(std::is_base_of<ViewModel, TViewModel>::value, "TViewModel must extend QtMvvm::ViewModel");
 	ViewModel::showImp(&TViewModel::staticMetaObject, params, nullptr);

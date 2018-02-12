@@ -5,6 +5,7 @@
 
 #include "QtMvvmCore/qtmvvmcore_global.h"
 #include "QtMvvmCore/viewmodel.h"
+#include "QtMvvmCore/message.h"
 
 namespace QtMvvm {
 
@@ -30,6 +31,7 @@ public:
 	inline virtual ~IPresenter() = default;
 
 	virtual void present(ViewModel *viewModel, const QVariantHash &params, QPointer<ViewModel> parent = nullptr) = 0;
+	virtual void showDialog(const MessageConfig &config, MessageResult *result) = 0;
 };
 
 }

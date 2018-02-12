@@ -96,9 +96,9 @@ QObject *ServiceRegistryPrivate::constructInjectedLocked(const QMetaObject *meta
 					throw ServiceConstructionException("Failed to convert QObject to interface with iid \"" +
 													   iid +
 													   "\". Use QtMvvm::registerInterfaceConverter to make it convertable "
-													   "or change the properties type to \"QObject*\"");
+													   "or change the property's type to \"QObject*\"");
 				}
-				tProp.write(instance, variant); //TODO check if casting works
+				tProp.write(instance, variant);
 			}
 		}
 

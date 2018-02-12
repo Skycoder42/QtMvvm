@@ -9,18 +9,29 @@ namespace QtMvvm {
 class MessageConfigPrivate : public QSharedData
 {
 public:
-	MessageConfigPrivate(MessageConfig::MessageType type);
+	MessageConfigPrivate(const QByteArray &type, const QByteArray &subType);
 	MessageConfigPrivate(const MessageConfigPrivate &other);
 
-	MessageConfig::MessageType type;
+	QByteArray type;
+	QByteArray subType;
 	QString title;
 	QString text;
-	QString positiveAction;
-	QString negativeAction;
-	QString neutralAction;
-	QByteArray inputType;
+	MessageConfig::StandardButtons buttons;
+	QHash<MessageConfig::StandardButton, QString> buttonTexts;
 	QVariant defaultValue;
 	QVariantMap editProperties;
+};
+
+class MessageResultPrivate
+{
+public:
+	MessageResultPrivate();
+
+	QPointer<QObject> closeObject;
+	QMetaMethod closeMethod;
+	bool closeRequested;
+	QVariant result;
+	bool autoDelete;
 };
 
 }

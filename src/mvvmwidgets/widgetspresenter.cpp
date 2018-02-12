@@ -77,6 +77,11 @@ void WidgetsPresenter::present(ViewModel *viewModel, const QVariantHash &params,
 	}
 }
 
+void WidgetsPresenter::showDialog(const MessageConfig &config, MessageResult *result)
+{
+	Q_UNIMPLEMENTED();
+}
+
 const QMetaObject *WidgetsPresenter::findWidgetMetaObject(const QMetaObject *viewModelMetaObject)
 {
 	auto currentMeta = viewModelMetaObject;
@@ -149,22 +154,9 @@ bool WidgetsPresenter::tryPresent(QWidget *view, QWidget *parentView)
 
 bool WidgetsPresenter::setupLifeCycle(ViewModel *viewModel, QWidget *view)
 {
-	//TODO fix
-	return false;
-
-	auto viewMo = view->metaObject();
-	if(viewMo->indexOfSignal("qtmvvm_visibleChanged(bool)") != -1) {
-		connect(view, SIGNAL(qtmvvm_visibleChanged(bool)),
-				viewModel, SLOT(updateVisible(bool)));
-		return true;
-	}
-
-	if(viewMo->indexOfSignal("visibleChanged(bool)") != -1) {
-		connect(view, SIGNAL(visibleChanged(bool)),
-				viewModel, SLOT(updateVisible(bool)));
-		return true;
-	}
-
+	//TODO implement as soon as quick part is ready as well
+	Q_UNUSED(viewModel)
+	Q_UNUSED(view)
 	return false;
 }
 

@@ -53,6 +53,35 @@ IPresenter *CoreApp::presenter() const
 	return d->presenter.data();
 }
 
+void CoreApp::show(const char *viewModelName, const QVariantHash &params)
+{
+	auto metaId = QMetaType::type(viewModelName);
+	auto metaObject = QMetaType::metaObjectForType(metaId);
+	if(!metaObject) {
+		throw PresenterException(QByteArrayLiteral("Given name (") +
+								 viewModelName +
+								 QByteArrayLiteral(") does not name a type with meta data"));
+	}
+	show(metaObject, params);
+}
+
+void CoreApp::show(const QMetaObject *viewMetaObject, const QVariantHash &params)
+{
+	if(!viewMetaObject->inherits(&ViewModel::staticMetaObject)) {
+		throw PresenterException(QByteArrayLiteral("Given type (") +
+								 viewMetaObject->className() +
+								 QByteArrayLiteral(") is not a class that extends QtMvvm::ViewModel"));
+	}
+	showImp(viewMetaObject, params);
+}
+
+MessageResult *CoreApp::showDialog(const MessageConfig &config)
+{
+	auto result = new MessageResult();
+	CoreAppPrivate::dInstance()->showDialog(config, result);
+	return result;
+}
+
 void CoreApp::bootApp()
 {
 	if(!d->presenter)
@@ -89,26 +118,13 @@ bool CoreApp::autoParse(QCommandLineParser &parser, const QStringList &arguments
 	}
 }
 
-void CoreApp::show(const char *viewModelName, const QVariantHash &params) const
+void CoreApp::showImp(const QMetaObject *metaObject, const QVariantHash &params)
 {
-	auto metaId = QMetaType::type(viewModelName);
-	auto metaObject = QMetaType::metaObjectForType(metaId);
-	if(!metaObject) {
-		throw PresenterException(QByteArrayLiteral("Given name (") +
-								 viewModelName +
-								 QByteArrayLiteral(") does not name a type with meta data"));
-	}
-	show(metaObject, params);
-}
-
-void CoreApp::show(const QMetaObject *viewMetaObject, const QVariantHash &params) const
-{
-	if(!viewMetaObject->inherits(&ViewModel::staticMetaObject)) {
-		throw PresenterException(QByteArrayLiteral("Given type (") +
-								 viewMetaObject->className() +
-								 QByteArrayLiteral(") is not a class that extends QtMvvm::ViewModel"));
-	}
-	ViewModel::showImp(viewMetaObject, params, nullptr);
+	QMetaObject::invokeMethod(CoreAppPrivate::dInstance().data(), "showViewModel", Qt::QueuedConnection,
+							  Q_ARG(const QMetaObject*, metaObject),
+							  Q_ARG(const QVariantHash&, params),
+							  Q_ARG(QPointer<ViewModel>, nullptr),
+							  Q_ARG(quint32, 0));
 }
 
 // ------------- Private Implementation -------------
@@ -125,21 +141,12 @@ QScopedPointer<CoreAppPrivate> &CoreAppPrivate::dInstance()
 	return instance->d;
 }
 
-void CoreAppPrivate::showViewModel(const QMetaObject *metaObject, const QVariantHash &params, QPointer<ViewModel> parent, quint32 requestCode)
-{
-	QMetaObject::invokeMethod(this, "showViewModelPrivate", Qt::QueuedConnection,
-							  Q_ARG(const QMetaObject*, metaObject),
-							  Q_ARG(const QVariantHash&, params),
-							  Q_ARG(QPointer<ViewModel>, parent),
-							  Q_ARG(quint32, requestCode));
-}
-
 IPresenter *CoreAppPrivate::currentPresenter() const
 {
 	return presenter.data();
 }
 
-void CoreAppPrivate::showViewModelPrivate(const QMetaObject *metaObject, const QVariantHash &params, QPointer<ViewModel> parent, quint32 requestCode)
+void CoreAppPrivate::showViewModel(const QMetaObject *metaObject, const QVariantHash &params, QPointer<ViewModel> parent, quint32 requestCode)
 {
 	if(presenter) {
 		QPointer<ViewModel> vm;
@@ -169,6 +176,17 @@ void CoreAppPrivate::showViewModelPrivate(const QMetaObject *metaObject, const Q
 	} else {
 		logCritical() << "Failed to present viewmodel of type"
 					  << metaObject->className()
+					  << "- no presenter was set";
+	}
+}
+
+void CoreAppPrivate::showDialog(const MessageConfig &config, MessageResult *result)
+{
+	if(presenter)
+		presenter->showDialog(config, result);
+	else {
+		logCritical() << "Failed to show dialog ff type"
+					  << config.type() << ":" << config.subType()
 					  << "- no presenter was set";
 	}
 }

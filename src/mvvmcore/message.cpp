@@ -1,13 +1,32 @@
 #include "message.h"
 #include "message_p.h"
+#include "coreapp.h"
+
+#include <QtGui/QGuiApplication>
+
 using namespace QtMvvm;
 
-MessageConfig::MessageConfig(MessageType type)  :
-	d(new MessageConfigPrivate(type))
+const QByteArray MessageConfig::TypeMessageBox = "msgbox";
+const QByteArray MessageConfig::TypeInputDialog = "input";
+const QByteArray MessageConfig::TypeFileDialog = "file";
+
+const QByteArray MessageConfig::SubTypeInformation = "information";
+const QByteArray MessageConfig::SubTypeWarning = "warning";
+const QByteArray MessageConfig::SubTypeCritical = "critical";
+const QByteArray MessageConfig::SubTypeQuestion = "question";
+const QByteArray MessageConfig::SubTypeAbout = "about";
+
+const QByteArray MessageConfig::SubTypeDir = "dir";
+const QByteArray MessageConfig::SubTypeOpenFile = "open";
+const QByteArray MessageConfig::SubTypeOpenFiles = "files";
+const QByteArray MessageConfig::SubTypeSaveFile = "save";
+
+MessageConfig::MessageConfig(const QByteArray &type, const QByteArray &subType) :
+	d(new MessageConfigPrivate(type, subType))
 {
-	resetPositiveAction();
-	resetNegativeAction();
-	resetNeutralAction();
+	if(subType.isEmpty())
+		resetSubType();
+	resetButtons();
 }
 
 MessageConfig::MessageConfig(const MessageConfig &other) :
@@ -22,9 +41,14 @@ MessageConfig &MessageConfig::operator=(const MessageConfig &other)
 	return (*this);
 }
 
-MessageConfig::MessageType MessageConfig::type() const
+QByteArray MessageConfig::type() const
 {
 	return d->type;
+}
+
+QByteArray MessageConfig::subType() const
+{
+	return d->subType;
 }
 
 QString MessageConfig::title() const
@@ -37,24 +61,14 @@ QString MessageConfig::text() const
 	return d->text;
 }
 
-QString MessageConfig::positiveAction() const
+MessageConfig::StandardButtons MessageConfig::buttons() const
 {
-	return d->positiveAction;
+	return d->buttons;
 }
 
-QString MessageConfig::negativeAction() const
+QHash<MessageConfig::StandardButton, QString> MessageConfig::buttonTexts() const
 {
-	return d->negativeAction;
-}
-
-QString MessageConfig::neutralAction() const
-{
-	return d->neutralAction;
-}
-
-QByteArray MessageConfig::inputType() const
-{
-	return d->inputType;
+	return d->buttonTexts;
 }
 
 QVariant MessageConfig::defaultValue() const
@@ -62,113 +76,174 @@ QVariant MessageConfig::defaultValue() const
 	return d->defaultValue;
 }
 
-QVariantMap MessageConfig::editProperties() const
+QVariantMap MessageConfig::viewProperties() const
 {
 	return d->editProperties;
 }
 
-void MessageConfig::setType(MessageConfig::MessageType type)
+void MessageConfig::setType(const QByteArray &type)
 {
 	d->type = type;
-	resetPositiveAction();
-	resetNegativeAction();
-	resetNeutralAction();
 }
 
-void MessageConfig::setTitle(QString title)
+void MessageConfig::setSubType(const QByteArray &subType)
+{
+	d->subType = subType;
+}
+
+void MessageConfig::setTitle(const QString &title)
 {
 	d->title = title;
 }
 
-void MessageConfig::setText(QString text)
+void MessageConfig::setText(const QString &text)
 {
 	d->text = text;
 }
 
-void MessageConfig::setPositiveAction(QString positiveAction)
+void MessageConfig::setButtons(StandardButtons buttons)
 {
-	d->positiveAction = positiveAction;
+	d->buttons = buttons;
 }
 
-void MessageConfig::setNegativeAction(QString negativeAction)
+void MessageConfig::setButtonTexts(const QHash<StandardButton, QString> &buttonTexts)
 {
-	d->negativeAction = negativeAction;
+	d->buttonTexts = buttonTexts;
 }
 
-void MessageConfig::setNeutralAction(QString neutralAction)
+void MessageConfig::setButtonText(MessageConfig::StandardButton button, const QString &text)
 {
-	d->neutralAction = neutralAction;
+	d->buttonTexts.insert(button, text);
 }
 
-void MessageConfig::setInputType(QByteArray inputType)
-{
-	d->inputType = inputType;
-}
-
-void MessageConfig::setDefaultValue(QVariant defaultValue)
+void MessageConfig::setDefaultValue(const QVariant &defaultValue)
 {
 	d->defaultValue = defaultValue;
 }
 
-void MessageConfig::setEditProperties(QVariantMap editProperties)
+void MessageConfig::setViewProperties(const QVariantMap &editProperties)
 {
 	d->editProperties = editProperties;
 }
 
-void MessageConfig::resetPositiveAction()
+void MessageConfig::setViewProperty(const QString &key, const QVariant &value)
 {
-	switch (d->type) {
-	case Information:
-	case Warning:
-	case Critical:
-	case Input:
-		d->positiveAction = tr("Ok");
+	d->editProperties.insert(key, value);
+}
+
+void MessageConfig::resetSubType()
+{
+	if(d->type == TypeMessageBox)
+		d->subType = SubTypeInformation;
+	else if(d->type == TypeInputDialog)
+		d->subType = QMetaType::typeName(QMetaType::QString);
+	else
+		d->subType.clear();
+}
+
+void MessageConfig::resetButtons()
+{
+	if(d->type == TypeMessageBox) {
+		if(d->subType == SubTypeQuestion)
+			d->buttons = Yes | No;
+		else if(d->subType == SubTypeAbout)
+			d->buttons = Close;
+		else
+			d->buttons = Ok;
+	} else if(d->type == TypeInputDialog)
+		d->buttons = Ok | Cancel;
+	else
+		d->buttons = Ok;
+
+	d->buttonTexts.clear();
+}
+
+
+
+MessageResult::MessageResult() :
+	QObject(nullptr),
+	d(new MessageResultPrivate())
+{}
+
+MessageResult::~MessageResult() {}
+
+bool MessageResult::hasResult() const
+{
+	return d->result.isValid();
+}
+
+QVariant MessageResult::result() const
+{
+	return d->result;
+}
+
+bool MessageResult::autoDelete() const
+{
+	return d->autoDelete;
+}
+
+void MessageResult::setCloseTarget(QObject *closeObject, const QMetaMethod &closeMethod)
+{
+	Q_ASSERT_X(closeObject, Q_FUNC_INFO, "closeObject must not be null");
+	d->closeObject = closeObject;
+	d->closeMethod = closeMethod;
+	if(d->closeRequested)
+		d->closeMethod.invoke(d->closeObject, Qt::QueuedConnection);
+}
+
+void MessageResult::complete(MessageResult::ResultType result)
+{
+	switch (result) {
+	case PositiveResult:
+		emit positiveAction();
 		break;
-	case Question:
-		d->positiveAction = tr("Yes");
+	case NegativeResult:
+		emit negativeAction();
+		break;
+	case NeutralResult:
+		emit neutralAction();
 		break;
 	default:
 		Q_UNREACHABLE();
-		break;
 	}
+
+	emit anyAction(result);
+
+	if(d->autoDelete)
+		deleteLater();
 }
 
-void MessageConfig::resetNegativeAction()
+void MessageResult::discardMessage()
 {
-	switch (d->type) {
-	case Input:
-		d->negativeAction = tr("Cancel");
-		break;
-	case Question:
-		d->negativeAction = tr("No");
-		break;
-	case Information:
-	case Warning:
-	case Critical:
-		d->negativeAction.clear();
-		break;
-	default:
-		Q_UNREACHABLE();
-		break;
-	}
+	if(d->closeObject && !d->closeRequested)
+		d->closeMethod.invoke(d->closeObject, Qt::QueuedConnection);
+	d->closeRequested = true;
 }
 
-void MessageConfig::resetNeutralAction()
+void MessageResult::setResult(QVariant result)
 {
-	d->neutralAction.clear();
+	d->result = result;
+}
+
+void MessageResult::setAutoDelete(bool autoDelete)
+{
+	if (d->autoDelete == autoDelete)
+		return;
+
+	d->autoDelete = autoDelete;
+	emit autoDeleteChanged(autoDelete);
 }
 
 // ------------- Private Implementation -------------
 
-QtMvvm::MessageConfigPrivate::MessageConfigPrivate(MessageConfig::MessageType type) :
+QtMvvm::MessageConfigPrivate::MessageConfigPrivate(const QByteArray &type, const QByteArray &subType) :
 	QSharedData(),
 	type(type),
+	subType(subType),
 	title(),
 	text(),
-	positiveAction(),
-	negativeAction(),
-	neutralAction(),
-	inputType(),
+	buttons(MessageConfig::Ok),
+	buttonTexts(),
 	defaultValue(),
 	editProperties()
 {}
@@ -176,12 +251,325 @@ QtMvvm::MessageConfigPrivate::MessageConfigPrivate(MessageConfig::MessageType ty
 QtMvvm::MessageConfigPrivate::MessageConfigPrivate(const QtMvvm::MessageConfigPrivate &other) :
 	QSharedData(other),
 	type(other.type),
+	subType(other.subType),
 	title(other.title),
 	text(other.text),
-	positiveAction(other.positiveAction),
-	negativeAction(other.negativeAction),
-	neutralAction(other.neutralAction),
-	inputType(other.inputType),
+	buttons(other.buttons),
+	buttonTexts(other.buttonTexts),
 	defaultValue(other.defaultValue),
 	editProperties(other.editProperties)
 {}
+
+
+
+MessageResultPrivate::MessageResultPrivate() :
+	closeObject(nullptr),
+	closeMethod(),
+	closeRequested(false),
+	result(),
+	autoDelete(true)
+{}
+
+// ------------- Namespace methods implementation -------------
+
+MessageResult *QtMvvm::information(const QString &title, const QString &text, const QString &okText)
+{
+	MessageConfig config(MessageConfig::TypeMessageBox, MessageConfig::SubTypeInformation);
+	config.setTitle(title);
+	config.setText(text);
+	if(!okText.isNull())
+		config.setButtonText(MessageConfig::Ok, okText);
+	return CoreApp::showDialog(config);
+}
+
+void QtMvvm::information(const QString &title, const QString &text, QObject *scope, std::function<void ()> onResult, const QString &okText)
+{
+	auto result = information(title, text, okText);
+	if(result) {
+		QObject::connect(result, &MessageResult::anyAction,
+						 scope, onResult,
+						 Qt::QueuedConnection);
+	}
+}
+
+void QtMvvm::information(const QString &title, const QString &text, std::function<void ()> onResult, const QString &okText)
+{
+	information(title, text, CoreApp::instance(), onResult, okText);
+}
+
+MessageResult *QtMvvm::question(const QString &title, const QString &text, const QString &yesText, const QString &noText)
+{
+	MessageConfig config(MessageConfig::TypeMessageBox, MessageConfig::SubTypeQuestion);
+	config.setTitle(title);
+	config.setText(text);
+	if(!yesText.isNull())
+		config.setButtonText(MessageConfig::Yes, yesText);
+	if(!noText.isNull())
+		config.setButtonText(MessageConfig::No, noText);
+	return CoreApp::showDialog(config);
+}
+
+void QtMvvm::question(const QString &title, const QString &text, QObject *scope, std::function<void (bool)> onResult, const QString &yesText, const QString &noText)
+{
+	auto result = question(title, text, yesText, noText);
+	if(result) {
+		QObject::connect(result, &MessageResult::anyAction,
+						 scope, [onResult](MessageResult::ResultType type) {
+			onResult(type == MessageResult::PositiveResult);
+		}, Qt::QueuedConnection);
+	}
+}
+
+void QtMvvm::question(const QString &title, const QString &text, std::function<void (bool)> onResult, const QString &yesText, const QString &noText)
+{
+	question(title, text, CoreApp::instance(), onResult, yesText, noText);
+}
+
+MessageResult *QtMvvm::warning(const QString &title, const QString &text, const QString &okText)
+{
+	MessageConfig config(MessageConfig::TypeMessageBox, MessageConfig::SubTypeWarning);
+	config.setTitle(title);
+	config.setText(text);
+	if(!okText.isNull())
+		config.setButtonText(MessageConfig::Ok, okText);
+	return CoreApp::showDialog(config);
+}
+
+void QtMvvm::warning(const QString &title, const QString &text, QObject *scope, std::function<void ()> onResult, const QString &okText)
+{
+	auto result = warning(title, text, okText);
+	if(result) {
+		QObject::connect(result, &MessageResult::anyAction,
+						 scope, onResult,
+						 Qt::QueuedConnection);
+	}
+}
+
+void QtMvvm::warning(const QString &title, const QString &text, std::function<void ()> onResult, const QString &okText)
+{
+	warning(title, text, CoreApp::instance(), onResult, okText);
+}
+
+MessageResult *QtMvvm::critical(const QString &title, const QString &text, const QString &okText)
+{
+	MessageConfig config(MessageConfig::TypeMessageBox, MessageConfig::SubTypeCritical);
+	config.setTitle(title);
+	config.setText(text);
+	if(!okText.isNull())
+		config.setButtonText(MessageConfig::Ok, okText);
+	return CoreApp::showDialog(config);
+}
+
+void QtMvvm::critical(const QString &title, const QString &text, QObject *scope, std::function<void ()> onResult, const QString &okText)
+{
+	auto result = critical(title, text, okText);
+	if(result) {
+		QObject::connect(result, &MessageResult::anyAction,
+						 scope, onResult,
+						 Qt::QueuedConnection);
+	}
+}
+
+void QtMvvm::critical(const QString &title, const QString &text, std::function<void ()> onResult, const QString &okText)
+{
+	critical(title, text, CoreApp::instance(), onResult, okText);
+}
+
+MessageResult *QtMvvm::about(const QString &description, const QUrl &websiteUrl, const QString &licenseName, const QUrl &licenseUrl, const QString &companyName, bool addQtVersion, const QStringList &extraTopInfos, const QString &extraBottomInfos)
+{
+	static const QString pBegin = QStringLiteral("<p>");
+	static const QString pEnd = QStringLiteral("</p>");
+	static const QString br = QStringLiteral("<br/>");
+
+	MessageConfig config(MessageConfig::TypeMessageBox, MessageConfig::SubTypeAbout);
+	config.setViewProperty(QStringLiteral("addQtVersion"), addQtVersion);
+
+	config.setTitle(MessageConfig::tr("%1 — Version %2")
+					.arg(QGuiApplication::applicationDisplayName())
+					.arg(QCoreApplication::applicationVersion()));
+
+	//create the content string:
+	//basic text
+	QString text = pBegin + description + pEnd;
+	//qt version info + extra infos
+	if(addQtVersion || !extraTopInfos.isEmpty()) {
+		text += pBegin;
+		if(addQtVersion) {
+			auto runtimeVers = qVersion();
+			auto compileVers = QT_VERSION_STR;
+			QString qtVersion;
+			if(qstrcmp(runtimeVers, compileVers) == 0)
+				qtVersion = QString::fromUtf8(runtimeVers);
+			else {
+				qtVersion = MessageConfig::tr("%1 (Built with %2)")
+							.arg(QString::fromUtf8(runtimeVers))
+							.arg(QString::fromUtf8(runtimeVers));
+			}
+			text += MessageConfig::tr("Qt-Version: <a href=\"https://www.qt.io/\">%2</a>")
+					.arg(qtVersion);
+		}
+		if(!extraTopInfos.isEmpty()) {
+			auto withBr = addQtVersion;
+			foreach(auto info, extraTopInfos){
+				text += info + (withBr ? br : QString());
+				withBr = true;
+			}
+		}
+		text += pEnd;
+	}
+	//Developer info
+	text += pBegin + MessageConfig::tr("Developed by: %1")
+			.arg(companyName.isEmpty() ? QCoreApplication::organizationName() : companyName);
+	if(websiteUrl.isValid()) {
+		text += br + MessageConfig::tr("Project Website: <a href=\"%1\">%2</a>")
+				.arg(QString::fromUtf8(websiteUrl.toEncoded()))
+				.arg(websiteUrl.toString());
+	}
+	if(!licenseName.isEmpty()) {
+		if(licenseUrl.isValid()) {
+			text += br + MessageConfig::tr("License: <a href=\"%1\">%2</a>")
+					.arg(QString::fromUtf8(licenseUrl.toEncoded()))
+					.arg(licenseName);
+		} else {
+			text += br + MessageConfig::tr("License: %1")
+					.arg(licenseName);
+		}
+	}
+	text += pEnd;
+	//extra bottom infos
+	if(!extraBottomInfos.isEmpty())
+		text += pBegin + extraBottomInfos + pEnd;
+	//set in the config
+	config.setText(text);
+
+	return CoreApp::showDialog(config);
+}
+
+MessageResult *QtMvvm::getInput(const QString &title, const QString &text, const char *inputType, const QVariant &defaultValue, const QVariantMap &viewProperties, const QString &okText, const QString &cancelText)
+{
+	MessageConfig config(MessageConfig::TypeInputDialog, inputType);
+	config.setTitle(title);
+	config.setText(text);
+	config.setDefaultValue(defaultValue);
+	config.setViewProperties(viewProperties);
+	if(!okText.isNull())
+		config.setButtonText(MessageConfig::Ok, okText);
+	if(!cancelText.isNull())
+		config.setButtonText(MessageConfig::Cancel, cancelText);
+	return CoreApp::showDialog(config);
+}
+
+void QtMvvm::getInput(const QString &title, const QString &text, const char *inputType, QObject *scope, std::function<void (QVariant)> onResult, const QVariant &defaultValue, const QVariantMap &viewProperties, const QString &okText, const QString &cancelText)
+{
+	auto result = getInput(title, text, inputType, defaultValue, viewProperties, okText, cancelText);
+	if(result) {
+		QObject::connect(result, &MessageResult::anyAction,
+						 scope, [onResult, result](MessageResult::ResultType type) {
+			onResult(type == MessageResult::PositiveResult ? result->result() : QVariant());
+		}, Qt::QueuedConnection);
+	}
+}
+
+void QtMvvm::getInput(const QString &title, const QString &text, const char *inputType, std::function<void (QVariant)> onResult, const QVariant &defaultValue, const QVariantMap &viewProperties, const QString &okText, const QString &cancelText)
+{
+	getInput(title, text, inputType, CoreApp::instance(), onResult, defaultValue, viewProperties, okText, cancelText);
+}
+
+MessageResult *QtMvvm::getExistingDirectory(const QString &title, const QUrl &dir)
+{
+	MessageConfig config(MessageConfig::TypeFileDialog, MessageConfig::SubTypeDir);
+	config.setTitle(title);
+	config.setDefaultValue(dir);
+	return CoreApp::showDialog(config);
+}
+
+void QtMvvm::getExistingDirectory(QObject *scope, std::function<void (QUrl)> onResult, const QString &title, const QUrl &dir)
+{
+	auto result = getExistingDirectory(title, dir);
+	if(result) {
+		QObject::connect(result, &MessageResult::anyAction,
+						 scope, [onResult, result](MessageResult::ResultType type) {
+			onResult(type == MessageResult::PositiveResult ? result->result().toUrl() : QUrl());
+		}, Qt::QueuedConnection);
+	}
+}
+
+void QtMvvm::getExistingDirectory(std::function<void (QUrl)> onResult, const QString &title, const QUrl &dir)
+{
+	getExistingDirectory(CoreApp::instance(), onResult, title, dir);
+}
+
+MessageResult *QtMvvm::getOpenFile(const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
+{
+	MessageConfig config(MessageConfig::TypeFileDialog, MessageConfig::SubTypeOpenFile);
+	config.setTitle(title);
+	config.setDefaultValue(dir);
+	config.setViewProperty(QStringLiteral("mimeTypes"), supportedMimeTypes);
+	return CoreApp::showDialog(config);
+}
+
+void QtMvvm::getOpenFile(QObject *scope, std::function<void (QUrl)> onResult, const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
+{
+	auto result = getOpenFile(title, supportedMimeTypes, dir);
+	if(result) {
+		QObject::connect(result, &MessageResult::anyAction,
+						 scope, [onResult, result](MessageResult::ResultType type) {
+			onResult(type == MessageResult::PositiveResult ? result->result().toUrl() : QUrl());
+		}, Qt::QueuedConnection);
+	}
+}
+
+void QtMvvm::getOpenFile(std::function<void (QUrl)> onResult, const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
+{
+	getOpenFile(CoreApp::instance(), onResult, title, supportedMimeTypes, dir);
+}
+
+MessageResult *QtMvvm::getOpenFiles(const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
+{
+	MessageConfig config(MessageConfig::TypeFileDialog, MessageConfig::SubTypeOpenFiles);
+	config.setTitle(title);
+	config.setDefaultValue(dir);
+	config.setViewProperty(QStringLiteral("mimeTypes"), supportedMimeTypes);
+	return CoreApp::showDialog(config);
+}
+
+void QtMvvm::getOpenFiles(QObject *scope, std::function<void (QList<QUrl>)> onResult, const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
+{
+	auto result = getOpenFiles(title, supportedMimeTypes, dir);
+	if(result) {
+		QObject::connect(result, &MessageResult::anyAction,
+						 scope, [onResult, result](MessageResult::ResultType type) {
+			onResult(type == MessageResult::PositiveResult ? result->result().value<QList<QUrl>>() : QList<QUrl>());
+		}, Qt::QueuedConnection);
+	}
+}
+
+void QtMvvm::getOpenFiles(std::function<void (QList<QUrl>)> onResult, const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
+{
+	getOpenFiles(CoreApp::instance(), onResult, title, supportedMimeTypes, dir);
+}
+
+MessageResult *QtMvvm::getSaveFile(const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
+{
+	MessageConfig config(MessageConfig::TypeFileDialog, MessageConfig::SubTypeOpenFile);
+	config.setTitle(title);
+	config.setDefaultValue(dir);
+	config.setViewProperty(QStringLiteral("mimeTypes"), supportedMimeTypes);
+	return CoreApp::showDialog(config);
+}
+
+void QtMvvm::getSaveFile(QObject *scope, std::function<void (QUrl)> onResult, const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
+{
+	auto result = getSaveFile(title, supportedMimeTypes, dir);
+	if(result) {
+		QObject::connect(result, &MessageResult::anyAction,
+						 scope, [onResult, result](MessageResult::ResultType type) {
+			onResult(type == MessageResult::PositiveResult ? result->result().toUrl() : QUrl());
+		}, Qt::QueuedConnection);
+	}
+}
+
+void QtMvvm::getSaveFile(std::function<void (QUrl)> onResult, const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
+{
+	getSaveFile(CoreApp::instance(), onResult, title, supportedMimeTypes, dir);
+}

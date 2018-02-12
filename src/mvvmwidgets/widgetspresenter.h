@@ -35,6 +35,7 @@ public:
 	static void registerViewExplicitly(const QMetaObject *viewModelType, const QMetaObject *viewType);
 
 	void present(ViewModel *viewModel, const QVariantHash &params, QPointer<ViewModel> parent) override;
+	void showDialog(const MessageConfig &config, MessageResult *result) override;
 
 protected:
 	virtual const QMetaObject *findWidgetMetaObject(const QMetaObject *viewModelMetaObject);
