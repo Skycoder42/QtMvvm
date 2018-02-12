@@ -20,6 +20,8 @@ SampleView::SampleView(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 	ui->eventsListView->setModel(_viewModel->eventsModel());
 	connect(ui->clearButton, &QPushButton::clicked,
 			_viewModel, &SampleViewModel::clearEvents);
+	connect(ui->resultButton, &QPushButton::clicked,
+			_viewModel, &SampleViewModel::getResult);
 }
 
 SampleView::~SampleView()

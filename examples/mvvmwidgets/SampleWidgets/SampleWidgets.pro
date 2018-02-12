@@ -6,15 +6,18 @@ TARGET = SampleWidgets
 
 HEADERS += \
 	widgetseventservice.h \
-    sampleview.h
+    sampleview.h \
+    resultdialog.h
 
 SOURCES += \
 		main.cpp \
 	widgetseventservice.cpp \
-    sampleview.cpp
+    sampleview.cpp \
+    resultdialog.cpp
 
 FORMS += \
-    sampleview.ui
+    sampleview.ui \
+    resultdialog.ui
 
 target.path = $$[QT_INSTALL_EXAMPLES]/mvvmwidgets/$$TARGET
 INSTALLS += target

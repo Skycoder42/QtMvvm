@@ -3,11 +3,11 @@ TARGET = QtMvvmQuick
 QT = core gui widgets mvvmcore
 
 HEADERS += \
-    qtmvvmquick_global.h \
-    builddummy.h
+	qtmvvmquick_global.h \
+	builddummy.h
 
 SOURCES += \
-    builddummy.cpp
+	builddummy.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmquick_de.ts \
@@ -17,7 +17,7 @@ DISTFILES += $$TRANSLATIONS
 
 qpmx_ts_target.path = $$[QT_INSTALL_TRANSLATIONS]
 qpmx_ts_target.depends += lrelease
-INSTALLS += qpmx_ts_target
+!mingw: INSTALLS += qpmx_ts_target
 
 load(qt_module)
 

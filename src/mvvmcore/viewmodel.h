@@ -28,13 +28,17 @@ public Q_SLOTS:
 	virtual void onResult(quint32 requestCode, const QVariant &result);
 
 Q_SIGNALS:
-	void resultReady(quint32 requestCode, const QVariant &result);
+	void resultReady(const QVariant &result);
 
 protected:
 	template <typename TViewModel>
 	inline void show(const QVariantHash &params = {}) const;
+	void show(const char *viewModelName, const QVariantHash &params = {}) const;
+	void show(const QMetaObject *viewMetaObject, const QVariantHash &params = {}) const;
 	template <typename TViewModel>
 	inline void showForResult(quint32 requestCode, const QVariantHash &params = {}) const;
+	void showForResult(quint32 requestCode, const char *viewModelName, const QVariantHash &params = {}) const;
+	void showForResult(quint32 requestCode, const QMetaObject *viewMetaObject, const QVariantHash &params = {}) const;
 
 private:
 	friend class QtMvvm::CoreApp;

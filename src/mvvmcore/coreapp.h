@@ -26,6 +26,7 @@ public:
 	static void disableAutoBoot();
 
 	void registerApp();
+	IPresenter *presenter() const;
 
 public Q_SLOTS:
 	void bootApp();
@@ -38,6 +39,8 @@ protected:
 	bool autoParse(QCommandLineParser &parser, const QStringList &arguments);
 	template <typename TViewModel>
 	inline void show(const QVariantHash &params = {}) const;
+	void show(const char *viewModelName, const QVariantHash &params = {}) const;
+	void show(const QMetaObject *viewMetaObject, const QVariantHash &params = {}) const;
 
 private:
 	friend class QtMvvm::CoreAppPrivate;

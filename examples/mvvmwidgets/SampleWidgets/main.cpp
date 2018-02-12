@@ -5,6 +5,7 @@
 
 #include "widgetseventservice.h"
 #include "sampleview.h"
+#include "resultdialog.h"
 
 #define TEST_DIRECT 0
 #define TEST_FN 1
@@ -19,6 +20,7 @@ int main(int argc, char *argv[])
 
 	QtMvvm::WidgetsPresenter::registerAsPresenter();
 	QtMvvm::WidgetsPresenter::registerView<SampleView>();
+	QtMvvm::WidgetsPresenter::registerView<ResultDialog>();
 
 	if(TEST_CURRENT == TEST_DIRECT)
 			QtMvvm::ServiceRegistry::instance()->registerObject<EchoService>();

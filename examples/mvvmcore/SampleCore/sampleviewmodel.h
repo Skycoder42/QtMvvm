@@ -31,6 +31,8 @@ public:
 public Q_SLOTS:
 	void setName(QString name);
 	void setActive(bool active);
+
+	void getResult();
 	void clearEvents();
 
 Q_SIGNALS:
@@ -39,11 +41,14 @@ Q_SIGNALS:
 
 protected:
 	void onInit(const QVariantHash &params) override;
+	void onResult(quint32 requestCode, const QVariant &result) override;
 
 private Q_SLOTS:
 	void addEvent(const QString &event);
 
 private:
+	static const quint32 ResCode = 42u;
+
 	QString _name;
 	bool _active;
 	QStringListModel *_eventsModel;

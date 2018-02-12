@@ -64,6 +64,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="resultButton">
+        <property name="text">
+         <string>Get &amp;Result</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>

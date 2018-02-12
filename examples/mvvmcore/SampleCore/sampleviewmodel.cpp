@@ -1,5 +1,6 @@
 #include "sampleviewmodel.h"
 #include <QDebug>
+#include "resultviewmodel.h"
 
 const QString SampleViewModel::KeyActive = QStringLiteral("active");
 const QString SampleViewModel::KeyNames = QStringLiteral("names");
@@ -62,6 +63,13 @@ void SampleViewModel::setActive(bool active)
 	emit activeChanged(_active);
 }
 
+void SampleViewModel::getResult()
+{
+	showForResult<ResultViewModel>(ResCode, {
+									   {QStringLiteral("default"), _name}
+								   });
+}
+
 void SampleViewModel::clearEvents()
 {
 	_eventsModel->setStringList({});
@@ -78,6 +86,12 @@ void SampleViewModel::onInit(const QVariantHash &params)
 	if(!names.isEmpty())
 		setName(names.join(QLatin1Char(' ')));
 	setActive(params.value(KeyActive, false).toBool());
+}
+
+void SampleViewModel::onResult(quint32 requestCode, const QVariant &result)
+{
+	if(requestCode == ResCode && result.isValid())
+		addEvent(result.toString());
 }
 
 void SampleViewModel::addEvent(const QString &event)

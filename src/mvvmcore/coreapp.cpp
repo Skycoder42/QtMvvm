@@ -38,11 +38,19 @@ void CoreApp::disableAutoBoot()
 void CoreApp::registerApp()
 {
 	//register metatypes
+	qRegisterMetaType<const QMetaObject*>("const QMetaObject*");
+
+	//setup
 	setParent(qApp);
 	CoreAppPrivate::instance = this;
 	performRegistrations();
 	if(CoreAppPrivate::bootEnabled)
 		QMetaObject::invokeMethod(this, "bootApp", Qt::QueuedConnection);
+}
+
+IPresenter *CoreApp::presenter() const
+{
+	return d->presenter.data();
 }
 
 void CoreApp::bootApp()
@@ -81,6 +89,28 @@ bool CoreApp::autoParse(QCommandLineParser &parser, const QStringList &arguments
 	}
 }
 
+void CoreApp::show(const char *viewModelName, const QVariantHash &params) const
+{
+	auto metaId = QMetaType::type(viewModelName);
+	auto metaObject = QMetaType::metaObjectForType(metaId);
+	if(!metaObject) {
+		throw PresenterException(QByteArrayLiteral("Given name (") +
+								 viewModelName +
+								 QByteArrayLiteral(") does not name a type with meta data"));
+	}
+	show(metaObject, params);
+}
+
+void CoreApp::show(const QMetaObject *viewMetaObject, const QVariantHash &params) const
+{
+	if(!viewMetaObject->inherits(&ViewModel::staticMetaObject)) {
+		throw PresenterException(QByteArrayLiteral("Given type (") +
+								 viewMetaObject->className() +
+								 QByteArrayLiteral(") is not a class that extends QtMvvm::ViewModel"));
+	}
+	ViewModel::showImp(viewMetaObject, params, nullptr);
+}
+
 // ------------- Private Implementation -------------
 
 bool CoreAppPrivate::bootEnabled = true;
@@ -97,6 +127,20 @@ QScopedPointer<CoreAppPrivate> &CoreAppPrivate::dInstance()
 
 void CoreAppPrivate::showViewModel(const QMetaObject *metaObject, const QVariantHash &params, QPointer<ViewModel> parent, quint32 requestCode)
 {
+	QMetaObject::invokeMethod(this, "showViewModelPrivate", Qt::QueuedConnection,
+							  Q_ARG(const QMetaObject*, metaObject),
+							  Q_ARG(const QVariantHash&, params),
+							  Q_ARG(QPointer<ViewModel>, parent),
+							  Q_ARG(quint32, requestCode));
+}
+
+IPresenter *CoreAppPrivate::currentPresenter() const
+{
+	return presenter.data();
+}
+
+void CoreAppPrivate::showViewModelPrivate(const QMetaObject *metaObject, const QVariantHash &params, QPointer<ViewModel> parent, quint32 requestCode)
+{
 	if(presenter) {
 		QPointer<ViewModel> vm;
 		try {
@@ -106,9 +150,13 @@ void CoreAppPrivate::showViewModel(const QMetaObject *metaObject, const QVariant
 				throw ServiceConstructionException("Invalid types - not at QtMvvm::ViewModel");
 			presenter->present(vm, params, parent);
 			if(requestCode != 0) {
-				QObject::connect(vm, &ViewModel::resultReady,
-								 parent, &ViewModel::onResult,
-								 Qt::UniqueConnection);
+				QObject::connect(vm, &ViewModel::resultReady, parent, [vm, requestCode, parent](const QVariant &r){
+					vm->disconnect(parent);
+					parent->onResult(requestCode, r);
+				});
+				QObject::connect(vm, &ViewModel::destroyed, parent, [vm, requestCode, parent](){
+					parent->onResult(requestCode, QVariant());
+				});
 			}
 		} catch(QException &e) {
 			logCritical() << "Failed to present viewmodel of type"
@@ -123,9 +171,4 @@ void CoreAppPrivate::showViewModel(const QMetaObject *metaObject, const QVariant
 					  << metaObject->className()
 					  << "- no presenter was set";
 	}
-}
-
-IPresenter *CoreAppPrivate::currentPresenter() const
-{
-	return presenter.data();
 }

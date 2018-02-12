@@ -20,6 +20,50 @@ void ViewModel::onResult(quint32 requestCode, const QVariant &result)
 			   << "with request code" << requestCode;
 }
 
+void ViewModel::show(const char *viewModelName, const QVariantHash &params) const
+{
+	auto metaId = QMetaType::type(viewModelName);
+	auto metaObject = QMetaType::metaObjectForType(metaId);
+	if(!metaObject) {
+		throw PresenterException(QByteArrayLiteral("Given name (") +
+								 viewModelName +
+								 QByteArrayLiteral(") does not name a type with meta data"));
+	}
+	show(metaObject, params);
+}
+
+void ViewModel::show(const QMetaObject *viewMetaObject, const QVariantHash &params) const
+{
+	if(!viewMetaObject->inherits(&ViewModel::staticMetaObject)) {
+		throw PresenterException(QByteArrayLiteral("Given type (") +
+								 viewMetaObject->className() +
+								 QByteArrayLiteral(") is not a class that extends QtMvvm::ViewModel"));
+	}
+	showImp(viewMetaObject, params, const_cast<ViewModel*>(this));
+}
+
+void ViewModel::showForResult(quint32 requestCode, const char *viewModelName, const QVariantHash &params) const
+{
+	auto metaId = QMetaType::type(viewModelName);
+	auto metaObject = QMetaType::metaObjectForType(metaId);
+	if(!metaObject) {
+		throw PresenterException(QByteArrayLiteral("Given name (") +
+								 viewModelName +
+								 QByteArrayLiteral(") does not name a type with meta data"));
+	}
+	showForResult(requestCode, metaObject, params);
+}
+
+void ViewModel::showForResult(quint32 requestCode, const QMetaObject *viewMetaObject, const QVariantHash &params) const
+{
+	if(!viewMetaObject->inherits(&ViewModel::staticMetaObject)) {
+		throw PresenterException(QByteArrayLiteral("Given type (") +
+								 viewMetaObject->className() +
+								 QByteArrayLiteral(") is not a class that extends QtMvvm::ViewModel"));
+	}
+	showResultImp(requestCode, viewMetaObject, params);
+}
+
 void ViewModel::showImp(const QMetaObject *mo, const QVariantHash &params, QPointer<ViewModel> parent)
 {
 	CoreAppPrivate::dInstance()->showViewModel(mo, params, parent, 0);

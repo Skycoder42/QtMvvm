@@ -15,8 +15,8 @@ HEADERS += \
 	qtmvvm_logging_p.h \
 	binding.h \
 	binding_p.h \
-    message.h \
-    message_p.h
+	message.h \
+	message_p.h
 
 SOURCES += \
 	viewmodel.cpp \
@@ -24,8 +24,8 @@ SOURCES += \
 	serviceregistry.cpp \
 	qtmvvmcore_global.cpp \
 	binding.cpp \
-    message.cpp \
-    ipresenter.cpp
+	message.cpp \
+	ipresenter.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmcore_de.ts \
@@ -35,7 +35,7 @@ DISTFILES += $$TRANSLATIONS
 
 qpmx_ts_target.path = $$[QT_INSTALL_TRANSLATIONS]
 qpmx_ts_target.depends += lrelease
-INSTALLS += qpmx_ts_target
+!mingw: INSTALLS += qpmx_ts_target
 
 load(qt_module)
 
@@ -52,3 +52,4 @@ else: include($$OUT_PWD/qpmx_generated.pri)
 
 qpmx_ts_target.files -= $$OUT_PWD/$$QPMX_WORKINGDIR/qtmvvmcore_template.qm
 qpmx_ts_target.files += translations/qtmvvmcore_template.ts
+
