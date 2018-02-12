@@ -44,6 +44,11 @@ protected:
 
 	virtual void showForeground(QWidget *view) const;
 
+	virtual void presentMessageBox(const MessageConfig &config, MessageResult *result);
+	virtual void presentInputDialog(const MessageConfig &config, MessageResult *result);
+	virtual void presentFileDialog(const MessageConfig &config, MessageResult *result);
+	virtual void presentOtherDialog(const MessageConfig &config, MessageResult *result);
+
 private:
 	QScopedPointer<WidgetsPresenterPrivate> d;
 };

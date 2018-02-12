@@ -23,7 +23,7 @@ public Q_SLOTS:
 					   const QVariantHash &params,
 					   QPointer<ViewModel> parent,
 					   quint32 requestCode);
-	void showDialog(const MessageConfig &config, MessageResult *result);
+	void showDialog(const QtMvvm::MessageConfig &config, QtMvvm::MessageResult *result);
 
 private:
 	CoreAppPrivate();

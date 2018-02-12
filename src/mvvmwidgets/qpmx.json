@@ -1,5 +1,11 @@
 {
-    "dependencies": [],
+    "dependencies": [
+        {
+            "package": "de.skycoder42.dialog-master",
+            "provider": "qpm",
+            "version": "1.3.2"
+        }
+    ],
     "license": {
         "file": "",
         "name": ""

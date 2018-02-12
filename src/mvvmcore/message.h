@@ -114,13 +114,6 @@ class Q_MVVMCORE_EXPORT MessageResult : public QObject
 	Q_PROPERTY(bool autoDelete READ autoDelete WRITE setAutoDelete NOTIFY autoDeleteChanged)
 
 public:
-	enum ResultType {
-		PositiveResult,
-		NegativeResult,
-		NeutralResult
-	};
-	Q_ENUM(ResultType)
-
 	explicit MessageResult();
 	~MessageResult();
 
@@ -131,8 +124,8 @@ public:
 	//USE IN GUI ONLY
 	//TODO USE IN GUI ONLY in doc
 	Q_INVOKABLE void setCloseTarget(QObject *closeObject, const QMetaMethod &closeMethod);
-	Q_INVOKABLE void complete(MessageResult::ResultType result);
-	Q_INVOKABLE inline void complete(MessageResult::ResultType result, const QVariant &resultValue) {
+	Q_INVOKABLE void complete(QtMvvm::MessageConfig::StandardButton result);
+	Q_INVOKABLE inline void complete(QtMvvm::MessageConfig::StandardButton result, const QVariant &resultValue) {
 		setResult(resultValue);
 		complete(result);
 	}
@@ -144,10 +137,7 @@ public Q_SLOTS:
 	void setAutoDelete(bool autoDelete);
 
 Q_SIGNALS:
-	void positiveAction();
-	void negativeAction();
-	void neutralAction();
-	void anyAction(ResultType result);
+	void dialogDone(QtMvvm::MessageConfig::StandardButton result);
 
 	void autoDeleteChanged(bool autoDelete);
 
@@ -331,6 +321,7 @@ Q_MVVMCORE_EXPORT void getSaveFile(std::function<void(QUrl)> onResult,
 }
 
 Q_DECLARE_METATYPE(QtMvvm::MessageConfig)
+Q_DECLARE_METATYPE(QtMvvm::MessageConfig::StandardButton)
 Q_DECLARE_TYPEINFO(QtMvvm::MessageConfig, Q_MOVABLE_TYPE);
 Q_DECLARE_METATYPE(QtMvvm::MessageResult*)
 Q_DECLARE_OPERATORS_FOR_FLAGS(QtMvvm::MessageConfig::StandardButtons)

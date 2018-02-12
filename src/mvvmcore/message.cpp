@@ -191,24 +191,9 @@ void MessageResult::setCloseTarget(QObject *closeObject, const QMetaMethod &clos
 		d->closeMethod.invoke(d->closeObject, Qt::QueuedConnection);
 }
 
-void MessageResult::complete(MessageResult::ResultType result)
+void MessageResult::complete(MessageConfig::StandardButton result)
 {
-	switch (result) {
-	case PositiveResult:
-		emit positiveAction();
-		break;
-	case NegativeResult:
-		emit negativeAction();
-		break;
-	case NeutralResult:
-		emit neutralAction();
-		break;
-	default:
-		Q_UNREACHABLE();
-	}
-
-	emit anyAction(result);
-
+	emit dialogDone(result);
 	if(d->autoDelete)
 		deleteLater();
 }
@@ -286,7 +271,7 @@ void QtMvvm::information(const QString &title, const QString &text, QObject *sco
 {
 	auto result = information(title, text, okText);
 	if(result) {
-		QObject::connect(result, &MessageResult::anyAction,
+		QObject::connect(result, &MessageResult::dialogDone,
 						 scope, onResult,
 						 Qt::QueuedConnection);
 	}
@@ -313,9 +298,9 @@ void QtMvvm::question(const QString &title, const QString &text, QObject *scope,
 {
 	auto result = question(title, text, yesText, noText);
 	if(result) {
-		QObject::connect(result, &MessageResult::anyAction,
-						 scope, [onResult](MessageResult::ResultType type) {
-			onResult(type == MessageResult::PositiveResult);
+		QObject::connect(result, &MessageResult::dialogDone,
+						 scope, [onResult](MessageConfig::StandardButton type) {
+			onResult(type == MessageConfig::Yes);
 		}, Qt::QueuedConnection);
 	}
 }
@@ -339,7 +324,7 @@ void QtMvvm::warning(const QString &title, const QString &text, QObject *scope, 
 {
 	auto result = warning(title, text, okText);
 	if(result) {
-		QObject::connect(result, &MessageResult::anyAction,
+		QObject::connect(result, &MessageResult::dialogDone,
 						 scope, onResult,
 						 Qt::QueuedConnection);
 	}
@@ -364,7 +349,7 @@ void QtMvvm::critical(const QString &title, const QString &text, QObject *scope,
 {
 	auto result = critical(title, text, okText);
 	if(result) {
-		QObject::connect(result, &MessageResult::anyAction,
+		QObject::connect(result, &MessageResult::dialogDone,
 						 scope, onResult,
 						 Qt::QueuedConnection);
 	}
@@ -463,9 +448,9 @@ void QtMvvm::getInput(const QString &title, const QString &text, const char *inp
 {
 	auto result = getInput(title, text, inputType, defaultValue, viewProperties, okText, cancelText);
 	if(result) {
-		QObject::connect(result, &MessageResult::anyAction,
-						 scope, [onResult, result](MessageResult::ResultType type) {
-			onResult(type == MessageResult::PositiveResult ? result->result() : QVariant());
+		QObject::connect(result, &MessageResult::dialogDone,
+						 scope, [onResult, result](MessageConfig::StandardButton type) {
+			onResult(type == MessageConfig::Ok ? result->result() : QVariant());
 		}, Qt::QueuedConnection);
 	}
 }
@@ -487,9 +472,9 @@ void QtMvvm::getExistingDirectory(QObject *scope, std::function<void (QUrl)> onR
 {
 	auto result = getExistingDirectory(title, dir);
 	if(result) {
-		QObject::connect(result, &MessageResult::anyAction,
-						 scope, [onResult, result](MessageResult::ResultType type) {
-			onResult(type == MessageResult::PositiveResult ? result->result().toUrl() : QUrl());
+		QObject::connect(result, &MessageResult::dialogDone,
+						 scope, [onResult, result](MessageConfig::StandardButton type) {
+			onResult(type == MessageConfig::Ok ? result->result().toUrl() : QUrl());
 		}, Qt::QueuedConnection);
 	}
 }
@@ -512,9 +497,9 @@ void QtMvvm::getOpenFile(QObject *scope, std::function<void (QUrl)> onResult, co
 {
 	auto result = getOpenFile(title, supportedMimeTypes, dir);
 	if(result) {
-		QObject::connect(result, &MessageResult::anyAction,
-						 scope, [onResult, result](MessageResult::ResultType type) {
-			onResult(type == MessageResult::PositiveResult ? result->result().toUrl() : QUrl());
+		QObject::connect(result, &MessageResult::dialogDone,
+						 scope, [onResult, result](MessageConfig::StandardButton type) {
+			onResult(type == MessageConfig::Ok ? result->result().toUrl() : QUrl());
 		}, Qt::QueuedConnection);
 	}
 }
@@ -537,9 +522,9 @@ void QtMvvm::getOpenFiles(QObject *scope, std::function<void (QList<QUrl>)> onRe
 {
 	auto result = getOpenFiles(title, supportedMimeTypes, dir);
 	if(result) {
-		QObject::connect(result, &MessageResult::anyAction,
-						 scope, [onResult, result](MessageResult::ResultType type) {
-			onResult(type == MessageResult::PositiveResult ? result->result().value<QList<QUrl>>() : QList<QUrl>());
+		QObject::connect(result, &MessageResult::dialogDone,
+						 scope, [onResult, result](MessageConfig::StandardButton type) {
+			onResult(type == MessageConfig::Ok ? result->result().value<QList<QUrl>>() : QList<QUrl>());
 		}, Qt::QueuedConnection);
 	}
 }
@@ -562,9 +547,9 @@ void QtMvvm::getSaveFile(QObject *scope, std::function<void (QUrl)> onResult, co
 {
 	auto result = getSaveFile(title, supportedMimeTypes, dir);
 	if(result) {
-		QObject::connect(result, &MessageResult::anyAction,
-						 scope, [onResult, result](MessageResult::ResultType type) {
-			onResult(type == MessageResult::PositiveResult ? result->result().toUrl() : QUrl());
+		QObject::connect(result, &MessageResult::dialogDone,
+						 scope, [onResult, result](MessageConfig::StandardButton type) {
+			onResult(type == MessageConfig::Ok ? result->result().toUrl() : QUrl());
 		}, Qt::QueuedConnection);
 	}
 }

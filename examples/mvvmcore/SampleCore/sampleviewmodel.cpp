@@ -1,5 +1,6 @@
 #include "sampleviewmodel.h"
 #include <QDebug>
+#include <QtMvvmCore/Messages>
 #include "resultviewmodel.h"
 
 const QString SampleViewModel::KeyActive = QStringLiteral("active");
@@ -72,7 +73,12 @@ void SampleViewModel::getResult()
 
 void SampleViewModel::clearEvents()
 {
-	_eventsModel->setStringList({});
+	QtMvvm::question(tr("Clear Eventlist"),
+					 tr("Do you really want to clear the eventlist?"),
+					 this, [this](bool res) {
+		if(res)
+			_eventsModel->setStringList({});
+	});
 }
 
 void SampleViewModel::onInit(const QVariantHash &params)

@@ -39,6 +39,7 @@ void CoreApp::registerApp()
 {
 	//register metatypes
 	qRegisterMetaType<const QMetaObject*>("const QMetaObject*");
+	qRegisterMetaType<MessageConfig::StandardButton>();
 
 	//setup
 	setParent(qApp);
@@ -78,7 +79,9 @@ void CoreApp::show(const QMetaObject *viewMetaObject, const QVariantHash &params
 MessageResult *CoreApp::showDialog(const MessageConfig &config)
 {
 	auto result = new MessageResult();
-	CoreAppPrivate::dInstance()->showDialog(config, result);
+	QMetaObject::invokeMethod(CoreAppPrivate::dInstance().data(), "showDialog", Qt::QueuedConnection,
+							  Q_ARG(QtMvvm::MessageConfig, config),
+							  Q_ARG(QtMvvm::MessageResult*, result));
 	return result;
 }
 
@@ -122,7 +125,7 @@ void CoreApp::showImp(const QMetaObject *metaObject, const QVariantHash &params)
 {
 	QMetaObject::invokeMethod(CoreAppPrivate::dInstance().data(), "showViewModel", Qt::QueuedConnection,
 							  Q_ARG(const QMetaObject*, metaObject),
-							  Q_ARG(const QVariantHash&, params),
+							  Q_ARG(QVariantHash, params),
 							  Q_ARG(QPointer<ViewModel>, nullptr),
 							  Q_ARG(quint32, 0));
 }
