@@ -1,6 +1,10 @@
 #ifndef QTMVVM_MESSAGE_P_H
 #define QTMVVM_MESSAGE_P_H
 
+#include <QtCore/QHash>
+#include <QtCore/QPointer>
+#include <QtCore/QMetaMethod>
+
 #include "qtmvvmcore_global.h"
 #include "message.h"
 

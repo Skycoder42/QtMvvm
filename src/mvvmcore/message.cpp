@@ -267,7 +267,7 @@ MessageResult *QtMvvm::information(const QString &title, const QString &text, co
 	return CoreApp::showDialog(config);
 }
 
-void QtMvvm::information(const QString &title, const QString &text, QObject *scope, std::function<void ()> onResult, const QString &okText)
+void QtMvvm::information(const QString &title, const QString &text, QObject *scope, const std::function<void ()> &onResult, const QString &okText)
 {
 	auto result = information(title, text, okText);
 	if(result) {
@@ -277,7 +277,7 @@ void QtMvvm::information(const QString &title, const QString &text, QObject *sco
 	}
 }
 
-void QtMvvm::information(const QString &title, const QString &text, std::function<void ()> onResult, const QString &okText)
+void QtMvvm::information(const QString &title, const QString &text, const std::function<void ()> &onResult, const QString &okText)
 {
 	information(title, text, CoreApp::instance(), onResult, okText);
 }
@@ -294,7 +294,7 @@ MessageResult *QtMvvm::question(const QString &title, const QString &text, const
 	return CoreApp::showDialog(config);
 }
 
-void QtMvvm::question(const QString &title, const QString &text, QObject *scope, std::function<void (bool)> onResult, const QString &yesText, const QString &noText)
+void QtMvvm::question(const QString &title, const QString &text, QObject *scope, const std::function<void (bool)> &onResult, const QString &yesText, const QString &noText)
 {
 	auto result = question(title, text, yesText, noText);
 	if(result) {
@@ -305,7 +305,7 @@ void QtMvvm::question(const QString &title, const QString &text, QObject *scope,
 	}
 }
 
-void QtMvvm::question(const QString &title, const QString &text, std::function<void (bool)> onResult, const QString &yesText, const QString &noText)
+void QtMvvm::question(const QString &title, const QString &text, const std::function<void (bool)> &onResult, const QString &yesText, const QString &noText)
 {
 	question(title, text, CoreApp::instance(), onResult, yesText, noText);
 }
@@ -320,7 +320,7 @@ MessageResult *QtMvvm::warning(const QString &title, const QString &text, const 
 	return CoreApp::showDialog(config);
 }
 
-void QtMvvm::warning(const QString &title, const QString &text, QObject *scope, std::function<void ()> onResult, const QString &okText)
+void QtMvvm::warning(const QString &title, const QString &text, QObject *scope, const std::function<void ()> &onResult, const QString &okText)
 {
 	auto result = warning(title, text, okText);
 	if(result) {
@@ -330,7 +330,7 @@ void QtMvvm::warning(const QString &title, const QString &text, QObject *scope, 
 	}
 }
 
-void QtMvvm::warning(const QString &title, const QString &text, std::function<void ()> onResult, const QString &okText)
+void QtMvvm::warning(const QString &title, const QString &text, const std::function<void ()> &onResult, const QString &okText)
 {
 	warning(title, text, CoreApp::instance(), onResult, okText);
 }
@@ -345,7 +345,7 @@ MessageResult *QtMvvm::critical(const QString &title, const QString &text, const
 	return CoreApp::showDialog(config);
 }
 
-void QtMvvm::critical(const QString &title, const QString &text, QObject *scope, std::function<void ()> onResult, const QString &okText)
+void QtMvvm::critical(const QString &title, const QString &text, QObject *scope, const std::function<void ()> &onResult, const QString &okText)
 {
 	auto result = critical(title, text, okText);
 	if(result) {
@@ -355,7 +355,7 @@ void QtMvvm::critical(const QString &title, const QString &text, QObject *scope,
 	}
 }
 
-void QtMvvm::critical(const QString &title, const QString &text, std::function<void ()> onResult, const QString &okText)
+void QtMvvm::critical(const QString &title, const QString &text, const std::function<void ()> &onResult, const QString &okText)
 {
 	critical(title, text, CoreApp::instance(), onResult, okText);
 }
@@ -444,7 +444,7 @@ MessageResult *QtMvvm::getInput(const QString &title, const QString &text, const
 	return CoreApp::showDialog(config);
 }
 
-void QtMvvm::getInput(const QString &title, const QString &text, const char *inputType, QObject *scope, std::function<void (QVariant)> onResult, const QVariant &defaultValue, const QVariantMap &viewProperties, const QString &okText, const QString &cancelText)
+void QtMvvm::getInput(const QString &title, const QString &text, const char *inputType, QObject *scope, const std::function<void (QVariant)> &onResult, const QVariant &defaultValue, const QVariantMap &viewProperties, const QString &okText, const QString &cancelText)
 {
 	auto result = getInput(title, text, inputType, defaultValue, viewProperties, okText, cancelText);
 	if(result) {
@@ -455,7 +455,7 @@ void QtMvvm::getInput(const QString &title, const QString &text, const char *inp
 	}
 }
 
-void QtMvvm::getInput(const QString &title, const QString &text, const char *inputType, std::function<void (QVariant)> onResult, const QVariant &defaultValue, const QVariantMap &viewProperties, const QString &okText, const QString &cancelText)
+void QtMvvm::getInput(const QString &title, const QString &text, const char *inputType, const std::function<void (QVariant)> &onResult, const QVariant &defaultValue, const QVariantMap &viewProperties, const QString &okText, const QString &cancelText)
 {
 	getInput(title, text, inputType, CoreApp::instance(), onResult, defaultValue, viewProperties, okText, cancelText);
 }
@@ -468,7 +468,7 @@ MessageResult *QtMvvm::getExistingDirectory(const QString &title, const QUrl &di
 	return CoreApp::showDialog(config);
 }
 
-void QtMvvm::getExistingDirectory(QObject *scope, std::function<void (QUrl)> onResult, const QString &title, const QUrl &dir)
+void QtMvvm::getExistingDirectory(QObject *scope, const std::function<void (QUrl)> &onResult, const QString &title, const QUrl &dir)
 {
 	auto result = getExistingDirectory(title, dir);
 	if(result) {
@@ -479,7 +479,7 @@ void QtMvvm::getExistingDirectory(QObject *scope, std::function<void (QUrl)> onR
 	}
 }
 
-void QtMvvm::getExistingDirectory(std::function<void (QUrl)> onResult, const QString &title, const QUrl &dir)
+void QtMvvm::getExistingDirectory(const std::function<void (QUrl)> &onResult, const QString &title, const QUrl &dir)
 {
 	getExistingDirectory(CoreApp::instance(), onResult, title, dir);
 }
@@ -493,7 +493,7 @@ MessageResult *QtMvvm::getOpenFile(const QString &title, const QStringList &supp
 	return CoreApp::showDialog(config);
 }
 
-void QtMvvm::getOpenFile(QObject *scope, std::function<void (QUrl)> onResult, const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
+void QtMvvm::getOpenFile(QObject *scope, const std::function<void (QUrl)> &onResult, const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
 {
 	auto result = getOpenFile(title, supportedMimeTypes, dir);
 	if(result) {
@@ -504,7 +504,7 @@ void QtMvvm::getOpenFile(QObject *scope, std::function<void (QUrl)> onResult, co
 	}
 }
 
-void QtMvvm::getOpenFile(std::function<void (QUrl)> onResult, const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
+void QtMvvm::getOpenFile(const std::function<void (QUrl)> &onResult, const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
 {
 	getOpenFile(CoreApp::instance(), onResult, title, supportedMimeTypes, dir);
 }
@@ -543,7 +543,7 @@ MessageResult *QtMvvm::getSaveFile(const QString &title, const QStringList &supp
 	return CoreApp::showDialog(config);
 }
 
-void QtMvvm::getSaveFile(QObject *scope, std::function<void (QUrl)> onResult, const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
+void QtMvvm::getSaveFile(QObject *scope, const std::function<void (QUrl)> &onResult, const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
 {
 	auto result = getSaveFile(title, supportedMimeTypes, dir);
 	if(result) {
@@ -554,7 +554,7 @@ void QtMvvm::getSaveFile(QObject *scope, std::function<void (QUrl)> onResult, co
 	}
 }
 
-void QtMvvm::getSaveFile(std::function<void (QUrl)> onResult, const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
+void QtMvvm::getSaveFile(const std::function<void (QUrl)> &onResult, const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
 {
 	getSaveFile(CoreApp::instance(), onResult, title, supportedMimeTypes, dir);
 }
