@@ -107,6 +107,7 @@
      <string>&amp;Actions</string>
     </property>
     <addaction name="actionUseless_Input"/>
+    <addaction name="actionAdd_Files"/>
    </widget>
    <addaction name="menu_Actions"/>
    <addaction name="menu_Help"/>
@@ -120,6 +121,11 @@
   <action name="actionUseless_Input">
    <property name="text">
     <string>Another &amp;Input</string>
+   </property>
+  </action>
+  <action name="actionAdd_Files">
+   <property name="text">
+    <string>Add &amp;Files</string>
    </property>
   </action>
  </widget>

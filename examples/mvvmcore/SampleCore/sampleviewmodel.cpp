@@ -74,6 +74,14 @@ void SampleViewModel::getInput()
 	}, 42);
 }
 
+void SampleViewModel::getFiles()
+{
+	QtMvvm::getOpenFiles(this, [this](QList<QUrl> urls) {
+		for(auto url : urls)
+			addEvent(url.toString());
+	});
+}
+
 void SampleViewModel::getResult()
 {
 	showForResult<ResultViewModel>(ResCode, {

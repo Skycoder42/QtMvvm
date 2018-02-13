@@ -26,6 +26,8 @@ SampleView::SampleView(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 			_viewModel, &SampleViewModel::about);
 	connect(ui->actionUseless_Input, &QAction::triggered,
 			_viewModel, &SampleViewModel::getInput);
+	connect(ui->actionAdd_Files, &QAction::triggered,
+			_viewModel, &SampleViewModel::getFiles);
 }
 
 SampleView::~SampleView()

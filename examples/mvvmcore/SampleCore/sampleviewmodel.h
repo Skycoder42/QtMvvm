@@ -33,6 +33,7 @@ public Q_SLOTS:
 	void setActive(bool active);
 
 	void getInput();
+	void getFiles();
 	void getResult();
 	void clearEvents();
 	void about();

@@ -14,6 +14,7 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QFileDialog>
 
 #include <QtMvvmCore/private/coreapp_p.h>
 #include <QtMvvmCore/private/qtmvvm_logging_p.h>
@@ -250,12 +251,13 @@ void WidgetsPresenter::presentMessageBox(const MessageConfig &config, QPointer<M
 	//create and show the msgbox
 	auto msgBox = DialogMaster::createMessageBox(info);
 	connect(msgBox, &QMessageBox::finished,
-			result, [qtHelp, checked, result](int resCode){
+			result, [msgBox, qtHelp, checked, result](){
+		int sBtn = msgBox->standardButton(msgBox->clickedButton());
 		if(result) {
 			if(checked)
 				result->setResult(*checked);
-			result->complete(static_cast<MessageConfig::StandardButton>(resCode));
-			if(qtHelp && resCode == QMessageBox::Help)
+			result->complete(static_cast<MessageConfig::StandardButton>(sBtn));
+			if(qtHelp && sBtn == QMessageBox::Help)
 				QApplication::aboutQt();
 		}
 	});
@@ -325,7 +327,61 @@ void WidgetsPresenter::presentInputDialog(const MessageConfig &config, QPointer<
 
 void WidgetsPresenter::presentFileDialog(const MessageConfig &config, QPointer<MessageResult> result)
 {
+	auto props = config.viewProperties();
 
+	QWidget *parent = nullptr;
+	if(!props.value(QStringLiteral("modal"), false).toBool())
+		parent = QApplication::activeWindow();
+	auto dialog = new QFileDialog(parent);
+
+	//prepare the dialog
+	auto title = config.title();
+	if(!title.isNull())
+		dialog->setWindowTitle(title);
+	auto dirUrl = config.defaultValue().toUrl();
+	if(dirUrl.isValid())
+		dialog->setDirectoryUrl(dirUrl);
+
+	//set the file mode
+	auto isMultiFile = false;
+	if(config.subType() == MessageConfig::SubTypeDir) {
+		dialog->setAcceptMode(QFileDialog::AcceptOpen);
+		dialog->setFileMode(QFileDialog::Directory);
+	} else if(config.subType() == MessageConfig::SubTypeOpenFile) {
+		dialog->setAcceptMode(QFileDialog::AcceptOpen);
+		dialog->setFileMode(QFileDialog::ExistingFile);
+	} else if(config.subType() == MessageConfig::SubTypeOpenFiles) {
+		isMultiFile = true;
+		dialog->setAcceptMode(QFileDialog::AcceptOpen);
+		dialog->setFileMode(QFileDialog::ExistingFiles);
+	} else if(config.subType() == MessageConfig::SubTypeSaveFile) {
+		dialog->setAcceptMode(QFileDialog::AcceptSave);
+		dialog->setFileMode(QFileDialog::AnyFile);
+	}
+
+	//set extra props
+	for(auto it = props.constBegin(); it != props.constEnd(); it++)
+		dialog->setProperty(qUtf8Printable(it.key()), it.value());
+
+	//connect stuff
+	QObject::connect(dialog, &QDialog::finished,
+					 dialog, [dialog, isMultiFile, result](int resCode){
+		if(result) {
+			if(isMultiFile)
+				result->setResult(QVariant::fromValue(dialog->selectedUrls()));
+			else
+				result->setResult(dialog->selectedUrls().first());
+			if(resCode == QDialog::Accepted)
+				result->complete(MessageConfig::Ok);
+			else
+				result->complete(MessageConfig::Cancel);
+		}
+	});
+
+	//finalize and show
+	dialog->adjustSize();
+	DialogMaster::masterDialog(dialog);
+	dialog->open();
 }
 
 void WidgetsPresenter::presentOtherDialog(const MessageConfig &config, QPointer<MessageResult> result)
