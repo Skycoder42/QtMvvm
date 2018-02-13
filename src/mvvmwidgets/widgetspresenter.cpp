@@ -2,8 +2,7 @@
 #include "widgetspresenter_p.h"
 #include "ipresentingview.h"
 
-#include <QtMvvmCore/private/coreapp_p.h>
-#include <QtMvvmCore/private/qtmvvm_logging_p.h>
+#include <QtCore/QMetaProperty>
 
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QMainWindow>
@@ -12,6 +11,12 @@
 #include <QtWidgets/QMdiArea>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QDialogButtonBox>
+#include <QtWidgets/QPushButton>
+
+#include <QtMvvmCore/private/coreapp_p.h>
+#include <QtMvvmCore/private/qtmvvm_logging_p.h>
 
 #include <dialogmaster.h>
 
@@ -90,6 +95,16 @@ void WidgetsPresenter::showDialog(const MessageConfig &config, MessageResult *re
 		presentFileDialog(config, result);
 	else
 		presentOtherDialog(config, result);
+}
+
+InputViewFactory *WidgetsPresenter::inputViewFactory() const
+{
+	return d->inputViewFactory.data();
+}
+
+void WidgetsPresenter::setInputViewFactory(InputViewFactory *inputViewFactory)
+{
+	d->inputViewFactory.reset(inputViewFactory);
 }
 
 const QMetaObject *WidgetsPresenter::findWidgetMetaObject(const QMetaObject *viewModelMetaObject)
@@ -180,21 +195,27 @@ void WidgetsPresenter::showForeground(QWidget *view) const
 	view->activateWindow();
 }
 
-void WidgetsPresenter::presentMessageBox(const MessageConfig &config, MessageResult *result)
+void WidgetsPresenter::presentMessageBox(const MessageConfig &config, QPointer<MessageResult> result)
 {
+	auto qtHelp = false;
 	DialogMaster::MessageBoxInfo info;
 	//set the icon based of the type
-	if(config.type() == MessageConfig::SubTypeInformation)
+	if(config.subType() == MessageConfig::SubTypeInformation)
 		info = DialogMaster::createInformation();
-	else if(config.type() == MessageConfig::SubTypeWarning)
+	else if(config.subType() == MessageConfig::SubTypeWarning)
 		info = DialogMaster::createWarning();
-	else if(config.type() == MessageConfig::SubTypeCritical)
+	else if(config.subType() == MessageConfig::SubTypeCritical)
 		info = DialogMaster::createCritical();
-	else if(config.type() == MessageConfig::SubTypeQuestion)
+	else if(config.subType() == MessageConfig::SubTypeQuestion)
 		info = DialogMaster::createQuestion();
-	else if(config.type() == MessageConfig::SubTypeAbout) {
+	else if(config.subType() == MessageConfig::SubTypeAbout) {
 		info = DialogMaster::createInformation();
-		info.icon = QGuiApplication::windowIcon();
+		info.windowTitle = tr("About");
+		auto mIcon = QGuiApplication::windowIcon();
+		if(!mIcon.isNull())
+			info.icon = mIcon;
+		qtHelp = config.viewProperties().value(QStringLiteral("addQtVersion"), true).toBool();
+		qtHelp = config.viewProperties().value(QStringLiteral("showQtHelp"), qtHelp).toBool();//TODO document too
 	}
 
 	info.title = config.title();
@@ -203,9 +224,13 @@ void WidgetsPresenter::presentMessageBox(const MessageConfig &config, MessageRes
 	auto btns = config.buttonTexts();
 	for(auto it = btns.constBegin(); it != btns.constEnd(); it++)
 		info.buttonTexts.insert(static_cast<QMessageBox::StandardButton>(it.key()), it.value());
+	if(qtHelp) {
+		info.buttons |= QMessageBox::Help;
+		info.buttonTexts.insert(QMessageBox::Help, tr("About &Qt"));
+	}
 
 	//special properties
-	bool checked = false;
+	QSharedPointer<bool> checked;
 	auto props = config.viewProperties(); //TODO document all these
 	if(!props.value(QStringLiteral("modal"), false).toBool())
 		info.parent = QApplication::activeWindow();
@@ -215,31 +240,95 @@ void WidgetsPresenter::presentMessageBox(const MessageConfig &config, MessageRes
 		info.details = props.value(QStringLiteral("details")).toString();
 	if(props.contains(QStringLiteral("checkable"))) {
 		if(props.value(QStringLiteral("checkable")).toBool()) {
-			checked = config.defaultValue().toBool();
-			info.checked = &checked;
+			checked = QSharedPointer<bool>::create(config.defaultValue().toBool());
+			info.checked = checked.data();
 			if(props.contains(QStringLiteral("checkString")))
 				info.checkString = props.value(QStringLiteral("checkString")).toString();
 		}
 	}
 
-	//show the msgbox
-	int res = DialogMaster::messageBox(info);
-	if(info.checked)
-		result->setResult(checked);
-	result->complete(static_cast<MessageConfig::StandardButton>(res));
+	//create and show the msgbox
+	auto msgBox = DialogMaster::createMessageBox(info);
+	connect(msgBox, &QMessageBox::finished,
+			result, [qtHelp, checked, result](int resCode){
+		if(result) {
+			if(checked)
+				result->setResult(*checked);
+			result->complete(static_cast<MessageConfig::StandardButton>(resCode));
+			if(qtHelp && resCode == QMessageBox::Help)
+				QApplication::aboutQt();
+		}
+	});
+	msgBox->open();
 }
 
-void WidgetsPresenter::presentInputDialog(const MessageConfig &config, MessageResult *result)
+void WidgetsPresenter::presentInputDialog(const MessageConfig &config, QPointer<MessageResult> result)
+{
+	auto input = d->inputViewFactory->createInput(config.subType(), nullptr, config.viewProperties());
+	if(!input)
+		return;
+
+	QWidget *parent = nullptr;
+	if(!config.viewProperties().value(QStringLiteral("modal"), false).toBool())
+		parent = QApplication::activeWindow();
+	auto dialog = new QDialog(parent);
+	dialog->setAttribute(Qt::WA_DeleteOnClose);
+	auto layout = new QVBoxLayout(dialog);
+	dialog->setLayout(layout);
+
+	//set title and text
+	auto text = config.text();
+	if(text.isNull())
+		text = config.title();
+	else
+		dialog->setWindowTitle(config.title());//TODO as header better?
+	if(!text.isNull()) {
+		auto label = new QLabel(text, dialog);
+		layout->addWidget(label);
+	}
+
+	//add the input
+	input->setParent(dialog);
+	auto property = input->metaObject()->userProperty();
+	property.write(input, config.defaultValue());
+	layout->addWidget(input);
+
+	//add the buttons
+	auto btnBox = new QDialogButtonBox(dialog);
+	btnBox->setStandardButtons(static_cast<QDialogButtonBox::StandardButtons>(static_cast<int>(config.buttons()))); //is ok, as the buttons are the same
+	auto btns = config.buttonTexts();
+	for(auto it = btns.constBegin(); it != btns.constEnd(); it++){
+		auto sBtn = static_cast<QDialogButtonBox::StandardButton>(it.key());
+		btnBox->addButton(sBtn);
+		btnBox->button(sBtn)->setText(it.value());
+	}
+	layout->addWidget(btnBox);
+
+	//connect stuff
+	QObject::connect(btnBox, &QDialogButtonBox::clicked,
+					 dialog, [dialog, btnBox](QAbstractButton *btn){
+		dialog->done(btnBox->standardButton(btn));
+	});
+	QObject::connect(dialog, &QDialog::finished,
+					 dialog, [dialog, input, property, result](int resCode){
+		if(result) {
+			result->complete(static_cast<MessageConfig::StandardButton>(resCode),
+							 property.read(input));
+		}
+	});
+
+	//finalize and show
+	dialog->adjustSize();
+	DialogMaster::masterDialog(dialog);
+	dialog->open();
+}
+
+void WidgetsPresenter::presentFileDialog(const MessageConfig &config, QPointer<MessageResult> result)
 {
 
 }
 
-void WidgetsPresenter::presentFileDialog(const MessageConfig &config, MessageResult *result)
-{
-
-}
-
-void WidgetsPresenter::presentOtherDialog(const MessageConfig &config, MessageResult *result)
+void WidgetsPresenter::presentOtherDialog(const MessageConfig &config, QPointer<MessageResult> result)
 {
 	Q_UNUSED(result)
 	throw PresenterException(QByteArrayLiteral("Unable to find a method that is able to show a dialog of type") +
@@ -249,6 +338,7 @@ void WidgetsPresenter::presentOtherDialog(const MessageConfig &config, MessageRe
 // ------------- Private Implementation -------------
 
 WidgetsPresenterPrivate::WidgetsPresenterPrivate() :
+	inputViewFactory(new InputViewFactory()),
 	implicitMappings(),
 	explicitMappings()
 {}

@@ -247,25 +247,25 @@ template <typename TEdit>
 inline void getInput(const QString &title,
 					 const QString &text,
 					 QObject *scope,
-					 const std::function<void(TEdit)> &onResult,
+					 const std::function<void(TEdit, bool)> &onResult,
 					 const QVariant &defaultValue = {},
 					 const QVariantMap &viewProperties = {},
 					 const QString &okText = {},
 					 const QString &cancelText = {}) {
 	getInput(title, text, QMetaType::typeName(qMetaTypeId<TEdit>()), scope, [onResult](QVariant v) {
-		onResult(v.template value<TEdit>());
+		onResult(v.template value<TEdit>(), v.isValid());
 	}, defaultValue, viewProperties, okText, cancelText);
 }
 template <typename TEdit>
 inline void getInput(const QString &title,
 					 const QString &text,
-					 const std::function<void(TEdit)> &onResult,
+					 const std::function<void(TEdit, bool)> &onResult,
 					 const QVariant &defaultValue = {},
 					 const QVariantMap &viewProperties = {},
 					 const QString &okText = {},
 					 const QString &cancelText = {}) {
 	getInput(title, text, QMetaType::typeName(qMetaTypeId<TEdit>()), [onResult](QVariant v) {
-		onResult(v.template value<TEdit>());
+		onResult(v.template value<TEdit>(), v.isValid());
 	}, defaultValue, viewProperties, okText, cancelText);
 }
 
@@ -296,11 +296,11 @@ Q_MVVMCORE_EXPORT MessageResult *getOpenFiles(const QString &title = {},
 											  const QStringList &supportedMimeTypes = {},
 											  const QUrl &dir = {});
 Q_MVVMCORE_EXPORT void getOpenFiles(QObject *scope,
-									std::function<void(QList<QUrl>)> onResult,
+									const std::function<void(QList<QUrl>)> &onResult,
 									const QString &title = {},
 									const QStringList &supportedMimeTypes = {},
 									const QUrl &dir = {});
-Q_MVVMCORE_EXPORT void getOpenFiles(std::function<void(QList<QUrl>)> onResult,
+Q_MVVMCORE_EXPORT void getOpenFiles(const std::function<void(QList<QUrl>)> &onResult,
 									const QString &title = {},
 									const QStringList &supportedMimeTypes = {},
 									const QUrl &dir = {});

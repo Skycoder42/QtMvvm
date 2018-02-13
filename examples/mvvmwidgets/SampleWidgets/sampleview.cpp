@@ -22,6 +22,10 @@ SampleView::SampleView(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 			_viewModel, &SampleViewModel::clearEvents);
 	connect(ui->resultButton, &QPushButton::clicked,
 			_viewModel, &SampleViewModel::getResult);
+	connect(ui->action_About, &QAction::triggered,
+			_viewModel, &SampleViewModel::about);
+	connect(ui->actionUseless_Input, &QAction::triggered,
+			_viewModel, &SampleViewModel::getInput);
 }
 
 SampleView::~SampleView()

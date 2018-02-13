@@ -48,7 +48,7 @@ deploy:
   file_glob: true
   file: install/opt/build_*_$QT_VER.tar.xz
   on:
-    repo: <user/repository>
+    repo: Skycoder42/QtMvvm
     tags: true
 
 before_cache:

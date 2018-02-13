@@ -2,10 +2,14 @@
 #include "sampleviewmodel.h"
 
 #include <QtCore/QCommandLineParser>
+#include <QtMvvmCore/QtMvvmCoreVersion>
 
 SampleCoreApp::SampleCoreApp(QObject *parent) :
 	CoreApp(parent)
-{}
+{
+	QCoreApplication::setApplicationVersion(QStringLiteral(QTMVVMCORE_VERSION_STR));
+	QCoreApplication::setOrganizationName(QStringLiteral("Skycoder42"));
+}
 
 void SampleCoreApp::performRegistrations()
 {

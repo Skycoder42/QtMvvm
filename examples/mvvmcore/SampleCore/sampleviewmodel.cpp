@@ -64,6 +64,16 @@ void SampleViewModel::setActive(bool active)
 	emit activeChanged(_active);
 }
 
+void SampleViewModel::getInput()
+{
+	QtMvvm::getInput<int>(tr("Random input"),
+						  tr("Enter a number:"),
+						  this, [this](int res, bool ok) {
+		if(ok)
+			addEvent(QString::number(res));
+	}, 42);
+}
+
 void SampleViewModel::getResult()
 {
 	showForResult<ResultViewModel>(ResCode, {
@@ -79,6 +89,14 @@ void SampleViewModel::clearEvents()
 		if(res)
 			_eventsModel->setStringList({});
 	});
+}
+
+void SampleViewModel::about()
+{
+	QtMvvm::about(tr("QtMvvm sample application"),
+				  QStringLiteral("https://github.com/Skycoder42/QtMvvm"),
+				  tr("BSD 3 Clause"),
+				  QStringLiteral("https://github.com/Skycoder42/QtMvvm/blob/master/LICENSE"));
 }
 
 void SampleViewModel::onInit(const QVariantHash &params)

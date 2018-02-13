@@ -1,0 +1,85 @@
+#include "inputviewfactory.h"
+#include "inputviewfactory_p.h"
+#include <QtMvvmCore/private/qtmvvm_logging_p.h>
+
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QSpinBox>
+#include <QtWidgets/QDateTimeEdit>
+#include <QtWidgets/QKeySequenceEdit>
+
+#include "fontcombobox_p.h"
+#include "selectcombobox_p.h"
+
+#include <qurlvalidator.h>
+
+using namespace QtMvvm;
+
+InputViewFactory::InputViewFactory() :
+	d(new InputViewFactoryPrivate())
+{}
+
+InputViewFactory::~InputViewFactory() {}
+
+QWidget *InputViewFactory::createInput(const QByteArray &type, QWidget *parent, const QVariantMap &viewProperties)
+{
+	QWidget *widget = nullptr;
+	if(d->simpleWidgets.contains(type))
+		widget = d->simpleWidgets.value(type)(parent);
+	else if(type == QMetaType::typeName(QMetaType::Bool))
+		widget = new QCheckBox(parent);
+	else if(type == QMetaType::typeName(QMetaType::QString) || type == "string") {
+		auto edit = new QLineEdit(parent);
+		if(viewProperties.contains(QStringLiteral("regexp"))) {
+			QRegularExpression regex(viewProperties.value(QStringLiteral("regexp")).toString());
+			regex.setPatternOptions(static_cast<QRegularExpression::PatternOptions>(
+										viewProperties.value(QStringLiteral("patternOptions"),
+															 static_cast<int>(regex.patternOptions()))
+										.toInt()));
+			edit->setValidator(new QRegularExpressionValidator(regex, edit));
+		}
+		widget = edit;
+	} else if(type == QMetaType::typeName(QMetaType::Int))
+		widget = new QSpinBox(parent);
+	else if(type == QMetaType::typeName(QMetaType::Double) || type == "number")
+		widget = new QDoubleSpinBox(parent);
+	else if(type == QMetaType::typeName(QMetaType::QDate))
+		widget = new QDateEdit(parent);
+	else if(type == QMetaType::typeName(QMetaType::QTime))
+		widget = new QTimeEdit(parent);
+	else if(type == QMetaType::typeName(QMetaType::QDateTime) || type == "date")
+		widget = new QDateTimeEdit(parent);
+	else if(type == QMetaType::typeName(QMetaType::QFont))
+		widget = new FontComboBox(parent);
+	else if(type == QMetaType::typeName(QMetaType::QKeySequence))
+		widget = new QKeySequenceEdit(parent);
+	else if(type == QMetaType::typeName(QMetaType::QUrl) || type == "url") {
+		auto edit = new QLineEdit(parent);
+		auto validator = new QUrlValidator(edit);
+		if(viewProperties.contains(QStringLiteral("allowedSchemes")))
+			validator->setAllowedSchemes(viewProperties.value(QStringLiteral("allowedSchemes")).toStringList());
+		edit->setValidator(validator);
+		widget = edit;
+	} else if(type == "selection" || type == "list")
+		widget = new SelectComboBox(parent);
+	else {
+		logCritical() << "Failed to find any input view for input type:" << type;
+		return nullptr;
+	}
+
+	for(auto it = viewProperties.constBegin(); it != viewProperties.constEnd(); it++)
+		widget->setProperty(qUtf8Printable(it.key()), it.value());
+	return widget;
+}
+
+void InputViewFactory::addSimpleWidget(const QByteArray &type, const std::function<QWidget *(QWidget *)> &creator)
+{
+	Q_ASSERT_X(creator, Q_FUNC_INFO, "The passed creation function must be valid");
+	d->simpleWidgets.insert(type, creator);
+}
+
+// ------------- Private Implementation -------------
+
+InputViewFactoryPrivate::InputViewFactoryPrivate() :
+	simpleWidgets()
+{}

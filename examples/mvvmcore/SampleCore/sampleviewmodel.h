@@ -32,8 +32,10 @@ public Q_SLOTS:
 	void setName(QString name);
 	void setActive(bool active);
 
+	void getInput();
 	void getResult();
 	void clearEvents();
+	void about();
 
 Q_SIGNALS:
 	void nameChanged(QString name);

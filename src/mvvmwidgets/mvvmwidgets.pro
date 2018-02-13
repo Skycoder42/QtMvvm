@@ -6,10 +6,17 @@ HEADERS += \
 	qtmvvmwidgets_global.h \
 	widgetspresenter.h \
 	ipresentingview.h \
-	widgetspresenter_p.h
+	widgetspresenter_p.h \
+	inputviewfactory.h \
+	inputviewfactory_p.h \
+    fontcombobox_p.h \
+    selectcombobox_p.h
 
 SOURCES += \
-	widgetspresenter.cpp
+	widgetspresenter.cpp \
+	inputviewfactory.cpp \
+    fontcombobox.cpp \
+    selectcombobox.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmwidgets_de.ts \

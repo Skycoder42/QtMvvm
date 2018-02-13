@@ -10,6 +10,7 @@
 #include <QtWidgets/qwidget.h>
 
 #include "QtMvvmWidgets/qtmvvmwidgets_global.h"
+#include "QtMvvmWidgets/inputviewfactory.h"
 
 namespace QtMvvm {
 
@@ -18,6 +19,8 @@ class Q_MVVMWIDGETS_EXPORT WidgetsPresenter : public QObject, public IPresenter
 {
 	Q_OBJECT
 	Q_INTERFACES(QtMvvm::IPresenter)
+
+	Q_PROPERTY(InputViewFactory* inputViewFactory READ inputViewFactory WRITE setInputViewFactory)
 
 public:
 	explicit WidgetsPresenter(QObject *parent = nullptr);
@@ -37,6 +40,11 @@ public:
 	void present(ViewModel *viewModel, const QVariantHash &params, QPointer<ViewModel> parent) override;
 	void showDialog(const MessageConfig &config, MessageResult *result) override;
 
+	InputViewFactory* inputViewFactory() const;
+
+public Q_SLOTS:
+	void setInputViewFactory(InputViewFactory* inputViewFactory);
+
 protected:
 	virtual const QMetaObject *findWidgetMetaObject(const QMetaObject *viewModelMetaObject);
 	virtual bool tryPresent(QWidget *view, QWidget *parentView);
@@ -44,10 +52,10 @@ protected:
 
 	virtual void showForeground(QWidget *view) const;
 
-	virtual void presentMessageBox(const MessageConfig &config, MessageResult *result);
-	virtual void presentInputDialog(const MessageConfig &config, MessageResult *result);
-	virtual void presentFileDialog(const MessageConfig &config, MessageResult *result);
-	virtual void presentOtherDialog(const MessageConfig &config, MessageResult *result);
+	virtual void presentMessageBox(const MessageConfig &config, QPointer<MessageResult> result);
+	virtual void presentInputDialog(const MessageConfig &config, QPointer<MessageResult> result);
+	virtual void presentFileDialog(const MessageConfig &config, QPointer<MessageResult> result);
+	virtual void presentOtherDialog(const MessageConfig &config, QPointer<MessageResult> result);
 
 private:
 	QScopedPointer<WidgetsPresenterPrivate> d;

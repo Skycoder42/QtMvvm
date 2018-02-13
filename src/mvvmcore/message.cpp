@@ -381,21 +381,18 @@ MessageResult *QtMvvm::about(const QString &description, const QUrl &websiteUrl,
 		text += pBegin;
 		if(addQtVersion) {
 			auto runtimeVers = qVersion();
-			auto compileVers = QT_VERSION_STR;
-			QString qtVersion;
-			if(qstrcmp(runtimeVers, compileVers) == 0)
-				qtVersion = QString::fromUtf8(runtimeVers);
-			else {
-				qtVersion = MessageConfig::tr("%1 (Built with %2)")
-							.arg(QString::fromUtf8(runtimeVers))
-							.arg(QString::fromUtf8(runtimeVers));
+			QString postFix;
+			if(qstrcmp(runtimeVers, QT_VERSION_STR) != 0) {
+				postFix = MessageConfig::tr(" (Built with %1)")
+						  .arg(QStringLiteral(QT_VERSION_STR));
 			}
-			text += MessageConfig::tr("Qt-Version: <a href=\"https://www.qt.io/\">%2</a>")
-					.arg(qtVersion);
+			text += MessageConfig::tr("Qt-Version: <a href=\"https://www.qt.io/\">%1</a>")
+					.arg(QString::fromUtf8(runtimeVers)) +
+					postFix;
 		}
 		if(!extraTopInfos.isEmpty()) {
 			auto withBr = addQtVersion;
-			foreach(auto info, extraTopInfos){
+			for(auto info : extraTopInfos) {
 				text += info + (withBr ? br : QString());
 				withBr = true;
 			}
@@ -518,7 +515,7 @@ MessageResult *QtMvvm::getOpenFiles(const QString &title, const QStringList &sup
 	return CoreApp::showDialog(config);
 }
 
-void QtMvvm::getOpenFiles(QObject *scope, std::function<void (QList<QUrl>)> onResult, const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
+void QtMvvm::getOpenFiles(QObject *scope, const std::function<void (QList<QUrl>)> &onResult, const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
 {
 	auto result = getOpenFiles(title, supportedMimeTypes, dir);
 	if(result) {
@@ -529,7 +526,7 @@ void QtMvvm::getOpenFiles(QObject *scope, std::function<void (QList<QUrl>)> onRe
 	}
 }
 
-void QtMvvm::getOpenFiles(std::function<void (QList<QUrl>)> onResult, const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
+void QtMvvm::getOpenFiles(const std::function<void (QList<QUrl>)> &onResult, const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
 {
 	getOpenFiles(CoreApp::instance(), onResult, title, supportedMimeTypes, dir);
 }

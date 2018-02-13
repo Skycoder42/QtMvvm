@@ -96,8 +96,32 @@
      <height>23</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu_Help">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="action_About"/>
+   </widget>
+   <widget class="QMenu" name="menu_Actions">
+    <property name="title">
+     <string>&amp;Actions</string>
+    </property>
+    <addaction name="actionUseless_Input"/>
+   </widget>
+   <addaction name="menu_Actions"/>
+   <addaction name="menu_Help"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="action_About">
+   <property name="text">
+    <string>&amp;About</string>
+   </property>
+  </action>
+  <action name="actionUseless_Input">
+   <property name="text">
+    <string>Another &amp;Input</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
