@@ -4,10 +4,10 @@ QT = core gui widgets mvvmcore
 
 HEADERS += \
 	qtmvvmquick_global.h \
-	builddummy.h
+    quickpresenter.h
 
 SOURCES += \
-	builddummy.cpp
+    quickpresenter.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmquick_de.ts \

@@ -3,7 +3,8 @@ CONFIG += ordered
 
 SUBDIRS += mvvmcore \
 	mvvmwidgets \
-	mvvmquick
+	mvvmquick \
+    imports
 
 prepareRecursiveTarget(lrelease)
 QMAKE_EXTRA_TARGETS += lrelease

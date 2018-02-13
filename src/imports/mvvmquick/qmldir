@@ -1,0 +1,8 @@
+module de.skycoder42.qtmvvm.quick
+plugin declarative_mvvmquick
+classname QtMvvmQuickDeclarativeModule
+typeinfo plugins.qmltypes
+
+App 1.0 App.qml
+PresenterProgress 1.0 PresenterProgress.qml
+PresentingStackView 1.0 PresentingStackView.qml

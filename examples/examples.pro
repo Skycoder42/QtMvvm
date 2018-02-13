@@ -1,6 +1,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS = mvvmcore \
-	mvvmwidgets
+	mvvmwidgets \
+    mvvmquick
 
 CONFIG += ordered
