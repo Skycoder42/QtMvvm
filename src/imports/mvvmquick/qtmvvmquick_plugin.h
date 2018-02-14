@@ -1,7 +1,7 @@
 #ifndef QTMVVMQUICK_PLUGIN_H
 #define QTMVVMQUICK_PLUGIN_H
 
-#include <QQmlExtensionPlugin>
+#include <QtQml/QQmlExtensionPlugin>
 
 class QtMvvmQuickDeclarativeModule : public QQmlExtensionPlugin
 {

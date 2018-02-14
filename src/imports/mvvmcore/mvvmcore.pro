@@ -6,11 +6,13 @@ IMPORT_VERSION = 1.0
 
 HEADERS += \
 	qtmvvmcore_plugin.h \
-	qqmlmvvmbinding.h
+	qqmlmvvmbinding.h \
+    qqmlmvvmmessage.h
 
 SOURCES += \
 	qtmvvmcore_plugin.cpp \
-	qqmlmvvmbinding.cpp
+	qqmlmvvmbinding.cpp \
+    qqmlmvvmmessage.cpp
 
 OTHER_FILES += qmldir
 

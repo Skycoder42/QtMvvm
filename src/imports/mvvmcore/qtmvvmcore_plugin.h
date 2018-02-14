@@ -1,7 +1,7 @@
 #ifndef QTMVVMCORE_PLUGIN_H
 #define QTMVVMCORE_PLUGIN_H
 
-#include <QQmlExtensionPlugin>
+#include <QtQml/QQmlExtensionPlugin>
 
 class QtMvvmCoreDeclarativeModule : public QQmlExtensionPlugin
 {

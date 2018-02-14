@@ -54,4 +54,286 @@ Module {
         Method { name: "unbind" }
         Method { name: "isValid"; type: "bool" }
     }
+    Component {
+        name: "QtMvvm::QQmlMvvmMessage"
+        prototype: "QObject"
+        exports: ["de.skycoder42.qtmvvm.core/QtMvvmMessage 1.0"]
+        isCreatable: false
+        isSingleton: true
+        exportMetaObjectRevisions: [0]
+        Method {
+            name: "information"
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "text"; type: "string" }
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "okText"; type: "string" }
+        }
+        Method {
+            name: "information"
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "text"; type: "string" }
+            Parameter { name: "onResult"; type: "QJSValue" }
+        }
+        Method {
+            name: "information"
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "text"; type: "string" }
+        }
+        Method {
+            name: "question"
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "text"; type: "string" }
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "yesText"; type: "string" }
+            Parameter { name: "noText"; type: "string" }
+        }
+        Method {
+            name: "question"
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "text"; type: "string" }
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "yesText"; type: "string" }
+        }
+        Method {
+            name: "question"
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "text"; type: "string" }
+            Parameter { name: "onResult"; type: "QJSValue" }
+        }
+        Method {
+            name: "question"
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "text"; type: "string" }
+        }
+        Method {
+            name: "warning"
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "text"; type: "string" }
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "okText"; type: "string" }
+        }
+        Method {
+            name: "warning"
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "text"; type: "string" }
+            Parameter { name: "onResult"; type: "QJSValue" }
+        }
+        Method {
+            name: "warning"
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "text"; type: "string" }
+        }
+        Method {
+            name: "critical"
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "text"; type: "string" }
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "okText"; type: "string" }
+        }
+        Method {
+            name: "critical"
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "text"; type: "string" }
+            Parameter { name: "onResult"; type: "QJSValue" }
+        }
+        Method {
+            name: "critical"
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "text"; type: "string" }
+        }
+        Method {
+            name: "about"
+            Parameter { name: "description"; type: "string" }
+            Parameter { name: "websiteUrl"; type: "QUrl" }
+            Parameter { name: "licenseName"; type: "string" }
+            Parameter { name: "licenseUrl"; type: "QUrl" }
+            Parameter { name: "companyName"; type: "string" }
+            Parameter { name: "addQtVersion"; type: "bool" }
+            Parameter { name: "extraTopInfos"; type: "QStringList" }
+            Parameter { name: "extraBottomInfos"; type: "string" }
+        }
+        Method {
+            name: "about"
+            Parameter { name: "description"; type: "string" }
+            Parameter { name: "websiteUrl"; type: "QUrl" }
+            Parameter { name: "licenseName"; type: "string" }
+            Parameter { name: "licenseUrl"; type: "QUrl" }
+            Parameter { name: "companyName"; type: "string" }
+            Parameter { name: "addQtVersion"; type: "bool" }
+            Parameter { name: "extraTopInfos"; type: "QStringList" }
+        }
+        Method {
+            name: "about"
+            Parameter { name: "description"; type: "string" }
+            Parameter { name: "websiteUrl"; type: "QUrl" }
+            Parameter { name: "licenseName"; type: "string" }
+            Parameter { name: "licenseUrl"; type: "QUrl" }
+            Parameter { name: "companyName"; type: "string" }
+            Parameter { name: "addQtVersion"; type: "bool" }
+        }
+        Method {
+            name: "about"
+            Parameter { name: "description"; type: "string" }
+            Parameter { name: "websiteUrl"; type: "QUrl" }
+            Parameter { name: "licenseName"; type: "string" }
+            Parameter { name: "licenseUrl"; type: "QUrl" }
+            Parameter { name: "companyName"; type: "string" }
+        }
+        Method {
+            name: "about"
+            Parameter { name: "description"; type: "string" }
+            Parameter { name: "websiteUrl"; type: "QUrl" }
+            Parameter { name: "licenseName"; type: "string" }
+            Parameter { name: "licenseUrl"; type: "QUrl" }
+        }
+        Method {
+            name: "about"
+            Parameter { name: "description"; type: "string" }
+            Parameter { name: "websiteUrl"; type: "QUrl" }
+            Parameter { name: "licenseName"; type: "string" }
+        }
+        Method {
+            name: "about"
+            Parameter { name: "description"; type: "string" }
+            Parameter { name: "websiteUrl"; type: "QUrl" }
+        }
+        Method {
+            name: "about"
+            Parameter { name: "description"; type: "string" }
+        }
+        Method {
+            name: "getInput"
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "text"; type: "string" }
+            Parameter { name: "inputType"; type: "const char"; isPointer: true }
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "defaultValue"; type: "QVariant" }
+            Parameter { name: "viewProperties"; type: "QVariantMap" }
+            Parameter { name: "okText"; type: "string" }
+            Parameter { name: "cancelText"; type: "string" }
+        }
+        Method {
+            name: "getInput"
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "text"; type: "string" }
+            Parameter { name: "inputType"; type: "const char"; isPointer: true }
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "defaultValue"; type: "QVariant" }
+            Parameter { name: "viewProperties"; type: "QVariantMap" }
+            Parameter { name: "okText"; type: "string" }
+        }
+        Method {
+            name: "getInput"
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "text"; type: "string" }
+            Parameter { name: "inputType"; type: "const char"; isPointer: true }
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "defaultValue"; type: "QVariant" }
+            Parameter { name: "viewProperties"; type: "QVariantMap" }
+        }
+        Method {
+            name: "getInput"
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "text"; type: "string" }
+            Parameter { name: "inputType"; type: "const char"; isPointer: true }
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "defaultValue"; type: "QVariant" }
+        }
+        Method {
+            name: "getInput"
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "text"; type: "string" }
+            Parameter { name: "inputType"; type: "const char"; isPointer: true }
+            Parameter { name: "onResult"; type: "QJSValue" }
+        }
+        Method {
+            name: "getInput"
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "text"; type: "string" }
+            Parameter { name: "inputType"; type: "const char"; isPointer: true }
+        }
+        Method {
+            name: "getExistingDirectory"
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "dir"; type: "QUrl" }
+        }
+        Method {
+            name: "getExistingDirectory"
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "title"; type: "string" }
+        }
+        Method {
+            name: "getExistingDirectory"
+            Parameter { name: "onResult"; type: "QJSValue" }
+        }
+        Method { name: "getExistingDirectory" }
+        Method {
+            name: "getOpenFile"
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "supportedMimeTypes"; type: "QStringList" }
+            Parameter { name: "dir"; type: "QUrl" }
+        }
+        Method {
+            name: "getOpenFile"
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "supportedMimeTypes"; type: "QStringList" }
+        }
+        Method {
+            name: "getOpenFile"
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "title"; type: "string" }
+        }
+        Method {
+            name: "getOpenFile"
+            Parameter { name: "onResult"; type: "QJSValue" }
+        }
+        Method { name: "getOpenFile" }
+        Method {
+            name: "getOpenFiles"
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "supportedMimeTypes"; type: "QStringList" }
+            Parameter { name: "dir"; type: "QUrl" }
+        }
+        Method {
+            name: "getOpenFiles"
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "supportedMimeTypes"; type: "QStringList" }
+        }
+        Method {
+            name: "getOpenFiles"
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "title"; type: "string" }
+        }
+        Method {
+            name: "getOpenFiles"
+            Parameter { name: "onResult"; type: "QJSValue" }
+        }
+        Method {
+            name: "getSaveFile"
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "supportedMimeTypes"; type: "QStringList" }
+            Parameter { name: "dir"; type: "QUrl" }
+        }
+        Method {
+            name: "getSaveFile"
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "supportedMimeTypes"; type: "QStringList" }
+        }
+        Method {
+            name: "getSaveFile"
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "title"; type: "string" }
+        }
+        Method {
+            name: "getSaveFile"
+            Parameter { name: "onResult"; type: "QJSValue" }
+        }
+    }
 }
