@@ -41,7 +41,7 @@ void WidgetsPresenter::registerViewExplicitly(const QMetaObject *viewModelType, 
 {
 	Q_ASSERT_X(viewModelType->inherits(&ViewModel::staticMetaObject), Q_FUNC_INFO, "viewModelType must be a QtMvvm::ViewModel class");
 	Q_ASSERT_X(viewType->inherits(&QWidget::staticMetaObject), Q_FUNC_INFO, "viewType must be a QWidget class");
-	WidgetsPresenterPrivate::currentPresenter()->d->explicitMappings.insert(viewModelType->className(), viewType);
+	WidgetsPresenterPrivate::currentPresenter()->d->explicitMappings.insert(viewModelType, viewType);
 }
 
 void WidgetsPresenter::present(ViewModel *viewModel, const QVariantHash &params, QPointer<ViewModel> parent)
@@ -112,10 +112,10 @@ const QMetaObject *WidgetsPresenter::findWidgetMetaObject(const QMetaObject *vie
 {
 	auto currentMeta = viewModelMetaObject;
 	while(currentMeta && currentMeta->inherits(&ViewModel::staticMetaObject)) {
-		QByteArray cName = currentMeta->className();
-		if(d->explicitMappings.contains(cName))
-			return d->explicitMappings.value(cName);
+		if(d->explicitMappings.contains(currentMeta))
+			return d->explicitMappings.value(currentMeta);
 		else {
+			QByteArray cName = currentMeta->className();
 			auto lIndex = cName.lastIndexOf("ViewModel");
 			if(lIndex > 0)
 				cName.truncate(lIndex);
@@ -401,15 +401,15 @@ WidgetsPresenterPrivate::WidgetsPresenterPrivate() :
 
 WidgetsPresenter *WidgetsPresenterPrivate::currentPresenter()
 {
-#ifndef Q_NO_DEBUG
-	Q_ASSERT_X(dynamic_cast<WidgetsPresenter*>(CoreAppPrivate::dInstance()->currentPresenter()),
-			   Q_FUNC_INFO,
-			   "Cannot register widgets if the current presenter does not extend QtMvvm::WidgetsPresenter");
-#endif
 	auto presenter = static_cast<WidgetsPresenter*>(CoreAppPrivate::dInstance()->currentPresenter());
 	if(!presenter) {
 		presenter = new WidgetsPresenter();
 		CoreApp::setMainPresenter(presenter);
 	}
+#ifndef Q_NO_DEBUG
+	Q_ASSERT_X(dynamic_cast<WidgetsPresenter*>(CoreAppPrivate::dInstance()->currentPresenter()),
+			   Q_FUNC_INFO,
+			   "Cannot register widgets if the current presenter does not extend QtMvvm::WidgetsPresenter");
+#endif
 	return presenter;
 }

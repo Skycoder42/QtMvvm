@@ -18,7 +18,7 @@ public:
 
 	QScopedPointer<InputViewFactory> inputViewFactory;
 	QSet<const QMetaObject*> implicitMappings;
-	QHash<QByteArray, const QMetaObject*> explicitMappings;
+	QHash<const QMetaObject*, const QMetaObject*> explicitMappings;
 };
 
 }

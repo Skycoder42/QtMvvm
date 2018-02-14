@@ -1,13 +1,14 @@
 TARGET = QtMvvmQuick
 
-QT = core gui widgets mvvmcore
+QT = core gui widgets mvvmcore mvvmcore-private
 
 HEADERS += \
 	qtmvvmquick_global.h \
-    quickpresenter.h
+	quickpresenter.h \
+	quickpresenter_p.h
 
 SOURCES += \
-    quickpresenter.cpp
+	quickpresenter.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmquick_de.ts \

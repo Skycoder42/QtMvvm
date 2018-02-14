@@ -2,6 +2,8 @@
 #define QTMVVM_QUICKPRESENTER_H
 
 #include <QtCore/qobject.h>
+#include <QtCore/qscopedpointer.h>
+#include <QtCore/qurl.h>
 
 #include <QtMvvmCore/ipresenter.h>
 #include <QtMvvmCore/coreapp.h>
@@ -10,6 +12,7 @@
 
 namespace QtMvvm {
 
+class QuickPresenterPrivate;
 class Q_MVVMQUICK_EXPORT QuickPresenter : public QObject, public IPresenter
 {
 	Q_OBJECT
@@ -17,10 +20,12 @@ class Q_MVVMQUICK_EXPORT QuickPresenter : public QObject, public IPresenter
 
 public:
 	explicit QuickPresenter(QObject *parent = nullptr);
+	~QuickPresenter();
 
 	template <typename TPresenter = QuickPresenter>
 	static void registerAsPresenter();
 
+	static void addViewSearchDir(const QString &dirUrl);
 	template <typename TViewModel>
 	static void registerViewExplicitly(const QUrl &viewUrl);
 	static void registerViewExplicitly(const QMetaObject *viewModelType, const QUrl &viewUrl);
@@ -30,6 +35,9 @@ public:
 
 protected:
 	virtual QUrl findViewUrl(const QMetaObject *viewModelType);
+
+private:
+	QScopedPointer<QuickPresenterPrivate> d;
 };
 
 template<typename TPresenter>
