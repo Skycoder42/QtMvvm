@@ -11,7 +11,7 @@ Module {
     Component {
         name: "QtMvvm::QQmlMvvmBinding"
         prototype: "QObject"
-        exports: ["de.skycoder42.qtmvvm.core/QtMvvmBinding 1.0"]
+        exports: ["de.skycoder42.qtmvvm.core/Binding 1.0"]
         exportMetaObjectRevisions: [0]
         Enum {
             name: "BindingDirection"
@@ -57,7 +57,7 @@ Module {
     Component {
         name: "QtMvvm::QQmlMvvmMessage"
         prototype: "QObject"
-        exports: ["de.skycoder42.qtmvvm.core/QtMvvmMessage 1.0"]
+        exports: ["de.skycoder42.qtmvvm.core/Message 1.0"]
         isCreatable: false
         isSingleton: true
         exportMetaObjectRevisions: [0]

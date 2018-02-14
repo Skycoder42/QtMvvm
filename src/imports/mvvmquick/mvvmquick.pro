@@ -13,7 +13,7 @@ SOURCES += \
 	qqmlquickpresenter.cpp
 
 QML_FILES += \
-	App.qml \
+	QtMvvmApp.qml \
 	PresentingStackView.qml \
 	PresenterProgress.qml
 

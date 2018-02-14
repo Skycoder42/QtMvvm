@@ -18,6 +18,6 @@ void QtMvvmCoreDeclarativeModule::registerTypes(const char *uri)
 {
 	Q_ASSERT(qstrcmp(uri, "de.skycoder42.qtmvvm.core") == 0);
 
-	qmlRegisterType<QtMvvm::QQmlMvvmBinding>(uri, 1, 0, "QtMvvmBinding");
-	qmlRegisterSingletonType<QtMvvm::QQmlMvvmMessage>(uri, 1, 0, "QtMvvmMessage", createMessageSingleton);
+	qmlRegisterType<QtMvvm::QQmlMvvmBinding>(uri, 1, 0, "Binding");
+	qmlRegisterSingletonType<QtMvvm::QQmlMvvmMessage>(uri, 1, 0, "Message", createMessageSingleton);
 }
