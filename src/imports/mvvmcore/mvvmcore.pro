@@ -1,21 +1,16 @@
-QT += core qml quick mvvmquick
-CXX_MODULE = mvvmquick
-TARGETPATH = de/skycoder42/qtmvvm/quick
-TARGET  = declarative_mvvmquick
+QT += core qml quick mvvmcore
+CXX_MODULE = mvvmcore
+TARGETPATH = de/skycoder42/qtmvvm/core
+TARGET  = declarative_mvvmcore
 IMPORT_VERSION = 1.0
 
 HEADERS += \
-	qtmvvmquick_plugin.h \
-	qqmlquickpresenter.h
+	qtmvvmcore_plugin.h \
+	qqmlmvvmbinding.h
 
 SOURCES += \
-	qtmvvmquick_plugin.cpp \
-	qqmlquickpresenter.cpp
-
-QML_FILES += \
-	App.qml \
-	PresentingStackView.qml \
-	PresenterProgress.qml
+	qtmvvmcore_plugin.cpp \
+	qqmlmvvmbinding.cpp
 
 OTHER_FILES += qmldir
 

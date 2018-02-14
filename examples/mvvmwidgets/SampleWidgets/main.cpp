@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 	QtMvvm::WidgetsPresenter::registerView<ResultDialog>();
 
 	if(TEST_CURRENT == TEST_DIRECT)
-			QtMvvm::ServiceRegistry::instance()->registerObject<EchoService>();
+		QtMvvm::ServiceRegistry::instance()->registerObject<EchoService>();
 	if(TEST_CURRENT == TEST_FN)
 		QtMvvm::ServiceRegistry::instance()->registerObject<EchoService>([]() {
 			return new EchoService(nullptr);

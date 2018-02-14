@@ -4,7 +4,8 @@ QT  += core gui qml quick mvvmquick
 
 TARGET = SampleQuick
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+	quickeventservice.cpp
 
 RESOURCES += qml.qrc
 
@@ -44,11 +45,12 @@ samples_in_build {
 	QMLDEPPATH = $$PWD/../../../src/imports/mvvmquick
 	system($$QMAKE_MKDIR $$shell_quote($$shell_path($$FAKEPATH)))
 
-	# next, symlink all "compiled" files
+	# next, symlink all "compiled" files (whole dir for core, as it has no qml files
 	build_symlink_target.target = create_qml_build_symlinks
-	build_symlink_target.commands += $$QMAKE_SYMBOLIC_LINK $$shell_path($$ORIGPATH/libdeclarative_mvvmquick.so) $$shell_quote($$shell_path($$FAKEPATH/libdeclarative_mvvmquick.so)) \
-		$$escape_expand(\n\t)$$QMAKE_SYMBOLIC_LINK $$shell_path($$ORIGPATH/plugins.qmltypes) $$shell_quote($$shell_path($$FAKEPATH/plugins.qmltypes)) \
-		$$escape_expand(\n\t)$$QMAKE_SYMBOLIC_LINK $$shell_path($$ORIGPATH/qmldir) $$shell_quote($$shell_path($$FAKEPATH/qmldir))
+	build_symlink_target.commands += $$QMAKE_SYMBOLIC_LINK $$shell_path(../../../../../../../qml/de/skycoder42/qtmvvm/core) $$shell_path(qml/de/skycoder42/qtmvvm/core) \
+		$$escape_expand(\n\t)$$QMAKE_SYMBOLIC_LINK $$shell_path($$ORIGPATH/libdeclarative_mvvmquick.so) $$shell_path($$FAKEPATH/libdeclarative_mvvmquick.so) \
+		$$escape_expand(\n\t)$$QMAKE_SYMBOLIC_LINK $$shell_path($$ORIGPATH/plugins.qmltypes) $$shell_path($$FAKEPATH/plugins.qmltypes) \
+		$$escape_expand(\n\t)$$QMAKE_SYMBOLIC_LINK $$shell_path($$ORIGPATH/qmldir) $$shell_path($$FAKEPATH/qmldir)
 	QMAKE_EXTRA_TARGETS += build_symlink_target
 
 	# next, prepare compiler to symlink all the qml files
@@ -68,3 +70,6 @@ samples_in_build {
 	QML_IMPORT_PATH = $$OUT_PWD/qml/
 	DEFINES += QML_PATH=\\\"$$QML_IMPORT_PATH\\\"
 }
+
+HEADERS += \
+	quickeventservice.h

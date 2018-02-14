@@ -100,6 +100,14 @@ bool Binding::isValid() const
 	return d;
 }
 
+void Binding::unbind()
+{
+	if(d) {
+		d->deleteLater();
+		d.clear();
+	}
+}
+
 // ------------- Private Implementation -------------
 
 Binding BindingPrivate::bind(QObject *viewModel, const QMetaProperty &viewModelProperty, QObject *view, const QMetaProperty &viewProperty, Binding::BindingDirection type, const QMetaMethod &viewModelChangeSignal, const QMetaMethod &viewChangeSignal)

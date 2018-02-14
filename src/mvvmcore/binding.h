@@ -31,6 +31,7 @@ public:
 	~Binding();
 
 	bool isValid() const;
+	void unbind();
 
 private:
 	QPointer<QObject> d;
