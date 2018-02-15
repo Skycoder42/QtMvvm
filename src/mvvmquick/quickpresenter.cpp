@@ -29,7 +29,18 @@ void QuickPresenter::registerViewExplicitly(const QMetaObject *viewModelType, co
 
 void QuickPresenter::present(QtMvvm::ViewModel *viewModel, const QVariantHash &params, QPointer<QtMvvm::ViewModel> parent)
 {
-	qDebug(Q_FUNC_INFO);
+	auto url = findViewUrl(viewModel->metaObject());
+	if(!url.isValid())
+		throw PresenterException(QByteArrayLiteral("No Url to a QML View found for ") + viewModel->metaObject()->className());
+
+	if(d->qmlPresenter) {
+		QMetaObject::invokeMethod(d->qmlPresenter, "present",
+								  Q_ARG(QtMvvm::ViewModel*, viewModel),
+								  Q_ARG(QVariantHash, params),
+								  Q_ARG(QUrl, url),
+								  Q_ARG(QPointer<QtMvvm::ViewModel>, parent));
+	} else
+		throw PresenterException("QML presenter not ready - cannot present yet");
 }
 
 void QuickPresenter::showDialog(const QtMvvm::MessageConfig &config, QtMvvm::MessageResult *result)
@@ -61,7 +72,6 @@ QUrl QuickPresenter::findViewUrl(const QMetaObject *viewModelType)
 					if(dir.startsWith(QStringLiteral(":"))) {
 						resUrl.setScheme(QStringLiteral("qrc"));
 						resUrl.setPath(iterator.filePath().mid(1)); //skip the beginning colon
-						logDebug() << "TEST:" << QUrl::fromLocalFile(iterator.filePath());
 					} else
 						resUrl = QUrl::fromLocalFile(iterator.filePath());
 					logDebug() << "Found URL for viewmodel"
@@ -98,4 +108,9 @@ QuickPresenter *QuickPresenterPrivate::currentPresenter()
 			   "Cannot register views if the current presenter does not extend QtMvvm::QuickPresenter");
 #endif
 	return presenter;
+}
+
+void QuickPresenterPrivate::setQmlPresenter(QObject *presenter)
+{
+	currentPresenter()->d->qmlPresenter = presenter;
 }

@@ -2,21 +2,28 @@
 #define QTMVVM_QUICKPRESENTER_P_H
 
 #include <QtCore/QHash>
+#include <QtCore/QPointer>
 
 #include "qtmvvmquick_global.h"
 #include "quickpresenter.h"
 
 namespace QtMvvm {
 
-class QuickPresenterPrivate
+class Q_MVVMQUICK_EXPORT QuickPresenterPrivate
 {
+	friend class QtMvvm::QuickPresenter;
+
 public:
 	QuickPresenterPrivate();
 
+	static QuickPresenter *currentPresenter();
+	static void setQmlPresenter(QObject *presenter);
+
+private:
 	QHash<const QMetaObject *, QUrl> explicitMappings;
 	QStringList searchDirs;
 
-	static QuickPresenter *currentPresenter();
+	QPointer<QObject> qmlPresenter;
 };
 
 }

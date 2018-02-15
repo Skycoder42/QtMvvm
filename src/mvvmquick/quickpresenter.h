@@ -37,6 +37,7 @@ protected:
 	virtual QUrl findViewUrl(const QMetaObject *viewModelType);
 
 private:
+	friend class QtMvvm::QuickPresenterPrivate;
 	QScopedPointer<QuickPresenterPrivate> d;
 };
 

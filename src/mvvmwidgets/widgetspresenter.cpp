@@ -15,6 +15,7 @@
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QFileDialog>
+#include <QtWidgets/QLabel>
 
 #include <QtMvvmCore/private/coreapp_p.h>
 #include <QtMvvmCore/private/qtmvvm_logging_p.h>

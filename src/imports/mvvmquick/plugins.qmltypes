@@ -15,5 +15,27 @@ Module {
         isCreatable: false
         isSingleton: true
         exportMetaObjectRevisions: [0]
+        Property { name: "qmlPresenter"; type: "QObject"; isPointer: true }
+        Property { name: "viewLoading"; type: "bool"; isReadonly: true }
+        Property { name: "loadingProgress"; type: "double"; isReadonly: true }
+        Signal {
+            name: "qmlPresenterChanged"
+            Parameter { name: "qmlPresenter"; type: "QObject"; isPointer: true }
+        }
+        Signal {
+            name: "viewLoadingChanged"
+            Parameter { name: "viewLoading"; type: "bool" }
+        }
+        Signal {
+            name: "loadingProgressChanged"
+            Parameter { name: "loadingProgress"; type: "double" }
+        }
+        Method {
+            name: "present"
+            Parameter { name: "viewModel"; type: "QtMvvm::ViewModel"; isPointer: true }
+            Parameter { name: "params"; type: "QVariantHash" }
+            Parameter { name: "viewUrl"; type: "QUrl" }
+            Parameter { name: "parent"; type: "QPointer<QtMvvm::ViewModel>" }
+        }
     }
 }
