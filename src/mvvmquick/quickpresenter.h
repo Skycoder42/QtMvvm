@@ -4,6 +4,7 @@
 #include <QtCore/qobject.h>
 #include <QtCore/qscopedpointer.h>
 #include <QtCore/qurl.h>
+#include <QtCore/qmetaobject.h>
 
 #include <QtMvvmCore/ipresenter.h>
 #include <QtMvvmCore/coreapp.h>
@@ -33,8 +34,13 @@ public:
 	void present(ViewModel *viewModel, const QVariantHash &params, QPointer<ViewModel> parent) override;
 	void showDialog(const MessageConfig &config, MessageResult *result) override;
 
+	virtual bool presentToQml(QObject *qmlPresenter, QObject *viewObject);
+
 protected:
 	virtual QUrl findViewUrl(const QMetaObject *viewModelType);
+	virtual int presentMethodIndex(const QMetaObject *presenterMetaObject, QObject *viewObject);
+
+	bool nameOrClassContains(const QObject *obj, const QString &contained, Qt::CaseSensitivity caseSensitive = Qt::CaseInsensitive) const;
 
 private:
 	friend class QtMvvm::QuickPresenterPrivate;

@@ -3,6 +3,7 @@
 
 #include <QtCore/QDir>
 #include <QtCore/QDirIterator>
+#include <QtCore/QMetaMethod>
 
 #include <QtMvvmCore/private/coreapp_p.h>
 #include <QtMvvmCore/private/qtmvvm_logging_p.h>
@@ -48,6 +49,19 @@ void QuickPresenter::showDialog(const QtMvvm::MessageConfig &config, QtMvvm::Mes
 	qDebug(Q_FUNC_INFO);
 }
 
+bool QuickPresenter::presentToQml(QObject *qmlPresenter, QObject *viewObject)
+{
+	auto meta = qmlPresenter->metaObject();
+	auto index = presentMethodIndex(meta, viewObject);
+	QVariant presented = false;
+	if(index != -1) {
+		meta->method(index).invoke(qmlPresenter, Qt::DirectConnection,
+								   Q_RETURN_ARG(QVariant, presented),
+								   Q_ARG(QVariant, QVariant::fromValue(viewObject)));
+	}
+	return presented.toBool();
+}
+
 QUrl QuickPresenter::findViewUrl(const QMetaObject *viewModelType)
 {
 	auto currentMeta = viewModelType;
@@ -86,6 +100,36 @@ QUrl QuickPresenter::findViewUrl(const QMetaObject *viewModelType)
 	}
 
 	return QUrl();
+}
+
+int QuickPresenter::presentMethodIndex(const QMetaObject *presenterMetaObject, QObject *viewObject)
+{
+	auto index = -1;
+	if(viewObject->inherits("QQuickPopup"))
+		index = presenterMetaObject->indexOfMethod("presentPopup(QVariant)");
+	if(viewObject->inherits("QQuickItem")) {
+		if(nameOrClassContains(viewObject, QStringLiteral("Drawer")))
+			index = presenterMetaObject->indexOfMethod("presentDrawerContent(QVariant)");
+		if(index == -1 && nameOrClassContains(viewObject, QStringLiteral("Tab")))
+			index = presenterMetaObject->indexOfMethod("presentTab(QVariant)");
+
+		if(index == -1)
+			index = presenterMetaObject->indexOfMethod("presentItem(QVariant)");
+	}
+	return index;
+}
+
+bool QuickPresenter::nameOrClassContains(const QObject *obj, const QString &contained, Qt::CaseSensitivity caseSensitive) const
+{
+	if(obj->objectName().contains(contained, caseSensitive))
+		return true;
+	auto currentMeta = obj->metaObject();
+	while(currentMeta) {
+		if(QString::fromUtf8(currentMeta->className()).contains(contained, caseSensitive))
+			return true;
+		currentMeta = currentMeta->superClass();
+	}
+	return false;
 }
 
 // ------------- Private Implementation -------------

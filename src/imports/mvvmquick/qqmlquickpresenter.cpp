@@ -105,34 +105,18 @@ void QQmlQuickPresenter::addObject(QQmlComponent *component, ViewModel *viewMode
 	component->completeCreate();
 
 	auto presented = false;
+	auto cPresenter = QuickPresenterPrivate::currentPresenter();
 	if(parent && parent->parent())
-		presented = tryPresent(parent->parent(), item);
+		presented = cPresenter->presentToQml(parent->parent(), item);
 	if(!presented)
-		presented = tryPresent(_qmlPresenter, item);
+		presented = cPresenter->presentToQml(_qmlPresenter, item);
 
-	if(presented)
-		QQmlEngine::setObjectOwnership(item, QQmlEngine::JavaScriptOwnership);
-	else {
+	if(presented) {
+		if(!item->parent())
+			QQmlEngine::setObjectOwnership(item, QQmlEngine::JavaScriptOwnership);
+	} else {
 		qmlWarning(this) << "Failed to present item for viewModel of type"
 						 << viewModel->metaObject()->className();
 		item->deleteLater();
 	}
-}
-
-bool QQmlQuickPresenter::tryPresent(QObject *qmlPresenter, QObject *viewObject)
-{
-	auto meta = qmlPresenter->metaObject();
-	auto index = -1;
-	if(viewObject->inherits("QQuickItem"))
-		index = meta->indexOfMethod("presentItem(QVariant)");
-	if(viewObject->inherits("QQuickPopup"))
-		index = meta->indexOfMethod("presentPopup(QVariant)");
-
-	QVariant presented = false;
-	if(index != -1) {
-		meta->method(index).invoke(qmlPresenter, Qt::DirectConnection,
-								   Q_RETURN_ARG(QVariant, presented),
-								   Q_ARG(QVariant, QVariant::fromValue(viewObject)));
-	}
-	return presented.toBool();
 }

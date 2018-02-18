@@ -40,14 +40,14 @@ else:unix: PRE_TARGETDEPS += $$OUT_PWD/../../mvvmcore/SampleCore/libSampleCore.a
 #hacky code to make it possible to use the example from within a shadowed build
 samples_in_build {
 	# first, create a fake qml imports dir
-	FAKEPATH = qml/de/skycoder42/qtmvvm/quick
-	ORIGPATH = ../../../../../../../../qml/de/skycoder42/qtmvvm/quick
+	FAKEPATH = qml/de/skycoder42/QtMvvm/Quick
+	ORIGPATH = ../../../../../../../../qml/de/skycoder42/QtMvvm/Quick
 	QMLDEPPATH = $$PWD/../../../src/imports/mvvmquick
 	system($$QMAKE_MKDIR $$shell_quote($$shell_path($$FAKEPATH)))
 
 	# next, symlink all "compiled" files (whole dir for core, as it has no qml files
 	build_symlink_target.target = create_qml_build_symlinks
-	build_symlink_target.commands += $$QMAKE_SYMBOLIC_LINK $$shell_path(../../../../../../../qml/de/skycoder42/qtmvvm/core) $$shell_path(qml/de/skycoder42/qtmvvm/core) \
+	build_symlink_target.commands += $$QMAKE_SYMBOLIC_LINK $$shell_path(../../../../../../../qml/de/skycoder42/QtMvvm/Core) $$shell_path(qml/de/skycoder42/QtMvvm/Core) \
 		$$escape_expand(\n\t)$$QMAKE_SYMBOLIC_LINK $$shell_path($$ORIGPATH/libdeclarative_mvvmquick.so) $$shell_path($$FAKEPATH/libdeclarative_mvvmquick.so) \
 		$$escape_expand(\n\t)$$QMAKE_SYMBOLIC_LINK $$shell_path($$ORIGPATH/plugins.qmltypes) $$shell_path($$FAKEPATH/plugins.qmltypes) \
 		$$escape_expand(\n\t)$$QMAKE_SYMBOLIC_LINK $$shell_path($$ORIGPATH/qmldir) $$shell_path($$FAKEPATH/qmldir)

@@ -1,18 +1,20 @@
 QT += core qml quick mvvmcore
 CXX_MODULE = mvvmcore
-TARGETPATH = de/skycoder42/qtmvvm/core
+TARGETPATH = de/skycoder42/QtMvvm/Core
 TARGET  = declarative_mvvmcore
-IMPORT_VERSION = 1.0
+IMPORT_VERSION = $$MODULE_VERSION_IMPORT
+DEFINES += "VERSION_MAJOR=$$MODULE_VERSION_MAJOR"
+DEFINES += "VERSION_MINOR=$$MODULE_VERSION_MINOR"
 
 HEADERS += \
 	qtmvvmcore_plugin.h \
 	qqmlmvvmbinding.h \
-    qqmlmvvmmessage.h
+	qqmlmvvmmessage.h
 
 SOURCES += \
 	qtmvvmcore_plugin.cpp \
 	qqmlmvvmbinding.cpp \
-    qqmlmvvmmessage.cpp
+	qqmlmvvmmessage.cpp
 
 OTHER_FILES += qmldir
 

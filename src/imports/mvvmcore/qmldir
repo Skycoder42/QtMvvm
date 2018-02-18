@@ -1,4 +1,4 @@
-module de.skycoder42.qtmvvm.core
+module de.skycoder42.QtMvvm.Core
 plugin declarative_mvvmcore
 classname QtMvvmCoreDeclarativeModule
 typeinfo plugins.qmltypes

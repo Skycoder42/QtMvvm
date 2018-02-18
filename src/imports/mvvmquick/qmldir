@@ -1,4 +1,4 @@
-module de.skycoder42.qtmvvm.quick
+module de.skycoder42.QtMvvm.Quick
 plugin declarative_mvvmquick
 classname QtMvvmQuickDeclarativeModule
 typeinfo plugins.qmltypes

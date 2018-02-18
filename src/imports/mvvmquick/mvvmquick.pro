@@ -1,8 +1,10 @@
 QT += core qml quick mvvmquick mvvmquick-private
 CXX_MODULE = mvvmquick
-TARGETPATH = de/skycoder42/qtmvvm/quick
+TARGETPATH = de/skycoder42/QtMvvm/Quick
 TARGET  = declarative_mvvmquick
-IMPORT_VERSION = 1.0
+IMPORT_VERSION = $$MODULE_VERSION_IMPORT
+DEFINES += "VERSION_MAJOR=$$MODULE_VERSION_MAJOR"
+DEFINES += "VERSION_MINOR=$$MODULE_VERSION_MINOR"
 
 HEADERS += \
 	qtmvvmquick_plugin.h \

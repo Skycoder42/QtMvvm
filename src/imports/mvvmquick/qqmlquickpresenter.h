@@ -29,15 +29,13 @@ public:
 	bool isViewLoading() const;
 	qreal loadingProgress() const;
 
-public Q_SLOTS:
-	void present(QtMvvm::ViewModel *viewModel, const QVariantHash &params, const QUrl &viewUrl, QPointer<QtMvvm::ViewModel> parent);
-
 Q_SIGNALS:
 	void qmlPresenterChanged(QObject* qmlPresenter);
 	void viewLoadingChanged(bool viewLoading);
 	void loadingProgressChanged(qreal loadingProgress);
 
 private Q_SLOTS:
+	void present(QtMvvm::ViewModel *viewModel, const QVariantHash &params, const QUrl &viewUrl, QPointer<QtMvvm::ViewModel> parent);
 	void statusChanged(QQmlComponent::Status status);
 
 private:
@@ -50,7 +48,6 @@ private:
 	QHash<QQmlComponent*, PresentTuple> _loadCache;
 
 	void addObject(QQmlComponent *component, ViewModel *viewModel, const QVariantHash &params, QPointer<ViewModel> parent);
-	bool tryPresent(QObject *qmlPresenter, QObject *viewObject);
 };
 
 }
