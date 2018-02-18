@@ -9,20 +9,29 @@ ApplicationWindow {
 	height: 520
 
 	PresenterProgress {
-		z: -10  //keep it low so its hidden after the first view was shown
+		id: _rootProgress
+		z: _rootStack.empty ? 10 : -10
+	}
+
+	PopupPresenter {
+		id: _rootPopup
 	}
 
 	PresentingStackView {
-		id: mainStack
+		id: _rootStack
 		anchors.fill: parent
 	}
 
-	function presentItem(item) {
-		return mainStack.presentItem(item);
+	function presentDrawerContent(item) {
+		return false
 	}
 
-	function presentPopup(item) {
-		return true;
+	function presentItem(item) {
+		return _rootStack.presentItem(item);
+	}
+
+	function presentPopup(popup) {
+		return _rootPopup.presentPopup(contentItem, popup);
 	}
 
 	Component.onCompleted: QuickPresenter.qmlPresenter = _root
@@ -30,15 +39,10 @@ ApplicationWindow {
 	onClosing: {
 		var closed = false;//messageBox.closeAction();
 
-//		if(!closed) {
-//			if(popups.length > 0) {
-//				popups[popups.length - 1].close();
-//				closed = true;
-//			}
-//		}
-
 		if(!closed)
-			closed = mainStack.closeAction();
+			closed = _rootPopup.closeAction();
+		if(!closed)
+			closed = _rootStack.closeAction();
 
 		close.accepted = !closed;
 	}

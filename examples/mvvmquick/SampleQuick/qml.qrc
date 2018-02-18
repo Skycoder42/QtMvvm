@@ -4,5 +4,6 @@
     </qresource>
     <qresource prefix="/qtmvvm/views">
         <file>SampleView.qml</file>
+        <file>ResultView.qml</file>
     </qresource>
 </RCC>

@@ -19,12 +19,16 @@ class QQmlQuickPresenter : public QObject
 {
 	Q_OBJECT
 
+	Q_PROPERTY(QString currentStyle READ currentStyle CONSTANT)
+
 	Q_PROPERTY(QObject* qmlPresenter MEMBER _qmlPresenter NOTIFY qmlPresenterChanged)
 	Q_PROPERTY(bool viewLoading READ isViewLoading NOTIFY viewLoadingChanged)
 	Q_PROPERTY(qreal loadingProgress READ loadingProgress NOTIFY loadingProgressChanged)
 
 public:
 	explicit QQmlQuickPresenter(QQmlEngine *engine);
+
+	QString currentStyle() const;
 
 	bool isViewLoading() const;
 	qreal loadingProgress() const;

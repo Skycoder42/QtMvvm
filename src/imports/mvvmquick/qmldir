@@ -3,6 +3,8 @@ plugin declarative_mvvmquick
 classname QtMvvmQuickDeclarativeModule
 typeinfo plugins.qmltypes
 
-QtMvvmApp 1.0 QtMvvmApp.qml
 PresenterProgress 1.0 PresenterProgress.qml
 PresentingStackView 1.0 PresentingStackView.qml
+PopupPresenter 1.0 PopupPresenter.qml
+
+QtMvvmApp 1.0 QtMvvmApp.qml

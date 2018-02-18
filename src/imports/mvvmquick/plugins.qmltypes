@@ -15,6 +15,7 @@ Module {
         isCreatable: false
         isSingleton: true
         exportMetaObjectRevisions: [0]
+        Property { name: "currentStyle"; type: "string"; isReadonly: true }
         Property { name: "qmlPresenter"; type: "QObject"; isPointer: true }
         Property { name: "viewLoading"; type: "bool"; isReadonly: true }
         Property { name: "loadingProgress"; type: "double"; isReadonly: true }

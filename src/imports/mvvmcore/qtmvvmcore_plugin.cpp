@@ -2,6 +2,8 @@
 
 #include <QtQml>
 
+#include <QtMvvmCore/ViewModel>
+
 #include "qqmlmvvmbinding.h"
 #include "qqmlmvvmmessage.h"
 
@@ -19,7 +21,8 @@ void QtMvvmCoreDeclarativeModule::registerTypes(const char *uri)
 	Q_ASSERT(qstrcmp(uri, "de.skycoder42.QtMvvm.Core") == 0);
 
 	//Version 1.0
-	qmlRegisterType<QtMvvm::QQmlMvvmBinding>(uri, 1, 0, "Binding");
+	qmlRegisterUncreatableType<QtMvvm::ViewModel>(uri, 1, 0, "ViewModel", tr("ViewModels cannot be created from QML"));
+	qmlRegisterType<QtMvvm::QQmlMvvmBinding>(uri, 1, 0, "MvvmBinding");
 	qmlRegisterSingletonType<QtMvvm::QQmlMvvmMessage>(uri, 1, 0, "Message", createMessageSingleton);
 
 	// Check to make shure no module update is forgotten

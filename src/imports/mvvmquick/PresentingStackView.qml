@@ -14,6 +14,12 @@ StackView {
 			return false;
 	}
 
+	function safePop(item, operation) {
+		var resItem = pop(item, operation)
+		if(resItem)
+			resItem.destroy();
+	}
+
 	function closeAction() {
 		if(typeof _presenterStack.currentItem.closeAction == "function") {
 			if(_presenterStack.currentItem.closeAction())
@@ -23,7 +29,7 @@ StackView {
 		if(_presenterStack.depth <= 1)
 			return false;
 		else {
-			if(_presenterStack.pop())
+			if(_presenterStack.safePop())
 				return true;
 			else
 				return false;

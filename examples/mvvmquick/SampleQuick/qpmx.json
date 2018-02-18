@@ -1,0 +1,20 @@
+{
+    "dependencies": [
+        {
+            "package": "de.skycoder42.quickextras",
+            "provider": "qpm",
+            "version": "2.1.0"
+        }
+    ],
+    "license": {
+        "file": "",
+        "name": ""
+    },
+    "prcFile": "",
+    "priFile": "",
+    "priIncludes": [
+    ],
+    "publishers": {
+    },
+    "source": false
+}

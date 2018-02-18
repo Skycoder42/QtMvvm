@@ -4,6 +4,8 @@
 
 #include <QtQuick/QQuickItem>
 
+#include <QtQuickControls2/QQuickStyle>
+
 #include <QtMvvmQuick/private/quickpresenter_p.h>
 
 using namespace QtMvvm;
@@ -16,6 +18,11 @@ QQmlQuickPresenter::QQmlQuickPresenter(QQmlEngine *engine) :
 	_loadCache()
 {
 	QuickPresenterPrivate::setQmlPresenter(this);
+}
+
+QString QQmlQuickPresenter::currentStyle() const
+{
+	return QQuickStyle::name();
 }
 
 bool QQmlQuickPresenter::isViewLoading() const

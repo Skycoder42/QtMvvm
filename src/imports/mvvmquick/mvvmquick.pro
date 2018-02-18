@@ -17,7 +17,8 @@ SOURCES += \
 QML_FILES += \
 	QtMvvmApp.qml \
 	PresentingStackView.qml \
-	PresenterProgress.qml
+	PresenterProgress.qml \
+	PopupPresenter.qml
 
 OTHER_FILES += qmldir
 

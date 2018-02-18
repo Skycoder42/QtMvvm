@@ -11,7 +11,7 @@ Module {
     Component {
         name: "QtMvvm::QQmlMvvmBinding"
         prototype: "QObject"
-        exports: ["de.skycoder42.QtMvvm.Core/Binding 1.0"]
+        exports: ["de.skycoder42.QtMvvm.Core/MvvmBinding 1.0"]
         exportMetaObjectRevisions: [0]
         Enum {
             name: "BindingDirection"
@@ -334,6 +334,26 @@ Module {
         Method {
             name: "getSaveFile"
             Parameter { name: "onResult"; type: "QJSValue" }
+        }
+    }
+    Component {
+        name: "QtMvvm::ViewModel"
+        prototype: "QObject"
+        exports: ["de.skycoder42.QtMvvm.Core/ViewModel 1.0"]
+        isCreatable: false
+        exportMetaObjectRevisions: [0]
+        Signal {
+            name: "resultReady"
+            Parameter { name: "result"; type: "QVariant" }
+        }
+        Method {
+            name: "onInit"
+            Parameter { name: "params"; type: "QVariantHash" }
+        }
+        Method {
+            name: "onResult"
+            Parameter { name: "requestCode"; type: "uint" }
+            Parameter { name: "result"; type: "QVariant" }
         }
     }
 }
