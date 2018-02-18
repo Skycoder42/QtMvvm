@@ -3,8 +3,12 @@ plugin declarative_mvvmquick
 classname QtMvvmQuickDeclarativeModule
 typeinfo plugins.qmltypes
 
+internal TintIcon TintIcon.qml
+internal MsgBox MsgBox.qml
+
 PresenterProgress 1.0 PresenterProgress.qml
 PresentingStackView 1.0 PresentingStackView.qml
 PopupPresenter 1.0 PopupPresenter.qml
+DialogPresenter 1.0 DialogPresenter.qml
 
 QtMvvmApp 1.0 QtMvvmApp.qml

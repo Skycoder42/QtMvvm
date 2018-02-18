@@ -60,6 +60,25 @@ void QQmlQuickPresenter::present(ViewModel *viewModel, const QVariantHash &param
 	}
 }
 
+void QQmlQuickPresenter::showDialog(const MessageConfig &config, MessageResult *result)
+{
+	if(!_qmlPresenter) {
+		qmlWarning(this).space() << "No QML-Presenter registered! Unable to present dialog of type" //TODO use via define EVERYWHERE!!!
+						 << config.type();
+		return;
+	}
+
+	QVariant res = false;
+	QMetaObject::invokeMethod(_qmlPresenter, "showDialog", Qt::DirectConnection,
+							  Q_RETURN_ARG(QVariant, res),
+							  Q_ARG(QVariant, QVariant::fromValue(config)),
+							  Q_ARG(QVariant, QVariant::fromValue(result)));
+	if(!res.toBool()) {
+		qmlWarning(this).space() << "Failed to present dialog of type"
+						 << config.type();
+	}
+}
+
 void QQmlQuickPresenter::statusChanged(QQmlComponent::Status status)
 {
 	auto component = qobject_cast<QQmlComponent*>(sender());
@@ -94,15 +113,15 @@ void QQmlQuickPresenter::statusChanged(QQmlComponent::Status status)
 void QQmlQuickPresenter::addObject(QQmlComponent *component, ViewModel *viewModel, const QVariantHash &params, QPointer<ViewModel> parent)
 {
 	if(!_qmlPresenter) {
-		qCritical() << "No QML-Presenter registered! Unable to present control of type"
-					<< viewModel->metaObject()->className();
+		qmlWarning(this).space() << "No QML-Presenter registered! Unable to present viewModel of type"
+						 << viewModel->metaObject()->className();
 		return;
 	}
 
 	//create the view item, set initial stuff and them complete creation
 	auto item = component->beginCreate(_engine->rootContext());
 	if(!item) {
-		qmlWarning(this) << "Unable to create quick view from the loaded component"
+		qmlWarning(this).space() << "Unable to create quick view from the loaded component"
 						 << component->url();
 		return;
 	}
@@ -122,7 +141,7 @@ void QQmlQuickPresenter::addObject(QQmlComponent *component, ViewModel *viewMode
 		if(!item->parent())
 			QQmlEngine::setObjectOwnership(item, QQmlEngine::JavaScriptOwnership);
 	} else {
-		qmlWarning(this) << "Failed to present item for viewModel of type"
+		qmlWarning(this).space() << "Failed to present item for viewModel of type"
 						 << viewModel->metaObject()->className();
 		item->deleteLater();
 	}

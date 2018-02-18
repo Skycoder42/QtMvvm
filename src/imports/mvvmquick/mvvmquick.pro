@@ -18,7 +18,10 @@ QML_FILES += \
 	QtMvvmApp.qml \
 	PresentingStackView.qml \
 	PresenterProgress.qml \
-	PopupPresenter.qml
+	PopupPresenter.qml \
+	DialogPresenter.qml \
+	TintIcon.qml \
+	MsgBox.qml
 
 OTHER_FILES += qmldir
 

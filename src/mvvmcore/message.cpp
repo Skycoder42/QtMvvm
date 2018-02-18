@@ -158,6 +158,22 @@ void MessageConfig::resetButtons()
 	d->buttonTexts.clear();
 }
 
+QVariantMap MessageConfig::buttonTextsMap() const
+{
+	QVariantMap map;
+	for(auto it = d->buttonTexts.constBegin(); it != d->buttonTexts.constEnd(); it++)
+		map.insert(QString::number(it.key()), it.value());
+	return map;
+}
+
+void MessageConfig::setButtonTextsMap(const QVariantMap &buttonTexts)
+{
+	QHash<StandardButton, QString> map;
+	for(auto it = buttonTexts.constBegin(); it != buttonTexts.constEnd(); it++)
+		map.insert(static_cast<StandardButton>(it.key().toInt()), it.value().toString());
+	d->buttonTexts = map;
+}
+
 
 
 MessageResult::MessageResult() :

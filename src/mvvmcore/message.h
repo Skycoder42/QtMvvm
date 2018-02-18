@@ -25,7 +25,7 @@ class Q_MVVMCORE_EXPORT MessageConfig
 	Q_PROPERTY(QString title READ title WRITE setTitle)
 	Q_PROPERTY(QString text READ text WRITE setText)
 	Q_PROPERTY(StandardButtons buttons READ buttons WRITE setButtons RESET resetButtons)
-	Q_PROPERTY(QHash<StandardButton, QString> buttonTexts READ buttonTexts WRITE setButtonTexts RESET resetButtons)
+	Q_PROPERTY(QVariantMap buttonTexts READ buttonTextsMap WRITE setButtonTextsMap RESET resetButtons)
 
 	Q_PROPERTY(QVariant defaultValue READ defaultValue WRITE setDefaultValue)
 	Q_PROPERTY(QVariantMap viewProperties READ viewProperties WRITE setViewProperties)
@@ -103,6 +103,9 @@ public:
 
 private:
 	QSharedDataPointer<MessageConfigPrivate> d;
+
+	QVariantMap buttonTextsMap() const;
+	void setButtonTextsMap(const QVariantMap &buttonTexts);
 };
 
 class MessageResultPrivate;

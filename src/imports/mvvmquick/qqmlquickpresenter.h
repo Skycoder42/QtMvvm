@@ -12,6 +12,7 @@
 #include <QtQml/QQmlComponent>
 
 #include <QtMvvmCore/ViewModel>
+#include <QtMvvmCore/Messages>
 
 namespace QtMvvm {
 
@@ -40,6 +41,7 @@ Q_SIGNALS:
 
 private Q_SLOTS:
 	void present(QtMvvm::ViewModel *viewModel, const QVariantHash &params, const QUrl &viewUrl, QPointer<QtMvvm::ViewModel> parent);
+	void showDialog(const QtMvvm::MessageConfig &config, QtMvvm::MessageResult *result);
 	void statusChanged(QQmlComponent::Status status);
 
 private:

@@ -13,13 +13,18 @@ ApplicationWindow {
 		z: _rootStack.empty ? 10 : -10
 	}
 
+	PresentingStackView {
+		id: _rootStack
+		anchors.fill: parent
+	}
+
 	PopupPresenter {
 		id: _rootPopup
 	}
 
-	PresentingStackView {
-		id: _rootStack
-		anchors.fill: parent
+	DialogPresenter {
+		id: _dialogs
+		rootItem: _root.contentItem
 	}
 
 	function presentDrawerContent(item) {
@@ -32,6 +37,10 @@ ApplicationWindow {
 
 	function presentPopup(popup) {
 		return _rootPopup.presentPopup(contentItem, popup);
+	}
+
+	function showDialog(config, result) {
+		return _dialogs.showDialog(config, result);
 	}
 
 	Component.onCompleted: QuickPresenter.qmlPresenter = _root

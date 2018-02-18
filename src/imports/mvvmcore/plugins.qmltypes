@@ -9,6 +9,84 @@ import QtQuick.tooling 1.2
 Module {
     dependencies: ["QtQuick 2.8"]
     Component {
+        name: "QtMvvm::MessageConfig"
+        exports: ["de.skycoder42.QtMvvm.Core/MessageConfig 1.0"]
+        isCreatable: false
+        exportMetaObjectRevisions: [0]
+        Enum {
+            name: "StandardButtons"
+            values: {
+                "NoButton": 0,
+                "Ok": 1024,
+                "Save": 2048,
+                "SaveAll": 4096,
+                "Open": 8192,
+                "Yes": 16384,
+                "YesToAll": 32768,
+                "No": 65536,
+                "NoToAll": 131072,
+                "Abort": 262144,
+                "Retry": 524288,
+                "Ignore": 1048576,
+                "Close": 2097152,
+                "Cancel": 4194304,
+                "Discard": 8388608,
+                "Help": 16777216,
+                "Apply": 33554432,
+                "Reset": 67108864,
+                "RestoreDefaults": 134217728
+            }
+        }
+        Property { name: "type"; type: "QByteArray" }
+        Property { name: "subType"; type: "QByteArray" }
+        Property { name: "title"; type: "string" }
+        Property { name: "text"; type: "string" }
+        Property { name: "buttons"; type: "StandardButtons" }
+        Property { name: "buttonTexts"; type: "QVariantMap" }
+        Property { name: "defaultValue"; type: "QVariant" }
+        Property { name: "viewProperties"; type: "QVariantMap" }
+    }
+    Component {
+        name: "QtMvvm::MessageResult"
+        prototype: "QObject"
+        exports: ["de.skycoder42.QtMvvm.Core/MessageResult 1.0"]
+        isCreatable: false
+        exportMetaObjectRevisions: [0]
+        Property { name: "result"; type: "QVariant" }
+        Property { name: "autoDelete"; type: "bool" }
+        Signal {
+            name: "dialogDone"
+            Parameter { name: "result"; type: "QtMvvm::MessageConfig::StandardButton" }
+        }
+        Signal {
+            name: "autoDeleteChanged"
+            Parameter { name: "autoDelete"; type: "bool" }
+        }
+        Method { name: "discardMessage" }
+        Method {
+            name: "setResult"
+            Parameter { name: "result"; type: "QVariant" }
+        }
+        Method {
+            name: "setAutoDelete"
+            Parameter { name: "autoDelete"; type: "bool" }
+        }
+        Method {
+            name: "setCloseTarget"
+            Parameter { name: "closeObject"; type: "QObject"; isPointer: true }
+            Parameter { name: "closeMethod"; type: "QMetaMethod" }
+        }
+        Method {
+            name: "complete"
+            Parameter { name: "result"; type: "QtMvvm::MessageConfig::StandardButton" }
+        }
+        Method {
+            name: "complete"
+            Parameter { name: "result"; type: "QtMvvm::MessageConfig::StandardButton" }
+            Parameter { name: "resultValue"; type: "QVariant" }
+        }
+    }
+    Component {
         name: "QtMvvm::QQmlMvvmBinding"
         prototype: "QObject"
         exports: ["de.skycoder42.QtMvvm.Core/MvvmBinding 1.0"]
