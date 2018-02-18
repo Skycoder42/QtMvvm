@@ -33,7 +33,6 @@ int main(int argc, char *argv[])
 	QtMvvm::ServiceRegistry::instance()->registerInterface<IEventService, QuickEventService>();
 
 	QQmlApplicationEngine engine;
-	QuickExtras::setupEngine(&engine);
 	engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 	if (engine.rootObjects().isEmpty())
 		return -1;

@@ -15,10 +15,31 @@ QtObject {
 			return false;
 	}
 
+	function closeAction() {
+		if(_popups.length > 0) {
+			_popups[_popups.length - 1].reject();
+			return true;
+		} else
+			return false;
+	}
+
+	property var _popups: []
 	property Component _msgBoxComponent: Component {
 		MsgBox {
 			id: __msgBox
-			Component.onCompleted: __msgBox.open()
+
+			onClosed: {
+				var index = _popups.indexOf(__msgBox);
+				if(index > -1) {
+					__msgBox.destroy();
+					_dialogPresenter._popups.splice(index, 1);
+				}
+			}
+
+			Component.onCompleted: {
+				_popups.push(__msgBox)
+				__msgBox.open()
+			}
 		}
 	}
 

@@ -4,25 +4,27 @@ import QtQuick.Controls 2.3
 QtObject {
 	id: _popPresenter
 
-	property var popups: []
+	property Item rootItem: null
 
-	function presentPopup(root, popup) {
-		popup.parent = root;
+	property var _popups: []
+
+	function presentPopup(popup) {
+		popup.parent = rootItem;
 		popup.closed.connect(function() {
-			var index = popups.indexOf(popup);
+			var index = _popups.indexOf(popup);
 			if(index > -1) {
 				popup.destroy();
-				popups.splice(index, 1);
+				_popups.splice(index, 1);
 			}
 		});
+		_popups.push(popup);
 		popup.open();
-		popups.push(popup);
 		return true;
 	}
 
 	function closeAction() {
-		if(popups.length > 0) {
-			popups[popups.length - 1].close();
+		if(_popups.length > 0) {
+			_popups[_popups.length - 1].close();
 			return true;
 		} else
 			return false;

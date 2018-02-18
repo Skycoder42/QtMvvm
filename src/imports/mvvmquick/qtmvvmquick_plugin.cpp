@@ -3,16 +3,28 @@
 #include <QtQml>
 
 #include "qqmlquickpresenter.h"
+#include "svgimageprovider.h"
+
+static void initResources()
+{
+#ifdef QT_STATIC
+	Q_INIT_RESOURCE(qtmvvmquick_plugin);
+#endif
+}
 
 static QObject *createQuickPresenterQmlSingleton(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
 {
 	Q_UNUSED(jsEngine)
+	//image provider is created together with the singleton
+	qmlEngine->addImageProvider(QStringLiteral("svg"), new QtMvvm::SvgImageProvider());
 	return new QtMvvm::QQmlQuickPresenter(qmlEngine);
 }
 
 QtMvvmQuickDeclarativeModule::QtMvvmQuickDeclarativeModule(QObject *parent) :
 	QQmlExtensionPlugin(parent)
-{}
+{
+	initResources();
+}
 
 void QtMvvmQuickDeclarativeModule::registerTypes(const char *uri)
 {

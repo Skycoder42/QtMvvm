@@ -20,10 +20,11 @@ ApplicationWindow {
 
 	PopupPresenter {
 		id: _rootPopup
+		rootItem: _root.contentItem
 	}
 
 	DialogPresenter {
-		id: _dialogs
+		id: _rootDialogs
 		rootItem: _root.contentItem
 	}
 
@@ -36,18 +37,20 @@ ApplicationWindow {
 	}
 
 	function presentPopup(popup) {
-		return _rootPopup.presentPopup(contentItem, popup);
+		return _rootPopup.presentPopup(popup);
 	}
 
 	function showDialog(config, result) {
-		return _dialogs.showDialog(config, result);
+		return _rootDialogs.showDialog(config, result);
 	}
 
 	Component.onCompleted: QuickPresenter.qmlPresenter = _root
 
 	onClosing: {
-		var closed = false;//messageBox.closeAction();
+		var closed = false;
 
+		if(!closed)
+			closed = _rootDialogs.closeAction();
 		if(!closed)
 			closed = _rootPopup.closeAction();
 		if(!closed)
