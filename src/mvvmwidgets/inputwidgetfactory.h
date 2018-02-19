@@ -1,5 +1,5 @@
-#ifndef QTMVVM_INPUTVIEWFACTORY_H
-#define QTMVVM_INPUTVIEWFACTORY_H
+#ifndef QTMVVM_INPUTWIDGETFACTORY_H
+#define QTMVVM_INPUTWIDGETFACTORY_H
 
 #include <functional>
 
@@ -11,12 +11,12 @@
 
 namespace QtMvvm {
 
-class InputViewFactoryPrivate;
-class InputViewFactory
+class InputWidgetFactoryPrivate;
+class InputWidgetFactory
 {
 public:
-	InputViewFactory();
-	virtual ~InputViewFactory();
+	InputWidgetFactory();
+	virtual ~InputWidgetFactory();
 
 	virtual QWidget *createInput(const QByteArray &type, QWidget *parent, const QVariantMap &viewProperties);
 
@@ -25,11 +25,11 @@ public:
 	void addSimpleWidget();
 
 private:
-	QScopedPointer<InputViewFactoryPrivate> d;
+	QScopedPointer<InputWidgetFactoryPrivate> d;
 };
 
 template<typename TType, typename TWidget>
-void InputViewFactory::addSimpleWidget()
+void InputWidgetFactory::addSimpleWidget()
 {
 	addSimpleWidget(QMetaType::typeName(qMetaTypeId<TType>()), [](QWidget *parent){
 		return new TWidget(parent);
@@ -38,4 +38,4 @@ void InputViewFactory::addSimpleWidget()
 
 }
 
-#endif // QTMVVM_INPUTVIEWFACTORY_H
+#endif // QTMVVM_INPUTWIDGETFACTORY_H

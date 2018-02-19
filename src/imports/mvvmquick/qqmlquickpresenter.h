@@ -14,6 +14,8 @@
 #include <QtMvvmCore/ViewModel>
 #include <QtMvvmCore/Messages>
 
+#include <QtMvvmQuick/InputViewFactory>
+
 namespace QtMvvm {
 
 class QQmlQuickPresenter : public QObject
@@ -21,6 +23,7 @@ class QQmlQuickPresenter : public QObject
 	Q_OBJECT
 
 	Q_PROPERTY(QString currentStyle READ currentStyle CONSTANT)
+	Q_PROPERTY(InputViewFactory* inputViewFactory READ inputViewFactory NOTIFY inputViewFactoryChanged)
 
 	Q_PROPERTY(QObject* qmlPresenter MEMBER _qmlPresenter NOTIFY qmlPresenterChanged)
 	Q_PROPERTY(bool viewLoading READ isViewLoading NOTIFY viewLoadingChanged)
@@ -30,14 +33,18 @@ public:
 	explicit QQmlQuickPresenter(QQmlEngine *engine);
 
 	QString currentStyle() const;
+	InputViewFactory* inputViewFactory() const;
 
 	bool isViewLoading() const;
 	qreal loadingProgress() const;
+
 
 Q_SIGNALS:
 	void qmlPresenterChanged(QObject* qmlPresenter);
 	void viewLoadingChanged(bool viewLoading);
 	void loadingProgressChanged(qreal loadingProgress);
+
+	void inputViewFactoryChanged(InputViewFactory* inputViewFactory);
 
 private Q_SLOTS:
 	void present(QtMvvm::ViewModel *viewModel, const QVariantHash &params, const QUrl &viewUrl, QPointer<QtMvvm::ViewModel> parent);

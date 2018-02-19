@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/de/skycoder42/qtmvvm/quick/inputs">
+        <file>ListEdit.qml</file>
+        <file>TextField.qml</file>
+        <file>SpinBox.qml</file>
+        <file>CheckBox.qml</file>
+        <file>DoubleSpinBox.qml</file>
+        <file>FontEdit.qml</file>
+    </qresource>
+</RCC>

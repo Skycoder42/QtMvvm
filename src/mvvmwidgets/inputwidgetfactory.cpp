@@ -1,5 +1,5 @@
-#include "inputviewfactory.h"
-#include "inputviewfactory_p.h"
+#include "inputwidgetfactory.h"
+#include "inputwidgetfactory_p.h"
 #include <QtMvvmCore/private/qtmvvm_logging_p.h>
 
 #include <QtWidgets/QCheckBox>
@@ -15,13 +15,13 @@
 
 using namespace QtMvvm;
 
-InputViewFactory::InputViewFactory() :
-	d(new InputViewFactoryPrivate())
+InputWidgetFactory::InputWidgetFactory() :
+	d(new InputWidgetFactoryPrivate())
 {}
 
-InputViewFactory::~InputViewFactory() {}
+InputWidgetFactory::~InputWidgetFactory() {}
 
-QWidget *InputViewFactory::createInput(const QByteArray &type, QWidget *parent, const QVariantMap &viewProperties)
+QWidget *InputWidgetFactory::createInput(const QByteArray &type, QWidget *parent, const QVariantMap &viewProperties)
 {
 	QWidget *widget = nullptr;
 	if(d->simpleWidgets.contains(type))
@@ -72,7 +72,7 @@ QWidget *InputViewFactory::createInput(const QByteArray &type, QWidget *parent, 
 	return widget;
 }
 
-void InputViewFactory::addSimpleWidget(const QByteArray &type, const std::function<QWidget *(QWidget *)> &creator)
+void InputWidgetFactory::addSimpleWidget(const QByteArray &type, const std::function<QWidget *(QWidget *)> &creator)
 {
 	Q_ASSERT_X(creator, Q_FUNC_INFO, "The passed creation function must be valid");
 	d->simpleWidgets.insert(type, creator);
@@ -80,6 +80,6 @@ void InputViewFactory::addSimpleWidget(const QByteArray &type, const std::functi
 
 // ------------- Private Implementation -------------
 
-InputViewFactoryPrivate::InputViewFactoryPrivate() :
+InputWidgetFactoryPrivate::InputWidgetFactoryPrivate() :
 	simpleWidgets()
 {}

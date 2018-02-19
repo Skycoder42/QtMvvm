@@ -7,16 +7,16 @@ HEADERS += \
 	widgetspresenter.h \
 	ipresentingview.h \
 	widgetspresenter_p.h \
-	inputviewfactory.h \
-	inputviewfactory_p.h \
-    fontcombobox_p.h \
-    selectcombobox_p.h
+	fontcombobox_p.h \
+	selectcombobox_p.h \
+	inputwidgetfactory.h \
+	inputwidgetfactory_p.h
 
 SOURCES += \
 	widgetspresenter.cpp \
-	inputviewfactory.cpp \
-    fontcombobox.cpp \
-    selectcombobox.cpp
+	fontcombobox.cpp \
+	selectcombobox.cpp \
+	inputwidgetfactory.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmwidgets_de.ts \
@@ -43,3 +43,5 @@ else: include($$OUT_PWD/qpmx_generated.pri)
 
 qpmx_ts_target.files -= $$OUT_PWD/$$QPMX_WORKINGDIR/qtmvvmwidgets_template.qm
 qpmx_ts_target.files += translations/qtmvvmwidgets_template.ts
+
+mingw: LIBS_PRIVATE += -lQt5Widgets -lQt5Gui -lQt5Core

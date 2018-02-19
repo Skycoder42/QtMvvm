@@ -24,6 +24,7 @@ private:
 	QStringList searchDirs;
 
 	QPointer<QObject> qmlPresenter;
+	QScopedPointer<InputViewFactory> inputViewFactory;
 };
 
 }

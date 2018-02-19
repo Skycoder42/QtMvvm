@@ -9,6 +9,25 @@ import QtQuick.tooling 1.2
 Module {
     dependencies: ["QtQuick 2.8"]
     Component {
+        name: "QtMvvm::InputViewFactory"
+        prototype: "QObject"
+        exports: ["de.skycoder42.QtMvvm.Quick/InputViewFactory 1.0"]
+        isCreatable: false
+        exportMetaObjectRevisions: [0]
+        Method {
+            name: "getInputUrl"
+            type: "QUrl"
+            Parameter { name: "type"; type: "QByteArray" }
+            Parameter { name: "viewProperties"; type: "QVariantMap" }
+        }
+        Method {
+            name: "addSimpleView"
+            type: "bool"
+            Parameter { name: "type"; type: "QByteArray" }
+            Parameter { name: "qmlFileUrl"; type: "QUrl" }
+        }
+    }
+    Component {
         name: "QtMvvm::QQmlQuickPresenter"
         prototype: "QObject"
         exports: ["de.skycoder42.QtMvvm.Quick/QuickPresenter 1.0"]
@@ -16,6 +35,7 @@ Module {
         isSingleton: true
         exportMetaObjectRevisions: [0]
         Property { name: "currentStyle"; type: "string"; isReadonly: true }
+        Property { name: "inputViewFactory"; type: "InputViewFactory"; isReadonly: true; isPointer: true }
         Property { name: "qmlPresenter"; type: "QObject"; isPointer: true }
         Property { name: "viewLoading"; type: "bool"; isReadonly: true }
         Property { name: "loadingProgress"; type: "double"; isReadonly: true }
@@ -30,6 +50,10 @@ Module {
         Signal {
             name: "loadingProgressChanged"
             Parameter { name: "loadingProgress"; type: "double" }
+        }
+        Signal {
+            name: "inputViewFactoryChanged"
+            Parameter { name: "inputViewFactory"; type: "InputViewFactory"; isPointer: true }
         }
     }
 }

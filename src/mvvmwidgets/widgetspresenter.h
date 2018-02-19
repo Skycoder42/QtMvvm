@@ -10,7 +10,7 @@
 #include <QtWidgets/qwidget.h>
 
 #include "QtMvvmWidgets/qtmvvmwidgets_global.h"
-#include "QtMvvmWidgets/inputviewfactory.h"
+#include "QtMvvmWidgets/inputwidgetfactory.h"
 
 namespace QtMvvm {
 
@@ -20,7 +20,7 @@ class Q_MVVMWIDGETS_EXPORT WidgetsPresenter : public QObject, public IPresenter
 	Q_OBJECT
 	Q_INTERFACES(QtMvvm::IPresenter)
 
-	Q_PROPERTY(InputViewFactory* inputViewFactory READ inputViewFactory WRITE setInputViewFactory)
+	Q_PROPERTY(InputWidgetFactory* inputWidgetFactory READ inputWidgetFactory WRITE setInputWidgetFactory NOTIFY inputWidgetFactoryChanged)
 
 public:
 	explicit WidgetsPresenter(QObject *parent = nullptr);
@@ -40,10 +40,13 @@ public:
 	void present(ViewModel *viewModel, const QVariantHash &params, QPointer<ViewModel> parent) override;
 	void showDialog(const MessageConfig &config, MessageResult *result) override;
 
-	InputViewFactory* inputViewFactory() const;
+	InputWidgetFactory* inputWidgetFactory() const;
 
 public Q_SLOTS:
-	void setInputViewFactory(InputViewFactory* inputViewFactory);
+	void setInputWidgetFactory(InputWidgetFactory* inputWidgetFactory);
+
+Q_SIGNALS:
+	void inputWidgetFactoryChanged(InputWidgetFactory* inputWidgetFactory);
 
 protected:
 	virtual const QMetaObject *findWidgetMetaObject(const QMetaObject *viewModelMetaObject);

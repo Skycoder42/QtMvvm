@@ -16,8 +16,6 @@ class SelectComboBox : public QComboBox
 	Q_PROPERTY(QVariant currentValue READ currentValue WRITE setCurrentValue NOTIFY currentValueChanged USER true)
 	Q_PROPERTY(QVariantList listElements READ listElements WRITE setListElements NOTIFY listElementsChanged)
 
-	QVariantMap m_listElements;
-
 public:
 	explicit SelectComboBox(QWidget *parent = nullptr);
 

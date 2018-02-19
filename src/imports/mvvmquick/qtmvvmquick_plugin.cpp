@@ -2,6 +2,8 @@
 
 #include <QtQml>
 
+#include <QtMvvmQuick/InputViewFactory>
+
 #include "qqmlquickpresenter.h"
 #include "svgimageprovider.h"
 
@@ -31,6 +33,7 @@ void QtMvvmQuickDeclarativeModule::registerTypes(const char *uri)
 	Q_ASSERT(qstrcmp(uri, "de.skycoder42.QtMvvm.Quick") == 0);
 
 	//Version 1.0
+	qmlRegisterUncreatableType<QtMvvm::InputViewFactory>(uri, 1, 0, "InputViewFactory", QStringLiteral("InputViewFactories can only be created from C++ via the QuickPresenter"));
 	qmlRegisterSingletonType<QtMvvm::QQmlQuickPresenter>(uri, 1, 0, "QuickPresenter", createQuickPresenterQmlSingleton);
 
 	// Check to make shure no module update is forgotten

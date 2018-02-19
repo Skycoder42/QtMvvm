@@ -67,6 +67,17 @@ bool QuickPresenter::presentToQml(QObject *qmlPresenter, QObject *viewObject)
 	return presented.toBool();
 }
 
+InputViewFactory *QuickPresenter::inputViewFactory() const
+{
+	return d->inputViewFactory.data();
+}
+
+void QuickPresenter::setInputViewFactory(InputViewFactory *inputViewFactory)
+{
+	d->inputViewFactory.reset(inputViewFactory);
+	emit inputViewFactoryChanged(inputViewFactory);
+}
+
 QUrl QuickPresenter::findViewUrl(const QMetaObject *viewModelType)
 {
 	auto currentMeta = viewModelType;
@@ -141,7 +152,9 @@ bool QuickPresenter::nameOrClassContains(const QObject *obj, const QString &cont
 
 QuickPresenterPrivate::QuickPresenterPrivate() :
 	explicitMappings(),
-	searchDirs({QStringLiteral(":/qtmvvm/views")})
+	searchDirs({QStringLiteral(":/qtmvvm/views")}),
+	qmlPresenter(nullptr),
+	inputViewFactory(new InputViewFactory())
 {}
 
 QuickPresenter *QuickPresenterPrivate::currentPresenter()

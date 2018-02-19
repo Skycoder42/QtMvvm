@@ -99,14 +99,15 @@ void WidgetsPresenter::showDialog(const MessageConfig &config, MessageResult *re
 		presentOtherDialog(config, result);
 }
 
-InputViewFactory *WidgetsPresenter::inputViewFactory() const
+InputWidgetFactory *WidgetsPresenter::inputWidgetFactory() const
 {
 	return d->inputViewFactory.data();
 }
 
-void WidgetsPresenter::setInputViewFactory(InputViewFactory *inputViewFactory)
+void WidgetsPresenter::setInputWidgetFactory(InputWidgetFactory *inputWidgetFactory)
 {
-	d->inputViewFactory.reset(inputViewFactory);
+	d->inputViewFactory.reset(inputWidgetFactory);
+	emit inputWidgetFactoryChanged(inputWidgetFactory);
 }
 
 const QMetaObject *WidgetsPresenter::findWidgetMetaObject(const QMetaObject *viewModelMetaObject)
@@ -395,7 +396,7 @@ void WidgetsPresenter::presentOtherDialog(const MessageConfig &config, QPointer<
 // ------------- Private Implementation -------------
 
 WidgetsPresenterPrivate::WidgetsPresenterPrivate() :
-	inputViewFactory(new InputViewFactory()),
+	inputViewFactory(new InputWidgetFactory()),
 	implicitMappings(),
 	explicitMappings()
 {}

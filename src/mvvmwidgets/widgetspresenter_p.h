@@ -16,7 +16,7 @@ public:
 
 	static WidgetsPresenter *currentPresenter();
 
-	QScopedPointer<InputViewFactory> inputViewFactory;
+	QScopedPointer<InputWidgetFactory> inputViewFactory;
 	QSet<const QMetaObject*> implicitMappings;
 	QHash<const QMetaObject*, const QMetaObject*> explicitMappings;
 };

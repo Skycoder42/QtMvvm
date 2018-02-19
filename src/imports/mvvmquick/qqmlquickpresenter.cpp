@@ -18,11 +18,18 @@ QQmlQuickPresenter::QQmlQuickPresenter(QQmlEngine *engine) :
 	_loadCache()
 {
 	QuickPresenterPrivate::setQmlPresenter(this);
+	connect(QuickPresenterPrivate::currentPresenter(), &QuickPresenter::inputViewFactoryChanged,
+			this, &QQmlQuickPresenter::inputViewFactoryChanged);
 }
 
 QString QQmlQuickPresenter::currentStyle() const
 {
 	return QQuickStyle::name();
+}
+
+InputViewFactory *QQmlQuickPresenter::inputViewFactory() const
+{
+	return QuickPresenterPrivate::currentPresenter()->inputViewFactory();
 }
 
 bool QQmlQuickPresenter::isViewLoading() const

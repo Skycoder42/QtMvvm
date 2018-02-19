@@ -10,6 +10,7 @@
 #include <QtMvvmCore/coreapp.h>
 
 #include "QtMvvmQuick/qtmvvmquick_global.h"
+#include "QtMvvmQuick/inputviewfactory.h"
 
 namespace QtMvvm {
 
@@ -18,6 +19,8 @@ class Q_MVVMQUICK_EXPORT QuickPresenter : public QObject, public IPresenter
 {
 	Q_OBJECT
 	Q_INTERFACES(QtMvvm::IPresenter)
+
+	Q_PROPERTY(InputViewFactory* inputViewFactory READ inputViewFactory WRITE setInputViewFactory NOTIFY inputViewFactoryChanged)
 
 public:
 	explicit QuickPresenter(QObject *parent = nullptr);
@@ -35,6 +38,14 @@ public:
 	void showDialog(const MessageConfig &config, MessageResult *result) override;
 
 	virtual bool presentToQml(QObject *qmlPresenter, QObject *viewObject);
+
+	InputViewFactory* inputViewFactory() const;
+
+public Q_SLOTS:
+	void setInputViewFactory(InputViewFactory* inputViewFactory);
+
+Q_SIGNALS:
+	void inputViewFactoryChanged(InputViewFactory* inputViewFactory);
 
 protected:
 	virtual QUrl findViewUrl(const QMetaObject *viewModelType);
