@@ -29,6 +29,12 @@ QML_FILES += \
 
 OTHER_FILES += qmldir
 
+android {
+	QT += androidextras
+	HEADERS += androidfilechooser.h
+	SOURCES += androidfilechooser.cpp
+}
+
 generate_qmltypes {
 	typeextra1.target = qmltypes
 	typeextra1.depends += export LD_LIBRARY_PATH := "$$shadowed($$dirname(_QMAKE_CONF_))/lib/:$$[QT_INSTALL_LIBS]:$(LD_LIBRARY_PATH)"

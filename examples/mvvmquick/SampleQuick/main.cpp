@@ -1,7 +1,9 @@
-#include <QApplication>
+#include <QtWidgets/QApplication>
 #include <QQmlApplicationEngine>
 #include <QtMvvmCore/ServiceRegistry>
 #include <QtMvvmQuick/QuickPresenter>
+#include <QtQuickControls2/QQuickStyle>
+#include <QtCore/QDebug>
 
 #include <quickextras.h>
 
@@ -23,6 +25,7 @@ int main(int argc, char *argv[])
 
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 	QApplication app(argc, argv);
+	qDebug() << QQuickStyle::availableStyles() << QQuickStyle::name();
 
 	qmlRegisterUncreatableType<SampleViewModel>("de.skycoder42.QtMvvm.Sample", 1, 0, "SampleViewModel", QStringLiteral("ViewModels cannot be created"));
 	qmlRegisterUncreatableType<ResultViewModel>("de.skycoder42.QtMvvm.Sample", 1, 0, "ResultViewModel", QStringLiteral("ViewModels cannot be created"));

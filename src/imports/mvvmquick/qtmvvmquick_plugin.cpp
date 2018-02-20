@@ -6,6 +6,9 @@
 
 #include "qqmlquickpresenter.h"
 #include "svgimageprovider.h"
+#ifdef Q_OS_ANDROID
+#include "androidfilechooser.h"
+#endif
 
 static void initResources()
 {
@@ -38,6 +41,10 @@ void QtMvvmQuickDeclarativeModule::registerTypes(const char *uri)
 
 	qmlRegisterType(QUrl(QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/qml/FileDialog.qml")), uri, 1, 0, "FileDialog");
 	qmlRegisterType(QUrl(QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/qml/FolderDialog.qml")), uri, 1, 0, "FolderDialog");
+
+#ifdef Q_OS_ANDROID
+	qmlRegisterType<QtMvvm::AndroidFileChooser>(uri, 1, 0, "FileChooser");
+#endif
 
 	// Check to make shure no module update is forgotten
 	static_assert(VERSION_MAJOR == 1 && VERSION_MINOR == 0, "QML module version needs to be updated");

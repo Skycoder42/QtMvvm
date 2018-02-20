@@ -6,24 +6,24 @@ TARGET = SampleWidgets
 
 HEADERS += \
 	widgetseventservice.h \
-    sampleview.h \
-    resultdialog.h
+	sampleview.h \
+	resultdialog.h
 
 SOURCES += \
 		main.cpp \
 	widgetseventservice.cpp \
-    sampleview.cpp \
-    resultdialog.cpp
+	sampleview.cpp \
+	resultdialog.cpp
 
 FORMS += \
-    sampleview.ui \
-    resultdialog.ui
+	sampleview.ui \
+	resultdialog.ui
 
 target.path = $$[QT_INSTALL_EXAMPLES]/mvvmwidgets/$$TARGET
 INSTALLS += target
 
 #not found by linker?
-unix:!mac {
+linux:!android {
 	LIBS += -L$$OUT_PWD/../../../lib #required to make this the first place to search
 	LIBS += -L$$[QT_INSTALL_LIBS] -licudata
 	LIBS += -L$$[QT_INSTALL_LIBS] -licui18n

@@ -13,7 +13,7 @@ target.path = $$[QT_INSTALL_EXAMPLES]/mvvmquick/$$TARGET
 INSTALLS += target
 
 #not found by linker?
-unix:!mac {
+linux:!android {
 	LIBS += -L$$OUT_PWD/../../../lib #required to make this the first place to search
 	LIBS += -L$$[QT_INSTALL_LIBS] -licudata
 	LIBS += -L$$[QT_INSTALL_LIBS] -licui18n

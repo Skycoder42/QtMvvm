@@ -15,19 +15,19 @@ Page {
 		title: qsTr("Sample")
 
 		moreMenu: Menu {
-			Action {
-				text: qsTr("Another &Input")
+			MenuItem {
+				text: qsTr("Another Input")
 				onTriggered: viewModel.getInput()
 			}
-			Action {
-				text: qsTr("Add &Files")
+			MenuItem {
+				text: qsTr("Add Files")
 				onTriggered: viewModel.getFiles()
 			}
 
 			MenuSeparator {}
 
-			Action {
-				text: qsTr("&About")
+			MenuItem {
+				text: qsTr("About")
 				onTriggered: viewModel.about()
 			}
 		}
