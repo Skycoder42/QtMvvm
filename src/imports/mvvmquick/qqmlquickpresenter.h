@@ -38,6 +38,7 @@ public:
 	bool isViewLoading() const;
 	qreal loadingProgress() const;
 
+	Q_INVOKABLE QStringList mimeTypeFilters(const QStringList &mimeTypes) const;
 
 Q_SIGNALS:
 	void qmlPresenterChanged(QObject* qmlPresenter);

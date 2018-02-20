@@ -126,6 +126,7 @@ public:
 
 	//USE IN GUI ONLY
 	//TODO USE IN GUI ONLY in doc
+	Q_INVOKABLE void setCloseTarget(QObject *closeObject, const QString &closeMethod);
 	Q_INVOKABLE void setCloseTarget(QObject *closeObject, const QMetaMethod &closeMethod);
 	Q_INVOKABLE void complete(QtMvvm::MessageConfig::StandardButton result);
 	Q_INVOKABLE inline void complete(QtMvvm::MessageConfig::StandardButton result, const QVariant &resultValue) {

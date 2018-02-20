@@ -5,4 +5,10 @@
         <file alias="ic_info.svg">icons/ic_info_white_24px.svg</file>
         <file alias="ic_warning.svg">icons/ic_warning_white_24px.svg</file>
     </qresource>
+    <qresource prefix="/de/skycoder42/qtmvvm/quick/qml">
+        <file>FileDialog.qml</file>
+        <file>FolderDialog.qml</file>
+        <file alias="+android/FileDialog.qml">AndroidFileDialog.qml</file>
+        <file alias="+android/FolderDialog.qml">AndroidFolderDialog.qml</file>
+    </qresource>
 </RCC>

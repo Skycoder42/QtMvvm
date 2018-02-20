@@ -74,6 +74,11 @@ Module {
         Method {
             name: "setCloseTarget"
             Parameter { name: "closeObject"; type: "QObject"; isPointer: true }
+            Parameter { name: "closeMethod"; type: "string" }
+        }
+        Method {
+            name: "setCloseTarget"
+            Parameter { name: "closeObject"; type: "QObject"; isPointer: true }
             Parameter { name: "closeMethod"; type: "QMetaMethod" }
         }
         Method {

@@ -1,6 +1,7 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
 import de.skycoder42.QtMvvm.Core 1.0
+import de.skycoder42.QtMvvm.Quick 1.0
 
 QtObject {
 	id: _dialogPresenter
@@ -8,13 +9,13 @@ QtObject {
 	property Item rootItem: null
 
 	function showDialog(config, result) {
-		if(config.type == "msgbox") {
-			createMsgBox(config, result)
-			return true;
-		} else if(config.type == "input") {
-			createInput(config, result)
-			return true;
-		} else
+		if(config.type == "msgbox")
+			return createMsgBox(config, result)
+		else if(config.type == "input")
+			return createInput(config, result)
+		else if(config.type == "file")
+			return createFile(config, result)
+		else
 			return false;
 	}
 
@@ -65,6 +66,44 @@ QtObject {
 		}
 	}
 
+	property Component _fileComponent: Component {
+		FileDialog {
+			id: __file
+
+			onClosed: {
+				var index = _popups.indexOf(__file);
+				if(index > -1) {
+					__file.destroy();
+					_dialogPresenter._popups.splice(index, 1);
+				}
+			}
+
+			Component.onCompleted: {
+				_popups.push(__file)
+				__file.open()
+			}
+		}
+	}
+
+	property Component _folderComponent: Component {
+		FolderDialog {
+			id: __folder
+
+			onClosed: {
+				var index = _popups.indexOf(__folder);
+				if(index > -1) {
+					__folder.destroy();
+					_dialogPresenter._popups.splice(index, 1);
+				}
+			}
+
+			Component.onCompleted: {
+				_popups.push(__folder)
+				__folder.open()
+			}
+		}
+	}
+
 	function createMsgBox(config, result) {
 		var props = config.viewProperties;
 		props["msgConfig"] = config;
@@ -78,6 +117,18 @@ QtObject {
 		props["msgConfig"] = config;
 		props["msgResult"] = result;
 		var incubator = _inputComponent.incubateObject(rootItem, props);
+		return incubator.status !== Component.Error;
+	}
+
+	function createFile(config, result) {
+		var props = config.viewProperties;
+		props["msgConfig"] = config;
+		props["msgResult"] = result;
+		var incubator = null;
+		if(config.subType == "folder")
+			incubator = _folderComponent.incubateObject(rootItem, props);
+		else
+			incubator = _fileComponent.incubateObject(rootItem, props);
 		return incubator.status !== Component.Error;
 	}
 }

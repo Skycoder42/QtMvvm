@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT  += core gui qml quick mvvmquick
+QT  += core gui qml quick mvvmquick widgets
 
 TARGET = SampleQuick
 

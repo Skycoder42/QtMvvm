@@ -107,4 +107,9 @@ Dialog {
 			msgResult = null;
 		}
 	}
+
+	Component.onCompleted: {
+		if(msgResult)
+			msgResult.setCloseTarget(_msgBoxBase, "reject()");
+	}
 }

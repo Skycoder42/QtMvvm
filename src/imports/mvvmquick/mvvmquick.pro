@@ -41,6 +41,7 @@ load(qml_plugin)
 
 generate_qmltypes {
 	qmltypes.depends = ../../../qml/$$TARGETPATH/$(TARGET)  #overwrite the target deps
+	qmltypes.commands += "2>/dev/null"  # kill invalid qml warnings
 
 	mfirst.target = all
 	mfirst.depends += qmltypes

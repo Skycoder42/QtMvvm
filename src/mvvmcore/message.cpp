@@ -1,6 +1,7 @@
 #include "message.h"
 #include "message_p.h"
 #include "coreapp.h"
+#include "qtmvvm_logging_p.h"
 
 #include <QtGui/QGuiApplication>
 
@@ -196,6 +197,19 @@ QVariant MessageResult::result() const
 bool MessageResult::autoDelete() const
 {
 	return d->autoDelete;
+}
+
+void MessageResult::setCloseTarget(QObject *closeObject, const QString &closeMethod)
+{
+	Q_ASSERT_X(closeObject, Q_FUNC_INFO, "closeObject must not be null");
+	auto mo = closeObject->metaObject();
+	auto mIndex = mo->indexOfMethod(qUtf8Printable(closeMethod));
+	if(mIndex != -1)
+		setCloseTarget(closeObject, mo->method(mIndex));
+	else {
+		logWarning() << "Object of type" << mo->className()
+					 << "has no method with signature:" << closeMethod;
+	}
 }
 
 void MessageResult::setCloseTarget(QObject *closeObject, const QMetaMethod &closeMethod)

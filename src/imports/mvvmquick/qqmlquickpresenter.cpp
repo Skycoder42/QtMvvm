@@ -42,6 +42,18 @@ qreal QQmlQuickPresenter::loadingProgress() const
 	return _latestComponent ? _latestComponent->progress() : -1.0;
 }
 
+QStringList QQmlQuickPresenter::mimeTypeFilters(const QStringList &mimeTypes) const
+{
+	QMimeDatabase db;
+	QStringList filters;
+	for(auto mime : mimeTypes) {
+		auto mType = db.mimeTypeForName(mime);
+		if(mType.isValid())
+			filters.append(mType.filterString());
+	}
+	return filters;
+}
+
 void QQmlQuickPresenter::present(ViewModel *viewModel, const QVariantHash &params, const QUrl &viewUrl, QPointer<ViewModel> parent)
 {
 	auto component = _componentCache.object(viewUrl);
