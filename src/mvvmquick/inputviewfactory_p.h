@@ -12,6 +12,7 @@ public:
 	InputViewFactoryPrivate();
 
 	QHash<QByteArray, QUrl> simpleViews;
+	QHash<QByteArray, QByteArray> aliases;
 };
 
 }

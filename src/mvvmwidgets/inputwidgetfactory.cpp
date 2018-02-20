@@ -24,6 +24,8 @@ InputWidgetFactory::~InputWidgetFactory() {}
 QWidget *InputWidgetFactory::createInput(const QByteArray &type, QWidget *parent, const QVariantMap &viewProperties)
 {
 	QWidget *widget = nullptr;
+	if(d->aliases.contains(type))
+		return createInput(d->aliases.value(type), parent, viewProperties);
 	if(d->simpleWidgets.contains(type))
 		widget = d->simpleWidgets.value(type)(parent);
 	else if(type == QMetaType::typeName(QMetaType::Bool))
@@ -78,8 +80,14 @@ void InputWidgetFactory::addSimpleWidget(const QByteArray &type, const std::func
 	d->simpleWidgets.insert(type, creator);
 }
 
+void InputWidgetFactory::addAlias(const QByteArray &alias, const QByteArray &targetType)
+{
+	d->aliases.insert(alias, targetType);
+}
+
 // ------------- Private Implementation -------------
 
 InputWidgetFactoryPrivate::InputWidgetFactoryPrivate() :
-	simpleWidgets()
+	simpleWidgets(),
+	aliases()
 {}

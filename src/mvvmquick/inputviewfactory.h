@@ -19,21 +19,30 @@ public:
 	InputViewFactory();
 	virtual ~InputViewFactory();
 
-	//virtual int metaTypeId(const QByteArray &type, const QVariantMap &properties);
 	Q_INVOKABLE virtual QUrl getInputUrl(const QByteArray &type, const QVariantMap &viewProperties);
 
-	Q_INVOKABLE virtual bool addSimpleView(const QByteArray &type, const QUrl &qmlFileUrl);
-	template <typename T>
-	bool addSimpleView(const QUrl &qmlFileUrl);
+	Q_INVOKABLE virtual void addSimpleView(const QByteArray &type, const QUrl &qmlFileUrl);
+	template <typename TType>
+	inline void addSimpleView(const QUrl &qmlFileUrl);
+
+	Q_INVOKABLE virtual void addAlias(const QByteArray &alias, const QByteArray &targetType);
+	template <typename TAliasType, typename TTargetType>
+	inline void addAlias();
 
 private:
 	QScopedPointer<InputViewFactoryPrivate> d;
 };
 
-template<typename T>
-bool InputViewFactory::addSimpleView(const QUrl &qmlFileUrl)
+template<typename TType>
+inline void InputViewFactory::addSimpleView(const QUrl &qmlFileUrl)
 {
-	return addSimpleView(QMetaType::typeName(qMetaTypeId<T>()), qmlFileUrl);
+	addSimpleView(QMetaType::typeName(qMetaTypeId<TType>()), qmlFileUrl);
+}
+
+template<typename TAliasType, typename TTargetType>
+inline void InputViewFactory::addAlias()
+{
+	addAlias(QMetaType::typeName(qMetaTypeId<TAliasType>()), QMetaType::typeName(qMetaTypeId<TTargetType>()));
 }
 
 }

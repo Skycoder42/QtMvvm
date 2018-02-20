@@ -7,5 +7,6 @@
         <file>DoubleSpinBox.qml</file>
         <file>FontEdit.qml</file>
         <file>UrlField.qml</file>
+        <file>Switch.qml</file>
     </qresource>
 </RCC>

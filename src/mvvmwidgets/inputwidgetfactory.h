@@ -22,18 +22,28 @@ public:
 
 	virtual void addSimpleWidget(const QByteArray &type, const std::function<QWidget*(QWidget*)> &creator);
 	template <typename TType, typename TWidget>
-	void addSimpleWidget();
+	inline void addSimpleWidget();
+
+	virtual void addAlias(const QByteArray &alias, const QByteArray &targetType);
+	template <typename TAliasType, typename TTargetType>
+	inline void addAlias();
 
 private:
 	QScopedPointer<InputWidgetFactoryPrivate> d;
 };
 
 template<typename TType, typename TWidget>
-void InputWidgetFactory::addSimpleWidget()
+inline void InputWidgetFactory::addSimpleWidget()
 {
 	addSimpleWidget(QMetaType::typeName(qMetaTypeId<TType>()), [](QWidget *parent){
 		return new TWidget(parent);
 	});
+}
+
+template<typename TAliasType, typename TTargetType>
+inline void InputWidgetFactory::addAlias()
+{
+	addAlias(QMetaType::typeName(qMetaTypeId<TAliasType>()), QMetaType::typeName(qMetaTypeId<TTargetType>()));
 }
 
 }

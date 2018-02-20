@@ -38,23 +38,17 @@ InputViewFactory::InputViewFactory() :
 
 InputViewFactory::~InputViewFactory() {}
 
-//int InputViewFactory::metaTypeId(const QByteArray &type, const QVariantMap &properties)
-//{
-//	if(type == "string")
-//		return QMetaType::QString;
-//	else if(type == "list")
-//		return metaTypeId(properties.value(QStringLiteral("_list_data"), QByteArray("string")).toByteArray(), properties);
-//	else
-//		return QMetaType::type(type);
-//}
-
 QUrl InputViewFactory::getInputUrl(const QByteArray &type, const QVariantMap &viewProperties)
 {
 	Q_UNUSED(viewProperties)
+	if(d->aliases.contains(type))
+		return getInputUrl(d->aliases.value(type), viewProperties);
 	if(d->simpleViews.contains(type))
 		return d->simpleViews.value(type);
 	else if(type == QMetaType::typeName(QMetaType::Bool))
 		return QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/inputs/CheckBox.qml");
+	else if(type == "switch")
+		return QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/inputs/Switch.qml");
 	else if(type == QMetaType::typeName(QMetaType::QString) || type == "string")
 		return QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/inputs/TextField.qml");
 	else if(type == QMetaType::typeName(QMetaType::Int))
@@ -79,15 +73,20 @@ QUrl InputViewFactory::getInputUrl(const QByteArray &type, const QVariantMap &vi
 	}
 }
 
-bool InputViewFactory::addSimpleView(const QByteArray &type, const QUrl &qmlFileUrl)
+void InputViewFactory::addSimpleView(const QByteArray &type, const QUrl &qmlFileUrl)
 {
 	d->simpleViews.insert(type, qmlFileUrl);
-	return true;
+}
+
+void InputViewFactory::addAlias(const QByteArray &alias, const QByteArray &targetType)
+{
+	d->aliases.insert(alias, targetType);
 }
 
 // ------------- Private Implementation -------------
 
 InputViewFactoryPrivate::InputViewFactoryPrivate() :
-	simpleViews()
+	simpleViews(),
+	aliases()
 {}
 
