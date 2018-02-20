@@ -1,17 +1,20 @@
 TARGET = QtMvvmQuick
 
-QT = core gui widgets mvvmcore mvvmcore-private
+QT = core gui qml quick mvvmcore mvvmcore-private
 
 HEADERS += \
 	qtmvvmquick_global.h \
 	quickpresenter.h \
 	quickpresenter_p.h \
-    inputviewfactory.h \
-    inputviewfactory_p.h
+	inputviewfactory.h \
+	inputviewfactory_p.h
 
 SOURCES += \
 	quickpresenter.cpp \
-    inputviewfactory.cpp
+	inputviewfactory.cpp
+
+RESOURCES += \
+	qtmvvmquick_module.qrc
 
 TRANSLATIONS += \
 	translations/qtmvvmquick_de.ts \
@@ -39,5 +42,4 @@ else: include($$OUT_PWD/qpmx_generated.pri)
 qpmx_ts_target.files -= $$OUT_PWD/$$QPMX_WORKINGDIR/qtmvvmquick_template.qm
 qpmx_ts_target.files += translations/qtmvvmquick_template.ts
 
-RESOURCES += \
-    qtmvvmquick_module.qrc
+mingw: LIBS_PRIVATE += -lQt5Gui -lQt5Core

@@ -4,7 +4,9 @@ classname QtMvvmQuickDeclarativeModule
 typeinfo plugins.qmltypes
 
 internal TintIcon TintIcon.qml
+internal MsgBoxBase MsgBoxBase.qml
 internal MsgBox MsgBox.qml
+internal InputDialog InputDialog.qml
 
 PresenterProgress 1.0 PresenterProgress.qml
 PresentingStackView 1.0 PresentingStackView.qml

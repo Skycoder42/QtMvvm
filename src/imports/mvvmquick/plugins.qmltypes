@@ -9,6 +9,17 @@ import QtQuick.tooling 1.2
 Module {
     dependencies: ["QtQuick 2.8"]
     Component {
+        name: "QUrlValidator"
+        prototype: "QValidator"
+        exports: ["de.skycoder42.QtMvvm.Quick.Private/UrlValidator 1.0"]
+        exportMetaObjectRevisions: [0]
+        Property { name: "allowedSchemes"; type: "QStringList" }
+        Method {
+            name: "setAllowedSchemes"
+            Parameter { name: "allowedSchemes"; type: "QStringList" }
+        }
+    }
+    Component {
         name: "QtMvvm::InputViewFactory"
         prototype: "QObject"
         exports: ["de.skycoder42.QtMvvm.Quick/InputViewFactory 1.0"]

@@ -221,6 +221,7 @@ void WidgetsPresenter::presentMessageBox(const MessageConfig &config, QPointer<M
 		qtHelp = config.viewProperties().value(QStringLiteral("showQtHelp"), qtHelp).toBool();//TODO document too
 	}
 
+	info.escapeButton = QMessageBox::NoButton; //use no button for non button closes
 	info.title = config.title();
 	info.text = config.text();
 	info.buttons = static_cast<QMessageBox::StandardButtons>(static_cast<int>(config.buttons())); //is ok, as the buttons are the same

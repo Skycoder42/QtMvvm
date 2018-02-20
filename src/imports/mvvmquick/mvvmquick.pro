@@ -23,7 +23,9 @@ QML_FILES += \
 	PopupPresenter.qml \
 	DialogPresenter.qml \
 	TintIcon.qml \
-	MsgBox.qml
+	MsgBoxBase.qml \
+	MsgBox.qml \
+	InputDialog.qml
 
 OTHER_FILES += qmldir
 

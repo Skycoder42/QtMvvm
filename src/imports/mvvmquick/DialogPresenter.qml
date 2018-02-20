@@ -11,6 +11,9 @@ QtObject {
 		if(config.type == "msgbox") {
 			createMsgBox(config, result)
 			return true;
+		} else if(config.type == "input") {
+			createInput(config, result)
+			return true;
 		} else
 			return false;
 	}
@@ -43,11 +46,38 @@ QtObject {
 		}
 	}
 
+	property Component _inputComponent: Component {
+		InputDialog {
+			id: __input
+
+			onClosed: {
+				var index = _popups.indexOf(__input);
+				if(index > -1) {
+					__input.destroy();
+					_dialogPresenter._popups.splice(index, 1);
+				}
+			}
+
+			Component.onCompleted: {
+				_popups.push(__input)
+				__input.open()
+			}
+		}
+	}
+
 	function createMsgBox(config, result) {
 		var props = config.viewProperties;
 		props["msgConfig"] = config;
 		props["msgResult"] = result;
 		var incubator = _msgBoxComponent.incubateObject(rootItem, props);
+		return incubator.status !== Component.Error;
+	}
+
+	function createInput(config, result) {
+		var props = config.viewProperties;
+		props["msgConfig"] = config;
+		props["msgResult"] = result;
+		var incubator = _inputComponent.incubateObject(rootItem, props);
 		return incubator.status !== Component.Error;
 	}
 }

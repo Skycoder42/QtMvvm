@@ -6,5 +6,6 @@
         <file>CheckBox.qml</file>
         <file>DoubleSpinBox.qml</file>
         <file>FontEdit.qml</file>
+        <file>UrlField.qml</file>
     </qresource>
 </RCC>

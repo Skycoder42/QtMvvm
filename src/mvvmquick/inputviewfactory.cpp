@@ -1,17 +1,33 @@
 #include "inputviewfactory.h"
 #include "inputviewfactory_p.h"
 
+#include <QtCore/QCoreApplication>
 #include <QtCore/QMetaType>
 
+#include <QtQml/qqml.h>
+
 #include <QtMvvmCore/private/qtmvvm_logging_p.h>
+
+#include <qurlvalidator.h>
 using namespace QtMvvm;
 
-static void initResources()
+namespace {
+
+void initPrivateQml()
+{
+	qmlRegisterType<QUrlValidator>("de.skycoder42.QtMvvm.Quick.Private", 1, 0, "UrlValidator");
+}
+
+void initResources()
 {
 #ifdef QT_STATIC
+	initPrivateQml();
 	Q_INIT_RESOURCE(qtmvvmquick_module);
 #endif
 }
+
+}
+Q_COREAPP_STARTUP_FUNCTION(initPrivateQml)
 
 InputViewFactory::InputViewFactory() :
 	QObject(nullptr),
@@ -53,8 +69,8 @@ QUrl InputViewFactory::getInputUrl(const QByteArray &type, const QVariantMap &vi
 //		return QUrl();
 	else if(type == QMetaType::typeName(QMetaType::QFont))
 		return QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/inputs/FontEdit.qml");
-//	else if(type == QMetaType::typeName(QMetaType::QUrl) || type == "url")
-//		return QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/inputs/UrlField.qml");
+	else if(type == QMetaType::typeName(QMetaType::QUrl) || type == "url")
+		return QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/inputs/UrlField.qml");
 	else if(type == "selection" || type == "list")
 		return QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/inputs/ListEdit.qml");
 	else {
