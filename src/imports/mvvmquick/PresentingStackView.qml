@@ -7,24 +7,20 @@ StackView {
 	property int animDuration: 150
 	property int opDuration: 75
 
+	property var _clearItems: []
+
 	function presentItem(item) {
 		if(item.presentAsRoot) { //TODO document
-			if(push(item))
+			if(safeReplace(null, item))
 				return true;
 			else
 				return false;
 		} else {
-			if(replace(null, item))
+			if(push(item))
 				return true;
 			else
 				return false;
 		}
-	}
-
-	function safePop(item, operation) {
-		var resItem = pop(item, operation)
-		if(resItem)
-			resItem.destroy();
 	}
 
 	function closeAction() {
@@ -41,6 +37,37 @@ StackView {
 			else
 				return false;
 		}
+	}
+
+	function safePop(item, operation) {
+		var resItem = pop(item, operation)
+		if(resItem) {
+			_clearItems.push(resItem);
+			return true;
+		} else
+			return false;
+	}
+
+	function safeReplace(target, item, properties, operation) {
+		var items = [];
+		console.log("current depth: ", depth)
+		for(var i = depth -1; i >= 0; i--) {
+			var cItem = get(i, StackView.ForceLoad);
+			_clearItems.push(cItem);
+			if(cItem === target)
+				break;
+		}
+		if(replace(target, item, properties, operation))
+			return true;
+		else
+			return false;
+	}
+
+	function clearWaitingItems() {
+		_clearItems.forEach(function(item) {
+			item.destroy();
+		});
+		_clearItems = [];
 	}
 
 	//TODO only for android? maybe move to second class?
@@ -62,6 +89,11 @@ StackView {
 	pushExit: Transition {
 		PauseAnimation {
 			duration: _presenterStack.animDuration
+		}
+
+		onRunningChanged: {
+			if(!running)
+				Qt.callLater(clearWaitingItems)
 		}
 	}
 	popEnter: Transition {
@@ -89,5 +121,12 @@ StackView {
 				duration: _presenterStack.opDuration
 			}
 		}
+
+		onRunningChanged: {
+			if(!running)
+				Qt.callLater(clearWaitingItems)
+		}
 	}
+	replaceEnter: pushEnter
+	replaceExit: pushExit
 }

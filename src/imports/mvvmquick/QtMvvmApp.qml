@@ -9,6 +9,7 @@ ApplicationWindow {
 	height: 520
 
 	readonly property alias drawer: _drawerLoader.item
+	property bool rootOnlyDrawer: true
 
 	PresenterProgress {
 		id: _rootProgress
@@ -26,6 +27,8 @@ ApplicationWindow {
 		asynchronous: false
 		sourceComponent: PresentingDrawer {
 			id: _rootDrawer
+
+			interactive: !_root.rootOnlyDrawer || _rootStack.depth == 1
 		}
 	}
 
@@ -42,8 +45,7 @@ ApplicationWindow {
 	function presentDrawerContent(item) {
 		if(!_drawerLoader.item)
 			_drawerLoader.active = true;
-		_drawerLoader.item.presentDrawerContent(item);
-		return false
+		return _drawerLoader.item.presentDrawerContent(item);
 	}
 
 	function presentItem(item) {

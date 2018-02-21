@@ -19,7 +19,8 @@ Drawer {
 	function presentDrawerContent(item) {
 		if(_mainChild)
 			_mainChild.destroy();
-		item.parent = _presentingDrawer; //TODO test
+		item.parent = _presentingDrawer.contentItem; //TODO test
+		item.drawer = _presentingDrawer;
 		_mainChild = item;
 		return true;
 	}

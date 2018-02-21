@@ -9,6 +9,7 @@ import de.skycoder42.QtMvvm.Sample 1.0
 Page {
 	id: sampleView
 	property SampleViewModel viewModel: null
+	readonly property bool presentAsRoot: true
 
 	header: ActionBar {
 		showMenuButton: true
@@ -17,6 +18,13 @@ Page {
 		onMenuButtonClicked: QuickPresenter.toggleDrawer()
 
 		moreMenu: Menu {
+			MenuItem {
+				text: qsTr("Show Tabs")
+				onTriggered: viewModel.showTabs()
+			}
+
+			MenuSeparator {}
+
 			MenuItem {
 				text: qsTr("Another Input")
 				onTriggered: viewModel.getInput()

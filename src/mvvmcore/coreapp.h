@@ -39,6 +39,9 @@ public:
 public Q_SLOTS:
 	void bootApp();
 
+Q_SIGNALS:
+	void appStarted();
+
 protected:
 	virtual void performRegistrations();
 	virtual int startApp(const QStringList &arguments) = 0;
@@ -69,6 +72,6 @@ inline void CoreApp::show(const QVariantHash &params)
 	} \
 	Q_COREAPP_STARTUP_FUNCTION(_setup_ ## T ## _hook)
 
-#define coreApp CoreApp::instance()
+#define coreApp QtMvvm::CoreApp::instance()
 
 #endif // QTMVVM_COREAPP_H

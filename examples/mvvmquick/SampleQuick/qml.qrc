@@ -5,5 +5,7 @@
     <qresource prefix="/qtmvvm/views">
         <file>SampleView.qml</file>
         <file>ResultView.qml</file>
+        <file>DrawerView.qml</file>
+        <file>TabView.qml</file>
     </qresource>
 </RCC>

@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QtMvvmCore/Messages>
 #include "resultviewmodel.h"
+#include "tabviewmodel.h"
 
 const QString SampleViewModel::KeyActive = QStringLiteral("active");
 const QString SampleViewModel::KeyNames = QStringLiteral("names");
@@ -62,6 +63,11 @@ void SampleViewModel::setActive(bool active)
 			_eventService->removeEvent(_eventId);
 	}
 	emit activeChanged(_active);
+}
+
+void SampleViewModel::showTabs()
+{
+	show<TabViewModel>();
 }
 
 void SampleViewModel::getInput()

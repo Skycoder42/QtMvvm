@@ -11,6 +11,7 @@ class ResultViewModel : public QtMvvm::ViewModel
 
 public:
 	Q_INVOKABLE explicit ResultViewModel(QObject *parent = nullptr);
+	~ResultViewModel();
 
 	QString result() const;
 

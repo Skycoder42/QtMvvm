@@ -5,6 +5,11 @@ ResultViewModel::ResultViewModel(QObject *parent) :
 	_result()
 {}
 
+ResultViewModel::~ResultViewModel()
+{
+	qInfo(Q_FUNC_INFO);
+}
+
 QString ResultViewModel::result() const
 {
 	return _result;

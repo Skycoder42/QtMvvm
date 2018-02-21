@@ -32,6 +32,7 @@ public Q_SLOTS:
 	void setName(QString name);
 	void setActive(bool active);
 
+	void showTabs();
 	void getInput();
 	void getFiles();
 	void getResult();
