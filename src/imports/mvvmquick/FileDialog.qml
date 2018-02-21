@@ -9,7 +9,7 @@ Labs.FileDialog {
 
 	property var msgConfig
 	property MessageResult msgResult
-	property var mimeTypes: []
+	property var mimeTypes
 
 	signal closed()
 
@@ -27,7 +27,7 @@ Labs.FileDialog {
 			return Labs.FileDialog.OpenFile; //fallback
 		}
 	}
-	nameFilters: QuickPresenter.mimeTypeFilters(mimeTypes)
+	nameFilters: QuickPresenter.mimeTypeFilters(mimeTypes ? mimeTypes : msgConfig.viewProperties["mimeTypes"])
 
 	Component.onCompleted: {
 		if(msgResult)

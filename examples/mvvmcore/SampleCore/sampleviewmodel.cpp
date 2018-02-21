@@ -79,7 +79,7 @@ void SampleViewModel::getFiles()
 	QtMvvm::getOpenFiles(this, [this](QList<QUrl> urls) {
 		for(auto url : urls)
 			addEvent(url.toString());
-	});
+	}, tr("Open Files:"), {QStringLiteral("text/plain"), QStringLiteral("application/pdf")});
 }
 
 void SampleViewModel::getResult()

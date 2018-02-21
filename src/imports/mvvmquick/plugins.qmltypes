@@ -85,6 +85,7 @@ Module {
         defaultProperty: "data"
         Property { name: "msgConfig"; type: "QVariant" }
         Property { name: "msgResult"; type: "QtMvvm::MessageResult"; isPointer: true }
+        Property { name: "mimeTypes"; type: "QVariant" }
         Signal { name: "closed" }
         Property { name: "fileMode"; type: "FileMode" }
         Property { name: "file"; type: "QUrl" }
