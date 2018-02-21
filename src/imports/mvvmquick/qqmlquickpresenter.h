@@ -40,6 +40,9 @@ public:
 
 	Q_INVOKABLE QStringList mimeTypeFilters(const QStringList &mimeTypes) const;
 
+public Q_SLOTS:
+	void toggleDrawer();
+
 Q_SIGNALS:
 	void qmlPresenterChanged(QObject* qmlPresenter);
 	void viewLoadingChanged(bool viewLoading);

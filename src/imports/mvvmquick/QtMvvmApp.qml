@@ -8,6 +8,8 @@ ApplicationWindow {
 	width: 360
 	height: 520
 
+	readonly property alias drawer: _drawerLoader.item
+
 	PresenterProgress {
 		id: _rootProgress
 		z: _rootStack.empty ? 10 : -10
@@ -16,6 +18,15 @@ ApplicationWindow {
 	PresentingStackView {
 		id: _rootStack
 		anchors.fill: parent
+	}
+
+	Loader {
+		id: _drawerLoader
+		active: false
+		asynchronous: false
+		sourceComponent: PresentingDrawer {
+			id: _rootDrawer
+		}
 	}
 
 	PopupPresenter {
@@ -29,6 +40,9 @@ ApplicationWindow {
 	}
 
 	function presentDrawerContent(item) {
+		if(!_drawerLoader.item)
+			_drawerLoader.active = true;
+		_drawerLoader.item.presentDrawerContent(item);
 		return false
 	}
 
@@ -44,11 +58,20 @@ ApplicationWindow {
 		return _rootDialogs.showDialog(config, result);
 	}
 
+	function toggleDrawer() {
+		if(_drawerLoader.item)
+			_drawerLoader.item.toggle();
+		else
+			console.warn("No drawer like view active. Cannot toggle drawer");
+	}
+
 	Component.onCompleted: QuickPresenter.qmlPresenter = _root
 
 	onClosing: {
 		var closed = false;
 
+		if(!closed && _drawerLoader.item)
+			closed = _drawerLoader.item.closeAction();
 		if(!closed)
 			closed = _rootDialogs.closeAction();
 		if(!closed)

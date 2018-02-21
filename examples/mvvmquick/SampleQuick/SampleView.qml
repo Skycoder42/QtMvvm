@@ -11,8 +11,10 @@ Page {
 	property SampleViewModel viewModel: null
 
 	header: ActionBar {
-		showMenuButton: false
+		showMenuButton: true
 		title: qsTr("Sample")
+
+		onMenuButtonClicked: QuickPresenter.toggleDrawer()
 
 		moreMenu: Menu {
 			MenuItem {

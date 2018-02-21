@@ -28,79 +28,71 @@ QtObject {
 	}
 
 	property var _popups: []
-	property Component _msgBoxComponent: Component {
-		MsgBox {
-			id: __msgBox
+	property Component _msgBoxComponent: MsgBox {
+		id: __msgBox
 
-			onClosed: {
-				var index = _popups.indexOf(__msgBox);
-				if(index > -1) {
-					__msgBox.destroy();
-					_dialogPresenter._popups.splice(index, 1);
-				}
+		onClosed: {
+			var index = _popups.indexOf(__msgBox);
+			if(index > -1) {
+				__msgBox.destroy();
+				_dialogPresenter._popups.splice(index, 1);
 			}
+		}
 
-			Component.onCompleted: {
-				_popups.push(__msgBox)
-				__msgBox.open()
-			}
+		Component.onCompleted: {
+			_popups.push(__msgBox)
+			__msgBox.open()
 		}
 	}
 
-	property Component _inputComponent: Component {
-		InputDialog {
-			id: __input
+	property Component _inputComponent: InputDialog {
+		id: __input
 
-			onClosed: {
-				var index = _popups.indexOf(__input);
-				if(index > -1) {
-					__input.destroy();
-					_dialogPresenter._popups.splice(index, 1);
-				}
+		onClosed: {
+			var index = _popups.indexOf(__input);
+			if(index > -1) {
+				__input.destroy();
+				_dialogPresenter._popups.splice(index, 1);
 			}
+		}
 
-			Component.onCompleted: {
-				_popups.push(__input)
-				__input.open()
-			}
+		Component.onCompleted: {
+			_popups.push(__input)
+			__input.open()
 		}
 	}
 
-	property Component _fileComponent: Component {
-		FileDialog {
-			id: __file
+	property Component _fileComponent: FileDialog {
+		id: __file
 
-			onClosed: {
-				var index = _popups.indexOf(__file);
-				if(index > -1) {
-					__file.destroy();
-					_dialogPresenter._popups.splice(index, 1);
-				}
+		onClosed: {
+			var index = _popups.indexOf(__file);
+			if(index > -1) {
+				__file.destroy();
+				_dialogPresenter._popups.splice(index, 1);
 			}
+		}
 
-			Component.onCompleted: {
-				_popups.push(__file)
-				__file.open()
-			}
+		Component.onCompleted: {
+			_popups.push(__file)
+			__file.open()
 		}
 	}
 
-	property Component _folderComponent: Component {
-		FolderDialog {
-			id: __folder
+	property Component _folderComponent: FolderDialog {
+		id: __folder
 
-			onClosed: {
-				var index = _popups.indexOf(__folder);
-				if(index > -1) {
-					__folder.destroy();
-					_dialogPresenter._popups.splice(index, 1);
-				}
+		onClosed: {
+			var index = _popups.indexOf(__folder);
+			if(index > -1) {
+				__folder.destroy();
+				_dialogPresenter._popups.splice(index, 1);
 			}
+		}
 
-			Component.onCompleted: {
-				_popups.push(__folder)
-				__folder.open()
-			}
+		Component.onCompleted: {
+			_popups.push(__folder)
+			__folder.open()
 		}
 	}
 

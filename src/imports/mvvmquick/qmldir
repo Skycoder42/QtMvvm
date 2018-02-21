@@ -12,5 +12,6 @@ PresenterProgress 1.0 PresenterProgress.qml
 PresentingStackView 1.0 PresentingStackView.qml
 PopupPresenter 1.0 PopupPresenter.qml
 DialogPresenter 1.0 DialogPresenter.qml
+PresentingDrawer 1.0 PresentingDrawer.qml
 
 QtMvvmApp 1.0 QtMvvmApp.qml

@@ -25,7 +25,11 @@ QML_FILES += \
 	TintIcon.qml \
 	MsgBoxBase.qml \
 	MsgBox.qml \
-	InputDialog.qml
+	InputDialog.qml \
+	PresentingDrawer.qml
+
+RESOURCES += \
+	qtmvvmquick_plugin.qrc
 
 OTHER_FILES += qmldir
 
@@ -53,6 +57,3 @@ generate_qmltypes {
 	mfirst.depends += qmltypes
 	QMAKE_EXTRA_TARGETS += mfirst
 }
-
-RESOURCES += \
-	qtmvvmquick_plugin.qrc

@@ -54,6 +54,16 @@ QStringList QQmlQuickPresenter::mimeTypeFilters(const QStringList &mimeTypes) co
 	return filters;
 }
 
+void QQmlQuickPresenter::toggleDrawer()
+{
+	if(!_qmlPresenter) {
+		qmlWarning(this).space() << "No QML-Presenter registered! Unable to toggle drawer";
+		return;
+	}
+
+	QMetaObject::invokeMethod(_qmlPresenter, "toggleDrawer");
+}
+
 void QQmlQuickPresenter::present(ViewModel *viewModel, const QVariantHash &params, const QUrl &viewUrl, QPointer<ViewModel> parent)
 {
 	auto component = _componentCache.object(viewUrl);

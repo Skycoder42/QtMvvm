@@ -70,6 +70,7 @@ Module {
             name: "inputViewFactoryChanged"
             Parameter { name: "inputViewFactory"; type: "InputViewFactory"; isPointer: true }
         }
+        Method { name: "toggleDrawer" }
         Method {
             name: "mimeTypeFilters"
             type: "QStringList"

@@ -8,10 +8,17 @@ StackView {
 	property int opDuration: 75
 
 	function presentItem(item) {
-		if(push(item))
-			return true;
-		else
-			return false;
+		if(item.presentAsRoot) { //TODO document
+			if(push(item))
+				return true;
+			else
+				return false;
+		} else {
+			if(replace(null, item))
+				return true;
+			else
+				return false;
+		}
 	}
 
 	function safePop(item, operation) {
