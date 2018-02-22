@@ -17,4 +17,7 @@ public:
 
 }
 
+#define QtMvvm_IPresentingViewIid "de.skycoder42.qtmvvm.widgets.IPresentingView"
+Q_DECLARE_INTERFACE(QtMvvm::IPresentingView, QtMvvm_IPresentingViewIid)
+
 #endif // QTMVVM_IPRESENTINGVIEW_H

@@ -77,6 +77,10 @@ template<typename TView>
 void WidgetsPresenter::registerView()
 {
 	static_assert(std::is_base_of<QWidget, TView>::value, "TWidget must inherit QWidget!");
+	if(false) { //compile time check for the constructor
+		Q_UNREACHABLE();
+		Q_UNUSED(new TView(static_cast<ViewModel*>(nullptr), static_cast<QWidget*>(nullptr)))
+	}
 	registerView(&TView::staticMetaObject);
 }
 
@@ -85,6 +89,10 @@ void WidgetsPresenter::registerViewExplicitly()
 {
 	static_assert(std::is_base_of<QWidget, TView>::value, "TWidget must inherit QWidget!");
 	static_assert(std::is_base_of<ViewModel, TViewModel>::value, "TViewModel must inherit ViewModel!");
+	if(false) { //compile time check for the constructor
+		Q_UNREACHABLE();
+		Q_UNUSED(new TView(static_cast<ViewModel*>(nullptr), static_cast<QWidget*>(nullptr)))
+	}
 	registerViewExplicitly(&TViewModel::staticMetaObject, &TView::staticMetaObject);
 }
 

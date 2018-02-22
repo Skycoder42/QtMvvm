@@ -103,6 +103,7 @@ QUrl QuickPresenter::findViewUrl(const QMetaObject *viewModelType)
 				while(iterator.hasNext()) {
 					iterator.next();
 					if(iterator.fileName().size() < shortest) {
+						shortest = iterator.fileName().size();
 						if(dir.startsWith(QStringLiteral(":"))) {
 							resUrl.clear();
 							resUrl.setScheme(QStringLiteral("qrc"));

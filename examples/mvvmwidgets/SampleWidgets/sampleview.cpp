@@ -28,6 +28,8 @@ SampleView::SampleView(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 			_viewModel, &SampleViewModel::getInput);
 	connect(ui->actionAdd_Files, &QAction::triggered,
 			_viewModel, &SampleViewModel::getFiles);
+	connect(ui->actionShow_Tabs, &QAction::triggered,
+			_viewModel, &SampleViewModel::showTabs);
 }
 
 SampleView::~SampleView()

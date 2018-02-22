@@ -121,11 +121,18 @@ const QMetaObject *WidgetsPresenter::findWidgetMetaObject(const QMetaObject *vie
 			auto lIndex = cName.lastIndexOf("ViewModel");
 			if(lIndex > 0)
 				cName.truncate(lIndex);
+
+			auto shortest = std::numeric_limits<int>::max();
+			const QMetaObject *res = nullptr;
 			for(auto metaObject : d->implicitMappings) {
 				QByteArray vName = metaObject->className();
-				if(vName.startsWith(cName))
-					return metaObject;
+				if(vName.startsWith(cName) && vName.size() < shortest) {
+					shortest = vName.size();
+					res = metaObject;
+				}
 			}
+			if(res)
+				return res;
 		}
 
 		currentMeta = currentMeta->superClass();
