@@ -66,9 +66,7 @@ void WidgetsPresenter::present(ViewModel *viewModel, const QVariantHash &params,
 
 	// initialize viewmodel and view relationship
 	viewModel->setParent(view);
-	auto hasCycle = setupLifeCycle(viewModel, view);
-	if(!hasCycle)
-		view->setAttribute(Qt::WA_DeleteOnClose);
+	view->setAttribute(Qt::WA_DeleteOnClose);
 	viewModel->onInit(params);
 
 	// present the view
@@ -185,14 +183,6 @@ bool WidgetsPresenter::tryPresent(QWidget *view, QWidget *parentView)
 	//none of the special cases -> simply "show" it
 	showForeground(view);
 	return true;
-}
-
-bool WidgetsPresenter::setupLifeCycle(ViewModel *viewModel, QWidget *view)
-{
-	//TODO implement as soon as quick part is ready as well
-	Q_UNUSED(viewModel)
-	Q_UNUSED(view)
-	return false;
 }
 
 void WidgetsPresenter::showForeground(QWidget *view) const

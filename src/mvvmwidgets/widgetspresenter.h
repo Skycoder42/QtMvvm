@@ -51,7 +51,6 @@ Q_SIGNALS:
 protected:
 	virtual const QMetaObject *findWidgetMetaObject(const QMetaObject *viewModelMetaObject);
 	virtual bool tryPresent(QWidget *view, QWidget *parentView);
-	virtual bool setupLifeCycle(ViewModel *viewModel, QWidget *view);
 
 	virtual void showForeground(QWidget *view) const;
 

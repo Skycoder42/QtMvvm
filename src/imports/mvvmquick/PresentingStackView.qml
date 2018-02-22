@@ -72,7 +72,6 @@ StackView {
 		_clearItems = [];
 	}
 
-	//TODO only for android? maybe move to second class?
 	pushEnter: Transition {
 		PropertyAnimation {
 			property: "y"

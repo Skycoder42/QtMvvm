@@ -92,8 +92,8 @@ void QQmlQuickPresenter::present(ViewModel *viewModel, const QVariantHash &param
 void QQmlQuickPresenter::showDialog(const MessageConfig &config, MessageResult *result)
 {
 	if(!_qmlPresenter) {
-		qmlWarning(this).space() << "No QML-Presenter registered! Unable to present dialog of type" //TODO use via define EVERYWHERE!!!
-						 << config.type();
+		qmlWarning(this).space() << "No QML-Presenter registered! Unable to present dialog of type"
+								 << config.type();
 		return;
 	}
 
@@ -104,7 +104,7 @@ void QQmlQuickPresenter::showDialog(const MessageConfig &config, MessageResult *
 							  Q_ARG(QVariant, QVariant::fromValue(result)));
 	if(!res.toBool()) {
 		qmlWarning(this).space() << "Failed to present dialog of type"
-						 << config.type();
+								 << config.type();
 	}
 }
 
@@ -143,7 +143,7 @@ void QQmlQuickPresenter::addObject(QQmlComponent *component, ViewModel *viewMode
 {
 	if(!_qmlPresenter) {
 		qmlWarning(this).space() << "No QML-Presenter registered! Unable to present viewModel of type"
-						 << viewModel->metaObject()->className();
+								 << viewModel->metaObject()->className();
 		return;
 	}
 
@@ -151,7 +151,7 @@ void QQmlQuickPresenter::addObject(QQmlComponent *component, ViewModel *viewMode
 	auto item = component->beginCreate(_engine->rootContext());
 	if(!item) {
 		qmlWarning(this).space() << "Unable to create quick view from the loaded component"
-						 << component->url();
+								 << component->url();
 		return;
 	}
 	item->setProperty("viewModel", QVariant::fromValue(viewModel));
@@ -171,7 +171,7 @@ void QQmlQuickPresenter::addObject(QQmlComponent *component, ViewModel *viewMode
 			QQmlEngine::setObjectOwnership(item, QQmlEngine::JavaScriptOwnership);
 	} else {
 		qmlWarning(this).space() << "Failed to present item for viewModel of type"
-						 << viewModel->metaObject()->className();
+								 << viewModel->metaObject()->className();
 		item->deleteLater();
 	}
 }
