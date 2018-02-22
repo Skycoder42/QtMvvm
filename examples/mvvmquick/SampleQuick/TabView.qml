@@ -20,13 +20,11 @@ Page {
 
 		tabBar: TabBar {
 			id: tabBar
-			currentIndex: swipe.currentIndex
+			currentIndex: 0
 
 			TabButton {
-				text: "Test 1"
-			}
-			TabButton {
-				text: "Test 2"
+				text: "+"
+				onClicked: viewModel.addTab();
 			}
 		}
 	}
@@ -37,23 +35,33 @@ Page {
 		id: swipe
 		anchors.fill: parent
 		currentIndex: bar.tabBarItem.currentIndex
+	}
 
-		Pane {
-			id: firstPage
+	Component {
+		id: _newTab
+		TabButton {
+			property TabItemViewModel viewModel: null
 
-			Switch {
-				anchors.centerIn: parent
-				checked: true
-				text: qsTr("Click me!")
-			}
+			text: viewModel.title
+			onClicked: swipe.setCurrentIndex(bar.tabBarItem.currentIndex)
 		}
-		Pane {
-			id: secondPage
+	}
 
-			Switch {
-				anchors.centerIn: parent
-				text: qsTr("Click me, too!")
-			}
-		}
+	function presentTab(item) {
+		console.log("here");
+		var tabBar = bar.tabBarItem;
+		tabBar.insertItem(tabBar.count - 1, _newTab.createObject(tabBar, {viewModel: item.viewModel}));
+		item.parent = swipe;
+		swipe.addItem(item);
+		tabBar.setCurrentIndex(tabBar.count - 2);
+		return true;
+	}
+
+	function afterPop() {
+		var tabBar = bar.tabBarItem;
+		while(tabBar.count > 0)
+			tabBar.takeItem(0).destroy();
+		while(swipe.count > 0)
+			swipe.takeItem(0).destroy();
 	}
 }

@@ -65,6 +65,8 @@ StackView {
 
 	function clearWaitingItems() {
 		_clearItems.forEach(function(item) {
+			if(typeof item.afterPop == "function")
+				item.afterPop();
 			item.destroy();
 		});
 		_clearItems = [];

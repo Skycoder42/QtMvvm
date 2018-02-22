@@ -1,6 +1,8 @@
 #include "quickpresenter.h"
 #include "quickpresenter_p.h"
 
+#include <limits>
+
 #include <QtCore/QDir>
 #include <QtCore/QDirIterator>
 #include <QtCore/QMetaMethod>
@@ -90,25 +92,31 @@ QUrl QuickPresenter::findViewUrl(const QMetaObject *viewModelType)
 			if(lIndex > 0)
 				cName.truncate(lIndex);
 
+			QUrl resUrl;
+			auto shortest = std::numeric_limits<int>::max();
 			for(auto dir : qAsConst(d->searchDirs)) {
 				QDir searchDir(dir,
 							   QStringLiteral("%1*.qml").arg(QString::fromLatin1(cName)),
 							   QDir::NoSort,
 							   QDir::Files | QDir::NoDotAndDotDot | QDir::Readable);
 				QDirIterator iterator(searchDir, QDirIterator::Subdirectories);
-				if(iterator.hasNext()) {
+				while(iterator.hasNext()) {
 					iterator.next();
-					QUrl resUrl;
-					if(dir.startsWith(QStringLiteral(":"))) {
-						resUrl.setScheme(QStringLiteral("qrc"));
-						resUrl.setPath(iterator.filePath().mid(1)); //skip the beginning colon
-					} else
-						resUrl = QUrl::fromLocalFile(iterator.filePath());
-					logDebug() << "Found URL for viewmodel"
-							   << viewModelType->className()
-							   << "as:" << resUrl;
-					return resUrl;
+					if(iterator.fileName().size() < shortest) {
+						if(dir.startsWith(QStringLiteral(":"))) {
+							resUrl.clear();
+							resUrl.setScheme(QStringLiteral("qrc"));
+							resUrl.setPath(iterator.filePath().mid(1)); //skip the beginning colon
+						} else
+							resUrl = QUrl::fromLocalFile(iterator.filePath());
+					}
 				}
+			}
+			if(resUrl.isValid()) {
+				logDebug() << "Found URL for viewmodel"
+						   << viewModelType->className()
+						   << "as:" << resUrl;
+				return resUrl;
 			}
 		}
 

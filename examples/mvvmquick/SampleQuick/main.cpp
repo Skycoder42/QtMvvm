@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
 	qmlRegisterUncreatableType<ResultViewModel>("de.skycoder42.QtMvvm.Sample", 1, 0, "ResultViewModel", QStringLiteral("ViewModels cannot be created"));
 	qmlRegisterUncreatableType<DrawerViewModel>("de.skycoder42.QtMvvm.Sample", 1, 0, "DrawerViewModel", QStringLiteral("ViewModels cannot be created"));
 	qmlRegisterUncreatableType<TabViewModel>("de.skycoder42.QtMvvm.Sample", 1, 0, "TabViewModel", QStringLiteral("ViewModels cannot be created"));
+	qmlRegisterUncreatableType<TabItemViewModel>("de.skycoder42.QtMvvm.Sample", 1, 0, "TabItemViewModel", QStringLiteral("ViewModels cannot be created"));
 
 	QtMvvm::QuickPresenter::registerAsPresenter();
 

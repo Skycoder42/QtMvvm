@@ -45,9 +45,12 @@ MsgBoxBase {
 			Layout.fillHeight: true
 			Layout.fillWidth: true
 
-			onLoaded: msgResult.result = Qt.binding(function() {
-				return item.inputValue;
-			})
+			onLoaded: {
+				msgResult.result = Qt.binding(function() {
+					return item.inputValue;
+				})
+				item.forceActiveFocus();
+			}
 		}
 	}
 

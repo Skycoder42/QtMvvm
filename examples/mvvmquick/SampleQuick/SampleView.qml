@@ -19,13 +19,6 @@ Page {
 
 		moreMenu: Menu {
 			MenuItem {
-				text: qsTr("Show Tabs")
-				onTriggered: viewModel.showTabs()
-			}
-
-			MenuSeparator {}
-
-			MenuItem {
 				text: qsTr("Another Input")
 				onTriggered: viewModel.getInput()
 			}
