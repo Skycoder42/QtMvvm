@@ -14,21 +14,23 @@ class ServiceRegistryPrivate
 public:
 	class ServiceInfo {
 	public:
-		ServiceInfo();
+		ServiceInfo(bool weak);
 		virtual ~ServiceInfo();
 
+		bool replaceable() const;
 		QObject *instance(ServiceRegistryPrivate *d, const QByteArray &iid);
 
 	protected:
 		virtual QObject *construct(ServiceRegistryPrivate *d) const = 0;
 
 	private:
+		const bool _weak;
 		QObject *_instance;
 	};
 
 	class FnServiceInfo : public ServiceInfo {
 	public:
-		FnServiceInfo(const std::function<QObject*(QObjectList)> &creator, const QByteArrayList &injectables);
+		FnServiceInfo(const std::function<QObject*(QObjectList)> &creator, const QByteArrayList &injectables, bool weak);
 
 	protected:
 		QObject *construct(ServiceRegistryPrivate *d) const final;
@@ -40,7 +42,7 @@ public:
 
 	class MetaServiceInfo : public ServiceInfo {
 	public:
-		MetaServiceInfo(const QMetaObject *metaObject);
+		MetaServiceInfo(const QMetaObject *metaObject, bool weak);
 
 	protected:
 		QObject *construct(ServiceRegistryPrivate *d) const final;
@@ -54,6 +56,7 @@ public:
 
 	ServiceRegistryPrivate();
 
+	bool serviceBlocked(const QByteArray &iid) const;
 	static QObject *constructInjected(const QMetaObject *metaObject);
 	QObject *constructInjectedLocked(const QMetaObject *metaObject);
 };

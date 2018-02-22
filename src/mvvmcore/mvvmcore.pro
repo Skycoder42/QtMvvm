@@ -35,7 +35,6 @@ DISTFILES += $$TRANSLATIONS
 
 qpmx_ts_target.path = $$[QT_INSTALL_TRANSLATIONS]
 qpmx_ts_target.depends += lrelease
-!mingw: INSTALLS += qpmx_ts_target
 
 load(qt_module)
 

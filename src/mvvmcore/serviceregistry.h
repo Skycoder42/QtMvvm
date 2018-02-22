@@ -20,23 +20,25 @@ public:
 	static ServiceRegistry* instance();
 
 	template <typename TInterface, typename TService>
-	void registerInterface();
+	void registerInterface(bool weak = false);
 	template <typename TInterface, typename TService, typename TFunc>
-	void registerInterface(const TFunc &fn);
+	void registerInterface(const TFunc &fn, bool weak = false);
 	template <typename TInterface, typename TService>
-	void registerInterface(TService *service);
+	void registerInterface(TService *service, bool weak = false);
 	template <typename TService>
-	void registerObject();
+	void registerObject(bool weak = false);
 	template <typename TService, typename TFunc>
-	void registerObject(const TFunc &fn);
+	void registerObject(const TFunc &fn, bool weak = false);
 	template <typename TService>
-	void registerObject(TService *service);
+	void registerObject(TService *service, bool weak = false);
 
 	void registerService(const QByteArray &iid,
-						 const QMetaObject *metaObject);
+						 const QMetaObject *metaObject,
+						 bool weak = false);
 	void registerService(const QByteArray &iid,
 						 const std::function<QObject*(const QObjectList &)> &fn,
-						 QByteArrayList injectables);
+						 QByteArrayList injectables,
+						 bool weak = false);
 
 	template <typename TInterface>
 	TInterface *service();
@@ -98,29 +100,29 @@ protected:
 	Q_ASSERT_X(qobject_interface_iid<TInterface*>(), Q_FUNC_INFO, "TInterface must be registered with Q_DECLARE_INTERFACE");
 
 template<typename TInterface, typename TService>
-void ServiceRegistry::registerInterface()
+void ServiceRegistry::registerInterface(bool weak)
 {
 	QTMVVM_SERVICE_ASSERT(TInterface, TService)
-	registerService(qobject_interface_iid<TInterface*>(), &TService::staticMetaObject);
+	registerService(qobject_interface_iid<TInterface*>(), &TService::staticMetaObject, weak);
 }
 
 template <typename TInterface, typename TService, typename TFunc>
-void ServiceRegistry::registerInterface(const TFunc &fn)
+void ServiceRegistry::registerInterface(const TFunc &fn, bool weak)
 {
 	QTMVVM_SERVICE_ASSERT(TInterface, TService)
 	QByteArrayList injectables;
 	auto packed_fn = __helpertypes::pack_function(fn, injectables);
-	registerService(qobject_interface_iid<TInterface*>(), packed_fn, injectables);
+	registerService(qobject_interface_iid<TInterface*>(), packed_fn, injectables, weak);
 }
 
 template<typename TInterface, typename TService>
-void ServiceRegistry::registerInterface(TService *service)
+void ServiceRegistry::registerInterface(TService *service, bool weak)
 {
 	QTMVVM_SERVICE_ASSERT(TInterface, TService)
 	registerService(qobject_interface_iid<TInterface*>(), [service](const QObjectList &params) -> QObject* {
 		Q_UNUSED(params);
 		return service;
-	}, QByteArrayList());
+	}, QByteArrayList(), weak);
 }
 
 #undef QTMVVM_SERVICE_ASSERT
@@ -128,29 +130,29 @@ void ServiceRegistry::registerInterface(TService *service)
 	static_assert(__helpertypes::is_qobj<tsvc>::value, "TService must be a qobject class");
 
 template<typename TService>
-void ServiceRegistry::registerObject()
+void ServiceRegistry::registerObject(bool weak)
 {
 	QTMVVM_SERVICE_ASSERT(TService)
-	registerService(__helpertypes::qobject_iid<TService*>(), &TService::staticMetaObject);
+	registerService(__helpertypes::qobject_iid<TService*>(), &TService::staticMetaObject, weak);
 }
 
 template<typename TService, typename TFunc>
-void ServiceRegistry::registerObject(const TFunc &fn)
+void ServiceRegistry::registerObject(const TFunc &fn, bool weak)
 {
 	QTMVVM_SERVICE_ASSERT(TService)
 	QByteArrayList injectables;
 	auto packed_fn = __helpertypes::pack_function(fn, injectables);
-	registerService(__helpertypes::qobject_iid<TService*>(), packed_fn, injectables);
+	registerService(__helpertypes::qobject_iid<TService*>(), packed_fn, injectables, weak);
 }
 
 template<typename TService>
-void ServiceRegistry::registerObject(TService *service)
+void ServiceRegistry::registerObject(TService *service, bool weak)
 {
 	QTMVVM_SERVICE_ASSERT(TService)
 	registerService(__helpertypes::qobject_iid<TService*>(), [service](const QObjectList &params) -> QObject* {
 		Q_UNUSED(params);
 		return service;
-	}, QByteArrayList());
+	}, QByteArrayList(), weak);
 }
 
 #undef QTMVVM_SERVICE_ASSERT

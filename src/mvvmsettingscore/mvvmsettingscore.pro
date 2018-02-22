@@ -1,26 +1,21 @@
-TARGET = QtMvvmWidgets
+TARGET = QtMvvmSettingsCore
 
-QT = core gui widgets mvvmcore mvvmcore-private
+QT = core gui mvvmcore mvvmcore-private
 
-HEADERS += \
-	qtmvvmwidgets_global.h \
-	widgetspresenter.h \
-	ipresentingview.h \
-	widgetspresenter_p.h \
-	fontcombobox_p.h \
-	selectcombobox_p.h \
-	inputwidgetfactory.h \
-	inputwidgetfactory_p.h
+HEADERS += qtmvvmsettingscore_global.h \
+	settingsviewmodel.h \
+	settingssetup.h \
+	settingssetuploader_p.h \
+    settingsviewmodel_p.h
 
 SOURCES += \
-	widgetspresenter.cpp \
-	fontcombobox.cpp \
-	selectcombobox.cpp \
-	inputwidgetfactory.cpp
+	settingsviewmodel.cpp \
+	settingssetuploader.cpp \
+    qtmvvmsettingscore_global.cpp
 
 TRANSLATIONS += \
-	translations/qtmvvmwidgets_de.ts \
-	translations/qtmvvmwidgets_template.ts
+	translations/qtmvvsettingsmcore_de.ts \
+	translations/qtmvvsettingsmcore_template.ts
 
 DISTFILES += $$TRANSLATIONS
 
@@ -40,7 +35,6 @@ win32 {
 !ReleaseBuild:!DebugBuild:!system(qpmx -d $$shell_quote($$_PRO_FILE_PWD_) --qmake-run init $$QPMX_EXTRA_OPTIONS $$shell_quote($$QMAKE_QMAKE) $$shell_quote($$OUT_PWD)): error(qpmx initialization failed. Check the compilation log for details.)
 else: include($$OUT_PWD/qpmx_generated.pri)
 
-qpmx_ts_target.files -= $$OUT_PWD/$$QPMX_WORKINGDIR/qtmvvmwidgets_template.qm
-qpmx_ts_target.files += translations/qtmvvmwidgets_template.ts
+qpmx_ts_target.files -= $$OUT_PWD/$$QPMX_WORKINGDIR/qtmvvsettingsmcore_template.qm
+qpmx_ts_target.files += translations/qtmvvsettingsmcore_template.ts
 
-mingw: LIBS_PRIVATE += -lQt5Widgets -lQt5Gui -lQt5Core

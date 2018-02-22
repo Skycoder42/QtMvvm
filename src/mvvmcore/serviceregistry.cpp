@@ -20,20 +20,20 @@ ServiceRegistry *ServiceRegistry::instance()
 	return _instance;
 }
 
-void ServiceRegistry::registerService(const QByteArray &iid, const QMetaObject *metaObject)
+void ServiceRegistry::registerService(const QByteArray &iid, const QMetaObject *metaObject, bool weak)
 {
 	QMutexLocker _(&d->serviceMutex);
-	if(d->services.contains(iid))
+	if(d->serviceBlocked(iid))
 		throw ServiceExistsException(iid);
-	d->services.insert(iid, QSharedPointer<ServiceRegistryPrivate::MetaServiceInfo>::create(metaObject));
+	d->services.insert(iid, QSharedPointer<ServiceRegistryPrivate::MetaServiceInfo>::create(metaObject, weak));
 }
 
-void ServiceRegistry::registerService(const QByteArray &iid, const std::function<QObject*(const QObjectList &)> &fn, QByteArrayList injectables)
+void ServiceRegistry::registerService(const QByteArray &iid, const std::function<QObject*(const QObjectList &)> &fn, QByteArrayList injectables, bool weak)
 {
 	QMutexLocker _(&d->serviceMutex);
-	if(d->services.contains(iid))
+	if(d->serviceBlocked(iid))
 		throw ServiceExistsException(iid);
-	d->services.insert(iid, QSharedPointer<ServiceRegistryPrivate::FnServiceInfo>::create(fn, injectables));
+	d->services.insert(iid, QSharedPointer<ServiceRegistryPrivate::FnServiceInfo>::create(fn, injectables, weak));
 }
 
 QObject *ServiceRegistry::serviceObj(const QByteArray &iid)
@@ -52,6 +52,15 @@ ServiceRegistryPrivate::ServiceRegistryPrivate() :
 	serviceMutex(),
 	services()
 {}
+
+bool ServiceRegistryPrivate::serviceBlocked(const QByteArray &iid) const
+{
+	auto svc = services.value(iid);
+	if(svc)
+		return !svc->replaceable();
+	else
+		return false;
+}
 
 QObject *ServiceRegistryPrivate::constructInjected(const QMetaObject *metaObject)
 {
@@ -111,14 +120,20 @@ QObject *ServiceRegistryPrivate::constructInjectedLocked(const QMetaObject *meta
 
 
 
-ServiceRegistryPrivate::ServiceInfo::ServiceInfo() :
+ServiceRegistryPrivate::ServiceInfo::ServiceInfo(bool weak) :
+	_weak(weak),
 	_instance(nullptr)
 {}
 
 ServiceRegistryPrivate::ServiceInfo::~ServiceInfo()
 {
 	if(_instance)
-		QMetaObject::invokeMethod(_instance, "deleteLater");
+		QMetaObject::invokeMethod(_instance, "deleteLater"); //TODO doesnt work out of eventloop, maybe test first?
+}
+
+bool ServiceRegistryPrivate::ServiceInfo::replaceable() const
+{
+	return _weak && !_instance;
 }
 
 QObject *ServiceRegistryPrivate::ServiceInfo::instance(ServiceRegistryPrivate *d, const QByteArray &iid)
@@ -136,7 +151,8 @@ QObject *ServiceRegistryPrivate::ServiceInfo::instance(ServiceRegistryPrivate *d
 
 
 
-ServiceRegistryPrivate::FnServiceInfo::FnServiceInfo(const std::function<QObject*(QObjectList)> &creator, const QByteArrayList &injectables) :
+ServiceRegistryPrivate::FnServiceInfo::FnServiceInfo(const std::function<QObject*(QObjectList)> &creator, const QByteArrayList &injectables, bool weak) :
+	ServiceInfo(weak),
 	creator(creator),
 	injectables(injectables)
 {}
@@ -155,7 +171,8 @@ QObject *ServiceRegistryPrivate::FnServiceInfo::construct(ServiceRegistryPrivate
 
 
 
-ServiceRegistryPrivate::MetaServiceInfo::MetaServiceInfo(const QMetaObject *metaObject) :
+ServiceRegistryPrivate::MetaServiceInfo::MetaServiceInfo(const QMetaObject *metaObject, bool weak) :
+	ServiceInfo(weak),
 	metaObject(metaObject)
 {}
 

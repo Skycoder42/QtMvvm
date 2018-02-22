@@ -4,9 +4,9 @@
 namespace QtMvvm {
 
 #ifdef QT_NO_DEBUG
-Q_LOGGING_CATEGORY(mvvmcore, "qtmvvm", QtInfoMsg)
+Q_LOGGING_CATEGORY(mvvmLoggingCat, "qtmvvm", QtInfoMsg)
 #else
-Q_LOGGING_CATEGORY(mvvmcore, "qtmvvm", QtDebugMsg)
+Q_LOGGING_CATEGORY(mvvmLoggingCat, "qtmvvm", QtDebugMsg)
 #endif
 
 }
