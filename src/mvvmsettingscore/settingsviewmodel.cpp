@@ -48,8 +48,13 @@ ISettingsSetupLoader *SettingsViewModel::settingsSetupLoader() const
 
 SettingsElements::SettingsSetup SettingsViewModel::loadSetup(const QString &frontend) const
 {
-	QFileSelector selector;
-	return d->setupLoader->loadSetup(d->setupFile, frontend, &selector);
+	try {
+		QFileSelector selector;
+		return d->setupLoader->loadSetup(d->setupFile, frontend, &selector);
+	} catch(SettingsLoaderException &e) {
+		logCritical() << "Failed to load settings setup:" << e.what();
+		return {};
+	}
 }
 
 QSettings *SettingsViewModel::settings() const

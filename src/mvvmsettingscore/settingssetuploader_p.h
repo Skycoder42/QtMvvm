@@ -31,15 +31,18 @@ private:
 
 	mutable QCache<QString, SettingsElements::SettingsSetup> _cache;
 
-	//functions to read the settings XML
+	//Functions to read the settings XML
 	SettingsElements::SettingsCategory readCategory(QXmlStreamReader &reader) const;
 	SettingsElements::SettingsCategory readDefaultCategory(QXmlStreamReader &reader) const;
+	void readCategoryChildren(QXmlStreamReader &reader, SettingsElements::SettingsCategory &category) const;
 
 	SettingsElements::SettingsSection readSection(QXmlStreamReader &reader) const;
 	SettingsElements::SettingsSection readDefaultSection(QXmlStreamReader &reader) const;
+	void readSectionChildren(QXmlStreamReader &reader, SettingsElements::SettingsSection &section) const;
 
 	SettingsElements::SettingsGroup readGroup(QXmlStreamReader &reader) const;
 	SettingsElements::SettingsGroup readDefaultGroup(QXmlStreamReader &reader) const;
+	void readGroupChildren(QXmlStreamReader &reader, SettingsElements::SettingsGroup &group) const;
 
 	SettingsElements::SettingsEntry readEntry(QXmlStreamReader &reader) const;
 
@@ -48,6 +51,13 @@ private:
 
 	std::tuple<QString, QVariant> readProperty(QXmlStreamReader &reader) const;
 	QVariant readElement(QXmlStreamReader &reader) const;
+
+	//Functions to read included files
+	bool readCategoryInclude(QXmlStreamReader &reader, SettingsElements::SettingsCategory &category) const;
+	bool readSectionInclude(QXmlStreamReader &reader, SettingsElements::SettingsSection &section) const;
+	bool readGroupInclude(QXmlStreamReader &reader, SettingsElements::SettingsGroup &group) const;
+	bool readEntryInclude(QXmlStreamReader &reader, SettingsElements::SettingsEntry &entry) const;
+	bool readInclude(QXmlStreamReader &reader, const std::function<void(QXmlStreamReader&)> &readFn, const QString &typeName) const;
 
 	//Functions to filter the elements
 	void clearSetup(SettingsElements::SettingsSetup &setup, const QString &frontend, const QStringList &selectors) const;

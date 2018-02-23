@@ -1,5 +1,9 @@
 #include "settingssetuploader_p.h"
+
 #include <QtCore/QCoreApplication>
+#include <QtCore/QDir>
+
+#include <QtMvvmCore/private/qtmvvm_logging_p.h>
 using namespace QtMvvm;
 using namespace QtMvvm::SettingsElements;
 
@@ -26,7 +30,7 @@ SettingsSetup SettingsSetupLoader::loadSetup(const QString &filePath, const QStr
 {
 	SettingsSetup setup;
 	if(!_cache.contains(filePath)) {
-		QFile file(filePath);
+		QFile file(QDir::cleanPath(filePath));
 		if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
 			throw SettingsXmlException(file);
 
@@ -39,10 +43,16 @@ SettingsSetup SettingsSetupLoader::loadSetup(const QString &filePath, const QStr
 		setup.allowRestore = reader.boolValue("allowRestore");
 
 		if(reader.readNextStartElement()) {
-			if(reader.name() == QStringLiteral("Category")) {
-				do
-					setup.categories.append(readCategory(reader));
-				while(reader.readNextStartElement());
+			if(reader.name() == QStringLiteral("Category") ||
+			   reader.name() == QStringLiteral("Include")) {
+				do {
+					if(reader.name() == QStringLiteral("Include")) {
+						SettingsCategory category;
+						if(readCategoryInclude(reader, category))
+							setup.categories.append(category);
+					} else
+						setup.categories.append(readCategory(reader));
+				} while(reader.readNextStartElement());
 			} else
 				setup.categories.append(readDefaultCategory(reader));
 		}
@@ -89,14 +99,8 @@ SettingsCategory SettingsSetupLoader::readCategory(QXmlStreamReader &reader) con
 	category.frontends = reader.stringValue("frontends");
 	category.selectors = reader.stringValue("selectors");
 
-	if(reader.readNextStartElement()) {
-		if(reader.name() == QStringLiteral("Section")) {
-			do
-				category.sections.append(readSection(reader));
-			while(reader.readNextStartElement());
-		} else
-			category.sections.append(readDefaultSection(reader));
-	}
+	if(reader.readNextStartElement())
+		readCategoryChildren(reader, category);
 	testXmlValid(reader);
 
 	return category;
@@ -106,15 +110,25 @@ SettingsCategory SettingsSetupLoader::readDefaultCategory(QXmlStreamReader &read
 {
 	testXmlValid(reader);
 	auto category = createDefaultCategory();
-	if(reader.name() == QStringLiteral("Section")) {
-		do
-			category.sections.append(readSection(reader));
-		while(reader.readNextStartElement());
+	readCategoryChildren(reader, category);
+	testXmlValid(reader);
+	return category;
+}
+
+void SettingsSetupLoader::readCategoryChildren(QXmlStreamReader &reader, SettingsCategory &category) const
+{
+	if(reader.name() == QStringLiteral("Section") ||
+	   reader.name() == QStringLiteral("Include")) {
+		do {
+			if(reader.name() == QStringLiteral("Include")) {
+				SettingsSection section;
+				if(readSectionInclude(reader, section))
+					category.sections.append(section);
+			} else
+				category.sections.append(readSection(reader));
+		} while(reader.readNextStartElement());
 	} else
 		category.sections.append(readDefaultSection(reader));
-	testXmlValid(reader);
-
-	return category;
 }
 
 SettingsSection SettingsSetupLoader::readSection(QXmlStreamReader &reader) const
@@ -134,14 +148,8 @@ SettingsSection SettingsSetupLoader::readSection(QXmlStreamReader &reader) const
 	section.frontends = reader.stringValue("frontends");
 	section.selectors = reader.stringValue("selectors");
 
-	if(reader.readNextStartElement()) {
-		if(reader.name() == QStringLiteral("Group")) {
-			do
-				section.groups.append(readGroup(reader));
-			while(reader.readNextStartElement());
-		} else
-			section.groups.append(readDefaultGroup(reader));
-	}
+	if(reader.readNextStartElement())
+		readSectionChildren(reader, section);
 	testXmlValid(reader);
 
 	return section;
@@ -151,16 +159,25 @@ SettingsSection SettingsSetupLoader::readDefaultSection(QXmlStreamReader &reader
 {
 	testXmlValid(reader);
 	auto section = createDefaultSection();
+	readSectionChildren(reader, section);
+	testXmlValid(reader);
+	return section;
+}
 
-	if(reader.name() == QStringLiteral("Group")) {
-		do
-			section.groups.append(readGroup(reader));
-		while(reader.readNextStartElement());
+void SettingsSetupLoader::readSectionChildren(QXmlStreamReader &reader, SettingsSection &section) const
+{
+	if(reader.name() == QStringLiteral("Group") ||
+	   reader.name() == QStringLiteral("Include")) {
+		do {
+			if(reader.name() == QStringLiteral("Include")) {
+				SettingsGroup group;
+				if(readGroupInclude(reader, group))
+					section.groups.append(group);
+			} else
+				section.groups.append(readGroup(reader));
+		} while(reader.readNextStartElement());
 	} else
 		section.groups.append(readDefaultGroup(reader));
-	testXmlValid(reader);
-
-	return section;
 }
 
 SettingsGroup SettingsSetupLoader::readGroup(QXmlStreamReader &reader) const
@@ -177,14 +194,8 @@ SettingsGroup SettingsSetupLoader::readGroup(QXmlStreamReader &reader) const
 	group.frontends = reader.stringValue("frontends");
 	group.selectors = reader.stringValue("selectors");
 
-	if(reader.readNextStartElement()) {
-		if(reader.name() == QStringLiteral("Entry")) {
-			do
-				group.entries.append(readEntry(reader));
-			while(reader.readNextStartElement());
-		} else
-			throwElement(reader, "Entry");
-	}
+	if(reader.readNextStartElement())
+		readGroupChildren(reader, group);
 	testXmlValid(reader);
 
 	return group;
@@ -194,21 +205,33 @@ SettingsGroup SettingsSetupLoader::readDefaultGroup(QXmlStreamReader &reader) co
 {
 	testXmlValid(reader);
 	SettingsGroup group;
-
-	if(reader.name() == QStringLiteral("Entry")) {
-		do
-			group.entries.append(readEntry(reader));
-		while(reader.readNextStartElement());
-	} else
-		throwElement(reader, "Entry");
+	readGroupChildren(reader, group);
 	testXmlValid(reader);
-
 	return group;
+}
+
+void SettingsSetupLoader::readGroupChildren(QXmlStreamReader &reader, SettingsGroup &group) const
+{
+	if(reader.name() == QStringLiteral("Entry") ||
+	   reader.name() == QStringLiteral("Include")) {
+		do {
+			if(reader.name() == QStringLiteral("Include")) {
+				SettingsEntry entry;
+				if(readEntryInclude(reader, entry))
+					group.entries.append(entry);
+			} else
+				group.entries.append(readEntry(reader));
+		} while(reader.readNextStartElement());
+	} else
+		throwXmlError(reader, QStringLiteral("Unexpected element type <%1>").arg(reader.name()).toUtf8());
 }
 
 SettingsEntry SettingsSetupLoader::readEntry(QXmlStreamReader &reader) const
 {
 	testXmlValid(reader);
+	if(reader.name() != QStringLiteral("Entry"))
+		throwElement(reader, "Entry");
+
 	SettingsEntry entry;
 
 	if(!reader.hasValue("key"))
@@ -226,9 +249,10 @@ SettingsEntry SettingsSetupLoader::readEntry(QXmlStreamReader &reader) const
 	entry.selectors = reader.stringValue("selectors");
 
 	while(reader.readNextStartElement()) {
-		if(reader.name() == QStringLiteral("SearchKey"))
+		if(reader.name() == QStringLiteral("SearchKey")) {
 			entry.searchKeys.append(trctx(reader.readElementText()));
-		else if(reader.name() == QStringLiteral("Property")) {
+			testXmlValid(reader);
+		} else if(reader.name() == QStringLiteral("Property")) {
 			auto prop = readProperty(reader);
 			entry.properties.insert(std::get<0>(prop), std::get<1>(prop));
 		} else
@@ -303,10 +327,78 @@ QVariant SettingsSetupLoader::readElement(QXmlStreamReader &reader) const
 		mVariant = trctx(reader.readElementText());
 	else
 		mVariant = reader.readElementText();
+	testXmlValid(reader);
 	if(!mVariant.convert(typeId))
 		throwXmlError(reader, "Failed to convert element data to type: " + type.toUtf8());
 
 	return mVariant;
+}
+
+bool SettingsSetupLoader::readCategoryInclude(QXmlStreamReader &reader, SettingsCategory &category) const
+{
+	return readInclude(reader, [this, &category](QXmlStreamReader &reader){
+		category = readCategory(reader);
+	}, QStringLiteral("Category"));
+}
+
+bool SettingsSetupLoader::readSectionInclude(QXmlStreamReader &reader, SettingsSection &section) const
+{
+	return readInclude(reader, [this, &section](QXmlStreamReader &reader){
+		section = readSection(reader);
+	}, QStringLiteral("Section"));
+}
+
+bool SettingsSetupLoader::readGroupInclude(QXmlStreamReader &reader, SettingsGroup &group) const
+{
+	return readInclude(reader, [this, &group](QXmlStreamReader &reader){
+		group = readGroup(reader);
+	}, QStringLiteral("Group"));
+}
+
+bool SettingsSetupLoader::readEntryInclude(QXmlStreamReader &reader, SettingsEntry &entry) const
+{
+	return readInclude(reader, [this, &entry](QXmlStreamReader &reader){
+		entry = readEntry(reader);
+	}, QStringLiteral("Entry"));
+}
+
+bool SettingsSetupLoader::readInclude(QXmlStreamReader &reader, const std::function<void(QXmlStreamReader &)> &readFn, const QString &typeName) const
+{
+	testXmlValid(reader);
+	if(reader.name() != QStringLiteral("Include"))
+		throwElement(reader, "Include");
+
+	auto optional = reader.boolValue("optional");
+	auto fileName = reader.readElementText();
+	testXmlValid(reader);
+	if(reader.readNextStartElement())
+		throwXmlError(reader, "The <Include> Element must not have any child elements");
+
+	try {
+		auto dir = QDir::current();
+		auto dev = qobject_cast<QFileDevice*>(reader.device());
+		if(dev)
+			dir = QFileInfo(dev->fileName()).dir();
+
+		QFile incFile(QDir::cleanPath(dir.absoluteFilePath(fileName)));
+		if(!incFile.open(QIODevice::ReadOnly | QIODevice::Text))
+			throw SettingsXmlException(incFile);
+
+		QXmlStreamReader incReader(&incFile);
+		if(!incReader.readNextStartElement() || incReader.name() != typeName)
+			throwXmlError(reader, QStringLiteral("Expected element of type <%1>").arg(typeName).toUtf8());
+		readFn(incReader);
+		testXmlValid(reader);
+		incFile.close();
+
+		return true;
+	} catch(SettingsXmlException &e) {
+		if(optional) {
+			logInfo() << "Skipped include file:" << e.what();
+			return false;
+		} else
+			throw;
+	}
 }
 
 void SettingsSetupLoader::clearSetup(SettingsSetup &setup, const QString &frontend, const QStringList &selectors) const
@@ -382,7 +474,11 @@ bool SettingsSetupLoader::isUsable(const T &configElement, const QString &fronte
 
 SettingsXmlException::SettingsXmlException(const QXmlStreamReader &reader) :
 	SettingsLoaderException(),
-	_what(QStringLiteral("XML Error at %1:%2. Error: %3")
+	_what(QStringLiteral("XML Error in file \"%1\", line %2, column %3. Error: %4")
+		  .arg([&](){
+			  auto dev = qobject_cast<QFileDevice*>(reader.device());
+			  return dev ? dev->fileName() : QStringLiteral("<unknown>");
+		  }())
 		  .arg(reader.lineNumber())
 		  .arg(reader.columnNumber())
 		  .arg(reader.errorString())

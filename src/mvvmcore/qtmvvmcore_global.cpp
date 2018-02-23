@@ -3,7 +3,7 @@
 
 namespace QtMvvm {
 
-#ifdef QT_NO_DEBUG
+#ifdef QT_NO_DEBUG //TODO always info only
 Q_LOGGING_CATEGORY(mvvmLoggingCat, "qtmvvm", QtInfoMsg)
 #else
 Q_LOGGING_CATEGORY(mvvmLoggingCat, "qtmvvm", QtDebugMsg)
