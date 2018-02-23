@@ -37,3 +37,6 @@ qpmx_ts_target.files += translations/qtmvvmsettingswidgets_template.ts
 FORMS += \
 	settingsdialog.ui
 
+RESOURCES += \
+    qtmvvmsettingswidgets_module.qrc
+
