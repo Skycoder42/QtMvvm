@@ -13,6 +13,8 @@ SampleCoreApp::SampleCoreApp(QObject *parent) :
 
 void SampleCoreApp::performRegistrations()
 {
+	Q_INIT_RESOURCE(sample_core);
+
 	QtMvvm::registerInterfaceConverter<IEventService>();
 }
 

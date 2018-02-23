@@ -1,0 +1,108 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="SettingsConfig" type="SettingsConfigType"/>
+	<xs:complexType name="IncludeType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute type="xs:boolean" name="optional" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="PropertyType" mixed="true">
+		<xs:all>
+			<xs:element type="PropertyType" name="Property" maxOccurs="unbounded" minOccurs="0"/>
+			<xs:element type="ElementType" name="Element" maxOccurs="unbounded" minOccurs="0"/>
+		</xs:all>
+		<xs:attribute type="xs:string" name="key" use="required"/>
+		<xs:attribute type="xs:string" name="type" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ElementType" mixed="true">
+		<xs:all>
+			<xs:element type="ElementType" name="Element" maxOccurs="unbounded" minOccurs="0"/>
+			<xs:element type="PropertyType" name="Property" maxOccurs="unbounded" minOccurs="0"/>
+		</xs:all>
+		<xs:attribute type="xs:string" name="type" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="EntryType" mixed="true">
+		<xs:all>
+			<xs:element type="xs:string" name="SearchKey" maxOccurs="unbounded" minOccurs="0"/>
+			<xs:element type="PropertyType" name="Property" maxOccurs="unbounded" minOccurs="0"/>
+		</xs:all>
+		<xs:attribute type="xs:string" name="key" use="required"/>
+		<xs:attribute type="xs:string" name="type" use="required"/>
+		<xs:attribute type="xs:string" name="title" use="required"/>
+		<xs:attribute type="xs:string" name="tooltip" use="optional"/>
+		<xs:attribute type="xs:string" name="default" use="optional"/>
+		<xs:attribute type="xs:string" name="frontends" use="optional"/>
+		<xs:attribute type="xs:string" name="selectors" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="GroupType" mixed="true">
+		<xs:all>
+			<xs:element type="IncludeType" name="Include" maxOccurs="unbounded" minOccurs="0"/>
+			<xs:element type="EntryType" name="Entry" maxOccurs="unbounded" minOccurs="0"/>
+		</xs:all>
+		<xs:attribute type="xs:string" name="title" use="required"/>
+		<xs:attribute type="xs:string" name="tooltip" use="optional"/>
+		<xs:attribute type="xs:string" name="frontends" use="optional"/>
+		<xs:attribute type="xs:string" name="selectors" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="SectionType" mixed="true">
+		<xs:choice>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element type="IncludeType" name="Include" maxOccurs="unbounded" minOccurs="0"/>
+				<xs:element type="GroupType" name="Group" maxOccurs="unbounded" minOccurs="0"/>
+			</xs:choice>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element type="IncludeType" name="Include" maxOccurs="unbounded" minOccurs="0"/>
+				<xs:element type="EntryType" name="Entry" maxOccurs="unbounded" minOccurs="0"/>
+			</xs:choice>
+		</xs:choice>
+		<xs:attribute type="xs:string" name="title" use="required"/>
+		<xs:attribute type="xs:string" name="icon" use="optional"/>
+		<xs:attribute type="xs:string" name="tooltip" use="optional"/>
+		<xs:attribute type="xs:string" name="frontends" use="optional"/>
+		<xs:attribute type="xs:string" name="selectors" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="CategoryType" mixed="true">
+		<xs:choice>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element type="IncludeType" name="Include" maxOccurs="unbounded" minOccurs="0"/>
+				<xs:element type="SectionType" name="Section" maxOccurs="unbounded" minOccurs="0"/>
+			</xs:choice>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element type="IncludeType" name="Include" maxOccurs="unbounded" minOccurs="0"/>
+				<xs:element type="GroupType" name="Group" maxOccurs="unbounded" minOccurs="0"/>
+			</xs:choice>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element type="IncludeType" name="Include" maxOccurs="unbounded" minOccurs="0"/>
+				<xs:element type="EntryType" name="Entry" maxOccurs="unbounded" minOccurs="0"/>
+			</xs:choice>
+		</xs:choice>
+		<xs:attribute type="xs:string" name="title" use="required"/>
+		<xs:attribute type="xs:string" name="icon" use="optional"/>
+		<xs:attribute type="xs:string" name="tooltip" use="optional"/>
+		<xs:attribute type="xs:string" name="frontends" use="optional"/>
+		<xs:attribute type="xs:string" name="selectors" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="SettingsConfigType">
+		<xs:choice>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element type="IncludeType" name="Include" maxOccurs="unbounded" minOccurs="0"/>
+				<xs:element type="CategoryType" name="Category" maxOccurs="unbounded" minOccurs="0"/>
+			</xs:choice>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element type="IncludeType" name="Include" maxOccurs="unbounded" minOccurs="0"/>
+				<xs:element type="SectionType" name="Section" maxOccurs="unbounded" minOccurs="0"/>
+			</xs:choice>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element type="IncludeType" name="Include" maxOccurs="unbounded" minOccurs="0"/>
+				<xs:element type="GroupType" name="Group" maxOccurs="unbounded" minOccurs="0"/>
+			</xs:choice>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element type="IncludeType" name="Include" maxOccurs="unbounded" minOccurs="0"/>
+				<xs:element type="EntryType" name="Entry" maxOccurs="unbounded" minOccurs="0"/>
+			</xs:choice>
+		</xs:choice>
+		<xs:attribute type="xs:boolean" name="allowSearch" use="optional"/>
+		<xs:attribute type="xs:boolean" name="allowRestore" use="optional"/>
+	</xs:complexType>
+</xs:schema>

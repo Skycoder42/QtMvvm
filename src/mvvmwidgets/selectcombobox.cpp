@@ -41,7 +41,7 @@ void SelectComboBox::setCurrentValue(const QVariant &data)
 	auto index = findData(data);
 	if(index != -1)
 		setCurrentIndex(index);
-	else
+	else if(isEditable())
 		setCurrentText(data.toString());
 }
 

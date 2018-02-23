@@ -24,3 +24,6 @@ SOURCES += \
 
 target.path = $$[QT_INSTALL_EXAMPLES]/mvvmcore/$$TARGET
 INSTALLS += target
+
+RESOURCES += \
+    sample_core.qrc

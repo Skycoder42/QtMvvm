@@ -4,6 +4,8 @@ import QtQuick.Controls 2.3
 SpinBox {
 	id: _edit
 	property alias inputValue: _edit.dValue
+	property alias minimum: _edit.dFrom
+	property alias maximum: _edit.dTo
 	editable: true
 
 	//double spinbox code

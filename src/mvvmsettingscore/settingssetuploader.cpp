@@ -39,8 +39,11 @@ SettingsSetup SettingsSetupLoader::loadSetup(const QString &filePath, const QStr
 
 		if(!reader.readNextStartElement() || reader.name() != QStringLiteral("SettingsConfig"))
 			throwElement(reader, "SettingsConfig");
-		setup.allowSearch = reader.boolValue("allowSearch");
-		setup.allowRestore = reader.boolValue("allowRestore");
+
+		if(reader.hasValue("allowSearch"))
+			setup.allowSearch = reader.boolValue("allowSearch");
+		if(reader.hasValue("allowRestore"))
+			setup.allowRestore = reader.boolValue("allowRestore");
 
 		if(reader.readNextStartElement()) {
 			if(reader.name() == QStringLiteral("Category") ||

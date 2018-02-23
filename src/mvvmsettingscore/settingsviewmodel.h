@@ -45,7 +45,7 @@ public:
 	Q_INVOKABLE virtual void resetValue(const QString &key);
 
 public Q_SLOTS:
-	virtual void callAction(const QString &entryId);
+	virtual void callAction(const QString &entryId, const QVariantMap &parameters);
 
 	void setSettingsSetupLoader(QtMvvm::ISettingsSetupLoader* settingsSetupLoader);
 

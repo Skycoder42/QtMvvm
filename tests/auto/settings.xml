@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SettingsConfig allowSearch="true" allowRestore="true">
+	<Include optional="true">/absolute/include/path.xml</Include>
+	<Include optional="false">../relative/include/path.xml</Include>
+	<Category title="title"
+		   icon="file:///icon/path.svg"
+		   tooltip="useful tip"
+		   frontends="widgets|quick"
+		   selectors="ios|android&amp;xhdpi">
+		<Include optional="true">/absolute/include/path.xml</Include>
+		<Include>../relative/include/path.xml</Include>
+		<Section title="another title"
+			   icon="https://example.org/icon/path.svg"
+			   tooltip="another tip"
+			   frontends="widgets"
+			   selectors="android&amp;xhdpi">
+			<Include optional="true">/absolute/include/path.xml</Include>
+			<Include>../relative/include/path.xml</Include>
+			<Group title="group title"
+				  tooltip="hovering tool tip"
+				  frontends="quick"
+				  selectors="ios|android">
+				<Include optional="true">/absolute/include/path.xml</Include>
+				<Include>../relative/include/path.xml</Include>
+				<Entry key="property"
+					   type="bool"
+					   title="&amp;Check me"
+					   tooltip="I am a checkbox!"
+					   default="false"
+					   frontends="widgets|quick"
+					   selectors="ios|android&amp;xhdpi">
+					<SearchKey>prop</SearchKey>
+					<SearchKey>attrib</SearchKey>
+					<SearchKey>sample</SearchKey>
+					<Property key="text" type="string">Please do check me</Property>
+					<Property key="size" type="object">
+						<Property key="width" type="int">42</Property>
+						<Property key="height" type="int">42</Property>
+					</Property>
+					<Property key="things" type="list">
+						<Element type="int">42</Element>
+						<Element type="list">
+							<Element type="string">elem 1</Element>
+							<Element type="string">elem 2</Element>
+						</Element>
+						<Element type="object">
+							<Property key="name" type="string">baum</Property>
+							<Property key="number" type="int">42</Property>
+						</Element>
+					</Property>
+				</Entry>
+				<Entry key="req" type="req" title="req" />
+			</Group>
+			<Group/>
+		</Section>
+		<Section/>
+	</Category>
+	<Category/>
+</SettingsConfig>

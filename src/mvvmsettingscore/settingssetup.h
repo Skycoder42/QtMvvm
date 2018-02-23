@@ -65,8 +65,8 @@ struct SettingsCategory
 
 struct SettingsSetup
 {
-	bool allowSearch = false;
-	bool allowRestore = false;
+	bool allowSearch = true;
+	bool allowRestore = true;
 
 	QList<SettingsCategory> categories;
 };
