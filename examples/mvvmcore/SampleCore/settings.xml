@@ -8,21 +8,24 @@
 					   type="bool"
 					   title="&amp;Check me"
 					   tooltip="I am a checkbox!"
-					   default="false">
+					   default="true">
 					<SearchKey>property</SearchKey>
 					<SearchKey>bool</SearchKey>
-					<Property key="text" type="string">Please do check me</Property>
 				</Entry>
 				<Entry key="prop2"
 					   type="string"
-					   title="Enter a &amp;name"/>
+					   title="Enter a &amp;name">
+					<Property key="placeholderText" type="string">Enter a nice name</Property>
+				</Entry>
 			</Group>
 			<Group title="Sub-Group" tooltip="This is a tooltip">
 				<Entry key="prop3"
 					   type="action"
 					   title="Open &amp;system settings">
-					<Property key="name" type="string">baum</Property>
-					<Property key="value" type="double">4.2</Property>
+					<Property key="text" type="string">Trigger Action</Property>
+					<Property key="args" type="object">
+						<Property key="hint" type="string">You can use this to trigger whatever kind of action you need</Property>
+					</Property>
 				</Entry>
 				<Entry key="prop4"
 					   type="selection"
@@ -47,35 +50,35 @@
 			<Entry key="prop6"
 				   type="selection"
 				   title="Select a &amp;mode"
-				   default="10">
+				   default="3">
 				<Property key="listElements" type="list">
 					<Element type="object">
 						<Property key="name" type="string">Value A</Property>
-						<Property key="value" type="int">1</property>
+						<Property key="value" type="int">1</Property>
 					</Element>
 					<Element type="object">
 						<Property key="name" type="string">Value B</Property>
-						<Property key="value" type="int">2</property>
+						<Property key="value" type="int">2</Property>
 					</Element>
 					<Element type="object">
 						<Property key="name" type="string">Value C</Property>
-						<Property key="value" type="int">4</property>
+						<Property key="value" type="int">4</Property>
 					</Element>
 					<Element type="object">
 						<Property key="name" type="string">Value A+B</Property>
-						<Property key="value" type="int">3</property>
+						<Property key="value" type="int">3</Property>
 					</Element>
 					<Element type="object">
 						<Property key="name" type="string">Value A+C</Property>
-						<Property key="value" type="int">5</property>
+						<Property key="value" type="int">5</Property>
 					</Element>
 					<Element type="object">
 						<Property key="name" type="string">Value B+C</Property>
-						<Property key="value" type="int">6</property>
+						<Property key="value" type="int">6</Property>
 					</Element>
 					<Element type="object">
 						<Property key="name" type="string">Value A+B+C</Property>
-						<Property key="value" type="int">7</property>
+						<Property key="value" type="int">7</Property>
 					</Element>
 				</Property>
 			</Entry>
@@ -84,6 +87,7 @@
 	<Category title="Another main category">
 		<Entry key="prop7"
 			   type="int"
-			   title="Enter a &amp;number"/>
+			   title="Enter a &amp;number"
+			   default="42" />
 	</Category>
 </SettingsConfig>

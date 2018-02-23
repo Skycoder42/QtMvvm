@@ -5,7 +5,8 @@ SUBDIRS += mvvmcore \
 	mvvmwidgets \
 	mvvmquick \
 	imports \
-    mvvmsettingscore
+    mvvmsettingscore \
+    mvvmsettingswidgets
 
 prepareRecursiveTarget(lrelease)
 QMAKE_EXTRA_TARGETS += lrelease

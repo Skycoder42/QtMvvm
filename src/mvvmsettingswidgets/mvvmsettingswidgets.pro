@@ -1,21 +1,17 @@
-TARGET = QtMvvmSettingsCore
+TARGET = QtMvvmSettingsWidgets
 
-QT = core gui mvvmcore mvvmcore-private
+QT = core gui mvvmsettingscore mvvmwidgets mvvmcore-private
 
-HEADERS += qtmvvmsettingscore_global.h \
-	settingsviewmodel.h \
-	settingssetup.h \
-	settingssetuploader_p.h \
-	settingsviewmodel_p.h
+HEADERS += qtmvvmsettingswidgets_global.h \
+	settingsdialog.h \
+	settingsdialog_p.h
 
 SOURCES += \
-	settingsviewmodel.cpp \
-	settingssetuploader.cpp \
-	qtmvvmsettingscore_global.cpp
+	settingsdialog.cpp
 
 TRANSLATIONS += \
-	translations/qtmvvmsettingscore_de.ts \
-	translations/qtmvvmsettingscore_template.ts
+	translations/qtmvvmsettingswidgets_de.ts \
+	translations/qtmvvmsettingswidgets_template.ts
 
 DISTFILES += $$TRANSLATIONS
 
@@ -35,6 +31,9 @@ win32 {
 !ReleaseBuild:!DebugBuild:!system(qpmx -d $$shell_quote($$_PRO_FILE_PWD_) --qmake-run init $$QPMX_EXTRA_OPTIONS $$shell_quote($$QMAKE_QMAKE) $$shell_quote($$OUT_PWD)): error(qpmx initialization failed. Check the compilation log for details.)
 else: include($$OUT_PWD/qpmx_generated.pri)
 
-qpmx_ts_target.files -= $$OUT_PWD/$$QPMX_WORKINGDIR/qtmvvmsettingscore_template.qm
-qpmx_ts_target.files += translations/qtmvvmsettingscore_template.ts
+qpmx_ts_target.files -= $$OUT_PWD/$$QPMX_WORKINGDIR/qtmvvmsettingswidgets_template.qm
+qpmx_ts_target.files += translations/qtmvvmsettingswidgets_template.ts
+
+FORMS += \
+	settingsdialog.ui
 

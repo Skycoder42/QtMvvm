@@ -23,7 +23,7 @@ ComboBox {
 						return _edit.displayText;
 				},
 				set: function (value) {
-					var index = find(value);
+					var index = find(value); //TODO find VALUE, not text... somehow via the model?
 					if(index !== -1)
 						currentIndex = index;
 					else if(editable)

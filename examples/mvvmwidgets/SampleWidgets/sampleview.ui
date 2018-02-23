@@ -107,6 +107,7 @@
      <string>&amp;Actions</string>
     </property>
     <addaction name="actionShow_Tabs"/>
+    <addaction name="actionShow_Settings"/>
     <addaction name="separator"/>
     <addaction name="actionUseless_Input"/>
     <addaction name="actionAdd_Files"/>
@@ -133,6 +134,11 @@
   <action name="actionShow_Tabs">
    <property name="text">
     <string>Show &amp;Tabs</string>
+   </property>
+  </action>
+  <action name="actionShow_Settings">
+   <property name="text">
+    <string>Show &amp;Settings</string>
    </property>
   </action>
  </widget>

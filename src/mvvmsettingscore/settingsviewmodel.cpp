@@ -46,7 +46,7 @@ ISettingsSetupLoader *SettingsViewModel::settingsSetupLoader() const
 	return d->setupLoader;
 }
 
-SettingsElements::SettingsSetup SettingsViewModel::loadSetup(const QString &frontend) const
+SettingsElements::Setup SettingsViewModel::loadSetup(const QString &frontend) const
 {
 	try {
 		QFileSelector selector;
@@ -80,7 +80,8 @@ void SettingsViewModel::resetValue(const QString &key)
 void SettingsViewModel::callAction(const QString &entryId, const QVariantMap &parameters)
 {
 	Q_UNUSED(parameters)
-	logWarning() << "Unknown action requested with entry id:" << entryId;
+	logWarning() << "Unknown action requested with entry id" << entryId
+				 << "and parameters" << parameters;
 }
 
 void SettingsViewModel::setSettingsSetupLoader(ISettingsSetupLoader *settingsSetupLoader)
@@ -102,4 +103,6 @@ void SettingsViewModel::onInit(const QVariantHash &params)
 	d->setupFile = params.value(paramSetupFile).toString();
 	if(d->setupFile.isEmpty())
 		d->setupFile = QStringLiteral(":/etc/settings.xml");
+
+	emit beginLoadSetup();
 }

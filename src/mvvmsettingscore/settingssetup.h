@@ -14,7 +14,7 @@ namespace QtMvvm {
 
 namespace SettingsElements {
 
-struct SettingsEntry
+struct Entry
 {
 	QString key;
 	QByteArray type;
@@ -28,47 +28,47 @@ struct SettingsEntry
 	QString selectors;
 };
 
-struct SettingsGroup
+struct Group
 {
 	QString title;
 	QString tooltip;
 
-	QList<SettingsEntry> entries;
+	QList<Entry> entries;
 
 	QString frontends;
 	QString selectors;
 };
 
-struct SettingsSection
-{
-	QString title;
-	QUrl icon;
-	QString tooltip;
-
-	QList<SettingsGroup> groups;
-
-	QString frontends;
-	QString selectors;
-};
-
-struct SettingsCategory
+struct Section
 {
 	QString title;
 	QUrl icon;
 	QString tooltip;
 
-	QList<SettingsSection> sections;
+	QList<Group> groups;
 
 	QString frontends;
 	QString selectors;
 };
 
-struct SettingsSetup
+struct Category
+{
+	QString title;
+	QUrl icon;
+	QString tooltip;
+
+	QList<Section> sections;
+
+	QString frontends;
+	QString selectors;
+};
+
+struct Setup
 {
 	bool allowSearch = true;
 	bool allowRestore = true;
 
-	QList<SettingsCategory> categories;
+	QList<Category> categories;
 };
 
 }
@@ -80,7 +80,8 @@ class ISettingsSetupLoader
 public:
 	virtual inline ~ISettingsSetupLoader() = default;
 
-	virtual SettingsElements::SettingsSetup loadSetup(const QString &filePath, const QString &frontend, const QFileSelector *selector) const = 0;
+	virtual void changeDefaultIcon(const QUrl &defaultIcon) = 0;
+	virtual SettingsElements::Setup loadSetup(const QString &filePath, const QString &frontend, const QFileSelector *selector) const = 0;
 };
 
 }

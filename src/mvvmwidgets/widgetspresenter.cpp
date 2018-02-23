@@ -58,9 +58,9 @@ void WidgetsPresenter::present(ViewModel *viewModel, const QVariantHash &params,
 	auto view = qobject_cast<QWidget*>(viewMetaObject->newInstance(Q_ARG(QtMvvm::ViewModel*, viewModel),
 																   Q_ARG(QWidget*, parentView)));
 	if(!view) {
-		throw PresenterException(QByteArrayLiteral("Failed to create view of type") +
+		throw PresenterException(QByteArrayLiteral("Failed to create view of type \"") +
 								 viewMetaObject->className() +
-								 QByteArrayLiteral("(did you mark the constructor as Q_INVOKABLE? "
+								 QByteArrayLiteral("\" (did you mark the constructor as Q_INVOKABLE? "
 												   "Required signature: \"Q_INVOKABLE Contructor(QtMvvm::ViewModel *, QWidget*);\")"));
 	}
 

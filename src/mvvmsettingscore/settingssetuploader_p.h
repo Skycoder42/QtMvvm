@@ -14,7 +14,7 @@
 
 namespace QtMvvm {
 
-class SettingsSetupLoader : public QObject, public ISettingsSetupLoader
+class Q_MVVMSETTINGSCORE_EXPORT SettingsSetupLoader : public QObject, public ISettingsSetupLoader
 {
 	Q_OBJECT
 	Q_INTERFACES(QtMvvm::ISettingsSetupLoader)
@@ -22,53 +22,53 @@ class SettingsSetupLoader : public QObject, public ISettingsSetupLoader
 public:
 	Q_INVOKABLE SettingsSetupLoader(QObject *parent = nullptr);
 
-	SettingsElements::SettingsSetup loadSetup(const QString &filePath, const QString &frontend, const QFileSelector *selector) const final;
+	void changeDefaultIcon(const QUrl &defaultIcon) override;
+	SettingsElements::Setup loadSetup(const QString &filePath, const QString &frontend, const QFileSelector *selector) const final;
 
 	bool event(QEvent *event) override;
 
 private:
-	static QUrl defaultIcon;
-
-	mutable QCache<QString, SettingsElements::SettingsSetup> _cache;
+	QUrl _defaultIcon;
+	mutable QCache<QString, SettingsElements::Setup> _cache;
 
 	//Functions to read the settings XML
-	SettingsElements::SettingsCategory readCategory(QXmlStreamReader &reader) const;
-	SettingsElements::SettingsCategory readDefaultCategory(QXmlStreamReader &reader) const;
-	void readCategoryChildren(QXmlStreamReader &reader, SettingsElements::SettingsCategory &category) const;
+	SettingsElements::Category readCategory(QXmlStreamReader &reader) const;
+	SettingsElements::Category readDefaultCategory(QXmlStreamReader &reader) const;
+	void readCategoryChildren(QXmlStreamReader &reader, SettingsElements::Category &category) const;
 
-	SettingsElements::SettingsSection readSection(QXmlStreamReader &reader) const;
-	SettingsElements::SettingsSection readDefaultSection(QXmlStreamReader &reader) const;
-	void readSectionChildren(QXmlStreamReader &reader, SettingsElements::SettingsSection &section) const;
+	SettingsElements::Section readSection(QXmlStreamReader &reader) const;
+	SettingsElements::Section readDefaultSection(QXmlStreamReader &reader) const;
+	void readSectionChildren(QXmlStreamReader &reader, SettingsElements::Section &section) const;
 
-	SettingsElements::SettingsGroup readGroup(QXmlStreamReader &reader) const;
-	SettingsElements::SettingsGroup readDefaultGroup(QXmlStreamReader &reader) const;
-	void readGroupChildren(QXmlStreamReader &reader, SettingsElements::SettingsGroup &group) const;
+	SettingsElements::Group readGroup(QXmlStreamReader &reader) const;
+	SettingsElements::Group readDefaultGroup(QXmlStreamReader &reader) const;
+	void readGroupChildren(QXmlStreamReader &reader, SettingsElements::Group &group) const;
 
-	SettingsElements::SettingsEntry readEntry(QXmlStreamReader &reader) const;
+	SettingsElements::Entry readEntry(QXmlStreamReader &reader) const;
 
-	SettingsElements::SettingsCategory createDefaultCategory() const;
-	SettingsElements::SettingsSection createDefaultSection() const;
+	SettingsElements::Category createDefaultCategory() const;
+	SettingsElements::Section createDefaultSection() const;
 
 	std::tuple<QString, QVariant> readProperty(QXmlStreamReader &reader) const;
 	QVariant readElement(QXmlStreamReader &reader) const;
 
 	//Functions to read included files
-	bool readCategoryInclude(QXmlStreamReader &reader, SettingsElements::SettingsCategory &category) const;
-	bool readSectionInclude(QXmlStreamReader &reader, SettingsElements::SettingsSection &section) const;
-	bool readGroupInclude(QXmlStreamReader &reader, SettingsElements::SettingsGroup &group) const;
-	bool readEntryInclude(QXmlStreamReader &reader, SettingsElements::SettingsEntry &entry) const;
+	bool readCategoryInclude(QXmlStreamReader &reader, SettingsElements::Category &category) const;
+	bool readSectionInclude(QXmlStreamReader &reader, SettingsElements::Section &section) const;
+	bool readGroupInclude(QXmlStreamReader &reader, SettingsElements::Group &group) const;
+	bool readEntryInclude(QXmlStreamReader &reader, SettingsElements::Entry &entry) const;
 	bool readInclude(QXmlStreamReader &reader, const std::function<void(QXmlStreamReader&)> &readFn, const QString &typeName) const;
 
 	//Functions to filter the elements
-	void clearSetup(SettingsElements::SettingsSetup &setup, const QString &frontend, const QStringList &selectors) const;
-	void clearCategory(SettingsElements::SettingsCategory &category, const QString &frontend, const QStringList &selectors) const;
-	void clearSection(SettingsElements::SettingsSection &section, const QString &frontend, const QStringList &selectors) const;
-	void clearGroup(SettingsElements::SettingsGroup &group, const QString &frontend, const QStringList &selectors) const;
+	void clearSetup(SettingsElements::Setup &setup, const QString &frontend, const QStringList &selectors) const;
+	void clearCategory(SettingsElements::Category &category, const QString &frontend, const QStringList &selectors) const;
+	void clearSection(SettingsElements::Section &section, const QString &frontend, const QStringList &selectors) const;
+	void clearGroup(SettingsElements::Group &group, const QString &frontend, const QStringList &selectors) const;
 	template <typename T>
 	bool isUsable(const T &configElement, const QString &frontend, const QStringList &selectors) const;
 };
 
-class SettingsXmlException : public SettingsLoaderException
+class Q_MVVMSETTINGSCORE_EXPORT SettingsXmlException : public SettingsLoaderException
 {
 public:
 	SettingsXmlException(const QXmlStreamReader &reader);

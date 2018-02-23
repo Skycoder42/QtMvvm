@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT  += core gui widgets mvvmwidgets mvvmsettingscore
+QT  += core gui widgets mvvmwidgets mvvmsettingswidgets
 
 TARGET = SampleWidgets
 

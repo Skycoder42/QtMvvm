@@ -36,7 +36,7 @@ public:
 	virtual QtMvvm::MessageConfig restoreConfig() const;
 
 	ISettingsSetupLoader* settingsSetupLoader() const;
-	SettingsElements::SettingsSetup loadSetup(const QString &frontend) const;
+	SettingsElements::Setup loadSetup(const QString &frontend) const;
 
 	QSettings *settings() const;
 
@@ -51,6 +51,8 @@ public Q_SLOTS:
 
 Q_SIGNALS:
 	void settingsSetupLoaderChanged(QtMvvm::ISettingsSetupLoader* settingsSetupLoader);
+
+	void beginLoadSetup();
 
 protected:
 	void onInit(const QVariantHash &params) override;

@@ -19,16 +19,20 @@ using namespace QtMvvm::SettingsElements;
 
 #define trctx(x) QCoreApplication::translate("qtmvvm_settings_xml", qUtf8Printable(x))
 
-QUrl SettingsSetupLoader::defaultIcon(QStringLiteral("qrc:/qtmvvm/icons/settings.svg"));
-
 SettingsSetupLoader::SettingsSetupLoader(QObject *parent) :
 	QObject(parent),
+	_defaultIcon(QStringLiteral("qrc:/qtmvvm/icons/settings.svg")),
 	_cache()
 {}
 
-SettingsSetup SettingsSetupLoader::loadSetup(const QString &filePath, const QString &frontend, const QFileSelector *selector) const
+void SettingsSetupLoader::changeDefaultIcon(const QUrl &defaultIcon)
 {
-	SettingsSetup setup;
+	_defaultIcon = defaultIcon;
+}
+
+Setup SettingsSetupLoader::loadSetup(const QString &filePath, const QString &frontend, const QFileSelector *selector) const
+{
+	Setup setup;
 	if(!_cache.contains(filePath)) {
 		QFile file(QDir::cleanPath(filePath));
 		if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -50,7 +54,7 @@ SettingsSetup SettingsSetupLoader::loadSetup(const QString &filePath, const QStr
 			   reader.name() == QStringLiteral("Include")) {
 				do {
 					if(reader.name() == QStringLiteral("Include")) {
-						SettingsCategory category;
+						Category category;
 						if(readCategoryInclude(reader, category))
 							setup.categories.append(category);
 					} else
@@ -62,7 +66,7 @@ SettingsSetup SettingsSetupLoader::loadSetup(const QString &filePath, const QStr
 		testXmlValid(reader);
 		file.close();
 
-		_cache.insert(filePath, new SettingsSetup(setup));
+		_cache.insert(filePath, new Setup(setup));
 	} else
 		setup = *(_cache.object(filePath));
 
@@ -85,7 +89,7 @@ bool SettingsSetupLoader::event(QEvent *event)
 	return QObject::event(event);
 }
 
-SettingsCategory SettingsSetupLoader::readCategory(QXmlStreamReader &reader) const
+Category SettingsSetupLoader::readCategory(QXmlStreamReader &reader) const
 {
 	testXmlValid(reader);
 	if(reader.name() != QStringLiteral("Category"))
@@ -109,7 +113,7 @@ SettingsCategory SettingsSetupLoader::readCategory(QXmlStreamReader &reader) con
 	return category;
 }
 
-SettingsCategory SettingsSetupLoader::readDefaultCategory(QXmlStreamReader &reader) const
+Category SettingsSetupLoader::readDefaultCategory(QXmlStreamReader &reader) const
 {
 	testXmlValid(reader);
 	auto category = createDefaultCategory();
@@ -118,13 +122,13 @@ SettingsCategory SettingsSetupLoader::readDefaultCategory(QXmlStreamReader &read
 	return category;
 }
 
-void SettingsSetupLoader::readCategoryChildren(QXmlStreamReader &reader, SettingsCategory &category) const
+void SettingsSetupLoader::readCategoryChildren(QXmlStreamReader &reader, Category &category) const
 {
 	if(reader.name() == QStringLiteral("Section") ||
 	   reader.name() == QStringLiteral("Include")) {
 		do {
 			if(reader.name() == QStringLiteral("Include")) {
-				SettingsSection section;
+				Section section;
 				if(readSectionInclude(reader, section))
 					category.sections.append(section);
 			} else
@@ -134,7 +138,7 @@ void SettingsSetupLoader::readCategoryChildren(QXmlStreamReader &reader, Setting
 		category.sections.append(readDefaultSection(reader));
 }
 
-SettingsSection SettingsSetupLoader::readSection(QXmlStreamReader &reader) const
+Section SettingsSetupLoader::readSection(QXmlStreamReader &reader) const
 {
 	testXmlValid(reader);
 	if(reader.name() != QStringLiteral("Section"))
@@ -158,7 +162,7 @@ SettingsSection SettingsSetupLoader::readSection(QXmlStreamReader &reader) const
 	return section;
 }
 
-SettingsSection SettingsSetupLoader::readDefaultSection(QXmlStreamReader &reader) const
+Section SettingsSetupLoader::readDefaultSection(QXmlStreamReader &reader) const
 {
 	testXmlValid(reader);
 	auto section = createDefaultSection();
@@ -167,13 +171,13 @@ SettingsSection SettingsSetupLoader::readDefaultSection(QXmlStreamReader &reader
 	return section;
 }
 
-void SettingsSetupLoader::readSectionChildren(QXmlStreamReader &reader, SettingsSection &section) const
+void SettingsSetupLoader::readSectionChildren(QXmlStreamReader &reader, Section &section) const
 {
 	if(reader.name() == QStringLiteral("Group") ||
 	   reader.name() == QStringLiteral("Include")) {
 		do {
 			if(reader.name() == QStringLiteral("Include")) {
-				SettingsGroup group;
+				Group group;
 				if(readGroupInclude(reader, group))
 					section.groups.append(group);
 			} else
@@ -183,13 +187,13 @@ void SettingsSetupLoader::readSectionChildren(QXmlStreamReader &reader, Settings
 		section.groups.append(readDefaultGroup(reader));
 }
 
-SettingsGroup SettingsSetupLoader::readGroup(QXmlStreamReader &reader) const
+Group SettingsSetupLoader::readGroup(QXmlStreamReader &reader) const
 {
 	testXmlValid(reader);
 	if(reader.name() != QStringLiteral("Group"))
 		throwElement(reader, "Group");
 
-	SettingsGroup group;
+	Group group;
 	if(reader.hasValue("title"))
 		group.title = trctx(reader.stringValue("title"));
 	if(reader.hasValue("tooltip"))
@@ -204,22 +208,22 @@ SettingsGroup SettingsSetupLoader::readGroup(QXmlStreamReader &reader) const
 	return group;
 }
 
-SettingsGroup SettingsSetupLoader::readDefaultGroup(QXmlStreamReader &reader) const
+Group SettingsSetupLoader::readDefaultGroup(QXmlStreamReader &reader) const
 {
 	testXmlValid(reader);
-	SettingsGroup group;
+	Group group;
 	readGroupChildren(reader, group);
 	testXmlValid(reader);
 	return group;
 }
 
-void SettingsSetupLoader::readGroupChildren(QXmlStreamReader &reader, SettingsGroup &group) const
+void SettingsSetupLoader::readGroupChildren(QXmlStreamReader &reader, Group &group) const
 {
 	if(reader.name() == QStringLiteral("Entry") ||
 	   reader.name() == QStringLiteral("Include")) {
 		do {
 			if(reader.name() == QStringLiteral("Include")) {
-				SettingsEntry entry;
+				Entry entry;
 				if(readEntryInclude(reader, entry))
 					group.entries.append(entry);
 			} else
@@ -229,13 +233,13 @@ void SettingsSetupLoader::readGroupChildren(QXmlStreamReader &reader, SettingsGr
 		throwXmlError(reader, QStringLiteral("Unexpected element type <%1>").arg(reader.name()).toUtf8());
 }
 
-SettingsEntry SettingsSetupLoader::readEntry(QXmlStreamReader &reader) const
+Entry SettingsSetupLoader::readEntry(QXmlStreamReader &reader) const
 {
 	testXmlValid(reader);
 	if(reader.name() != QStringLiteral("Entry"))
 		throwElement(reader, "Entry");
 
-	SettingsEntry entry;
+	Entry entry;
 
 	if(!reader.hasValue("key"))
 		throwAttrib(reader, "key");
@@ -265,17 +269,17 @@ SettingsEntry SettingsSetupLoader::readEntry(QXmlStreamReader &reader) const
 	return entry;
 }
 
-SettingsCategory SettingsSetupLoader::createDefaultCategory() const
+Category SettingsSetupLoader::createDefaultCategory() const
 {
-	SettingsCategory category;
+	Category category;
 	category.title = tr("General Settings");
-	category.icon = defaultIcon;
+	category.icon = _defaultIcon;
 	return category;
 }
 
-SettingsSection SettingsSetupLoader::createDefaultSection() const
+Section SettingsSetupLoader::createDefaultSection() const
 {
-	SettingsSection section;
+	Section section;
 	section.title = tr("General");
 	return section;
 }
@@ -284,7 +288,8 @@ std::tuple<QString, QVariant> SettingsSetupLoader::readProperty(QXmlStreamReader
 {
 	if(!reader.hasValue("key"))
 		throwAttrib(reader, "key");
-	return std::make_tuple(reader.stringValue("key"), readElement(reader));
+	auto key = reader.stringValue("key");
+	return std::make_tuple(key, readElement(reader));
 }
 
 QVariant SettingsSetupLoader::readElement(QXmlStreamReader &reader) const
@@ -337,28 +342,28 @@ QVariant SettingsSetupLoader::readElement(QXmlStreamReader &reader) const
 	return mVariant;
 }
 
-bool SettingsSetupLoader::readCategoryInclude(QXmlStreamReader &reader, SettingsCategory &category) const
+bool SettingsSetupLoader::readCategoryInclude(QXmlStreamReader &reader, Category &category) const
 {
 	return readInclude(reader, [this, &category](QXmlStreamReader &reader){
 		category = readCategory(reader);
 	}, QStringLiteral("Category"));
 }
 
-bool SettingsSetupLoader::readSectionInclude(QXmlStreamReader &reader, SettingsSection &section) const
+bool SettingsSetupLoader::readSectionInclude(QXmlStreamReader &reader, Section &section) const
 {
 	return readInclude(reader, [this, &section](QXmlStreamReader &reader){
 		section = readSection(reader);
 	}, QStringLiteral("Section"));
 }
 
-bool SettingsSetupLoader::readGroupInclude(QXmlStreamReader &reader, SettingsGroup &group) const
+bool SettingsSetupLoader::readGroupInclude(QXmlStreamReader &reader, Group &group) const
 {
 	return readInclude(reader, [this, &group](QXmlStreamReader &reader){
 		group = readGroup(reader);
 	}, QStringLiteral("Group"));
 }
 
-bool SettingsSetupLoader::readEntryInclude(QXmlStreamReader &reader, SettingsEntry &entry) const
+bool SettingsSetupLoader::readEntryInclude(QXmlStreamReader &reader, Entry &entry) const
 {
 	return readInclude(reader, [this, &entry](QXmlStreamReader &reader){
 		entry = readEntry(reader);
@@ -404,7 +409,7 @@ bool SettingsSetupLoader::readInclude(QXmlStreamReader &reader, const std::funct
 	}
 }
 
-void SettingsSetupLoader::clearSetup(SettingsSetup &setup, const QString &frontend, const QStringList &selectors) const
+void SettingsSetupLoader::clearSetup(Setup &setup, const QString &frontend, const QStringList &selectors) const
 {
 	for(auto it = setup.categories.begin(); it != setup.categories.end();) {
 		if(isUsable(*it, frontend, selectors)) {
@@ -415,7 +420,7 @@ void SettingsSetupLoader::clearSetup(SettingsSetup &setup, const QString &fronte
 	}
 }
 
-void SettingsSetupLoader::clearCategory(SettingsCategory &category, const QString &frontend, const QStringList &selectors) const
+void SettingsSetupLoader::clearCategory(Category &category, const QString &frontend, const QStringList &selectors) const
 {
 	for(auto it = category.sections.begin(); it != category.sections.end();) {
 		if(isUsable(*it, frontend, selectors)) {
@@ -426,7 +431,7 @@ void SettingsSetupLoader::clearCategory(SettingsCategory &category, const QStrin
 	}
 }
 
-void SettingsSetupLoader::clearSection(SettingsSection &section, const QString &frontend, const QStringList &selectors) const
+void SettingsSetupLoader::clearSection(Section &section, const QString &frontend, const QStringList &selectors) const
 {
 	for(auto it = section.groups.begin(); it != section.groups.end();) {
 		if(isUsable(*it, frontend, selectors)) {
@@ -437,7 +442,7 @@ void SettingsSetupLoader::clearSection(SettingsSection &section, const QString &
 	}
 }
 
-void SettingsSetupLoader::clearGroup(SettingsGroup &group, const QString &frontend, const QStringList &selectors) const
+void SettingsSetupLoader::clearGroup(Group &group, const QString &frontend, const QStringList &selectors) const
 {
 	for(auto it = group.entries.begin(); it != group.entries.end();) {
 		if(isUsable(*it, frontend, selectors))

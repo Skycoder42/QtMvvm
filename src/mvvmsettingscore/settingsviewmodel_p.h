@@ -14,7 +14,7 @@ public:
 	QSettings *settings = nullptr;
 	QString setupFile;
 
-	SettingsElements::SettingsSetup currentSetup;
+	SettingsElements::Setup currentSetup;
 };
 
 }
