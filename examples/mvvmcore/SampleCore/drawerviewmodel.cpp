@@ -1,4 +1,5 @@
 #include "drawerviewmodel.h"
+#include <QtMvvmSettingsCore/SettingsViewModel>
 
 #include "sampleviewmodel.h"
 #include "tabviewmodel.h"
@@ -9,6 +10,7 @@ DrawerViewModel::DrawerViewModel(QObject *parent) :
 {
 	_navModel->appendRow(new QStandardItem(tr("Main Sample")));
 	_navModel->appendRow(new QStandardItem(tr("Tab Sample")));
+	_navModel->appendRow(new QStandardItem(tr("Settings")));
 }
 
 DrawerViewModel::~DrawerViewModel()
@@ -29,6 +31,9 @@ void DrawerViewModel::open(int index)
 		break;
 	case 1:
 		show<TabViewModel>();
+		break;
+	case 2:
+		show<QtMvvm::SettingsViewModel>();
 		break;
 	default:
 		break;

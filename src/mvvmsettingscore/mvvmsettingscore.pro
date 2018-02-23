@@ -6,12 +6,12 @@ HEADERS += qtmvvmsettingscore_global.h \
 	settingsviewmodel.h \
 	settingssetup.h \
 	settingssetuploader_p.h \
-    settingsviewmodel_p.h
+	settingsviewmodel_p.h
 
 SOURCES += \
 	settingsviewmodel.cpp \
 	settingssetuploader.cpp \
-    qtmvvmsettingscore_global.cpp
+	qtmvvmsettingscore_global.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvsettingsmcore_de.ts \

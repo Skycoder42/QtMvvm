@@ -4,12 +4,12 @@
 <context>
     <name>QtMvvm::WidgetsPresenter</name>
     <message>
-        <location filename="../widgetspresenter.cpp" line="+214"/>
+        <location filename="../widgetspresenter.cpp" line="+213"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+17"/>
         <source>About &amp;Qt</source>
         <translation type="unfinished"></translation>
     </message>

@@ -9,7 +9,12 @@ namespace QtMvvm {
 class SettingsViewModelPrivate
 {
 public:
-	ISettingsSetupLoader *settingsSetupLoader = nullptr;
+	ISettingsSetupLoader *setupLoader = nullptr;
+
+	QSettings *settings = nullptr;
+	QString setupFile;
+
+	SettingsElements::SettingsSetup currentSetup;
 };
 
 }

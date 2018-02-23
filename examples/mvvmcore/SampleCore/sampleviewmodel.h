@@ -33,6 +33,8 @@ public Q_SLOTS:
 	void setActive(bool active);
 
 	void showTabs();
+	void showSettings();
+
 	void getInput();
 	void getFiles();
 	void getResult();

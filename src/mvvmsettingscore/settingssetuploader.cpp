@@ -1,5 +1,7 @@
 #include "settingssetuploader_p.h"
+#include <QtCore/QCoreApplication>
 using namespace QtMvvm;
+using namespace QtMvvm::SettingsElements;
 
 #define throwXmlError(...) throw SettingsXmlException(__VA_ARGS__)
 #define throwAttrib(reader, attrib) throwXmlError(reader, "Attribute \"" attrib "\" is required, but was not set!")
@@ -11,6 +13,8 @@ using namespace QtMvvm;
 #define stringValue(key) attributes().value(QStringLiteral(key)).toString()
 #define boolValue(key) attributes().value(QStringLiteral(key)) == QStringLiteral("true")
 
+#define trctx(x) QCoreApplication::translate("qtmvvm_settings_xml", qUtf8Printable(x))
+
 QUrl SettingsSetupLoader::defaultIcon(QStringLiteral("qrc:/qtmvvm/icons/settings.svg"));
 
 SettingsSetupLoader::SettingsSetupLoader(QObject *parent) :
@@ -18,7 +22,7 @@ SettingsSetupLoader::SettingsSetupLoader(QObject *parent) :
 	_cache()
 {}
 
-SettingsSetup SettingsSetupLoader::loadSetup(const QString &platform, const QFileSelector *selector, const QString &filePath) const
+SettingsSetup SettingsSetupLoader::loadSetup(const QString &filePath, const QString &frontend, const QFileSelector *selector) const
 {
 	SettingsSetup setup;
 	if(!_cache.contains(filePath)) {
@@ -49,10 +53,23 @@ SettingsSetup SettingsSetupLoader::loadSetup(const QString &platform, const QFil
 	} else
 		setup = *(_cache.object(filePath));
 
-	//todo platform/selector
-
-
+	clearSetup(setup, frontend, selector->allSelectors());
 	return setup;
+}
+
+bool SettingsSetupLoader::event(QEvent *event)
+{
+	//reset the loaded cache on language changes
+	switch(event->type()) {
+	case QEvent::LanguageChange:
+	case QEvent::LocaleChange:
+		_cache.clear();
+		break;
+	default:
+		break;
+	}
+
+	return QObject::event(event);
 }
 
 SettingsCategory SettingsSetupLoader::readCategory(QXmlStreamReader &reader) const
@@ -64,11 +81,11 @@ SettingsCategory SettingsSetupLoader::readCategory(QXmlStreamReader &reader) con
 	auto category = createDefaultCategory();
 
 	if(reader.hasValue("title"))
-		category.title = reader.stringValue("title");
+		category.title = trctx(reader.stringValue("title"));
 	if(reader.hasValue("icon"))
 		category.icon = reader.stringValue("icon");
 	if(reader.hasValue("tooltip"))
-		category.tooltip = reader.stringValue("tooltip");
+		category.tooltip = trctx(reader.stringValue("tooltip"));
 	category.frontends = reader.stringValue("frontends");
 	category.selectors = reader.stringValue("selectors");
 
@@ -109,11 +126,11 @@ SettingsSection SettingsSetupLoader::readSection(QXmlStreamReader &reader) const
 	auto section = createDefaultSection();
 
 	if(reader.hasValue("title"))
-		section.title = reader.stringValue("title");
+		section.title = trctx(reader.stringValue("title"));
 	if(reader.hasValue("icon"))
 		section.icon = reader.stringValue("icon");
 	if(reader.hasValue("tooltip"))
-		section.tooltip = reader.stringValue("tooltip");
+		section.tooltip = trctx(reader.stringValue("tooltip"));
 	section.frontends = reader.stringValue("frontends");
 	section.selectors = reader.stringValue("selectors");
 
@@ -154,7 +171,9 @@ SettingsGroup SettingsSetupLoader::readGroup(QXmlStreamReader &reader) const
 
 	SettingsGroup group;
 	if(reader.hasValue("title"))
-		group.title = reader.stringValue("title");
+		group.title = trctx(reader.stringValue("title"));
+	if(reader.hasValue("tooltip"))
+		group.tooltip = trctx(reader.stringValue("tooltip"));
 	group.frontends = reader.stringValue("frontends");
 	group.selectors = reader.stringValue("selectors");
 
@@ -200,15 +219,15 @@ SettingsEntry SettingsSetupLoader::readEntry(QXmlStreamReader &reader) const
 	entry.type = reader.stringValue("type").toLatin1();
 	if(!reader.hasValue("title"))
 		throwAttrib(reader, "title");
-	entry.title = reader.stringValue("title");
-	entry.tooltip = reader.stringValue("tooltip");
-	entry.defaultValue = reader.stringValue("default");
+	entry.title = trctx(reader.stringValue("title"));
+	entry.tooltip = trctx(reader.stringValue("tooltip"));
+	entry.defaultValue = trctx(reader.stringValue("default"));
 	entry.frontends = reader.stringValue("frontends");
 	entry.selectors = reader.stringValue("selectors");
 
 	while(reader.readNextStartElement()) {
 		if(reader.name() == QStringLiteral("SearchKey"))
-			entry.searchKeys.append(reader.readElementText());
+			entry.searchKeys.append(trctx(reader.readElementText()));
 		else if(reader.name() == QStringLiteral("Property")) {
 			auto prop = readProperty(reader);
 			entry.properties.insert(std::get<0>(prop), std::get<1>(prop));
@@ -279,7 +298,11 @@ QVariant SettingsSetupLoader::readElement(QXmlStreamReader &reader) const
 	auto typeId = QMetaType::type(qUtf8Printable(type));
 	if(typeId == QMetaType::UnknownType)
 		throwXmlError(reader, "Unknown type: " + type.toUtf8());
-	QVariant mVariant = reader.readElementText();
+	QVariant mVariant;
+	if(reader.boolValue("tr"))
+		mVariant = trctx(reader.readElementText());
+	else
+		mVariant = reader.readElementText();
 	if(!mVariant.convert(typeId))
 		throwXmlError(reader, "Failed to convert element data to type: " + type.toUtf8());
 
@@ -358,6 +381,7 @@ bool SettingsSetupLoader::isUsable(const T &configElement, const QString &fronte
 
 
 SettingsXmlException::SettingsXmlException(const QXmlStreamReader &reader) :
+	SettingsLoaderException(),
 	_what(QStringLiteral("XML Error at %1:%2. Error: %3")
 		  .arg(reader.lineNumber())
 		  .arg(reader.columnNumber())
@@ -374,6 +398,7 @@ SettingsXmlException::SettingsXmlException(QXmlStreamReader &reader, const QByte
 {}
 
 SettingsXmlException::SettingsXmlException(const QFile &fileError) :
+	SettingsLoaderException(),
 	_what(QStringLiteral("Failed to open file \"%1\" with error: %2")
 		  .arg(fileError.fileName())
 		  .arg(fileError.errorString())
@@ -381,6 +406,7 @@ SettingsXmlException::SettingsXmlException(const QFile &fileError) :
 {}
 
 SettingsXmlException::SettingsXmlException(const SettingsXmlException * const other) :
+	SettingsLoaderException(),
 	_what(other->_what)
 {}
 

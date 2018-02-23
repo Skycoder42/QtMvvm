@@ -7,6 +7,9 @@
 
 using namespace QtMvvm;
 
+const QString SettingsViewModel::paramSettings(QStringLiteral("settings"));
+const QString SettingsViewModel::paramSetupFile(QStringLiteral("setupFile"));
+
 SettingsViewModel::SettingsViewModel(QObject *parent) :
 	ViewModel(parent),
 	d(new SettingsViewModelPrivate())
@@ -14,14 +17,12 @@ SettingsViewModel::SettingsViewModel(QObject *parent) :
 
 SettingsViewModel::~SettingsViewModel() {}
 
-void SettingsViewModel::showSettings(ViewModel *parent)
+QVariantHash SettingsViewModel::showParams(QSettings *settings, const QString &setupFile)
 {
-	showSettings(nullptr, {}, parent);
-}
-
-void SettingsViewModel::showSettings(QSettings *settings, const QString &setupFile, ViewModel *parent)
-{
-
+	return {
+		{paramSettings, QVariant::fromValue(settings)},
+		{paramSetupFile, setupFile}
+	};
 }
 
 bool SettingsViewModel::canRestoreDefaults() const
@@ -29,9 +30,46 @@ bool SettingsViewModel::canRestoreDefaults() const
 	return true;
 }
 
+MessageConfig SettingsViewModel::restoreConfig() const
+{
+	MessageConfig config;
+	config.setType(MessageConfig::TypeMessageBox);
+	config.setSubType(MessageConfig::SubTypeWarning);
+	config.setTitle(tr("Restore Defaults?"));
+	config.setText(tr("All custom changes will be deleted and the defaults restored. <i>This cannot be undone!</i>"));
+	config.setButtons(MessageConfig::Yes | MessageConfig::No);
+	return config;
+}
+
 ISettingsSetupLoader *SettingsViewModel::settingsSetupLoader() const
 {
-	return d->settingsSetupLoader;
+	return d->setupLoader;
+}
+
+SettingsElements::SettingsSetup SettingsViewModel::loadSetup(const QString &frontend) const
+{
+	QFileSelector selector;
+	return d->setupLoader->loadSetup(d->setupFile, frontend, &selector);
+}
+
+QSettings *SettingsViewModel::settings() const
+{
+	return d->settings;
+}
+
+QVariant SettingsViewModel::loadValue(const QString &key, const QVariant &defaultValue) const
+{
+	return d->settings->value(key, defaultValue);
+}
+
+void SettingsViewModel::saveValue(const QString &key, const QVariant &value)
+{
+	d->settings->setValue(key, value);
+}
+
+void SettingsViewModel::resetValue(const QString &key)
+{
+	d->settings->remove(key);
 }
 
 void SettingsViewModel::callAction(const QString &entryId)
@@ -41,14 +79,21 @@ void SettingsViewModel::callAction(const QString &entryId)
 
 void SettingsViewModel::setSettingsSetupLoader(ISettingsSetupLoader *settingsSetupLoader)
 {
-	if (d->settingsSetupLoader == settingsSetupLoader)
+	if (d->setupLoader == settingsSetupLoader)
 		return;
 
-	d->settingsSetupLoader = settingsSetupLoader;
-	emit settingsSetupLoaderChanged(d->settingsSetupLoader);
+	d->setupLoader = settingsSetupLoader;
+	emit settingsSetupLoaderChanged(d->setupLoader);
 }
 
 void SettingsViewModel::onInit(const QVariantHash &params)
 {
+	Q_ASSERT_X(d->setupLoader, Q_FUNC_INFO, "settingsSetupLoader must not be null");
 
+	d->settings = params.value(paramSettings).value<QSettings*>();
+	if(!d->settings)
+		d->settings = new QSettings(this);
+	d->setupFile = params.value(paramSetupFile).toString();
+	if(d->setupFile.isEmpty())
+		d->setupFile = QStringLiteral(":/etc/settings.xml");
 }

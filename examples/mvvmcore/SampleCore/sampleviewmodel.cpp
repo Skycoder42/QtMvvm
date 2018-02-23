@@ -1,6 +1,7 @@
 #include "sampleviewmodel.h"
 #include <QDebug>
 #include <QtMvvmCore/Messages>
+#include <QtMvvmSettingsCore/SettingsViewModel>
 #include "resultviewmodel.h"
 #include "tabviewmodel.h"
 
@@ -68,6 +69,11 @@ void SampleViewModel::setActive(bool active)
 void SampleViewModel::showTabs()
 {
 	show<TabViewModel>();
+}
+
+void SampleViewModel::showSettings()
+{
+	show<QtMvvm::SettingsViewModel>();
 }
 
 void SampleViewModel::getInput()

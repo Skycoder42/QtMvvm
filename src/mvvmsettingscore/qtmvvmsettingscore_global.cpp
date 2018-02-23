@@ -11,6 +11,7 @@ namespace {
 
 void qtMvvmSettingsCoreStartup()
 {
+	QtMvvm::registerInterfaceConverter<ISettingsSetupLoader>();
 	try {
 		ServiceRegistry::instance()->registerInterface<ISettingsSetupLoader, SettingsSetupLoader>(true);
 	} catch(ServiceExistsException &e) {

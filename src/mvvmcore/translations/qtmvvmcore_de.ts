@@ -4,7 +4,7 @@
 <context>
     <name>MessageConfig</name>
     <message>
-        <location filename="../message.cpp" line="+372"/>
+        <location filename="../message.cpp" line="+402"/>
         <source>%1 — Version %2</source>
         <translation type="unfinished"></translation>
     </message>

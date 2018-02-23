@@ -6,10 +6,13 @@
 #include <QtCore/qurl.h>
 #include <QtCore/qobject.h>
 #include <QtCore/qfileselector.h>
+#include <QtCore/qexception.h>
 
 #include "QtMvvmSettingsCore/qtmvvmsettingscore_global.h"
 
 namespace QtMvvm {
+
+namespace SettingsElements {
 
 struct SettingsEntry
 {
@@ -28,6 +31,7 @@ struct SettingsEntry
 struct SettingsGroup
 {
 	QString title;
+	QString tooltip;
 
 	QList<SettingsEntry> entries;
 
@@ -67,17 +71,22 @@ struct SettingsSetup
 	QList<SettingsCategory> categories;
 };
 
+}
+
+class SettingsLoaderException : public QException {};
+
 class ISettingsSetupLoader
 {
 public:
 	virtual inline ~ISettingsSetupLoader() = default;
 
-	virtual SettingsSetup loadSetup(const QString &platform, const QFileSelector *selector, const QString &filePath) const = 0;
+	virtual SettingsElements::SettingsSetup loadSetup(const QString &filePath, const QString &frontend, const QFileSelector *selector) const = 0;
 };
 
 }
 
 #define QtMvvm_ISettingsSetupLoaderIid "de.skycoder42.qtmvvm.settings.core.ISettingsSetupLoader"
 Q_DECLARE_INTERFACE(QtMvvm::ISettingsSetupLoader, QtMvvm_ISettingsSetupLoaderIid)
+Q_DECLARE_METATYPE(QtMvvm::ISettingsSetupLoader*)
 
 #endif // QTMVVM_SETTINGSSETUP_H

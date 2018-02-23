@@ -5,32 +5,44 @@
 #include <QtCore/qscopedpointer.h>
 
 #include <QtMvvmCore/viewmodel.h>
+#include <QtMvvmCore/message.h>
 
 #include "QtMvvmSettingsCore/qtmvvmsettingscore_global.h"
-#include "QtMvvmSettingsCore/settingssetuploader.h"
+#include "QtMvvmSettingsCore/settingssetup.h"
 
 namespace QtMvvm {
 
 class SettingsViewModelPrivate;
-class SettingsViewModel : public ViewModel
+class Q_MVVMSETTINGSCORE_EXPORT SettingsViewModel : public ViewModel //TODO create qml binding
 {
 	Q_OBJECT
 
 	Q_PROPERTY(bool canRestoreDefaults READ canRestoreDefaults CONSTANT)
+	Q_PROPERTY(QtMvvm::MessageConfig restoreConfig READ restoreConfig CONSTANT)
 
 	Q_PROPERTY(QtMvvm::ISettingsSetupLoader* settingsSetupLoader READ settingsSetupLoader WRITE setSettingsSetupLoader NOTIFY settingsSetupLoaderChanged)
 	QTMVVM_INJECT(QtMvvm::ISettingsSetupLoader*, settingsSetupLoader)
 
 public:
+	static const QString paramSettings;
+	static const QString paramSetupFile;
+
+	static QVariantHash showParams(QSettings *settings = nullptr, const QString &setupFile = {});
+
 	Q_INVOKABLE explicit SettingsViewModel(QObject *parent = nullptr);
 	~SettingsViewModel();
 
-	static void showSettings(ViewModel *parent);
-	static void showSettings(QSettings *settings = nullptr, const QString &setupFile = {}, ViewModel *parent = nullptr);
-
 	virtual bool canRestoreDefaults() const;
+	virtual QtMvvm::MessageConfig restoreConfig() const;
 
-	QtMvvm::ISettingsSetupLoader* settingsSetupLoader() const;
+	ISettingsSetupLoader* settingsSetupLoader() const;
+	SettingsElements::SettingsSetup loadSetup(const QString &frontend) const;
+
+	QSettings *settings() const;
+
+	Q_INVOKABLE virtual QVariant loadValue(const QString &key, const QVariant &defaultValue = {}) const;
+	Q_INVOKABLE virtual void saveValue(const QString &key, const QVariant &value);
+	Q_INVOKABLE virtual void resetValue(const QString &key);
 
 public Q_SLOTS:
 	virtual void callAction(const QString &entryId);
