@@ -1,6 +1,6 @@
 TEMPLATE = lib
 
-QT = core gui mvvmcore mvvmsettingscore
+QT = core gui mvvmcore
 CONFIG += static
 
 TARGET = SampleCore
@@ -26,4 +26,4 @@ target.path = $$[QT_INSTALL_EXAMPLES]/mvvmcore/$$TARGET
 INSTALLS += target
 
 RESOURCES += \
-    sample_core.qrc
+	sample_core.qrc

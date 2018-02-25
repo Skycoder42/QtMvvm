@@ -10,13 +10,22 @@ HEADERS += \
 	fontcombobox_p.h \
 	selectcombobox_p.h \
 	inputwidgetfactory.h \
-	inputwidgetfactory_p.h
+	inputwidgetfactory_p.h \
+	settingsdialog_p.h \
+	settingsdialog.h
 
 SOURCES += \
 	widgetspresenter.cpp \
 	fontcombobox.cpp \
 	selectcombobox.cpp \
-	inputwidgetfactory.cpp
+	inputwidgetfactory.cpp \
+	settingsdialog.cpp
+
+FORMS += \
+	settingsdialog.ui
+
+RESOURCES += \
+	qtmvvmwidgets_module.qrc
 
 TRANSLATIONS += \
 	translations/qtmvvmwidgets_de.ts \

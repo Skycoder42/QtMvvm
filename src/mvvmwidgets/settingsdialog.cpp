@@ -1,6 +1,7 @@
 #include "settingsdialog.h"
 #include "settingsdialog_p.h"
 #include "ui_settingsdialog.h"
+#include "widgetspresenter_p.h"
 
 #include <QtCore/QMetaProperty>
 #include <QtCore/QRegularExpression>
@@ -9,9 +10,6 @@
 
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QScrollArea>
-
-#include <QtMvvmWidgets/WidgetsPresenter>
-#include <QtMvvmWidgets/InputWidgetFactory>
 
 #include <QtMvvmCore/private/qtmvvm_logging_p.h>
 
@@ -35,12 +33,6 @@ SettingsDialog::SettingsDialog(ViewModel *viewModel, QWidget *parent) :
 	initResources();
 
 	d->ui->setupUi(this);
-	//TODO ???
-//	d->ui->buttonBox->button(QDialogButtonBox::Ok)->setAutoDefault(false);
-//	d->ui->buttonBox->button(QDialogButtonBox::Cancel)->setAutoDefault(false);
-//	d->ui->buttonBox->button(QDialogButtonBox::Apply)->setAutoDefault(false);
-//	d->ui->buttonBox->button(QDialogButtonBox::RestoreDefaults)->setAutoDefault(false);
-//	d->ui->buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
 	connect(d->ui->buttonBox, &QDialogButtonBox::clicked,
 			d, &SettingsDialogPrivate::buttonBoxClicked);
 	connect(d->ui->filterLineEdit, &QLineEdit::textChanged,
@@ -207,13 +199,7 @@ void SettingsDialogPrivate::createEntry(const SettingsElements::Entry &entry, QW
 		});
 		content = btn;
 	} else {
-		auto presenter = dynamic_cast<WidgetsPresenter*>(CoreApp::instance()->presenter());
-		if(!presenter) {
-			logWarning() << "Unable to convert QtMvvm::CoreApp::presenter to a QtMvvm::WidgetsPresenter - cannot create settings entry";
-			return;
-		}
-
-		auto widgetFactory = presenter->inputWidgetFactory();
+		auto widgetFactory = WidgetsPresenterPrivate::currentPresenter()->inputWidgetFactory();
 		content = widgetFactory->createInput(entry.type, sectionWidget, entry.properties);
 		if(!content) {
 			logWarning() << "Failed to create settings widget for type" << entry.type;
@@ -474,13 +460,11 @@ void SettingsDialogPrivate::filterTextChanged(const QString &searchText)
 
 
 
-CategoryItemDelegate::CategoryItemDelegate(std::function<void (int)> updateFunc, const QSize &iconSize, int layoutSpacing, QObject *parent) :
+CategoryItemDelegate::CategoryItemDelegate(const std::function<void(int)> &updateFunc, const QSize &iconSize, int layoutSpacing, QObject *parent) :
 	QStyledItemDelegate(parent),
-	_iconSize(),
+	_iconSize(iconSize + QSize(0, layoutSpacing)),
 	_updateFunc(updateFunc)
-{
-	this->_iconSize = iconSize + QSize(0, layoutSpacing);
-}
+{}
 
 QSize CategoryItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {

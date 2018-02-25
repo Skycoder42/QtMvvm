@@ -12,7 +12,7 @@
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QAbstractButton>
 
-#include "qtmvvmsettingswidgets_global.h"
+#include "qtmvvmwidgets_global.h"
 #include "settingsdialog.h"
 
 namespace Ui {
@@ -24,8 +24,8 @@ namespace QtMvvm {
 class CategoryItemDelegate : public QStyledItemDelegate
 {
 public:
-	CategoryItemDelegate(std::function<void(int)> _updateFunc,
-						 const QSize &_iconSize,
+	CategoryItemDelegate(const std::function<void(int)> &updateFunc,
+						 const QSize &iconSize,
 						 int layoutSpacing,
 						 QObject *parent = nullptr);
 

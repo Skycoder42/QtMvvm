@@ -1,5 +1,5 @@
 #include "drawerviewmodel.h"
-#include <QtMvvmSettingsCore/SettingsViewModel>
+#include <QtMvvmCore/SettingsViewModel>
 
 #include "sampleviewmodel.h"
 #include "tabviewmodel.h"

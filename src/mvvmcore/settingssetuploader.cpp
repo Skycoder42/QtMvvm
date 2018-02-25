@@ -1,9 +1,9 @@
 #include "settingssetuploader_p.h"
+#include "qtmvvm_logging_p.h"
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
 
-#include <QtMvvmCore/private/qtmvvm_logging_p.h>
 using namespace QtMvvm;
 using namespace QtMvvm::SettingsElements;
 

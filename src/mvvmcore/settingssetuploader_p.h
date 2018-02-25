@@ -9,12 +9,12 @@
 #include <QtCore/QXmlStreamReader>
 #include <QtCore/QFile>
 
-#include "qtmvvmsettingscore_global.h"
+#include "qtmvvmcore_global.h"
 #include "settingssetup.h"
 
 namespace QtMvvm {
 
-class Q_MVVMSETTINGSCORE_EXPORT SettingsSetupLoader : public QObject, public ISettingsSetupLoader
+class Q_MVVMCORE_EXPORT SettingsSetupLoader : public QObject, public ISettingsSetupLoader
 {
 	Q_OBJECT
 	Q_INTERFACES(QtMvvm::ISettingsSetupLoader)
@@ -68,7 +68,7 @@ private:
 	bool isUsable(const T &configElement, const QString &frontend, const QStringList &selectors) const;
 };
 
-class Q_MVVMSETTINGSCORE_EXPORT SettingsXmlException : public SettingsLoaderException
+class Q_MVVMCORE_EXPORT SettingsXmlException : public SettingsLoaderException
 {
 public:
 	SettingsXmlException(const QXmlStreamReader &reader);

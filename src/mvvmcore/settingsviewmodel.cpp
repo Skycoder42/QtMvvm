@@ -1,8 +1,7 @@
 #include "settingsviewmodel.h"
 #include "settingsviewmodel_p.h"
-#include <QtMvvmCore/CoreApp>
-#include <QtMvvmCore/private/qtmvvm_logging_p.h>
-
+#include "coreapp.h"
+#include "qtmvvm_logging_p.h"
 #include "settingssetuploader_p.h"
 
 using namespace QtMvvm;

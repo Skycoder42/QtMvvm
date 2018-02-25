@@ -7,13 +7,13 @@
 #include <QtMvvmCore/viewmodel.h>
 #include <QtMvvmCore/message.h>
 
-#include "QtMvvmSettingsCore/qtmvvmsettingscore_global.h"
-#include "QtMvvmSettingsCore/settingssetup.h"
+#include "QtMvvmCore/qtmvvmcore_global.h"
+#include "QtMvvmCore/settingssetup.h"
 
 namespace QtMvvm {
 
 class SettingsViewModelPrivate;
-class Q_MVVMSETTINGSCORE_EXPORT SettingsViewModel : public ViewModel //TODO create qml binding
+class Q_MVVMCORE_EXPORT SettingsViewModel : public ViewModel
 {
 	Q_OBJECT
 

@@ -3,16 +3,16 @@
 
 #include <QtCore/qscopedpointer.h>
 
-#include <QtMvvmSettingsCore/settingsviewmodel.h>
+#include <QtMvvmCore/settingsviewmodel.h>
 
 #include <QtWidgets/qdialog.h>
 
-#include "QtMvvmSettingsWidgets/qtmvvmsettingswidgets_global.h"
+#include "QtMvvmWidgets/qtmvvmwidgets_global.h"
 
 namespace QtMvvm {
 
 class SettingsDialogPrivate;
-class Q_MVVMSETTINGSWIDGETS_EXPORT SettingsDialog : public QDialog
+class Q_MVVMWIDGETS_EXPORT SettingsDialog : public QDialog
 {
 	Q_OBJECT
 

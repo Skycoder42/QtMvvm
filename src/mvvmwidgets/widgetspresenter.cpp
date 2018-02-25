@@ -1,6 +1,7 @@
 #include "widgetspresenter.h"
 #include "widgetspresenter_p.h"
 #include "ipresentingview.h"
+#include "settingsdialog.h"
 
 #include <QtCore/QMetaProperty>
 
@@ -395,7 +396,7 @@ void WidgetsPresenter::presentOtherDialog(const MessageConfig &config, QPointer<
 
 WidgetsPresenterPrivate::WidgetsPresenterPrivate() :
 	inputViewFactory(new InputWidgetFactory()),
-	implicitMappings(),
+	implicitMappings({&SettingsDialog::staticMetaObject}),
 	explicitMappings()
 {}
 

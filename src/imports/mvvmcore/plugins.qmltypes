@@ -420,6 +420,51 @@ Module {
         }
     }
     Component {
+        name: "QtMvvm::SettingsViewModel"
+        prototype: "QtMvvm::ViewModel"
+        exports: ["de.skycoder42.QtMvvm.Core/SettingsViewModel 1.0"]
+        isCreatable: false
+        exportMetaObjectRevisions: [0]
+        Property { name: "canRestoreDefaults"; type: "bool"; isReadonly: true }
+        Property { name: "restoreConfig"; type: "QtMvvm::MessageConfig"; isReadonly: true }
+        Property { name: "settingsSetupLoader"; type: "QtMvvm::ISettingsSetupLoader"; isPointer: true }
+        Property { name: "__qtmvvm_inject_settingsSetupLoader"; type: "QByteArray"; isReadonly: true }
+        Signal {
+            name: "settingsSetupLoaderChanged"
+            Parameter { name: "settingsSetupLoader"; type: "QtMvvm::ISettingsSetupLoader"; isPointer: true }
+        }
+        Signal { name: "beginLoadSetup" }
+        Method {
+            name: "callAction"
+            Parameter { name: "entryId"; type: "string" }
+            Parameter { name: "parameters"; type: "QVariantMap" }
+        }
+        Method {
+            name: "setSettingsSetupLoader"
+            Parameter { name: "settingsSetupLoader"; type: "QtMvvm::ISettingsSetupLoader"; isPointer: true }
+        }
+        Method {
+            name: "loadValue"
+            type: "QVariant"
+            Parameter { name: "key"; type: "string" }
+            Parameter { name: "defaultValue"; type: "QVariant" }
+        }
+        Method {
+            name: "loadValue"
+            type: "QVariant"
+            Parameter { name: "key"; type: "string" }
+        }
+        Method {
+            name: "saveValue"
+            Parameter { name: "key"; type: "string" }
+            Parameter { name: "value"; type: "QVariant" }
+        }
+        Method {
+            name: "resetValue"
+            Parameter { name: "key"; type: "string" }
+        }
+    }
+    Component {
         name: "QtMvvm::ViewModel"
         prototype: "QObject"
         exports: ["de.skycoder42.QtMvvm.Core/ViewModel 1.0"]

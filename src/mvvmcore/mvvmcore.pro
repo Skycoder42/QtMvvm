@@ -16,7 +16,11 @@ HEADERS += \
 	binding.h \
 	binding_p.h \
 	message.h \
-	message_p.h
+	message_p.h \
+    settingssetup.h \
+    settingssetuploader_p.h \
+    settingsviewmodel_p.h \
+    settingsviewmodel.h
 
 SOURCES += \
 	viewmodel.cpp \
@@ -25,13 +29,16 @@ SOURCES += \
 	qtmvvmcore_global.cpp \
 	binding.cpp \
 	message.cpp \
-	ipresenter.cpp
+	ipresenter.cpp \
+    settingssetuploader.cpp \
+    settingsviewmodel.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmcore_de.ts \
 	translations/qtmvvmcore_template.ts
 
-DISTFILES += $$TRANSLATIONS
+DISTFILES += $$TRANSLATIONS \
+    settings.xsd
 
 qpmx_ts_target.path = $$[QT_INSTALL_TRANSLATIONS]
 qpmx_ts_target.depends += lrelease

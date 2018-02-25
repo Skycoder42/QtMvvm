@@ -1,7 +1,6 @@
 #include <QApplication>
 #include <QtMvvmCore/ServiceRegistry>
 #include <QtMvvmWidgets/WidgetsPresenter>
-#include <QtMvvmSettingsWidgets/SettingsDialog>
 #include <samplecoreapp.h>
 
 #include "widgetseventservice.h"
@@ -26,7 +25,6 @@ int main(int argc, char *argv[])
 	QtMvvm::WidgetsPresenter::registerView<ResultDialog>();
 	QtMvvm::WidgetsPresenter::registerView<TabView>();
 	QtMvvm::WidgetsPresenter::registerView<TabItemView>();
-	QtMvvm::WidgetsPresenter::registerView<QtMvvm::SettingsDialog>();
 
 	if(TEST_CURRENT == TEST_DIRECT)
 		QtMvvm::ServiceRegistry::instance()->registerObject<EchoService>();

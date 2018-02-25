@@ -1,7 +1,7 @@
 #include "sampleviewmodel.h"
 #include <QDebug>
 #include <QtMvvmCore/Messages>
-#include <QtMvvmSettingsCore/SettingsViewModel>
+#include <QtMvvmCore/SettingsViewModel>
 #include "resultviewmodel.h"
 #include "tabviewmodel.h"
 

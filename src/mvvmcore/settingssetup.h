@@ -8,7 +8,7 @@
 #include <QtCore/qfileselector.h>
 #include <QtCore/qexception.h>
 
-#include "QtMvvmSettingsCore/qtmvvmsettingscore_global.h"
+#include "QtMvvmCore/qtmvvmcore_global.h"
 
 namespace QtMvvm {
 
