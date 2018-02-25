@@ -20,29 +20,50 @@ public:
 	virtual ~InputViewFactory();
 
 	Q_INVOKABLE virtual QUrl getInputUrl(const QByteArray &type, const QVariantMap &viewProperties);
+	Q_INVOKABLE virtual QUrl getDelegate(const QByteArray &type, const QVariantMap &viewProperties);
 
-	Q_INVOKABLE virtual void addSimpleView(const QByteArray &type, const QUrl &qmlFileUrl);
+	Q_INVOKABLE virtual void addSimpleInput(const QByteArray &type, const QUrl &qmlFileUrl);
 	template <typename TType>
-	inline void addSimpleView(const QUrl &qmlFileUrl);
+	inline void addSimpleInput(const QUrl &qmlFileUrl);
 
-	Q_INVOKABLE virtual void addAlias(const QByteArray &alias, const QByteArray &targetType);
+	Q_INVOKABLE virtual void addSimpleDelegate(const QByteArray &type, const QUrl &qmlFileUrl);
+	template <typename TType>
+	inline void addSimpleDelegate(const QUrl &qmlFileUrl);
+
+	Q_INVOKABLE virtual void addInputAlias(const QByteArray &alias, const QByteArray &targetType);
 	template <typename TAliasType, typename TTargetType>
-	inline void addAlias();
+	inline void addInputAlias();
+
+	Q_INVOKABLE virtual void addDelegateAlias(const QByteArray &alias, const QByteArray &targetType);
+	template <typename TAliasType, typename TTargetType>
+	inline void addDelegateAlias();
 
 private:
 	QScopedPointer<InputViewFactoryPrivate> d;
 };
 
 template<typename TType>
-inline void InputViewFactory::addSimpleView(const QUrl &qmlFileUrl)
+inline void InputViewFactory::addSimpleInput(const QUrl &qmlFileUrl)
 {
-	addSimpleView(QMetaType::typeName(qMetaTypeId<TType>()), qmlFileUrl);
+	addSimpleInput(QMetaType::typeName(qMetaTypeId<TType>()), qmlFileUrl);
+}
+
+template<typename TType>
+void InputViewFactory::addSimpleDelegate(const QUrl &qmlFileUrl)
+{
+	addSimpleDelegate(QMetaType::typeName(qMetaTypeId<TType>()), qmlFileUrl);
 }
 
 template<typename TAliasType, typename TTargetType>
-inline void InputViewFactory::addAlias()
+inline void InputViewFactory::addInputAlias()
 {
-	addAlias(QMetaType::typeName(qMetaTypeId<TAliasType>()), QMetaType::typeName(qMetaTypeId<TTargetType>()));
+	addInputAlias(QMetaType::typeName(qMetaTypeId<TAliasType>()), QMetaType::typeName(qMetaTypeId<TTargetType>()));
+}
+
+template<typename TAliasType, typename TTargetType>
+void InputViewFactory::addDelegateAlias()
+{
+	addDelegateAlias(QMetaType::typeName(qMetaTypeId<TAliasType>()), QMetaType::typeName(qMetaTypeId<TTargetType>()));
 }
 
 }

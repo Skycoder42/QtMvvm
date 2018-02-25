@@ -32,12 +32,28 @@ Module {
             Parameter { name: "viewProperties"; type: "QVariantMap" }
         }
         Method {
-            name: "addSimpleView"
+            name: "getDelegate"
+            type: "QUrl"
+            Parameter { name: "type"; type: "QByteArray" }
+            Parameter { name: "viewProperties"; type: "QVariantMap" }
+        }
+        Method {
+            name: "addSimpleInput"
             Parameter { name: "type"; type: "QByteArray" }
             Parameter { name: "qmlFileUrl"; type: "QUrl" }
         }
         Method {
-            name: "addAlias"
+            name: "addSimpleDelegate"
+            Parameter { name: "type"; type: "QByteArray" }
+            Parameter { name: "qmlFileUrl"; type: "QUrl" }
+        }
+        Method {
+            name: "addInputAlias"
+            Parameter { name: "alias"; type: "QByteArray" }
+            Parameter { name: "targetType"; type: "QByteArray" }
+        }
+        Method {
+            name: "addDelegateAlias"
             Parameter { name: "alias"; type: "QByteArray" }
             Parameter { name: "targetType"; type: "QByteArray" }
         }

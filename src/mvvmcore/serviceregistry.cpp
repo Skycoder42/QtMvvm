@@ -15,6 +15,8 @@ ServiceRegistry::ServiceRegistry(ServiceRegistryPrivate *d_ptr) :
 	d(d_ptr)
 {}
 
+ServiceRegistry::~ServiceRegistry() {}
+
 ServiceRegistry *ServiceRegistry::instance()
 {
 	return _instance;

@@ -88,13 +88,19 @@ QUrl QuickPresenter::findViewUrl(const QMetaObject *viewModelType)
 			return d->explicitMappings.value(currentMeta);
 		else {
 			QByteArray cName = currentMeta->className();
+			//strip viewmodel
 			auto lIndex = cName.lastIndexOf("ViewModel");
 			if(lIndex > 0)
 				cName.truncate(lIndex);
+			//strip namespaces
+			lIndex = cName.lastIndexOf("::");
+			if(lIndex > 0)
+				cName = cName.mid(lIndex + 2);
 
 			QUrl resUrl;
 			auto shortest = std::numeric_limits<int>::max();
 			for(auto dir : qAsConst(d->searchDirs)) {
+				logDebug() << QDir(dir).entryList();
 				QDir searchDir(dir,
 							   QStringLiteral("%1*.qml").arg(QString::fromLatin1(cName)),
 							   QDir::NoSort,

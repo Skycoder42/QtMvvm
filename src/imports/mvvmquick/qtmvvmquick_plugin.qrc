@@ -4,11 +4,21 @@
         <file alias="ic_help.svg">icons/ic_help_white_24px.svg</file>
         <file alias="ic_info.svg">icons/ic_info_white_24px.svg</file>
         <file alias="ic_warning.svg">icons/ic_warning_white_24px.svg</file>
+        <file alias="ic_arrow_back.svg">icons/ic_arrow_back_white_24px.svg</file>
+        <file alias="ic_close.svg">icons/ic_close_white_24px.svg</file>
+        <file alias="ic_search.svg">icons/ic_search_white_24px.svg</file>
+        <file alias="ic_settings_backup_restore.svg">icons/ic_settings_backup_restore_white_24px.svg</file>
     </qresource>
     <qresource prefix="/de/skycoder42/qtmvvm/quick/qml">
         <file>FileDialog.qml</file>
         <file>FolderDialog.qml</file>
         <file alias="+android/FileDialog.qml">AndroidFileDialog.qml</file>
         <file alias="+android/FolderDialog.qml">AndroidFolderDialog.qml</file>
+    </qresource>
+    <qresource prefix="/qtmvvm/views">
+        <file>SettingsView.qml</file>
+    </qresource>
+    <qresource prefix="/de/skycoder42/qtmvvm/icons">
+        <file alias="settings.svg">icons/ic_settings_white_24px.svg</file>
     </qresource>
 </RCC>

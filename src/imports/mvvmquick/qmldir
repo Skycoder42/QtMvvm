@@ -8,6 +8,12 @@ internal MsgBoxBase MsgBoxBase.qml
 internal MsgBox MsgBox.qml
 internal InputDialog InputDialog.qml
 
+internal ListSection ListSection.qml
+internal SectionListView SectionListView.qml
+internal OverviewListView OverviewListView.qml
+
+ActionButton 1.0 ActionButton.qml
+
 PresenterProgress 1.0 PresenterProgress.qml
 PresentingStackView 1.0 PresentingStackView.qml
 PopupPresenter 1.0 PopupPresenter.qml

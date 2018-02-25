@@ -11,8 +11,10 @@ class InputViewFactoryPrivate
 public:
 	InputViewFactoryPrivate();
 
-	QHash<QByteArray, QUrl> simpleViews;
-	QHash<QByteArray, QByteArray> aliases;
+	QHash<QByteArray, QUrl> simpleInputs;
+	QHash<QByteArray, QUrl> simpleDelegates;
+	QHash<QByteArray, QByteArray> inputAliases;
+	QHash<QByteArray, QByteArray> delegateAliases;
 };
 
 }

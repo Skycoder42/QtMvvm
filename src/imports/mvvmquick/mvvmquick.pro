@@ -23,10 +23,15 @@ QML_FILES += \
 	PopupPresenter.qml \
 	DialogPresenter.qml \
 	TintIcon.qml \
+	ActionButton.qml \
 	MsgBoxBase.qml \
 	MsgBox.qml \
 	InputDialog.qml \
-	PresentingDrawer.qml
+	PresentingDrawer.qml \
+	ListSection.qml \
+	SectionListView.qml \
+	OverviewListView.qml
+
 
 RESOURCES += \
 	qtmvvmquick_plugin.qrc

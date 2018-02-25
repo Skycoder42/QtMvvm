@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/de/skycoder42/qtmvvm/quick/inputs">
+    <qresource prefix="/qtmvvm/inputs">
         <file>ListEdit.qml</file>
         <file>TextField.qml</file>
         <file>SpinBox.qml</file>
@@ -8,5 +8,10 @@
         <file>FontEdit.qml</file>
         <file>UrlField.qml</file>
         <file>Switch.qml</file>
+    </qresource>
+    <qresource prefix="/qtmvvm/delegates">
+        <file>BoolDelegate.qml</file>
+        <file>MsgDelegate.qml</file>
+        <file>SwitchDelegate.qml</file>
     </qresource>
 </RCC>

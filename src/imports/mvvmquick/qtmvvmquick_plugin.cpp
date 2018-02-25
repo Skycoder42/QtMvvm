@@ -41,6 +41,7 @@ void QtMvvmQuickDeclarativeModule::registerTypes(const char *uri)
 
 	qmlRegisterType(QUrl(QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/qml/FileDialog.qml")), uri, 1, 0, "FileDialog");
 	qmlRegisterType(QUrl(QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/qml/FolderDialog.qml")), uri, 1, 0, "FolderDialog");
+	qmlRegisterType(QUrl(QStringLiteral("qrc:/qtmvvm/views/SettingsView.qml")), uri, 1, 0, "SettingsView");
 
 #ifdef Q_OS_ANDROID
 	qmlRegisterType<QtMvvm::AndroidFileChooser>(uri, 1, 0, "FileChooser");

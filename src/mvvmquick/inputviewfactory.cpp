@@ -41,20 +41,20 @@ InputViewFactory::~InputViewFactory() {}
 QUrl InputViewFactory::getInputUrl(const QByteArray &type, const QVariantMap &viewProperties)
 {
 	Q_UNUSED(viewProperties)
-	if(d->aliases.contains(type))
-		return getInputUrl(d->aliases.value(type), viewProperties);
-	if(d->simpleViews.contains(type))
-		return d->simpleViews.value(type);
+	if(d->inputAliases.contains(type))
+		return getInputUrl(d->inputAliases.value(type), viewProperties);
+	if(d->simpleInputs.contains(type))
+		return d->simpleInputs.value(type);
 	else if(type == QMetaType::typeName(QMetaType::Bool))
-		return QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/inputs/CheckBox.qml");
+		return QStringLiteral("qrc:/qtmvvm/inputs/CheckBox.qml");
 	else if(type == "switch")
-		return QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/inputs/Switch.qml");
+		return QStringLiteral("qrc:/qtmvvm/inputs/Switch.qml");
 	else if(type == QMetaType::typeName(QMetaType::QString) || type == "string")
-		return QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/inputs/TextField.qml");
+		return QStringLiteral("qrc:/qtmvvm/inputs/TextField.qml");
 	else if(type == QMetaType::typeName(QMetaType::Int))
-		return QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/inputs/SpinBox.qml");
+		return QStringLiteral("qrc:/qtmvvm/inputs/SpinBox.qml");
 	else if(type == QMetaType::typeName(QMetaType::Double))
-		return QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/inputs/DoubleSpinBox.qml");
+		return QStringLiteral("qrc:/qtmvvm/inputs/DoubleSpinBox.qml");
 //	else if(type == QMetaType::typeName(QMetaType::QDate))
 //		return QUrl();
 //	else if(type == QMetaType::typeName(QMetaType::QTime))
@@ -62,31 +62,61 @@ QUrl InputViewFactory::getInputUrl(const QByteArray &type, const QVariantMap &vi
 //	else if(type == QMetaType::typeName(QMetaType::QDateTime) || type == "date")
 //		return QUrl();
 	else if(type == QMetaType::typeName(QMetaType::QFont))
-		return QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/inputs/FontEdit.qml");
+		return QStringLiteral("qrc:/qtmvvm/inputs/FontEdit.qml");
 	else if(type == QMetaType::typeName(QMetaType::QUrl) || type == "url")
-		return QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/inputs/UrlField.qml");
+		return QStringLiteral("qrc:/qtmvvm/inputs/UrlField.qml");
 	else if(type == "selection" || type == "list")
-		return QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/inputs/ListEdit.qml");
+		return QStringLiteral("qrc:/qtmvvm/inputs/ListEdit.qml");
 	else {
 		logCritical() << "Failed to find any input view for input type:" << type;
 		return QUrl();
 	}
 }
 
-void InputViewFactory::addSimpleView(const QByteArray &type, const QUrl &qmlFileUrl)
+QUrl InputViewFactory::getDelegate(const QByteArray &type, const QVariantMap &viewProperties)
 {
-	d->simpleViews.insert(type, qmlFileUrl);
+	Q_UNUSED(viewProperties)
+	if(d->delegateAliases.contains(type))
+		return getDelegate(d->delegateAliases.value(type), viewProperties);
+	if(d->simpleDelegates.contains(type))
+		return d->simpleDelegates.value(type);
+	else if(type == QMetaType::typeName(QMetaType::Bool))
+		return QStringLiteral("qrc:/qtmvvm/delegates/BoolDelegate.qml");
+	else if(type == "switch")
+		return QStringLiteral("qrc:/qtmvvm/inputs/SwitchDelegate.qml");
+	//TODO add
+//	else if(type == "selection" || type == "list")
+//		return QStringLiteral("qrc:/qtmvvm/inputs/ListDelegate.qml");
+	else
+		return QStringLiteral("qrc:/qtmvvm/delegates/MsgDelegate.qml");
 }
 
-void InputViewFactory::addAlias(const QByteArray &alias, const QByteArray &targetType)
+void InputViewFactory::addSimpleInput(const QByteArray &type, const QUrl &qmlFileUrl)
 {
-	d->aliases.insert(alias, targetType);
+	d->simpleInputs.insert(type, qmlFileUrl);
+}
+
+void InputViewFactory::addSimpleDelegate(const QByteArray &type, const QUrl &qmlFileUrl)
+{
+	d->simpleDelegates.insert(type, qmlFileUrl);
+}
+
+void InputViewFactory::addInputAlias(const QByteArray &alias, const QByteArray &targetType)
+{
+	d->inputAliases.insert(alias, targetType);
+}
+
+void InputViewFactory::addDelegateAlias(const QByteArray &alias, const QByteArray &targetType)
+{
+	d->delegateAliases.insert(alias, targetType);
 }
 
 // ------------- Private Implementation -------------
 
 InputViewFactoryPrivate::InputViewFactoryPrivate() :
-	simpleViews(),
-	aliases()
+	simpleInputs(),
+	simpleDelegates(),
+	inputAliases(),
+	delegateAliases()
 {}
 

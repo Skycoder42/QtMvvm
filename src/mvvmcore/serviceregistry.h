@@ -16,6 +16,7 @@ class Q_MVVMCORE_EXPORT ServiceRegistry
 {
 public:
 	ServiceRegistry(ServiceRegistryPrivate *d_ptr);
+	~ServiceRegistry();
 
 	static ServiceRegistry* instance();
 

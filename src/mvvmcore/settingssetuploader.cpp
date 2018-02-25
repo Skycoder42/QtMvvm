@@ -21,7 +21,7 @@ using namespace QtMvvm::SettingsElements;
 
 SettingsSetupLoader::SettingsSetupLoader(QObject *parent) :
 	QObject(parent),
-	_defaultIcon(QStringLiteral("qrc:/qtmvvm/icons/settings.svg")),
+	_defaultIcon(QStringLiteral("qrc:/de/skycoder42/qtmvvm/icons/settings.svg")),
 	_cache()
 {}
 

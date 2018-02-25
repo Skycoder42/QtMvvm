@@ -84,7 +84,7 @@ QString SettingsDialog::labelFilterStyleSheet() const
 
 QUrl SettingsDialog::iconOverwrite() const
 {
-	return QStringLiteral("qrc:/qtmvvm/icons/settings.ico");
+	return QStringLiteral("qrc:/de/skycoder42/qtmvvm/icons/settings.ico");
 }
 
 // ------------- Private Implementation -------------
