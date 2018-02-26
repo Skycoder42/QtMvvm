@@ -47,26 +47,27 @@ QVariant SettingsEntryModel::data(const QModelIndex &index, int role) const
 	if (!index.isValid())
 		return QVariant();
 
+	auto entry = _entries.value(index.row());
 	switch (role) {
 	case Qt::DisplayRole:
 	case TitleRole:
-		return _entries.value(index.row()).title;
+		return entry.title;
 	case KeyRole:
-		return _entries.value(index.row()).key;
+		return entry.key;
 	case TypeRole:
-		return QString::fromUtf8(_entries.value(index.row()).type);
+		return QString::fromUtf8(entry.type);
 	case ToolTipRole:
-		return _entries.value(index.row()).tooltip;
+		return entry.tooltip;
 	case DelegateUrlRole:
-		return _entries.value(index.row()).delegateUrl;
+		return entry.delegateUrl;
 	case SettingsValueRole:
-		return _viewModel->loadValue(_entries.value(index.row()).key);
+		return _viewModel->loadValue(entry.key, entry.defaultValue);
 	case PropertiesRole:
-		return _entries.value(index.row()).properties;
+		return entry.properties;
 	case GroupRole:
-		return _entries.value(index.row()).group.title;
+		return entry.group.title;
 	case SearchKeysRole:
-		return _entries.value(index.row()).searchKeys;
+		return entry.searchKeys;
 	default:
 		return QVariant();
 	}

@@ -61,7 +61,7 @@ void SettingsUiBuilder::loadSection(const SettingsElements::Section &section)
 	emit presentSection(_entryFilterModel);
 }
 
-void SettingsUiBuilder::showDialog(const QString &key, const QString &title, const QString &type, const QVariantMap &properties)
+void SettingsUiBuilder::showDialog(const QString &key, const QString &title, const QString &type, const QVariant &defaultValue, const QVariantMap &properties)
 {
 	if(type == QStringLiteral("action"))
 		_viewModel->callAction(key, properties.value(QStringLiteral("args")).toMap());
@@ -69,7 +69,7 @@ void SettingsUiBuilder::showDialog(const QString &key, const QString &title, con
 		getInput(title + tr(":"), QString(), qUtf8Printable(type), this, [this, key](QVariant value) {
 			if(value.isValid())
 				_viewModel->saveValue(key, value);
-		}, _viewModel->loadValue(key), properties);
+		}, _viewModel->loadValue(key, defaultValue), properties);
 	}
 }
 

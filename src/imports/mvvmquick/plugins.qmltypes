@@ -143,6 +143,7 @@ Module {
             Parameter { name: "key"; type: "string" }
             Parameter { name: "title"; type: "string" }
             Parameter { name: "type"; type: "string" }
+            Parameter { name: "defaultValue"; type: "QVariant" }
             Parameter { name: "properties"; type: "QVariantMap" }
         }
         Method { name: "restoreDefaults" }

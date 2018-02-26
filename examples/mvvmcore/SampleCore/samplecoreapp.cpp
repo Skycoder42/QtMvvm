@@ -9,6 +9,7 @@ SampleCoreApp::SampleCoreApp(QObject *parent) :
 	CoreApp(parent),
 	_showDrawer(false)
 {
+	QCoreApplication::setApplicationName(QStringLiteral("QtMvvmSample"));
 	QCoreApplication::setApplicationVersion(QStringLiteral(QTMVVMCORE_VERSION_STR));
 	QCoreApplication::setOrganizationName(QStringLiteral("Skycoder42"));
 }

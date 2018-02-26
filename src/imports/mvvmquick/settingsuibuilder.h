@@ -33,7 +33,7 @@ public:
 
 public Q_SLOTS:
 	void loadSection(const QtMvvm::SettingsElements::Section &section);
-	void showDialog(const QString &key, const QString &title, const QString &type, const QVariantMap &properties);
+	void showDialog(const QString &key, const QString &title, const QString &type, const QVariant &defaultValue, const QVariantMap &properties);
 
 	void restoreDefaults();
 	void setFilterText(QString filterText);

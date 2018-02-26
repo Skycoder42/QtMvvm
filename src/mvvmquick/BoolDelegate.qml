@@ -7,7 +7,7 @@ CheckDelegate {
 
 	text: title
 
-	Component.onCompleted: checked = settingsValue;
+	Component.onCompleted: checked = settingsValue; //TODO buggy, use binding?
 	onCheckedChanged: settingsValue = checked;
 
 	contentItem: GridLayout {

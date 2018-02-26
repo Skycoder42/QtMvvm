@@ -8,9 +8,10 @@ import de.skycoder42.QtMvvm.Quick 1.0
 Page {
 	id: _settingsView
 	property SettingsViewModel viewModel: null
+	property bool fullClose: false
 
 	function closeAction() {
-		return _settingsStack.closeAction();
+		return !fullClose && _settingsStack.closeAction();
 	}
 
 	header: ToolBar {
@@ -219,6 +220,9 @@ Page {
 																   model: model
 															   }, Qt.Asynchronous)
 
-		onCloseSettings: QuickPresenter.popView()
+		onCloseSettings: {
+			_settingsView.fullClose = true;
+			QuickPresenter.popView();
+		}
 	}
 }

@@ -3,33 +3,58 @@ import QtQuick.Controls 2.3
 
 ComboBox {
 	id: _edit
-	property alias inputValue: _edit.currentValue
+	property var inputValue
 	property alias listElements: _edit.model
-	property var currentValue: _valueHelper ? _valueHelper.value : null
+	readonly property bool isExtended: Boolean(model[0] && model[0].name)
 
-	textRole: "name"
-	property var _valueHelper: { return {}; }
+	property bool _skipNext: false
 
-	Component.onCompleted: {
-		Object.defineProperty(
-			_valueHelper,
-			"value",
-			{
-				get: function () {
-					var value = _edit.model[_edit.currentIndex].value;
-					if(typeof value !== "undefined")
-						return value;
-					else
-						return _edit.displayText;
-				},
-				set: function (value) {
-					var index = find(value); //TODO find VALUE, not text... somehow via the model?
-					if(index !== -1)
-						currentIndex = index;
-					else if(editable)
-						editText = value;
+	textRole: isExtended ? "name" : ""
+
+	onInputValueChanged: {
+		if(_skipNext) {
+			_skipNext = false;
+			return;
+		} else
+			_skipNext = true;
+
+		var found = false;
+		var i;
+		if(isExtended) {
+			for(i = 0; i < model.length; i++) {
+				if(model[i].value == inputValue) {
+					currentIndex = i;
+					found = true;
+					break;
 				}
 			}
-		);
+		} else {
+			for(i = 0; i < model.length; i++) {
+				if(model[i] == inputValue) {
+					currentIndex = i;
+					found = true;
+					break;
+				}
+			}
+		}
+		if(!found)
+			editText = inputValue;
+	}
+
+	onEditTextChanged: {
+		if(_skipNext) {
+			_skipNext = false;
+			return;
+		} else
+			_skipNext = true;
+
+		if(isExtended) {
+			var value = model[currentIndex].value;
+			if(typeof value !== "undefined")
+				inputValue = value;
+			else
+				inputValue = editText;
+		} else
+			inputValue = editText
 	}
 }

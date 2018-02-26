@@ -21,8 +21,8 @@ ListView {
 
 		onLoaded: {
 			if(loaderDelegate.item && typeof loaderDelegate.item.showInput !== "undefined") {
-				loaderDelegate.item.showInput.connect(function(key, title, type, props){
-					builder.showDialog(key, title, type, props);
+				loaderDelegate.item.showInput.connect(function(key, title, type, defaultValue, props){
+					builder.showDialog(key, title, type, defaultValue, props);
 				});
 			}
 		}
