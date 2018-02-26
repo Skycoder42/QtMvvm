@@ -1,13 +1,9 @@
-import QtQuick 2.8
-import QtQuick.Controls 2.1
-import de.skycoder42.quickextras 2.0
+import QtQuick 2.10
+import QtQuick.Controls 2.3
+import de.skycoder42.QtMvvm.Quick 1.0
 
 Label {
 	property string title
-
-	CommonStyle {
-		id: style
-	}
 
 	width: parent.width
 	font.bold: true
@@ -18,14 +14,28 @@ Label {
 
 	background: Rectangle {
 		anchors.fill: parent
-		color: style.sBackground
+		color: {
+			if(QuickPresenter.currentStyle === "Material")
+				return Material.background;
+			else if(QuickPresenter.currentStyle === "Universal")
+				return Universal.background;
+			else
+				return "white";
+		}
 
 		Rectangle {
 			anchors.left: parent.left
 			anchors.bottom: parent.bottom
 			anchors.right: parent.right
 			height: 2
-			color: style.accent
+			color: {
+				if(QuickPresenter.currentStyle === "Material")
+					return Material.accent;
+				else if(QuickPresenter.currentStyle === "Universal")
+					return Universal.accent;
+				else
+					return "black";
+			}
 		}
 	}
 }

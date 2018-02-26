@@ -42,6 +42,7 @@ public:
 
 public Q_SLOTS:
 	void toggleDrawer();
+	void popView();
 
 Q_SIGNALS:
 	void qmlPresenterChanged(QObject* qmlPresenter);

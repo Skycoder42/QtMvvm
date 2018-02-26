@@ -21,28 +21,18 @@ Page {
 			anchors.fill: parent
 			spacing: 0
 
-			ActionButton {
-				id: _backButton
-				source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_arrow_back"
-				toolTip: qsTr("Go back")
-				onClicked: {
-					//TODO close settings view
-					//TODO remove, not needed
-				}
-			}
-
 			Item {
 				id: _labelContainer
 
 				Layout.fillWidth: true
 				Layout.minimumHeight: 56
+				Layout.leftMargin: 10
 
 				Label {
 					id: _titleLabel
 					font.pointSize: 16
 					font.bold: true
 					elide: Label.ElideRight
-					leftPadding: 10
 					horizontalAlignment: Qt.AlignLeft
 					verticalAlignment: Qt.AlignVCenter
 					anchors.fill: parent
@@ -64,17 +54,17 @@ Page {
 
 			ActionButton {
 				id: _searchButton
-				visible: true
+				visible: _builder.allowSearch
 				toolTip: qsTr("Search in settings")
 				onClicked: toggleSearchState()
 			}
 
 			ActionButton {
 				id: _restoreButton
-				visible: true
+				visible: _builder.allowRestore
 				source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_settings_backup_restore"
 				toolTip: qsTr("Restore settings")
-				onClicked: builder.restoreDefaults()
+				onClicked: _builder.restoreDefaults()
 			}
 		}
 	}
@@ -193,28 +183,42 @@ Page {
 		}
 	}
 
-//	SettingsUiBuilder {
-//		id: builder
-//		buildView: _settingsView
-//		control: _settingsView.control
-//		filterText: _searchField.text
+	Component {
+		id: _overviewComponent
 
-//		onInitActions: {
-//			searchButton.visible = allowSearch;
-//			restoreButton.visible = allowSearch;
-//		}
+		OverviewListView {
+			id: __ovListView
+			builder: _builder
 
-//		onCreateView: {
-//			if(isOverview) {
-//				_settingsStack.push("qrc:/de/skycoder42/qtmvvm/settings/quick/OverviewListView.qml", {
-//									   "model": model,
-//									   "showSections": showSections
-//								   });
-//			} else {
-//				_settingsStack.push("qrc:/de/skycoder42/qtmvvm/settings/quick/SectionListView.qml", {
-//									   "model": model
-//								   });
-//			}
-//		}
-//	}
+			Component.onCompleted: _settingsStack.push(__ovListView)
+		}
+	}
+
+	Component {
+		id: _sectionViewComponent
+
+		SectionListView {
+			id: __secListView
+			builder: _builder
+
+			Component.onCompleted: _settingsStack.push(__secListView)
+		}
+	}
+
+	SettingsUiBuilder {
+		id: _builder
+		buildView: _settingsView
+		viewModel: _settingsView.viewModel
+		filterText: _searchField.text
+
+		onPresentOverview: _overviewComponent.incubateObject(_settingsStack, {
+																	model: model,
+																	showSections: hasSections
+																}, Qt.Asynchronous)
+		onPresentSection: _sectionViewComponent.incubateObject(_settingsStack, {
+																   model: model
+															   }, Qt.Asynchronous)
+
+		onCloseSettings: QuickPresenter.popView()
+	}
 }

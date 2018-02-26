@@ -1,12 +1,13 @@
-import QtQuick 2.8
-import QtQuick.Controls 2.1
+import QtQuick 2.10
+import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
-import de.skycoder42.quickextras 2.0
+import de.skycoder42.QtMvvm.Quick 1.0
 
 ListView {
-	id: listView
+	id: _sectionListView
 
 	property bool showSections: true
+	property SettingsUiBuilder builder
 
 	section.property: showSections ? "category" : ""
 	section.labelPositioning: ViewSection.InlineLabels
@@ -18,18 +19,7 @@ ListView {
 		id: delegate
 		width: parent.width
 
-		onClicked: builder.loadSection(settingsSection)
-
-		Timer {
-			id: enforcer
-			interval: 50
-			repeat: false
-			running: true
-
-			onTriggered: {
-				delegate.implicitHeight = Qt.binding(function(){return grid.implicitHeight + 32});
-			}
-		}
+		onClicked: builder.loadSection(section)
 
 		contentItem: GridLayout {
 			id: grid
@@ -39,8 +29,8 @@ ListView {
 
 			TintIcon {
 				id: tintIcon
-				source: icon
-				visible: icon != ""
+				source: iconUrl
+				visible: iconUrl != ""
 				Layout.row: 0
 				Layout.column: 0
 				Layout.rowSpan: 2

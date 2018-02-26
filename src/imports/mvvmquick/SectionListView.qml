@@ -1,9 +1,12 @@
-import QtQuick 2.8
-import QtQuick.Controls 2.1
+import QtQuick 2.10
+import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
+import de.skycoder42.QtMvvm.Quick 1.0
 
 ListView {
-	id: listView
+	id: _listView
+
+	property SettingsUiBuilder builder
 
 	section.property: "group"
 	section.labelPositioning: ViewSection.InlineLabels
@@ -16,6 +19,14 @@ ListView {
 		width: parent.width
 		height: item ? item.implicitHeight : 0
 
-		Component.onCompleted: loaderDelegate.setSource(delegateUrl, editProperties);
+		onLoaded: {
+			if(loaderDelegate.item && typeof loaderDelegate.item.showInput !== "undefined") {
+				loaderDelegate.item.showInput.connect(function(key, title, type, props){
+					builder.showDialog(key, title, type, props);
+				});
+			}
+		}
+
+		Component.onCompleted: loaderDelegate.setSource(delegateUrl, properties);
 	}
 }

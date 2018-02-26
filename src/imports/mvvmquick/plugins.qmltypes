@@ -87,10 +87,68 @@ Module {
             Parameter { name: "inputViewFactory"; type: "InputViewFactory"; isPointer: true }
         }
         Method { name: "toggleDrawer" }
+        Method { name: "popView" }
         Method {
             name: "mimeTypeFilters"
             type: "QStringList"
             Parameter { name: "mimeTypes"; type: "QStringList" }
+        }
+    }
+    Component {
+        name: "QtMvvm::SettingsUiBuilder"
+        prototype: "QObject"
+        exports: ["de.skycoder42.QtMvvm.Quick/SettingsUiBuilder 1.0"]
+        exportMetaObjectRevisions: [0]
+        Property { name: "buildView"; type: "QQuickItem"; isPointer: true }
+        Property { name: "viewModel"; type: "SettingsViewModel"; isPointer: true }
+        Property { name: "filterText"; type: "string" }
+        Property { name: "allowSearch"; type: "bool" }
+        Property { name: "allowRestore"; type: "bool" }
+        Signal {
+            name: "presentOverview"
+            Parameter { name: "model"; type: "QAbstractItemModel"; isPointer: true }
+            Parameter { name: "hasSections"; type: "bool" }
+        }
+        Signal {
+            name: "presentSection"
+            Parameter { name: "model"; type: "QAbstractItemModel"; isPointer: true }
+        }
+        Signal { name: "closeSettings" }
+        Signal {
+            name: "buildViewChanged"
+            Parameter { name: "buildView"; type: "QQuickItem"; isPointer: true }
+        }
+        Signal {
+            name: "viewModelChanged"
+            Parameter { name: "viewModel"; type: "SettingsViewModel"; isPointer: true }
+        }
+        Signal {
+            name: "filterTextChanged"
+            Parameter { name: "filterText"; type: "string" }
+        }
+        Signal {
+            name: "allowSearchChanged"
+            Parameter { name: "allowSearch"; type: "bool" }
+        }
+        Signal {
+            name: "allowRestoreChanged"
+            Parameter { name: "allowRestore"; type: "bool" }
+        }
+        Method {
+            name: "loadSection"
+            Parameter { name: "section"; type: "QtMvvm::SettingsElements::Section" }
+        }
+        Method {
+            name: "showDialog"
+            Parameter { name: "key"; type: "string" }
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "type"; type: "string" }
+            Parameter { name: "properties"; type: "QVariantMap" }
+        }
+        Method { name: "restoreDefaults" }
+        Method {
+            name: "setFilterText"
+            Parameter { name: "filterText"; type: "string" }
         }
     }
     Component {

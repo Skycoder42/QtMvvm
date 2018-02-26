@@ -86,6 +86,12 @@ public:
 
 }
 
+Q_DECLARE_METATYPE(QtMvvm::SettingsElements::Entry)
+Q_DECLARE_METATYPE(QtMvvm::SettingsElements::Group)
+Q_DECLARE_METATYPE(QtMvvm::SettingsElements::Section)
+Q_DECLARE_METATYPE(QtMvvm::SettingsElements::Category)
+Q_DECLARE_METATYPE(QtMvvm::SettingsElements::Setup)
+
 #define QtMvvm_ISettingsSetupLoaderIid "de.skycoder42.qtmvvm.settings.core.ISettingsSetupLoader"
 Q_DECLARE_INTERFACE(QtMvvm::ISettingsSetupLoader, QtMvvm_ISettingsSetupLoaderIid)
 Q_DECLARE_METATYPE(QtMvvm::ISettingsSetupLoader*)

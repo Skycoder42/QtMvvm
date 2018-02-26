@@ -7,6 +7,8 @@ ItemDelegate {
 
 	text: title
 
+	signal showInput(string key, string title, string type, var properties);
+
 	contentItem: ColumnLayout {
 		Label {
 			id: _titleLabel
@@ -25,5 +27,5 @@ ItemDelegate {
 		}
 	}
 
-	onClicked: showInputDialog = true
+	onClicked: showInput(key, title, type, properties)
 }

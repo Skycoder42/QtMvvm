@@ -5,7 +5,7 @@ ComboBox {
 	id: _edit
 	property alias inputValue: _edit.currentValue
 	property alias listElements: _edit.model
-	property alias currentValue: _valueHelper.value
+	property var currentValue: _valueHelper ? _valueHelper.value : null
 
 	textRole: "name"
 	property var _valueHelper: { return {}; }

@@ -6,6 +6,7 @@
 
 #include "qqmlquickpresenter.h"
 #include "svgimageprovider.h"
+#include "settingsuibuilder.h"
 #ifdef Q_OS_ANDROID
 #include "androidfilechooser.h"
 #endif
@@ -38,6 +39,8 @@ void QtMvvmQuickDeclarativeModule::registerTypes(const char *uri)
 	//Version 1.0
 	qmlRegisterUncreatableType<QtMvvm::InputViewFactory>(uri, 1, 0, "InputViewFactory", QStringLiteral("InputViewFactories can only be created from C++ via the QuickPresenter"));
 	qmlRegisterSingletonType<QtMvvm::QQmlQuickPresenter>(uri, 1, 0, "QuickPresenter", createQuickPresenterQmlSingleton);
+
+	qmlRegisterType<QtMvvm::SettingsUiBuilder>(uri, 1, 0, "SettingsUiBuilder");
 
 #ifdef Q_OS_ANDROID
 	qmlRegisterType<QtMvvm::AndroidFileChooser>(uri, 1, 0, "FileChooser");

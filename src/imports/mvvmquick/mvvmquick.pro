@@ -9,12 +9,20 @@ DEFINES += "VERSION_MINOR=$$MODULE_VERSION_MINOR"
 HEADERS += \
 	qtmvvmquick_plugin.h \
 	qqmlquickpresenter.h \
-	svgimageprovider.h
+	svgimageprovider.h \
+    settingsuibuilder.h \
+    settingssectionmodel.h \
+    multifilterproxymodel.h \
+    settingsentrymodel.h
 
 SOURCES += \
 	qtmvvmquick_plugin.cpp \
 	qqmlquickpresenter.cpp \
-	svgimageprovider.cpp
+	svgimageprovider.cpp \
+    settingsuibuilder.cpp \
+    settingssectionmodel.cpp \
+    multifilterproxymodel.cpp \
+    settingsentrymodel.cpp
 
 QML_FILES += \
 	QtMvvmApp.qml \

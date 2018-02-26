@@ -67,11 +67,8 @@ ApplicationWindow {
 			console.warn("No drawer like view active. Cannot toggle drawer");
 	}
 
-	Component.onCompleted: QuickPresenter.qmlPresenter = _root
-
-	onClosing: {
+	function closeAction() {
 		var closed = false;
-
 		if(!closed && _drawerLoader.item)
 			closed = _drawerLoader.item.closeAction();
 		if(!closed)
@@ -80,7 +77,10 @@ ApplicationWindow {
 			closed = _rootPopup.closeAction();
 		if(!closed)
 			closed = _rootStack.closeAction();
-
-		close.accepted = !closed;
+		return closed;
 	}
+
+	Component.onCompleted: QuickPresenter.qmlPresenter = _root
+
+	onClosing: close.accepted = !closeAction();
 }
