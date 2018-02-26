@@ -24,7 +24,8 @@ StackView {
 	}
 
 	function closeAction() {
-		if(typeof _presenterStack.currentItem.closeAction == "function") {
+		if(_presenterStack.currentItem &&
+		   typeof _presenterStack.currentItem.closeAction == "function") {
 			if(_presenterStack.currentItem.closeAction())
 				return true;
 		}

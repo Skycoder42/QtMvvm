@@ -29,6 +29,8 @@ int main(int argc, char *argv[])
 	QApplication app(argc, argv);
 	qDebug() << QQuickStyle::availableStyles() << QQuickStyle::name();
 
+	coreApp->setShowDrawer(true);
+
 	qmlRegisterUncreatableType<SampleViewModel>("de.skycoder42.QtMvvm.Sample", 1, 0, "SampleViewModel", QStringLiteral("ViewModels cannot be created"));
 	qmlRegisterUncreatableType<ResultViewModel>("de.skycoder42.QtMvvm.Sample", 1, 0, "ResultViewModel", QStringLiteral("ViewModels cannot be created"));
 	qmlRegisterUncreatableType<DrawerViewModel>("de.skycoder42.QtMvvm.Sample", 1, 0, "DrawerViewModel", QStringLiteral("ViewModels cannot be created"));
@@ -44,10 +46,6 @@ int main(int argc, char *argv[])
 	engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 	if (engine.rootObjects().isEmpty())
 		return -1;
-
-	QObject::connect(coreApp, &QtMvvm::CoreApp::appStarted, coreApp, []() {
-		coreApp->show<DrawerViewModel>();
-	});
 
 	return app.exec();
 }

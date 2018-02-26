@@ -106,18 +106,37 @@ bool CoreApp::autoParse(QCommandLineParser &parser, const QStringList &arguments
 {
 	if(parser.parse(arguments)) {
 		if(parser.isSet(QStringLiteral("help"))) {
-			Q_UNIMPLEMENTED();
+			MessageConfig helpConfig {MessageConfig::TypeMessageBox, MessageConfig::SubTypeQuestion};
+			helpConfig.setTitle(tr("Help"));
+			helpConfig.setText(parser.helpText());
+			helpConfig.setButtons(MessageConfig::Ok);
+			auto res = showDialog(helpConfig);
+			connect(res, &MessageResult::dialogDone,
+					qApp, &QCoreApplication::quit);
 			return false;
 		} else if(parser.isSet(QStringLiteral("version"))) {
-			auto text = QGuiApplication::applicationDisplayName() +
-						QLatin1Char(' ') +
-						QCoreApplication::applicationVersion();
-			Q_UNIMPLEMENTED();
+			MessageConfig versionConfig {MessageConfig::TypeMessageBox, MessageConfig::SubTypeInformation};
+			versionConfig.setTitle(tr("Application Version"));
+			versionConfig.setText(QGuiApplication::applicationDisplayName() +
+							   QLatin1Char(' ') +
+							   QCoreApplication::applicationVersion());
+			versionConfig.setButtons(MessageConfig::Ok);
+			auto res = showDialog(versionConfig);
+			connect(res, &MessageResult::dialogDone,
+					qApp, &QCoreApplication::quit);
 			return false;
 		} else
 			return true;
 	} else {
-		Q_UNIMPLEMENTED();
+		MessageConfig errorConfig {MessageConfig::TypeMessageBox, MessageConfig::SubTypeCritical};
+		errorConfig.setTitle(tr("Invalid Arguments"));
+		errorConfig.setText(parser.errorText());
+		errorConfig.setButtons(MessageConfig::Ok);
+		auto res = showDialog(errorConfig);
+		connect(res, &MessageResult::dialogDone,
+				qApp, [](){
+			qApp->exit(EXIT_FAILURE);
+		});
 		return false;
 	}
 }
