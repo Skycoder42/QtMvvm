@@ -10,9 +10,9 @@ const QList<int> SettingsSectionModel::FilterRoles {
 };
 
 SettingsSectionModel::SettingsSectionModel(QObject *parent) :
-	QAbstractListModel{parent},
-	_sections{},
-	_hasSections{false}
+	QAbstractListModel(parent),
+	_sections(),
+	_hasSections(false)
 {}
 
 void SettingsSectionModel::setup(const SettingsElements::Setup &setup)
@@ -97,8 +97,8 @@ bool SettingsSectionModel::hasSections() const
 
 
 SettingsSectionModel::SectionInfo::SectionInfo(SettingsElements::Section section, SettingsElements::Category category) :
-	Section{section},
-	category{category}
+	Section(section),
+	category(category)
 {
 	icon = SettingsUiBuilder::svgEscape(icon);
 	category.sections.clear();
@@ -106,7 +106,7 @@ SettingsSectionModel::SectionInfo::SectionInfo(SettingsElements::Section section
 
 SettingsSectionModel::SectionInfo::SectionInfo(SettingsElements::Category category) :
 	Section{category.title, category.icon, category.tooltip, category.sections.first().groups, {}, {}},
-	category{}
+	category()
 {
 	icon = SettingsUiBuilder::svgEscape(icon);
 }
