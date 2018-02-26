@@ -27,6 +27,7 @@ Page {
 				toolTip: qsTr("Go back")
 				onClicked: {
 					//TODO close settings view
+					//TODO remove, not needed
 				}
 			}
 

@@ -30,8 +30,8 @@ QML_FILES += \
 	PresentingDrawer.qml \
 	ListSection.qml \
 	SectionListView.qml \
-	OverviewListView.qml
-
+	OverviewListView.qml \
+	SettingsView.qml
 
 RESOURCES += \
 	qtmvvmquick_plugin.qrc
@@ -52,6 +52,7 @@ generate_qmltypes {
 	QMAKE_EXTRA_TARGETS += typeextra1 typeextra2
 }
 
+CONFIG += qmlcache
 load(qml_plugin)
 
 generate_qmltypes {

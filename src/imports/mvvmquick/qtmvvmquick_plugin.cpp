@@ -39,12 +39,13 @@ void QtMvvmQuickDeclarativeModule::registerTypes(const char *uri)
 	qmlRegisterUncreatableType<QtMvvm::InputViewFactory>(uri, 1, 0, "InputViewFactory", QStringLiteral("InputViewFactories can only be created from C++ via the QuickPresenter"));
 	qmlRegisterSingletonType<QtMvvm::QQmlQuickPresenter>(uri, 1, 0, "QuickPresenter", createQuickPresenterQmlSingleton);
 
-	qmlRegisterType(QUrl(QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/qml/FileDialog.qml")), uri, 1, 0, "FileDialog");
-	qmlRegisterType(QUrl(QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/qml/FolderDialog.qml")), uri, 1, 0, "FolderDialog");
-	qmlRegisterType(QUrl(QStringLiteral("qrc:/qtmvvm/views/SettingsView.qml")), uri, 1, 0, "SettingsView");
-
 #ifdef Q_OS_ANDROID
 	qmlRegisterType<QtMvvm::AndroidFileChooser>(uri, 1, 0, "FileChooser");
+	qmlRegisterType(QUrl(QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/qml/AndroidFileDialog.qml")), uri, 1, 0, "FileDialog");
+	qmlRegisterType(QUrl(QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/qml/AndroidFolderDialog.qml")), uri, 1, 0, "FolderDialog");
+#else
+	qmlRegisterType(QUrl(QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/qml/FileDialog.qml")), uri, 1, 0, "FileDialog");
+	qmlRegisterType(QUrl(QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/qml/FolderDialog.qml")), uri, 1, 0, "FolderDialog");
 #endif
 
 	// Check to make shure no module update is forgotten

@@ -20,4 +20,6 @@ PopupPresenter 1.0 PopupPresenter.qml
 DialogPresenter 1.0 DialogPresenter.qml
 PresentingDrawer 1.0 PresentingDrawer.qml
 
+SettingsView 1.0 SettingsView.qml
+
 QtMvvmApp 1.0 QtMvvmApp.qml

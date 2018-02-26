@@ -26,6 +26,7 @@ generate_qmltypes {
 	QMAKE_EXTRA_TARGETS += typeextra1 typeextra2
 }
 
+CONFIG += qmlcache
 load(qml_plugin)
 
 generate_qmltypes {

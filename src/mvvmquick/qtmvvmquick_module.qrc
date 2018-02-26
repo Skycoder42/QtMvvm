@@ -14,4 +14,7 @@
         <file>MsgDelegate.qml</file>
         <file>SwitchDelegate.qml</file>
     </qresource>
+    <qresource prefix="/qtmvvm/views">
+        <file>SettingsView.qml</file>
+    </qresource>
 </RCC>

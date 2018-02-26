@@ -12,11 +12,8 @@
     <qresource prefix="/de/skycoder42/qtmvvm/quick/qml">
         <file>FileDialog.qml</file>
         <file>FolderDialog.qml</file>
-        <file alias="+android/FileDialog.qml">AndroidFileDialog.qml</file>
-        <file alias="+android/FolderDialog.qml">AndroidFolderDialog.qml</file>
-    </qresource>
-    <qresource prefix="/qtmvvm/views">
-        <file>SettingsView.qml</file>
+        <file>AndroidFileDialog.qml</file>
+        <file>AndroidFolderDialog.qml</file>
     </qresource>
     <qresource prefix="/de/skycoder42/qtmvvm/icons">
         <file alias="settings.svg">icons/ic_settings_white_24px.svg</file>
