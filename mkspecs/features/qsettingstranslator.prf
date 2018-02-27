@@ -16,6 +16,9 @@ isEmpty(QSETTINGSTRANSLATOR_DIR): QSETTINGSTRANSLATOR_DIR = $$_PRO_FILE_PWD_/.ts
 	qtmvvm_tsgen_target.depends += compiler_qsettingstranslator_c_make_all
 	qtmvvm_tsgen_target.commands += @echo $$shell_quote(>>> Remember to add the line \"_never_true_condition: SOURCES += $${LITERAL_DOLLAR}$${LITERAL_DOLLAR}$${LITERAL_DOLLAR}$${LITERAL_DOLLAR}files($${LITERAL_DOLLAR}$${LITERAL_DOLLAR}$${LITERAL_DOLLAR}$${LITERAL_DOLLAR}PWD/.ts-dummy/*)\" to your pro file)
 	QMAKE_EXTRA_TARGETS += qtmvvm_tsgen_target
+} else {
+	qtmvvm_tsgen_target.target = qtmvvm-tsgen
+	QMAKE_EXTRA_TARGETS += qtmvvm_tsgen_target
 }
 
 QMAKE_DIR_REPLACE += QSETTINGSTRANSLATOR_DIR
