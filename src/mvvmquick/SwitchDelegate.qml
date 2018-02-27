@@ -7,8 +7,18 @@ Controls.SwitchDelegate {
 
 	text: title
 
-	Component.onCompleted: checked = settingsValue;
-	onCheckedChanged: settingsValue = checked;
+	function asBool(value) {
+		if(typeof value == "string")
+			return value === "true";
+		else
+			return Boolean(value);
+	}
+
+	Component.onCompleted: checked = asBool(inputValue)
+	onCheckedChanged: {
+		if(asBool(inputValue) !== checked)
+			inputValue = checked;
+	}
 
 	contentItem: GridLayout {
 		columns: 2

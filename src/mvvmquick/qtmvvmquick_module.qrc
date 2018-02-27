@@ -8,11 +8,13 @@
         <file>FontEdit.qml</file>
         <file>UrlField.qml</file>
         <file>Switch.qml</file>
+        <file>RadioListEdit.qml</file>
     </qresource>
     <qresource prefix="/qtmvvm/delegates">
         <file>BoolDelegate.qml</file>
         <file>MsgDelegate.qml</file>
         <file>SwitchDelegate.qml</file>
+        <file>ListDelegate.qml</file>
     </qresource>
     <qresource prefix="/qtmvvm/views">
         <file>SettingsView.qml</file>

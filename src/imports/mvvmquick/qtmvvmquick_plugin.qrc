@@ -7,6 +7,7 @@
         <file alias="ic_close.svg">icons/ic_close_white_24px.svg</file>
         <file alias="ic_search.svg">icons/ic_search_white_24px.svg</file>
         <file alias="ic_settings_backup_restore.svg">icons/ic_settings_backup_restore_white_24px.svg</file>
+        <file alias="ic_chevron_right.svg">icons/ic_chevron_right_white_24px.svg</file>
     </qresource>
     <qresource prefix="/de/skycoder42/qtmvvm/quick/qml">
         <file>FileDialog.qml</file>

@@ -92,7 +92,7 @@ QHash<int, QByteArray> SettingsEntryModel::roleNames() const
 		{TitleRole, "title"},
 		{ToolTipRole, "tooltip"},
 		{DelegateUrlRole, "delegateUrl"},
-		{SettingsValueRole, "settingsValue"},
+		{SettingsValueRole, "inputValue"},
 		{PropertiesRole, "properties"}
 	};
 }

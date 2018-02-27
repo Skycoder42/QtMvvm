@@ -67,6 +67,8 @@ QUrl InputViewFactory::getInputUrl(const QByteArray &type, const QVariantMap &vi
 		return QStringLiteral("qrc:/qtmvvm/inputs/UrlField.qml");
 	else if(type == "selection" || type == "list")
 		return QStringLiteral("qrc:/qtmvvm/inputs/ListEdit.qml");
+	else if(type == "radiolist")
+		return QStringLiteral("qrc:/qtmvvm/inputs/RadioListEdit.qml");
 	else {
 		logCritical() << "Failed to find any input view for input type:" << type;
 		return QUrl();
@@ -83,10 +85,10 @@ QUrl InputViewFactory::getDelegate(const QByteArray &type, const QVariantMap &vi
 	else if(type == QMetaType::typeName(QMetaType::Bool))
 		return QStringLiteral("qrc:/qtmvvm/delegates/BoolDelegate.qml");
 	else if(type == "switch")
-		return QStringLiteral("qrc:/qtmvvm/inputs/SwitchDelegate.qml");
-	//TODO add
-//	else if(type == "selection" || type == "list")
-//		return QStringLiteral("qrc:/qtmvvm/inputs/ListDelegate.qml");
+		return QStringLiteral("qrc:/qtmvvm/delegates/SwitchDelegate.qml");
+	else if((type == "selection" || type == "list") &&
+			!viewProperties.value(QStringLiteral("editable"), false).toBool())
+		return QStringLiteral("qrc:/qtmvvm/delegates/ListDelegate.qml");
 	else
 		return QStringLiteral("qrc:/qtmvvm/delegates/MsgDelegate.qml");
 }

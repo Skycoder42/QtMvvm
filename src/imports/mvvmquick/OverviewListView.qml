@@ -24,7 +24,7 @@ ListView {
 		contentItem: GridLayout {
 			id: grid
 			rows: 2
-			columns: 2
+			columns: 3
 			columnSpacing: 14
 
 			TintIcon {
@@ -58,6 +58,18 @@ ListView {
 				text: tooltip
 				wrapMode: Text.WordWrap
 				Layout.fillWidth: true
+			}
+
+			TintIcon {
+				id: openIcon
+				source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_chevron_right"
+				Layout.row: 0
+				Layout.column: 2
+				Layout.rowSpan: 2
+				Layout.fillHeight: true
+				Layout.preferredWidth: iconSize.width
+				Layout.preferredHeight: iconSize.height
+				Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
 			}
 		}
 	}

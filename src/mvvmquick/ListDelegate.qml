@@ -3,7 +3,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 
 ItemDelegate {
-	id: _msgDelegate
+	id: _listDelegate
 
 	text: title
 
@@ -12,7 +12,7 @@ ItemDelegate {
 	contentItem: ColumnLayout {
 		Label {
 			id: _titleLabel
-			text: _msgDelegate.text
+			text: _listDelegate.text
 			font.bold: true
 			elide: Label.ElideRight
 			Layout.fillWidth: true
@@ -27,5 +27,5 @@ ItemDelegate {
 		}
 	}
 
-	onClicked: showInput(key, title, type, inputValue, properties)
+	onClicked: showInput(key, title, "radiolist", inputValue, properties)
 }

@@ -89,5 +89,15 @@
 			   type="int"
 			   title="Enter a &amp;number"
 			   default="42" />
+		<Entry key="prop8"
+			   type="selection"
+			   title="Select a &amp;mode"
+			   default="Text 2">
+			<Property key="editable" type="bool">true</Property>
+			<Property key="listElements" type="list">
+				<Element type="string">Text 1</Element>
+				<Element type="string">Text 2</Element>
+			</Property>
+		</Entry>
 	</Category>
 </SettingsConfig>
