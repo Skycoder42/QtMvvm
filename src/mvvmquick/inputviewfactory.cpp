@@ -8,33 +8,12 @@
 
 #include <QtMvvmCore/private/qtmvvm_logging_p.h>
 
-#include <qurlvalidator.h>
 using namespace QtMvvm;
-
-namespace {
-
-void initPrivateQml()
-{
-	qmlRegisterType<QUrlValidator>("de.skycoder42.QtMvvm.Quick.Private", 1, 0, "UrlValidator");
-}
-
-void initResources()
-{
-#ifdef QT_STATIC
-	initPrivateQml();
-	Q_INIT_RESOURCE(qtmvvmquick_module);
-#endif
-}
-
-}
-Q_COREAPP_STARTUP_FUNCTION(initPrivateQml)
 
 InputViewFactory::InputViewFactory() :
 	QObject(nullptr),
 	d(new InputViewFactoryPrivate())
-{
-	initResources();
-}
+{}
 
 InputViewFactory::~InputViewFactory() {}
 

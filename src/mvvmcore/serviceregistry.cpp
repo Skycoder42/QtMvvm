@@ -22,6 +22,12 @@ ServiceRegistry *ServiceRegistry::instance()
 	return _instance;
 }
 
+bool ServiceRegistry::isRegistered(const QByteArray &iid) const
+{
+	QMutexLocker _(&d->serviceMutex);
+	return d->services.contains(iid);
+}
+
 void ServiceRegistry::registerService(const QByteArray &iid, const QMetaObject *metaObject, bool weak)
 {
 	QMutexLocker _(&d->serviceMutex);
@@ -242,7 +248,7 @@ QException *ServiceConstructionException::clone() const
 
 
 ServiceDependencyException::ServiceDependencyException(const QByteArray &iid) :
-	ServiceConstructionException("Failed to construct service because of missing dependency: " + iid)
+	ServiceConstructionException("Failed to construct missing service: " + iid)
 {}
 
 ServiceDependencyException::ServiceDependencyException(const ServiceDependencyException * const other) :

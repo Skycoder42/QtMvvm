@@ -5,7 +5,7 @@
 #include <QtCore/qscopedpointer.h>
 
 #include <QtMvvmCore/ipresenter.h>
-#include <QtMvvmCore/coreapp.h>
+#include <QtMvvmCore/serviceregistry.h>
 
 #include <QtWidgets/qwidget.h>
 
@@ -23,7 +23,7 @@ class Q_MVVMWIDGETS_EXPORT WidgetsPresenter : public QObject, public IPresenter
 	Q_PROPERTY(InputWidgetFactory* inputWidgetFactory READ inputWidgetFactory WRITE setInputWidgetFactory NOTIFY inputWidgetFactoryChanged)
 
 public:
-	explicit WidgetsPresenter(QObject *parent = nullptr);
+	Q_INVOKABLE explicit WidgetsPresenter(QObject *parent = nullptr);
 	~WidgetsPresenter();
 
 	template <typename TPresenter = WidgetsPresenter>
@@ -69,7 +69,7 @@ template<typename TPresenter>
 void WidgetsPresenter::registerAsPresenter()
 {
 	static_assert(std::is_base_of<WidgetsPresenter, TPresenter>::value, "TPresenter must inherit QtMvvm::WidgetsPresenter!");
-	CoreApp::setMainPresenter(new TPresenter());
+	ServiceRegistry::instance()->registerInterface<IPresenter, TPresenter>();
 }
 
 template<typename TView>

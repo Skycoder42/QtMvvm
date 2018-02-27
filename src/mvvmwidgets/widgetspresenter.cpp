@@ -4,6 +4,7 @@
 #include "settingsdialog.h"
 
 #include <QtCore/QMetaProperty>
+#include <QtCore/QCoreApplication>
 
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QMainWindow>
@@ -18,10 +19,27 @@
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QLabel>
 
-#include <QtMvvmCore/private/coreapp_p.h>
 #include <QtMvvmCore/private/qtmvvm_logging_p.h>
 
 #include <dialogmaster.h>
+
+namespace {
+
+void qtMvvmWidgetsInit()
+{
+	QtMvvm::ServiceRegistry::instance()->registerInterface<QtMvvm::IPresenter, QtMvvm::WidgetsPresenter>(true);
+}
+
+void initResources()
+{
+#ifdef QT_STATIC
+	qtMvvmWidgetsInit();
+	Q_INIT_RESOURCE(qtmvvmsettingswidgets_module);
+#endif
+}
+
+}
+Q_COREAPP_STARTUP_FUNCTION(qtMvvmWidgetsInit)
 
 using namespace QtMvvm;
 
@@ -29,7 +47,9 @@ WidgetsPresenter::WidgetsPresenter(QObject *parent) :
 	QObject(parent),
 	IPresenter(),
 	d(new WidgetsPresenterPrivate())
-{}
+{
+	initResources();
+}
 
 WidgetsPresenter::~WidgetsPresenter() {}
 
@@ -402,15 +422,14 @@ WidgetsPresenterPrivate::WidgetsPresenterPrivate() :
 
 WidgetsPresenter *WidgetsPresenterPrivate::currentPresenter()
 {
-	auto presenter = static_cast<WidgetsPresenter*>(CoreAppPrivate::dInstance()->currentPresenter());
-	if(!presenter) {
-		presenter = new WidgetsPresenter();
-		CoreApp::setMainPresenter(presenter);
-	}
+	try {
 #ifndef Q_NO_DEBUG
-	Q_ASSERT_X(dynamic_cast<WidgetsPresenter*>(CoreAppPrivate::dInstance()->currentPresenter()),
-			   Q_FUNC_INFO,
-			   "Cannot register widgets if the current presenter does not extend QtMvvm::WidgetsPresenter");
+		Q_ASSERT_X(dynamic_cast<WidgetsPresenter*>(ServiceRegistry::instance()->service<IPresenter>()),
+				   Q_FUNC_INFO,
+				   "Cannot register widgets if the current presenter does not extend QtMvvm::WidgetsPresenter");
 #endif
-	return presenter;
+		return static_cast<WidgetsPresenter*>(ServiceRegistry::instance()->service<IPresenter>());
+	} catch(QException &e) {
+		qFatal(e.what());
+	}
 }

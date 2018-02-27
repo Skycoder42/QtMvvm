@@ -13,25 +13,12 @@
 
 #include <QtMvvmCore/private/qtmvvm_logging_p.h>
 
-namespace {
-
-void initResources()
-{
-#ifdef QT_STATIC
-	Q_INIT_RESOURCE(qtmvvmsettingswidgets_module);
-#endif
-}
-
-}
-
 using namespace QtMvvm;
 
 SettingsDialog::SettingsDialog(ViewModel *viewModel, QWidget *parent) :
 	QDialog(parent),
 	d(new SettingsDialogPrivate(this, viewModel))
 {
-	initResources();
-
 	d->ui->setupUi(this);
 	connect(d->ui->buttonBox, &QDialogButtonBox::clicked,
 			d, &SettingsDialogPrivate::buttonBoxClicked);

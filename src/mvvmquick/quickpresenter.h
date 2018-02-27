@@ -7,7 +7,7 @@
 #include <QtCore/qmetaobject.h>
 
 #include <QtMvvmCore/ipresenter.h>
-#include <QtMvvmCore/coreapp.h>
+#include <QtMvvmCore/serviceregistry.h>
 
 #include "QtMvvmQuick/qtmvvmquick_global.h"
 #include "QtMvvmQuick/inputviewfactory.h"
@@ -23,7 +23,7 @@ class Q_MVVMQUICK_EXPORT QuickPresenter : public QObject, public IPresenter
 	Q_PROPERTY(InputViewFactory* inputViewFactory READ inputViewFactory WRITE setInputViewFactory NOTIFY inputViewFactoryChanged)
 
 public:
-	explicit QuickPresenter(QObject *parent = nullptr);
+	Q_INVOKABLE explicit QuickPresenter(QObject *parent = nullptr);
 	~QuickPresenter();
 
 	template <typename TPresenter = QuickPresenter>
@@ -62,7 +62,7 @@ template<typename TPresenter>
 void QuickPresenter::registerAsPresenter()
 {
 	static_assert(std::is_base_of<QuickPresenter, TPresenter>::value, "TPresenter must inherit QtMvvm::QuickPresenter!");
-	CoreApp::setMainPresenter(new TPresenter());
+	ServiceRegistry::instance()->registerInterface<IPresenter, TPresenter>();
 }
 
 template<typename TViewModel>

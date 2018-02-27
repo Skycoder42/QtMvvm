@@ -7,8 +7,29 @@
 #include <QtCore/QDirIterator>
 #include <QtCore/QMetaMethod>
 
-#include <QtMvvmCore/private/coreapp_p.h>
+#include <QtQml/qqml.h>
+
 #include <QtMvvmCore/private/qtmvvm_logging_p.h>
+
+#include <qurlvalidator.h>
+namespace {
+
+void qtMvvmQuickInit()
+{
+	qmlRegisterType<QUrlValidator>("de.skycoder42.QtMvvm.Quick.Private", 1, 0, "UrlValidator");
+	QtMvvm::ServiceRegistry::instance()->registerInterface<QtMvvm::IPresenter, QtMvvm::QuickPresenter>(true);
+}
+
+void initResources()
+{
+#ifdef QT_STATIC
+	qtMvvmQuickInit();
+	Q_INIT_RESOURCE(qtmvvmquick_module);
+#endif
+}
+
+}
+Q_COREAPP_STARTUP_FUNCTION(qtMvvmQuickInit)
 
 using namespace QtMvvm;
 
@@ -16,7 +37,9 @@ QuickPresenter::QuickPresenter(QObject *parent) :
 	QObject(parent),
 	IPresenter(),
 	d(new QuickPresenterPrivate())
-{}
+{
+	initResources();
+}
 
 QuickPresenter::~QuickPresenter() {}
 
@@ -174,17 +197,16 @@ QuickPresenterPrivate::QuickPresenterPrivate() :
 
 QuickPresenter *QuickPresenterPrivate::currentPresenter()
 {
-	auto presenter = static_cast<QuickPresenter*>(CoreAppPrivate::dInstance()->currentPresenter());
-	if(!presenter) {
-		presenter = new QuickPresenter();
-		CoreApp::setMainPresenter(presenter);
-	}
+	try {
 #ifndef Q_NO_DEBUG
-	Q_ASSERT_X(dynamic_cast<QuickPresenter*>(CoreAppPrivate::dInstance()->currentPresenter()),
-			   Q_FUNC_INFO,
-			   "Cannot register views if the current presenter does not extend QtMvvm::QuickPresenter");
+		Q_ASSERT_X(dynamic_cast<QuickPresenter*>(ServiceRegistry::instance()->service<IPresenter>()),
+				   Q_FUNC_INFO,
+				   "Cannot register views if the current presenter does not extend QtMvvm::QuickPresenter");
 #endif
-	return presenter;
+		return static_cast<QuickPresenter*>(ServiceRegistry::instance()->service<IPresenter>());
+	} catch(QException &e) {
+		qFatal(e.what());
+	}
 }
 
 void QuickPresenterPrivate::setQmlPresenter(QObject *presenter)

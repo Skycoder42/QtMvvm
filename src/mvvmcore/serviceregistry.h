@@ -20,6 +20,10 @@ public:
 
 	static ServiceRegistry* instance();
 
+	template <typename TInterface>
+	bool isRegistered() const;
+	bool isRegistered(const QByteArray &iid) const;
+
 	template <typename TInterface, typename TService>
 	void registerInterface(bool weak = false);
 	template <typename TInterface, typename TService, typename TFunc>
@@ -95,6 +99,12 @@ protected:
 };
 
 // ------------- Generic Implementation -------------
+
+template<typename TInterface>
+bool ServiceRegistry::isRegistered() const
+{
+	return isRegistered(__helpertypes::inject_iid<TInterface*>());
+}
 
 #define QTMVVM_SERVICE_ASSERT(tint, tsvc) \
 	static_assert(__helpertypes::is_valid_interface<TInterface, TService>::value, "TService must implement the given TInterface interface and be a qobject class"); \

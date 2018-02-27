@@ -16,8 +16,6 @@ class Q_MVVMCORE_EXPORT CoreAppPrivate : public QObject
 public:
 	static QScopedPointer<CoreAppPrivate> &dInstance();
 
-	IPresenter *currentPresenter() const;
-
 public Q_SLOTS:
 	void showViewModel(const QMetaObject *metaObject,
 					   const QVariantHash &params,
@@ -31,7 +29,7 @@ private:
 	static bool bootEnabled;
 	static QPointer<CoreApp> instance;
 
-	QScopedPointer<IPresenter> presenter;
+	IPresenter *presenter;
 };
 
 }

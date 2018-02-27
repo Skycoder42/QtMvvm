@@ -22,14 +22,6 @@ CoreApp *CoreApp::instance()
 	return CoreAppPrivate::instance;
 }
 
-void CoreApp::setMainPresenter(IPresenter *presenter)
-{
-	if(!CoreAppPrivate::instance)
-		logCritical() << "Failed to set presenter - no core app has been created yet";
-	else
-		CoreAppPrivate::instance->d->presenter.reset(presenter);
-}
-
 void CoreApp::disableAutoBoot()
 {
 	CoreAppPrivate::bootEnabled = false;
@@ -40,6 +32,7 @@ void CoreApp::registerApp()
 	//register metatypes
 	qRegisterMetaType<const QMetaObject*>("const QMetaObject*");
 	qRegisterMetaType<MessageConfig::StandardButton>();
+	registerInterfaceConverter<IPresenter>();
 
 	//setup
 	setParent(qApp);
@@ -47,11 +40,6 @@ void CoreApp::registerApp()
 	performRegistrations();
 	if(CoreAppPrivate::bootEnabled)
 		QMetaObject::invokeMethod(this, "bootApp", Qt::QueuedConnection);
-}
-
-IPresenter *CoreApp::presenter() const
-{
-	return d->presenter.data();
 }
 
 void CoreApp::show(const char *viewModelName, const QVariantHash &params)
@@ -87,8 +75,17 @@ MessageResult *CoreApp::showDialog(const MessageConfig &config)
 
 void CoreApp::bootApp()
 {
-	if(!d->presenter)
-		logWarning() << "No presenter has been set before the app start";
+	if(!d->presenter) {
+		try {
+			d->presenter = ServiceRegistry::instance()->service<IPresenter>();
+		} catch(ServiceConstructionException &e) {
+			logCritical() << "Unable to get a presenter with error"
+						  << e.what();
+			qApp->exit(EXIT_FAILURE);
+			return;
+		}
+	}
+
 	auto res = startApp(QCoreApplication::arguments());
 	if(res == EXIT_SUCCESS) {
 		connect(qApp, &QCoreApplication::aboutToQuit,
@@ -162,11 +159,6 @@ CoreAppPrivate::CoreAppPrivate() :
 QScopedPointer<CoreAppPrivate> &CoreAppPrivate::dInstance()
 {
 	return instance->d;
-}
-
-IPresenter *CoreAppPrivate::currentPresenter() const
-{
-	return presenter.data();
 }
 
 void CoreAppPrivate::showViewModel(const QMetaObject *metaObject, const QVariantHash &params, QPointer<ViewModel> parent, quint32 requestCode)

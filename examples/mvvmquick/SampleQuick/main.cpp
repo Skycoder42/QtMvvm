@@ -37,8 +37,6 @@ int main(int argc, char *argv[])
 	qmlRegisterUncreatableType<TabViewModel>("de.skycoder42.QtMvvm.Sample", 1, 0, "TabViewModel", QStringLiteral("ViewModels cannot be created"));
 	qmlRegisterUncreatableType<TabItemViewModel>("de.skycoder42.QtMvvm.Sample", 1, 0, "TabItemViewModel", QStringLiteral("ViewModels cannot be created"));
 
-	QtMvvm::QuickPresenter::registerAsPresenter();
-
 	QtMvvm::ServiceRegistry::instance()->registerObject<EchoService>();
 	QtMvvm::ServiceRegistry::instance()->registerInterface<IEventService, QuickEventService>();
 

@@ -20,7 +20,6 @@ int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
 
-	QtMvvm::WidgetsPresenter::registerAsPresenter();
 	QtMvvm::WidgetsPresenter::registerView<SampleView>();
 	QtMvvm::WidgetsPresenter::registerView<ResultDialog>();
 	QtMvvm::WidgetsPresenter::registerView<TabView>();

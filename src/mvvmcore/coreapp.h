@@ -23,11 +23,9 @@ public:
 	~CoreApp();
 
 	static CoreApp *instance();
-	static void setMainPresenter(IPresenter *presenter);
 	static void disableAutoBoot();
 
 	void registerApp();
-	IPresenter *presenter() const;
 
 	template <typename TViewModel>
 	static inline void show(const QVariantHash &params = {});
