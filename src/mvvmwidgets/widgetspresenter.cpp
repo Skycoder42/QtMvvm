@@ -304,7 +304,7 @@ void WidgetsPresenter::presentInputDialog(const MessageConfig &config, QPointer<
 	if(text.isNull())
 		text = config.title();
 	else
-		dialog->setWindowTitle(config.title());//TODO as header better?
+		dialog->setWindowTitle(config.title());
 	if(!text.isNull()) {
 		auto label = new QLabel(text, dialog);
 		layout->addWidget(label);

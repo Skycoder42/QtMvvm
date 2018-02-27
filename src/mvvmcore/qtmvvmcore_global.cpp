@@ -25,10 +25,6 @@ Q_COREAPP_STARTUP_FUNCTION(qtMvvmCoreStartup)
 
 namespace QtMvvm {
 
-#ifdef QT_NO_DEBUG //TODO always info only
 Q_LOGGING_CATEGORY(mvvmLoggingCat, "qtmvvm", QtInfoMsg)
-#else
-Q_LOGGING_CATEGORY(mvvmLoggingCat, "qtmvvm", QtDebugMsg)
-#endif
 
 }

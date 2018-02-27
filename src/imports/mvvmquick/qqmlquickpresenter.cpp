@@ -8,6 +8,10 @@
 
 #include <QtMvvmQuick/private/quickpresenter_p.h>
 
+#ifdef Q_OS_ANDROID
+#include <QtAndroidExtras/QtAndroid>
+#endif
+
 using namespace QtMvvm;
 
 QQmlQuickPresenter::QQmlQuickPresenter(QQmlEngine *engine) :
@@ -72,6 +76,24 @@ void QQmlQuickPresenter::popView()
 	}
 
 	QMetaObject::invokeMethod(_qmlPresenter, "closeAction");
+}
+
+void QQmlQuickPresenter::hapticLongPress()
+{
+#ifdef Q_OS_ANDROID
+	QtAndroid::runOnAndroidThread([](){
+		const auto content = QAndroidJniObject::getStaticField<jint>("android/R$id", "content");
+		const auto LONG_PRESS = QAndroidJniObject::getStaticField<jint>("android/view/HapticFeedbackConstants", "LONG_PRESS");
+
+		auto activity = QtAndroid::androidActivity();
+		auto view = activity.callObjectMethod("findViewById",
+											  "(I)Landroid/view/View;",
+											  content);
+		view.callMethod<jboolean>("performHapticFeedback",
+								  "(I)Z",
+								  LONG_PRESS);
+	});
+#endif
 }
 
 void QQmlQuickPresenter::present(ViewModel *viewModel, const QVariantHash &params, const QUrl &viewUrl, QPointer<ViewModel> parent)

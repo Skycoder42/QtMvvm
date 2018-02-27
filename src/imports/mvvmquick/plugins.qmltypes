@@ -88,6 +88,7 @@ Module {
         }
         Method { name: "toggleDrawer" }
         Method { name: "popView" }
+        Method { name: "hapticLongPress" }
         Method {
             name: "mimeTypeFilters"
             type: "QStringList"

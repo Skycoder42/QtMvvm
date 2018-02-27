@@ -2,6 +2,7 @@
 #include "sampleviewmodel.h"
 #include "drawerviewmodel.h"
 
+#include <QtCore/QLoggingCategory>
 #include <QtCore/QCommandLineParser>
 #include <QtMvvmCore/QtMvvmCoreVersion>
 
@@ -33,6 +34,8 @@ void SampleCoreApp::performRegistrations()
 	Q_INIT_RESOURCE(sample_core);
 
 	QtMvvm::registerInterfaceConverter<IEventService>();
+
+	QLoggingCategory::setFilterRules(QStringLiteral("qtmvvm.debug=true"));
 }
 
 int SampleCoreApp::startApp(const QStringList &arguments)

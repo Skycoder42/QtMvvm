@@ -5,6 +5,8 @@
 #include <QtCore/QGlobalStatic>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QMetaProperty>
+#include <QtCore/QCoreApplication>
+#include <QtCore/QThread>
 
 using namespace QtMvvm;
 
@@ -135,8 +137,12 @@ ServiceRegistryPrivate::ServiceInfo::ServiceInfo(bool weak) :
 
 ServiceRegistryPrivate::ServiceInfo::~ServiceInfo()
 {
-	if(_instance)
-		QMetaObject::invokeMethod(_instance, "deleteLater"); //TODO doesnt work out of eventloop, maybe test first?
+	if(_instance) {
+		if(QCoreApplication::closingDown())
+			delete _instance;
+		else
+			QMetaObject::invokeMethod(_instance, "deleteLater");
+	}
 }
 
 bool ServiceRegistryPrivate::ServiceInfo::replaceable() const
@@ -153,6 +159,8 @@ QObject *ServiceRegistryPrivate::ServiceInfo::instance(ServiceRegistryPrivate *d
 			throw ServiceConstructionException("Failed to construct service of type " +
 											   iid +
 											   " with unknown error");
+		if(_instance->thread() != qApp->thread())
+			_instance->moveToThread(qApp->thread());
 	}
 	return _instance;
 }

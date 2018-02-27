@@ -44,6 +44,8 @@ public Q_SLOTS:
 	void toggleDrawer();
 	void popView();
 
+	void hapticLongPress();
+
 Q_SIGNALS:
 	void qmlPresenterChanged(QObject* qmlPresenter);
 	void viewLoadingChanged(bool viewLoading);

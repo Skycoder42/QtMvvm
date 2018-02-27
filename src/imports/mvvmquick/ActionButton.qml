@@ -1,6 +1,7 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.3
+import de.skycoder42.QtMvvm.Quick 1.0
 
 ToolButton {
 	id: _toolButton
@@ -23,7 +24,7 @@ ToolButton {
 	}
 
 	onPressAndHold: {
-		//TODO QuickExtras.hapticLongPress();
+		QuickPresenter.hapticLongPress();
 		_backToolTip.visible = true;
 	}
 	onCanceled: _backToolTip.visible = false

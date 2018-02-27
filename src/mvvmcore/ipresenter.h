@@ -25,7 +25,7 @@ protected:
 	const QByteArray _what;
 };
 
-class Q_MVVMCORE_EXPORT IPresenter //TODO use via service registry EVERYWHERE
+class Q_MVVMCORE_EXPORT IPresenter
 {
 public:
 	inline virtual ~IPresenter() = default;
