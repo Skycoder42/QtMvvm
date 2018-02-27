@@ -4,6 +4,7 @@ using namespace QtMvvm;
 FontComboBox::FontComboBox(QWidget *parent) :
 	QFontComboBox(parent)
 {
-	connect(this, &FontComboBox::currentFontChangedImp,
-			this, &FontComboBox::currentFontChanged);
+	connect(this, &FontComboBox::currentFontChanged,
+			this, &FontComboBox::currentFontChangedImp);
+	setCurrentFont(font());
 }

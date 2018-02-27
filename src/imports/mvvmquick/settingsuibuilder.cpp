@@ -22,7 +22,8 @@ SettingsUiBuilder::SettingsUiBuilder(QObject *parent) :
 	_sectionFilterModel(new MultiFilterProxyModel(this)),
 	_sectionModel(new SettingsSectionModel(this)),
 	_entryFilterModel(new MultiFilterProxyModel(this)),
-	_entryModel(new SettingsEntryModel(this))
+	_entryModel(new SettingsEntryModel(this)),
+	_currentSetup()
 {
 	_sectionFilterModel->setSourceModel(_sectionModel);
 	_sectionFilterModel->addFilterRoles(SettingsSectionModel::FilterRoles);
@@ -82,6 +83,14 @@ void SettingsUiBuilder::restoreDefaults()
 	connect(result, &MessageResult::dialogDone, this, [this](MessageConfig::StandardButton btn) {
 		if(btn != MessageConfig::Yes)
 			return;
+		for(auto category : qAsConst(_currentSetup.categories)) {
+			for(auto section : category.sections) {
+				for(auto group : section.groups) {
+					for(auto entry : group.entries)
+						_viewModel->resetValue(entry.key);
+				}
+			}
+		}
 		emit closeSettings();
 	}, Qt::QueuedConnection);
 }
@@ -107,19 +116,19 @@ void SettingsUiBuilder::startBuildUi()
 	if(!_buildView || !_viewModel)
 		return;
 
-	auto setup = _viewModel->loadSetup(QStringLiteral("quick"));
+	_currentSetup = _viewModel->loadSetup(QStringLiteral("quick"));
 
 	//search/restore properties
-	_allowSearch = setup.allowSearch;
+	_allowSearch = _currentSetup.allowSearch;
 	emit allowSearchChanged(_allowSearch);
-	_allowRestore = setup.allowRestore;
+	_allowRestore = _currentSetup.allowRestore;
 	emit allowRestoreChanged(_allowRestore);
 
-	if(setup.categories.size() == 1 &&
-	   setup.categories.first().sections.size() == 1)
-		loadSection(setup.categories.first().sections.first());
+	if(_currentSetup.categories.size() == 1 &&
+	   _currentSetup.categories.first().sections.size() == 1)
+		loadSection(_currentSetup.categories.first().sections.first());
 	else {
-		_sectionModel->setup(setup);
+		_sectionModel->setup(_currentSetup);
 		emit presentOverview(_sectionFilterModel, _sectionModel->hasSections());
 	}
 }

@@ -64,6 +64,8 @@ private:
 	SettingsSectionModel *_sectionModel;
 	MultiFilterProxyModel *_entryFilterModel;
 	SettingsEntryModel *_entryModel;
+
+	SettingsElements::Setup _currentSetup;
 };
 
 }

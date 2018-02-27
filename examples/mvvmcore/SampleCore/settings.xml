@@ -99,5 +99,13 @@
 				<Element type="string">Text 2</Element>
 			</Property>
 		</Entry>
+		<Entry key="prop9"
+			   type="url"
+			   title="Enter a &amp;website">
+			<Property key="placeholderText" type="string">https://example.org/test</Property>
+		</Entry>
+		<Entry key="prop10"
+			   type="QFont"
+			   title="Choose a &amp;font" />
 	</Category>
 </SettingsConfig>
