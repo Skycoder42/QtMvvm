@@ -1,6 +1,7 @@
 TARGET = QtMvvmCore
 
 QT = core gui
+MODULE_CONFIG += qsettingstranslator
 
 HEADERS += \
 	viewmodel.h \
@@ -17,10 +18,10 @@ HEADERS += \
 	binding_p.h \
 	message.h \
 	message_p.h \
-    settingssetup.h \
-    settingssetuploader_p.h \
-    settingsviewmodel_p.h \
-    settingsviewmodel.h
+	settingssetup.h \
+	settingssetuploader_p.h \
+	settingsviewmodel_p.h \
+	settingsviewmodel.h
 
 SOURCES += \
 	viewmodel.cpp \
@@ -30,20 +31,30 @@ SOURCES += \
 	binding.cpp \
 	message.cpp \
 	ipresenter.cpp \
-    settingssetuploader.cpp \
-    settingsviewmodel.cpp
+	settingssetuploader.cpp \
+	settingsviewmodel.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmcore_de.ts \
 	translations/qtmvvmcore_template.ts
 
 DISTFILES += $$TRANSLATIONS \
-    settings.xsd
+	settings.xsd
 
 qpmx_ts_target.path = $$[QT_INSTALL_TRANSLATIONS]
 qpmx_ts_target.depends += lrelease
 
 load(qt_module)
+
+FEATURES += ../../mkspecs/features/qsettingstranslator.prf
+features.files = $$FEATURES
+features.path = $$[QT_HOST_DATA]/mkspecs/features/
+
+SCRIPTS += ../../bin/qsettingstranslator.py
+scripts.files = $$SCRIPTS
+scripts.path = $$[QT_INSTALL_BINS]
+
+INSTALLS += features scripts
 
 win32 {
 	QMAKE_TARGET_PRODUCT = "$$TARGET"

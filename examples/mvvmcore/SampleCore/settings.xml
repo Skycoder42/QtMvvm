@@ -15,7 +15,7 @@
 				<Entry key="prop2"
 					   type="string"
 					   title="Enter a &amp;name">
-					<Property key="placeholderText" type="string">Enter a nice name</Property>
+					<Property key="placeholderText" type="string" ts="true">Enter a nice name</Property>
 				</Entry>
 			</Group>
 			<Group title="Sub-Group" tooltip="This is a tooltip">
@@ -24,17 +24,18 @@
 					   title="Open &amp;system settings">
 					<Property key="text" type="string">Trigger Action</Property>
 					<Property key="args" type="object">
-						<Property key="hint" type="string">You can use this to trigger whatever kind of action you need</Property>
+						<Property key="hint" type="string" ts="true">You can use this to trigger whatever kind of action you need</Property>
 					</Property>
 				</Entry>
 				<Entry key="prop4"
 					   type="selection"
 					   title="Select a &amp;mode"
-					   default="Variant B">
+					   default="Variant B"
+					   tsdefault="true">
 					<Property key="listElements" type="list">
-						<Element type="string">Variant A</Element>
-						<Element type="string">Variant B</Element>
-						<Element type="string">Variant C</Element>
+						<Element type="string" ts="true">Variant A</Element>
+						<Element type="string" ts="true">Variant B</Element>
+						<Element type="string" ts="true">Variant C</Element>
 					</Property>
 				</Entry>
 			</Group>
@@ -53,31 +54,31 @@
 				   default="3">
 				<Property key="listElements" type="list">
 					<Element type="object">
-						<Property key="name" type="string">Value A</Property>
+						<Property key="name" type="string" ts="true">Value A</Property>
 						<Property key="value" type="int">1</Property>
 					</Element>
 					<Element type="object">
-						<Property key="name" type="string">Value B</Property>
+						<Property key="name" type="string" ts="true">Value B</Property>
 						<Property key="value" type="int">2</Property>
 					</Element>
 					<Element type="object">
-						<Property key="name" type="string">Value C</Property>
+						<Property key="name" type="string" ts="true">Value C</Property>
 						<Property key="value" type="int">4</Property>
 					</Element>
 					<Element type="object">
-						<Property key="name" type="string">Value A+B</Property>
+						<Property key="name" type="string" ts="true">Value A+B</Property>
 						<Property key="value" type="int">3</Property>
 					</Element>
 					<Element type="object">
-						<Property key="name" type="string">Value A+C</Property>
+						<Property key="name" type="string" ts="true">Value A+C</Property>
 						<Property key="value" type="int">5</Property>
 					</Element>
 					<Element type="object">
-						<Property key="name" type="string">Value B+C</Property>
+						<Property key="name" type="string" ts="true">Value B+C</Property>
 						<Property key="value" type="int">6</Property>
 					</Element>
 					<Element type="object">
-						<Property key="name" type="string">Value A+B+C</Property>
+						<Property key="name" type="string" ts="true">Value A+B+C</Property>
 						<Property key="value" type="int">7</Property>
 					</Element>
 				</Property>
@@ -92,17 +93,18 @@
 		<Entry key="prop8"
 			   type="selection"
 			   title="Select a &amp;mode"
-			   default="Text 2">
+			   default="Text 2"
+			   tsdefault="true">
 			<Property key="editable" type="bool">true</Property>
 			<Property key="listElements" type="list">
-				<Element type="string">Text 1</Element>
-				<Element type="string">Text 2</Element>
+				<Element type="string" ts="true">Text 1</Element>
+				<Element type="string" ts="true">Text 2</Element>
 			</Property>
 		</Entry>
 		<Entry key="prop9"
 			   type="url"
 			   title="Enter a &amp;website">
-			<Property key="placeholderText" type="string">https://example.org/test</Property>
+			<Property key="placeholderText" type="string" ts="true">https://example.org/test</Property>
 		</Entry>
 		<Entry key="prop10"
 			   type="QFont"

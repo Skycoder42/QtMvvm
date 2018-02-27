@@ -22,8 +22,12 @@ SOURCES += \
 	drawerviewmodel.cpp \
 	tabviewmodel.cpp
 
+RESOURCES += \
+	sample_core.qrc
+
+QTMVVM_TS_SETTINGS += settings.xml
+
 target.path = $$[QT_INSTALL_EXAMPLES]/mvvmcore/$$TARGET
 INSTALLS += target
 
-RESOURCES += \
-	sample_core.qrc
+samples_in_build: QMAKE_QSETTINGSTRANSLATOR = $$PWD/../../../bin/qsettingstranslator.py

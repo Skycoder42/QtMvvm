@@ -1,0 +1,23 @@
+isEmpty(QMAKE_QSETTINGSTRANSLATOR): qtPrepareTool(QMAKE_QSETTINGSTRANSLATOR, qsettingstranslator.py)
+isEmpty(QSETTINGSTRANSLATOR_DIR): QSETTINGSTRANSLATOR_DIR = ./.ts-dummy
+
+!ReleaseBuild:!DebugBuild: {
+	qsettingstranslator_c.name = QSETTINGSTRANSLATOR of ${QMAKE_FILE_IN}
+	qsettingstranslator_c.input = QTMVVM_TS_SETTINGS
+	qsettingstranslator_c.variable_out = CPP_DUMMIES
+	qsettingstranslator_c.commands = $$QMAKE_QSETTINGSTRANSLATOR ${QMAKE_FILE_IN} ${QMAKE_FILE_OUT}
+	qsettingstranslator_c.output = $$QSETTINGSTRANSLATOR_DIR/${QMAKE_FILE_BASE}.tsdummy$${first(QMAKE_EXT_CPP)}
+	qsettingstranslator_c.CONFIG += no_link
+	qsettingstranslator_c.depends += $$QMAKE_QSETTINGSTRANSLATOR
+
+	QMAKE_EXTRA_COMPILERS += qsettingstranslator_c
+
+	qtmvvm_tsgen_target.target = qtmvvm-tsgen
+	qtmvvm_tsgen_target.depends += compiler_qsettingstranslator_c_make_all
+	QMAKE_EXTRA_TARGETS += qtmvvm_tsgen_target
+}
+
+QMAKE_DIR_REPLACE += QSETTINGSTRANSLATOR_DIR
+QMAKE_DIR_REPLACE_SANE += QSETTINGSTRANSLATOR_DIR
+
+_never_true_condition: SOURCES += $$files($$TRANSLATIONS_DIR/*.tsdummy$${first(QMAKE_EXT_CPP)})
