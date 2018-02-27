@@ -26,6 +26,11 @@ RESOURCES += \
 	sample_core.qrc
 
 QTMVVM_TS_SETTINGS += settings.xml
+_never_true_condition: SOURCES += $$files($$PWD/.ts-dummy/*) #TODO document
+PRE_TARGETDEPS += qtmvvm-tsgen
+
+TRANSLATIONS += samplecore_de.ts
+DISTFILES += $$TRANSLATIONS
 
 target.path = $$[QT_INSTALL_EXAMPLES]/mvvmcore/$$TARGET
 INSTALLS += target

@@ -40,6 +40,24 @@
     </message>
 </context>
 <context>
+    <name>QtMvvm::CoreApp</name>
+    <message>
+        <location filename="../coreapp.cpp" line="+107"/>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Application Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Invalid Arguments</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>QtMvvm::SettingsSetupLoader</name>
     <message>
         <location filename="../settingssetuploader.cpp" line="+275"/>

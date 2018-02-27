@@ -4,7 +4,7 @@
 <context>
     <name>QtMvvm::SettingsDialogPrivate</name>
     <message>
-        <location filename="../settingsdialog.cpp" line="+221"/>
+        <location filename="../settingsdialog.cpp" line="+208"/>
         <source>:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12,7 +12,7 @@
 <context>
     <name>QtMvvm::WidgetsPresenter</name>
     <message>
-        <location filename="../widgetspresenter.cpp" line="+214"/>
+        <location filename="../widgetspresenter.cpp" line="+234"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>

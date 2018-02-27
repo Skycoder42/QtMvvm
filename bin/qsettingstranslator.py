@@ -34,5 +34,5 @@ with open(outfile, "w") as file:
 	for string in strings:
 		string = string.replace("\\", "\\\\")
 		string = string.replace("\"", "\\\"")
-		file.write("\tQCoreApplication::translate(\"{}\", \"{}\");\n".format(os.path.basename(infile), string))
+		file.write("\tQCoreApplication::translate(\"qtmvvm_settings_xml\", \"{}\");\n".format(string))
 	file.write("}\n")

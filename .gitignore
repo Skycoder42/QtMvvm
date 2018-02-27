@@ -74,3 +74,6 @@ Thumbs.db
 # qpmx
 vendor
 qpmx.user.json
+
+# ts dummy dirs
+.ts-dummy
