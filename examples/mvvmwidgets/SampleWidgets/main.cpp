@@ -1,4 +1,4 @@
-#include <QApplication>
+#include <QtWidgets/QApplication>
 #include <QtMvvmCore/ServiceRegistry>
 #include <QtMvvmWidgets/WidgetsPresenter>
 #include <samplecoreapp.h>

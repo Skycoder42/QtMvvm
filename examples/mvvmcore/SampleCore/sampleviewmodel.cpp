@@ -1,5 +1,5 @@
 #include "sampleviewmodel.h"
-#include <QDebug>
+#include <QtCore/QDebug>
 #include <QtMvvmCore/Messages>
 #include <QtMvvmCore/SettingsViewModel>
 #include "resultviewmodel.h"

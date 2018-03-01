@@ -7,7 +7,8 @@ SUBDIRS += mvvmcore \
 	imports
 
 qtHaveModule(datasync) {
-	SUBDIRS += mvvmdatasynccore
+	SUBDIRS += mvvmdatasynccore \
+		mvvmdatasyncwidgets
 }
 
 prepareRecursiveTarget(lrelease)
