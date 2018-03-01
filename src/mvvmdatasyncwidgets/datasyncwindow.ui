@@ -1,21 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <author/>
- <comment/>
- <exportmacro/>
  <class>DataSyncWindow</class>
- <widget name="DataSyncWindow" class="QWidget">
+ <widget class="QWidget" name="DataSyncWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>430</width>
+    <height>365</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Synchronization</string>
   </property>
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,1,0">
+   <item>
+    <widget class="QCheckBox" name="syncCheckBox">
+     <property name="text">
+      <string>Synchronization &amp;enabled</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
+     <item>
+      <widget class="QLabel" name="statusLabel">
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::RichText</enum>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCommandLinkButton" name="syncButton">
+       <property name="text">
+        <string>&amp;Synchronize</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QStackedWidget" name="stackedWidget">
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <widget class="QWidget" name="progressPage">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QProgressBar" name="progressBar">
+         <property name="maximum">
+          <number>1000</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="infoPage">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="errorLabel">
+         <property name="palette">
+          <palette>
+           <active>
+            <colorrole role="WindowText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>170</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </active>
+           <inactive>
+            <colorrole role="WindowText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>170</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </inactive>
+           <disabled>
+            <colorrole role="WindowText">
+             <brush brushstyle="SolidPattern">
+              <color alpha="96">
+               <red>164</red>
+               <green>166</green>
+               <blue>168</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </disabled>
+          </palette>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+         <property name="textInteractionFlags">
+          <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTreeView" name="treeView">
+     <property name="contextMenuPolicy">
+      <enum>Qt::ActionsContextMenu</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QToolButton" name="identityButton">
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonFollowStyle</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QToolButton" name="accountButton">
+       <property name="text">
+        <string>Account &amp;actions</string>
+       </property>
+       <property name="icon">
+        <iconset theme="user-identity">
+         <normaloff>.</normaloff>.</iconset>
+       </property>
+       <property name="popupMode">
+        <enum>QToolButton::InstantPopup</enum>
+       </property>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonFollowStyle</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+  <action name="action_Import_from_file">
+   <property name="icon">
+    <iconset theme="document-import">
+     <normaloff>:/de/skycoder42/qtmvvm/datasync/widgets/icons/import.ico</normaloff>:/de/skycoder42/qtmvvm/datasync/widgets/icons/import.ico</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Import from file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
+   </property>
+  </action>
+  <action name="action_Export_to_file">
+   <property name="icon">
+    <iconset theme="document-export">
+     <normaloff>:/de/skycoder42/qtmvvm/datasync/widgets/icons/export.ico</normaloff>:/de/skycoder42/qtmvvm/datasync/widgets/icons/export.ico</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Export to file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="action_Network_exchange">
+   <property name="icon">
+    <iconset theme="network-connect">
+     <normaloff>:/de/skycoder42/qtmvvm/datasync/widgets/icons/exchange.ico</normaloff>:/de/skycoder42/qtmvvm/datasync/widgets/icons/exchange.ico</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Network exchange</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="action_Reset_Identity">
+   <property name="icon">
+    <iconset theme="user-group-delete">
+     <normaloff>:/de/skycoder42/qtmvvm/datasync/widgets/icons/idreset.ico</normaloff>:/de/skycoder42/qtmvvm/datasync/widgets/icons/idreset.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Rese&amp;t identity</string>
+   </property>
+  </action>
+  <action name="action_Change_Remote_Server">
+   <property name="icon">
+    <iconset theme="network-server">
+     <normaloff>:/de/skycoder42/qtmvvm/datasync/widgets/icons/changeRemote.ico</normaloff>:/de/skycoder42/qtmvvm/datasync/widgets/icons/changeRemote.ico</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Change remote server</string>
+   </property>
+  </action>
+  <action name="action_Remove_Device">
+   <property name="icon">
+    <iconset theme="list-remove">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Remove selected device</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
+  </action>
+  <action name="actionEdit_Identity">
+   <property name="icon">
+    <iconset theme="fingerprint-gui">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Identity</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+U</string>
+   </property>
+  </action>
+  <action name="actionUpdate_Exchange_Key">
+   <property name="icon">
+    <iconset theme="application-pgp-keys">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Update exchange &amp;key</string>
+   </property>
+  </action>
+  <action name="actionRe_load_Device_List">
+   <property name="icon">
+    <iconset theme="view-refresh">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Re&amp;load device list</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+  </action>
  </widget>
- <pixmapfunction/>
+ <resources/>
  <connections/>
 </ui>

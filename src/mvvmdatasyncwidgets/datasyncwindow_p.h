@@ -13,7 +13,7 @@ namespace QtMvvm {
 class DataSyncWindowPrivate
 {
 public:
-	DataSyncWindowPrivate(DataSyncWindow *q_ptr, ViewModel *viewModel);
+	DataSyncWindowPrivate(ViewModel *viewModel);
 
 	DataSyncViewModel *viewModel;
 	QScopedPointer<Ui::DataSyncWindow> ui;

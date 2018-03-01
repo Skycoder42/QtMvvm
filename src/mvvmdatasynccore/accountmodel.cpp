@@ -73,6 +73,14 @@ int AccountModel::rowCount(const QModelIndex &parent) const
 		return d->devices.size();
 }
 
+int AccountModel::columnCount(const QModelIndex &parent) const
+{
+	if (parent.isValid())
+		return 0;
+	else
+		return 2;
+}
+
 QVariant AccountModel::data(const QModelIndex &index, int role) const
 {
 	if (!index.isValid())

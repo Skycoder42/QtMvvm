@@ -106,7 +106,9 @@ void QuickPresenter::setInputViewFactory(InputViewFactory *inputViewFactory)
 QUrl QuickPresenter::findViewUrl(const QMetaObject *viewModelType)
 {
 	auto currentMeta = viewModelType;
-	while(currentMeta && currentMeta->inherits(&ViewModel::staticMetaObject)) {
+	while(currentMeta &&
+		  currentMeta->inherits(&ViewModel::staticMetaObject) &&
+		  currentMeta != &ViewModel::staticMetaObject) {
 		if(d->explicitMappings.contains(currentMeta))
 			return d->explicitMappings.value(currentMeta);
 		else {

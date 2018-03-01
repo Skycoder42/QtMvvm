@@ -1,0 +1,22 @@
+version: '2.2'
+services:
+  datasync_postgres:
+    container_name: datasync_postgres
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: baum42
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - datasync_postgres_data:/var/lib/postgresql/data/pgdata
+  datasync_qdsapp:
+    container_name: datasync_qdsapp
+    image: skycoder42/qdsapp:latest
+    depends_on:
+      - datasync_postgres
+    ports:
+      - "4242:4242/tcp"
+    environment:
+      QDSAPP_DATABASE_HOST: datasync_postgres
+      QDSAPP_DATABASE_PASSWORD: baum42
+volumes:
+  datasync_postgres_data:

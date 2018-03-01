@@ -102,6 +102,15 @@ QString DataSyncViewModel::formatFingerPrint(const QByteArray &fingerPrint)
 	return QString::fromUtf8(res.join(':'));
 }
 
+void DataSyncViewModel::syncOrConnect()
+{
+	if(d->syncManager->syncState() == SyncManager::Disconnected ||
+	   d->syncManager->syncState() == SyncManager::Error)
+		d->syncManager->reconnect();
+	else
+		d->syncManager->synchronize();
+}
+
 void DataSyncViewModel::showDeviceInfo()
 {
 	Q_UNIMPLEMENTED();
@@ -192,8 +201,8 @@ void DataSyncViewModel::performReset()
 	MessageConfig config {MessageConfig::TypeMessageBox, MessageConfig::SubTypeQuestion};
 	config.setTitle(tr("Reset Account?"))
 			.setText(tr("Do you want to reset your account? "
-						"You will loose the connection to all other devices and get a new identity."
-						"You can either keep your data or reset it as well."
+						"You will loose the connection to all other devices and get a new identity. "
+						"You can either keep your data or reset it as well. "
 						"This cannot be undone!"))
 			.setButtons(MessageConfig::YesToAll | MessageConfig::Yes | MessageConfig::Cancel) //TODO adjust to get ideal placement
 			.setButtonText(MessageConfig::YesToAll, tr("Reset data"))
@@ -324,6 +333,7 @@ void DataSyncViewModel::onInit(const QVariantHash &params)
 
 		emit syncManagerChanged(d->syncManager);
 		emit accountManagerChanged(d->accountManager);
+		emit ready();
 	} catch(SetupDoesNotExistException &e) {
 		logCritical() << "Failed to init DataSyncViewModel with error:"
 					  << e.what();

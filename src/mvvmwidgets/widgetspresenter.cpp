@@ -132,19 +132,31 @@ void WidgetsPresenter::setInputWidgetFactory(InputWidgetFactory *inputWidgetFact
 const QMetaObject *WidgetsPresenter::findWidgetMetaObject(const QMetaObject *viewModelMetaObject)
 {
 	auto currentMeta = viewModelMetaObject;
-	while(currentMeta && currentMeta->inherits(&ViewModel::staticMetaObject)) {
+	while(currentMeta &&
+		  currentMeta->inherits(&ViewModel::staticMetaObject) &&
+		  currentMeta != &ViewModel::staticMetaObject) {
 		if(d->explicitMappings.contains(currentMeta))
 			return d->explicitMappings.value(currentMeta);
 		else {
 			QByteArray cName = currentMeta->className();
+			//strip viewmodel
 			auto lIndex = cName.lastIndexOf("ViewModel");
 			if(lIndex > 0)
 				cName.truncate(lIndex);
+			//strip namespaces
+			lIndex = cName.lastIndexOf("::");
+			if(lIndex > 0)
+				cName = cName.mid(lIndex + 2);
 
 			auto shortest = std::numeric_limits<int>::max();
 			const QMetaObject *res = nullptr;
 			for(auto metaObject : d->implicitMappings) {
 				QByteArray vName = metaObject->className();
+				//strip namespaces
+				lIndex = vName.lastIndexOf("::");
+				if(lIndex > 0)
+					vName = vName.mid(lIndex + 2);
+
 				if(vName.startsWith(cName) && vName.size() < shortest) {
 					shortest = vName.size();
 					res = metaObject;
@@ -390,13 +402,13 @@ void WidgetsPresenter::presentFileDialog(const MessageConfig &config, QPointer<M
 	QObject::connect(dialog, &QDialog::finished,
 					 dialog, [dialog, isMultiFile, result](int resCode){
 		if(result) {
-			if(isMultiFile)
-				result->setResult(QVariant::fromValue(dialog->selectedUrls()));
-			else
-				result->setResult(dialog->selectedUrls().first());
-			if(resCode == QDialog::Accepted)
+			if(resCode == QDialog::Accepted) {
+				if(isMultiFile)
+					result->setResult(QVariant::fromValue(dialog->selectedUrls()));
+				else if(!dialog->selectedUrls().isEmpty())
+					result->setResult(dialog->selectedUrls().first());
 				result->complete(MessageConfig::Ok);
-			else
+			} else
 				result->complete(MessageConfig::Cancel);
 		}
 	});

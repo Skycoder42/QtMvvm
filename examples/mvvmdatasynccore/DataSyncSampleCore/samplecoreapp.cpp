@@ -26,7 +26,9 @@ int SampleCoreApp::startApp(const QStringList &arguments)
 		setup = arguments.value(1);
 
 	try {
-		QtDataSync::Setup().create(setup);
+		QtDataSync::Setup()
+				.setRemoteConfiguration(QUrl(QStringLiteral("ws://localhost:4242")))
+				.create(setup);
 		show<SampleViewModel>();
 		return EXIT_SUCCESS;
 	} catch (QException &e) {

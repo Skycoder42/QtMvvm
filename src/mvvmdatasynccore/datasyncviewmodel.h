@@ -51,6 +51,7 @@ public:
 	Q_INVOKABLE static QString formatFingerPrint(const QByteArray &fingerPrint);
 
 public Q_SLOTS:
+	void syncOrConnect();
 	void showDeviceInfo();
 	void startExport();
 	void startImport();
@@ -72,6 +73,8 @@ Q_SIGNALS:
 	void accountManagerChanged(QtDataSync::AccountManager* accountManager);
 	void colorMapChanged(ColorMap colorMap);
 	void statusStringChanged();
+
+	void ready();
 
 protected:
 	void onInit(const QVariantHash &params) override;
