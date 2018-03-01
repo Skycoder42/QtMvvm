@@ -87,19 +87,19 @@ public:
 	QVariant defaultValue() const;
 	QVariantMap viewProperties() const;
 
-	void setType(const QByteArray &type);
-	void setSubType(const QByteArray &subType);
-	void setTitle(const QString &title);
-	void setText(const QString &text);
-	void setButtons(StandardButtons buttons);
-	void setButtonTexts(const QHash<StandardButton, QString> &buttonTexts);
-	void setButtonText(StandardButton button, const QString &text);
-	void setDefaultValue(const QVariant &defaultValue);
-	void setViewProperties(const QVariantMap &viewProperties);
-	void setViewProperty(const QString &key, const QVariant &value);
+	MessageConfig &setType(const QByteArray &type);
+	MessageConfig &setSubType(const QByteArray &subType);
+	MessageConfig &setTitle(const QString &title);
+	MessageConfig &setText(const QString &text);
+	MessageConfig &setButtons(StandardButtons buttons);
+	MessageConfig &setButtonTexts(const QHash<StandardButton, QString> &buttonTexts);
+	MessageConfig &setButtonText(StandardButton button, const QString &text);
+	MessageConfig &setDefaultValue(const QVariant &defaultValue);
+	MessageConfig &setViewProperties(const QVariantMap &viewProperties);
+	MessageConfig &setViewProperty(const QString &key, const QVariant &value);
 
-	void resetSubType();
-	void resetButtons();
+	MessageConfig &resetSubType();
+	MessageConfig &resetButtons();
 
 private:
 	QSharedDataPointer<MessageConfigPrivate> d;

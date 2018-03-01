@@ -31,12 +31,10 @@ bool SettingsViewModel::canRestoreDefaults() const
 
 MessageConfig SettingsViewModel::restoreConfig() const
 {
-	MessageConfig config;
-	config.setType(MessageConfig::TypeMessageBox);
-	config.setSubType(MessageConfig::SubTypeWarning);
-	config.setTitle(tr("Restore Defaults?"));
-	config.setText(tr("All custom changes will be deleted and the defaults restored. <i>This cannot be undone!</i>"));
-	config.setButtons(MessageConfig::Yes | MessageConfig::No);
+	MessageConfig config {MessageConfig::TypeMessageBox, MessageConfig::SubTypeWarning};
+	config.setTitle(tr("Restore Defaults?"))
+			.setText(tr("All custom changes will be deleted and the defaults restored. <i>This cannot be undone!</i>"))
+			.setButtons(MessageConfig::Yes | MessageConfig::No);
 	return config;
 }
 

@@ -104,20 +104,20 @@ bool CoreApp::autoParse(QCommandLineParser &parser, const QStringList &arguments
 	if(parser.parse(arguments)) {
 		if(parser.isSet(QStringLiteral("help"))) {
 			MessageConfig helpConfig {MessageConfig::TypeMessageBox, MessageConfig::SubTypeQuestion};
-			helpConfig.setTitle(tr("Help"));
-			helpConfig.setText(parser.helpText());
-			helpConfig.setButtons(MessageConfig::Ok);
+			helpConfig.setTitle(tr("Help"))
+					.setText(parser.helpText())
+					.setButtons(MessageConfig::Ok);
 			auto res = showDialog(helpConfig);
 			connect(res, &MessageResult::dialogDone,
 					qApp, &QCoreApplication::quit);
 			return false;
 		} else if(parser.isSet(QStringLiteral("version"))) {
 			MessageConfig versionConfig {MessageConfig::TypeMessageBox, MessageConfig::SubTypeInformation};
-			versionConfig.setTitle(tr("Application Version"));
-			versionConfig.setText(QGuiApplication::applicationDisplayName() +
-							   QLatin1Char(' ') +
-							   QCoreApplication::applicationVersion());
-			versionConfig.setButtons(MessageConfig::Ok);
+			versionConfig.setTitle(tr("Application Version"))
+					.setText(QGuiApplication::applicationDisplayName() +
+							 QLatin1Char(' ') +
+							 QCoreApplication::applicationVersion())
+					.setButtons(MessageConfig::Ok);
 			auto res = showDialog(versionConfig);
 			connect(res, &MessageResult::dialogDone,
 					qApp, &QCoreApplication::quit);
@@ -126,9 +126,9 @@ bool CoreApp::autoParse(QCommandLineParser &parser, const QStringList &arguments
 			return true;
 	} else {
 		MessageConfig errorConfig {MessageConfig::TypeMessageBox, MessageConfig::SubTypeCritical};
-		errorConfig.setTitle(tr("Invalid Arguments"));
-		errorConfig.setText(parser.errorText());
-		errorConfig.setButtons(MessageConfig::Ok);
+		errorConfig.setTitle(tr("Invalid Arguments"))
+				.setText(parser.errorText())
+				.setButtons(MessageConfig::Ok);
 		auto res = showDialog(errorConfig);
 		connect(res, &MessageResult::dialogDone,
 				qApp, [](){
@@ -197,11 +197,21 @@ void CoreAppPrivate::showViewModel(const QMetaObject *metaObject, const QVariant
 
 void CoreAppPrivate::showDialog(const MessageConfig &config, MessageResult *result)
 {
-	if(presenter)
-		presenter->showDialog(config, result);
+	if(presenter) {
+		try {
+			presenter->showDialog(config, result);
+		} catch(QException &e) {
+			logCritical() << "Failed to show dialog ff type"
+						  << config.type() << ":" << config.subType()
+						  << "with error:"
+						  << e.what();
+			result->complete(MessageConfig::NoButton);
+		}
+	}
 	else {
 		logCritical() << "Failed to show dialog ff type"
 					  << config.type() << ":" << config.subType()
 					  << "- no presenter was set";
+		result->complete(MessageConfig::NoButton);
 	}
 }

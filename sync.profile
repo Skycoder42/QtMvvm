@@ -1,7 +1,8 @@
 %modules = (
 	"QtMvvmCore" => "$basedir/src/mvvmcore",
 	"QtMvvmWidgets" => "$basedir/src/mvvmwidgets",
-	"QtMvvmQuick" => "$basedir/src/mvvmquick"
+	"QtMvvmQuick" => "$basedir/src/mvvmquick",
+	"QtMvvmDataSyncCore" => "$basedir/src/mvvmdatasynccore"
 );
 
 # Force generation of camel case headers for classes inside QtDataSync namespaces

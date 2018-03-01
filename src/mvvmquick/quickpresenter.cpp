@@ -64,7 +64,7 @@ void QuickPresenter::present(QtMvvm::ViewModel *viewModel, const QVariantHash &p
 								  Q_ARG(QtMvvm::ViewModel*, viewModel),
 								  Q_ARG(QVariantHash, params),
 								  Q_ARG(QUrl, url),
-								  Q_ARG(QPointer<QtMvvm::ViewModel>, parent));
+								  Q_ARG(QPointer<QtMvvm::ViewModel>, parent)); //TODO invoke with result?
 	} else
 		throw PresenterException("QML presenter not ready - cannot present yet");
 }
@@ -74,7 +74,7 @@ void QuickPresenter::showDialog(const QtMvvm::MessageConfig &config, QtMvvm::Mes
 	if(d->qmlPresenter) {
 		QMetaObject::invokeMethod(d->qmlPresenter, "showDialog",
 								  Q_ARG(QtMvvm::MessageConfig, config),
-								  Q_ARG(QtMvvm::MessageResult*, result));
+								  Q_ARG(QtMvvm::MessageResult*, result)); //TODO invoke with result?
 	} else
 		throw PresenterException("QML presenter not ready - cannot present yet");
 }

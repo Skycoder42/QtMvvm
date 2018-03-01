@@ -66,7 +66,7 @@ QWidget *InputWidgetFactory::createInput(const QByteArray &type, QWidget *parent
 		widget = new SelectComboBox(parent);
 	else {
 		logCritical() << "Failed to find any input view for input type:" << type;
-		return nullptr;
+		return nullptr; //TODO throw?
 	}
 
 	for(auto it = viewProperties.constBegin(); it != viewProperties.constEnd(); it++)

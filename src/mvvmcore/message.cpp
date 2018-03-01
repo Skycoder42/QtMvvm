@@ -82,57 +82,67 @@ QVariantMap MessageConfig::viewProperties() const
 	return d->editProperties;
 }
 
-void MessageConfig::setType(const QByteArray &type)
+MessageConfig &MessageConfig::setType(const QByteArray &type)
 {
 	d->type = type;
+	return (*this);
 }
 
-void MessageConfig::setSubType(const QByteArray &subType)
+MessageConfig &MessageConfig::setSubType(const QByteArray &subType)
 {
 	d->subType = subType;
+	return (*this);
 }
 
-void MessageConfig::setTitle(const QString &title)
+MessageConfig &MessageConfig::setTitle(const QString &title)
 {
 	d->title = title;
+	return (*this);
 }
 
-void MessageConfig::setText(const QString &text)
+MessageConfig &MessageConfig::setText(const QString &text)
 {
 	d->text = text;
+	return (*this);
 }
 
-void MessageConfig::setButtons(StandardButtons buttons)
+MessageConfig &MessageConfig::setButtons(StandardButtons buttons)
 {
 	d->buttons = buttons;
+	return (*this);
 }
 
-void MessageConfig::setButtonTexts(const QHash<StandardButton, QString> &buttonTexts)
+MessageConfig &MessageConfig::setButtonTexts(const QHash<StandardButton, QString> &buttonTexts)
 {
 	d->buttonTexts = buttonTexts;
+	return (*this);
 }
 
-void MessageConfig::setButtonText(MessageConfig::StandardButton button, const QString &text)
+MessageConfig &MessageConfig::setButtonText(MessageConfig::StandardButton button, const QString &text)
 {
 	d->buttonTexts.insert(button, text);
+	return (*this);
 }
 
-void MessageConfig::setDefaultValue(const QVariant &defaultValue)
+MessageConfig &MessageConfig::setDefaultValue(const QVariant &defaultValue)
 {
 	d->defaultValue = defaultValue;
+	return (*this);
 }
 
-void MessageConfig::setViewProperties(const QVariantMap &editProperties)
+MessageConfig &MessageConfig::setViewProperties(const QVariantMap &editProperties)
 {
 	d->editProperties = editProperties;
+	return (*this);
 }
 
-void MessageConfig::setViewProperty(const QString &key, const QVariant &value)
+MessageConfig &MessageConfig::setViewProperty(const QString &key, const QVariant &value)
 {
 	d->editProperties.insert(key, value);
+	return (*this);
 }
 
-void MessageConfig::resetSubType()
+MessageConfig &MessageConfig::resetSubType()
 {
 	if(d->type == TypeMessageBox)
 		d->subType = SubTypeInformation;
@@ -140,9 +150,10 @@ void MessageConfig::resetSubType()
 		d->subType = QMetaType::typeName(QMetaType::QString);
 	else
 		d->subType.clear();
+	return (*this);
 }
 
-void MessageConfig::resetButtons()
+MessageConfig &MessageConfig::resetButtons()
 {
 	if(d->type == TypeMessageBox) {
 		if(d->subType == SubTypeQuestion)
@@ -157,6 +168,7 @@ void MessageConfig::resetButtons()
 		d->buttons = Ok;
 
 	d->buttonTexts.clear();
+	return (*this);
 }
 
 QVariantMap MessageConfig::buttonTextsMap() const

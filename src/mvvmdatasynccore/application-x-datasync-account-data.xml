@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+	<mime-type type="application/x-datasync-account-data">
+		<comment>Account data of a datasync account as file export</comment>
+		<comment xml:lang="en">Account data of a datasync account as file export</comment>
+		<comment xml:lang="de">Account-Daten eines Datasync-Accounts als Dateiexport</comment>
+		<icon name="x-datasync-account-data"/>
+		<glob-deleteall/>
+		<glob pattern="*.dsad"/>
+	</mime-type>
+</mime-info>
