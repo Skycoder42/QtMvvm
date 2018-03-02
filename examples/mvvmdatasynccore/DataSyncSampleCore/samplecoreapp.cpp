@@ -21,14 +21,12 @@ void SampleCoreApp::performRegistrations()
 
 int SampleCoreApp::startApp(const QStringList &arguments)
 {
-	auto setup = QtDataSync::DefaultSetup;
-	if(arguments.size() > 1)
-		setup = arguments.value(1);
-
 	try {
-		QtDataSync::Setup()
-				.setRemoteConfiguration(QUrl(QStringLiteral("ws://localhost:4242")))
-				.create(setup);
+		QtDataSync::Setup setup;
+		if(arguments.size() > 1)
+			setup.setLocalDir(arguments.value(1));
+		setup.setRemoteConfiguration(QUrl(QStringLiteral("ws://localhost:4242")))
+				.create();
 		show<SampleViewModel>();
 		return EXIT_SUCCESS;
 	} catch (QException &e) {

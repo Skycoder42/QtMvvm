@@ -336,7 +336,8 @@ void WidgetsPresenter::presentInputDialog(const MessageConfig &config, QPointer<
 	auto btns = config.buttonTexts();
 	for(auto it = btns.constBegin(); it != btns.constEnd(); it++){
 		auto sBtn = static_cast<QDialogButtonBox::StandardButton>(it.key());
-		btnBox->addButton(sBtn);
+		if(!btnBox->standardButtons().testFlag(sBtn))
+			btnBox->addButton(sBtn);
 		btnBox->button(sBtn)->setText(it.value());
 	}
 	layout->addWidget(btnBox);

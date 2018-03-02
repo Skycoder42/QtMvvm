@@ -4,7 +4,7 @@
 <context>
     <name>MessageConfig</name>
     <message>
-        <location filename="../message.cpp" line="+402"/>
+        <location filename="../message.cpp" line="+414"/>
         <source>%1 — Version %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -73,7 +73,7 @@
 <context>
     <name>QtMvvm::SettingsViewModel</name>
     <message>
-        <location filename="../settingsviewmodel.cpp" line="+37"/>
+        <location filename="../settingsviewmodel.cpp" line="+35"/>
         <source>Restore Defaults?</source>
         <translation type="unfinished"></translation>
     </message>

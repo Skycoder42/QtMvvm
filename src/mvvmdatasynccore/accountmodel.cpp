@@ -1,5 +1,6 @@
 #include "accountmodel.h"
 #include "accountmodel_p.h"
+#include "datasyncviewmodel.h"
 
 #include <QRemoteObjectReplica>
 
@@ -13,29 +14,34 @@ AccountModel::AccountModel(QObject *parent) :
 
 AccountModel::~AccountModel() {}
 
-void AccountModel::setup(AccountManager *manager)
+void AccountModel::setup(AccountManager *accountManager, SyncManager *syncManager)
 {
 	beginResetModel();
 	d->devices.clear();
-	if(d->manager)
-		d->manager->disconnect(this);
-	d->manager = manager;
+	if(d->accountManager)
+		d->accountManager->disconnect(this);
+	d->accountManager = accountManager;
+	if(d->syncManager)
+		d->syncManager->disconnect(this);
+	d->syncManager = syncManager;
 	endResetModel();
 
-	connect(d->manager, &AccountManager::accountDevices,
+	connect(d->accountManager, &AccountManager::accountDevices,
 			this, &AccountModel::accountDevices);
-	connect(d->manager, &AccountManager::importAccepted,
+	connect(d->accountManager, &AccountManager::importAccepted,
 			this, &AccountModel::reload);
-	connect(d->manager, &AccountManager::accountAccessGranted,
+	connect(d->accountManager, &AccountManager::accountAccessGranted,
 			this, &AccountModel::reload);
 
-	if(d->manager->replica()->isInitialized())
-		d->manager->listDevices();
+	if(d->accountManager->replica()->isInitialized())
+		d->accountManager->listDevices();
 	else {
-		connect(d->manager->replica(), &QRemoteObjectReplica::initialized,
-				d->manager, &AccountManager::listDevices);
+		connect(d->accountManager->replica(), &QRemoteObjectReplica::initialized,
+				d->accountManager, &AccountManager::listDevices);
 	}
 
+	connect(d->syncManager, &SyncManager::syncStateChanged,
+			this, &AccountModel::update);
 }
 
 QVariant AccountModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -92,14 +98,14 @@ QVariant AccountModel::data(const QModelIndex &index, int role) const
 		case NameRole:
 			return d->devices.value(index.row()).name();
 		case FingerPrintRole:
-			return d->devices.value(index.row()).fingerprint();
+			return DataSyncViewModel::formatFingerPrint(d->devices.value(index.row()).fingerprint());
 		default:
 			break;
 		}
 		break;
 	case 1:
 		if(role == Qt::DisplayRole)
-			return d->devices.value(index.row()).fingerprint();
+			return DataSyncViewModel::formatFingerPrint(d->devices.value(index.row()).fingerprint());
 		break;
 	default:
 		break;
@@ -113,15 +119,19 @@ bool AccountModel::removeDevice(const QModelIndex &index)
 	if (!index.isValid())
 		return false;
 	else {
-		d->manager->removeDevice(d->devices.value(index.row()));
+		d->accountManager->removeDevice(d->devices.value(index.row()));
 		return true;
 	}
 }
 
 void AccountModel::reload()
 {
-	if(d->manager)
-		d->manager->listDevices();
+	beginResetModel();
+	d->devices.clear();
+	endResetModel();
+
+	if(d->accountManager)
+		d->accountManager->listDevices();
 }
 
 void AccountModel::accountDevices(const QList<DeviceInfo> &devices)
@@ -131,9 +141,18 @@ void AccountModel::accountDevices(const QList<DeviceInfo> &devices)
 	endResetModel();
 }
 
+void AccountModel::update(SyncManager::SyncState state)
+{
+	if(state == SyncManager::Disconnected ||
+	   state == SyncManager::Error ||
+	   state == SyncManager::Initializing)
+		reload();
+}
+
 // ------------- Private Implementation -------------
 
 AccountModelPrivate::AccountModelPrivate() :
-	manager(nullptr),
+	accountManager(nullptr),
+	syncManager(nullptr),
 	devices()
 {}

@@ -5,6 +5,7 @@
 #include <QtCore/qscopedpointer.h>
 
 #include <QtDataSync/accountmanager.h>
+#include <QtDataSync/syncmanager.h>
 
 #include "QtMvvmDataSyncCore/qtmvvmdatasynccore_global.h"
 
@@ -25,7 +26,8 @@ public:
 	explicit AccountModel(QObject *parent = nullptr);
 	~AccountModel();
 
-	Q_INVOKABLE void setup(QtDataSync::AccountManager *manager);
+	Q_INVOKABLE void setup(QtDataSync::AccountManager *accountManager,
+						   QtDataSync::SyncManager *syncManager);
 
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 	int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -42,6 +44,7 @@ public Q_SLOTS:
 
 private Q_SLOTS:
 	void accountDevices(const QList<QtDataSync::DeviceInfo> &devices);
+	void update(QtDataSync::SyncManager::SyncState state);
 
 private:
 	QScopedPointer<AccountModelPrivate> d;

@@ -575,7 +575,7 @@ void QtMvvm::getOpenFiles(const std::function<void (QList<QUrl>)> &onResult, con
 
 MessageResult *QtMvvm::getSaveFile(const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
 {
-	MessageConfig config(MessageConfig::TypeFileDialog, MessageConfig::SubTypeOpenFile);
+	MessageConfig config(MessageConfig::TypeFileDialog, MessageConfig::SubTypeSaveFile);
 	config.setTitle(title);
 	config.setDefaultValue(dir);
 	config.setViewProperty(QStringLiteral("mimeTypes"), supportedMimeTypes);

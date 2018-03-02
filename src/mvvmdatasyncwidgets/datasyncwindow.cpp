@@ -111,6 +111,9 @@ void DataSyncWindow::viewModelReady()
 			d->ui->actionUpdate_Exchange_Key, [this](){
 		d->ui->actionUpdate_Exchange_Key->setEnabled(false);
 	});
+
+	//update header
+	d->ui->treeView->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
 }
 
 void DataSyncWindow::removeCurrentDevice()

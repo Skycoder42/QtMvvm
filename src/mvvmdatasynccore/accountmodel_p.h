@@ -11,7 +11,8 @@ class AccountModelPrivate
 public:
 	AccountModelPrivate();
 
-	QtDataSync::AccountManager *manager;
+	QtDataSync::AccountManager *accountManager;
+	QtDataSync::SyncManager *syncManager;
 	QList<QtDataSync::DeviceInfo> devices;
 };
 

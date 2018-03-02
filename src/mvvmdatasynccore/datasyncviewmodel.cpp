@@ -329,7 +329,7 @@ void DataSyncViewModel::onInit(const QVariantHash &params)
 				this, &DataSyncViewModel::showAccessGranted);
 		connect(d->accountManager, &AccountManager::accountDevices,
 				this, &DataSyncViewModel::triggerGranted);
-		d->accountModel->setup(d->accountManager);
+		d->accountModel->setup(d->accountManager, d->syncManager);
 
 		emit syncManagerChanged(d->syncManager);
 		emit accountManagerChanged(d->accountManager);

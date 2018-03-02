@@ -1,15 +1,17 @@
 TARGET = QtMvvmDataSyncWidgets
 
-QT = core gui mvvmdatasynccore mvvmwidgets
+QT = core gui mvvmdatasynccore mvvmwidgets mvvmdatasynccore-private
 
 HEADERS += \
 	qtmvvmdatasyncwidgets_global.h \
-    datasyncwindow.h \
-    datasyncwindow_p.h
+	datasyncwindow.h \
+	datasyncwindow_p.h \
+	exportsetupdialog_p.h
 
 SOURCES += \
-    datasyncwindow.cpp \
-    qtmvvmdatasyncwidgets_global.cpp
+	datasyncwindow.cpp \
+	qtmvvmdatasyncwidgets_global.cpp \
+	exportsetupdialog.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmdatasyncwidgets_de.ts \
@@ -37,5 +39,6 @@ qpmx_ts_target.files -= $$OUT_PWD/$$QPMX_WORKINGDIR/qtmvvmdatasyncwidgets_templa
 qpmx_ts_target.files += translations/qtmvvmdatasyncwidgets_template.ts
 
 FORMS += \
-    datasyncwindow.ui
+	datasyncwindow.ui \
+	exportsetupdialog.ui
 
