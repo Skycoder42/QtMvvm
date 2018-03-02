@@ -2,6 +2,7 @@
 #include "datasyncviewmodel_p.h"
 #include "exportsetupviewmodel_p.h"
 #include "changeremoteviewmodel_p.h"
+#include "identityeditviewmodel_p.h"
 
 #include <QtCore/QStandardPaths>
 #include <QtCore/QFile>
@@ -114,7 +115,9 @@ void DataSyncViewModel::syncOrConnect()
 
 void DataSyncViewModel::showDeviceInfo()
 {
-	Q_UNIMPLEMENTED();
+	if(!d->accountManager)
+		return;
+	show<IdentityEditViewModel>(IdentityEditViewModel::params(d->accountManager));
 }
 
 void DataSyncViewModel::startExport()
