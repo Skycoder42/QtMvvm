@@ -1,8 +1,9 @@
 #ifndef QTMVVM_WIDGETSPRESENTER_P_H
 #define QTMVVM_WIDGETSPRESENTER_P_H
 
-#include <QtCore/qset.h>
-#include <QtCore/qhash.h>
+#include <QtCore/QSet>
+#include <QtCore/QHash>
+#include <QtGui/QValidator>
 
 #include "qtmvvmwidgets_global.h"
 #include "widgetspresenter.h"
@@ -20,6 +21,8 @@ public:
 	QSet<const QMetaObject*> implicitMappings;
 	QHash<const QMetaObject*, const QMetaObject*> explicitMappings;
 };
+
+Q_MVVMWIDGETS_EXPORT QValidator *createUrlValidator(const QStringList &schemes, QObject* parent = nullptr);
 
 }
 

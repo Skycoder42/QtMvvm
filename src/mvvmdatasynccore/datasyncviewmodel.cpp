@@ -1,6 +1,7 @@
 #include "datasyncviewmodel.h"
 #include "datasyncviewmodel_p.h"
 #include "exportsetupviewmodel_p.h"
+#include "changeremoteviewmodel_p.h"
 
 #include <QtCore/QStandardPaths>
 #include <QtCore/QFile>
@@ -224,7 +225,7 @@ void DataSyncViewModel::performReset()
 
 void DataSyncViewModel::changeRemote()
 {
-	Q_UNIMPLEMENTED();
+	showForResult<ChangeRemoteViewModel>(DataSyncViewModelPrivate::ChangeRemoteRequestCode);
 }
 
 void DataSyncViewModel::startNetworkExchange()
@@ -347,6 +348,12 @@ void DataSyncViewModel::onResult(quint32 requestCode, const QVariant &result)
 		if(result.isValid()) {
 			auto res = ExportSetupViewModel::result(result);
 			d->performExport(std::get<0>(res), std::get<1>(res), std::get<2>(res));
+		}
+		break;
+	case DataSyncViewModelPrivate::ChangeRemoteRequestCode:
+		if(result.isValid()) {
+			auto res = ChangeRemoteViewModel::result(result);
+			d->accountManager->changeRemote(std::get<0>(res), std::get<1>(res));
 		}
 		break;
 	default:

@@ -22,6 +22,7 @@
 #include <QtMvvmCore/private/qtmvvm_logging_p.h>
 
 #include <dialogmaster.h>
+#include <qurlvalidator.h>
 
 namespace {
 
@@ -447,4 +448,9 @@ WidgetsPresenter *WidgetsPresenterPrivate::currentPresenter()
 	} catch(QException &e) {
 		qFatal(e.what());
 	}
+}
+
+QValidator *QtMvvm::createUrlValidator(const QStringList &schemes, QObject *parent)
+{
+	return new QUrlValidator(schemes, parent);
 }

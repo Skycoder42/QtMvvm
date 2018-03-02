@@ -9,13 +9,21 @@ ExportSetupDialog::ExportSetupDialog(ViewModel *viewModel, QWidget *parent) :
 	ui(new Ui::ExportSetupDialog)
 {
 	ui->setupUi(this);
+	if(parentWidget()) {
+		setWindowModality(Qt::WindowModal);
+		setWindowFlags(Qt::Sheet | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint);
+	} else {
+		setWindowModality(Qt::ApplicationModal);
+		setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint);
+	}
 
 	bind(_viewModel, "trusted",
 		 ui->trustedCheckBox, "checked");
 	bind(_viewModel, "includeServer",
 		 ui->includeServerCheckBox, "checked");
 	bind(_viewModel, "password",
-		 ui->passwordLineEdit, "text");
+		 ui->passwordLineEdit, "text",
+		 Binding::OneWayToViewModel);
 	bind(_viewModel, "valid",
 		 ui->buttonBox->button(QDialogButtonBox::Ok), "enabled",
 		 Binding::OneWayToView);

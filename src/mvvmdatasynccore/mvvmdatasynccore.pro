@@ -8,12 +8,14 @@ HEADERS += \
 	datasyncviewmodel_p.h \
 	accountmodel.h \
 	accountmodel_p.h \
-	exportsetupviewmodel_p.h
+	exportsetupviewmodel_p.h \
+    changeremoteviewmodel_p.h
 
 SOURCES += \
 	datasyncviewmodel.cpp \
 	accountmodel.cpp \
-	exportsetupviewmodel.cpp
+	exportsetupviewmodel.cpp \
+    changeremoteviewmodel.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmdatasynccore_de.ts \
