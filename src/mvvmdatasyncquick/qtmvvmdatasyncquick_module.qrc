@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/qtmvvm/views">
+        <file>DataSyncView.qml</file>
+    </qresource>
+</RCC>

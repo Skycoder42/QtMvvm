@@ -14,6 +14,7 @@ public:
 	QtDataSync::AccountManager *accountManager;
 	QtDataSync::SyncManager *syncManager;
 	QList<QtDataSync::DeviceInfo> devices;
+	bool reloaded;
 };
 
 }

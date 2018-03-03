@@ -32,3 +32,6 @@ else: include($$OUT_PWD/qpmx_generated.pri)
 qpmx_ts_target.files -= $$OUT_PWD/$$QPMX_WORKINGDIR/qtmvvmdatasyncquick_template.qm
 qpmx_ts_target.files += translations/qtmvvmdatasyncquick_template.ts
 
+RESOURCES += \
+    qtmvvmdatasyncquick_module.qrc
+

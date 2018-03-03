@@ -154,8 +154,17 @@ void AccountModel::update(SyncManager::SyncState state)
 {
 	if(state == SyncManager::Disconnected ||
 	   state == SyncManager::Error ||
-	   state == SyncManager::Initializing)
+	   state == SyncManager::Initializing) {
+		d->reloaded = false;
+		if(!d->devices.isEmpty()) {
+			beginResetModel();
+			d->devices.clear();
+			endResetModel();
+		}
+	} else if(!d->reloaded) {
+		d->reloaded = true;
 		reload();
+	}
 }
 
 // ------------- Private Implementation -------------
@@ -163,5 +172,6 @@ void AccountModel::update(SyncManager::SyncState state)
 AccountModelPrivate::AccountModelPrivate() :
 	accountManager(nullptr),
 	syncManager(nullptr),
-	devices()
+	devices(),
+	reloaded(true)
 {}

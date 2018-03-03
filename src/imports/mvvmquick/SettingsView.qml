@@ -31,7 +31,7 @@ Page {
 
 				Label {
 					id: _titleLabel
-					font.pointSize: 16
+					font.pointSize: 14
 					font.bold: true
 					elide: Label.ElideRight
 					horizontalAlignment: Qt.AlignLeft

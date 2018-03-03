@@ -9,4 +9,10 @@
 #	define Q_MVVMDATASYNCQUICK_EXPORT Q_DECL_IMPORT
 #endif
 
+namespace QtMvvm {
+
+Q_MVVMDATASYNCQUICK_EXPORT void registerDataSyncQuick();
+
+}
+
 #endif // MVVMDATASYNCQUICK_GLOBAL_H
