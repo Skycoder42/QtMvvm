@@ -5,7 +5,8 @@ QT = core gui quick mvvmdatasynccore mvvmquick mvvmdatasynccore-private
 HEADERS += \
 	qtmvvmdatasyncquick_global.h
 
-SOURCES +=
+SOURCES += \
+    qtmvvmdatasyncquick_global.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmdatasyncquick_de.ts \

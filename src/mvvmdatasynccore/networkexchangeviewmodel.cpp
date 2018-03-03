@@ -5,6 +5,7 @@
 
 #include <QtMvvmCore/Messages>
 #include <QtDataSync/AccountManager>
+#include <QtDataSync/SetupDoesNotExistException>
 
 #undef logDebug
 #undef logInfo
