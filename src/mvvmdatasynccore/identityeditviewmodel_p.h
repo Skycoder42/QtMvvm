@@ -19,7 +19,7 @@ class Q_MVVMDATASYNCCORE_EXPORT IdentityEditViewModel : public ViewModel
 public:
 	Q_INVOKABLE explicit IdentityEditViewModel(QObject *parent = nullptr);
 
-	static QVariantHash params(QtDataSync::AccountManager *manager);
+	static QVariantHash showParams(QtDataSync::AccountManager *manager);
 
 	QString name() const;
 	QString fingerPrint() const;
@@ -34,7 +34,7 @@ Q_SIGNALS:
 	void fingerPrintChanged();
 
 protected:
-	void onInit(const QVariantHash &params) override;
+	void onInit(const QVariantHash &showParams) override;
 
 private:
 	QtDataSync::AccountManager *_manager;

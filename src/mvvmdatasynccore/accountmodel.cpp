@@ -16,13 +16,14 @@ AccountModel::~AccountModel() {}
 
 void AccountModel::setup(AccountManager *accountManager, SyncManager *syncManager)
 {
-	beginResetModel();
-	d->devices.clear();
 	if(d->accountManager)
 		d->accountManager->disconnect(this);
-	d->accountManager = accountManager;
 	if(d->syncManager)
 		d->syncManager->disconnect(this);
+
+	beginResetModel();
+	d->devices.clear();
+	d->accountManager = accountManager;
 	d->syncManager = syncManager;
 	endResetModel();
 
@@ -112,6 +113,14 @@ QVariant AccountModel::data(const QModelIndex &index, int role) const
 	}
 
 	return {};
+}
+
+QHash<int, QByteArray> AccountModel::roleNames() const
+{
+	return {
+		{NameRole, "name"},
+		{FingerPrintRole, "fingerPrint"}
+	};
 }
 
 bool AccountModel::removeDevice(const QModelIndex &index)

@@ -8,7 +8,7 @@ IdentityEditViewModel::IdentityEditViewModel(QObject *parent) :
 	_manager(nullptr)
 {}
 
-QVariantHash IdentityEditViewModel::params(AccountManager *manager)
+QVariantHash IdentityEditViewModel::showParams(AccountManager *manager)
 {
 	return {
 		{QStringLiteral("manager"), QVariant::fromValue(manager)}

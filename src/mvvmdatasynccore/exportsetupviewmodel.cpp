@@ -1,6 +1,13 @@
 #include "exportsetupviewmodel_p.h"
 using namespace QtMvvm;
 
+QVariantHash ExportSetupViewModel::showParams(const QString &label)
+{
+	return {
+		{QStringLiteral("label"), label}
+	};
+}
+
 std::tuple<bool, bool, QString> ExportSetupViewModel::result(const QVariant &data)
 {
 	auto map = data.toHash();
@@ -11,6 +18,7 @@ std::tuple<bool, bool, QString> ExportSetupViewModel::result(const QVariant &dat
 
 ExportSetupViewModel::ExportSetupViewModel(QObject *parent) :
 	ViewModel(parent),
+	_label(),
 	_trusted(false),
 	_includeServer(false),
 	_password()
@@ -19,6 +27,11 @@ ExportSetupViewModel::ExportSetupViewModel(QObject *parent) :
 			this, &ExportSetupViewModel::validChanged);
 	connect(this, &ExportSetupViewModel::passwordChanged,
 			this, &ExportSetupViewModel::validChanged);
+}
+
+QString ExportSetupViewModel::label() const
+{
+	return _label;
 }
 
 bool ExportSetupViewModel::trusted() const
@@ -79,4 +92,10 @@ void ExportSetupViewModel::setPassword(QString password)
 
 	_password = password;
 	emit passwordChanged(_password);
+}
+
+void ExportSetupViewModel::onInit(const QVariantHash &params)
+{
+	_label = params.value(QStringLiteral("label")).toString();
+	emit labelChanged(_label);
 }

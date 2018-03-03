@@ -33,6 +33,7 @@ public:
 	int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 	int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+	QHash<int, QByteArray> roleNames() const override;
 
 	Q_INVOKABLE bool removeDevice(const QModelIndex &index);
 	Q_INVOKABLE inline bool removeDevice(int row) {

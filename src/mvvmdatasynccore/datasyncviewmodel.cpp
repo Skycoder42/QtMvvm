@@ -1,5 +1,6 @@
 #include "datasyncviewmodel.h"
 #include "datasyncviewmodel_p.h"
+#include "networkexchangeviewmodel.h"
 #include "exportsetupviewmodel_p.h"
 #include "changeremoteviewmodel_p.h"
 #include "identityeditviewmodel_p.h"
@@ -117,12 +118,13 @@ void DataSyncViewModel::showDeviceInfo()
 {
 	if(!d->accountManager)
 		return;
-	show<IdentityEditViewModel>(IdentityEditViewModel::params(d->accountManager));
+	show<IdentityEditViewModel>(IdentityEditViewModel::showParams(d->accountManager));
 }
 
 void DataSyncViewModel::startExport()
 {
-	showForResult<ExportSetupViewModel>(DataSyncViewModelPrivate::ExportRequestCode);
+	showForResult<ExportSetupViewModel>(DataSyncViewModelPrivate::ExportRequestCode,
+										ExportSetupViewModel::showParams(tr("Export account data to file:")));
 }
 
 void DataSyncViewModel::startImport()
@@ -181,7 +183,7 @@ void DataSyncViewModel::startImport()
 						.setButtonText(MessageConfig::YesToAll, tr("Reset data"))
 						.setButtonText(MessageConfig::Yes, tr("Keep data"));
 				auto res = CoreApp::showDialog(config);
-				connect(res, &MessageResult::dialogDone, this, [this, res, data](MessageConfig::StandardButton btn) {
+				connect(res, &MessageResult::dialogDone, this, [this, data](MessageConfig::StandardButton btn) {
 					switch (btn) {
 					case MessageConfig::YesToAll:
 						d->performImport(false, {}, data, false);
@@ -233,7 +235,7 @@ void DataSyncViewModel::changeRemote()
 
 void DataSyncViewModel::startNetworkExchange()
 {
-	Q_UNIMPLEMENTED();
+	show<NetworkExchangeViewModel>(NetworkExchangeViewModel::showParams(d->accountManager));
 }
 
 void DataSyncViewModel::setColorMap(DataSyncViewModel::ColorMap colorMap)

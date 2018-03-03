@@ -8,14 +8,17 @@ HEADERS += \
 	datasyncwindow_p.h \
 	exportsetupdialog_p.h \
     changeremotedialog_p.h \
-    identityeditdialog_p.h
+    identityeditdialog_p.h \
+    networkexchangewindow.h \
+    networkexchangewindow_p.h
 
 SOURCES += \
 	datasyncwindow.cpp \
 	qtmvvmdatasyncwidgets_global.cpp \
 	exportsetupdialog.cpp \
 	changeremotedialog.cpp \
-    identityeditdialog.cpp
+    identityeditdialog.cpp \
+    networkexchangewindow.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmdatasyncwidgets_de.ts \
@@ -46,5 +49,6 @@ FORMS += \
 	datasyncwindow.ui \
 	exportsetupdialog.ui \
 	changeremotedialog.ui \
-    identityeditdialog.ui
+    identityeditdialog.ui \
+    networkexchangewindow.ui
 

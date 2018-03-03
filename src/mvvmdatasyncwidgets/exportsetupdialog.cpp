@@ -17,6 +17,9 @@ ExportSetupDialog::ExportSetupDialog(ViewModel *viewModel, QWidget *parent) :
 		setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint);
 	}
 
+	bind(_viewModel, "label",
+		 ui->titleLabel, "text",
+		 Binding::OneWayToView);
 	bind(_viewModel, "trusted",
 		 ui->trustedCheckBox, "checked");
 	bind(_viewModel, "includeServer",
