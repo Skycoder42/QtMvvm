@@ -2,6 +2,10 @@ module de.skycoder42.QtMvvm.Quick
 plugin declarative_mvvmquick
 classname QtMvvmQuickDeclarativeModule
 typeinfo plugins.qmltypes
+depends QtQuick 2.10
+depends QtGraphicalEffects 1.0
+depends Qt.labs.platform 1.0
+depends de.skycoder42.QtMvvm.Core 1.0
 
 internal TintIcon TintIcon.qml
 internal MsgBoxBase MsgBoxBase.qml

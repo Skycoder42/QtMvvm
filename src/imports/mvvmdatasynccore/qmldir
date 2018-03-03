@@ -1,0 +1,6 @@
+module de.skycoder42.QtMvvm.DataSync.Core
+plugin declarative_mvvmdatasynccore
+classname QtMvvmDataSyncCoreDeclarativeModule
+typeinfo plugins.qmltypes
+depends QtQml.Models 2.3
+depends de.skycoder42.QtMvvm.Core 1.0

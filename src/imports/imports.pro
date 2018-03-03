@@ -1,5 +1,9 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    mvvmquick \
-    mvvmcore
+	mvvmquick \
+	mvvmcore
+
+qtHaveModule(datasync) {
+	SUBDIRS += mvvmdatasynccore
+}

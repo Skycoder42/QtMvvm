@@ -2,3 +2,4 @@ module de.skycoder42.QtMvvm.Core
 plugin declarative_mvvmcore
 classname QtMvvmCoreDeclarativeModule
 typeinfo plugins.qmltypes
+depends QtQml 2.2

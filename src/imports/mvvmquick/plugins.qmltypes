@@ -7,7 +7,14 @@ import QtQuick.tooling 1.2
 // 'qmlplugindump -nonrelocatable de.skycoder42.QtMvvm.Quick 1.0'
 
 Module {
-    dependencies: ["QtQuick 2.8"]
+    dependencies: [
+        "Qt.labs.platform 1.0",
+        "QtGraphicalEffects 1.0",
+        "QtQml 2.2",
+        "QtQuick 2.8",
+        "QtQuick.Window 2.1",
+        "de.skycoder42.QtMvvm.Core 1.0"
+    ]
     Component {
         name: "QUrlValidator"
         prototype: "QValidator"
@@ -154,7 +161,7 @@ Module {
         }
     }
     Component {
-        prototype: "QObject"
+        prototype: "QQuickPlatformFileDialog"
         name: "de.skycoder42.QtMvvm.Quick/FileDialog 1.0"
         exports: ["de.skycoder42.QtMvvm.Quick/FileDialog 1.0"]
         exportMetaObjectRevisions: [0]
@@ -164,43 +171,9 @@ Module {
         Property { name: "msgResult"; type: "QtMvvm::MessageResult"; isPointer: true }
         Property { name: "mimeTypes"; type: "QVariant" }
         Signal { name: "closed" }
-        Property { name: "fileMode"; type: "FileMode" }
-        Property { name: "file"; type: "QUrl" }
-        Property { name: "files"; type: "QList<QUrl>" }
-        Property { name: "currentFile"; type: "QUrl" }
-        Property { name: "currentFiles"; type: "QList<QUrl>" }
-        Property { name: "folder"; type: "QUrl" }
-        Property { name: "options"; type: "QFileDialogOptions::FileDialogOptions" }
-        Property { name: "nameFilters"; type: "QStringList" }
-        Property {
-            name: "selectedNameFilter"
-            type: "QQuickPlatformFileNameFilter"
-            isReadonly: true
-            isPointer: true
-        }
-        Property { name: "defaultSuffix"; type: "string" }
-        Property { name: "acceptLabel"; type: "string" }
-        Property { name: "rejectLabel"; type: "string" }
-        Property { name: "data"; type: "QObject"; isList: true; isReadonly: true }
-        Property { name: "parentWindow"; type: "QWindow"; isPointer: true }
-        Property { name: "title"; type: "string" }
-        Property { name: "flags"; type: "Qt::WindowFlags" }
-        Property { name: "modality"; type: "Qt::WindowModality" }
-        Property { name: "visible"; type: "bool" }
-        Property { name: "result"; type: "int" }
-        Signal { name: "accepted" }
-        Signal { name: "rejected" }
-        Method { name: "open" }
-        Method { name: "close" }
-        Method { name: "accept" }
-        Method { name: "reject" }
-        Method {
-            name: "done"
-            Parameter { name: "result"; type: "int" }
-        }
     }
     Component {
-        prototype: "QObject"
+        prototype: "QQuickPlatformFolderDialog"
         name: "de.skycoder42.QtMvvm.Quick/FolderDialog 1.0"
         exports: ["de.skycoder42.QtMvvm.Quick/FolderDialog 1.0"]
         exportMetaObjectRevisions: [0]
@@ -209,27 +182,5 @@ Module {
         Property { name: "msgConfig"; type: "QVariant" }
         Property { name: "msgResult"; type: "QtMvvm::MessageResult"; isPointer: true }
         Signal { name: "closed" }
-        Property { name: "folder"; type: "QUrl" }
-        Property { name: "currentFolder"; type: "QUrl" }
-        Property { name: "options"; type: "QFileDialogOptions::FileDialogOptions" }
-        Property { name: "acceptLabel"; type: "string" }
-        Property { name: "rejectLabel"; type: "string" }
-        Property { name: "data"; type: "QObject"; isList: true; isReadonly: true }
-        Property { name: "parentWindow"; type: "QWindow"; isPointer: true }
-        Property { name: "title"; type: "string" }
-        Property { name: "flags"; type: "Qt::WindowFlags" }
-        Property { name: "modality"; type: "Qt::WindowModality" }
-        Property { name: "visible"; type: "bool" }
-        Property { name: "result"; type: "int" }
-        Signal { name: "accepted" }
-        Signal { name: "rejected" }
-        Method { name: "open" }
-        Method { name: "close" }
-        Method { name: "accept" }
-        Method { name: "reject" }
-        Method {
-            name: "done"
-            Parameter { name: "result"; type: "int" }
-        }
     }
 }
