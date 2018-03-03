@@ -7,18 +7,25 @@ HEADERS += \
 	datasyncwindow.h \
 	datasyncwindow_p.h \
 	exportsetupdialog_p.h \
-    changeremotedialog_p.h \
-    identityeditdialog_p.h \
-    networkexchangewindow.h \
-    networkexchangewindow_p.h
+	changeremotedialog_p.h \
+	identityeditdialog_p.h \
+	networkexchangewindow.h \
+	networkexchangewindow_p.h
 
 SOURCES += \
 	datasyncwindow.cpp \
 	qtmvvmdatasyncwidgets_global.cpp \
 	exportsetupdialog.cpp \
 	changeremotedialog.cpp \
-    identityeditdialog.cpp \
-    networkexchangewindow.cpp
+	identityeditdialog.cpp \
+	networkexchangewindow.cpp
+
+FORMS += \
+	datasyncwindow.ui \
+	exportsetupdialog.ui \
+	changeremotedialog.ui \
+	identityeditdialog.ui \
+	networkexchangewindow.ui
 
 TRANSLATIONS += \
 	translations/qtmvvmdatasyncwidgets_de.ts \
@@ -44,11 +51,4 @@ else: include($$OUT_PWD/qpmx_generated.pri)
 
 qpmx_ts_target.files -= $$OUT_PWD/$$QPMX_WORKINGDIR/qtmvvmdatasyncwidgets_template.qm
 qpmx_ts_target.files += translations/qtmvvmdatasyncwidgets_template.ts
-
-FORMS += \
-	datasyncwindow.ui \
-	exportsetupdialog.ui \
-	changeremotedialog.ui \
-    identityeditdialog.ui \
-    networkexchangewindow.ui
 

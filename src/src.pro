@@ -3,13 +3,15 @@ CONFIG += ordered
 
 SUBDIRS += mvvmcore \
 	mvvmwidgets \
-	mvvmquick \
-	imports
+	mvvmquick
 
 qtHaveModule(datasync) {
 	SUBDIRS += mvvmdatasynccore \
-		mvvmdatasyncwidgets
+		mvvmdatasyncwidgets \
+		mvvmdatasyncquick
 }
+
+SUBDIRS += imports
 
 prepareRecursiveTarget(lrelease)
 QMAKE_EXTRA_TARGETS += lrelease

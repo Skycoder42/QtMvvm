@@ -1,5 +1,5 @@
 #include <QtWidgets/QApplication>
-#include <QQmlApplicationEngine>
+#include <QtQml/QQmlApplicationEngine>
 #include <QtMvvmCore/ServiceRegistry>
 #include <QtMvvmQuick/QuickPresenter>
 #include <QtQuickControls2/QQuickStyle>
