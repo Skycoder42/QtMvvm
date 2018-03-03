@@ -6,6 +6,7 @@ version: build-{build}
 
 environment:
   QT_VER: 5.10.0
+  EXTRA_MODULES: .qtremoteobjects;.skycoder42.datasync
 
   matrix:
     - PLATFORM: msvc2017_64

@@ -11,6 +11,7 @@ env:
   global:
     - QPMX_CACHE_DIR=$HOME/.qpmx-cache
     - QT_VER=5.10.0
+    - EXTRA_MODULES=".qtremoteobjects .skycoder42.datasync"
 
 matrix:
   include:
