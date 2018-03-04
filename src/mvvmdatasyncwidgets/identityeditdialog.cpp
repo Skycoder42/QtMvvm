@@ -1,6 +1,7 @@
 #include "identityeditdialog_p.h"
 #include "ui_identityeditdialog.h"
 #include <QtMvvmCore/Binding>
+#include <QtWidgets/QPushButton>
 using namespace QtMvvm;
 
 IdentityEditDialog::IdentityEditDialog(ViewModel *viewModel, QWidget *parent) :

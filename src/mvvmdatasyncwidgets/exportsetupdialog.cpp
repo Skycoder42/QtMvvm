@@ -1,6 +1,7 @@
 #include "exportsetupdialog_p.h"
 #include "ui_exportsetupdialog.h"
 #include <QtMvvmCore/Binding>
+#include <QtWidgets/QPushButton>
 using namespace QtMvvm;
 
 ExportSetupDialog::ExportSetupDialog(ViewModel *viewModel, QWidget *parent) :

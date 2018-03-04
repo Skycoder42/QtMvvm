@@ -2,6 +2,7 @@
 #include "ui_changeremotedialog.h"
 #include <QtMvvmCore/Binding>
 #include <QtMvvmWidgets/private/widgetspresenter_p.h>
+#include <QtWidgets/QPushButton>
 using namespace QtMvvm;
 
 ChangeRemoteDialog::ChangeRemoteDialog(ViewModel *viewModel, QWidget *parent) :
