@@ -6,21 +6,19 @@ import de.skycoder42.QtMvvm.Quick 1.0
 ToolButton {
 	id: _toolButton
 
-	property alias source: _tintIcon.source
-	property alias toolTip: _backToolTip.text
+	property string toolTip: _toolButton.text
 
-	implicitHeight: 56.0
-	implicitWidth: 56.0
+	display: AbstractButton.IconOnly
 
-	contentItem: TintIcon {
-		id: _tintIcon
-		implicitHeight: _toolButton.implicitHeight
-		implicitWidth: _toolButton.implicitWidth
-	}
+	implicitHeight: 48
+	implicitWidth: 48
+
+	icon.width: 24
+	icon.height: 24
 
 	ToolTip {
 		id: _backToolTip
-		Material.foreground: "#FFFFFF"
+		text: _toolButton.toolTip
 	}
 
 	onPressAndHold: {

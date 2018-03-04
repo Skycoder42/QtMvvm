@@ -18,43 +18,44 @@ Dialog {
 
 	x: parent ? (parent.width - width) / 2 : 0
 	y: parent ? deltaY() : 0
-	width: parent ? Math.min(Math.max(implicitWidth, baseWidth), parent.width - 28) : implicitWidth
-	height: parent ? Math.min(implicitHeight, parent.height - 28) : implicitWidth
+	width: parent ? Math.min(Math.max(implicitWidth, baseWidth), parent.width - 24) : implicitWidth
+	height: parent ? Math.min(implicitHeight, parent.height - 24) : implicitWidth
 	modal: true
 	focus: true
 
 	function deltaY() {
 		var unscaled = Qt.inputMethod.keyboardRectangle.height / Screen.devicePixelRatio;
-		var availHeight = (parent.height + extraHeight) - unscaled - 28;//spacing
+		var availHeight = (parent.height + extraHeight) - unscaled - 24; //margins
 		var rawDelta = (Math.max(0, availHeight - height) / 2);
-		return rawDelta + 14 - extraHeight;//spacing
+		return rawDelta + 12 - extraHeight; //spacing
 	}
 
-	header: RowLayout {
-		spacing: 14
+	header: Pane {
+		id: _headerPane
+		background: Item {}
+		bottomPadding: 0
 
-		TintIcon {
-			id: _icon
-			visible: false
+		RowLayout {
+			anchors.fill: parent
+			spacing: _headerPane.padding
 
-			Layout.preferredWidth: 24
-			Layout.preferredHeight: 24
-			Layout.margins: 24
-			Layout.bottomMargin: 0
-			Layout.rightMargin: 0
-		}
+			TintIcon {
+				id: _icon
+				visible: false
 
-		Label {
-			id: _title
-			text: msgConfig.title
-			visible: msgConfig.title
-			elide: Label.ElideRight
-			font.bold: true
-			font.pixelSize: 16
-			Layout.fillWidth: true
-			Layout.margins: 24
-			Layout.bottomMargin: 0
-			Layout.leftMargin: _icon.visible ? 0 : 24
+				Layout.preferredWidth: 24
+				Layout.preferredHeight: 24
+				Layout.alignment: Qt.AlignVCenter
+			}
+
+			Label {
+				id: _title
+				text: msgConfig.title
+				visible: msgConfig.title
+				elide: Label.ElideRight
+				font.bold: true
+				Layout.fillWidth: true
+			}
 		}
 	}
 

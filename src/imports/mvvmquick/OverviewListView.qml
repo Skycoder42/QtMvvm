@@ -25,7 +25,7 @@ ListView {
 			id: grid
 			rows: 2
 			columns: 3
-			columnSpacing: 14
+			columnSpacing: 16
 
 			TintIcon {
 				id: tintIcon

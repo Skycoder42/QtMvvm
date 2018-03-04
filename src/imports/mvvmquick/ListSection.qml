@@ -10,7 +10,7 @@ Label {
 	width: parent.width
 	font.bold: true
 	font.capitalization: Font.SmallCaps
-	padding: 14
+	padding: 16
 	bottomPadding: 4
 	text: title + qsTr(":")
 

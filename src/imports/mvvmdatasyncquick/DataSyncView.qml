@@ -12,7 +12,7 @@ Page {
 	id: _dataSyncView
 	property DataSyncViewModel viewModel: null
 
-	header: ToolBar {
+	header: ContrastToolBar {
 		id: _toolBar
 
 		RowLayout {
@@ -28,30 +28,30 @@ Page {
 				horizontalAlignment: Qt.AlignLeft
 				verticalAlignment: Qt.AlignVCenter
 				Layout.fillWidth: true
-				Layout.minimumHeight: 56
-				Layout.leftMargin: 10
+				Layout.leftMargin: 16
 
 				text: qsTr("Synchronization")
 			}
 
 			ActionButton {
 				id: _syncButton
-				source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_sync"
-				toolTip: qsTr("Synchronize")
+				icon.name: "view-refresh"
+				icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_sync"
+				text: qsTr("Synchronize")
 				onClicked: viewModel.syncOrConnect()
 			}
 
 			ActionButton {
 				id: _idButton
-				source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_fingerprint"
-				toolTip: qsTr("Edit Identity")
+				icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_fingerprint"
+				text: qsTr("Edit Identity")
 				onClicked: viewModel.showDeviceInfo()
 			}
 
 			ActionButton {
 				id: _moreButton
-				source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_more_vert"
-				toolTip: qsTr("More…")
+				icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_more_vert"
+				text: qsTr("More…")
 				checkable: true
 				checked: _moreMenu.visible
 
@@ -102,7 +102,7 @@ Page {
 		ColumnLayout {
 			id: _layout
 			anchors.fill: parent
-			spacing: 14
+			spacing: 16
 
 			Switch {
 				id: _syncSwitch
@@ -180,7 +180,7 @@ Page {
 
 					contentItem: ColumnLayout {
 						id: _delegateLayout
-						spacing: 7
+						spacing: 8
 
 						Label {
 							id: _nameLabel
@@ -237,8 +237,8 @@ Page {
 
 						ActionButton {
 							anchors.fill: parent
-							source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_delete_forever"
-							toolTip: qsTr("Remove Device")
+							icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_delete_forever"
+							text: qsTr("Remove Device")
 
 							Material.foreground: "white"
 							Universal.foreground: "white"

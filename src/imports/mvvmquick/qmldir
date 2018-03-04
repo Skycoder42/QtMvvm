@@ -16,6 +16,7 @@ internal ListSection ListSection.qml
 internal SectionListView SectionListView.qml
 internal OverviewListView OverviewListView.qml
 
+ContrastToolBar 1.0 ContrastToolBar.qml
 ActionButton 1.0 ActionButton.qml
 
 PresenterProgress 1.0 PresenterProgress.qml

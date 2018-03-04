@@ -10,7 +10,6 @@ MsgBoxBase {
 
 	ColumnLayout {
 		anchors.fill: parent
-		spacing: 14
 
 		Label {
 			id: _contentLabel

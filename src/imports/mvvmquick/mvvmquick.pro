@@ -10,19 +10,19 @@ HEADERS += \
 	qtmvvmquick_plugin.h \
 	qqmlquickpresenter.h \
 	svgimageprovider.h \
-    settingsuibuilder.h \
-    settingssectionmodel.h \
-    multifilterproxymodel.h \
-    settingsentrymodel.h
+	settingsuibuilder.h \
+	settingssectionmodel.h \
+	multifilterproxymodel.h \
+	settingsentrymodel.h
 
 SOURCES += \
 	qtmvvmquick_plugin.cpp \
 	qqmlquickpresenter.cpp \
 	svgimageprovider.cpp \
-    settingsuibuilder.cpp \
-    settingssectionmodel.cpp \
-    multifilterproxymodel.cpp \
-    settingsentrymodel.cpp
+	settingsuibuilder.cpp \
+	settingssectionmodel.cpp \
+	multifilterproxymodel.cpp \
+	settingsentrymodel.cpp
 
 QML_FILES += \
 	QtMvvmApp.qml \
@@ -31,6 +31,7 @@ QML_FILES += \
 	PopupPresenter.qml \
 	DialogPresenter.qml \
 	TintIcon.qml \
+	ContrastToolBar.qml \
 	ActionButton.qml \
 	MsgBoxBase.qml \
 	MsgBox.qml \

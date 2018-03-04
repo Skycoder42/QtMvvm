@@ -14,7 +14,7 @@ Page {
 		return !fullClose && _settingsStack.closeAction();
 	}
 
-	header: ToolBar {
+	header: ContrastToolBar {
 		id: _toolBar
 
 		RowLayout {
@@ -26,8 +26,8 @@ Page {
 				id: _labelContainer
 
 				Layout.fillWidth: true
-				Layout.minimumHeight: 56
-				Layout.leftMargin: 10
+				Layout.fillHeight: true
+				Layout.leftMargin: 16
 
 				Label {
 					id: _titleLabel
@@ -56,15 +56,15 @@ Page {
 			ActionButton {
 				id: _searchButton
 				visible: _builder.allowSearch
-				toolTip: qsTr("Search in settings")
+				text: qsTr("Search in settings")
 				onClicked: toggleSearchState()
 			}
 
 			ActionButton {
 				id: _restoreButton
 				visible: _builder.allowRestore
-				source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_settings_backup_restore"
-				toolTip: qsTr("Restore settings")
+				icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_settings_backup_restore"
+				text: qsTr("Restore settings")
 				onClicked: _builder.restoreDefaults()
 			}
 		}
@@ -75,7 +75,8 @@ Page {
 			name: "title"
 			PropertyChanges {
 				target: _searchButton
-				source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_search"
+				icon.name: "search"
+				icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_search"
 			}
 			PropertyChanges {
 				target: _titleLabel
@@ -95,7 +96,8 @@ Page {
 			name: "search"
 			PropertyChanges {
 				target: _searchButton
-				source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_close"
+				icon.name: "gtk-close"
+				icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_close"
 			}
 			PropertyChanges {
 				target: _titleLabel
