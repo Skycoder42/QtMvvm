@@ -4,6 +4,7 @@
 #include "exportsetupviewmodel_p.h"
 
 #include <QtMvvmCore/Messages>
+#include <QtMvvmCore/CoreApp>
 #include <QtDataSync/AccountManager>
 #include <QtDataSync/SetupDoesNotExistException>
 

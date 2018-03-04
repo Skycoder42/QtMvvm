@@ -20,8 +20,8 @@ ExportSetupViewModel::ExportSetupViewModel(QObject *parent) :
 	ViewModel(parent),
 	_label(),
 	_trusted(false),
-	_includeServer(false),
-	_password()
+	_password(),
+	_includeServer(false)
 {
 	connect(this, &ExportSetupViewModel::trustedChanged,
 			this, &ExportSetupViewModel::validChanged);
