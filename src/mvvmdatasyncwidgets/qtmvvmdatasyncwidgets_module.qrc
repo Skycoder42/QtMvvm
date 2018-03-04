@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/de/skycoder42/qtmvvm/widgets/icons">
+        <file alias="add.ico">icons/add.ico</file>
+        <file alias="reload.ico">icons/arrow_refresh.ico</file>
+        <file alias="export.ico">icons/card_export.ico</file>
+        <file alias="import.ico">icons/card_import.ico</file>
+        <file alias="remove.ico">icons/delete.ico</file>
+        <file alias="identity.ico">icons/fingerprint.ico</file>
+        <file alias="changeKey.ico">icons/key_go.ico</file>
+        <file alias="editServer.ico">icons/server_edit.ico</file>
+        <file alias="reset.ico">icons/user_delete.ico</file>
+        <file alias="user.ico">icons/user.ico</file>
+        <file alias="exchange.ico">icons/world_go.ico</file>
+    </qresource>
+</RCC>

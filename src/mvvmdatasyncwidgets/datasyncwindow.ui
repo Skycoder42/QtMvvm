@@ -226,8 +226,8 @@
         <string>Account &amp;actions</string>
        </property>
        <property name="icon">
-        <iconset theme="user-identity">
-         <normaloff>.</normaloff>.</iconset>
+        <iconset theme="user-identity" resource="qtmvvmdatasyncwidgets_module.qrc">
+         <normaloff>:/de/skycoder42/qtmvvm/widgets/icons/user.ico</normaloff>:/de/skycoder42/qtmvvm/widgets/icons/user.ico</iconset>
        </property>
        <property name="popupMode">
         <enum>QToolButton::InstantPopup</enum>
@@ -242,8 +242,8 @@
   </layout>
   <action name="action_Import_from_file">
    <property name="icon">
-    <iconset theme="document-import">
-     <normaloff>:/de/skycoder42/qtmvvm/datasync/widgets/icons/import.ico</normaloff>:/de/skycoder42/qtmvvm/datasync/widgets/icons/import.ico</iconset>
+    <iconset theme="document-import" resource="qtmvvmdatasyncwidgets_module.qrc">
+     <normaloff>:/de/skycoder42/qtmvvm/widgets/icons/import.ico</normaloff>:/de/skycoder42/qtmvvm/widgets/icons/import.ico</iconset>
    </property>
    <property name="text">
     <string>&amp;Import from file</string>
@@ -254,8 +254,8 @@
   </action>
   <action name="action_Export_to_file">
    <property name="icon">
-    <iconset theme="document-export">
-     <normaloff>:/de/skycoder42/qtmvvm/datasync/widgets/icons/export.ico</normaloff>:/de/skycoder42/qtmvvm/datasync/widgets/icons/export.ico</iconset>
+    <iconset theme="document-export" resource="qtmvvmdatasyncwidgets_module.qrc">
+     <normaloff>:/de/skycoder42/qtmvvm/widgets/icons/export.ico</normaloff>:/de/skycoder42/qtmvvm/widgets/icons/export.ico</iconset>
    </property>
    <property name="text">
     <string>&amp;Export to file</string>
@@ -266,8 +266,8 @@
   </action>
   <action name="action_Network_exchange">
    <property name="icon">
-    <iconset theme="network-connect">
-     <normaloff>:/de/skycoder42/qtmvvm/datasync/widgets/icons/exchange.ico</normaloff>:/de/skycoder42/qtmvvm/datasync/widgets/icons/exchange.ico</iconset>
+    <iconset theme="network-connect" resource="qtmvvmdatasyncwidgets_module.qrc">
+     <normaloff>:/de/skycoder42/qtmvvm/widgets/icons/exchange.ico</normaloff>:/de/skycoder42/qtmvvm/widgets/icons/exchange.ico</iconset>
    </property>
    <property name="text">
     <string>&amp;Network exchange</string>
@@ -278,8 +278,8 @@
   </action>
   <action name="action_Reset_Identity">
    <property name="icon">
-    <iconset theme="user-group-delete">
-     <normaloff>:/de/skycoder42/qtmvvm/datasync/widgets/icons/idreset.ico</normaloff>:/de/skycoder42/qtmvvm/datasync/widgets/icons/idreset.ico</iconset>
+    <iconset theme="user-group-delete" resource="qtmvvmdatasyncwidgets_module.qrc">
+     <normaloff>:/de/skycoder42/qtmvvm/widgets/icons/reset.ico</normaloff>:/de/skycoder42/qtmvvm/widgets/icons/reset.ico</iconset>
    </property>
    <property name="text">
     <string>Rese&amp;t identity</string>
@@ -287,8 +287,8 @@
   </action>
   <action name="action_Change_Remote_Server">
    <property name="icon">
-    <iconset theme="network-server">
-     <normaloff>:/de/skycoder42/qtmvvm/datasync/widgets/icons/changeRemote.ico</normaloff>:/de/skycoder42/qtmvvm/datasync/widgets/icons/changeRemote.ico</iconset>
+    <iconset theme="network-server" resource="qtmvvmdatasyncwidgets_module.qrc">
+     <normaloff>:/de/skycoder42/qtmvvm/widgets/icons/editServer.ico</normaloff>:/de/skycoder42/qtmvvm/widgets/icons/editServer.ico</iconset>
    </property>
    <property name="text">
     <string>&amp;Change remote server</string>
@@ -296,8 +296,8 @@
   </action>
   <action name="action_Remove_Device">
    <property name="icon">
-    <iconset theme="list-remove">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="list-remove" resource="qtmvvmdatasyncwidgets_module.qrc">
+     <normaloff>:/de/skycoder42/qtmvvm/widgets/icons/remove.ico</normaloff>:/de/skycoder42/qtmvvm/widgets/icons/remove.ico</iconset>
    </property>
    <property name="text">
     <string>&amp;Remove selected device</string>
@@ -308,8 +308,8 @@
   </action>
   <action name="actionEdit_Identity">
    <property name="icon">
-    <iconset theme="fingerprint-gui">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="fingerprint-gui" resource="qtmvvmdatasyncwidgets_module.qrc">
+     <normaloff>:/de/skycoder42/qtmvvm/widgets/icons/identity.ico</normaloff>:/de/skycoder42/qtmvvm/widgets/icons/identity.ico</iconset>
    </property>
    <property name="text">
     <string>&amp;Identity</string>
@@ -320,8 +320,8 @@
   </action>
   <action name="actionUpdate_Exchange_Key">
    <property name="icon">
-    <iconset theme="application-pgp-keys">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="application-pgp-keys" resource="qtmvvmdatasyncwidgets_module.qrc">
+     <normaloff>:/de/skycoder42/qtmvvm/widgets/icons/changeKey.ico</normaloff>:/de/skycoder42/qtmvvm/widgets/icons/changeKey.ico</iconset>
    </property>
    <property name="text">
     <string>Update exchange &amp;key</string>
@@ -329,8 +329,8 @@
   </action>
   <action name="actionRe_load_Device_List">
    <property name="icon">
-    <iconset theme="view-refresh">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="view-refresh" resource="qtmvvmdatasyncwidgets_module.qrc">
+     <normaloff>:/de/skycoder42/qtmvvm/widgets/icons/reload.ico</normaloff>:/de/skycoder42/qtmvvm/widgets/icons/reload.ico</iconset>
    </property>
    <property name="text">
     <string>Re&amp;load device list</string>
@@ -340,6 +340,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="qtmvvmdatasyncwidgets_module.qrc"/>
+ </resources>
  <connections/>
 </ui>

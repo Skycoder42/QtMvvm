@@ -7,8 +7,16 @@
 #include "changeremotedialog_p.h"
 #include "identityeditdialog_p.h"
 
+static void initResources()
+{
+#ifdef QT_STATIC
+	Q_INIT_RESOURCE(qtmvvmdatasyncwidgets_module);
+#endif
+}
+
 void QtMvvm::registerDataSyncWidgets()
 {
+	initResources();
 	QtMvvm::WidgetsPresenter::registerView<DataSyncWindow>();
 	QtMvvm::WidgetsPresenter::registerView<NetworkExchangeWindow>();
 	QtMvvm::WidgetsPresenter::registerView<ExportSetupDialog>();

@@ -36,21 +36,21 @@ Page {
 
 			ActionButton {
 				id: _syncButton
-				source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_search"
+				source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_sync"
 				toolTip: qsTr("Synchronize")
 				onClicked: viewModel.syncOrConnect()
 			}
 
 			ActionButton {
 				id: _idButton
-				source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_settings_backup_restore"
+				source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_fingerprint"
 				toolTip: qsTr("Edit Identity")
 				onClicked: viewModel.showDeviceInfo()
 			}
 
 			ActionButton {
 				id: _moreButton
-				source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_search"//"image://svg/de/skycoder42/quickextras/icons/ic_more_vert"
+				source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_more_vert"
 				toolTip: qsTr("More…")
 				checkable: true
 				checked: _moreMenu.visible
@@ -237,7 +237,7 @@ Page {
 
 						ActionButton {
 							anchors.fill: parent
-							source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_close"
+							source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_delete_forever"
 							toolTip: qsTr("Remove Device")
 
 							Material.foreground: "white"

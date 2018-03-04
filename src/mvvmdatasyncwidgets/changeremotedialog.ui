@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Change Remote</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
@@ -202,8 +202,8 @@
   </layout>
   <action name="actionA_dd_Header">
    <property name="icon">
-    <iconset theme="list-add">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="list-add" resource="qtmvvmdatasyncwidgets_module.qrc">
+     <normaloff>:/de/skycoder42/qtmvvm/widgets/icons/add.ico</normaloff>:/de/skycoder42/qtmvvm/widgets/icons/add.ico</iconset>
    </property>
    <property name="text">
     <string>A&amp;dd Header</string>
@@ -214,8 +214,8 @@
   </action>
   <action name="action_Remove_Header">
    <property name="icon">
-    <iconset theme="list-remove">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="list-remove" resource="qtmvvmdatasyncwidgets_module.qrc">
+     <normaloff>:/de/skycoder42/qtmvvm/widgets/icons/remove.ico</normaloff>:/de/skycoder42/qtmvvm/widgets/icons/remove.ico</iconset>
    </property>
    <property name="text">
     <string>&amp;Remove Selected Header</string>
@@ -225,7 +225,9 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="qtmvvmdatasyncwidgets_module.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

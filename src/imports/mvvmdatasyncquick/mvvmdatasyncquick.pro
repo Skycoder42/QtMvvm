@@ -38,3 +38,6 @@ generate_qmltypes {
 	mfirst.depends += qmltypes
 	QMAKE_EXTRA_TARGETS += mfirst
 }
+
+RESOURCES += \
+    qtmvvmdatasyncquick_plugin.qrc

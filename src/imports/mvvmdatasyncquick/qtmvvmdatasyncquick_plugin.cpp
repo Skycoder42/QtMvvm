@@ -4,9 +4,18 @@
 
 #include "testdummy.h"
 
+static void initResources()
+{
+#ifdef QT_STATIC
+	Q_INIT_RESOURCE(qtmvvmdatasyncquick_plugin);
+#endif
+}
+
 QtMvvmDataSyncQuickDeclarativeModule::QtMvvmDataSyncQuickDeclarativeModule(QObject *parent) :
 	QQmlExtensionPlugin(parent)
-{}
+{
+	initResources();
+}
 
 void QtMvvmDataSyncQuickDeclarativeModule::registerTypes(const char *uri)
 {
