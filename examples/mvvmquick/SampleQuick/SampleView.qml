@@ -15,8 +15,9 @@ Page {
 			anchors.fill: parent
 			spacing: 0
 
-			ToolButton {
+			ActionButton {
 				text: "≣"
+				display: AbstractButton.TextOnly
 				onClicked: QuickPresenter.toggleDrawer()
 			}
 
@@ -25,27 +26,21 @@ Page {
 				Layout.fillWidth: true
 			}
 
-			ToolButton {
-				text: "⋮"
-				onClicked: moreMenu.open()
+			MenuButton {
+				MenuItem {
+					text: qsTr("Another Input")
+					onTriggered: viewModel.getInput()
+				}
+				MenuItem {
+					text: qsTr("Add Files")
+					onTriggered: viewModel.getFiles()
+				}
 
-				Menu {
-					id: moreMenu
-					MenuItem {
-						text: qsTr("Another Input")
-						onTriggered: viewModel.getInput()
-					}
-					MenuItem {
-						text: qsTr("Add Files")
-						onTriggered: viewModel.getFiles()
-					}
+				MenuSeparator {}
 
-					MenuSeparator {}
-
-					MenuItem {
-						text: qsTr("About")
-						onTriggered: viewModel.about()
-					}
+				MenuItem {
+					text: qsTr("About")
+					onTriggered: viewModel.about()
 				}
 			}
 		}

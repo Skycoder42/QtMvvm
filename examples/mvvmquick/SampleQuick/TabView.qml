@@ -18,8 +18,9 @@ Page {
 			columnSpacing: 0
 			columns: 2
 
-			ToolButton {
+			ActionButton {
 				text: "≣"
+				display: AbstractButton.TextOnly
 				onClicked: QuickPresenter.toggleDrawer()
 			}
 

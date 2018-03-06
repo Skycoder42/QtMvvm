@@ -1,21 +1,22 @@
 <RCC>
-    <qresource prefix="/de/skycoder42/qtmvvm/quick/icons">
-        <file alias="ic_error.svg">icons/ic_error_white_24px.svg</file>
-        <file alias="ic_help.svg">icons/ic_help_white_24px.svg</file>
-        <file alias="ic_info.svg">icons/ic_info_white_24px.svg</file>
-        <file alias="ic_warning.svg">icons/ic_warning_white_24px.svg</file>
-        <file alias="ic_close.svg">icons/ic_close_white_24px.svg</file>
-        <file alias="ic_search.svg">icons/ic_search_white_24px.svg</file>
-        <file alias="ic_settings_backup_restore.svg">icons/ic_settings_backup_restore_white_24px.svg</file>
-        <file alias="ic_chevron_right.svg">icons/ic_chevron_right_white_24px.svg</file>
-    </qresource>
-    <qresource prefix="/de/skycoder42/qtmvvm/quick/qml">
-        <file>FileDialog.qml</file>
-        <file>FolderDialog.qml</file>
-        <file>AndroidFileDialog.qml</file>
-        <file>AndroidFolderDialog.qml</file>
-    </qresource>
-    <qresource prefix="/de/skycoder42/qtmvvm/icons">
-        <file alias="settings.svg">icons/ic_settings_white_24px.svg</file>
-    </qresource>
+	<qresource prefix="/de/skycoder42/qtmvvm/quick/icons">
+		<file alias="ic_error.svg">icons/ic_error_white_24px.svg</file>
+		<file alias="ic_help.svg">icons/ic_help_white_24px.svg</file>
+		<file alias="ic_info.svg">icons/ic_info_white_24px.svg</file>
+		<file alias="ic_warning.svg">icons/ic_warning_white_24px.svg</file>
+		<file alias="ic_close.svg">icons/ic_close_white_24px.svg</file>
+		<file alias="ic_search.svg">icons/ic_search_white_24px.svg</file>
+		<file alias="ic_settings_backup_restore.svg">icons/ic_settings_backup_restore_white_24px.svg</file>
+		<file alias="ic_chevron_right.svg">icons/ic_chevron_right_white_24px.svg</file>
+		<file alias="ic_more_vert.svg">icons/ic_more_vert_white_24px.svg</file>
+	</qresource>
+	<qresource prefix="/de/skycoder42/qtmvvm/quick/qml">
+		<file>FileDialog.qml</file>
+		<file>FolderDialog.qml</file>
+		<file>AndroidFileDialog.qml</file>
+		<file>AndroidFolderDialog.qml</file>
+	</qresource>
+	<qresource prefix="/de/skycoder42/qtmvvm/icons">
+		<file alias="settings.svg">icons/ic_settings_white_24px.svg</file>
+	</qresource>
 </RCC>

@@ -36,6 +36,7 @@ QML_FILES += \
 	ToolBarLabel.qml \
 	ActionButton.qml \
 	RoundActionButton.qml \
+	MenuButton.qml \
 	MsgBoxBase.qml \
 	MsgBox.qml \
 	InputDialog.qml \

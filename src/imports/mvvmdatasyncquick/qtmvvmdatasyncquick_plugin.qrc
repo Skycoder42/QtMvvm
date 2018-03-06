@@ -1,13 +1,12 @@
 <RCC>
-    <qresource prefix="/de/skycoder42/qtmvvm/quick/icons">
-        <file alias="ic_sync.svg">icons/ic_sync_white_24px.svg</file>
-        <file alias="ic_fingerprint.svg">icons/ic_fingerprint_white_24px.svg</file>
-        <file alias="ic_more_vert.svg">icons/ic_more_vert_white_24px.svg</file>
-        <file alias="ic_delete_forever.svg">icons/ic_delete_forever_white_24px.svg</file>
-        <file alias="ic_add.svg">icons/ic_add_white_24px.svg</file>
-        <file alias="ic_export.svg">icons/ic_call_made_white_24px.svg</file>
-        <file alias="ic_import.svg">icons/ic_call_received_white_24px.svg</file>
-        <file alias="ic_exchange.svg">icons/ic_import_export_white_24px.svg</file>
-        <file alias="ic_check.svg">icons/ic_check_white_24px.svg</file>
-    </qresource>
+	<qresource prefix="/de/skycoder42/qtmvvm/quick/icons">
+		<file alias="ic_sync.svg">icons/ic_sync_white_24px.svg</file>
+		<file alias="ic_fingerprint.svg">icons/ic_fingerprint_white_24px.svg</file>
+		<file alias="ic_delete_forever.svg">icons/ic_delete_forever_white_24px.svg</file>
+		<file alias="ic_add.svg">icons/ic_add_white_24px.svg</file>
+		<file alias="ic_export.svg">icons/ic_call_made_white_24px.svg</file>
+		<file alias="ic_import.svg">icons/ic_call_received_white_24px.svg</file>
+		<file alias="ic_exchange.svg">icons/ic_import_export_white_24px.svg</file>
+		<file alias="ic_check.svg">icons/ic_check_white_24px.svg</file>
+	</qresource>
 </RCC>

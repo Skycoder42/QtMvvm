@@ -21,6 +21,7 @@ ContrastToolBar 1.0 ContrastToolBar.qml
 ToolBarLabel 1.0 ToolBarLabel.qml
 ActionButton 1.0 ActionButton.qml
 RoundActionButton 1.0 RoundActionButton.qml
+MenuButton 1.0 MenuButton.qml
 
 PresenterProgress 1.0 PresenterProgress.qml
 PresentingStackView 1.0 PresentingStackView.qml

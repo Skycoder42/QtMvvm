@@ -41,50 +41,31 @@ Page {
 				onClicked: viewModel.showDeviceInfo()
 			}
 
-			ActionButton {
+			MenuButton {
 				id: _moreButton
-				icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_more_vert"
-				text: qsTr("More…")
-				checkable: true
-				checked: _moreMenu.visible
 
-				MouseArea { //used to catch mouse events to prevent flickering
-					visible: _moreMenu.visible
-					anchors.fill: parent
+				MenuItem {
+					text: qsTr("Update exchange key")
+					onClicked: viewModel.accountManager.updateExchangeKey()
 				}
 
-				Menu {
-					id: _moreMenu
-					visible: _moreButton.checked
+				MenuSeparator {}
 
-					MenuItem {
-						text: qsTr("Update exchange key")
-						onClicked: viewModel.accountManager.updateExchangeKey()
-					}
-
-					MenuSeparator {}
-
-					MenuItem {
-						text: qsTr("Reload devices list")
-						onClicked: viewModel.accountManager.listDevices()
-					}
-
-					MenuSeparator {}
-
-					MenuItem {
-						text: qsTr("Change remote server")
-						onClicked: viewModel.changeRemote()
-					}
-
-					MenuItem {
-						text: qsTr("Reset Identity")
-						onClicked: viewModel.performReset()
-					}
+				MenuItem {
+					text: qsTr("Reload devices list")
+					onClicked: viewModel.accountManager.listDevices()
 				}
 
-				Component.onCompleted: {
-					if(QuickPresenter.currentStyle !== "Material")
-						_moreMenu.y = Qt.binding(function(){return _moreButton.height});
+				MenuSeparator {}
+
+				MenuItem {
+					text: qsTr("Change remote server")
+					onClicked: viewModel.changeRemote()
+				}
+
+				MenuItem {
+					text: qsTr("Reset Identity")
+					onClicked: viewModel.performReset()
 				}
 			}
 		}

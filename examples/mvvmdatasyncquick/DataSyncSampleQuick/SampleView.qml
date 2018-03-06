@@ -10,17 +10,9 @@ Page {
 	property SampleViewModel viewModel: null
 	readonly property bool presentAsRoot: true
 
-	header: ToolBar {
-		height: 56
-
-		Label {
+	header: ContrastToolBar {
+		ToolBarLabel {
 			anchors.fill: parent
-			font.pointSize: 16
-			font.bold: true
-			elide: Label.ElideRight
-			horizontalAlignment: Qt.AlignLeft
-			verticalAlignment: Qt.AlignVCenter
-			leftPadding: 10
 			text: qsTr("Datasync Sample")
 		}
 	}
