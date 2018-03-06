@@ -87,7 +87,7 @@ Dialog {
 		standardButtons: msgConfig.buttons
 		onStandardButtonsChanged: {
 			for(var key in msgConfig.buttonTexts)
-				standardButton(DialogButtonBox.Ok).text = msgConfig.buttonTexts[key]
+				standardButton(key).text = msgConfig.buttonTexts[key]
 		}
 
 		onClicked: {

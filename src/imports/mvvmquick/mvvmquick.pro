@@ -33,6 +33,7 @@ QML_FILES += \
 	TintIcon.qml \
 	ContrastToolBar.qml \
 	ActionButton.qml \
+	RoundActionButton.qml \
 	MsgBoxBase.qml \
 	MsgBox.qml \
 	InputDialog.qml \

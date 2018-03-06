@@ -15,6 +15,7 @@ SOURCES += \
 	testdummy.cpp
 
 QML_FILES += \
+	SubButton.qml \
 	DataSyncView.qml
 
 OTHER_FILES += qmldir
@@ -40,4 +41,4 @@ generate_qmltypes {
 }
 
 RESOURCES += \
-    qtmvvmdatasyncquick_plugin.qrc
+	qtmvvmdatasyncquick_plugin.qrc

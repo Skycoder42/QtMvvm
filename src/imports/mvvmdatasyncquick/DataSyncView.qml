@@ -250,4 +250,66 @@ Page {
 			}
 		}
 	}
+
+	RoundActionButton {
+		id: _addButton
+		z: 7
+		anchors.right: parent.right
+		anchors.bottom: parent.bottom
+		anchors.margins: 16
+		checkable: true
+		text: qsTr("Add new devices")
+		icon.name: checked ? "tab-close" : "list-add"
+		icon.source: checked ?
+						 "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_close" :
+						 "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_add"
+	}
+
+	SubButton {
+		id: _exchangeButton
+		z: 3
+		reference: _addButton
+		expanded: _addButton.checked
+
+		text: qsTr("Network Exchange")
+		icon.name: "network-connect"
+		icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_exchange"
+
+		onClicked: {
+			viewModel.startNetworkExchange();
+			_addButton.checked = false;
+		}
+	}
+
+	SubButton {
+		id: _exportButton
+		z: 3
+		reference: _exchangeButton
+		expanded: _addButton.checked
+
+		text: qsTr("Export to file")
+		icon.name: "document-export"
+		icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_export"
+
+		onClicked: {
+			viewModel.startExport();
+			_addButton.checked = false;
+		}
+	}
+
+	SubButton {
+		id: _importButton
+		z: 3
+		reference: _exportButton
+		expanded: _addButton.checked
+
+		text: qsTr("Import from file")
+		icon.name: "document-import"
+		icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_import"
+
+		onClicked: {
+			viewModel.startImport();
+			_addButton.checked = false;
+		}
+	}
 }

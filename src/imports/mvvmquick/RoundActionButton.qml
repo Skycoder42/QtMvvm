@@ -2,22 +2,23 @@ import QtQuick 2.10
 import QtQuick.Controls 2.3
 import de.skycoder42.QtMvvm.Quick 1.0
 
-ToolButton {
-	id: _toolButton
+RoundButton {
+	id: _roundButton
 
-	property string toolTip: _toolButton.text
+	property string toolTip: _roundButton.text
 
 	display: AbstractButton.IconOnly
+	highlighted: true
 
-	implicitHeight: 48
-	implicitWidth: 48
+	implicitHeight: 56 + padding
+	implicitWidth: 56 + padding
 
 	icon.width: 24
 	icon.height: 24
 
 	ToolTip {
 		id: _backToolTip
-		text: _toolButton.toolTip
+		text: _roundButton.toolTip
 	}
 
 	onPressAndHold: {

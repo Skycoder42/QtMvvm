@@ -5,4 +5,6 @@ typeinfo plugins.qmltypes
 depends de.skycoder42.QtMvvm.DataSync.Core 1.0
 depends de.skycoder42.QtMvvm.Quick 1.0
 
+internal SubButton SubButton.qml
+
 DataSyncView 1.0 DataSyncView.qml
