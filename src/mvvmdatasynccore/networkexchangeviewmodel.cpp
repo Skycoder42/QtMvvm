@@ -173,7 +173,7 @@ void NetworkExchangeViewModel::newUserData(const UserInfo &userInfo, bool truste
 							"Then choose whether you want to keep you local data or not:")
 						 .arg(userInfo.name())
 						 .arg(ExchangeDevicesModel::fullAddress(userInfo)))
-				.setButtons(MessageConfig::YesToAll | MessageConfig::Yes | MessageConfig::Cancel) //TODO adjust to get ideal placement
+				.setButtons(MessageConfig::YesToAll | MessageConfig::Yes | MessageConfig::Cancel)
 				.setButtonText(MessageConfig::YesToAll, tr("Reset data"))
 				.setButtonText(MessageConfig::Yes, tr("Keep data"))
 				.setViewProperties({
@@ -199,7 +199,7 @@ void NetworkExchangeViewModel::newUserData(const UserInfo &userInfo, bool truste
 							"Keep the local data after changing the account?")
 						 .arg(userInfo.name())
 						 .arg(ExchangeDevicesModel::fullAddress(userInfo)))
-				.setButtons(MessageConfig::YesToAll | MessageConfig::Yes | MessageConfig::Cancel) //TODO adjust to get ideal placement
+				.setButtons(MessageConfig::YesToAll | MessageConfig::Yes | MessageConfig::Cancel)
 				.setButtonText(MessageConfig::YesToAll, tr("Reset data"))
 				.setButtonText(MessageConfig::Yes, tr("Keep data"));
 		auto res = CoreApp::showDialog(config);

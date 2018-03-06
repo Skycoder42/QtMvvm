@@ -29,15 +29,10 @@ Page {
 				Layout.fillHeight: true
 				Layout.leftMargin: 16
 
-				Label {
+				ToolBarLabel {
 					id: _titleLabel
-					font.pointSize: 14
-					font.bold: true
-					elide: Label.ElideRight
-					horizontalAlignment: Qt.AlignLeft
-					verticalAlignment: Qt.AlignVCenter
 					anchors.fill: parent
-
+					leftPadding: 0
 					text: qsTr("Settings")
 					visible: !_searchField.visible
 				}

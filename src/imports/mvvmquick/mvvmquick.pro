@@ -31,7 +31,9 @@ QML_FILES += \
 	PopupPresenter.qml \
 	DialogPresenter.qml \
 	TintIcon.qml \
+	AlertDialog.qml \
 	ContrastToolBar.qml \
+	ToolBarLabel.qml \
 	ActionButton.qml \
 	RoundActionButton.qml \
 	MsgBoxBase.qml \

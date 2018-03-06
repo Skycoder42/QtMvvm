@@ -3,7 +3,6 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import de.skycoder42.QtMvvm.Core 1.0
 import de.skycoder42.QtMvvm.Quick 1.0
-import de.skycoder42.quickextras 2.0
 import de.skycoder42.QtMvvm.Sample 1.0
 
 Page {
@@ -11,27 +10,43 @@ Page {
 	property SampleViewModel viewModel: null
 	readonly property bool presentAsRoot: true
 
-	header: ActionBar {
-		showMenuButton: true
-		title: qsTr("Sample")
+	header: ContrastToolBar {
+		RowLayout {
+			anchors.fill: parent
+			spacing: 0
 
-		onMenuButtonClicked: QuickPresenter.toggleDrawer()
-
-		moreMenu: Menu {
-			MenuItem {
-				text: qsTr("Another Input")
-				onTriggered: viewModel.getInput()
-			}
-			MenuItem {
-				text: qsTr("Add Files")
-				onTriggered: viewModel.getFiles()
+			ToolButton {
+				text: "≣"
+				onClicked: QuickPresenter.toggleDrawer()
 			}
 
-			MenuSeparator {}
+			ToolBarLabel {
+				text: qsTr("Sample")
+				Layout.fillWidth: true
+			}
 
-			MenuItem {
-				text: qsTr("About")
-				onTriggered: viewModel.about()
+			ToolButton {
+				text: "⋮"
+				onClicked: moreMenu.open()
+
+				Menu {
+					id: moreMenu
+					MenuItem {
+						text: qsTr("Another Input")
+						onTriggered: viewModel.getInput()
+					}
+					MenuItem {
+						text: qsTr("Add Files")
+						onTriggered: viewModel.getFiles()
+					}
+
+					MenuSeparator {}
+
+					MenuItem {
+						text: qsTr("About")
+						onTriggered: viewModel.about()
+					}
+				}
 			}
 		}
 	}

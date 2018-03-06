@@ -156,7 +156,7 @@ void DataSyncViewModel::startImport()
 				config.setTitle(tr("Import account data"))
 						.setText(tr("Enter the password to decrypt the account data. "
 									"Then choose whether you want to keep you local data or not:"))
-						.setButtons(MessageConfig::YesToAll | MessageConfig::Yes | MessageConfig::Cancel) //TODO adjust to get ideal placement
+						.setButtons(MessageConfig::YesToAll | MessageConfig::Yes | MessageConfig::Cancel)
 						.setButtonText(MessageConfig::YesToAll, tr("Reset data"))
 						.setButtonText(MessageConfig::Yes, tr("Keep data"))
 						.setViewProperties({
@@ -179,7 +179,7 @@ void DataSyncViewModel::startImport()
 				MessageConfig config{MessageConfig::TypeMessageBox, MessageConfig::SubTypeQuestion};
 				config.setTitle(tr("Import account data"))
 						.setText(tr("Keep the local data after changing the account?"))
-						.setButtons(MessageConfig::YesToAll | MessageConfig::Yes | MessageConfig::Cancel) //TODO adjust to get ideal placement
+						.setButtons(MessageConfig::YesToAll | MessageConfig::Yes | MessageConfig::Cancel)
 						.setButtonText(MessageConfig::YesToAll, tr("Reset data"))
 						.setButtonText(MessageConfig::Yes, tr("Keep data"));
 				auto res = CoreApp::showDialog(config);
@@ -210,7 +210,7 @@ void DataSyncViewModel::performReset()
 						"You will loose the connection to all other devices and get a new identity. "
 						"You can either keep your data or reset it as well. "
 						"This cannot be undone!"))
-			.setButtons(MessageConfig::YesToAll | MessageConfig::Yes | MessageConfig::Cancel) //TODO adjust to get ideal placement
+			.setButtons(MessageConfig::YesToAll | MessageConfig::Yes | MessageConfig::Cancel)
 			.setButtonText(MessageConfig::YesToAll, tr("Reset data"))
 			.setButtonText(MessageConfig::Yes, tr("Keep data"));
 	auto res = CoreApp::showDialog(config);

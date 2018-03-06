@@ -4,31 +4,14 @@ import QtQuick.Window 2.2
 import QtQuick.Layouts 1.3
 import de.skycoder42.QtMvvm.Core 1.0
 
-Dialog {
+AlertDialog {
 	id: _msgBoxBase
 
 	property var msgConfig
 	property MessageResult msgResult
 
-	property real extraHeight: 0
-	property real baseWidth: 300
-
 	property alias iconVisible: _icon.visible
 	property alias iconSource: _icon.source
-
-	x: parent ? (parent.width - width) / 2 : 0
-	y: parent ? deltaY() : 0
-	width: parent ? Math.min(Math.max(implicitWidth, baseWidth), parent.width - 24) : implicitWidth
-	height: parent ? Math.min(implicitHeight, parent.height - 24) : implicitWidth
-	modal: true
-	focus: true
-
-	function deltaY() {
-		var unscaled = Qt.inputMethod.keyboardRectangle.height / Screen.devicePixelRatio;
-		var availHeight = (parent.height + extraHeight) - unscaled - 24; //margins
-		var rawDelta = (Math.max(0, availHeight - height) / 2);
-		return rawDelta + 12 - extraHeight; //spacing
-	}
 
 	header: Pane {
 		id: _headerPane

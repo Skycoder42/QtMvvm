@@ -29,16 +29,9 @@ Page {
 				onClicked: QuickPresenter.popView()
 			}
 
-			Label {
+			ToolBarLabel {
 				id: _titleLabel
-				font.pointSize: 14
-				font.bold: true
-				elide: Label.ElideRight
-				horizontalAlignment: Qt.AlignLeft
-				verticalAlignment: Qt.AlignVCenter
 				Layout.fillWidth: true
-				Layout.leftMargin: 16
-
 				text: qsTr("Change Remote")
 			}
 

@@ -3,28 +3,42 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import de.skycoder42.QtMvvm.Core 1.0
 import de.skycoder42.QtMvvm.Quick 1.0
-import de.skycoder42.quickextras 2.0
 import de.skycoder42.QtMvvm.Sample 1.0
 
 Page {
 	id: tabView
 	property TabViewModel viewModel: null
 
-	header: ActionBar {
-		id: bar
-		showMenuButton: true
-		//showMenuAsBack: true
-		title: qsTr("Sample")
+	header: ContrastToolBar {
+		height: 56 + tabBar.height
 
-		onMenuButtonClicked: QuickPresenter.toggleDrawer()
+		GridLayout {
+			anchors.fill: parent
+			rowSpacing: 0
+			columnSpacing: 0
+			columns: 2
 
-		tabBar: TabBar {
-			id: tabBar
-			currentIndex: 0
+			ToolButton {
+				text: "≣"
+				onClicked: QuickPresenter.toggleDrawer()
+			}
 
-			TabButton {
-				text: "+"
-				onClicked: viewModel.addTab();
+			ToolBarLabel {
+				text: qsTr("Sample Tabs")
+				Layout.fillWidth: true
+				Layout.preferredHeight: 56
+			}
+
+			TabBar {
+				id: tabBar
+				Layout.columnSpan: 2
+				Layout.fillWidth: true
+				onCurrentIndexChanged: swipe.setCurrentIndex(currentIndex)
+
+				TabButton {
+					text: "+"
+					onClicked: viewModel.addTab();
+				}
 			}
 		}
 	}
@@ -34,7 +48,7 @@ Page {
 	SwipeView {
 		id: swipe
 		anchors.fill: parent
-		currentIndex: bar.tabBarItem.currentIndex
+		onCurrentIndexChanged: tabBar.setCurrentIndex(currentIndex)
 	}
 
 	Component {
@@ -43,13 +57,11 @@ Page {
 			property TabItemViewModel viewModel: null
 
 			text: viewModel.title
-			onClicked: swipe.setCurrentIndex(bar.tabBarItem.currentIndex)
 		}
 	}
 
 	function presentTab(item) {
 		console.log("here");
-		var tabBar = bar.tabBarItem;
 		tabBar.insertItem(tabBar.count - 1, _newTab.createObject(tabBar, {viewModel: item.viewModel}));
 		item.parent = swipe;
 		swipe.addItem(item);
@@ -58,7 +70,6 @@ Page {
 	}
 
 	function afterPop() {
-		var tabBar = bar.tabBarItem;
 		while(tabBar.count > 0)
 			tabBar.takeItem(0).destroy();
 		while(swipe.count > 0)
