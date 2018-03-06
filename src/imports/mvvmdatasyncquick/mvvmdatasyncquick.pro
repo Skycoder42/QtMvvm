@@ -18,7 +18,8 @@ QML_FILES += \
 	SubButton.qml \
 	DataSyncView.qml \
 	IdentityEditView.qml \
-	ExportSetupView.qml
+	ExportSetupView.qml \
+	ChangeRemoteView.qml
 
 RESOURCES += \
 	qtmvvmdatasyncquick_plugin.qrc

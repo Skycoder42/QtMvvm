@@ -236,7 +236,11 @@ Page {
 						}
 
 						ActionButton {
-							anchors.fill: parent
+							anchors.centerIn: parent
+							implicitHeight: parent.height
+							implicitWidth: parent.width
+
+							icon.name: "user-trash"
 							icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_delete_forever"
 							text: qsTr("Remove Device")
 

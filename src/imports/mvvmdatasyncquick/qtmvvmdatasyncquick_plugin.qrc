@@ -8,5 +8,6 @@
         <file alias="ic_export.svg">icons/ic_call_made_white_24px.svg</file>
         <file alias="ic_import.svg">icons/ic_call_received_white_24px.svg</file>
         <file alias="ic_exchange.svg">icons/ic_import_export_white_24px.svg</file>
+        <file alias="ic_check.svg">icons/ic_check_white_24px.svg</file>
     </qresource>
 </RCC>

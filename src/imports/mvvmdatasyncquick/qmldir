@@ -9,5 +9,6 @@ internal SubButton SubButton.qml
 
 IdentityEditView 1.0 IdentityEditView.qml
 ExportSetupView 1.0 ExportSetupView.qml
+ChangeRemoteView 1.0 ChangeRemoteView.qml
 
 DataSyncView 1.0 DataSyncView.qml

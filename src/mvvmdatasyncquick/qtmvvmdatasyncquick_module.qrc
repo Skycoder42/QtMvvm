@@ -3,5 +3,6 @@
         <file>DataSyncView.qml</file>
         <file>IdentityEditView.qml</file>
         <file>ExportSetupView.qml</file>
+        <file>ChangeRemoteView.qml</file>
     </qresource>
 </RCC>
