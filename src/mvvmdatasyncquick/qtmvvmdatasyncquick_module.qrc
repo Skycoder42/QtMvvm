@@ -2,5 +2,6 @@
     <qresource prefix="/qtmvvm/views">
         <file>DataSyncView.qml</file>
         <file>IdentityEditView.qml</file>
+        <file>ExportSetupView.qml</file>
     </qresource>
 </RCC>

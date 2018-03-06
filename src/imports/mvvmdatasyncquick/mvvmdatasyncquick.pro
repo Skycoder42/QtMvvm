@@ -17,7 +17,11 @@ SOURCES += \
 QML_FILES += \
 	SubButton.qml \
 	DataSyncView.qml \
-	IdentityEditView.qml
+	IdentityEditView.qml \
+	ExportSetupView.qml
+
+RESOURCES += \
+	qtmvvmdatasyncquick_plugin.qrc
 
 OTHER_FILES += qmldir
 
@@ -40,6 +44,3 @@ generate_qmltypes {
 	mfirst.depends += qmltypes
 	QMAKE_EXTRA_TARGETS += mfirst
 }
-
-RESOURCES += \
-	qtmvvmdatasyncquick_plugin.qrc
