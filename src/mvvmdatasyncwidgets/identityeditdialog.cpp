@@ -25,6 +25,9 @@ IdentityEditDialog::IdentityEditDialog(ViewModel *viewModel, QWidget *parent) :
 	bind(_viewModel, "fingerPrint",
 		 ui->fingerPrintDisplayLabel, "text",
 		 Binding::OneWayToView);
+	bind(_viewModel, "valid",
+		 ui->buttonBox->button(QDialogButtonBox::Save), "enabled",
+		 Binding::OneWayToView);
 }
 
 IdentityEditDialog::~IdentityEditDialog() {}

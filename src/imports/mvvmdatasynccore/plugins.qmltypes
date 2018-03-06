@@ -42,6 +42,70 @@ Module {
         }
     }
     Component {
+        name: "QtMvvm::ChangeRemoteViewModel"
+        prototype: "QtMvvm::ViewModel"
+        exports: [
+            "de.skycoder42.QtMvvm.DataSync.Core/PChangeRemoteViewModel 1.0"
+        ]
+        isCreatable: false
+        exportMetaObjectRevisions: [0]
+        Enum {
+            name: "Roles"
+            values: {
+                "KeyRole": 0,
+                "ValueRole": 257
+            }
+        }
+        Property { name: "url"; type: "QUrl" }
+        Property { name: "accessKey"; type: "string" }
+        Property { name: "keepAlive"; type: "int" }
+        Property { name: "keepData"; type: "bool" }
+        Property { name: "headerModel"; type: "QStandardItemModel"; isReadonly: true; isPointer: true }
+        Property { name: "valid"; type: "bool"; isReadonly: true }
+        Signal {
+            name: "urlChanged"
+            Parameter { name: "url"; type: "QUrl" }
+        }
+        Signal {
+            name: "accessKeyChanged"
+            Parameter { name: "accessKey"; type: "string" }
+        }
+        Signal {
+            name: "keepAliveChanged"
+            Parameter { name: "keepAlive"; type: "int" }
+        }
+        Signal {
+            name: "keepDataChanged"
+            Parameter { name: "keepData"; type: "bool" }
+        }
+        Method { name: "completeSetup"; type: "bool" }
+        Method {
+            name: "setUrl"
+            Parameter { name: "url"; type: "QUrl" }
+        }
+        Method {
+            name: "setAccessKey"
+            Parameter { name: "accessKey"; type: "string" }
+        }
+        Method {
+            name: "setKeepAlive"
+            Parameter { name: "keepAlive"; type: "int" }
+        }
+        Method {
+            name: "setKeepData"
+            Parameter { name: "keepData"; type: "bool" }
+        }
+        Method {
+            name: "addHeaderConfig"
+            Parameter { name: "key"; type: "string" }
+            Parameter { name: "value"; type: "string" }
+        }
+        Method {
+            name: "removeHeaderConfig"
+            Parameter { name: "index"; type: "int" }
+        }
+    }
+    Component {
         name: "QtMvvm::DataSyncViewModel"
         prototype: "QtMvvm::ViewModel"
         exports: ["de.skycoder42.QtMvvm.DataSync.Core/DataSyncViewModel 1.0"]
@@ -117,6 +181,70 @@ Module {
             name: "infoAt"
             type: "QtDataSync::UserInfo"
             Parameter { name: "index"; type: "int" }
+        }
+    }
+    Component {
+        name: "QtMvvm::ExportSetupViewModel"
+        prototype: "QtMvvm::ViewModel"
+        exports: [
+            "de.skycoder42.QtMvvm.DataSync.Core/PExportSetupViewModel 1.0"
+        ]
+        isCreatable: false
+        exportMetaObjectRevisions: [0]
+        Property { name: "label"; type: "string"; isReadonly: true }
+        Property { name: "trusted"; type: "bool" }
+        Property { name: "includeServer"; type: "bool" }
+        Property { name: "password"; type: "string" }
+        Property { name: "valid"; type: "bool"; isReadonly: true }
+        Signal {
+            name: "labelChanged"
+            Parameter { name: "label"; type: "string" }
+        }
+        Signal {
+            name: "trustedChanged"
+            Parameter { name: "trusted"; type: "bool" }
+        }
+        Signal {
+            name: "includeServerChanged"
+            Parameter { name: "includeServer"; type: "bool" }
+        }
+        Signal {
+            name: "passwordChanged"
+            Parameter { name: "password"; type: "string" }
+        }
+        Method { name: "completeSetup"; type: "bool" }
+        Method {
+            name: "setTrusted"
+            Parameter { name: "trusted"; type: "bool" }
+        }
+        Method {
+            name: "setIncludeServer"
+            Parameter { name: "includeServer"; type: "bool" }
+        }
+        Method {
+            name: "setPassword"
+            Parameter { name: "password"; type: "string" }
+        }
+    }
+    Component {
+        name: "QtMvvm::IdentityEditViewModel"
+        prototype: "QtMvvm::ViewModel"
+        exports: [
+            "de.skycoder42.QtMvvm.DataSync.Core/PIdentityEditViewModel 1.0"
+        ]
+        isCreatable: false
+        exportMetaObjectRevisions: [0]
+        Property { name: "name"; type: "string" }
+        Property { name: "fingerPrint"; type: "string"; isReadonly: true }
+        Property { name: "valid"; type: "bool"; isReadonly: true }
+        Signal {
+            name: "nameChanged"
+            Parameter { name: "name"; type: "string" }
+        }
+        Method { name: "save" }
+        Method {
+            name: "setName"
+            Parameter { name: "name"; type: "string" }
         }
     }
     Component {

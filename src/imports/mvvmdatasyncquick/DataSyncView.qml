@@ -199,7 +199,7 @@ Page {
 							Layout.leftMargin: 7
 							text: fingerPrint
 							elide: Text.ElideMiddle
-							color: Qt.lighter(_nameLabel.color, 2.0)
+							opacity: 0.75
 						}
 					}
 

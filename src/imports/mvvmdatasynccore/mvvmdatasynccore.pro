@@ -1,4 +1,4 @@
-QT += core qml quick mvvmdatasynccore
+QT += core qml quick mvvmdatasynccore mvvmdatasynccore-private
 CXX_MODULE = mvvmdatasynccore
 TARGETPATH = de/skycoder42/QtMvvm/DataSync/Core
 TARGET  = declarative_mvvmdatasynccore

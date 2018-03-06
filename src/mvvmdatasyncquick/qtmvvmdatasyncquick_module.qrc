@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/qtmvvm/views">
         <file>DataSyncView.qml</file>
+        <file>IdentityEditView.qml</file>
     </qresource>
 </RCC>

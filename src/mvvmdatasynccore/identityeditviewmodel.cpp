@@ -6,7 +6,10 @@ using namespace QtDataSync;
 IdentityEditViewModel::IdentityEditViewModel(QObject *parent) :
 	ViewModel(parent),
 	_manager(nullptr)
-{}
+{
+	connect(this, &IdentityEditViewModel::nameChanged,
+			this, &IdentityEditViewModel::validChanged);
+}
 
 QVariantHash IdentityEditViewModel::showParams(AccountManager *manager)
 {
@@ -25,6 +28,11 @@ QString IdentityEditViewModel::fingerPrint() const
 	return _manager ?
 				DataSyncViewModel::formatFingerPrint(_manager->deviceFingerprint()) :
 				QString();
+}
+
+bool IdentityEditViewModel::isValid() const
+{
+	return !_nameBuffer.isEmpty();
 }
 
 void IdentityEditViewModel::save()

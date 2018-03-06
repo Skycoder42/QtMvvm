@@ -16,7 +16,8 @@ SOURCES += \
 
 QML_FILES += \
 	SubButton.qml \
-	DataSyncView.qml
+	DataSyncView.qml \
+	IdentityEditView.qml
 
 OTHER_FILES += qmldir
 

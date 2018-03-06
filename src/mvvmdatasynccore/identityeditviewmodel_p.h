@@ -15,6 +15,7 @@ class Q_MVVMDATASYNCCORE_EXPORT IdentityEditViewModel : public ViewModel
 
 	Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
 	Q_PROPERTY(QString fingerPrint READ fingerPrint NOTIFY fingerPrintChanged)
+	Q_PROPERTY(bool valid READ isValid NOTIFY validChanged)
 
 public:
 	Q_INVOKABLE explicit IdentityEditViewModel(QObject *parent = nullptr);
@@ -23,6 +24,7 @@ public:
 
 	QString name() const;
 	QString fingerPrint() const;
+	bool isValid() const;
 
 public Q_SLOTS:
 	void save();
@@ -32,6 +34,7 @@ public Q_SLOTS:
 Q_SIGNALS:
 	void nameChanged(const QString &name);
 	void fingerPrintChanged();
+	void validChanged();
 
 protected:
 	void onInit(const QVariantHash &showParams) override;
