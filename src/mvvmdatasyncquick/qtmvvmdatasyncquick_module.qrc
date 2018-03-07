@@ -4,5 +4,6 @@
         <file>IdentityEditView.qml</file>
         <file>ExportSetupView.qml</file>
         <file>ChangeRemoteView.qml</file>
+        <file>NetworkExchangeView.qml</file>
     </qresource>
 </RCC>

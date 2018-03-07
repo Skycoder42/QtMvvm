@@ -158,19 +158,15 @@ Page {
 
 						Label {
 							id: _nameLabel
-							Layout.column: 0
-							Layout.row: 0
 							Layout.fillWidth: true
 							text: name
 						}
 
 						Label {
 							id: _fpLabel
-							Layout.column: 0
-							Layout.row: 1
 							font.pointSize: _nameLabel.font.pointSize * 0.8
 							Layout.fillWidth: true
-							Layout.leftMargin: 7
+							Layout.leftMargin: 8
 							text: fingerPrint
 							elide: Text.ElideMiddle
 							opacity: 0.75

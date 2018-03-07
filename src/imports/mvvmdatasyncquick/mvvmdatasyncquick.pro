@@ -17,6 +17,7 @@ SOURCES += \
 QML_FILES += \
 	SubButton.qml \
 	DataSyncView.qml \
+	NetworkExchangeView.qml \
 	IdentityEditView.qml \
 	ExportSetupView.qml \
 	ChangeRemoteView.qml
