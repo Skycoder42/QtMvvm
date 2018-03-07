@@ -85,10 +85,3 @@ void InputWidgetFactory::addAlias(const QByteArray &alias, const QByteArray &tar
 {
 	d->aliases.insert(alias, targetType);
 }
-
-// ------------- Private Implementation -------------
-
-InputWidgetFactoryPrivate::InputWidgetFactoryPrivate() :
-	simpleWidgets(),
-	aliases()
-{}

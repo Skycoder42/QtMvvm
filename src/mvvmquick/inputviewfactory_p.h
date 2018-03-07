@@ -9,8 +9,6 @@ namespace QtMvvm {
 class InputViewFactoryPrivate
 {
 public:
-	InputViewFactoryPrivate();
-
 	QHash<QByteArray, QUrl> simpleInputs;
 	QHash<QByteArray, QUrl> simpleDelegates;
 	QHash<QByteArray, QByteArray> inputAliases;

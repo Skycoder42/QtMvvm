@@ -287,16 +287,6 @@ QtMvvm::MessageConfigPrivate::MessageConfigPrivate(const QtMvvm::MessageConfigPr
 	editProperties(other.editProperties)
 {}
 
-
-
-MessageResultPrivate::MessageResultPrivate() :
-	closeObject(nullptr),
-	closeMethod(),
-	closeRequested(false),
-	result(),
-	autoDelete(true)
-{}
-
 // ------------- Namespace methods implementation -------------
 
 MessageResult *QtMvvm::information(const QString &title, const QString &text, const QString &okText)

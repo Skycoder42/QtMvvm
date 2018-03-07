@@ -9,12 +9,10 @@ namespace QtMvvm {
 class AccountModelPrivate
 {
 public:
-	AccountModelPrivate();
-
-	QtDataSync::AccountManager *accountManager;
-	QtDataSync::SyncManager *syncManager;
+	QtDataSync::AccountManager *accountManager = nullptr;
+	QtDataSync::SyncManager *syncManager = nullptr;
 	QList<QtDataSync::DeviceInfo> devices;
-	bool reloaded;
+	bool reloaded = true;
 };
 
 }

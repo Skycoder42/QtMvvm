@@ -1,0 +1,20 @@
+{
+	"title": "QtMvvm",
+	"description": "A mvvm oriented library for Qt, to create Projects for Widgets and Quick in parallel.",
+	"modules": [
+		"QtMvvmCore",
+		"QtMvvmWidgets",
+		"QtMvvmQuick",
+		"QtMvvmDataSyncCore",
+		"QtMvvmDataSyncWidgets",
+		"QtMvvmDataSyncQuick"
+	],
+	"dependencies": [
+		".skycoder42.datasync"
+	],
+	"excludes": [ "static" ],
+	"license": {
+		"name": "BSD-3-Clause",
+		"path": "LICENSE"
+	}
+}

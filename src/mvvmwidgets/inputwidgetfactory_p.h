@@ -9,8 +9,6 @@ namespace QtMvvm {
 class InputWidgetFactoryPrivate
 {
 public:
-	InputWidgetFactoryPrivate();
-
 	QHash<QByteArray, std::function<QWidget*(QWidget*)>> simpleWidgets;
 	QHash<QByteArray, QByteArray> aliases;
 };

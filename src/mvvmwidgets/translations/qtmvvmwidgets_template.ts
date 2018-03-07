@@ -4,7 +4,12 @@
 <context>
     <name>QtMvvm::SettingsDialogPrivate</name>
     <message>
-        <location filename="../settingsdialog.cpp" line="+208"/>
+        <location filename="../settingsdialog.cpp" line="+206"/>
+        <source>&lt;i&gt;Failed to load edit view!&lt;i&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
         <source>:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12,7 +17,7 @@
 <context>
     <name>QtMvvm::WidgetsPresenter</name>
     <message>
-        <location filename="../widgetspresenter.cpp" line="+246"/>
+        <location filename="../widgetspresenter.cpp" line="+247"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>

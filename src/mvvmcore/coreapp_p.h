@@ -24,12 +24,10 @@ public Q_SLOTS:
 	void showDialog(const QtMvvm::MessageConfig &config, QtMvvm::MessageResult *result);
 
 private:
-	CoreAppPrivate();
-
 	static bool bootEnabled;
 	static QPointer<CoreApp> instance;
 
-	IPresenter *presenter;
+	IPresenter *presenter = nullptr;
 };
 
 }

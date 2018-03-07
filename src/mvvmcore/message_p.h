@@ -29,13 +29,11 @@ public:
 class MessageResultPrivate
 {
 public:
-	MessageResultPrivate();
-
 	QPointer<QObject> closeObject;
 	QMetaMethod closeMethod;
-	bool closeRequested;
+	bool closeRequested = false;
 	QVariant result;
-	bool autoDelete;
+	bool autoDelete = true;
 };
 
 }

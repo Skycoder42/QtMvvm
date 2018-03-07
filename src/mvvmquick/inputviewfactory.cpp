@@ -91,13 +91,3 @@ void InputViewFactory::addDelegateAlias(const QByteArray &alias, const QByteArra
 {
 	d->delegateAliases.insert(alias, targetType);
 }
-
-// ------------- Private Implementation -------------
-
-InputViewFactoryPrivate::InputViewFactoryPrivate() :
-	simpleInputs(),
-	simpleDelegates(),
-	inputAliases(),
-	delegateAliases()
-{}
-

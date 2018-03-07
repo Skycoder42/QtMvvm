@@ -4,22 +4,27 @@
 <context>
     <name>QtMvvm::SettingsDialogPrivate</name>
     <message>
-        <location filename="../settingsdialog.cpp" line="+208"/>
+        <location filename="../settingsdialog.cpp" line="+206"/>
+        <source>&lt;i&gt;Failed to load edit view!&lt;i&gt;</source>
+        <translation>&lt;i&gt;Bearbeitungsansicht konnte nicht geladen werden!&lt;/i&gt;</translation>
+    </message>
+    <message>
+        <location line="+7"/>
         <source>:</source>
-        <translation type="unfinished"></translation>
+        <translation>:</translation>
     </message>
 </context>
 <context>
     <name>QtMvvm::WidgetsPresenter</name>
     <message>
-        <location filename="../widgetspresenter.cpp" line="+246"/>
+        <location filename="../widgetspresenter.cpp" line="+247"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Über</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>About &amp;Qt</source>
-        <translation type="unfinished"></translation>
+        <translation>Über &amp;Qt</translation>
     </message>
 </context>
 <context>
@@ -27,12 +32,12 @@
     <message>
         <location filename="../settingsdialog.ui" line="+14"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <location line="+157"/>
         <source>Search in settings…</source>
-        <translation type="unfinished"></translation>
+        <translation>In Einstellungen suchen…</translation>
     </message>
 </context>
 </TS>

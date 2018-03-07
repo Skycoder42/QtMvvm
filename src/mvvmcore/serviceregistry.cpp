@@ -58,11 +58,6 @@ QObject *ServiceRegistry::serviceObj(const QByteArray &iid)
 
 // ------------- Private Implementation -------------
 
-ServiceRegistryPrivate::ServiceRegistryPrivate() :
-	serviceMutex(),
-	services()
-{}
-
 bool ServiceRegistryPrivate::serviceBlocked(const QByteArray &iid) const
 {
 	auto svc = services.value(iid);

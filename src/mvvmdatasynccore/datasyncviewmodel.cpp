@@ -151,7 +151,7 @@ void DataSyncViewModel::startImport()
 
 			if(!device->open(QIODevice::ReadOnly | QIODevice::Text)) {
 				critical(tr("Import failed"),
-						 tr("Failed to open URL \"%1\" with error: %1")
+						 tr("Failed to open URL \"%1\" with error: %2")
 						 .arg(url.toString())
 						 .arg(device->errorString()));
 				return;
@@ -405,7 +405,7 @@ void DataSyncViewModelPrivate::performExport(bool trusted, bool includeServer, c
 
 			if(!device->open(QIODevice::WriteOnly | QIODevice::Text)) {
 				critical(DataSyncViewModel::tr("Export failed"),
-						 DataSyncViewModel::tr("Failed to open URL \"%1\" with error: %1")
+						 DataSyncViewModel::tr("Failed to open URL \"%1\" with error: %2")
 						 .arg(url.toString())
 						 .arg(device->errorString()));
 				return;

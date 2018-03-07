@@ -249,7 +249,7 @@
     <string>&amp;Import from file</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+I</string>
+    <string notr="true">Ctrl+I</string>
    </property>
   </action>
   <action name="action_Export_to_file">
@@ -261,7 +261,7 @@
     <string>&amp;Export to file</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+E</string>
+    <string notr="true">Ctrl+E</string>
    </property>
   </action>
   <action name="action_Network_exchange">
@@ -273,7 +273,7 @@
     <string>&amp;Network exchange</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+N</string>
+    <string notr="true">Ctrl+N</string>
    </property>
   </action>
   <action name="action_Reset_Identity">
@@ -284,6 +284,9 @@
    <property name="text">
     <string>Rese&amp;t identity</string>
    </property>
+   <property name="shortcut">
+    <string notr="true"/>
+   </property>
   </action>
   <action name="action_Change_Remote_Server">
    <property name="icon">
@@ -292,6 +295,9 @@
    </property>
    <property name="text">
     <string>&amp;Change remote server</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true"/>
    </property>
   </action>
   <action name="action_Remove_Device">
@@ -303,7 +309,7 @@
     <string>&amp;Remove selected device</string>
    </property>
    <property name="shortcut">
-    <string>Del</string>
+    <string notr="true">Del</string>
    </property>
   </action>
   <action name="actionEdit_Identity">
@@ -315,7 +321,7 @@
     <string>&amp;Identity</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+U</string>
+    <string notr="true">Ctrl+U</string>
    </property>
   </action>
   <action name="actionUpdate_Exchange_Key">
@@ -325,6 +331,9 @@
    </property>
    <property name="text">
     <string>Update exchange &amp;key</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true"/>
    </property>
   </action>
   <action name="actionRe_load_Device_List">
@@ -336,7 +345,7 @@
     <string>Re&amp;load device list</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+R</string>
+    <string notr="true">Ctrl+R</string>
    </property>
   </action>
  </widget>

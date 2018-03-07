@@ -152,10 +152,6 @@ void CoreApp::showImp(const QMetaObject *metaObject, const QVariantHash &params)
 bool CoreAppPrivate::bootEnabled = true;
 QPointer<CoreApp> CoreAppPrivate::instance = nullptr;
 
-CoreAppPrivate::CoreAppPrivate() :
-	presenter(nullptr)
-{}
-
 QScopedPointer<CoreAppPrivate> &CoreAppPrivate::dInstance()
 {
 	return instance->d;

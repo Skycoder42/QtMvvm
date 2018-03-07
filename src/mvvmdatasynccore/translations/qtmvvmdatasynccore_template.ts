@@ -4,7 +4,7 @@
 <context>
     <name>QtMvvm::AccountModel</name>
     <message>
-        <location filename="../accountmodel.cpp" line="+50"/>
+        <location filename="../accountmodel.cpp" line="+57"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -16,9 +16,22 @@
     </message>
 </context>
 <context>
+    <name>QtMvvm::ChangeRemoteViewModel</name>
+    <message>
+        <location filename="../changeremoteviewmodel.cpp" line="+20"/>
+        <source>Key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>QtMvvm::DataSyncViewModel</name>
     <message>
-        <location filename="../datasyncviewmodel.cpp" line="+75"/>
+        <location filename="../datasyncviewmodel.cpp" line="+82"/>
         <source>Connecting…</source>
         <translation type="unfinished"></translation>
     </message>
@@ -48,26 +61,26 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+39"/>
+        <source>Export account data to file:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+17"/>
         <location line="+5"/>
-        <location line="+286"/>
+        <location line="+296"/>
+        <location filename="../networkexchangeviewmodel.cpp" line="+166"/>
         <source>Import failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-291"/>
-        <location line="+244"/>
+        <location line="-301"/>
+        <location line="+254"/>
         <source>Unsupported URL Scheme: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-238"/>
-        <location line="+244"/>
-        <source>Failed to open URL &quot;%1&quot; with error: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-234"/>
         <location line="+24"/>
         <location line="+20"/>
         <source>Import account data</source>
@@ -138,14 +151,20 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location line="+92"/>
         <location line="+6"/>
         <location line="+19"/>
         <source>Export failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-6"/>
+        <location line="-272"/>
+        <location line="+254"/>
+        <source>Failed to open URL &quot;%1&quot; with error: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+12"/>
         <source>Export completed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -161,12 +180,84 @@
     </message>
     <message>
         <location line="+12"/>
+        <location filename="../networkexchangeviewmodel.cpp" line="-3"/>
         <source>Import completed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
+        <location filename="../networkexchangeviewmodel.cpp" line="+1"/>
         <source>Data was successfully imported.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QtMvvm::ExchangeDevicesModel</name>
+    <message>
+        <location filename="../exchangedevicesmodel.cpp" line="+41"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <location line="+7"/>
+        <source>Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+68"/>
+        <source>%1:%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QtMvvm::NetworkExchangeViewModel</name>
+    <message>
+        <location filename="../networkexchangeviewmodel.cpp" line="-90"/>
+        <source>Export accont data to device &quot;%1&quot; with address &quot;%1&quot;:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+79"/>
+        <source>Network exchange error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <location line="+26"/>
+        <source>Import account data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-25"/>
+        <source>Enter the password to decrypt the account data received from &quot;%1&quot; with address &quot;%2&quot;. Then choose whether you want to keep you local data or not:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+26"/>
+        <source>Reset data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-25"/>
+        <location line="+26"/>
+        <source>Keep data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-6"/>
+        <source>Do you want to import data received from &quot;%1&quot; with address &quot;%2&quot;? Keep the local data after changing the account?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -54,8 +54,6 @@ public:
 	QMutex serviceMutex;
 	QHash<QByteArray, QSharedPointer<ServiceInfo>> services;
 
-	ServiceRegistryPrivate();
-
 	bool serviceBlocked(const QByteArray &iid) const;
 	static QObject *constructInjected(const QMetaObject *metaObject);
 	QObject *constructInjectedLocked(const QMetaObject *metaObject);

@@ -166,12 +166,3 @@ void AccountModel::update(SyncManager::SyncState state)
 		reload();
 	}
 }
-
-// ------------- Private Implementation -------------
-
-AccountModelPrivate::AccountModelPrivate() :
-	accountManager(nullptr),
-	syncManager(nullptr),
-	devices(),
-	reloaded(true)
-{}

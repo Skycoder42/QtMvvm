@@ -2,124 +2,213 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="de_DE">
 <context>
+    <name>ChangeRemoteDialog</name>
+    <message>
+        <location filename="../changeremotedialog.ui" line="+14"/>
+        <source>Change Remote</source>
+        <translation>Server wechseln</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>&amp;Url:</source>
+        <translation>&amp;Url:</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>wss://example.org/qdsapp/</source>
+        <translation>wss://example.org/qdsapp/</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>&amp;Access Key:</source>
+        <translation>&amp;Zugangschlüssel:</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Optional access secret</source>
+        <translation>Optionaler Zugangschlüssel</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Keep-&amp;Alive Timeout:</source>
+        <translation>Keep-&amp;Alive Timeout:</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source> min</source>
+        <translation> min</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>&amp;Keep data:</source>
+        <translation>Daten &amp;behalten:</translation>
+    </message>
+    <message>
+        <location line="+42"/>
+        <source>Extra &amp;Headers:</source>
+        <translation>Zusätzliche &amp;Header:</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Header Key</source>
+        <translation>Header Schlüssel</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Header Value</source>
+        <translation>Header Wert</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <source>A&amp;dd Header</source>
+        <translation>Header h&amp;inzufügen</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>&amp;Remove Selected Header</source>
+        <translation>Ausgewählten Header &amp;entfernen</translation>
+    </message>
+</context>
+<context>
     <name>DataSyncWindow</name>
     <message>
         <location filename="../datasyncwindow.ui" line="+14"/>
         <source>Synchronization</source>
-        <translation type="unfinished"></translation>
+        <translation>Synchronisation</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Synchronization &amp;enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Synchronisation &amp;aktiv</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>&amp;Synchronize</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Synchronisieren</translation>
     </message>
     <message>
-        <location line="+153"/>
+        <location line="+177"/>
         <source>Account &amp;actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Account-A&amp;ktionen</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>&amp;Import from file</source>
-        <translation type="unfinished"></translation>
+        <translation>Von Datei &amp;importieren</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+9"/>
+        <location line="+12"/>
         <source>&amp;Export to file</source>
-        <translation type="unfinished"></translation>
+        <translation>In Datei &amp;exportieren</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Ctrl+E</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+9"/>
+        <location line="+12"/>
         <source>&amp;Network exchange</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Netzwerk-Austausch</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Ctrl+N</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+9"/>
+        <location line="+12"/>
         <source>Rese&amp;t identity</source>
-        <translation type="unfinished"></translation>
+        <translation>Identität &amp;zurücksetzen</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+12"/>
         <source>&amp;Change remote server</source>
-        <translation type="unfinished"></translation>
+        <translation>Server &amp;wechseln</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+12"/>
         <source>&amp;Remove selected device</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausgewählten Gerät ent&amp;fernen</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Del</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+9"/>
+        <location line="+12"/>
         <source>&amp;Identity</source>
-        <translation type="unfinished"></translation>
+        <translation>I&amp;dentität</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Ctrl+U</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+9"/>
+        <location line="+12"/>
         <source>Update exchange &amp;key</source>
-        <translation type="unfinished"></translation>
+        <translation>Daten-Schlüssel akt&amp;ualisieren</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+12"/>
         <source>Re&amp;load device list</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Ctrl+R</source>
-        <translation type="unfinished"></translation>
+        <translation>Geräte-List neu &amp;laden</translation>
     </message>
 </context>
 <context>
     <name>ExportSetupDialog</name>
     <message>
         <location filename="../exportsetupdialog.ui" line="+14"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <source>Configure Export</source>
+        <translation>Export konfigurieren</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>&amp;Trusted:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Vertraut:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Include &amp;Server:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Server einschließen:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>&amp;Password</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Passwort</translation>
+    </message>
+</context>
+<context>
+    <name>IdentityEditDialog</name>
+    <message>
+        <location filename="../identityeditdialog.ui" line="+14"/>
+        <source>Edit Identity</source>
+        <translation>Identität bearbeiten</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Device &amp;Name:</source>
+        <translation>Geräte-&amp;Name:</translation>
+    </message>
+    <message>
+        <location line="+42"/>
+        <source>Device Fingerprint:</source>
+        <translation>Geräte-Fingerabdruck:</translation>
+    </message>
+</context>
+<context>
+    <name>NetworkExchangeWindow</name>
+    <message>
+        <location filename="../networkexchangewindow.ui" line="+14"/>
+        <source>Network Exchange</source>
+        <translation>Netzwerk-Austausch</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Exchange &amp;Port:</source>
+        <translation>Service-&amp;Port:</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Random</source>
+        <translation>Zufällig</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Device &amp;Name:</source>
+        <translation>Geräte-&amp;Name:</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Name shown to other devices</source>
+        <translation>Wird anderen Teilnehmern angezeigt</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>&amp;Exchange active:</source>
+        <translation>&amp;Austausch aktiv:</translation>
     </message>
 </context>
 </TS>
