@@ -19,12 +19,6 @@ Module {
         "de.skycoder42.QtMvvm.Quick 1.0"
     ]
     Component {
-        name: "TestDummy"
-        prototype: "QObject"
-        exports: ["de.skycoder42.QtMvvm.DataSync.Quick/TestDummy 1.0"]
-        exportMetaObjectRevisions: [0]
-    }
-    Component {
         prototype: "QQuickPlatformFileDialog"
         name: "de.skycoder42.QtMvvm.Quick/FileDialog 1.0"
         exports: ["de.skycoder42.QtMvvm.Quick/FileDialog 1.0"]

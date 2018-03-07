@@ -55,16 +55,13 @@ void QuickPresenter::registerViewExplicitly(const QMetaObject *viewModelType, co
 
 void QuickPresenter::present(QtMvvm::ViewModel *viewModel, const QVariantHash &params, QPointer<QtMvvm::ViewModel> parent)
 {
-	auto url = findViewUrl(viewModel->metaObject());
-	if(!url.isValid())
-		throw PresenterException(QByteArrayLiteral("No Url to a QML View found for ") + viewModel->metaObject()->className());
-
 	if(d->qmlPresenter) {
+		auto url = findViewUrl(viewModel->metaObject());
 		QMetaObject::invokeMethod(d->qmlPresenter, "present",
 								  Q_ARG(QtMvvm::ViewModel*, viewModel),
 								  Q_ARG(QVariantHash, params),
 								  Q_ARG(QUrl, url),
-								  Q_ARG(QPointer<QtMvvm::ViewModel>, parent)); //TODO invoke with result?
+								  Q_ARG(QPointer<QtMvvm::ViewModel>, parent));
 	} else
 		throw PresenterException("QML presenter not ready - cannot present yet");
 }
@@ -74,7 +71,7 @@ void QuickPresenter::showDialog(const QtMvvm::MessageConfig &config, QtMvvm::Mes
 	if(d->qmlPresenter) {
 		QMetaObject::invokeMethod(d->qmlPresenter, "showDialog",
 								  Q_ARG(QtMvvm::MessageConfig, config),
-								  Q_ARG(QtMvvm::MessageResult*, result)); //TODO invoke with result?
+								  Q_ARG(QtMvvm::MessageResult*, result));
 	} else
 		throw PresenterException("QML presenter not ready - cannot present yet");
 }
@@ -125,7 +122,6 @@ QUrl QuickPresenter::findViewUrl(const QMetaObject *viewModelType)
 			QUrl resUrl;
 			auto shortest = std::numeric_limits<int>::max();
 			for(auto dir : qAsConst(d->searchDirs)) {
-				logDebug() << QDir(dir).entryList();
 				QDir searchDir(dir,
 							   QStringLiteral("%1*.qml").arg(QString::fromLatin1(cName)),
 							   QDir::NoSort,
@@ -155,7 +151,7 @@ QUrl QuickPresenter::findViewUrl(const QMetaObject *viewModelType)
 		currentMeta = currentMeta->superClass();
 	}
 
-	return QUrl();
+	throw PresenterException(QByteArrayLiteral("No Url to a QML View found for ") + viewModelType->className());
 }
 
 int QuickPresenter::presentMethodIndex(const QMetaObject *presenterMetaObject, QObject *viewObject)

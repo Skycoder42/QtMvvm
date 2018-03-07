@@ -7,12 +7,10 @@ DEFINES += "VERSION_MAJOR=$$MODULE_VERSION_MAJOR"
 DEFINES += "VERSION_MINOR=$$MODULE_VERSION_MINOR"
 
 HEADERS += \
-	qtmvvmdatasyncquick_plugin.h \
-	testdummy.h
+	qtmvvmdatasyncquick_plugin.h
 
 SOURCES += \
-	qtmvvmdatasyncquick_plugin.cpp \
-	testdummy.cpp
+	qtmvvmdatasyncquick_plugin.cpp
 
 QML_FILES += \
 	SubButton.qml \

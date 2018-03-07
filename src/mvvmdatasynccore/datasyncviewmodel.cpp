@@ -15,6 +15,10 @@
 
 #include <QtDataSync/SetupDoesNotExistException>
 
+#ifdef Q_OS_ANDROID
+#include <contentdevice.h>
+#endif
+
 #undef logDebug
 #undef logInfo
 #undef logWarning
@@ -133,7 +137,11 @@ void DataSyncViewModel::startImport()
 	getOpenFile(this, [this](QUrl url) {
 		if(url.isValid()) {
 			QSharedPointer<QIODevice> device;
-			//TODO add support for android content device
+#ifdef Q_OS_ANDROID
+			if(url.scheme() == QStringLiteral("content"))
+				device.reset(new ContentDevice(url));
+			else
+#endif
 			if(url.isLocalFile())
 				device.reset(new QFile(url.toLocalFile()));
 			else {
@@ -382,7 +390,11 @@ void DataSyncViewModelPrivate::performExport(bool trusted, bool includeServer, c
 	getSaveFile(q, [this, trusted, includeServer, password](QUrl url) {
 		if(url.isValid()) {
 			QSharedPointer<QIODevice> device;
-			//TODO add support for android content device
+#ifdef Q_OS_ANDROID
+			if(url.scheme() == QStringLiteral("content"))
+				device.reset(new ContentDevice(url));
+			else
+#endif
 			if(url.isLocalFile())
 				device.reset(new QFile(url.toLocalFile()));
 			else {

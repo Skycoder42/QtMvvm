@@ -9,21 +9,21 @@ HEADERS += \
 	accountmodel.h \
 	accountmodel_p.h \
 	exportsetupviewmodel_p.h \
-    changeremoteviewmodel_p.h \
-    identityeditviewmodel_p.h \
-    networkexchangeviewmodel.h \
-    networkexchangeviewmodel_p.h \
-    exchangedevicesmodel.h \
-    exchangedevicesmodel_p.h
+	changeremoteviewmodel_p.h \
+	identityeditviewmodel_p.h \
+	networkexchangeviewmodel.h \
+	networkexchangeviewmodel_p.h \
+	exchangedevicesmodel.h \
+	exchangedevicesmodel_p.h
 
 SOURCES += \
 	datasyncviewmodel.cpp \
 	accountmodel.cpp \
 	exportsetupviewmodel.cpp \
-    changeremoteviewmodel.cpp \
-    identityeditviewmodel.cpp \
-    networkexchangeviewmodel.cpp \
-    exchangedevicesmodel.cpp
+	changeremoteviewmodel.cpp \
+	identityeditviewmodel.cpp \
+	networkexchangeviewmodel.cpp \
+	exchangedevicesmodel.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmdatasynccore_de.ts \

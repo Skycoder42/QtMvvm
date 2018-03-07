@@ -157,11 +157,15 @@ void QQmlQuickPresenter::statusChanged(QQmlComponent::Status status)
 		break;
 	}
 	case QQmlComponent::Error:
+	{
 		qmlWarning(this, component->errors()) << "Failed to load component";
 		component->deleteLater();
+		auto loadInfo = _loadCache.value(component);
+		std::get<0>(loadInfo)->deleteLater();
 		break;
+	}
 	default:
-		return;
+		return; //not break. code after must not be executed in this case
 	}
 
 	_loadCache.remove(component);

@@ -247,7 +247,7 @@ void AndroidFileChooser::setupBasic(QAndroidJniObject &intent, bool asTree)
 	static const auto EXTRA_MIME_TYPES = QAndroidJniObject::getStaticObjectField<jstring>("android/content/Intent", "EXTRA_MIME_TYPES");
 	static const auto EXTRA_INITIAL_URI = [](){
 		if(QtAndroid::androidSdkVersion() >= 26) //Android Oreo
-			return QAndroidJniObject::getStaticObjectField<jstring>("android/content/Intent", "EXTRA_INITIAL_URI");
+			return QAndroidJniObject::getStaticObjectField<jstring>("android/provider/DocumentsContract", "EXTRA_INITIAL_URI");
 		else
 			return QAndroidJniObject();
 	}();
@@ -264,7 +264,7 @@ void AndroidFileChooser::setupBasic(QAndroidJniObject &intent, bool asTree)
 			if(!_mimeTypes.isEmpty()) {
 				QAndroidJniEnvironment env;
 				auto strClass = env->FindClass("java/lang/String");
-				QAndroidJniObject strArray(env->NewObjectArray(_mimeTypes.size(), strClass, nullptr));
+				auto strArray = QAndroidJniObject::fromLocalRef(env->NewObjectArray(_mimeTypes.size(), strClass, nullptr));
 				for(auto i = 0; i < _mimeTypes.size(); i++) {
 					auto mimeStr = QAndroidJniObject::callStaticObjectMethod("android/content/Intent", "normalizeMimeType",
 																			 "(Ljava/lang/String;)Ljava/lang/String;",
@@ -298,7 +298,7 @@ void AndroidFileChooser::setupBasic(QAndroidJniObject &intent, bool asTree)
 		auto uri = QAndroidJniObject::callStaticObjectMethod("android/net/Uri", "parse",
 															 "(Ljava/lang/String;)Landroid/net/Uri;",
 															 QAndroidJniObject::fromString(_folderUrl.toString()).object());
-		intent.callObjectMethod("putExtra", "(Ljava/lang/String;Z)Landroid/content/Intent;",
+		intent.callObjectMethod("putExtra", "(Ljava/lang/String;Landroid/os/Parcelable;)Landroid/content/Intent;",
 								EXTRA_INITIAL_URI.object(), uri.object());
 	}
 }

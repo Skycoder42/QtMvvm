@@ -1,5 +1,11 @@
 {
-    "dependencies": [],
+    "dependencies": [
+        {
+            "package": "de.skycoder42.android-contentdevice",
+            "provider": "qpm",
+            "version": "1.0.1"
+        }
+    ],
     "license": {
         "file": "",
         "name": ""
