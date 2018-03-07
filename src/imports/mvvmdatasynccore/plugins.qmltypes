@@ -126,6 +126,7 @@ Module {
         Property { name: "colorMap"; type: "ColorMap" }
         Property { name: "statusString"; type: "string"; isReadonly: true }
         Property { name: "accountModel"; type: "QtMvvm::AccountModel"; isReadonly: true; isPointer: true }
+        Property { name: "sortedModel"; type: "QSortFilterProxyModel"; isReadonly: true; isPointer: true }
         Signal {
             name: "syncManagerChanged"
             Parameter { name: "syncManager"; type: "QtDataSync::SyncManager"; isPointer: true }
@@ -146,6 +147,10 @@ Module {
         Method { name: "performReset" }
         Method { name: "changeRemote" }
         Method { name: "startNetworkExchange" }
+        Method {
+            name: "removeDevice"
+            Parameter { name: "sortedIndex"; type: "int" }
+        }
         Method {
             name: "setColorMap"
             Parameter { name: "colorMap"; type: "ColorMap" }
@@ -180,7 +185,12 @@ Module {
         Method {
             name: "infoAt"
             type: "QtDataSync::UserInfo"
-            Parameter { name: "index"; type: "int" }
+            Parameter { name: "index"; type: "QModelIndex" }
+        }
+        Method {
+            name: "infoAt"
+            type: "QtDataSync::UserInfo"
+            Parameter { name: "row"; type: "int" }
         }
     }
     Component {
@@ -259,6 +269,7 @@ Module {
         Property { name: "deviceName"; type: "string" }
         Property { name: "active"; type: "bool" }
         Property { name: "deviceModel"; type: "ExchangeDevicesModel"; isReadonly: true; isPointer: true }
+        Property { name: "sortedModel"; type: "QSortFilterProxyModel"; isReadonly: true; isPointer: true }
         Signal { name: "ready" }
         Signal {
             name: "portChanged"
@@ -274,7 +285,7 @@ Module {
         }
         Method {
             name: "exportTo"
-            Parameter { name: "index"; type: "int" }
+            Parameter { name: "sortedIndex"; type: "int" }
         }
         Method {
             name: "setPort"

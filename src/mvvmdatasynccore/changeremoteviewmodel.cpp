@@ -22,6 +22,8 @@ ChangeRemoteViewModel::ChangeRemoteViewModel(QObject *parent) :
 									   {KeyRole, "key"},
 									   {ValueRole, "value"}
 								   });
+	_headerModel->setSortRole(KeyRole);
+	_headerModel->sort(0);
 
 	connect(this, &ChangeRemoteViewModel::urlChanged,
 			this, &ChangeRemoteViewModel::validChanged);

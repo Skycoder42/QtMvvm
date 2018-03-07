@@ -15,6 +15,7 @@ public:
 
 	QtDataSync::UserExchangeManager *exchangeManager;
 	ExchangeDevicesModel *deviceModel;
+	QSortFilterProxyModel *sortedModel;
 	quint16 port;
 	QHash<quint32, QtDataSync::UserInfo> activeExports;
 };

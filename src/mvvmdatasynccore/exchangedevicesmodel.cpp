@@ -36,9 +36,12 @@ void ExchangeDevicesModel::setup(QtDataSync::UserExchangeManager *exchangeManage
 			this, &ExchangeDevicesModel::updateDevices);
 }
 
-UserInfo ExchangeDevicesModel::infoAt(int index) const
+UserInfo ExchangeDevicesModel::infoAt(const QModelIndex &index) const
 {
-	return d->devices.value(index);
+	if(index.isValid())
+		return d->devices.value(index.row());
+	else
+		return {};
 }
 
 QVariant ExchangeDevicesModel::headerData(int section, Qt::Orientation orientation, int role) const

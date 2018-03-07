@@ -23,7 +23,7 @@ NetworkExchangeWindow::NetworkExchangeWindow(ViewModel *viewModel, QWidget *pare
 		 d->ui->exchangeCheckBox, "checked",
 		 Binding::OneWayToViewModel);//NOTE workaround because of buggy active property in datasync
 
-	d->ui->treeView->setModel(d->viewModel->deviceModel());
+	d->ui->treeView->setModel(d->viewModel->sortedModel());
 }
 
 NetworkExchangeWindow::~NetworkExchangeWindow() {}

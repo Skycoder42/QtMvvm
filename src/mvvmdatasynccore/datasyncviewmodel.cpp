@@ -49,6 +49,7 @@ DataSyncViewModel::DataSyncViewModel(QObject *parent) :
 	ViewModel(parent),
 	d(new DataSyncViewModelPrivate(this))
 {
+	d->sortedModel->setSourceModel(d->accountModel);
 	resetColorMap();
 }
 
@@ -99,6 +100,11 @@ QString DataSyncViewModel::statusString() const
 AccountModel *DataSyncViewModel::accountModel() const
 {
 	return d->accountModel;
+}
+
+QSortFilterProxyModel *DataSyncViewModel::sortedModel() const
+{
+	return d->sortedModel;
 }
 
 QString DataSyncViewModel::formatFingerPrint(const QByteArray &fingerPrint)
@@ -251,6 +257,14 @@ void DataSyncViewModel::startNetworkExchange()
 	show<NetworkExchangeViewModel>(NetworkExchangeViewModel::showParams(d->accountManager));
 }
 
+void DataSyncViewModel::removeDevice(int sortedIndex)
+{
+	auto mIndex = d->sortedModel->index(sortedIndex, 0);
+	auto index = d->sortedModel->mapToSource(mIndex);
+	if(index.isValid())
+		d->accountModel->removeDevice(index);
+}
+
 void DataSyncViewModel::setColorMap(DataSyncViewModel::ColorMap colorMap)
 {
 	if (d->colorMap == colorMap)
@@ -352,7 +366,10 @@ void DataSyncViewModel::onInit(const QVariantHash &params)
 				this, &DataSyncViewModel::showAccessGranted);
 		connect(d->accountManager, &AccountManager::accountDevices,
 				this, &DataSyncViewModel::triggerGranted);
+
+		//model
 		d->accountModel->setup(d->accountManager, d->syncManager);
+		d->sortedModel->sort(0);
 
 		emit syncManagerChanged(d->syncManager);
 		emit accountManagerChanged(d->accountManager);
@@ -391,7 +408,8 @@ QtMvvm::DataSyncViewModelPrivate::DataSyncViewModelPrivate(DataSyncViewModel *q_
 	syncManager(nullptr),
 	accountManager(nullptr),
 	colorMap(),
-	accountModel(new AccountModel(q_ptr))
+	accountModel(new AccountModel(q_ptr)),
+	sortedModel(new QSortFilterProxyModel(q_ptr))
 {}
 
 void DataSyncViewModelPrivate::performExport(bool trusted, bool includeServer, const QString &password)

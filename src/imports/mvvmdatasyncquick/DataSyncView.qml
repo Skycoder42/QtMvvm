@@ -144,7 +144,7 @@ Page {
 				Layout.fillWidth: true
 				Layout.fillHeight: true
 				clip: true
-				model: viewModel.accountModel
+				model: viewModel.sortedModel
 
 				ScrollBar.vertical: ScrollBar {}
 
@@ -217,7 +217,7 @@ Page {
 							Material.foreground: "white"
 							Universal.foreground: "white"
 
-							onClicked: viewModel.accountModel.removeDevice(index)
+							onClicked: viewModel.removeDevice(index)
 						}
 					}
 				}

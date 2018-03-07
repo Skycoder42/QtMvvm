@@ -83,7 +83,7 @@ void DataSyncWindow::viewModelReady()
 		 this, "errorText",
 		 Binding::OneWayToView);
 	//account manager bindings
-	d->ui->treeView->setModel(d->viewModel->accountModel());
+	d->ui->treeView->setModel(d->viewModel->sortedModel());
 
 	//sync manager connections
 	connect(d->ui->syncButton, &QCommandLinkButton::clicked,
@@ -120,7 +120,7 @@ void DataSyncWindow::removeCurrentDevice()
 {
 	auto index = d->ui->treeView->currentIndex();
 	if(index.isValid())
-		d->viewModel->accountModel()->removeDevice(index);
+		d->viewModel->removeDevice(index.row());
 }
 
 // ------------- Private Implementation -------------

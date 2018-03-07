@@ -29,7 +29,10 @@ public:
 
 	Q_INVOKABLE void setup(QtDataSync::UserExchangeManager *exchangeManager);
 
-	Q_INVOKABLE QtDataSync::UserInfo infoAt(int index) const;
+	Q_INVOKABLE QtDataSync::UserInfo infoAt(const QModelIndex &index) const;
+	Q_INVOKABLE inline QtDataSync::UserInfo infoAt(int row) const {
+		return infoAt(index(row));
+	}
 
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 	int rowCount(const QModelIndex &parent = QModelIndex()) const override;

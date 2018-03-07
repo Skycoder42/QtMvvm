@@ -21,6 +21,7 @@ public:
 	QtDataSync::AccountManager *accountManager;
 	DataSyncViewModel::ColorMap colorMap;
 	AccountModel *accountModel;
+	QSortFilterProxyModel *sortedModel;
 
 	QSet<QUuid> pendingGrants;
 

@@ -99,7 +99,7 @@ Page {
 				Layout.fillHeight: true
 				clip: true
 
-				model: viewModel.deviceModel
+				model: viewModel.sortedModel
 
 				ScrollBar.vertical: ScrollBar {}
 

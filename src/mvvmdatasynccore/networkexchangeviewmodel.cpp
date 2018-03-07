@@ -37,7 +37,9 @@ QVariantHash NetworkExchangeViewModel::showParams(AccountManager *accountManager
 NetworkExchangeViewModel::NetworkExchangeViewModel(QObject *parent) :
 	ViewModel(parent),
 	d(new NetworkExchangeViewModelPrivate(this))
-{}
+{
+	d->sortedModel->setSourceModel(d->deviceModel);
+}
 
 NetworkExchangeViewModel::~NetworkExchangeViewModel() {}
 
@@ -63,17 +65,26 @@ ExchangeDevicesModel *NetworkExchangeViewModel::deviceModel() const
 	return d->deviceModel;
 }
 
-void NetworkExchangeViewModel::exportTo(int index)
+QSortFilterProxyModel *NetworkExchangeViewModel::sortedModel() const
 {
-	auto exCode = NetworkExchangeViewModelPrivate::ExportRequestCode;
-	while(d->activeExports.contains(exCode))
-		exCode++;
-	auto info = d->deviceModel->infoAt(index);
-	d->activeExports.insert(exCode, info);
-	showForResult<ExportSetupViewModel>(exCode,
-										ExportSetupViewModel::showParams(tr("Export accont data to device \"%1\" with address \"%1\":")
-																		 .arg(info.name())
-																		 .arg(ExchangeDevicesModel::fullAddress(info))));
+	return d->sortedModel;
+}
+
+void NetworkExchangeViewModel::exportTo(int sortedIndex)
+{
+	auto mIndex = d->sortedModel->index(sortedIndex, 0);
+	auto index = d->sortedModel->mapToSource(mIndex);
+	if(index.isValid()) {
+		auto exCode = NetworkExchangeViewModelPrivate::ExportRequestCode;
+		while(d->activeExports.contains(exCode))
+			exCode++;
+		auto info = d->deviceModel->infoAt(index);
+		d->activeExports.insert(exCode, info);
+		showForResult<ExportSetupViewModel>(exCode,
+											ExportSetupViewModel::showParams(tr("Export accont data to device \"%1\" with address \"%1\":")
+																			 .arg(info.name())
+																			 .arg(ExchangeDevicesModel::fullAddress(info))));
+	}
 }
 
 void NetworkExchangeViewModel::setPort(quint16 port)
@@ -127,6 +138,7 @@ void NetworkExchangeViewModel::onInit(const QVariantHash &params)
 		emit deviceNameChanged(deviceName());
 
 		d->deviceModel->setup(d->exchangeManager);
+		d->sortedModel->sort(0);
 		emit ready();
 	} catch(SetupDoesNotExistException &e) {
 		logCritical() << "Failed to init DataSyncViewModel with error:"
@@ -228,5 +240,7 @@ void NetworkExchangeViewModel::newUserData(const UserInfo &userInfo, bool truste
 NetworkExchangeViewModelPrivate::NetworkExchangeViewModelPrivate(NetworkExchangeViewModel *q_ptr) :
 	exchangeManager(nullptr),
 	deviceModel(new ExchangeDevicesModel(q_ptr)),
-	port(UserExchangeManager::DataExchangePort)
+	sortedModel(new QSortFilterProxyModel(q_ptr)),
+	port(UserExchangeManager::DataExchangePort),
+	activeExports()
 {}

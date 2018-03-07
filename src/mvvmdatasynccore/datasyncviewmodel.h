@@ -3,6 +3,7 @@
 
 #include <QtCore/qmap.h>
 #include <QtCore/qscopedpointer.h>
+#include <QtCore/qsortfilterproxymodel.h>
 
 #include <QtGui/qcolor.h>
 
@@ -28,6 +29,7 @@ class Q_MVVMDATASYNCCORE_EXPORT DataSyncViewModel : public ViewModel
 	Q_PROPERTY(QString statusString READ statusString NOTIFY statusStringChanged)
 
 	Q_PROPERTY(QtMvvm::AccountModel* accountModel READ accountModel CONSTANT)
+	Q_PROPERTY(QSortFilterProxyModel* sortedModel READ sortedModel CONSTANT)
 
 public:
 	typedef QMap<QtDataSync::SyncManager::SyncState, QColor> ColorMap;
@@ -47,6 +49,7 @@ public:
 	QString statusString() const;
 
 	AccountModel *accountModel() const;
+	QSortFilterProxyModel* sortedModel() const;
 
 	Q_INVOKABLE static QString formatFingerPrint(const QByteArray &fingerPrint);
 
@@ -58,6 +61,8 @@ public Q_SLOTS:
 	void performReset();
 	void changeRemote();
 	void startNetworkExchange();
+
+	void removeDevice(int sortedIndex);
 
 	void setColorMap(ColorMap colorMap);
 	void resetColorMap();

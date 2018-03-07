@@ -2,6 +2,7 @@
 #define QTMVVM_NETWORKEXCHANGEVIEWMODEL_H
 
 #include <QtCore/qscopedpointer.h>
+#include <QtCore/qsortfilterproxymodel.h>
 
 #include <QtMvvmCore/viewmodel.h>
 
@@ -22,6 +23,7 @@ class Q_MVVMDATASYNCCORE_EXPORT NetworkExchangeViewModel : public ViewModel
 	Q_PROPERTY(bool active READ active WRITE setActive NOTIFY activeChanged)
 
 	Q_PROPERTY(ExchangeDevicesModel* deviceModel READ deviceModel CONSTANT)
+	Q_PROPERTY(QSortFilterProxyModel* sortedModel READ sortedModel CONSTANT)
 
 public:
 	static const QString paramSetup;
@@ -37,9 +39,10 @@ public:
 	QString deviceName() const;
 	bool active() const;
 	ExchangeDevicesModel* deviceModel() const;
+	QSortFilterProxyModel* sortedModel() const;
 
 public Q_SLOTS:
-	void exportTo(int index);
+	void exportTo(int sortedIndex);
 
 	void setPort(quint16 port);
 	void setDeviceName(QString deviceName);
