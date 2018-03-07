@@ -109,5 +109,8 @@
 		<Entry key="prop10"
 			   type="QFont"
 			   title="Choose a &amp;font" />
+		<Entry key="prop11"
+			   type="non-existant-type"
+			   title="Non existing type" />
 	</Category>
 </SettingsConfig>

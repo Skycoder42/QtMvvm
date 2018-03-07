@@ -50,7 +50,7 @@ QUrl InputViewFactory::getInputUrl(const QByteArray &type, const QVariantMap &vi
 		return QStringLiteral("qrc:/qtmvvm/inputs/RadioListEdit.qml");
 	else {
 		logCritical() << "Failed to find any input view for input type:" << type;
-		return QUrl();
+		return QStringLiteral("qrc:/qtmvvm/inputs/ErrorLabel.qml");
 	}
 }
 

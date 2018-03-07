@@ -1,6 +1,7 @@
 #include "inputwidgetfactory.h"
 #include "inputwidgetfactory_p.h"
-#include <QtMvvmCore/private/qtmvvm_logging_p.h>
+
+#include <QtMvvmCore/IPresenter>
 
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QLineEdit>
@@ -12,6 +13,8 @@
 #include "selectcombobox_p.h"
 
 #include <qurlvalidator.h>
+
+#include <QtMvvmCore/private/qtmvvm_logging_p.h>
 
 using namespace QtMvvm;
 
@@ -64,10 +67,8 @@ QWidget *InputWidgetFactory::createInput(const QByteArray &type, QWidget *parent
 		widget = edit;
 	} else if(type == "selection" || type == "list")
 		widget = new SelectComboBox(parent);
-	else {
-		logCritical() << "Failed to find any input view for input type:" << type;
-		return nullptr; //TODO throw?
-	}
+	else
+		throw PresenterException("Unable to find an input view for type" + type);
 
 	for(auto it = viewProperties.constBegin(); it != viewProperties.constEnd(); it++)
 		widget->setProperty(qUtf8Printable(it.key()), it.value());

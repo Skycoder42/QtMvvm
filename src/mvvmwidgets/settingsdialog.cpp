@@ -186,23 +186,28 @@ void SettingsDialogPrivate::createEntry(const SettingsElements::Entry &entry, QW
 		});
 		content = btn;
 	} else {
-		auto widgetFactory = WidgetsPresenterPrivate::currentPresenter()->inputWidgetFactory();
-		content = widgetFactory->createInput(entry.type, sectionWidget, entry.properties);
-		if(!content) {
-			logWarning() << "Failed to create settings widget for type" << entry.type;
-			return;
+		try {
+			auto widgetFactory = WidgetsPresenterPrivate::currentPresenter()->inputWidgetFactory();
+			content = widgetFactory->createInput(entry.type, sectionWidget, entry.properties);
+			auto property = content->metaObject()->userProperty();
+			property.write(content, viewModel->loadValue(entry.key, entry.defaultValue));
+			if(property.hasNotifySignal()) {
+				auto changedSlot = metaObject()->method(metaObject()->indexOfSlot("propertyChanged()"));
+				connect(content, property.notifySignal(),
+						this, changedSlot);
+			} else
+				changedEntries.insert(content);
+
+			entryMap.insert(content, {entry, property});
+		} catch (PresenterException &e) {
+			logWarning() << "Failed to create settings widget for key"
+						 << entry.key
+						 << "with error:" << e.what();
+			content = new QLabel(tr("<i>Failed to load edit view!<i>"), sectionWidget);
+			auto pal = content->palette();
+			pal.setColor(QPalette::WindowText, Qt::darkRed);
+			content->setPalette(pal);
 		}
-
-		auto property = content->metaObject()->userProperty();
-		property.write(content, viewModel->loadValue(entry.key, entry.defaultValue));
-		if(property.hasNotifySignal()) {
-			auto changedSlot = metaObject()->method(metaObject()->indexOfSlot("propertyChanged()"));
-			connect(content, property.notifySignal(),
-					this, changedSlot);
-		} else
-			changedEntries.insert(content);
-
-		entryMap.insert(content, {entry, property});
 	}
 
 	auto label = new QLabel(entry.title + tr(":"), sectionWidget);

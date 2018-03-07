@@ -301,11 +301,6 @@ void WidgetsPresenter::presentMessageBox(const MessageConfig &config, QPointer<M
 void WidgetsPresenter::presentInputDialog(const MessageConfig &config, QPointer<MessageResult> result)
 {
 	auto input = d->inputViewFactory->createInput(config.subType(), nullptr, config.viewProperties());
-	if(!input) {
-		throw PresenterException(QByteArrayLiteral("Unable to find an input for type") +
-								 config.subType());
-	}
-
 	QWidget *parent = nullptr;
 	if(!config.viewProperties().value(QStringLiteral("modal"), false).toBool())
 		parent = QApplication::activeWindow();
