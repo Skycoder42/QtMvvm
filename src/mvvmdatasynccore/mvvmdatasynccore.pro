@@ -51,3 +51,10 @@ else: include($$OUT_PWD/qpmx_generated.pri)
 qpmx_ts_target.files -= $$OUT_PWD/$$QPMX_WORKINGDIR/qtmvvmdatasynccore_template.qm
 qpmx_ts_target.files += translations/qtmvvmdatasynccore_template.ts
 
+# source include for lupdate
+never_true_for_lupdate {
+	SOURCES += $$files(../imports/mvvmdatasynccore/*.cpp) \
+		$$files(../imports/mvvmdatasynccore/*.qml)
+}
+
+

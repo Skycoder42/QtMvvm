@@ -70,3 +70,8 @@ else: include($$OUT_PWD/qpmx_generated.pri)
 qpmx_ts_target.files -= $$OUT_PWD/$$QPMX_WORKINGDIR/qtmvvmcore_template.qm
 qpmx_ts_target.files += translations/qtmvvmcore_template.ts
 
+# source include for lupdate
+never_true_for_lupdate {
+	SOURCES += $$files(../imports/mvvmcore/*.cpp) \
+		$$files(../imports/mvvmcore/*.qml)
+}
