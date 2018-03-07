@@ -1,6 +1,6 @@
 TARGET = QtMvvmQuick
 
-QT = core gui qml quick mvvmcore mvvmcore-private
+QT = core gui qml quick svg mvvmcore mvvmcore-private
 
 HEADERS += \
 	qtmvvmquick_global.h \

@@ -41,20 +41,6 @@ QString SettingsUiBuilder::filterText() const
 	return _filterText;
 }
 
-QUrl SettingsUiBuilder::svgEscape(QUrl url)
-{
-	if(url.scheme() == QStringLiteral("qrc")) {
-		auto path = url.path();
-		if(path.endsWith(QStringLiteral(".svg"))) {
-			path.chop(4);
-			path.prepend(QStringLiteral("image://svg"));
-			return path;
-		}
-	}
-
-	return url;
-}
-
 void SettingsUiBuilder::loadSection(const SettingsElements::Section &section)
 {
 	auto inputFactory = QuickPresenterPrivate::currentPresenter()->inputViewFactory();

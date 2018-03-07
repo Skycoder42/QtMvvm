@@ -6,7 +6,7 @@ MsgBoxBase {
 
 	iconVisible: msgConfig.subType != "about"
 	iconSource: {
-		var base = "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_%1";
+		var base = "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_%1.svg";
 		switch(String(msgConfig.subType)) {
 		case "information":
 			base = base.arg("info");

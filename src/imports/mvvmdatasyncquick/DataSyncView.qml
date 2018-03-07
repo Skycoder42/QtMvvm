@@ -29,14 +29,15 @@ Page {
 			ActionButton {
 				id: _syncButton
 				icon.name: "view-refresh"
-				icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_sync"
+				icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_sync.svg"
 				text: qsTr("Synchronize")
 				onClicked: viewModel.syncOrConnect()
 			}
 
 			ActionButton {
 				id: _idButton
-				icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_fingerprint"
+				icon.name: "fingerprint-gui"
+				icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_fingerprint.svg"
 				text: qsTr("Edit Identity")
 				onClicked: viewModel.showDeviceInfo()
 			}
@@ -211,13 +212,16 @@ Page {
 							implicitWidth: parent.width
 
 							icon.name: "user-trash"
-							icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_delete_forever"
+							icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_delete_forever.svg"
 							text: qsTr("Remove Device")
 
 							Material.foreground: "white"
 							Universal.foreground: "white"
 
-							onClicked: viewModel.removeDevice(index)
+							onClicked: {
+								_swipeDelegate.swipe.close();
+								viewModel.removeDevice(index)
+							}
 						}
 					}
 				}
@@ -235,8 +239,8 @@ Page {
 		text: qsTr("Add new devices")
 		icon.name: checked ? "tab-close" : "list-add"
 		icon.source: checked ?
-						 "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_close" :
-						 "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_add"
+						 "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_close.svg" :
+						 "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_add.svg"
 	}
 
 	SubButton {
@@ -247,7 +251,7 @@ Page {
 
 		text: qsTr("Network Exchange")
 		icon.name: "network-connect"
-		icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_exchange"
+		icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_exchange.svg"
 
 		onClicked: {
 			viewModel.startNetworkExchange();
@@ -263,7 +267,7 @@ Page {
 
 		text: qsTr("Export to file")
 		icon.name: "document-export"
-		icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_export"
+		icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_export.svg"
 
 		onClicked: {
 			viewModel.startExport();
@@ -279,7 +283,7 @@ Page {
 
 		text: qsTr("Import from file")
 		icon.name: "document-import"
-		icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_import"
+		icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_import.svg"
 
 		onClicked: {
 			viewModel.startImport();

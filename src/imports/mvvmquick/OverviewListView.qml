@@ -62,7 +62,7 @@ ListView {
 
 			TintIcon {
 				id: openIcon
-				source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_chevron_right"
+				source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_chevron_right.svg"
 				Layout.row: 0
 				Layout.column: 2
 				Layout.rowSpan: 2

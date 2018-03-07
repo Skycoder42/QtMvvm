@@ -100,13 +100,10 @@ SettingsSectionModel::SectionInfo::SectionInfo(SettingsElements::Section section
 	Section(section),
 	category(category)
 {
-	icon = SettingsUiBuilder::svgEscape(icon);
 	category.sections.clear();
 }
 
 SettingsSectionModel::SectionInfo::SectionInfo(SettingsElements::Category category) :
 	Section{category.title, category.icon, category.tooltip, category.sections.first().groups, {}, {}},
 	category()
-{
-	icon = SettingsUiBuilder::svgEscape(icon);
-}
+{}

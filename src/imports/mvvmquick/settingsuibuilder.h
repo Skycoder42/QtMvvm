@@ -29,8 +29,6 @@ public:
 
 	QString filterText() const;
 
-	static QUrl svgEscape(QUrl url);
-
 public Q_SLOTS:
 	void loadSection(const QtMvvm::SettingsElements::Section &section);
 	void showDialog(const QString &key, const QString &title, const QString &type, const QVariant &defaultValue, const QVariantMap &properties);

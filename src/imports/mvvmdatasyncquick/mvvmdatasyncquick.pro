@@ -1,4 +1,4 @@
-QT += core qml quick mvvmdatasyncquick
+QT += core qml quick svg mvvmdatasyncquick
 CXX_MODULE = mvvmdatasyncquick
 TARGETPATH = de/skycoder42/QtMvvm/DataSync/Quick
 TARGET  = declarative_mvvmdatasyncquick

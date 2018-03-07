@@ -5,7 +5,7 @@ import de.skycoder42.QtMvvm.Quick 1.0
 ActionButton {
 	id: _menuButton
 	icon.name: "view-more-symbolic"
-	icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_more_vert"
+	icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_more_vert.svg"
 	text: qsTr("More…")
 	checkable: true
 	checked: _moreMenu.visible

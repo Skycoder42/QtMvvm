@@ -5,7 +5,6 @@
 #include <QtMvvmQuick/InputViewFactory>
 
 #include "qqmlquickpresenter.h"
-#include "svgimageprovider.h"
 #include "settingsuibuilder.h"
 #ifdef Q_OS_ANDROID
 #include "androidfilechooser.h"
@@ -21,7 +20,6 @@ static void initResources()
 static QObject *createQuickPresenterQmlSingleton(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
 {
 	Q_UNUSED(jsEngine)
-	qmlEngine->addImageProvider(QStringLiteral("svg"), new QtMvvm::SvgImageProvider());
 	return new QtMvvm::QQmlQuickPresenter(qmlEngine);
 }
 

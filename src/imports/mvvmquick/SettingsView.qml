@@ -58,7 +58,7 @@ Page {
 			ActionButton {
 				id: _restoreButton
 				visible: _builder.allowRestore
-				icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_settings_backup_restore"
+				icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_settings_backup_restore.svg"
 				text: qsTr("Restore settings")
 				onClicked: _builder.restoreDefaults()
 			}
@@ -71,7 +71,7 @@ Page {
 			PropertyChanges {
 				target: _searchButton
 				icon.name: "search"
-				icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_search"
+				icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_search.svg"
 			}
 			PropertyChanges {
 				target: _titleLabel
@@ -92,7 +92,7 @@ Page {
 			PropertyChanges {
 				target: _searchButton
 				icon.name: "gtk-close"
-				icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_close"
+				icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_close.svg"
 			}
 			PropertyChanges {
 				target: _titleLabel

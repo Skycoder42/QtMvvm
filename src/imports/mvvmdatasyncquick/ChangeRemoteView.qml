@@ -24,7 +24,7 @@ Page {
 			ActionButton {
 				id: _cancelButton
 				icon.name: "gtk-cancel"
-				icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_close"
+				icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_close.svg"
 				text: qsTr("Cancel")
 				onClicked: QuickPresenter.popView()
 			}
@@ -43,7 +43,7 @@ Page {
 				icon.width: 24
 				icon.height: 24
 				icon.name: "gtk-apply"
-				icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_check"
+				icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_check.svg"
 				display: AbstractButton.TextBesideIcon
 				rightPadding: 16
 
@@ -167,7 +167,7 @@ Page {
 						icon.width: 24
 						icon.height: 24
 						icon.name: "user-trash"
-						icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_delete_forever"
+						icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_delete_forever.svg"
 						anchors.right: parent.right
 						implicitHeight: parent.height
 						implicitWidth: implicitHeight
@@ -198,7 +198,7 @@ Page {
 						icon.width: 24
 						icon.height: 24
 						icon.name: "list-add"
-						icon.source: "image://svg/de/skycoder42/qtmvvm/quick/icons/ic_add"
+						icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_add.svg"
 
 						onClicked: {
 							viewModel.addHeaderConfig(_keyEdit.text, _valueEdit.text);
