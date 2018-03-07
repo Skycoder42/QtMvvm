@@ -42,3 +42,9 @@ qpmx_ts_target.files -= $$OUT_PWD/$$QPMX_WORKINGDIR/qtmvvmquick_template.qm
 qpmx_ts_target.files += translations/qtmvvmquick_template.ts
 
 mingw: LIBS_PRIVATE += -lQt5Gui -lQt5Core
+
+# source include for lupdate
+never_true_for_lupdate {
+	SOURCES += $$files(../imports/mvvmquick/*.cpp) \
+		$$files(../imports/mvvmquick/*.qml)
+}

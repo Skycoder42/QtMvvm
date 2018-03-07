@@ -2,11 +2,53 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="de_DE">
 <context>
-    <name>ErrorLabel</name>
+    <name>InputDialog</name>
     <message>
-        <location filename="../ErrorLabel.qml" line="+5"/>
-        <source>&lt;i&gt;Failed to load edit view!&lt;i&gt;</source>
-        <translation>&lt;i&gt;Bearbeitungsansicht konnte nicht geladen werden!&lt;/i&gt;</translation>
+        <location filename="../../imports/mvvmquick/InputDialog.qml" line="+34"/>
+        <source>&lt;i&gt;Failed to load input view for type: &lt;b&gt;%1&lt;/b&gt;&lt;/i&gt;</source>
+        <translation>&lt;i&gt;Eingabeansicht konnte nicht geladen werden. Typ: &lt;b&gt;%1&lt;/b&gt;&lt;/i&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>ListSection</name>
+    <message>
+        <location filename="../../imports/mvvmquick/ListSection.qml" line="+15"/>
+        <source>:</source>
+        <translation>:</translation>
+    </message>
+</context>
+<context>
+    <name>MenuButton</name>
+    <message>
+        <location filename="../../imports/mvvmquick/MenuButton.qml" line="+9"/>
+        <source>More…</source>
+        <translation>Mehr…</translation>
+    </message>
+</context>
+<context>
+    <name>QtMvvm::SettingsUiBuilder</name>
+    <message>
+        <location filename="../../imports/mvvmquick/settingsuibuilder.cpp" line="+70"/>
+        <source>:</source>
+        <translation>:</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsView</name>
+    <message>
+        <location filename="../../imports/mvvmquick/SettingsView.qml" line="+36"/>
+        <source>Settings</source>
+        <translation>Einstellungen</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Search in settings</source>
+        <translation>In Einstellungen suchen</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Restore settings</source>
+        <translation>Standards wiederherstellen</translation>
     </message>
 </context>
 </TS>

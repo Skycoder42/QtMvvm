@@ -64,9 +64,19 @@
         <translation>Header h&amp;inzufügen</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+3"/>
+        <source>Ctrl+Ins</source>
+        <translation>Ctrl+Ins</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>&amp;Remove Selected Header</source>
         <translation>Ausgewählten Header &amp;entfernen</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Del</source>
+        <translation>Del</translation>
     </message>
 </context>
 <context>
@@ -97,17 +107,32 @@
         <translation>Von Datei &amp;importieren</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+3"/>
+        <source>Ctrl+I</source>
+        <translation>Ctrl+I</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>&amp;Export to file</source>
         <translation>In Datei &amp;exportieren</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+3"/>
+        <source>Ctrl+E</source>
+        <translation>Ctrl+E</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>&amp;Network exchange</source>
         <translation>&amp;Netzwerk-Austausch</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+3"/>
+        <source>Ctrl+N</source>
+        <translation>Ctrl+N</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Rese&amp;t identity</source>
         <translation>Identität &amp;zurücksetzen</translation>
     </message>
@@ -122,12 +147,22 @@
         <translation>Ausgewählten Gerät ent&amp;fernen</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+3"/>
+        <source>Del</source>
+        <translation>Del</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>&amp;Identity</source>
         <translation>I&amp;dentität</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+3"/>
+        <source>Ctrl+U</source>
+        <translation>Ctrl+U</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Update exchange &amp;key</source>
         <translation>Daten-Schlüssel akt&amp;ualisieren</translation>
     </message>
@@ -135,6 +170,11 @@
         <location line="+12"/>
         <source>Re&amp;load device list</source>
         <translation>Geräte-List neu &amp;laden</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Ctrl+R</source>
+        <translation>Ctrl+R</translation>
     </message>
 </context>
 <context>

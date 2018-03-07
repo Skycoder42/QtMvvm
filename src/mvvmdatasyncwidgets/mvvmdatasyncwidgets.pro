@@ -27,6 +27,9 @@ FORMS += \
 	identityeditdialog.ui \
 	networkexchangewindow.ui
 
+RESOURCES += \
+	qtmvvmdatasyncwidgets_module.qrc
+
 TRANSLATIONS += \
 	translations/qtmvvmdatasyncwidgets_de.ts \
 	translations/qtmvvmdatasyncwidgets_template.ts
@@ -51,7 +54,3 @@ else: include($$OUT_PWD/qpmx_generated.pri)
 
 qpmx_ts_target.files -= $$OUT_PWD/$$QPMX_WORKINGDIR/qtmvvmdatasyncwidgets_template.qm
 qpmx_ts_target.files += translations/qtmvvmdatasyncwidgets_template.ts
-
-RESOURCES += \
-    qtmvvmdatasyncwidgets_module.qrc
-

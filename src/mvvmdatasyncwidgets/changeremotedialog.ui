@@ -209,7 +209,7 @@
     <string>A&amp;dd Header</string>
    </property>
    <property name="shortcut">
-    <string notr="true">Ctrl+Ins</string>
+    <string>Ctrl+Ins</string>
    </property>
   </action>
   <action name="action_Remove_Header">
@@ -221,7 +221,7 @@
     <string>&amp;Remove Selected Header</string>
    </property>
    <property name="shortcut">
-    <string notr="true">Del</string>
+    <string>Del</string>
    </property>
   </action>
  </widget>
