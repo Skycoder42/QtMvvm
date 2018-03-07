@@ -5,8 +5,6 @@
 #include <QtQuickControls2/QQuickStyle>
 #include <QtCore/QDebug>
 
-#include <quickextras.h>
-
 #include <samplecoreapp.h>
 #include <echoservice.h>
 
