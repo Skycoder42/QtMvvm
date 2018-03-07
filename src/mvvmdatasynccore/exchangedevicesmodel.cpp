@@ -12,6 +12,12 @@ using namespace QtMvvm;
 using namespace QtDataSync;
 using namespace std::chrono;
 
+#if QT_HAS_INCLUDE(<chrono>)
+#define chrtime(x) x
+#else
+#define chrtime(x) duration_cast<milliseconds>(x).count()
+#endif
+
 ExchangeDevicesModel::ExchangeDevicesModel(QObject *parent) :
 	QAbstractListModel(parent),
 	d(new ExchangeDevicesModelPrivate())
@@ -151,7 +157,7 @@ void ExchangeDevicesModel::updateDevices(const QList<UserInfo> &devices)
 				d->devices[dIndex] = device;
 				emit dataChanged(index(dIndex), index(dIndex, 1));
 			} else
-				d->devices[dIndex].deadline.setRemainingTime(seconds(5), Qt::VeryCoarseTimer);
+				d->devices[dIndex].deadline.setRemainingTime(chrtime(seconds(5)), Qt::VeryCoarseTimer);
 		} else {
 			logDebug() << "Adding new device" << device;
 			addList.append(device);
@@ -183,5 +189,5 @@ void ExchangeDevicesModel::updateDevices(const QList<UserInfo> &devices)
 
 ExchangeDevicesModelPrivate::LimitedUserInfo::LimitedUserInfo(const UserInfo &info) :
 	UserInfo(info),
-	deadline(seconds(5), Qt::VeryCoarseTimer)
+	deadline(chrtime(seconds(5)), Qt::VeryCoarseTimer)
 {}
