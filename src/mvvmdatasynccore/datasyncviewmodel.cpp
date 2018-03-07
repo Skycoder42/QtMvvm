@@ -112,10 +112,13 @@ QString DataSyncViewModel::formatFingerPrint(const QByteArray &fingerPrint)
 void DataSyncViewModel::syncOrConnect()
 {
 	if(d->syncManager->syncState() == SyncManager::Disconnected ||
-	   d->syncManager->syncState() == SyncManager::Error)
+	   d->syncManager->syncState() == SyncManager::Error) {
+		logDebug() << "Reconnecting to remote";
 		d->syncManager->reconnect();
-	else
+	} else {
+		logDebug() << "Synchronizing with remote";
 		d->syncManager->synchronize();
+	}
 }
 
 void DataSyncViewModel::showDeviceInfo()
@@ -136,6 +139,8 @@ void DataSyncViewModel::startImport()
 	auto home = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
 	getOpenFile(this, [this](QUrl url) {
 		if(url.isValid()) {
+			logDebug() << "Importing from URL" << url;
+
 			QSharedPointer<QIODevice> device;
 #ifdef Q_OS_ANDROID
 			if(url.scheme() == QStringLiteral("content"))
@@ -269,8 +274,11 @@ void DataSyncViewModel::resetColorMap()
 
 void DataSyncViewModel::showImportDialog(LoginRequest request)
 {
-	if(request.handled())
+	if(request.handled()) {
+		logDebug() << "Skipping already handeled import request";
 		return;
+	}
+
 	question(tr("Login requested!"),
 			 tr("<p>A device wants to log into your account:</p>"
 				"<p>Name: %1<br/>"
@@ -285,7 +293,8 @@ void DataSyncViewModel::showImportDialog(LoginRequest request)
 				req.accept();
 			else
 				req.reject();
-		}
+		} else
+			logDebug() << "Skipping already handeled import request";
 	});
 }
 
@@ -366,6 +375,7 @@ void DataSyncViewModel::onResult(quint32 requestCode, const QVariant &result)
 	case DataSyncViewModelPrivate::ChangeRemoteRequestCode:
 		if(result.isValid()) {
 			auto res = ChangeRemoteViewModel::result(result);
+			logDebug() << "Changing remote to server" << std::get<0>(res).url();
 			d->accountManager->changeRemote(std::get<0>(res), std::get<1>(res));
 		}
 		break;
@@ -389,6 +399,8 @@ void DataSyncViewModelPrivate::performExport(bool trusted, bool includeServer, c
 	auto home = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
 	getSaveFile(q, [this, trusted, includeServer, password](QUrl url) {
 		if(url.isValid()) {
+			logDebug() << "Exporting to URL" << url;
+
 			QSharedPointer<QIODevice> device;
 #ifdef Q_OS_ANDROID
 			if(url.scheme() == QStringLiteral("content"))

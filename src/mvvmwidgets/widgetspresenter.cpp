@@ -104,6 +104,9 @@ void WidgetsPresenter::present(ViewModel *viewModel, const QVariantHash &params,
 		view->deleteLater();
 		throw PresenterException(QByteArrayLiteral("Unable to find a method that is able to present a view of type") +
 								 viewMetaObject->className());
+	} else {
+		logDebug() << "Presented" << viewModel->metaObject()->className()
+				   << "with view" << viewMetaObject->className();
 	}
 }
 
@@ -117,6 +120,7 @@ void WidgetsPresenter::showDialog(const MessageConfig &config, MessageResult *re
 		presentFileDialog(config, result);
 	else
 		presentOtherDialog(config, result);
+	logDebug() << "Presented dialog of type" << config.type();
 }
 
 InputWidgetFactory *WidgetsPresenter::inputWidgetFactory() const
@@ -179,6 +183,7 @@ bool WidgetsPresenter::tryPresent(QWidget *view, QWidget *parentView)
 
 	// Check if QDialog
 	if(metaObject->inherits(&QDialog::staticMetaObject)) {
+		logDebug() << "Presenting" << metaObject->className() << "as dialog";
 		qobject_cast<QDialog*>(view)->open();
 		return true;
 	}
@@ -190,6 +195,7 @@ bool WidgetsPresenter::tryPresent(QWidget *view, QWidget *parentView)
 
 		// Check if child is QDockWidget
 		if(metaObject->inherits(&QDockWidget::staticMetaObject)) {
+			logDebug() << "Presenting" << metaObject->className() << "as dock widget";
 			auto dockWidget = qobject_cast<QDockWidget*>(view);
 			if(!mainWindow->restoreDockWidget(dockWidget))
 				mainWindow->addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
@@ -205,9 +211,10 @@ bool WidgetsPresenter::tryPresent(QWidget *view, QWidget *parentView)
 		if(!pView)
 			continue;
 
-		// Check if QMdiArea and child is QMdiSubWindow
+		// Check if QMdiArea and child ends with MdiWindow
 		if(pView->metaObject()->inherits(&QMdiArea::staticMetaObject) &&
-		   metaObject->inherits(&QMdiSubWindow::staticMetaObject)) {
+		   QByteArray(metaObject->className()).endsWith("MdiWindow")) {
+			logDebug() << "Presenting" << metaObject->className() << "as MDI window";
 			auto mdiArea = qobject_cast<QMdiArea*>(pView);
 			mdiArea->addSubWindow(view);
 			return true;
@@ -215,6 +222,7 @@ bool WidgetsPresenter::tryPresent(QWidget *view, QWidget *parentView)
 	}
 
 	//none of the special cases -> simply "show" it
+	logDebug() << "Presenting" << metaObject->className() << "as normal window";
 	showForeground(view);
 	return true;
 }

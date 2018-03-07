@@ -29,9 +29,11 @@ MsgBoxBase {
 
 		Label {
 			id: _errorLabel
-			visible: _inputViewLoad.status == Loader.Error
+			visible: _inputViewLoad.status == Loader.Error || inputUrl == ""
 			Layout.fillWidth: true
-			text: qsTr("<i>Failed to load input view for type: <b>%1</b></i>").arg(msgConfig.subType)
+			text: qsTr("<i>Failed to load input view</i>")
+			color: "#800000"
+			wrapMode: Text.Wrap
 		}
 
 		Loader {

@@ -17,6 +17,8 @@ class QQmlMvvmBinding : public QObject, public QQmlParserStatus
 	Q_PROPERTY(QString viewModelProperty MEMBER _viewModelProperty NOTIFY viewModelPropertyChanged)
 	Q_PROPERTY(QObject* view MEMBER _view NOTIFY viewChanged)
 	Q_PROPERTY(QString viewProperty MEMBER _viewProperty NOTIFY viewPropertyChanged)
+	Q_PROPERTY(QString viewModelChangeSignal MEMBER _viewModelChangeSignal NOTIFY viewModelChangeSignalChanged)
+	Q_PROPERTY(QString viewChangeSignal MEMBER _viewChangeSignal NOTIFY viewChangeSignalChanged)
 	Q_PROPERTY(BindingDirection type READ type WRITE setType NOTIFY typeChanged) //MEMBER is broken for flags
 
 public:
@@ -43,10 +45,12 @@ public Q_SLOTS:
 
 Q_SIGNALS:
 	void viewModelChanged(QObject* viewModel);
-	void viewModelPropertyChanged(QString viewModelProperty);
+	void viewModelPropertyChanged(const QString &viewModelProperty);
 	void viewChanged(QObject* view);
-	void viewPropertyChanged(QString viewProperty);
+	void viewPropertyChanged(const QString &viewProperty);
 	void typeChanged(BindingDirection type);
+	void viewModelChangeSignalChanged(const QString &viewModelChangeSignal);
+	void viewChangeSignalChanged(const QString &viewChangeSignal);
 
 private Q_SLOTS:
 	void resetBinding();
@@ -60,6 +64,8 @@ private:
 	QObject* _view;
 	QString _viewProperty;
 	BindingDirection _type;
+	QString _viewModelChangeSignal;
+	QString _viewChangeSignal;
 };
 
 }

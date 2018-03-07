@@ -109,6 +109,8 @@ Module {
         Property { name: "viewModelProperty"; type: "string" }
         Property { name: "view"; type: "QObject"; isPointer: true }
         Property { name: "viewProperty"; type: "string" }
+        Property { name: "viewModelChangeSignal"; type: "string" }
+        Property { name: "viewChangeSignal"; type: "string" }
         Property { name: "type"; type: "BindingDirection" }
         Signal {
             name: "viewModelChanged"
@@ -129,6 +131,14 @@ Module {
         Signal {
             name: "typeChanged"
             Parameter { name: "type"; type: "BindingDirection" }
+        }
+        Signal {
+            name: "viewModelChangeSignalChanged"
+            Parameter { name: "viewModelChangeSignal"; type: "string" }
+        }
+        Signal {
+            name: "viewChangeSignalChanged"
+            Parameter { name: "viewChangeSignal"; type: "string" }
         }
         Method {
             name: "setType"

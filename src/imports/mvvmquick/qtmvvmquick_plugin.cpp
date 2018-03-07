@@ -21,7 +21,6 @@ static void initResources()
 static QObject *createQuickPresenterQmlSingleton(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
 {
 	Q_UNUSED(jsEngine)
-	//image provider is created together with the singleton
 	qmlEngine->addImageProvider(QStringLiteral("svg"), new QtMvvm::SvgImageProvider());
 	return new QtMvvm::QQmlQuickPresenter(qmlEngine);
 }

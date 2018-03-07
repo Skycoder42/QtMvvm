@@ -139,6 +139,7 @@ void NetworkExchangeViewModel::onResult(quint32 requestCode, const QVariant &res
 	if(d->activeExports.contains(requestCode)) {
 		auto info = d->activeExports.take(requestCode);
 		if(result.isValid()) {
+			logDebug() << "Exporting account to device" << info;
 			auto res = ExportSetupViewModel::result(result);
 			if(std::get<0>(res))
 				d->exchangeManager->exportTrustedTo(info, std::get<1>(res), std::get<2>(res));
@@ -183,9 +184,11 @@ void NetworkExchangeViewModel::newUserData(const UserInfo &userInfo, bool truste
 		connect(res, &MessageResult::dialogDone, this, [this, res, userInfo, importDoneHandler](MessageConfig::StandardButton btn) {
 			switch (btn) {
 			case MessageConfig::YesToAll:
+				logDebug() << "Importing account from device" << userInfo;
 				d->exchangeManager->importTrustedFrom(userInfo, res->result().toString(), importDoneHandler, false);
 				break;
 			case MessageConfig::Yes:
+				logDebug() << "Importing account from device" << userInfo;
 				d->exchangeManager->importTrustedFrom(userInfo, res->result().toString(), importDoneHandler, true);
 				break;
 			default:
@@ -206,9 +209,11 @@ void NetworkExchangeViewModel::newUserData(const UserInfo &userInfo, bool truste
 		connect(res, &MessageResult::dialogDone, this, [this, userInfo, importDoneHandler](MessageConfig::StandardButton btn) {
 			switch (btn) {
 			case MessageConfig::YesToAll:
+				logDebug() << "Importing account from device" << userInfo;
 				d->exchangeManager->importFrom(userInfo, importDoneHandler, false);
 				break;
 			case MessageConfig::Yes:
+				logDebug() << "Importing account from device" << userInfo;
 				d->exchangeManager->importFrom(userInfo, importDoneHandler, true);
 				break;
 			default:

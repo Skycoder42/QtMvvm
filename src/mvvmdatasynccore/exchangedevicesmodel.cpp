@@ -1,7 +1,16 @@
 #include "exchangedevicesmodel.h"
 #include "exchangedevicesmodel_p.h"
+#include <chrono>
+
+#undef logDebug
+#undef logInfo
+#undef logWarning
+#undef logCritical
+#include <QtMvvmCore/private/qtmvvm_logging_p.h>
+
 using namespace QtMvvm;
 using namespace QtDataSync;
+using namespace std::chrono;
 
 ExchangeDevicesModel::ExchangeDevicesModel(QObject *parent) :
 	QAbstractListModel(parent),
@@ -17,7 +26,10 @@ void ExchangeDevicesModel::setup(QtDataSync::UserExchangeManager *exchangeManage
 
 	beginResetModel();
 	d->exchangeManager = exchangeManager;
-	d->devices = d->exchangeManager->devices();
+	d->devices.clear();
+	d->devices.reserve(d->exchangeManager->devices().size());
+	for(auto device : d->exchangeManager->devices())
+		d->devices.append(device);
 	endResetModel();
 
 	connect(d->exchangeManager, &UserExchangeManager::devicesChanged,
@@ -126,23 +138,47 @@ QString ExchangeDevicesModel::fullAddress(const UserInfo &userInfo)
 
 void ExchangeDevicesModel::updateDevices(const QList<UserInfo> &devices)
 {
-	QList<UserInfo> addList;
+	//find new devices and update existing
+	QList<ExchangeDevicesModelPrivate::LimitedUserInfo> addList;
 	for(auto device : devices) {
 		auto dIndex = d->devices.indexOf(device);
 		if(dIndex != -1) {
 			if(device.name() != d->devices[dIndex].name()) {
+				logDebug() << "Updating name of device" << device;
 				d->devices[dIndex] = device;
 				emit dataChanged(index(dIndex), index(dIndex, 1));
-			}
-		} else
+			} else
+				d->devices[dIndex].deadline.setRemainingTime(seconds(5), Qt::VeryCoarseTimer);
+		} else {
+			logDebug() << "Adding new device" << device;
 			addList.append(device);
+		}
 	}
 
+	//remove old devices
+	for(auto i = 0; i < d->devices.size();) {
+		if(d->devices[i].deadline.hasExpired()) {
+			logDebug() << "Removing stale device" << d->devices[i];
+			beginRemoveRows({}, i, i);
+			d->devices.removeAt(i);
+			endRemoveRows();
+		} else
+			i++;
+	}
+
+	//add new devices
 	if(addList.isEmpty())
 		return;
-	beginInsertRows(QModelIndex(),
+	beginInsertRows({},
 					d->devices.size(),
 					d->devices.size() + addList.size() - 1);
 	d->devices.append(addList);
 	endInsertRows();
 }
+
+
+
+ExchangeDevicesModelPrivate::LimitedUserInfo::LimitedUserInfo(const UserInfo &info) :
+	UserInfo(info),
+	deadline(seconds(5), Qt::VeryCoarseTimer)
+{}

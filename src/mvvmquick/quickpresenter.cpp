@@ -57,6 +57,7 @@ void QuickPresenter::present(QtMvvm::ViewModel *viewModel, const QVariantHash &p
 {
 	if(d->qmlPresenter) {
 		auto url = findViewUrl(viewModel->metaObject());
+		logDebug() << "Handing over viewModel" << viewModel->metaObject()->className() << "to QML presenter";
 		QMetaObject::invokeMethod(d->qmlPresenter, "present",
 								  Q_ARG(QtMvvm::ViewModel*, viewModel),
 								  Q_ARG(QVariantHash, params),
@@ -69,6 +70,7 @@ void QuickPresenter::present(QtMvvm::ViewModel *viewModel, const QVariantHash &p
 void QuickPresenter::showDialog(const QtMvvm::MessageConfig &config, QtMvvm::MessageResult *result)
 {
 	if(d->qmlPresenter) {
+		logDebug() << "Handing over dialog of type" << config.type() << "to QML presenter";
 		QMetaObject::invokeMethod(d->qmlPresenter, "showDialog",
 								  Q_ARG(QtMvvm::MessageConfig, config),
 								  Q_ARG(QtMvvm::MessageResult*, result));
@@ -157,16 +159,22 @@ QUrl QuickPresenter::findViewUrl(const QMetaObject *viewModelType)
 int QuickPresenter::presentMethodIndex(const QMetaObject *presenterMetaObject, QObject *viewObject)
 {
 	auto index = -1;
-	if(viewObject->inherits("QQuickPopup"))
+	if(viewObject->inherits("QQuickPopup")) {
+		logDebug() << "Presenting" << viewObject->metaObject()->className() << "as popup";
 		index = presenterMetaObject->indexOfMethod("presentPopup(QVariant)");
-	if(viewObject->inherits("QQuickItem")) {
-		if(nameOrClassContains(viewObject, QStringLiteral("Drawer")))
+	} if(viewObject->inherits("QQuickItem")) {
+		if(nameOrClassContains(viewObject, QStringLiteral("Drawer"))) {
+			logDebug() << "Presenting" << viewObject->metaObject()->className() << "as drawer";
 			index = presenterMetaObject->indexOfMethod("presentDrawerContent(QVariant)");
-		if(index == -1 && nameOrClassContains(viewObject, QStringLiteral("Tab")))
+		} if(index == -1 && nameOrClassContains(viewObject, QStringLiteral("Tab"))) {
+			logDebug() << "Presenting" << viewObject->metaObject()->className() << "as tab";
 			index = presenterMetaObject->indexOfMethod("presentTab(QVariant)");
+		}
 
-		if(index == -1)
+		if(index == -1) {
+			logDebug() << "Presenting" << viewObject->metaObject()->className() << "as item";
 			index = presenterMetaObject->indexOfMethod("presentItem(QVariant)");
+		}
 	}
 	return index;
 }

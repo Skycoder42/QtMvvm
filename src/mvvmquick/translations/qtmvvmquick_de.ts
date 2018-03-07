@@ -5,8 +5,8 @@
     <name>InputDialog</name>
     <message>
         <location filename="../../imports/mvvmquick/InputDialog.qml" line="+34"/>
-        <source>&lt;i&gt;Failed to load input view for type: &lt;b&gt;%1&lt;/b&gt;&lt;/i&gt;</source>
-        <translation>&lt;i&gt;Eingabeansicht konnte nicht geladen werden. Typ: &lt;b&gt;%1&lt;/b&gt;&lt;/i&gt;</translation>
+        <source>&lt;i&gt;Failed to load input view&lt;/i&gt;</source>
+        <translation>&lt;i&gt;Eingabeansicht konnte nicht geladen werden&lt;/i&gt;</translation>
     </message>
 </context>
 <context>

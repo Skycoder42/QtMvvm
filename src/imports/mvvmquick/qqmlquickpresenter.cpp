@@ -6,6 +6,7 @@
 
 #include <QtQuickControls2/QQuickStyle>
 
+#include <QtMvvmCore/private/qtmvvm_logging_p.h>
 #include <QtMvvmQuick/private/quickpresenter_p.h>
 
 #ifdef Q_OS_ANDROID
@@ -61,21 +62,23 @@ QStringList QQmlQuickPresenter::mimeTypeFilters(const QStringList &mimeTypes) co
 void QQmlQuickPresenter::toggleDrawer()
 {
 	if(!_qmlPresenter) {
-		qmlWarning(this).space() << "No QML-Presenter registered! Unable to toggle drawer";
+		logWarning() << "No QML-Presenter registered! Unable to toggle drawer";
 		return;
 	}
 
-	QMetaObject::invokeMethod(_qmlPresenter, "toggleDrawer");
+	if(!QMetaObject::invokeMethod(_qmlPresenter, "toggleDrawer"))
+		logWarning() << "QML-Presenter does not have a \"toggleDrawer\" method";
 }
 
 void QQmlQuickPresenter::popView()
 {
 	if(!_qmlPresenter) {
-		qmlWarning(this).space() << "No QML-Presenter registered! Unable to toggle drawer";
+		logWarning() << "No QML-Presenter registered! Unable to pop view";
 		return;
 	}
 
-	QMetaObject::invokeMethod(_qmlPresenter, "closeAction");
+	if(!QMetaObject::invokeMethod(_qmlPresenter, "closeAction"))
+		logWarning() << "QML-Presenter does not have a \"closeAction\" method";
 }
 
 void QQmlQuickPresenter::hapticLongPress()
@@ -93,6 +96,8 @@ void QQmlQuickPresenter::hapticLongPress()
 								  "(I)Z",
 								  LONG_PRESS);
 	});
+#else
+	logDebug() << Q_FUNC_INFO;
 #endif
 }
 
@@ -124,8 +129,8 @@ void QQmlQuickPresenter::present(ViewModel *viewModel, const QVariantHash &param
 void QQmlQuickPresenter::showDialog(const MessageConfig &config, MessageResult *result)
 {
 	if(!_qmlPresenter) {
-		qmlWarning(this).space() << "No QML-Presenter registered! Unable to present dialog of type"
-								 << config.type();
+		logWarning() << "No QML-Presenter registered! Unable to present dialog of type"
+					 << config.type();
 		return;
 	}
 
@@ -135,8 +140,9 @@ void QQmlQuickPresenter::showDialog(const MessageConfig &config, MessageResult *
 							  Q_ARG(QVariant, QVariant::fromValue(config)),
 							  Q_ARG(QVariant, QVariant::fromValue(result)));
 	if(!res.toBool()) {
-		qmlWarning(this).space() << "Failed to present dialog of type"
-								 << config.type();
+		logWarning() << "Failed to present dialog of type"
+					 << config.type();
+		result->complete(MessageConfig::NoButton);
 	}
 }
 
@@ -149,6 +155,7 @@ void QQmlQuickPresenter::statusChanged(QQmlComponent::Status status)
 	switch(status) {
 	case QQmlComponent::Ready:
 	{
+		logDebug() << "Loaded and cached component" << component->url();
 		_componentCache.insert(component->url(), component);
 		auto loadInfo = _loadCache.value(component);
 		disconnect(component, &QQmlComponent::progressChanged,
@@ -158,10 +165,11 @@ void QQmlQuickPresenter::statusChanged(QQmlComponent::Status status)
 	}
 	case QQmlComponent::Error:
 	{
-		qmlWarning(this, component->errors()) << "Failed to load component";
-		component->deleteLater();
 		auto loadInfo = _loadCache.value(component);
+		logWarning().noquote() << "Failed to load component for" << std::get<0>(loadInfo)->metaObject()->className()
+							   << "with error:" << component->errorString().trimmed();
 		std::get<0>(loadInfo)->deleteLater();
+		component->deleteLater();
 		break;
 	}
 	default:
@@ -178,16 +186,16 @@ void QQmlQuickPresenter::statusChanged(QQmlComponent::Status status)
 void QQmlQuickPresenter::addObject(QQmlComponent *component, ViewModel *viewModel, const QVariantHash &params, QPointer<ViewModel> parent)
 {
 	if(!_qmlPresenter) {
-		qmlWarning(this).space() << "No QML-Presenter registered! Unable to present viewModel of type"
-								 << viewModel->metaObject()->className();
+		logWarning() << "No QML-Presenter registered! Unable to present viewModel of type"
+					 << viewModel->metaObject()->className();
 		return;
 	}
 
 	//create the view item, set initial stuff and them complete creation
 	auto item = component->beginCreate(_engine->rootContext());
 	if(!item) {
-		qmlWarning(this).space() << "Unable to create quick view from the loaded component"
-								 << component->url();
+		logWarning() << "Unable to create quick view from the loaded component"
+					 << component->url();
 		return;
 	}
 	item->setProperty("viewModel", QVariant::fromValue(viewModel));
@@ -205,9 +213,11 @@ void QQmlQuickPresenter::addObject(QQmlComponent *component, ViewModel *viewMode
 	if(presented) {
 		if(!item->parent())
 			QQmlEngine::setObjectOwnership(item, QQmlEngine::JavaScriptOwnership);
+		logDebug() << "Presented" << viewModel->metaObject()->className()
+				   << "with view" << item->metaObject()->className();
 	} else {
-		qmlWarning(this).space() << "Failed to present item for viewModel of type"
-								 << viewModel->metaObject()->className();
+		logWarning() << "Failed to present item for viewModel of type"
+					 << viewModel->metaObject()->className();
 		item->deleteLater();
 	}
 }

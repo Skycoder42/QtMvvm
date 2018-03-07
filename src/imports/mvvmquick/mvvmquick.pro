@@ -1,4 +1,4 @@
-QT += core qml quick svg quickcontrols2 mvvmquick mvvmquick-private
+QT += core qml quick svg quickcontrols2 mvvmquick mvvmcore-private mvvmquick-private
 CXX_MODULE = mvvmquick
 TARGETPATH = de/skycoder42/QtMvvm/Quick
 TARGET  = declarative_mvvmquick

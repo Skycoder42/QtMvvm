@@ -10,7 +10,9 @@ QQmlMvvmBinding::QQmlMvvmBinding(QObject *parent) :
 	_viewModelProperty(),
 	_view(nullptr),
 	_viewProperty(),
-	_type(TwoWay)
+	_type(TwoWay),
+	_viewModelChangeSignal(),
+	_viewChangeSignal()
 {
 	connect(this, &QQmlMvvmBinding::viewModelChanged,
 			this, &QQmlMvvmBinding::resetBinding);
@@ -60,8 +62,11 @@ void QQmlMvvmBinding::resetBinding()
 {
 	if(!_completed || !_viewModel || !_view)
 		return;
+
 	_binding.unbind();
 	_binding = QtMvvm::bind(_viewModel, qUtf8Printable(_viewModelProperty),
 							_view, qUtf8Printable(_viewProperty),
-							static_cast<Binding::BindingDirection>(static_cast<int>(_type)));
+							static_cast<Binding::BindingDirection>(static_cast<int>(_type)),
+							_viewModelChangeSignal.isEmpty() ? nullptr : qUtf8Printable(_viewModelChangeSignal),
+							_viewChangeSignal.isEmpty() ? nullptr : qUtf8Printable(_viewChangeSignal));
 }

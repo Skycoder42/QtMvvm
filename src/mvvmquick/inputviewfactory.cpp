@@ -19,57 +19,67 @@ InputViewFactory::~InputViewFactory() {}
 
 QUrl InputViewFactory::getInputUrl(const QByteArray &type, const QVariantMap &viewProperties)
 {
+	QUrl url;
+
 	Q_UNUSED(viewProperties)
 	if(d->inputAliases.contains(type))
-		return getInputUrl(d->inputAliases.value(type), viewProperties);
+		url = getInputUrl(d->inputAliases.value(type), viewProperties);
 	if(d->simpleInputs.contains(type))
-		return d->simpleInputs.value(type);
+		url = d->simpleInputs.value(type);
 	else if(type == QMetaType::typeName(QMetaType::Bool))
-		return QStringLiteral("qrc:/qtmvvm/inputs/CheckBox.qml");
+		url = QStringLiteral("qrc:/qtmvvm/inputs/CheckBox.qml");
 	else if(type == "switch")
-		return QStringLiteral("qrc:/qtmvvm/inputs/Switch.qml");
+		url = QStringLiteral("qrc:/qtmvvm/inputs/Switch.qml");
 	else if(type == QMetaType::typeName(QMetaType::QString) || type == "string")
-		return QStringLiteral("qrc:/qtmvvm/inputs/TextField.qml");
+		url = QStringLiteral("qrc:/qtmvvm/inputs/TextField.qml");
 	else if(type == QMetaType::typeName(QMetaType::Int))
-		return QStringLiteral("qrc:/qtmvvm/inputs/SpinBox.qml");
+		url = QStringLiteral("qrc:/qtmvvm/inputs/SpinBox.qml");
 	else if(type == QMetaType::typeName(QMetaType::Double))
-		return QStringLiteral("qrc:/qtmvvm/inputs/DoubleSpinBox.qml");
+		url = QStringLiteral("qrc:/qtmvvm/inputs/DoubleSpinBox.qml");
 //	else if(type == QMetaType::typeName(QMetaType::QDate))
-//		return QUrl();
+//		url = QUrl();
 //	else if(type == QMetaType::typeName(QMetaType::QTime))
-//		return QUrl();
+//		url = QUrl();
 //	else if(type == QMetaType::typeName(QMetaType::QDateTime) || type == "date")
-//		return QUrl();
+//		url = QUrl();
 	else if(type == QMetaType::typeName(QMetaType::QFont))
-		return QStringLiteral("qrc:/qtmvvm/inputs/FontEdit.qml");
+		url = QStringLiteral("qrc:/qtmvvm/inputs/FontEdit.qml");
 	else if(type == QMetaType::typeName(QMetaType::QUrl) || type == "url")
-		return QStringLiteral("qrc:/qtmvvm/inputs/UrlField.qml");
+		url = QStringLiteral("qrc:/qtmvvm/inputs/UrlField.qml");
 	else if(type == "selection" || type == "list")
-		return QStringLiteral("qrc:/qtmvvm/inputs/ListEdit.qml");
+		url = QStringLiteral("qrc:/qtmvvm/inputs/ListEdit.qml");
 	else if(type == "radiolist")
-		return QStringLiteral("qrc:/qtmvvm/inputs/RadioListEdit.qml");
+		url = QStringLiteral("qrc:/qtmvvm/inputs/RadioListEdit.qml");
 	else {
 		logCritical() << "Failed to find any input view for input type:" << type;
 		return QUrl();
 	}
+
+	logDebug() << "Found view URL for input of type" << type << "as" << url;
+	return url;
 }
 
 QUrl InputViewFactory::getDelegate(const QByteArray &type, const QVariantMap &viewProperties)
 {
+	QUrl url;
+
 	Q_UNUSED(viewProperties)
 	if(d->delegateAliases.contains(type))
-		return getDelegate(d->delegateAliases.value(type), viewProperties);
+		url = getDelegate(d->delegateAliases.value(type), viewProperties);
 	if(d->simpleDelegates.contains(type))
-		return d->simpleDelegates.value(type);
+		url = d->simpleDelegates.value(type);
 	else if(type == QMetaType::typeName(QMetaType::Bool))
-		return QStringLiteral("qrc:/qtmvvm/delegates/BoolDelegate.qml");
+		url = QStringLiteral("qrc:/qtmvvm/delegates/BoolDelegate.qml");
 	else if(type == "switch")
-		return QStringLiteral("qrc:/qtmvvm/delegates/SwitchDelegate.qml");
+		url = QStringLiteral("qrc:/qtmvvm/delegates/SwitchDelegate.qml");
 	else if((type == "selection" || type == "list") &&
 			!viewProperties.value(QStringLiteral("editable"), false).toBool())
-		return QStringLiteral("qrc:/qtmvvm/delegates/ListDelegate.qml");
+		url = QStringLiteral("qrc:/qtmvvm/delegates/ListDelegate.qml");
 	else
-		return QStringLiteral("qrc:/qtmvvm/delegates/MsgDelegate.qml");
+		url = QStringLiteral("qrc:/qtmvvm/delegates/MsgDelegate.qml");
+
+	logDebug() << "Found view URL for delegate of type" << type << "as" << url;
+	return url;
 }
 
 void InputViewFactory::addSimpleInput(const QByteArray &type, const QUrl &qmlFileUrl)

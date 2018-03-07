@@ -5,7 +5,7 @@
     <name>InputDialog</name>
     <message>
         <location filename="../../imports/mvvmquick/InputDialog.qml" line="+34"/>
-        <source>&lt;i&gt;Failed to load input view for type: &lt;b&gt;%1&lt;/b&gt;&lt;/i&gt;</source>
+        <source>&lt;i&gt;Failed to load input view&lt;/i&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

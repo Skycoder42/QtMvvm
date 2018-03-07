@@ -14,10 +14,7 @@ AndroidFileChooser::AndroidFileChooser(QObject *parent) :
 	_result()
 {}
 
-AndroidFileChooser::~AndroidFileChooser()
-{
-	qt_noop();
-}
+AndroidFileChooser::~AndroidFileChooser() {}
 
 QString AndroidFileChooser::title() const
 {

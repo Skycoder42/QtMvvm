@@ -72,6 +72,7 @@ QWidget *InputWidgetFactory::createInput(const QByteArray &type, QWidget *parent
 
 	for(auto it = viewProperties.constBegin(); it != viewProperties.constEnd(); it++)
 		widget->setProperty(qUtf8Printable(it.key()), it.value());
+	logDebug() << "Found view for input of type" << type << "as" << widget->metaObject()->className();
 	return widget;
 }
 

@@ -75,5 +75,4 @@ void ViewModel::showImp(const QMetaObject *metaObject, const QVariantHash &param
 
 // ------------- Private Implementation -------------
 
-ViewModelPrivate::ViewModelPrivate()
-{}
+ViewModelPrivate::ViewModelPrivate() {}

@@ -2,6 +2,7 @@
 #define QTMVVM_EXCHANGEDEVICESMODEL_P_H
 
 #include <QtCore/QHash>
+#include <QtCore/QDeadlineTimer>
 
 #include "qtmvvmdatasynccore_global.h"
 #include "exchangedevicesmodel.h"
@@ -11,8 +12,15 @@ namespace QtMvvm {
 class ExchangeDevicesModelPrivate
 {
 public:
+	struct LimitedUserInfo : public QtDataSync::UserInfo
+	{
+		LimitedUserInfo(const QtDataSync::UserInfo &info = {});
+
+		QDeadlineTimer deadline;
+	};
+
 	QtDataSync::UserExchangeManager *exchangeManager = nullptr;
-	QList<QtDataSync::UserInfo> devices;
+	QList<LimitedUserInfo> devices;
 };
 
 }

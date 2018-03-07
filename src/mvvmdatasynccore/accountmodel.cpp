@@ -2,7 +2,13 @@
 #include "accountmodel_p.h"
 #include "datasyncviewmodel.h"
 
-#include <QRemoteObjectReplica>
+#include <QtRemoteObjects/QRemoteObjectReplica>
+
+#undef logDebug
+#undef logInfo
+#undef logWarning
+#undef logCritical
+#include <QtMvvmCore/private/qtmvvm_logging_p.h>
 
 using namespace QtMvvm;
 using namespace QtDataSync;
@@ -139,8 +145,10 @@ void AccountModel::reload()
 	d->devices.clear();
 	endResetModel();
 
-	if(d->accountManager)
+	if(d->accountManager) {
+		logDebug() << "Reloading device list";
 		d->accountManager->listDevices();
+	}
 }
 
 void AccountModel::accountDevices(const QList<DeviceInfo> &devices)
@@ -148,6 +156,7 @@ void AccountModel::accountDevices(const QList<DeviceInfo> &devices)
 	beginResetModel();
 	d->devices = devices;
 	endResetModel();
+	logDebug() << "Device list updated with" << devices.size() << "devices";
 }
 
 void AccountModel::update(SyncManager::SyncState state)

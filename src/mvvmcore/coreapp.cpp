@@ -176,6 +176,7 @@ void CoreAppPrivate::showViewModel(const QMetaObject *metaObject, const QVariant
 					parent->onResult(requestCode, QVariant());
 				});
 			}
+			logDebug() << "Successfully presented" << metaObject->className();
 		} catch(QException &e) {
 			logCritical() << "Failed to present viewmodel of type"
 						  << metaObject->className()
@@ -196,6 +197,7 @@ void CoreAppPrivate::showDialog(const MessageConfig &config, MessageResult *resu
 	if(presenter) {
 		try {
 			presenter->showDialog(config, result);
+			logDebug() << "Successfully presented dialog of type" << config.type();
 		} catch(QException &e) {
 			logCritical() << "Failed to show dialog ff type"
 						  << config.type() << ":" << config.subType()
@@ -203,8 +205,7 @@ void CoreAppPrivate::showDialog(const MessageConfig &config, MessageResult *resu
 						  << e.what();
 			result->complete(MessageConfig::NoButton);
 		}
-	}
-	else {
+	} else {
 		logCritical() << "Failed to show dialog ff type"
 					  << config.type() << ":" << config.subType()
 					  << "- no presenter was set";

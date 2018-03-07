@@ -148,7 +148,6 @@ bool ServiceRegistryPrivate::ServiceInfo::replaceable() const
 QObject *ServiceRegistryPrivate::ServiceInfo::instance(ServiceRegistryPrivate *d, const QByteArray &iid)
 {
 	if(!_instance) {
-		logDebug() << "Constructing service of type" << iid;
 		_instance = construct(d);
 		if(!_instance)
 			throw ServiceConstructionException("Failed to construct service of type " +
@@ -156,6 +155,7 @@ QObject *ServiceRegistryPrivate::ServiceInfo::instance(ServiceRegistryPrivate *d
 											   " with unknown error");
 		if(_instance->thread() != qApp->thread())
 			_instance->moveToThread(qApp->thread());
+		logDebug() << "Constructed service of type" << iid;
 	}
 	return _instance;
 }
