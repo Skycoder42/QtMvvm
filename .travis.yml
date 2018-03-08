@@ -19,6 +19,7 @@ matrix:
       env:
         - PLATFORM=gcc_64
         - BUILD_DOC=true
+        - BUILD_EXAMPLES=true
     - os: linux
       env:
         - PLATFORM=android_armv7
