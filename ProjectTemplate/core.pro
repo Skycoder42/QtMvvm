@@ -1,7 +1,8 @@
 TEMPLATE = lib
 
-QT += core gui
-CONFIG += c++11 staticlib #important because dlls are problematic
+QT += mvvmcore
+# Creating a static library is typically more efficient. You can still create a shared library if you want to
+CONFIG += c++14 static
 
 TARGET = %{CoreName}
 
@@ -9,11 +10,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 HEADERS += \\
 	%{AppHdrName} \\
-	%{ControlHdrName}
+	%{VmHdrName}
 
 SOURCES += \\
 	%{AppSrcName} \\
-	%{ControlSrcName}
+	%{VmSrcName}
 
 @if '%{UseSettings}'
 RESOURCES += \\
@@ -23,11 +24,10 @@ RESOURCES += \\
 TRANSLATIONS += %{ProjectLowerName}_core_de.ts \\
 	%{ProjectLowerName}_core_template.ts
 
+DISTFILES += $$TRANSLATIONS
 @if '%{UseSettings}'
-QTMVVM_SETTINGS_FILES = settings.xml
-never_true_lupdate_only: SOURCES += .qtmvvm_settings_xml_ts.cppdummy
-CONFIG += no_settings_ts_warn
-
+QTMVVM_TS_SETTINGS = settings.xml
+_never_true_condition: SOURCES += $$files($$PWD/.ts-dummy/*)
+# Uncomment the following line to automatically generated and update settings translations when building
+#PRE_TARGETDEPS += qtmvvm-tsgen
 @endif
-!ReleaseBuild:!DebugBuild:!system(qpmx -d $$shell_quote($$_PRO_FILE_PWD_) --qmake-run init $$QPMX_EXTRA_OPTIONS $$shell_quote($$QMAKE_QMAKE) $$shell_quote($$OUT_PWD)): error(qpmx initialization failed. Check the compilation log for details.)
-else: include($$OUT_PWD/qpmx_generated.pri)

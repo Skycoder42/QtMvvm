@@ -10,6 +10,9 @@
     <height>300</height>
    </rect>
   </property>
+  <property name="windowTitle">
+   <string>%{ProjectName}</string>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
@@ -66,7 +69,7 @@
   <action name="actionSettings">
    <property name="icon">
     <iconset theme="configure">
-     <normaloff>:/qtmvvm/icons/settings.ico</normaloff>:/qtmvvm/icons/settings.ico</iconset>
+     <normaloff>:/de/skycoder42/qtmvvm/icons/settings.ico</normaloff>:/de/skycoder42/qtmvvm/icons/settings.ico</iconset>
    </property>
    <property name="text">
     <string>Settings</string>

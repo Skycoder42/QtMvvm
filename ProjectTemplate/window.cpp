@@ -1,24 +1,28 @@
 #include "%{WindowHdrName}"
 #include "ui_%{WindowHdrName}"
-#include <qtmvvmbinding.h>
 
-%{WindowCn}::%{WindowCn}(Control *mControl, QWidget *parent) :
+#include <QtMvvmCore/Binding>
+
+%{WindowCn}::%{WindowCn}(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 	QMainWindow(parent),
-	control(static_cast<%{ControlCn}*>(mControl)),
-	ui(new Ui::%{WindowCn})
+	_viewModel(static_cast<%{VmCn}*>(viewModel)),
+	_ui(new Ui::%{WindowCn})
 {
-	ui->setupUi(this);
+	_ui->setupUi(this);
 @if '%{UseSettings}'
 
-	connect(ui->actionSettings, &QAction::triggered,
-			control, &%{ControlCn}::showSettings);
+	connect(_ui->actionSettings, &QAction::triggered,
+			_viewModel, &%{VmCn}::showSettings);
 @endif
 
-	QtMvvmBinding::bind(control, "text", ui->lineEdit, "text");
-	QtMvvmBinding::bind(control, "text", ui->label, "text", QtMvvmBinding::OneWayFromControl);
+	QtMvvm::bind(_viewModel, "text",
+				 _ui->lineEdit, "text");
+	QtMvvm::bind(_viewModel, "text",
+				 _ui->label, "text",
+				 QtMvvm::Binding::OneWayToView);
 }
 
 %{WindowCn}::~%{WindowCn}()
 {
-	delete ui;
+	delete _ui;
 }

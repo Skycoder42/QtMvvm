@@ -16,5 +16,8 @@
 	"license": {
 		"name": "BSD-3-Clause",
 		"path": "LICENSE"
+	},
+	"installs": {
+		"ProjectTemplate": "Tools/QtCreator/share/qtcreator/templates/wizards/projects/qtmvvm"
 	}
 }

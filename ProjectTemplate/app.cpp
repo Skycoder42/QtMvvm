@@ -1,11 +1,18 @@
 #include "%{AppHdrName}"
+#include "%{VmHdrName}"
+
+#include <QtCore/QCommandLineParser>
 
 %{AppCn}::%{AppCn}(QObject *parent) :
-	CoreApp(parent),
-	mainControl(nullptr)
+	CoreApp(parent)
 {
-	//register metatypes etc here, just like you would do in your main before call QCoreApplication::exec
+	QCoreApplication::setApplicationName(QStringLiteral("%{ProjectName}"));
+	QCoreApplication::setApplicationVersion(QStringLiteral("1.0.0"));
+	QCoreApplication::setOrganizationName(QStringLiteral("Example Organization"));
+}
 
+void %{AppCn}::performRegistrations()
+{
 	//if you are using a qt resource (e.g. "%{AppQrcFile}"), initialize it here
 @if '%{UseSettings}'
 	Q_INIT_RESOURCE(%{AppQrcName});
@@ -14,28 +21,19 @@
 @endif
 }
 
-void %{AppCn}::setupParser(QCommandLineParser &parser, bool &allowInvalid) const
+int %{AppCn}::startApp(const QStringList &arguments)
 {
-	CoreApp::setupParser(parser, allowInvalid);
-	//add additional command line arguments etc here
-}
-
-bool %{AppCn}::startApp(const QCommandLineParser &parser)
-{
+	QCommandLineParser parser;
+	parser.addVersionOption();
+	parser.addHelpOption();
+	
+	//add more options
+	
 	//shows help or version automatically
-	if(autoShowHelpOrVersion(parser))
-		return true;
-
-	//use this method to create services, controls, etc
-
-	//create and show the inital control
-	mainControl = new %{ControlCn}(this);
-	showControl(mainControl);
-
-	return true;
-}
-
-void %{AppCn}::aboutToQuit()
-{
-	//if you need to perform any cleanups, do it here
+	if(!autoParse(parser, arguments))
+		return EXIT_SUCCESS;
+	
+	//show a viewmodel to complete the startup
+	show<%{VmCn}>();
+	return EXIT_SUCCESS;
 }

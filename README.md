@@ -40,7 +40,7 @@ If you don't know the Mvvm pattern already, you can read up on the links below. 
 of logic (the models), presentation logic (the viewmodels) and the actual GUI (the views) that is very useful when
 creating applications that need to support different uis for the same data.
 
-![[The MVVM Pattern](https://msdn.microsoft.com/en-us/library/hh848246.aspx)](https://i-msdn.sec.s-msft.com/dynimg/IC564167.png)
+[![The MVVM Pattern](https://i-msdn.sec.s-msft.com/dynimg/IC564167.png)](https://msdn.microsoft.com/en-us/library/hh848246.aspx)
 
 Good links to get started:
 

@@ -1,11 +1,9 @@
 #ifndef %{AppGuard}
 #define %{AppGuard}
 
-#include <coreapp.h>
+#include <QtMvvmCore/CoreApp>
 
-#include "%{ControlHdrName}"
-
-class %{AppCn} : public CoreApp
+class %{AppCn} : public QtMvvm::CoreApp
 {
 	Q_OBJECT
 
@@ -13,14 +11,11 @@ public:
 	explicit %{AppCn}(QObject *parent = nullptr);
 
 protected:
-	void setupParser(QCommandLineParser &parser, bool &allowInvalid) const override;
-	bool startApp(const QCommandLineParser &parser) override;
+	void performRegistrations() override;
+	int startApp(const QStringList &arguments) override;
 
 protected slots:
 	void aboutToQuit() override;
-
-private:
-	%{ControlCn} *mainControl;
 };
 
 #undef coreApp

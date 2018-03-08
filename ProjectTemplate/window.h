@@ -1,8 +1,9 @@
 #ifndef %{WindowGuard}
 #define %{WindowGuard}
 
-#include <QMainWindow>
-#include <%{ControlHdrName}>
+#include <QtWidgets/QMainWindow>
+
+#include <%{VmHdrName}>
 
 namespace Ui {
 class %{WindowCn};
@@ -13,12 +14,12 @@ class %{WindowCn} : public QMainWindow
 	Q_OBJECT
 
 public:
-	Q_INVOKABLE %{WindowCn}(Control *mControl, QWidget *parent = nullptr);
+	Q_INVOKABLE %{WindowCn}(QtMvvm::ViewModel *viewModel, QWidget *parent = nullptr);
 	~%{WindowCn}();
 
 private:
-	%{ControlCn} *control;
-	Ui::%{WindowCn} *ui;
+	%{VmCn} *_viewModel;
+	Ui::%{WindowCn} *_ui;
 };
 
 #endif // %{WindowGuard}

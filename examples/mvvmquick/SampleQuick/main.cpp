@@ -23,7 +23,6 @@ int main(int argc, char *argv[])
 	qputenv("QML2_IMPORT_PATH", QML_PATH);
 #endif
 
-	QIcon::setThemeSearchPaths({});
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 	QApplication app(argc, argv);
 	qDebug() << QQuickStyle::availableStyles() << QQuickStyle::name();

@@ -1,28 +1,34 @@
-import QtQuick 2.8
-import QtQuick.Controls 2.1
+import QtQuick 2.10
+import QtQuick.Vms 2.3
 import QtQuick.Layouts 1.3
-import de.skycoder42.quickextras 2.0
-import de.skycoder42.qtmvvm.quick 1.0
+import de.skycoder42.QtMvvm.Core 1.0
+import de.skycoder42.QtMvvm.Quick 1.0
 import com.example.%{ProjectLowerName} 1.0
 
 Page {
 	id: mainView
-	property %{ControlCn} control: null
+	property %{VmCn} viewModel: null
 
-	header: ActionBar {
-		id: toolbar
-		title: qsTr("%{ControlClassName}")
-		showMenuButton: false
+	header: ContrastToolBar {
+		RowLayout {
+			anchors.fill: parent
+			spacing: 0
+
+			ToolBarLabel {
+				text: qsTr("%{VmClassName}")
+				Layout.fillWidth: true
+			}
 @if '%{UseSettings}'
 
-		moreMenu: Menu {
-			MenuItem {
-				id: settings
-				text: qsTr("Settings")
-				onClicked: control.showSettings()
+			MenuButton {
+				MenuItem {
+					id: settings
+					text: qsTr("Settings")
+					onClicked: viewModel.showSettings()
+				}
 			}
-		}
 @endif
+		}
 	}
 
 	PresenterProgress {}
@@ -37,9 +43,9 @@ Page {
 				id: textEdit
 				Layout.fillWidth: true
 
-				QtMvvmBinding {
-					control: mainView.control
-					controlProperty: "text"
+				MvvmBinding {
+					viewModel: mainView.viewModel
+					viewModelProperty: "text"
 					view: textEdit
 					viewProperty: "text"
 				}
@@ -49,12 +55,12 @@ Page {
 				id: textLabel
 				Layout.fillWidth: true
 
-				QtMvvmBinding {
-					control: mainView.control
-					controlProperty: "text"
+				MvvmBinding {
+					viewModel: mainView.viewModel
+					viewModelProperty: "text"
 					view: textLabel
 					viewProperty: "text"
-					type: QtMvvmBinding.OneWayFromControl
+					type: MvvmBinding.OneWayToView
 				}
 			}
 
