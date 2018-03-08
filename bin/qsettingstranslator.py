@@ -2,8 +2,10 @@
 # Usage: qsettingstranslator.py <in> <out>
 
 import sys
-import os
-from xml.etree.ElementTree import Element, parse
+try:
+	from defusedxml.ElementTree import parse
+except ImportError:
+	from xml.etree.ElementTree import parse
 
 if len(sys.argv) != 3:
 	print("Usage: qsettingstranslator.py <in> <out>", file=sys.stderr)
@@ -14,7 +16,6 @@ outfile = sys.argv[2]
 
 strings = set()
 tree = parse(infile)
-root = Element("TS")
 for elem in tree.iter():
 	if elem.tag == "SearchKey":
 		strings.add(elem.text)
