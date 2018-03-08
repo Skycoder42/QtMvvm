@@ -54,14 +54,14 @@ void CoreApp::show(const char *viewModelName, const QVariantHash &params)
 	show(metaObject, params);
 }
 
-void CoreApp::show(const QMetaObject *viewMetaObject, const QVariantHash &params)
+void CoreApp::show(const QMetaObject *viewModelMetaObject, const QVariantHash &params)
 {
-	if(!viewMetaObject->inherits(&ViewModel::staticMetaObject)) {
+	if(!viewModelMetaObject->inherits(&ViewModel::staticMetaObject)) {
 		throw PresenterException(QByteArrayLiteral("Given type (") +
-								 viewMetaObject->className() +
+								 viewModelMetaObject->className() +
 								 QByteArrayLiteral(") is not a class that extends QtMvvm::ViewModel"));
 	}
-	showImp(viewMetaObject, params);
+	showImp(viewModelMetaObject, params);
 }
 
 MessageResult *CoreApp::showDialog(const MessageConfig &config)

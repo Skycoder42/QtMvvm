@@ -19,7 +19,8 @@ The key features are:
 - Create ViewModels in the core application to prepare data for presentation without binding to any concret GUI
 - Functions to show messageboxes (info, warning, error, etc.) from your core app
 	- Asynchronous, with result handling
-	- Supports input dialogs and file dialogs out of the box
+	- Supports input dialogs and native file dialogs out of the box
+		- Supports native file pickers on Android
 	- custom dialog types can be created
 - Methods to create Two-Way Bindings from C++ and QML
 - Macros and a ServiceRegistry to make Dependency Injection possible for Services and ViewModels
@@ -113,10 +114,10 @@ If you did install the module as module you can skip this part. To create a new 
 ### Create and initialize the QtMvvm Project
 Follow the setup to create the project. You can select the GUI-frontends you want to use, as well as additional features. After that you get a basic project skeleton with a simple CoreApp and a ViewModel, as well as the corresponding views.
 
-For more Details on these classes, check the [Documentation](https://skycoder42.github.io/QtMvvm/). 
+For more Details on these classes, check the [Documentation](https://skycoder42.github.io/QtMvvm/).
 
 ### Adding new ViewModels and Views
-The most important part is to know how to add new ViewModels and Views. 
+The most important part is to know how to add new ViewModels and Views.
 
 #### Create the ViewModel
 - Add a new c++ class to your core project. Let it inherit from `QtMvvm::ViewModel`
@@ -173,7 +174,7 @@ To create a presenter, the `QtMvvm::IPresenter` must be implemented and provided
 		- The `QtMvvmApp` qml types automatically register themselves as presenter and perform the presentations
 		- Supports Items as new fullscreen pages inside a stack view, as drawer or as tabs
 		- Supports Popups as modal dialogs
-		- 
+		-
 ## Icons
 In many of the UI projects default icons are used for the views (if no icon theme is present). They are taken from:
 

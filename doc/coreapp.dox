@@ -46,4 +46,190 @@ int main(int argc, char *argv[]) {
 	return app.exec(); // bootApp() is called as soon as the eventloop starts (and thus startApp())
 }
 @endcode
+
+When using the app that way, a 3-step startup is performed:
+
+1. registerApp() and performRegistrations() are called as part of the QCoreApplication
+constructor as first thing to register types etc. from the core application.
+2. The rest of the main() in the GUI project runs to register further view related stuff and
+register additional services etc.
+3. The bootApp() and startApp() methods are called once the eventloop was entered in order to
+actually start the application and show the first viewmodels. Once started, the appStarted()
+signal is emitted as well.
+*/
+
+/*!
+@fn QtMvvm::CoreApp::disableAutoBoot
+
+In case you don't want your application be be started automatically whenQCoreApplication::exec
+is called, you must call this method **before** The QCoreApplication (or any other application)
+constructor is called:
+
+@code{.cpp}
+int main(int argc, char *argv[]) {
+	CoreApp::disableAutoBoot();
+	QApplication app(argc, argv);
+	//...
+}
+@endcode
+
+In order to eventually start the app, simply call bootApp().
+
+@sa CoreApp::bootApp, #QTMVVM_REGISTER_CORE_APP, CoreApp::registerApp
+*/
+
+/*!
+@fn QtMvvm::CoreApp::registerApp
+
+@attention This method is called automatically by the #QTMVVM_REGISTER_CORE_APP macro. If you
+use the macro, don't call this method explicitly!
+
+Internally it performs some initial registrations, calls performRegistrations() and then
+schedules the automatic call of bootApp() if not disabled.
+
+@sa #QTMVVM_REGISTER_CORE_APP, CoreApp::performRegistrations, CoreApp::bootApp,
+CoreApp::disableAutoBoot
+*/
+
+/*!
+@fn QtMvvm::CoreApp::show(const QVariantHash &)
+
+@tparam TViewModel The type of the viewmodel to be presented
+@param params A map of named parameters to be passed to the viewmodel
+
+Creates a new instance of the Viewmodel class, creates to corresponding view and then shows it.
+This is done via the IPresenter that is currently registered.
+
+@sa ViewModel::show, CoreApp::showDialog
+*/
+
+/*!
+@fn QtMvvm::CoreApp::show(const char *, const QVariantHash &)
+
+@param viewModelName The name of the viewmodel to be presented
+@param params A map of named parameters to be passed to the viewmodel
+
+Creates a new instance of the Viewmodel class, creates to corresponding view and then shows it.
+This is done via the IPresenter that is currently registered.
+
+@sa ViewModel::show, CoreApp::showDialog
+*/
+
+/*!
+@fn QtMvvm::CoreApp::show(const QMetaObject *, const QVariantHash &)
+
+@param viewModelMetaObject The metaobject of the viewmodel to be presented
+@param params A map of named parameters to be passed to the viewmodel
+
+Creates a new instance of the Viewmodel class, creates to corresponding view and then shows it.
+This is done via the IPresenter that is currently registered.
+
+@sa ViewModel::show, CoreApp::showDialog
+*/
+
+/*!
+@fn QtMvvm::CoreApp::showDialog
+
+@param config The configuration of the message to be shown
+@returns A message result to keep track of the shown dialog
+
+The configuration is passed to the presenter in order to show a simple dialog. You can use the
+returned object to monitor the dialog and receive the result.
+
+@note By default, the returned object will delete itself automatically once the dialog has
+been closed.
+
+@sa CoreApp::show, MessageConfig, MessageResult
+*/
+
+/*!
+@fn QtMvvm::CoreApp::bootApp
+
+@attention This method is called automatically by the #QTMVVM_REGISTER_CORE_APP macro or the
+registerApp() method, unless it has been deactivated before with disableAutoBoot(). Unless you
+disabled the boot that way, don't call this method explicitly!
+
+Internally it performs the actual start of the application and calls startApp() to start all
+services and show the initial viewmodels.
+
+If startApp() returned successfully, appStarted() is emitted and thus the startup completed.
+
+@sa #QTMVVM_REGISTER_CORE_APP, CoreApp::startApp, CoreApp::disableAutoBoot,
+CoreApp::appStarted
+*/
+
+/*!
+@fn QtMvvm::CoreApp::performRegistrations
+
+Is called by registerApp() (and thus automatically when using the #QTMVVM_REGISTER_CORE_APP
+macro) in order to perform initial registrations of types etc. before any such code is beeing
+executed for the gui projects.
+
+@sa #QTMVVM_REGISTER_CORE_APP, CoreApp::registerApp, CoreApp::startApp
+*/
+
+/*!
+@fn QtMvvm::CoreApp::startApp
+
+@param arguments The command line arguments that have been passed to the application
+@return An exit code as a result of the startup code
+
+Is called by bootApp() (and thus automatically when using the #QTMVVM_REGISTER_CORE_APP
+macro) in order to start the app logic and show initial viewmodels. Return `EXIT_SUCCESS` (0)
+to indicate the start was successful. If any other value is returned, the application exits
+with that value as return code.
+
+@sa CoreApp::autoParse, #QTMVVM_REGISTER_CORE_APP, CoreApp::bootApp, CoreApp::closeApp,
+CoreApp::performRegistrations
+*/
+
+/*!
+@fn QtMvvm::CoreApp::closeApp
+
+Is connected to the QCoreApplication::aboutToQuit signal and is called to clean up your
+application. Using this method is more convenient as it is only called in case the startup
+was successfull (returned `EXIT_SUCCESS`).
+
+@sa CoreApp::startApp
+*/
+
+/*!
+@fn QtMvvm::CoreApp::autoParse
+
+@param parser A reference to the commandline parser to use
+@param arguments The arguments to be parsed
+@returns `true` If parsing was successfull and you can continue starting the App
+
+Use this method in your startApp() implementation in order to automatically handle special
+cases:
+
+- Errors
+- The Help option (`--help`)
+- The Version option (`--version`)
+
+For those three cases `false` is returned and a dialog of the specific GUI shown to the user
+with either and error string, the help or the version information. To correctly use it, your
+startApp() function should look like this:
+
+@code{.cpp}
+int MyApp::startApp(const QStringList &arguments)
+{
+	QCommandLineParser parser;
+	parser.addVersionOption();
+	parser.addHelpOption();
+
+	//Add more options to setup the parser...
+
+	//shows help or version automatically
+	if(!autoParse(parser, arguments))
+		return EXIT_SUCCESS;
+
+	// actual startup code...
+}
+@endcode
+
+@note It is important to return with `EXIT_SUCCESS` from the parser in order to actually show
+the dialogs to the user. Returning any other value would simply silently quit the application.
+
+@sa CoreApp::startApp
 */

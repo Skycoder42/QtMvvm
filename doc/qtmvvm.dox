@@ -1,0 +1,41 @@
+/*!
+@namespace QtMvvm
+
+The following list shows which classes belong to which Qt module, in alphabetical order:
+
+- QtMvvmCore:
+	- Binding
+	- CoreApp
+	- IPresenter
+	- ISettingsSetupLoader
+	- MessageConfig
+	- MessageResult
+	- PresenterException
+	- ServiceConstructionException
+	- ServiceDependencyException
+	- ServiceExistsException
+	- ServiceRegistry
+	- SettingsLoaderException
+	- SettingsViewModel
+	- ViewModel
+	- All Methods not explicitly listed
+- QtMvvmWidgets:
+	- InputWidgetFactory
+	- IPresentingView
+	- SettingsDialog
+	- WidgetsPresenter
+- QtMvvmQuick:
+	- InputViewFactory
+	- QuickPresenter
+- QtMvvmDataSyncCore:
+	- AccountModel
+	- DataSyncViewModel
+	- ExchangeDevicesModel
+	- NetworkExchangeViewModel
+- QtMvvmDataSyncWidgets:
+	- DataSyncWindow
+	- NetworkExchangeWindow
+	- registerDataSyncWidgets()
+- QtMvvmDataSyncQuick:
+	- registerDataSyncQuick()
+*/

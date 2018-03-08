@@ -40,7 +40,7 @@ public:
 	//! Show a new ViewModel by its name
 	static void show(const char *viewModelName, const QVariantHash &params = {});
 	//! Show a new ViewModel by its metaobject
-	static void show(const QMetaObject *viewMetaObject, const QVariantHash &params = {});
+	static void show(const QMetaObject *viewModelMetaObject, const QVariantHash &params = {});
 
 	//! Show a basic dialog
 	static MessageResult *showDialog(const MessageConfig &config);
