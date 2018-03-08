@@ -1,5 +1,6 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
+import QtQuick.Controls.Material 2.3
 import QtQuick.Layouts 1.3
 import de.skycoder42.QtMvvm.Core 1.0
 import de.skycoder42.QtMvvm.Quick 1.0
@@ -35,6 +36,7 @@ Page {
 				Layout.columnSpan: 2
 				Layout.fillWidth: true
 				onCurrentIndexChanged: swipe.setCurrentIndex(currentIndex)
+				Material.background: Material.primary
 
 				TabButton {
 					text: "+"

@@ -1,0 +1,49 @@
+/*!
+@class QtMvvm::CoreApp
+
+Every QtMvvm Application needs a core application that performs the application setup and
+manages the ViewModels in order to present them. If you want to use QtMvvm, you need to perform
+the following steps:
+
+1. Create a custom App class in your core project and extend QtMvvm::CoreApp
+2. Implement the CoreApp::startApp method (and possibly other virtual methods)
+3. In your *GUI* Project, register the App by using the #QTMVVM_REGISTER_CORE_APP macro
+
+Simple example for a custom CoreApp:
+@code{.cpp}
+class MyApp : public QtMvvm::CoreApp
+{
+	Q_OBJECT
+
+public:
+	explicit MyApp(QObject *parent = nullptr) :
+		CoreApp(parent)
+	{}
+
+protected:
+	int startApp(const QStringList &arguments) override {
+		show<InitialViewModel>();
+		return EXIT_SUCCESS;
+	}
+};
+
+//optional: overwrite the coreApp macro:
+#undef coreApp
+#define coreApp static_cast<MyApp*>(QtMvvm::CoreApp::instance())
+@endcode
+
+Then in the GUI project add to, for example, the `main.cpp`:
+@code{.cpp}
+#include "myapp.h"
+
+QTMVVM_REGISTER_CORE_APP(MyApp)
+
+int main(int argc, char *argv[]) {
+	QApplication app(argc, argv); //registerApp() is called from here (and thus performRegistrations())
+
+	//...
+
+	return app.exec(); // bootApp() is called as soon as the eventloop starts (and thus startApp())
+}
+@endcode
+*/

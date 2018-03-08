@@ -7,7 +7,7 @@ OTHER_FILES += Doxyfile \
 	*.dox \
 	snippets/*.cpp \
 	images/*
-	
+
 system($$QMAKE_MKDIR $$shell_quote($$shell_path($$OUT_PWD/qtmvvm)))
 
 docTarget.target = doxygen

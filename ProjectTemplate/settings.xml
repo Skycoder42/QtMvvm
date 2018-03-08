@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SettingsConfig>
+	<Entry key="property"
+		   type="bool"
+		   title="&amp;Check me"
+		   tooltip="I am a checkbox!"
+		   default="false" />
+</SettingsConfig>

@@ -1,0 +1,70 @@
+/*!
+@class QtMvvm::Binding
+
+This class is returned by the bind() function as a handle to a binding. It can be used to check
+if the binding is valid and can remove a binding again.
+
+@note You don't need to keep the Binding as reference. The binding will stay even if you don't
+hold any references to it. This class serves as a passive watcher over a binding.
+
+@sa QtMvvm::bind
+*/
+
+/*!
+@property QtMvvm::Binding::valid
+
+@default{`false`}
+
+A binding is considered valid is if has successfully been set up and has not been unbound yet.
+A valid binding means view and viewModel are valid can the properties could be found.
+
+@accessors{
+	@readAc{isValid()}
+	@finalAc
+}
+
+@sa Binding::unbind, bind()
+*/
+
+/*!
+@fn QtMvvm::bind(QObject*, const char*, QObject*, const char*, Binding::BindingDirection, const char*, const char*)
+
+@param viewModel The object in the role of a viewmodel
+@param viewModelProperty The property of the viewmodel to use in the binding
+@param view The object in the role of a view
+@param viewProperty The property of the view to use in the binding
+@param type The type/direction of binding to create
+@param viewModelChangeSignal An alternative signal to be used instead of the viewModelProperty
+notify signal to detect property changes
+@param viewChangeSignal An alternative signal to be used instead of the viewProperty notify
+signal to detect property changes
+@returns A handle to the newly created binding, or an invalid handle on errors
+
+The methods creates a binding similar to the QML bindings, but it is possible to create two-way
+bindings with this method as well. A binding means that whenever a property changes, the property
+it is bound to is updated to the changed value as well.
+
+@code{.cpp}
+//sample usage
+QtMvvm::bind(this->viewModel, "name", // A viewmodel that has a property named "name"
+			 ui->nameLabel, "text"); // A view (for example a QLabel) that has a property named "text"
+//any changes to "name" will update "text" and the other way around
+@endcode
+
+To control the directions, i.e. which properties should trigger an update on changes and which
+only get updated, use the `type` parameter.
+
+@attention Unlike the QML variant, this binding **does not handle binding loops**. THis means if
+you use a two way binding, make shure change signals are only emitted when the value does actually
+change. Otherwise your application is caught up in a binding loop and will eventually crash. Using
+two seperate one way bindings will not prevent this.
+
+If the properties you want to use don't have a change signal or you don't want to use that signal,
+you can use the `viewModelChangeSignal` and `viewChangeSignal` to overwrite the signal to be used.
+Please note that you must specify the full signal signature. For example, the signatur of the
+signal `void foo(const QString &bar);` has the signature `foo(QString)`. See QMetaMethod for more
+details. If you leave the parameter out or set it to `nullptr` (or `{}`, an invalid meta method)
+the notify signals of the properties are used.
+
+@sa Binding
+*/

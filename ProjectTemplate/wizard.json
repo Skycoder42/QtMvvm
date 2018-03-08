@@ -1,0 +1,285 @@
+{
+	"version": 1,
+	"supportedProjectTypes": [ "Qt4ProjectManager.Qt4Project" ],
+	"id": "G.QtMvvm",
+    "category": "F.Application",
+	"trDescription": "Creates a QtMvvm project skeleton, for easy creation of new QtMvvm projects.",
+	"trDisplayName": "QtMvvm Application Project",
+	"trDisplayCategory": "Application",
+    "icon": "guiapplication.png",
+	"featuresRequired": [ "QtSupport.Wizards.FeatureQt" ],
+	"enabled": "%{JS: [ %{Plugins} ].indexOf('QmakeProjectManager') >= 0}",
+	"options":
+	[
+		{ "key": "ProjectLowerName", "value": "%{JS: '%{ProjectName}'.toLowerCase()}" },
+		{ "key": "ProFileName", "value": "%{JS: Util.fileName('%{ProjectDirectory}/%{ProjectName}', 'pro')}" },
+		
+		{ "key": "CoreName", "value": "%{ProjectName}Core" },
+		{ "key": "CoreDirectory", "value": "%{ProjectDirectory}/%{CoreName}" },
+		{ "key": "CoreProName", "value": "%{JS: Util.fileName('%{CoreDirectory}/%{CoreName}', 'pro')}" },
+		
+		{ "key": "WidgetsName", "value": "%{ProjectName}Widgets" },
+		{ "key": "WidgetsDirectory", "value": "%{ProjectDirectory}/%{WidgetsName}" },
+		{ "key": "WidgetsProName", "value": "%{JS: Util.fileName('%{WidgetsDirectory}/%{WidgetsName}', 'pro')}" },
+		
+		{ "key": "QuickName", "value": "%{ProjectName}Quick" },
+		{ "key": "QuickDirectory", "value": "%{ProjectDirectory}/%{QuickName}" },
+		{ "key": "QuickProName", "value": "%{JS: Util.fileName('%{QuickDirectory}/%{QuickName}', 'pro')}" },
+		
+		{ "key": "AppName", "value": "%{ProjectName}App" },
+		{ "key": "AppHdrName", "value": "%{JS: Cpp.classToFileName('%{AppName}', '%{JS: Util.preferredSuffix('text/x-c++hdr')}')}" },
+		{ "key": "AppSrcName", "value": "%{JS: Cpp.classToFileName('%{AppName}', '%{JS: Util.preferredSuffix('text/x-c++src')}')}" },
+        { "key": "AppCn", "value": "%{JS: Cpp.className('%{AppName}')}" },
+        { "key": "AppGuard", "value": "%{JS: Cpp.headerGuard('%{AppHdrName}')}" },
+		
+		{ "key": "ControlHdrName", "value": "%{JS: Cpp.classToFileName('%{ControlClassName}', '%{JS: Util.preferredSuffix('text/x-c++hdr')}')}" },
+		{ "key": "ControlSrcName", "value": "%{JS: Cpp.classToFileName('%{ControlClassName}', '%{JS: Util.preferredSuffix('text/x-c++src')}')}" },
+        { "key": "ControlCn", "value": "%{JS: Cpp.className('%{ControlClassName}')}" },
+        { "key": "ControlGuard", "value": "%{JS: Cpp.headerGuard('%{ControlHdrName}')}" },
+		
+        { "key": "AppQrcName", "value": "%{JS: '%{CoreName}'.toLowerCase()}" },
+        { "key": "AppQrcFile", "value": "%{JS: Util.fileName('%{AppQrcName}', 'qrc')}" },
+		
+		{ "key": "WindowHdrName", "value": "%{JS: Cpp.classToFileName('%{WindowClassName}', '%{JS: Util.preferredSuffix('text/x-c++hdr')}')}" },
+		{ "key": "WindowSrcName", "value": "%{JS: Cpp.classToFileName('%{WindowClassName}', '%{JS: Util.preferredSuffix('text/x-c++src')}')}" },
+		{ "key": "WindowFormName", "value": "%{JS: Cpp.classToFileName('%{WindowClassName}', '%{JS: Util.preferredSuffix('application/x-designer')}')}" },
+        { "key": "WindowCn", "value": "%{JS: Cpp.className('%{WindowClassName}')}" },
+        { "key": "WindowGuard", "value": "%{JS: Cpp.headerGuard('%{WindowHdrName}')}" },
+		
+        { "key": "QuickQrcFile", "value": "%{JS: Util.fileName('%{JS: '%{QuickName}'.toLowerCase()}', 'qrc')}" },
+		{ "key": "QuickQmlName", "value": "%{JS: Util.fileName('%{QuickClassName}', '%{JS: Util.preferredSuffix('text/x-qml')}')}" }
+	],
+
+	"pages":
+	[
+		{
+			"trDisplayName": "Project Location",
+			"trShortTitle": "Location",
+			"typeId": "Project",
+			"data": { "trDescription": "This wizard creates the skeleton." }
+		},
+		{
+			"trDisplayName": "Define Project Details",
+			"trShortTitle": "Details",
+			"typeId": "Fields",
+			"data" :
+			[
+                {
+                    "name": "CreateWidgets",
+                    "trDisplayName": "Create Widgets GUI",
+                    "type": "CheckBox",
+                    "data":
+                    {
+                        "checkedValue": "CreateWidgets",
+                        "uncheckedValue": "",
+						"checked": "true"
+                    }
+                },
+                {
+                    "name": "CreateQuick",
+                    "trDisplayName": "Create Quick GUI",
+                    "type": "CheckBox",
+                    "data":
+                    {
+                        "checkedValue": "CreateQuick",
+                        "uncheckedValue": "",
+						"checked": "true"
+                    }
+                },
+                {
+                    "name": "UseSettings",
+                    "trDisplayName": "Add Settings template",
+                    "type": "CheckBox",
+                    "data":
+                    {
+                        "checkedValue": "UseSettings",
+                        "uncheckedValue": "",
+						"checked": "true"
+                    }
+                }
+			]
+		},
+		{
+			"trDisplayName": "Define Initial Control",
+			"trShortTitle": "Control",
+			"typeId": "Fields",
+			"data" :
+			[
+                {
+                    "name": "ControlName",
+                    "trDisplayName": "Control base name:",
+                    "mandatory": true,
+                    "type": "LineEdit",
+                    "data":
+					{ 
+						"trText": "Main",
+						"validator": "(?:(?:[a-zA-Z_][a-zA-Z_0-9]*::)*[a-zA-Z_][a-zA-Z_0-9]*|)"
+					}
+                },
+                {
+                    "name": "Sp1",
+                    "type": "Spacer",
+                    "data": { "factor": 2 }
+                },
+                {
+                    "name": "ControlClassName",
+                    "type": "LineEdit",
+                    "trDisplayName": "Control class name:",
+                    "mandatory": true,
+                    "data":
+					{ 
+						"trText": "%{ControlName}Control",
+						"validator": "(?:(?:[a-zA-Z_][a-zA-Z_0-9]*::)*[a-zA-Z_][a-zA-Z_0-9]*|)"
+					}
+                },
+                {
+                    "name": "WindowClassName",
+                    "type": "LineEdit",
+                    "trDisplayName": "Widget class name:",
+                    "mandatory": true,
+                    "data":
+					{ 
+						"trText": "%{ControlName}Window",
+						"validator": "(?:(?:[a-zA-Z_][a-zA-Z_0-9]*::)*[a-zA-Z_][a-zA-Z_0-9]*|)"
+					}  
+				},
+                {
+                    "name": "QuickClassName",
+                    "type": "LineEdit",
+                    "trDisplayName": "Qml class name:",
+                    "mandatory": true,
+                    "data": 
+					{ 
+						"trText": "%{ControlName}View",
+						"validator": "(?:(?:[a-zA-Z_][a-zA-Z_0-9]*::)*[a-zA-Z_][a-zA-Z_0-9]*|)"
+					}  
+                }
+			]
+		},
+		{
+			"trDisplayName": "Kit Selection",
+			"trShortTitle": "Kits",
+			"typeId": "Kits",
+			"enabled": "%{IsTopLevelProject}",
+			"data": { "projectFilePath": "%{ProFileName}" }
+		},
+		{
+			"trDisplayName": "Project Management",
+			"trShortTitle": "Summary",
+			"typeId": "Summary"
+		}
+	],
+	"generators":
+	[
+		{
+			"typeId": "File",
+			"data":
+			[
+                {
+                    "source": "project.pro",
+                    "target": "%{ProFileName}",
+					"openAsProject": true
+                },
+                {
+                    "source": "core.pro",
+                    "target": "%{CoreProName}"
+                },
+                {
+                    "source": "qpmx_core.json",
+                    "target": "%{CoreDirectory}/qpmx.json"
+                },
+                {
+                    "source": "app.h",
+                    "target": "%{CoreDirectory}/%{AppHdrName}"
+                },
+                {
+                    "source": "app.cpp",
+                    "target": "%{CoreDirectory}/%{AppSrcName}"
+                },
+                {
+                    "source": "control.h",
+                    "target": "%{CoreDirectory}/%{ControlHdrName}"
+                },
+                {
+                    "source": "control.cpp",
+                    "target": "%{CoreDirectory}/%{ControlSrcName}"
+                },
+                {
+                    "source": "core.qrc",
+                    "target": "%{CoreDirectory}/%{AppQrcFile}",
+                    "condition": "%{JS: '%{UseSettings}' !== ''}"
+                },
+                {
+                    "source": "settings.xml",
+                    "target": "%{CoreDirectory}/settings.xml",
+                    "condition": "%{JS: '%{UseSettings}' !== ''}"
+                },
+                {
+                    "source": "widgets.pro",
+                    "target": "%{WidgetsProName}",
+                    "condition": "%{JS: '%{CreateWidgets}' !== ''}"
+                },
+                {
+                    "source": "qpmx_widgets.json",
+                    "target": "%{WidgetsDirectory}/qpmx.json",
+                    "condition": "%{JS: '%{CreateWidgets}' !== ''}"
+                },
+                {
+                    "source": "widgets_main.cpp",
+                    "target": "%{WidgetsDirectory}/main.cpp",
+                    "condition": "%{JS: '%{CreateWidgets}' !== ''}"
+                },
+                {
+                    "source": "window.h",
+                    "target": "%{WidgetsDirectory}/%{WindowHdrName}",
+                    "condition": "%{JS: '%{CreateWidgets}' !== ''}"
+                },
+                {
+                    "source": "window.cpp",
+                    "target": "%{WidgetsDirectory}/%{WindowSrcName}",
+                    "condition": "%{JS: '%{CreateWidgets}' !== ''}"
+                },
+                {
+                    "source": "window.ui",
+                    "target": "%{WidgetsDirectory}/%{WindowFormName}",
+                    "condition": "%{JS: '%{CreateWidgets}' !== ''}"
+                },
+                {
+                    "source": "quick.pro",
+                    "target": "%{QuickProName}",
+                    "condition": "%{JS: '%{CreateQuick}' !== ''}"
+                },
+                {
+                    "source": "qpmx_quick.json",
+                    "target": "%{QuickDirectory}/qpmx.json",
+                    "condition": "%{JS: '%{CreateQuick}' !== ''}"
+                },
+                {
+                    "source": "quick_main.cpp",
+                    "target": "%{QuickDirectory}/main.cpp",
+                    "condition": "%{JS: '%{CreateQuick}' !== ''}"
+                },
+                {
+                    "source": "quick.qrc",
+                    "target": "%{QuickDirectory}/%{QuickQrcFile}",
+                    "condition": "%{JS: '%{CreateQuick}' !== ''}"
+                },
+                {
+                    "source": "App.qml",
+                    "target": "%{QuickDirectory}/App.qml",
+                    "condition": "%{JS: '%{CreateQuick}' !== ''}"
+                },
+                {
+                    "source": "view.qml",
+                    "target": "%{QuickDirectory}/%{QuickQmlName}",
+                    "condition": "%{JS: '%{CreateQuick}' !== ''}"
+                },
+                {
+                    "source": "git.ignore",
+                    "target": "%{ProjectDirectory}/.gitignore",
+                    "condition": "%{JS: !%{IsSubproject} && '%{VersionControl}' === 'G.Git'}"
+                }
+			]
+		}
+	]
+}

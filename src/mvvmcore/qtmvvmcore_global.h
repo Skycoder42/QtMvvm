@@ -11,8 +11,10 @@
 #	define Q_MVVMCORE_EXPORT Q_DECL_IMPORT
 #endif
 
+//! The primary namespace of the QtMvvm library
 namespace QtMvvm {
 
+//! Registers QVariant converters from QObject to an interface type registered with Q_DECLARE_INTERFACE
 template <typename TInterface>
 inline void registerInterfaceConverter() {
 	QMetaType::registerConverter<QObject*, TInterface*>([](QObject *o) {
