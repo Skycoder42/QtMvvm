@@ -6,7 +6,7 @@
 	"trDescription": "Creates a QtMvvm project skeleton, for easy creation of new QtMvvm projects.",
 	"trDisplayName": "QtMvvm Application Project",
 	"trDisplayCategory": "Application",
-    "icon": "../../global/guiapplication.png",
+    "icon": "icon.png",
 	"featuresRequired": [ "QtSupport.Wizards.FeatureQt" ],
 	"enabled": "%{JS: [ %{Plugins} ].indexOf('QmakeProjectManager') >= 0}",
 	"options":
@@ -56,7 +56,7 @@
 			"trDisplayName": "Project Location",
 			"trShortTitle": "Location",
 			"typeId": "Project",
-			"data": { "trDescription": "This wizard creates the skeleton." }
+			"data": { "trDescription": "This wizard creates the projects and subprojects needed for a QtMvvm application." }
 		},
 		{
 			"trDisplayName": "Define Project Details",
