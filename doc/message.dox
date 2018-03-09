@@ -1,0 +1,381 @@
+/*!
+@class QtMvvm::MessageConfig
+
+You can use the configuration to show simple dialogs from the core application. Typically, you
+can use the wrapper methods, but for more advanced dialogs you may need to create a message
+config explicitly.
+
+@sa CoreApp::showDialog, QtMvvm::information, QtMvvm::question, QtMvvm::warning,
+QtMvvm::critical, QtMvvm::about, QtMvvm::getInput, QtMvvm::getExistingDirectory,
+QtMvvm::getOpenFile, QtMvvm::getOpenFiles, QtMvvm::getSaveFile
+*/
+
+/*!
+@enum QtMvvm::MessageConfig::StandardButton
+
+@note The values are kept in sync with QMessageBox::StandardButton etc. This means you can
+simply cast the values to the other standard buttons without any risk. This goes for other
+classes like QDialogButtonBox and the QML variants as well.
+*/
+
+/*!
+@property QtMvvm::MessageConfig::type
+
+@default{`MessageConfig::TypeMessageBox`}
+
+The type determines what kind of dialog is show. The type is a general category of dialogs. The
+MessageConfig::subType is used to set the final type of dialog shown. It's interpretation
+depends on the type used.
+
+It is possible to define your own types, but that means you have to customize the presenters to
+add support for those dialogs.
+
+The types supported by default are:
+
+- MessageConfig::TypeMessageBox
+- MessageConfig::TypeInputDialog
+- MessageConfig::TypeFileDialog
+
+@accessors{
+	@readAc{type()}
+	@writeAc{setType()}
+}
+
+@sa MessageConfig::subType, MessageConfig::TypeMessageBox, MessageConfig::TypeInputDialog,
+MessageConfig::TypeFileDialog
+*/
+
+/*!
+@property QtMvvm::MessageConfig::subType
+
+@default{<i>Depends on the type used</i>}
+
+The subType is a finer specification of what kind of dialog to show. It depends on the
+MessageConfig::type that is used. The possible valid subtypes depend on the MessageConfig::type
+used.
+
+It is possible to define your own subtypes, but that means you have to customize the presenters
+to add support for those dialogs.
+
+The subtypes supported by default are:
+
+- For MessageConfig::TypeMessageBox:
+	- MessageConfig::SubTypeInformation
+	- MessageConfig::SubTypeWarning
+	- MessageConfig::SubTypeCritical
+	- MessageConfig::SubTypeQuestion
+	- MessageConfig::SubTypeAbout
+- For MessageConfig::TypeInputDialog:
+	- The name of the type to get an input value for, e.g. `QString`, `int`, ...
+- For MessageConfig::TypeFileDialog:
+	- MessageConfig::SubTypeDir
+	- MessageConfig::SubTypeOpenFile
+	- MessageConfig::SubTypeOpenFiles
+	- MessageConfig::SubTypeSaveFile
+
+@accessors{
+	@readAc{subType()}
+	@writeAc{setSubType()}
+	@resetAc{resetSubType()}
+}
+
+@sa MessageConfig::type, MessageConfig::TypeMessageBox, MessageConfig::TypeInputDialog,
+MessageConfig::TypeFileDialog
+*/
+
+/*!
+@property QtMvvm::MessageConfig::title
+
+@default{<i>Emtpy</i>}
+
+The title is typically bigger then the rest of the text and serves as a short text to hint the
+content. Depending on the platform and type it may be shown as window title or other kind of
+decorative text.
+
+@accessors{
+	@readAc{title()}
+	@writeAc{setTitle()}
+}
+
+@sa MessageConfig::text
+*/
+
+/*!
+@property QtMvvm::MessageConfig::text
+
+@default{<i>Emtpy</i>}
+
+The text is shown as primary content, a more descriptive label, or tooltip or similar. It can
+be of arbitrary length. It's role and contents heavily depend on the type and subtype beeing
+used.
+
+@accessors{
+	@readAc{text()}
+	@writeAc{setText()}
+}
+
+@sa MessageConfig::title, MessageConfig::buttonTexts, MessageConfig::viewProperties
+*/
+
+/*!
+@property QtMvvm::MessageConfig::buttons
+
+@default{<i>Depends on the type used</i>}
+
+The buttons are the buttons in the dialog to "complete" it. Use these flags to select the
+buttons the user can click on. Each button will close the dialog and be reported back via
+the MessageResult::dialogDone signal.
+
+@note The RESET-Accessor will reset both, the buttons and the buttonTexts
+
+@accessors{
+	@readAc{buttons()}
+	@writeAc{setButtons()}
+	@resetAc{resetButtons()}
+}
+
+@sa MessageConfig::StandardButton, MessageConfig::buttonTexts, MessageResult::dialogDone
+*/
+
+/*!
+@property QtMvvm::MessageConfig::buttonTexts
+
+@default{<i>Empty</i>}
+
+All buttons in this map will be shown in addition to the ones in the MessageConfig::buttons
+property. The will keep their role, but show the text specified in the map instead of their
+normal text.
+
+@note The RESET-Accessor will reset both, the buttons and the buttonTexts
+
+@accessors{
+	@readAc{buttonTexts()}
+	@writeAc{setButtonTexts()}
+	@writeAc{setButtonText()}
+	@resetAc{resetButtons()}
+}
+
+@sa MessageConfig::StandardButton, MessageConfig::buttons
+*/
+
+/*!
+@property QtMvvm::MessageConfig::defaultValue
+
+@default{<i>Invalid</i>}
+
+Some dialogs allow the users to enter some kind of result besides of the buttons they can
+press. For such dialogs, this property can be used to provide the input with a default value.
+For others, this may serve as a hint for the input.
+
+@accessors{
+	@readAc{defaultValue()}
+	@writeAc{setDefaultValue()}
+}
+
+@sa MessageConfig::type
+*/
+
+/*!
+@property QtMvvm::MessageConfig::viewProperties
+
+@default{<i>Empty</i>}
+
+The view properties are additional properties to be set on the created views. This allows you
+to configure the appearance of the dialog from within the core code.
+
+@note The properties are always set on all views. If a view does not have such a property, it
+will do nothing. This allows you to set properties for all the different views you support.
+
+@accessors{
+	@readAc{viewProperties()}
+	@writeAc{setViewProperties()}
+	@writeAc{setViewProperty()}
+}
+
+@sa MessageConfig::type
+*/
+
+/*!
+@var QtMvvm::MessageConfig::TypeMessageBox
+
+<b>Value:</b> `"msgbox"`
+
+Shows a generic message box with a title and primary text to inform the user of some kind of
+event or ask him a question. The MessageConfig:subType is used to determine the kind of
+message to show:
+
+ Message Type	| subType value
+----------------|---------------
+ Information	| MessageConfig::SubTypeInformation
+ Question		| MessageConfig::SubTypeWarning
+ Warning		| MessageConfig::SubTypeCritical
+ Critical Error	| MessageConfig::SubTypeQuestion
+ About Dialog	| MessageConfig::SubTypeAbout
+
+@sa MessageConfig::type, MessageConfig::subType, MessageConfig::TypeInputDialog,
+MessageConfig::TypeFileDialog
+*/
+
+/*!
+@var QtMvvm::MessageConfig::TypeInputDialog
+
+<b>Value:</b> `"input"`
+
+Shows a generic input dialog with a title and a short label, together with some kind of edit
+view in order to input a single value. The datatype to get as well as the kind of input view
+to create is determined by MessageConfig:subType. Theoretically, and type that can be passed
+via QVariant can be used as input value. However, only for the most common types do default
+edit views exist. In case you want to use types not present in the list below, you need to
+create edit views yourself
+
+ Type				| Widgets edit					| Quick edit
+--------------------|-------------------------------|------------
+ bool				| QCheckBox						| CheckBox
+ switch				| -/-							| Switch
+ QString, string	| QLineEdit						| TextField
+ int				| QSpinBox						| SpinBox
+ double, number		| QDoubleSpinBox				| DoubleSpinBox
+ QDate				| QDateEdit						| -/-
+ QTime				| QTimeEdit						| -/-
+ QDateTime, date	| QDateTimeEdit					| -/-
+ QFont				| QFontComboBox					| FontEdit
+ QKeySequence		| QKeySequenceEdit				| -/-
+ QUrl, url			| QLineEdit with QUrlValidator	| UrlField
+ selection, list	| QComboBox						| ListEdit
+ radiolist			| -/-							| RadioListEdit
+
+The following types have special properties as well:
+
+- QString, string:
+	- `regexp`: A regular expression pattern (QString) to be used as input validator for the
+text
+	- `patternOptions`: QRegularExpression::PatternOptions as options for the regular
+expression
+- QUrl, url:
+	- `allowedSchemes`: A QStringList with allowed schemes for the URL
+- selection, list, radiolist:
+	- `listElements`: A list of elemets the user can select from. Can either be:
+		- QString elements: They will serve as display value and returned value
+		- QVariantMap elements: A map containing the following values:
+			- `name`: A QString shown to the user to select
+			- `value`: A QVariant value that is returned instead of the selected name
+
+
+@sa MessageConfig::type, MessageConfig::subType, InputViewFactory, InputWidgetFactory,
+MessageConfig::TypeMessageBox, MessageConfig::TypeFileDialog
+*/
+
+/*!
+@var QtMvvm::MessageConfig::TypeFileDialog
+
+<b>Value:</b> `"file"`
+
+Shows a generic file dialog utilizing the operating systems default file dialogs in order to
+show a native dialog the user can use to select files or directories
+
+ Dialog Type	| subType value
+----------------|---------------
+ Open Directory	| MessageConfig::SubTypeDir
+ Open File		| MessageConfig::SubTypeOpenFile
+ Open Files		| MessageConfig::SubTypeOpenFiles
+ Save File		| MessageConfig::SubTypeSaveFile
+
+@sa MessageConfig::type, MessageConfig::subType, MessageConfig::TypeInputDialog,
+MessageConfig::TypeMessageBox
+*/
+
+/*!
+@var QtMvvm::MessageConfig::SubTypeInformation
+
+<b>Value:</b> `"information"`
+
+An information message box typically shows a neutral/positiv information.
+
+@sa MessageConfig::type, MessageConfig::subType, MessageConfig::TypeMessageBox
+*/
+
+/*!
+@var QtMvvm::MessageConfig::SubTypeWarning
+
+<b>Value:</b> `"warning"`
+
+An warning message box typically shows a (non critical) warning.
+
+@sa MessageConfig::type, MessageConfig::subType, MessageConfig::TypeMessageBox
+*/
+
+/*!
+@var QtMvvm::MessageConfig::SubTypeCritical
+
+<b>Value:</b> `"critical"`
+
+An critical message box typically shows a critical and often unrecoverable error.
+
+@sa MessageConfig::type, MessageConfig::subType, MessageConfig::TypeMessageBox
+*/
+
+/*!
+@var QtMvvm::MessageConfig::SubTypeQuestion
+
+<b>Value:</b> `"question"`
+
+An question message box typically asks the user a simple Yes-No question he can reply using
+the buttons.
+
+@sa MessageConfig::type, MessageConfig::subType, MessageConfig::TypeMessageBox
+*/
+
+/*!
+@var QtMvvm::MessageConfig::SubTypeAbout
+
+<b>Value:</b> `"about"`
+
+An about dialog is a simple informative dialog showing information about the application in
+a neutral manner, but in a sligthly different style than a simple information message.
+
+@sa MessageConfig::type, MessageConfig::subType, MessageConfig::TypeMessageBox
+*/
+
+/*!
+@var QtMvvm::MessageConfig::SubTypeDir
+
+<b>Value:</b> `"dir"`
+
+A file dialog to open a directory lets the user select a single, existing directory. Depending
+on the platform he might be able to create a new directory via the dialog, but he can only
+select an existing one.
+
+@sa MessageConfig::type, MessageConfig::subType, MessageConfig::TypeFileDialog
+*/
+
+/*!
+@var QtMvvm::MessageConfig::SubTypeOpenFile
+
+<b>Value:</b> `"open"`
+
+A file dialog to open a file lets the user select a single, existing file.
+
+@sa MessageConfig::type, MessageConfig::subType, MessageConfig::TypeFileDialog
+*/
+
+/*!
+@var QtMvvm::MessageConfig::SubTypeOpenFiles
+
+<b>Value:</b> `"files"`
+
+A file dialog to open multiple files lets the user select a list of existing files. They can
+be in different folders, if the platform allows this.
+
+@sa MessageConfig::type, MessageConfig::subType, MessageConfig::TypeFileDialog
+*/
+
+/*!
+@var QtMvvm::MessageConfig::SubTypeSaveFile
+
+<b>Value:</b> `"save"`
+
+A file dialog to save a file lets the user select a single file to be created or overwritten
+to save content to it.
+
+@sa MessageConfig::type, MessageConfig::subType, MessageConfig::TypeFileDialog
+*/

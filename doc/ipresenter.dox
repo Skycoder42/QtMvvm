@@ -1,0 +1,71 @@
+/*!
+@class QtMvvm::IPresenter
+
+This class is what you need to implement if you want to create your own GUI frontend for mvvm.
+Once you created your custom presenter class, register it as service before calling
+CoreApp::bootApp() (Or entering the eventloop, in case of automatic startup, like with
+#QTMVVM_REGISTER_CORE_APP)
+
+To register it, it is recommended to use a startup hook like this:
+@code{.cpp}
+void myPresenterInit()
+{
+	QtMvvm::ServiceRegistry::instance()->registerInterface<QtMvvm::IPresenter, MyPresenter>();
+}
+Q_COREAPP_STARTUP_FUNCTION(myPresenterInit)
+@endcode
+*/
+
+/*!
+@fn QtMvvm::IPresenter::present
+
+@param viewModel The ViewModel to be presenter
+@param params Additional parameters for the viemodel initialization
+@param parent An optional parent for the viewmodels view
+@throws PresenterException When presenting fails for whatever reason
+
+This method should:
+
+1. Find and create a view for the viewmodel
+2. Use the view of the parent viewModel to make the new view a child of that parent view
+3. Make the viewmodel a child of the view (via QObject::setParent)
+4. Call the viewmodels ViewModel::onInit method with the given parameters
+5. Find a presentation method for the view (based on the view/viewmodel and/or parent)
+6. Show the view to the user
+
+If this method returns it is assumed the presentation was successful. If you throw the
+exception, presenting has failed, and the app will automatically destroy the viewmodel and
+handle cleanups and results.
+
+@note If you need to present asynchronous, then you need to perform this step yourself in case
+the asynchronous presentation failed.
+
+@sa IPresenter::showDialog
+*/
+
+/*!
+@fn QtMvvm::IPresenter::showDialog
+
+@param config The configuration for the dialog to be shown
+@param result A reference to the object to report results to
+@throws PresenterException When presenting fails for whatever reason
+
+This method should create a simple dialog based of the configuration passed to it. Read the
+MessageConfig for more details on the parameters. The MessageConfig::type and
+MessageConfig::subType properties are used to determine the kind of dialog to be shown. The other
+properties are used to configure the dialog.
+
+The result is a reference to a result object to report the result value and the pressed button
+to. The result is owned by the caller, you must never delete it. Use the special "GUI methods" to
+report the result and configure a close target.
+
+If this method returns it is assumed the presentation was successful. If you throw the
+exception, presenting has failed, and the app will automatically complete the message result with
+the MessageConfig::NoButton constant.
+
+@note If you need to present asynchronous, then you need to perform this step yourself in case
+the asynchronous presentation failed.
+
+@sa IPresenter::present, MessageConfig, MessageResult, MessageResult::complete,
+MessageResult::setCloseTarget
+*/
