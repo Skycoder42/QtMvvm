@@ -379,3 +379,47 @@ to save content to it.
 
 @sa MessageConfig::type, MessageConfig::subType, MessageConfig::TypeFileDialog
 */
+
+/*!
+@class QtMvvm::MessageResult
+
+This class is used to keep track of an active dialog an get the result once it has been
+completed. You should not create it yourself, is is returned from the core app.
+
+@sa CoreApp::showDialog, MessageConfig
+*/
+
+/*!
+@property QtMvvm::MessageResult::result
+
+@default{<i>Invalid</i>}
+
+If the dialog accepts some kind of input, the result is reported via this property. Please
+note that the property may be changed multiple times with invalid values while the dialog is
+still open. Only use the result after dialogDone() has been emitted.
+
+@accessors{
+	@readAc{result()}
+	@writeAc{setResult()}
+}
+
+@sa MessageResult::hasResult, MessageResult::complete, MessageResult::dialogDone
+*/
+
+/*!
+@property QtMvvm::MessageResult::autoDelete
+
+@default{`true`}
+
+If set to true, the message result will delete itself automatically right after dialogDone()
+has been emitted. This means it is still safe to access the result in the slots connected to
+dialogDone(), as long as they are direct connected.
+
+@accessors{
+	@readAc{autoDelete()}
+	@writeAc{setAutoDelete()}
+	@notifyAc{autoDeleteChanged()}
+}
+
+@sa MessageResult::complete, MessageResult::dialogDone
+*/

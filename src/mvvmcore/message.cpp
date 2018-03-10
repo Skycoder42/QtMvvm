@@ -235,6 +235,7 @@ void MessageResult::setCloseTarget(QObject *closeObject, const QMetaMethod &clos
 
 void MessageResult::complete(MessageConfig::StandardButton result)
 {
+	//TODO make async
 	emit dialogDone(result);
 	if(d->autoDelete)
 		deleteLater();
