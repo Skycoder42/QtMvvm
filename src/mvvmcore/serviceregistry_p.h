@@ -55,8 +55,8 @@ public:
 	QHash<QByteArray, QSharedPointer<ServiceInfo>> services;
 
 	bool serviceBlocked(const QByteArray &iid) const;
-	static QObject *constructInjected(const QMetaObject *metaObject);
-	QObject *constructInjectedLocked(const QMetaObject *metaObject);
+	QObject *constructInjectedLocked(const QMetaObject *metaObject, QObject *parent);
+	void injectLocked(QObject *object);
 };
 
 }

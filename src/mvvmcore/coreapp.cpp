@@ -162,7 +162,7 @@ void CoreAppPrivate::showViewModel(const QMetaObject *metaObject, const QVariant
 	if(presenter) {
 		QPointer<ViewModel> vm;
 		try {
-			auto obj = ServiceRegistryPrivate::constructInjected(metaObject);
+			auto obj = ServiceRegistry::instance()->constructInjected(metaObject);
 			vm = qobject_cast<ViewModel*>(obj);
 			if(!vm)
 				throw ServiceConstructionException("Invalid types - not at QtMvvm::ViewModel");

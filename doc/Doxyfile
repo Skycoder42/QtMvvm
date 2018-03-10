@@ -925,7 +925,9 @@ EXCLUDE_PATTERNS       = moc_* \
 # Note that the wildcards are matched against the file with absolute path, so to
 # exclude all test directories use the pattern */test/*
 
-EXCLUDE_SYMBOLS        = QAbstractAspect \
+EXCLUDE_SYMBOLS        = QtMvvm::__helpertypes \
+						 \
+						 QAbstractAspect \
 						 QBasicAtomicInteger \
 						 QBasicAtomicPointer \
 						 QBasicMutex \
@@ -1352,7 +1354,7 @@ GENERATE_HTMLHELP      = NO
 # written to the html output directory.
 # This tag requires that the tag GENERATE_HTMLHELP is set to YES.
 
-CHM_FILE               = 
+CHM_FILE               =
 
 # The HHC_LOCATION tag can be used to specify the location (absolute path
 # including file name) of the HTML help compiler (hhc.exe). If non-empty,

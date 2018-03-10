@@ -56,6 +56,20 @@ QObject *ServiceRegistry::serviceObj(const QByteArray &iid)
 		throw ServiceDependencyException(iid);
 }
 
+void ServiceRegistry::injectServices(QObject *object)
+{
+	auto &d = ServiceRegistry::instance()->d;
+	QMutexLocker _(&d->serviceMutex);
+	d->injectLocked(object);
+}
+
+QObject *ServiceRegistry::constructInjected(const QMetaObject *metaObject, QObject *parent)
+{
+	auto &d = ServiceRegistry::instance()->d;
+	QMutexLocker _(&d->serviceMutex);
+	return d->constructInjectedLocked(metaObject, parent);
+}
+
 // ------------- Private Implementation -------------
 
 bool ServiceRegistryPrivate::serviceBlocked(const QByteArray &iid) const
@@ -67,59 +81,57 @@ bool ServiceRegistryPrivate::serviceBlocked(const QByteArray &iid) const
 		return false;
 }
 
-QObject *ServiceRegistryPrivate::constructInjected(const QMetaObject *metaObject)
+QObject *ServiceRegistryPrivate::constructInjectedLocked(const QMetaObject *metaObject, QObject *parent)
 {
-	auto &d = ServiceRegistry::instance()->d;
-	QMutexLocker _(&d->serviceMutex);
-	return d->constructInjectedLocked(metaObject);
-}
-
-QObject *ServiceRegistryPrivate::constructInjectedLocked(const QMetaObject *metaObject)
-{
-	auto instance = metaObject->newInstance();
+	auto instance = metaObject->newInstance(Q_ARG(QObject*, parent));
 	if(!instance) {
 		throw ServiceConstructionException(QByteArrayLiteral("Failed to construct object of type ") +
 										   metaObject->className() +
 										   QByteArrayLiteral(" - make shure there is an invokable constructor of the format: Q_INVOKABLE MyClass(QObject*)"));
 	}
 
-	static QRegularExpression nameRegex(QStringLiteral(R"__(^__qtmvvm_inject_(.+)$)__"),
-										QRegularExpression::OptimizeOnFirstUsageOption);
-
 	try {
-		for(auto i = 0; i < metaObject->propertyCount(); i++) {
-			auto prop = metaObject->property(i);
-			auto match = nameRegex.match(QString::fromUtf8(prop.name()));
-			if(match.hasMatch()) {
-				auto tPropIndex = metaObject->indexOfProperty(qUtf8Printable(match.captured(1)));
-				if(tPropIndex == -1) {
-					logWarning().noquote() << "Found hint to inject property"
-										   << match.captured(1)
-										   << "but no property of that name was found";
-					continue;
-				}
-				auto tProp = metaObject->property(tPropIndex);
-
-				auto iid = prop.read(instance).toByteArray();
-				auto ref = services.value(iid);
-				if(!ref)
-					throw ServiceDependencyException(iid);
-				auto injObj = ref->instance(this, iid);
-				auto variant = QVariant::fromValue(injObj);
-				if(!variant.convert(tProp.userType())) {
-					throw ServiceConstructionException("Failed to convert QObject to interface with iid \"" +
-													   iid +
-													   "\". Use QtMvvm::registerInterfaceConverter to make it convertable "
-													   "or change the property's type to \"QObject*\"");
-				}
-				tProp.write(instance, variant);
-			}
-		}
-
+		injectLocked(instance);
 		return instance;
 	} catch (...) {
 		instance->deleteLater();
 		throw;
+	}
+}
+
+void ServiceRegistryPrivate::injectLocked(QObject *object)
+{
+	static QRegularExpression nameRegex(QStringLiteral(R"__(^__qtmvvm_inject_(.+)$)__"),
+										QRegularExpression::OptimizeOnFirstUsageOption);
+
+	auto metaObject = object->metaObject();
+	for(auto i = 0; i < metaObject->propertyCount(); i++) {
+		auto prop = metaObject->property(i);
+		auto match = nameRegex.match(QString::fromUtf8(prop.name()));
+		if(match.hasMatch()) {
+			auto tPropIndex = metaObject->indexOfProperty(qUtf8Printable(match.captured(1)));
+			if(tPropIndex == -1) {
+				logWarning().noquote() << "Found hint to inject property"
+									   << match.captured(1)
+									   << "but no property of that name was found";
+				continue;
+			}
+			auto tProp = metaObject->property(tPropIndex);
+
+			auto iid = prop.read(object).toByteArray();
+			auto ref = services.value(iid);
+			if(!ref)
+				throw ServiceDependencyException(iid);
+			auto injObj = ref->instance(this, iid);
+			auto variant = QVariant::fromValue(injObj);
+			if(!variant.convert(tProp.userType())) {
+				throw ServiceConstructionException("Failed to convert QObject to interface with iid \"" +
+												   iid +
+												   "\". Use QtMvvm::registerInterfaceConverter to make it convertable "
+												   "or change the property's type to \"QObject*\"");
+			}
+			tProp.write(object, variant);
+		}
 	}
 }
 
@@ -189,7 +201,7 @@ ServiceRegistryPrivate::MetaServiceInfo::MetaServiceInfo(const QMetaObject *meta
 
 QObject *ServiceRegistryPrivate::MetaServiceInfo::construct(ServiceRegistryPrivate *d) const
 {
-	auto instance = d->constructInjectedLocked(metaObject);
+	auto instance = d->constructInjectedLocked(metaObject, nullptr); //services are created without a parent
 	auto initMethod = metaObject->indexOfMethod("qtmvvm_init()"); //TODO document
 	if(initMethod != -1) {
 		auto method = metaObject->method(initMethod);

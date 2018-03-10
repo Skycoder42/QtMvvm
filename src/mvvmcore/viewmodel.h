@@ -9,6 +9,7 @@
 #include <QtCore/qpointer.h>
 
 #include "QtMvvmCore/qtmvvmcore_global.h"
+#include "QtMvvmCore/injection.h"
 
 namespace QtMvvm {
 

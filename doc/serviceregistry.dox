@@ -1,0 +1,418 @@
+/*!
+@class QtMvvm::ServiceRegistry
+
+This is the class responsible for the dependency injection (DI) part. All services registered
+with the registry are available for DI. When using lazy initialization, services themselves
+can also have dependencies to be injected. When the registry creates them it will
+automatically inject them. Automatic DI is also done for ViewModel created by the CoreApp.
+
+The following example shows how to use DI. The first shows how to use it with a simple,
+interface-less service for an already created object:
+
+@code{.cpp}
+// service.h
+class Service : public QObject
+{
+	Q_OBJECT
+
+public:
+	Q_INVOKABLE explicit Service(QObject *parent = nullptr); //required signature
+
+public Q_SLOTS:
+	void baum();
+};
+
+// myclass.h
+class MyClass : public QObject
+{
+	Q_OBJECT
+
+	QTMVVM_INJECT_PROP(Service*, service, _service)
+
+	//...
+private:
+	Service *_service;
+};
+
+//main.cpp
+int main(int argc, char *argv[])
+{
+	QApplication a(argc, argv);
+	QtMvvm::ServiceRegistry::instance()->registerObject<Service>();
+
+	//...
+
+	auto myObj = new MyClass(parent);
+	QtMvvm::ServiceRegistry::instance()->injectServices(myObj);
+	// _service is now initialized via a valid Service
+}
+@endcode
+
+The second example shows how to use it for interface based services and on objects that are
+created via the registry:
+
+@code{.cpp}
+// iservice.h
+class IService
+{
+public:
+	virtual inline ~IService() = default;
+
+public Q_SLOTS:
+	virtual void baum() = 0;
+};
+
+#define IServiceIid "com.example.myapp.IService"
+Q_DECLARE_INTERFACE(IService, IServiceIid)
+
+// service.h
+class Service : public QObject, public IService
+{
+	Q_OBJECT
+	Q_INTERFACES(IService)
+
+public:
+	Q_INVOKABLE explicit Service(QObject *parent = nullptr); //required signature
+
+public Q_SLOTS:
+	void baum() override;
+};
+
+// myclass.h
+class MyClass : public QObject
+{
+	Q_OBJECT
+
+	QTMVVM_INJECT_PROP(IService*, service, _service)
+
+public:
+	Q_INVOKABLE MyClass(QObject *parent = nullptr); //required signature
+
+	//...
+private:
+	IService *_service;
+};
+
+//main.cpp
+int main(int argc, char *argv[])
+{
+	QApplication a(argc, argv);
+	QtMvvm::registerInterfaceConverter<IService>();
+	QtMvvm::ServiceRegistry::instance()->registerInterface<IService, Service>();
+
+	//...
+
+	auto myObj = QtMvvm::ServiceRegistry::instance()->constructInjected<MyClass>();
+	// _service is now initialized via a valid IService
+}
+@endcode
+
+@sa QtMvvm::registerInterfaceConverter, #QTMVVM_INJECT, #QTMVVM_INJECT_PROP, ViewModel
+*/
+
+/*!
+@fn QtMvvm::ServiceRegistry::registerInterface(bool)
+
+@tparam TInterface The interface type to register the service for
+@tparam TService The service to be registered for that interface. Must extend QObject and
+implement TInterface
+@param weak Specifies if the registration should be a weak one or a normal one
+@throws ServiceExistsException If a non-weak service has already been registered for
+TInterface
+
+If the function returns successfully, from now on a service of the given type can be accessed
+via the registry for the interface. The service is lazy initialized an will be created as soon
+as it is requested for the first time. If it has any injectable properties, they will be
+automatically injected on construction.
+
+If the service is registered as weak, registering another service for the same interface will
+not throw an exception but instead discard (and delete) this one.
+
+@attention Make shure to register TInterface via QtMvvm::registerInterfaceConverter, otherwise
+injection for the interface is not possible. In addition to this, TService must have an
+invokable constructor with the following signature:
+`Q_INVOKABLE explicit TService(QObject *parent = nullptr);`
+
+@sa ServiceRegistry::registerObject, QtMvvm::registerInterfaceConverter,
+ServiceRegistry::registerService, ServiceRegistry::service
+*/
+
+/*!
+@fn QtMvvm::ServiceRegistry::registerInterface(const TFunc &, bool)
+
+@tparam TInterface The interface type to register the service for
+@tparam TService The service to be registered for that interface. Must extend QObject and
+implement TInterface
+@tparam TFunc The function type of the `fn` parameter.
+@param fn The function to be called to construct the service
+@param weak Specifies if the registration should be a weak one or a normal one
+@throws ServiceExistsException If a non-weak service has already been registered for
+TInterface
+
+If the function returns successfully, from now on a service of the given type can be accessed
+via the registry for the interface. The service is lazy initialized an will be created as soon
+as it is requested for the first time. It is created by calling the given `fn` function.
+
+`fn` must have the following signature:
+@code{.cpp}
+TService *fn(...);
+@endcode
+TService is the template parameter of this function. The arguments are variable, but if
+arguments are present, they all must be pointers of types that are injectable via the registry.
+When the function is called internally, the registry will "inject" all services as parameters
+of this function.
+
+If the service is registered as weak, registering another service for the same interface will
+not throw an exception but instead discard (and delete) this one.
+
+@attention Make shure to register TInterface via QtMvvm::registerInterfaceConverter, otherwise
+injection for the interface is not possible.
+
+@sa ServiceRegistry::registerObject, QtMvvm::registerInterfaceConverter,
+ServiceRegistry::registerService, ServiceRegistry::service
+*/
+
+/*!
+@fn QtMvvm::ServiceRegistry::registerInterface(TService *, bool)
+
+@tparam TInterface The interface type to register the service for
+@tparam TService The service to be registered for that interface. Must extend QObject and
+implement TInterface
+@param service The service instance to be registered as service
+@param weak Specifies if the registration should be a weak one or a normal one
+@throws ServiceExistsException If a non-weak service has already been registered for
+TInterface
+
+If the function returns successfully, from now on a service of the given type can be accessed
+via the registry for the interface. The service instance is from that point on owned by the
+registry. No DI is performed on the passed service.
+
+If the service is registered as weak, registering another service for the same interface will
+not throw an exception but instead discard (and delete) this one.
+
+@attention Make shure to register TInterface via QtMvvm::registerInterfaceConverter, otherwise
+injection for the interface is not possible.
+
+@sa ServiceRegistry::registerObject, QtMvvm::registerInterfaceConverter,
+ServiceRegistry::registerService, ServiceRegistry::service
+*/
+
+/*!
+@fn QtMvvm::ServiceRegistry::registerObject(bool)
+
+@tparam TService The service to be registered by its own type. Must extend QObject
+@param weak Specifies if the registration should be a weak one or a normal one
+@throws ServiceExistsException If a non-weak service has already been registered for
+TService
+
+If the function returns successfully, from now on a service of the given type can be accessed
+via the registry. The service is lazy initialized an will be created as soon
+as it is requested for the first time. If it has any injectable properties, they will be
+automatically injected on construction.
+
+If the service is registered as weak, registering another service for the same TService will
+not throw an exception but instead discard (and delete) this one.
+
+@attention In order to be able to create the service, TService must have an invokable
+constructor with the following signature:
+`Q_INVOKABLE explicit TService(QObject *parent = nullptr);`
+
+@sa ServiceRegistry::registerInterface, ServiceRegistry::registerService,
+ServiceRegistry::service
+*/
+
+/*!
+@fn QtMvvm::ServiceRegistry::registerObject(const TFunc &, bool)
+
+@tparam TService The service to be registered by its own type. Must extend QObject
+@tparam TFunc The function type of the `fn` parameter.
+@param fn The function to be called to construct the service
+@param weak Specifies if the registration should be a weak one or a normal one
+@throws ServiceExistsException If a non-weak service has already been registered for TService
+
+If the function returns successfully, from now on a service of the given type can be accessed
+via the registry. The service is lazy initialized an will be created as soon
+as it is requested for the first time. It is created by calling the given `fn` function.
+
+`fn` must have the following signature:
+@code{.cpp}
+TService *fn(...);
+@endcode
+TService is the template parameter of this function. The arguments are variable, but if
+arguments are present, they all must be pointers of types that are injectable via theregistry.
+When the function is called internally, the registry will "inject" all services as parameters
+of this function.
+
+If the service is registered as weak, registering another service for the same TService will
+not throw an exception but instead discard (and delete) this one.
+
+@sa ServiceRegistry::registerInterface, ServiceRegistry::registerService,
+ServiceRegistry::service
+*/
+
+/*!
+@fn QtMvvm::ServiceRegistry::registerObject(TService *, bool)
+
+@tparam TService The service to be registered by its own type. Must extend QObject
+@param service The service instance to be registered as service
+@param weak Specifies if the registration should be a weak one or a normal one
+@throws ServiceExistsException If a non-weak service has already been registered for TService
+
+If the function returns successfully, from now on a service of the given type can be accessed
+via the registry. The service instance is from that point on owned by the registry. No DI is
+performed on the passed service.
+
+If the service is registered as weak, registering another service for the same TService will
+not throw an exception but instead discard (and delete) this one.
+
+@attention Make shure to register TInterface via QtMvvm::registerInterfaceConverter, otherwise
+injection for the interface is not possible.
+
+@sa ServiceRegistry::registerInterface, ServiceRegistry::registerService,
+ServiceRegistry::service
+*/
+
+/*!
+@fn QtMvvm::ServiceRegistry::registerService(const QByteArray &, const QMetaObject *, bool)
+
+@param iid The interface id of the type to register the service for
+@param metaObject The metaobject of the service to be registered for that interface. Must
+extend QObject and implement the interface of `iid`, unless it is the id of the service itself
+@param weak Specifies if the registration should be a weak one or a normal one
+@throws ServiceExistsException If a non-weak service has already been registered for the iid
+
+If the function returns successfully, from now on a service of the given metobject can be
+accessed via the registry for the iid. The service is lazy initialized an will be created as
+soon as it is requested for the first time. If it has any injectable properties, they will be
+automatically injected on construction.
+
+If the service is registered as weak, registering another service for the same iid will not
+throw an exception but instead discard (and delete) this one.
+
+@attention In order to be able to create the service, the class defined by the metaobject must
+have an invokable constructor with the following signature:
+`Q_INVOKABLE explicit Service(QObject *parent = nullptr);`
+
+@sa ServiceRegistry::registerObject, QtMvvm::registerInterface, ServiceRegistry::serviceObj
+*/
+
+/*!
+@fn QtMvvm::ServiceRegistry::registerService(const QByteArray &, const std::function<QObject*(const QObjectList &)> &, QByteArrayList, bool)
+
+@param iid The interface id of the type to register the service for
+@param fn The function to be called to construct the service
+@param injectables The iids of the parameters to be passed to `fn`
+@param weak Specifies if the registration should be a weak one or a normal one
+@throws ServiceExistsException If a non-weak service has already been registered for the iid
+
+If the function returns successfully, from now on a service of the given type can be accessed
+via the registry for the interface. The service is lazy initialized an will be created as soon
+as it is requested for the first time. It is created by calling the given `fn` function.
+
+The function must return an object that implements the interface of `iid`, unless it is the id
+of the service itself. The arguments are passed as object list and are determined by the
+`injectables` parameter. That is a list of iids. When the function is called internally, the
+registry will "inject" all services found by the iids as parameters of this function, comnined
+to a list of objects.
+
+If the service is registered as weak, registering another service for the same iid will not
+throw an exception but instead discard (and delete) this one.
+
+@sa ServiceRegistry::registerObject, QtMvvm::registerInterface, ServiceRegistry::serviceObj
+*/
+
+/*!
+@fn QtMvvm::ServiceRegistry::service
+
+@tparam TInterface The interface type get an instance of
+@returns An object that implements the interface
+@throws ServiceConstructionException If the registry failed to create an instance for that
+interface
+
+If the service is lazy inizialized and not created yet, the registry will do so. The returned
+service is owned by the registry. Be careful with weak services, as they may be deleted at any
+time. For normal services, this is never the case.
+
+@note TInterface can either be an actual interface or a service type, depending on what you
+registered it for (i.e. TInterface of the registerInterface() method and TService of the
+registerObject() method
+
+@sa ServiceRegistry::registerObject, QtMvvm::registerInterface, ServiceRegistry::serviceObj,
+ServiceRegistry::injectServices, ServiceRegistry::constructInjected
+*/
+
+/*!
+@fn QtMvvm::ServiceRegistry::serviceObj
+
+@param iid The interface id of the type to get an instance of
+@returns An object that implements the interface specified by iid
+@throws ServiceConstructionException If the registry failed to create an instance for that
+interface
+
+If the service is lazy inizialized and not created yet, the registry will do so. The returned
+service is owned by the registry. Be careful with weak services, as they may be deleted at any
+time. For normal services, this is never the case.
+
+@note iid must be the identity the service has been registered for. This depends on the type
+itself and how it was registered.
+
+@sa ServiceRegistry::registerService, ServiceRegistry::serviceObj,
+ServiceRegistry::injectServices, ServiceRegistry::constructInjected
+*/
+
+/*!
+@fn QtMvvm::ServiceRegistry::injectServices
+
+@param object The object to inject properties into
+@throws ServiceConstructionException If the registry failed to create an instance that needs
+to be injected into the object
+
+Loads all services that are needed to inject into properties of the object that are marked for
+injection via #QTMVVM_INJECT. If any lazy service has not been created yet, it is created on
+the fly and then injected.
+
+@sa ServiceRegistry::constructInjected, ServiceRegistry::service, #QTMVVM_INJECT,
+#QTMVVM_INJECT_PROP
+*/
+
+/*!
+@fn QtMvvm::ServiceRegistry::constructInjected(QObject *)
+
+@tparam TClass The type of object to be created, must extend QObject
+@param parent The parent object of the created object
+@returns A newly created instance of TClass.
+@throws ServiceConstructionException If the registry failed to create an instance that needs
+to be injected into the object
+
+First the method creates a new instance of TClass, then loads all services that are needed to
+inject into properties of the object that are marked for injection via #QTMVVM_INJECT. If any
+lazy service has not been created yet, it is created on the fly and then injected. The
+returned object is parented to the parent object. If that is null it is owned by the caller.
+
+@attention For this to work, the TClass must have an invokable constructor with the following
+signature: `Q_INVOKABLE explicit TClass(QObject *parent = nullptr);`
+
+@sa ServiceRegistry::injectServices, ServiceRegistry::service, #QTMVVM_INJECT,
+#QTMVVM_INJECT_PROP
+*/
+
+/*!
+@fn QtMvvm::ServiceRegistry::constructInjected(const QMetaObject *, QObject *)
+
+@param metaObject The metaobject of object type to be created, must extend QObject
+@param parent The parent object of the created object
+@returns A newly created instance of the given type.
+@throws ServiceConstructionException If the registry failed to create an instance that needs
+to be injected into the object
+
+First the method creates a new instance of metaObject, then loads all services that are needed
+to inject into properties of the object that are marked for injection via #QTMVVM_INJECT. If
+any lazy service has not been created yet, it is created on the fly and then injected. The
+returned object is parented to the parent object. If that is null it is owned by the caller.
+
+@attention For this to work, the class defined by metaObject must have an invokable constructor
+with the following signature: `Q_INVOKABLE explicit TClass(QObject *parent = nullptr);`
+
+@sa ServiceRegistry::injectServices, ServiceRegistry::service, #QTMVVM_INJECT,
+#QTMVVM_INJECT_PROP
+*/

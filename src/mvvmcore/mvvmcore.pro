@@ -21,7 +21,8 @@ HEADERS += \
 	settingssetup.h \
 	settingssetuploader_p.h \
 	settingsviewmodel_p.h \
-	settingsviewmodel.h
+	settingsviewmodel.h \
+    injection.h
 
 SOURCES += \
 	viewmodel.cpp \

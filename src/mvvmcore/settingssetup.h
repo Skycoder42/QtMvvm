@@ -12,6 +12,7 @@
 
 namespace QtMvvm {
 
+//! A sub namespace for the different elements in a settings setup
 namespace SettingsElements {
 
 struct Entry

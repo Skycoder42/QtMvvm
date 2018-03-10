@@ -1,0 +1,62 @@
+/*!
+@def QTMVVM_INJECT
+
+@param classType The type of the property to be injected
+@param name The name of the property to be injected
+
+This macro creates an additional property that is detected by the QtMvvm::ServiceRegistry and
+contains the information needed to inject the property automatically. For more details on
+the property injection, see QtMvvm::ServiceRegistry
+
+Sample code for usage:
+@code{.cpp}
+class MyClass : public QObject
+{
+	Q_OBJECT
+
+	Q_PROPERTY(IService* service READ service WRITE setService)
+	QTMVVM_INJECT(IService*, service)
+
+public:
+	//...
+}
+@endcode
+
+@note All properties that make use of interfaces must register the interfaces via
+QtMvvm::registerInterfaceConverter
+
+@sa #QTMVVM_INJECT_PROP, QtMvvm::registerInterfaceConverter, QtMvvm::ServiceRegistry
+*/
+
+/*!
+@def QTMVVM_INJECT_PROP
+
+@param type The type of the property to be created
+@param name The name of the property to be created
+@param member The name of the member variable to use for the property
+
+This macro is a shortcut for #QTMVVM_INJECT to create a property and mark it for injection in
+one step. The property is created by using a member variable. This means it will have no public
+member functions to access the property, only the property accessors itself.
+
+Sample code for usage:
+@code{.cpp}
+class MyClass : public QObject
+{
+	Q_OBJECT
+
+	QTMVVM_INJECT_PROP(IService*, service, _service)
+
+public:
+	//...
+
+private:
+	IService* _service;
+}
+@endcode
+
+@note All properties that make use of interfaces must register the interfaces via
+QtMvvm::registerInterfaceConverter
+
+@sa #QTMVVM_INJECT, QtMvvm::registerInterfaceConverter, QtMvvm::ServiceRegistry
+*/
