@@ -3,7 +3,7 @@
 	"supportedProjectTypes": [ "Qt4ProjectManager.Qt4Project" ],
 	"id": "G.QtMvvm",
     "category": "F.Application",
-	"trDescription": "Creates a QtMvvm project skeleton, for easy creation of new QtMvvm projects.",
+	"trDescription": "Creates a QtMvvm project with a core project and multiple GUI projects.",
 	"trDisplayName": "QtMvvm Application Project",
 	"trDisplayCategory": "Application",
     "icon": "icon.png",
