@@ -380,6 +380,8 @@ to save content to it.
 @sa MessageConfig::type, MessageConfig::subType, MessageConfig::TypeFileDialog
 */
 
+
+
 /*!
 @class QtMvvm::MessageResult
 
@@ -422,4 +424,213 @@ dialogDone(), as long as they are direct connected.
 }
 
 @sa MessageResult::complete, MessageResult::dialogDone
+*/
+
+/*!
+@fn QtMvvm::MessageResult::setCloseTarget(QObject *, const QString &)
+
+@param closeObject The object to call the method on
+@param closeMethod The method to be called
+
+@attention This method should be used by the presenter only, not from the core
+
+Use it from the presenter to register a view and a method on the view to be called to close
+the view. The `closeMethod` should be a paremeterless method signature (e.g. `close()`). Not
+settings a close target means that the dialog cannot be closed from code via discardMessage().
+
+@sa MessageResult::discardMessage
+*/
+
+/*!
+@fn QtMvvm::MessageResult::complete(QtMvvm::MessageConfig::StandardButton)
+
+@param button The button that was pressed by the user
+
+@attention This method should be used by the presenter only, not from the core
+
+You must use this method from the GUI view code to mark a message result as completed as soon
+as the user completed the dialog. The `button` should be the button the user pressed, or
+MessageConfig::NoButton if close by another reason. The pressed button should be one that was
+in the list of buttons specified by the MessageConfig that created the dialog (with the
+NoButton beeing the only exception).
+
+The method automatically emits the dialogDone() signal and handels self deletion in a
+threadsafe manner.
+
+@sa MessageResult::dialogDone, MessageResult::result, MessageResult::autoDelete
+*/
+
+/*!
+@fn QtMvvm::MessageResult::complete(QtMvvm::MessageConfig::StandardButton, const QVariant &)
+
+@param result The input result to be set as MessageResult::result
+@copydetails MessageResult::complete(QtMvvm::MessageConfig::StandardButton)
+*/
+
+/*!
+@fn QtMvvm::MessageResult::discardMessage
+
+Calls the closeMethod set by the presenter (if one was set) to close the dialog. Connect to
+the dialogDone() signal to be notified when the dialog was closed. It is typically emitted with
+MessageConfig::NoButton when beeing discarded this way.
+
+@sa MessageResult::setCloseTarget, MessageResult::dialogDone
+*/
+
+/*!
+@fn QtMvvm::MessageResult::dialogDone
+
+@param button The button that was pressed by the user to complete the dialog
+
+Is emitted as soon as the dialog was closed with the button that was pressed, or
+MessageConfig::NoButton when closed another way. If the dialog had an input edit for the user
+to enter a value, you can retrieve the result via MessageResult::result.
+
+@warning You must always direct connect to this signal, because if the auto deletion is
+enabled, the result will be deleted right after the signal was emitted (and thus after all
+direct connected slots have been called). You may use MessageResult::result only in a slot
+connect to this signal, because auf the reason above, and because before the signal it is
+considered invalid.
+
+@sa MessageResult::result, MessageResult::complete
+*/
+
+
+
+/*!
+@fn QtMvvm::information(const QString &, const QString &, const QString &)
+
+@param title The messagebox title (MessageConfig::title)
+@param text The primary message text (MessageConfig::text)
+@param okText An optional text overwrite for the OK button (MessageConfig::buttonTexts)
+
+Shows a simple informative dialog with a title, a text and the OK button present.
+
+@sa QtMvvm::question, QtMvvm::warning, QtMvvm::critical, QtMvvm::about, MessageConfig,
+CoreApp::showDialog
+*/
+
+/*!
+@fn QtMvvm::information(const QString &, const QString &, const std::function<void()> &, const QString &)
+
+@param onResult A handler to be called when the message box has been closed
+@copydetails QtMvvm::information(const QString &, const QString &, const QString &)
+*/
+
+/*!
+@fn QtMvvm::information(const QString &, const QString &, QObject *, const std::function<void()> &, const QString &)
+
+@param scope A scope to limit to. `onResult` is only called as long as scope has not been deleted
+@copydetails QtMvvm::information(const QString &, const QString &, const std::function<void()> &, const QString &)
+*/
+
+/*!
+@fn QtMvvm::question(const QString &, const QString &, const QString &, const QString &)
+
+@param title The messagebox title (MessageConfig::title)
+@param text The primary message text (MessageConfig::text)
+@param yesText An optional text overwrite for the YES button (MessageConfig::buttonTexts)
+@param noText An optional text overwrite for the NO button (MessageConfig::buttonTexts)
+
+Shows a simple question dialog with a title, a text and two buttons (typically YES and NO) to
+ask the user a simple boolean question.
+
+@sa QtMvvm::information, QtMvvm::warning, QtMvvm::critical, MessageConfig,
+CoreApp::showDialog
+*/
+
+/*!
+@fn QtMvvm::question(const QString &, const QString &, const std::function<void(bool)> &, const QString &, const QString &)
+
+@param onResult A handler to be called when the message box has been closed. The parameter is
+`true` if the user pressed YES, `false` if he pressed NO or cancled the dialog
+@copydetails QtMvvm::question(const QString &, const QString &, const QString &, const QString &)
+*/
+
+/*!
+@fn QtMvvm::question(const QString &, const QString &, QObject *, const std::function<void(bool)> &, const QString &, const QString &)
+
+@param scope A scope to limit to. `onResult` is only called as long as scope has not been deleted
+@copydetails QtMvvm::question(const QString &, const QString &, const std::function<void(bool)> &, const QString &, const QString &)
+*/
+
+/*!
+@fn QtMvvm::warning(const QString &, const QString &, const QString &)
+
+@param title The messagebox title (MessageConfig::title)
+@param text The primary message text (MessageConfig::text)
+@param okText An optional text overwrite for the OK button (MessageConfig::buttonTexts)
+
+Shows a simple warning dialog with a title, a text and the OK button present.
+
+@sa QtMvvm::question, QtMvvm::information, QtMvvm::critical, MessageConfig,
+CoreApp::showDialog
+*/
+
+/*!
+@fn QtMvvm::warning(const QString &, const QString &, const std::function<void()> &, const QString &)
+
+@param onResult A handler to be called when the message box has been closed
+@copydetails QtMvvm::warning(const QString &, const QString &, const QString &)
+*/
+
+/*!
+@fn QtMvvm::warning(const QString &, const QString &, QObject *, const std::function<void()> &, const QString &)
+
+@param scope A scope to limit to. `onResult` is only called as long as scope has not been deleted
+@copydetails QtMvvm::warning(const QString &, const QString &, const std::function<void()> &, const QString &)
+*/
+
+/*!
+@fn QtMvvm::critical(const QString &, const QString &, const QString &)
+
+@param title The messagebox title (MessageConfig::title)
+@param text The primary message text (MessageConfig::text)
+@param okText An optional text overwrite for the OK button (MessageConfig::buttonTexts)
+
+Shows a simple critical error dialog with a title, a text and the OK button present.
+
+@sa QtMvvm::question, QtMvvm::warning, QtMvvm::information, MessageConfig,
+CoreApp::showDialog
+*/
+
+/*!
+@fn QtMvvm::critical(const QString &, const QString &, const std::function<void()> &, const QString &)
+
+@param onResult A handler to be called when the message box has been closed
+@copydetails QtMvvm::critical(const QString &, const QString &, const QString &)
+*/
+
+/*!
+@fn QtMvvm::critical(const QString &, const QString &, QObject *, const std::function<void()> &, const QString &)
+
+@param scope A scope to limit to. `onResult` is only called as long as scope has not been deleted
+@copydetails QtMvvm::critical(const QString &, const QString &, const std::function<void()> &, const QString &)
+*/
+
+/*!
+@fn QtMvvm::about(const QString &, const QUrl &, const QString &, const QUrl &, const QString &, bool, const QStringList &, const QString &)
+
+@param description A short descriptive text what your application is all about
+@param websiteUrl The URL to your website
+@param licenseName The name of the License you are using
+@param licenseUrl A URL to an online (or offline) variant of the license to read
+for the user
+@param companyName The name of your company or your name as creator of the application
+@param addQtVersion Specify whether the Qt Version should be visible as part of the about
+dialog
+@param extraTopInfos Additional short texts to be shown below the version
+@param extraBottomInfos An additional text to be shown at the bottom of the dialog
+
+Creates an advanced about dialog out of all of this information in an organized manner. The
+`extraTopInfos` are ment as short extra information about configurations etc, for example a
+specific plattform plugin used, as selected style or further important links. The
+`extraBottomInfos` can be a long and rich text with anything else you want to put in the about
+dialog that is not applicabale for the previous part (for example a list of contributers).
+
+@note All the texts can be richtext (HTML). But be aware that they are already beeing wrapped
+in `<p></p>` blocks. Furthermore, QML only supports a small subset of HTML in the default text
+mode that is used.
+
+@sa QtMvvm::information, MessageConfig, CoreApp::showDialog
 */

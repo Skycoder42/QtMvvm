@@ -189,7 +189,6 @@ public:
 	//! @readAcFn{MessageResult::autoDelete}
 	bool autoDelete() const;
 
-	//USE IN GUI ONLY
 	/**
 	 * @name Presenter-Only methods
 	 * @details The following methods should be used by the presenter only, not from the core
@@ -200,11 +199,11 @@ public:
 	//! @copydoc MessageResult::setCloseTarget(QObject *, const QString &)
 	Q_INVOKABLE void setCloseTarget(QObject *closeObject, const QMetaMethod &closeMethod);
 	//! Completes the dialog and tells the result that it is finished
-	Q_INVOKABLE void complete(QtMvvm::MessageConfig::StandardButton result);
+	Q_INVOKABLE void complete(QtMvvm::MessageConfig::StandardButton button);
 	//! @copybrief MessageResult::complete(QtMvvm::MessageConfig::StandardButton)
-	Q_INVOKABLE inline void complete(QtMvvm::MessageConfig::StandardButton result, const QVariant &resultValue) {
-		setResult(resultValue);
-		complete(result);
+	Q_INVOKABLE inline void complete(QtMvvm::MessageConfig::StandardButton button, const QVariant &result) {
+		setResult(result);
+		complete(button);
 	}
 	//! @}
 
@@ -219,7 +218,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
 	//! Is emitted as soon as the dialog was completed
-	void dialogDone(QtMvvm::MessageConfig::StandardButton result);
+	void dialogDone(QtMvvm::MessageConfig::StandardButton button);
 
 	//! @notifyAcFn{MessageResult::autoDelete}
 	void autoDeleteChanged(bool autoDelete);
@@ -236,13 +235,13 @@ private:
 Q_MVVMCORE_EXPORT MessageResult *information(const QString &title,
 											 const QString &text,
 											 const QString &okText = {});
-//! @copydoc QtMvvm::information(const QString &, const QString &, const std::function<void()> &, const QString &)
+//! @copybrief QtMvvm::information(const QString &, const QString &, const std::function<void()> &, const QString &)
 Q_MVVMCORE_EXPORT void information(const QString &title,
 								   const QString &text,
 								   QObject *scope,
 								   const std::function<void()> &onResult,
 								   const QString &okText = {});
-//! @copydoc QtMvvm::information(const QString &, const QString &, const QString &)
+//! @copybrief QtMvvm::information(const QString &, const QString &, const QString &)
 Q_MVVMCORE_EXPORT void information(const QString &title,
 								   const QString &text,
 								   const std::function<void()> &onResult,
@@ -253,14 +252,14 @@ Q_MVVMCORE_EXPORT MessageResult *question(const QString &title,
 										  const QString &text,
 										  const QString &yesText = {},
 										  const QString &noText = {});
-//! @copydoc QtMvvm::question(const QString &, const QString &, const std::function<void(bool)> &, const QString &, const QString &)
+//! @copybrief QtMvvm::question(const QString &, const QString &, const std::function<void(bool)> &, const QString &, const QString &)
 Q_MVVMCORE_EXPORT void question(const QString &title,
 								const QString &text,
 								QObject *scope,
 								const std::function<void(bool)> &onResult,
 								const QString &yesText = {},
 								const QString &noText = {});
-//! @copydoc QtMvvm::question(const QString &, const QString &, const QString &, const QString &)
+//! @copybrief QtMvvm::question(const QString &, const QString &, const QString &, const QString &)
 Q_MVVMCORE_EXPORT void question(const QString &title,
 								const QString &text,
 								const std::function<void(bool)> &onResult,
@@ -271,13 +270,13 @@ Q_MVVMCORE_EXPORT void question(const QString &title,
 Q_MVVMCORE_EXPORT MessageResult *warning(const QString &title,
 										 const QString &text,
 										 const QString &okText = {});
-//! @copydoc QtMvvm::warning(const QString &, const QString &, const std::function<void()> &, const QString &)
+//! @copybrief QtMvvm::warning(const QString &, const QString &, const std::function<void()> &, const QString &)
 Q_MVVMCORE_EXPORT void warning(const QString &title,
 							   const QString &text,
 							   QObject *scope,
 							   const std::function<void()> &onResult,
 							   const QString &okText = {});
-//! @copydoc QtMvvm::warning(const QString &, const QString &, const QString &)
+//! @copybrief QtMvvm::warning(const QString &, const QString &, const QString &)
 Q_MVVMCORE_EXPORT void warning(const QString &title,
 							   const QString &text,
 							   const std::function<void()> &onResult,
@@ -287,13 +286,13 @@ Q_MVVMCORE_EXPORT void warning(const QString &title,
 Q_MVVMCORE_EXPORT MessageResult *critical(const QString &title,
 										  const QString &text,
 										  const QString &okText = {});
-//! @copydoc QtMvvm::critical(const QString &, const QString &, const std::function<void()> &, const QString &)
+//! @copybrief QtMvvm::critical(const QString &, const QString &, const std::function<void()> &, const QString &)
 Q_MVVMCORE_EXPORT void critical(const QString &title,
 								const QString &text,
 								QObject *scope,
 								const std::function<void()> &onResult,
 								const QString &okText = {});
-//! @copydoc QtMvvm::critical(const QString &, const QString &, const QString &)
+//! @copybrief QtMvvm::critical(const QString &, const QString &, const QString &)
 Q_MVVMCORE_EXPORT void critical(const QString &title,
 								const QString &text,
 								const std::function<void()> &onResult,

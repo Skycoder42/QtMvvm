@@ -198,11 +198,13 @@ MessageResult::~MessageResult() {}
 
 bool MessageResult::hasResult() const
 {
+	QMutexLocker lock(&d->mutex);
 	return d->result.isValid();
 }
 
 QVariant MessageResult::result() const
 {
+	QMutexLocker lock(&d->mutex);
 	return d->result;
 }
 
@@ -227,22 +229,25 @@ void MessageResult::setCloseTarget(QObject *closeObject, const QString &closeMet
 void MessageResult::setCloseTarget(QObject *closeObject, const QMetaMethod &closeMethod)
 {
 	Q_ASSERT_X(closeObject, Q_FUNC_INFO, "closeObject must not be null");
+	QMutexLocker lock(&d->mutex);
 	d->closeObject = closeObject;
 	d->closeMethod = closeMethod;
 	if(d->closeRequested)
 		d->closeMethod.invoke(d->closeObject, Qt::QueuedConnection);
 }
 
-void MessageResult::complete(MessageConfig::StandardButton result)
+void MessageResult::complete(MessageConfig::StandardButton button)
 {
-	//TODO make async
-	emit dialogDone(result);
+	QMetaObject::invokeMethod(this, "dialogDone", Qt::QueuedConnection,
+							  Q_ARG(QtMvvm::MessageConfig::StandardButton, button));
+	QMutexLocker lock(&d->mutex);
 	if(d->autoDelete)
-		deleteLater();
+		QMetaObject::invokeMethod(this, "deleteLater", Qt::QueuedConnection);
 }
 
 void MessageResult::discardMessage()
 {
+	QMutexLocker lock(&d->mutex);
 	if(d->closeObject && !d->closeRequested)
 		d->closeMethod.invoke(d->closeObject, Qt::QueuedConnection);
 	d->closeRequested = true;
@@ -250,6 +255,7 @@ void MessageResult::discardMessage()
 
 void MessageResult::setResult(QVariant result)
 {
+	QMutexLocker lock(&d->mutex);
 	d->result = result;
 }
 

@@ -4,6 +4,7 @@
 #include <QtCore/QHash>
 #include <QtCore/QPointer>
 #include <QtCore/QMetaMethod>
+#include <QtCore/QMutex>
 
 #include "qtmvvmcore_global.h"
 #include "message.h"
@@ -29,6 +30,7 @@ public:
 class MessageResultPrivate
 {
 public:
+	QMutex mutex;
 	QPointer<QObject> closeObject;
 	QMetaMethod closeMethod;
 	bool closeRequested = false;

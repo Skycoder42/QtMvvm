@@ -56,7 +56,7 @@ Module {
         Property { name: "autoDelete"; type: "bool" }
         Signal {
             name: "dialogDone"
-            Parameter { name: "result"; type: "QtMvvm::MessageConfig::StandardButton" }
+            Parameter { name: "button"; type: "QtMvvm::MessageConfig::StandardButton" }
         }
         Signal {
             name: "autoDeleteChanged"
@@ -83,12 +83,12 @@ Module {
         }
         Method {
             name: "complete"
-            Parameter { name: "result"; type: "QtMvvm::MessageConfig::StandardButton" }
+            Parameter { name: "button"; type: "QtMvvm::MessageConfig::StandardButton" }
         }
         Method {
             name: "complete"
-            Parameter { name: "result"; type: "QtMvvm::MessageConfig::StandardButton" }
-            Parameter { name: "resultValue"; type: "QVariant" }
+            Parameter { name: "button"; type: "QtMvvm::MessageConfig::StandardButton" }
+            Parameter { name: "result"; type: "QVariant" }
         }
     }
     Component {
