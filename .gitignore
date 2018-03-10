@@ -72,7 +72,6 @@ Thumbs.db
 *.exe
 
 # qpmx
-vendor
 qpmx.user.json
 
 # ts dummy dirs
