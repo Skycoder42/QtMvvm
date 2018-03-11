@@ -12,6 +12,7 @@ env:
     - QPMX_CACHE_DIR=$HOME/.qpmx-cache
     - QT_VER=5.10.1
     - EXTRA_MODULES=".qtremoteobjects .skycoder42.datasync"
+    - DOCKER_IMAGE=datasync
 
 matrix:
   include:
@@ -20,7 +21,6 @@ matrix:
         - PLATFORM=gcc_64
         - BUILD_DOC=true
         - BUILD_EXAMPLES=true
-        - DOCKER_IMAGE=datasync
     - os: linux
       env:
         - PLATFORM=android_armv7
