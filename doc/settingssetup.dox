@@ -7,7 +7,7 @@ implement your own format, but unless you need to open things other then normal 
 (or hate XML), there is no advantage of doing so.
 
 @sa #QtMvvm_ISettingsSetupLoaderIid, SettingsViewModel, SettingsLoaderException,
-SettingsElements::Setup, TODO link to xml doc
+SettingsElements::Setup, @ref settings_xml
 */
 
 /*!
@@ -43,7 +43,7 @@ variable.
 
 @note The syntax etc of these two variables depends on your loader and they are only used by you,
 not by anyone using this method. The default syntax used by the XML load implementation can be
-found in the TODO xml doc
+found in the @ref settings_xml "XML documentation"
 
-@sa SettingsElements::Setup, QFileSelector, TODO xml doc
+@sa SettingsElements::Setup, QFileSelector, @ref settings_xml
 */

@@ -1,0 +1,270 @@
+/*!
+@page settings_xml The XML settings format
+@brief Documentation of the XML format used to create settings uis
+
+This format is used to create settings.xml files to be read by the default XML
+QtMvvm::ISettingsSetupLoader. The files are read via that service and mapped to
+QtMvvm::SettingsElements::Setup.
+
+@tableofcontents
+
+@section settings_xml_elements Elements
+The possible elements of such a file
+
+@subsection settings_xml_elements_config SettingsConfig
+@copybrief QtMvvm::SettingsElements::Setup
+
+The `<SettingsConfig>` element must be the root Element of the XML document and is mapped to the
+QtMvvm::SettingsElements::Setup.
+
+@subsubsection settings_xml_elements_config_attribs Attributes
+ Name			| Type	| Default	| Description
+----------------|-------|-----------|-------------
+ allowSearch	| bool	| `true`	| @copybrief QtMvvm::SettingsElements::Setup::allowSearch
+ allowRestore	| bool	| `true`	| @copybrief QtMvvm::SettingsElements::Setup::allowRestore
+
+@subsubsection settings_xml_elements_config_elements Content
+Can be an arbitrary number of Elements from the following list. However, only one type of
+element is allowed. If you for example use `<Entry>` as first child, all other children must
+be of the same type as well:
+
+- (Primary:) @ref settings_xml_elements_category
+- @ref settings_xml_elements_section
+- @ref settings_xml_elements_group
+- @ref settings_xml_elements_entry
+- @ref settings_xml_elements_include
+
+@subsection settings_xml_elements_category Category
+@copybrief QtMvvm::SettingsElements::Category
+
+The `<Category>` element is mapped to the QtMvvm::SettingsElements::Category.
+
+@subsubsection settings_xml_elements_category_attribs Attributes
+ Name		| Type									| Default											| Description
+------------|---------------------------------------|---------------------------------------------------|-------------
+ title		| string								| `"General Settings"`								| @copybrief QtMvvm::SettingsElements::Category::title
+ icon		| url									| `"qrc:/de/skycoder42/qtmvvm/icons/settings.svg"`	| @copybrief QtMvvm::SettingsElements::Category::icon
+ tooltip	| string								| <i>Empty</i>										| @copybrief QtMvvm::SettingsElements::Category::tooltip
+ frontends	| @ref settings_xml_types_descriptor	| <i>Empty</i>										| @copybrief QtMvvm::SettingsElements::Category::frontends
+ selectors	| @ref settings_xml_types_descriptor	| <i>Empty</i>										| @copybrief QtMvvm::SettingsElements::Category::selectors
+
+@subsubsection settings_xml_elements_category_elements Content
+Can be an arbitrary number of Elements from the following list. However, only one type of
+element is allowed. If you for example use `<Entry>` as first child, all other children must
+be of the same type as well:
+
+- (Primary:) @ref settings_xml_elements_section
+- @ref settings_xml_elements_group
+- @ref settings_xml_elements_entry
+- @ref settings_xml_elements_include
+
+@subsection settings_xml_elements_section Section
+@copybrief QtMvvm::SettingsElements::Section
+
+The `<Section>` element is mapped to the QtMvvm::SettingsElements::Section.
+
+@subsubsection settings_xml_elements_section_attribs Attributes
+ Name		| Type									| Default		| Description
+------------|---------------------------------------|---------------|-------------
+ title		| string								| `"General"`	| @copybrief QtMvvm::SettingsElements::Section::title
+ icon		| url									| <i>Empty</i>	| @copybrief QtMvvm::SettingsElements::Section::icon
+ tooltip	| string								| <i>Empty</i>	| @copybrief QtMvvm::SettingsElements::Section::tooltip
+ frontends	| @ref settings_xml_types_descriptor	| <i>Empty</i>	| @copybrief QtMvvm::SettingsElements::Section::frontends
+ selectors	| @ref settings_xml_types_descriptor	| <i>Empty</i>	| @copybrief QtMvvm::SettingsElements::Section::selectors
+
+@subsubsection settings_xml_elements_section_elements Content
+Can be an arbitrary number of Elements from the following list. However, only one type of
+element is allowed. If you for example use `<Entry>` as first child, all other children must
+be of the same type as well:
+
+- (Primary:) @ref settings_xml_elements_group
+- @ref settings_xml_elements_entry
+- @ref settings_xml_elements_include
+
+@subsection settings_xml_elements_group Group
+@copybrief QtMvvm::SettingsElements::Group
+
+The `<Group>` element is mapped to the QtMvvm::SettingsElements::Group. A special property of
+the group is, that when the `title` is not set, the group becomes hidden and instead all
+entries that are part of the group are simply shown as normal elements in the section, instead
+of organizing them into subgroups. If the title is empty, the tooltip is ignored, even if set.
+The descriptors however still apply.
+
+@subsubsection settings_xml_elements_group_attribs Attributes
+ Name		| Type									| Default		| Description
+------------|---------------------------------------|---------------|-------------
+ title		| string								| <i>Empty</i>	| @copybrief QtMvvm::SettingsElements::Group::title
+ tooltip	| string								| <i>Empty</i>	| @copybrief QtMvvm::SettingsElements::Group::tooltip
+ frontends	| @ref settings_xml_types_descriptor	| <i>Empty</i>	| @copybrief QtMvvm::SettingsElements::Group::frontends
+ selectors	| @ref settings_xml_types_descriptor	| <i>Empty</i>	| @copybrief QtMvvm::SettingsElements::Group::selectors
+
+@subsubsection settings_xml_elements_group_elements Content
+Can be an arbitrary number of Elements from the following list. However, only one type of
+element is allowed. If you for example use `<Entry>` as first child, all other children must
+be of the same type as well:
+
+- (Primary:) @ref settings_xml_elements_entry
+- @ref settings_xml_elements_include
+
+@subsection settings_xml_elements_entry Entry
+@copybrief QtMvvm::SettingsElements::Entry
+
+The `<Entry>` element is mapped to the QtMvvm::SettingsElements::Entry.
+
+@subsubsection settings_xml_elements_entry_attribs Attributes
+ Name			| Type									| Default			| Description
+----------------|---------------------------------------|-------------------|-------------
+ key			| string								| <i>Empty</i>		| @copybrief QtMvvm::SettingsElements::Entry::key
+ type			| @ref settings_xml_types_type			| `"QString"`		| @copybrief QtMvvm::SettingsElements::Entry::type
+ title			| string								| <i>Empty</i>		| @copybrief QtMvvm::SettingsElements::Entry::title
+ tooltip		| string								| <i>Empty</i>		| @copybrief QtMvvm::SettingsElements::Entry::tooltip
+ defaultValue	| variant								| <i>Invalid</i>	| @copybrief QtMvvm::SettingsElements::Entry::defaultValue
+ frontends		| @ref settings_xml_types_descriptor	| <i>Empty</i>		| @copybrief QtMvvm::SettingsElements::Entry::frontends
+ selectors		| @ref settings_xml_types_descriptor	| <i>Empty</i>		| @copybrief QtMvvm::SettingsElements::Entry::selectors
+
+@subsubsection settings_xml_elements_entry_elements Content
+Can be an arbitrary number of Elements from the following list. They can be mixed and in any
+order
+
+- @ref settings_xml_elements_searchkey
+- @ref settings_xml_elements_property
+
+@subsection settings_xml_elements_searchkey SearchKey
+The `<SearchKey>` Element is converted to a string added to the
+QtMvvm::SettingsElements::Entry::searchKeys property. A searchkey can only be a child of an
+Entry, and all the keys are merged to a list. It's a leaf element and must contain the string
+that becomes the search key
+
+@subsection settings_xml_elements_property Property
+The `<Property>` Element is an XML description of a generic QVariant property. Each property
+gets converted to a QString key and a QVariant value that then becomes a property of the
+parent element. Properties can be children of entries, as well as properties and elements, as
+long as for the last two their type is `object`
+
+@subsubsection settings_xml_elements_property_attribs Attributes
+ Name	| Type							| Default			| Description
+--------|-------------------------------|-------------------|-------------
+ key	| string						| <i>Required</i>	| The key of the property
+ type	| @ref settings_xml_types_type	| <i>Required</i>	| The type of the properties value
+ ts		| bool							| `false`			| Specify whether the properties value should be translated. Does not apply to `list` or `object` types
+
+@subsubsection settings_xml_elements_property_elements Content
+The content depend on the `type` attribute. The following tables shows which type leads
+to which kind of child element:
+
+ Type			| Child Element
+----------------|---------------
+list			| An arbitrary number of @ref settings_xml_elements_element "Element" elements
+object			| An arbitrary number of @ref settings_xml_elements_property "Property" elements
+ <i>Others</i>	| Has text content. The text content is interpreted as a value of the given type
+
+@subsection settings_xml_elements_element Element
+The `<Element>` Element is an XML description of a generic QVariant list value. A property
+of type `list` will have a number of elements as children that are converted to a list of
+QVariant values. Each element can be of a different type, but typically they all are of the
+same.
+
+@subsubsection settings_xml_elements_element_attribs Attributes
+ Name	| Type							| Default			| Description
+--------|-------------------------------|-------------------|-------------
+ type	| @ref settings_xml_types_type	| <i>Required</i>	| The type of the list element
+ ts		| bool							| `false`			| Specify whether the element value should be translated. Does not apply to `list` or `object` types
+
+@subsubsection settings_xml_elements_element_elements Content
+The content depend on the `type` attribute. The following tables shows which type leads
+to which kind of child element:
+
+ Type			| Child Element
+----------------|---------------
+ list			| An arbitrary number of @ref settings_xml_elements_element "Element" elements
+ object			| An arbitrary number of @ref settings_xml_elements_property "Property" elements
+ <i>Others</i>	| Has text content. The text content is interpreted as a value of the given type
+
+@subsection settings_xml_elements_include Include
+An `<Include>` element is a reference to a different file to be included at that point. When
+the parser reaches an include, it continues to read the included file as if it was a part of
+the original XML document. Because of that the root element of an included settings file must
+not be `<SettingsConfig>`, but instead the expected primary child of the current parent
+element. For example, if the include element is a child of a `<Section>`, then the root
+element must be a `<Group>` element (Each element that support includes as one child type
+marked as primary). It is possible to specify an include element in another included document.
+
+@subsubsection settings_xml_elements_include_attribs Attributes
+ Name		| Type	| Default	| Description
+------------|-------|-----------|-------------
+ optional	| bool	| `false`	| An optional include. If the file cannot be found it is skipped instead of aborting with an error
+
+@subsubsection settings_xml_elements_include_elements Content
+The content of the include element must be a path to an XML file to be read as include. If the
+path is relative, it is resolved relative to the directory of the current file (the one that
+contains the include directive). It is possible to use a path with file selectors. If the file
+could not be found, the parser will fail, unless the include is marked as optional.
+
+@section settings_xml_types Attribute and Value types
+In the above element descriptions a number of types are specified. Most are very basic types,
+but some need some more explanation to them.
+
+@subsection settings_xml_types_basic Basic Types
+The following table lists all basic types that don't need much explanation:
+
+ Type		| Description
+------------|-------------
+ string		| A simple string
+ bool		| A boolean value. Allowed values are `true` and `false`
+ url		| A standard XML encoded URL
+ variant	| A string that is read by C++ as string and then stored as QVariant. It thus must be a string convertible to the desired type via QVariant
+
+@subsection settings_xml_types_type type
+The `type` type must be a simple string that corresponds to a C++ type name (or special ui
+type, for entry elements). It defines the actual type of for example the defaultValue of the
+`<Entry>` element or the contents of a `<Property>` element. Typical values would be:
+
+- QString or string
+- QUrl or url
+- int
+- double or number
+- bool
+- QDateTime or datetime
+- ...
+
+The type you need depends on what kind of data you want to represent via the XML elements. But
+remember that all types you use must be convertible from a simple string.
+
+@subsection settings_xml_types_descriptor descriptor
+A descripter is a simplified string of a boolean logic statement. It us used for the
+`frontend` and `selectors` attributes of various elements. The general idea is that these
+descriptors serve as "filters". This allows you to create one xml file for all platforms and
+frontends, by excluding specific elements for specific configurations. See
+QtMvvm::ISettingsSetupLoader::loadSetup.
+
+The allowed symbols and syntax depend on the attribute the descriptor is used for:
+
+@subsubsection settings_xml_types_descriptor_frontend frontend descriptor
+The frontend is the name of the GUI implementation beeing used (For example `widgest` for
+the QWidgets based gui, and `quick` for the Qt Quick Controls 2 gui). Must be a string of the
+following format:
+
+@code
+<frontend>[|<frontend>...]
+@endcode
+
+With `<frontend>` beeing the name of the frontend the element should be visible for. It's
+basically a list of allowed frontend as simple string. If the attribute is not specified, the
+element is visible on all frontends.
+
+@subsubsection settings_xml_types_descriptor_selectors selectors descriptor
+The selectors are active file selectors (of the QFileSelector class). By specifiying this
+attribute you can set selectors that must be active for the element to be visible. This can
+for example be used to show a specific element on one platform only. Must be a string of the
+following format:
+
+@code
+<selector>[&<selector>...][|<frontend>[&<selector>...]...]
+@endcode
+
+With `<selector>` beeing the names of the selectors that must be set. It's basically a bunch
+of or condiditions around and conditions. This is a very reduced boolean logic, but it should
+be enough to create the desired filters. For example, you may want to show an element only on
+windows or on android when the material design is used. The resulting string would be:
+`windows|android&material`.
+*/
