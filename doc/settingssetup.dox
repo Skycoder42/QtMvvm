@@ -1,0 +1,49 @@
+/*!
+@class QtMvvm::ISettingsSetupLoader
+
+It is used by the SettingsViewModel to load a SettingsElements::Setup from a generic file. The
+default implementation that is used by default implements a loader for an XML format. You can
+implement your own format, but unless you need to open things other then normal files/resources
+(or hate XML), there is no advantage of doing so.
+
+@sa #QtMvvm_ISettingsSetupLoaderIid, SettingsViewModel, SettingsLoaderException,
+SettingsElements::Setup, TODO link to xml doc
+*/
+
+/*!
+@fn QtMvvm::ISettingsSetupLoader::changeDefaultIcon
+
+@param defaultIcon The URL to the icon to use as overwrite
+
+The default icon used by the XML loader is `qrc:/de/skycoder42/qtmvvm/icons/settings.svg`. If
+you want to overwrite that path (for example because you want to use a png instead of a svg
+icon) you can do so via this function
+
+@sa SettingsDialog::iconOverwrite
+*/
+
+/*!
+@fn QtMvvm::ISettingsSetupLoader::loadSetup
+
+@param filePath The path to the file to be loaded
+@param frontend The name of the GUI frontend beeing used
+@param selector The currently active file selectors
+@returns The loaded and filtered settings setup
+@throws SettingsLoaderException In case the loaded file is invalid
+
+The frontend is used to filter elements by their `frontends` variable. It is always the name of
+the view type that is loading the settings via the viewmodel. Current values are:
+
+- `widgets` for the Widgets GUI
+- `quick` for the Quick Controls 2 GUI
+
+The selector should be used to a.) select the files to open (event the one passed). Use the
+select method to apply the paths. This applies for the elements as well, via the `selectors`
+variable.
+
+@note The syntax etc of these two variables depends on your loader and they are only used by you,
+not by anyone using this method. The default syntax used by the XML load implementation can be
+found in the TODO xml doc
+
+@sa SettingsElements::Setup, QFileSelector, TODO xml doc
+*/
