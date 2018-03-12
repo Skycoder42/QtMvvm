@@ -1,0 +1,138 @@
+/*!
+@class QtMvvm::SettingsViewModel
+
+It's a ready made viewmodel to show a settings dialog. See @ref settings_xml. To show the
+dialog, call show from another ViewModel or the CoreApp:
+
+@code{.cpp}
+show<QtMvvm::SettingsViewModel>();
+@endcode
+
+TODO link to image page
+*/
+
+/*!
+@property QtMvvm::SettingsViewModel::canRestoreDefaults
+
+@default{`true`}
+
+Restoring defaults is only allowed if both this property and the attribute of the settings XML
+are true.
+
+@accessors{
+	@readAc{canRestoreDefaults}
+	@constantAc
+}
+
+@sa @ref settings_xml_elements_config_attribs
+*/
+
+/*!
+@property QtMvvm::SettingsViewModel::restoreConfig
+
+@default{`<i>A basic question messagebox</i>`}
+
+If you want to modify the text or options, you can replace the messagebox with another dialog.
+
+@accessors{
+	@readAc{restoreConfig}
+	@constantAc
+}
+*/
+
+/*!
+@var QtMvvm::SettingsViewModel::paramSettings
+
+<b>Value:</b> `"settings"`
+
+@sa SettingsViewModel::showParams
+*/
+
+/*!
+@var QtMvvm::SettingsViewModel::paramSetupFile
+
+<b>Value:</b> `"setupFile"`
+
+@sa SettingsViewModel::showParams
+*/
+
+/*!
+@fn QtMvvm::SettingsViewModel::showParams
+
+@param settings The QSettings to operate on. Can be null to use the default settings
+@param setupFile The path to a file to be used to create the settings. Can be empty to use the
+default path
+@return A paramater hash to be passed to ViewModel::show
+
+It's a shortcut to generate parameters for the show methods to show a settings viewmodel. Use
+them as:
+
+@code{.cpp}
+show<QtMvvm::SettingsViewModel>(QtMvvm::SettingsViewModel::showParams(...));
+@endcode
+
+@note Unless you need to explicitly set the settings or setup file a normal show without any
+parameters will just do fine.
+
+@sa ViewModel::show, SettingsViewModel::paramSettings, SettingsViewModel::paramSetupFile
+*/
+
+/*!
+@fn QtMvvm::SettingsViewModel::loadSetup
+
+@param frontend The name of the current frontend
+@returns The loaded settings setup
+
+If loading fails an empty setup is returned. Logging is performed internally, so you can just
+proceed without error checking and show an empty settings dialog.
+*/
+
+/*!
+@fn QtMvvm::SettingsViewModel::loadValue
+
+@param key The full key of the settings entry to be loaded
+@param defaultValue a default value to return in case the value is not found in the settings
+@returns The value found under the given key
+
+You can override this method if you want to support loading and saving settings from a
+different source then the normally used QSettings
+
+@sa SettingsViewModel::saveValue, SettingsViewModel::resetValue
+*/
+
+/*!
+@fn QtMvvm::SettingsViewModel::saveValue
+
+@param key The full key of the settings entry to be saved
+@param value The value to be stored under the key
+
+You can override this method if you want to support loading and saving settings from a
+different source then the normally used QSettings
+
+@sa SettingsViewModel::loadValue, SettingsViewModel::resetValue
+*/
+
+/*!
+@fn QtMvvm::SettingsViewModel::resetValue
+
+@param key The full key of the settings entry to be resetted
+
+You can override this method if you want to support loading and saving settings from a
+different source then the normally used QSettings
+
+@sa SettingsViewModel::loadValue, SettingsViewModel::saveValue
+*/
+
+/*!
+@fn QtMvvm::SettingsViewModel::callAction
+
+@param key The key of the entry that triggered the action
+@param parameters A map with additional parameters for the action call
+
+This method is called by the GUI when an entry with the
+@ref settings_xml_types_action "action" type is pressed by the user. The key is what would
+normally be used as the settings key. The parameters are deduced from the settings XML. See
+the type documentation for more details.
+
+@sa @ref settings_xml_types_action
+*/

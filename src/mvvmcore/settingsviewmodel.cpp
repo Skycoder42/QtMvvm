@@ -74,10 +74,10 @@ void SettingsViewModel::resetValue(const QString &key)
 	d->settings->remove(key);
 }
 
-void SettingsViewModel::callAction(const QString &entryId, const QVariantMap &parameters)
+void SettingsViewModel::callAction(const QString &key, const QVariantMap &parameters)
 {
 	Q_UNUSED(parameters)
-	logWarning() << "Unknown action requested with entry id" << entryId
+	logWarning() << "Unknown action requested with entry id" << key
 				 << "and parameters" << parameters;
 }
 

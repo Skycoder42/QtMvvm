@@ -225,6 +225,9 @@ type, for entry elements). It defines the actual type of for example the default
 - double or number
 - bool
 - QDateTime or datetime
+- @ref settings_xml_types_action
+- list or selection
+- radiolist
 - ...
 
 The type you need depends on what kind of data you want to represent via the XML elements. But
@@ -267,4 +270,14 @@ of or condiditions around and conditions. This is a very reduced boolean logic, 
 be enough to create the desired filters. For example, you may want to show an element only on
 windows or on android when the material design is used. The resulting string would be:
 `windows|android&material`.
+
+@subsection settings_xml_types_action action
+The action type is meant as a placeholder for a pressable button. An action edit will simply
+display a button or similar, and instead of representing a value in the settings, pressing it
+will trigger QtMvvm::SettingsViewModel::callAction. The Entries `key` attribute is passed as
+the first parameter to the method. The parameters can be specified by adding a `<Property>`
+to the entry with the key `args` and the type `object`. The property of this object are the
+elements of the map passed as the second parameter.
 */
+
+//! TODO add small sample code snippits?

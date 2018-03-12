@@ -1,0 +1,117 @@
+/*!
+@class QtMvvm::ViewModel
+
+The ViewModel is the primary class of the core library is must be implemented to create
+custom viewmodels to be shown via the mvvm mechanism. To create a custom viewmodel, simply
+implement this class and show the viewmodel via one of the show methods. Viewmodels presented
+that way support automatic injection via injectable properties.
+
+@attention In order for a viewmodel be showble, it must implement an invokable constructor
+with a single QObject* parameter for the parent. It basically should look like this:
+@code{.cpp}
+Q_INVOKABLE explicit MyViewModel(QObject *parent = nullptr);
+@endcode
+
+@sa CoreApp::show, #QTMVVM_INJECT
+*/
+
+/*!
+@fn QtMvvm::ViewModel::onInit
+
+@param params The parameters to initialize the viewmodel with
+
+This method is called by the presenter right after creating the view and reparenting the
+viewmodel to the view. The parameters are the ones that have been passed to the show method
+called to show this viewmodel instance. Reimplement this method if you need to perform
+initializations after beeing assigned to a viewmodel or if you want to support a parametrized
+viewmodel.
+
+@sa ViewModel::show, ViewModel::showForResult, CoreApp::show
+*/
+
+/*!
+@fn QtMvvm::ViewModel::onResult
+
+@param requestCode The request code of the show request for the viewmodel that triggered the
+result
+@param result The result passed from the viewmodel
+
+When showing a child viewmodel via showForResult(), then the result of that show request is
+reported back via this function. The requestCode is the one that was passed to the
+showForResult() method, and the result what the viewmodel reported back. If the showed
+viewmodel emitted resultReady() before beeing destroyed, this value passed to that signal is
+whats reported as result. If the child viewmodel gets destroyed without ever emitting that
+signal, this method is still called, but with an invalid QVariant as result.
+
+@sa ViewModel::showForResult, ViewModel::resultReady
+*/
+
+/*!
+@fn QtMvvm::ViewModel::resultReady
+
+@param result The result that should be passed to the parent viewmodel
+
+Viewmodels that have been created via showForResult() must emit this signal to report back the
+result of the show request. Doing so will lead to the onResult() method of the showing
+viewmodel beeing with the emitted result as second parameter. Not emitting this signal before
+the viewmodel gets destroy leads to the onResult() beeing called with an invalid result.
+
+@sa ViewModel::showForResult, ViewModel::onResult
+*/
+
+/*!
+@fn QtMvvm::ViewModel::show(const QVariantHash &) const
+
+@param params The show parameters to be passed to the created viewmodel
+
+This method will send a show request to the core app to show a viewmodel of the given type.
+The parameters are passed to the onInit() method by the presenter after creating and parenting
+the view. The viewmodel will be shown asynchronously, so this method will return immediatly.
+
+@sa ViewModel::showForResult, ViewModel::onInit, CoreApp::show
+*/
+
+/*!
+@fn QtMvvm::ViewModel::show(const char *, const QVariantHash &) const
+
+@param viewModelName The name of the viewmodel class to be shown
+@copydetails ViewModel::show(const QVariantHash &) const
+*/
+
+/*!
+@fn QtMvvm::ViewModel::show(const QMetaObject *, const QVariantHash &) const
+
+@param viewMetaObject The metaobject of the viewmodel class to be shown
+@copydetails ViewModel::show(const QVariantHash &) const
+*/
+
+/*!
+@fn QtMvvm::ViewModel::showForResult(quint32, const QVariantHash &) const
+
+@param requestCode The code of the show request
+@param params The show parameters to be passed to the created viewmodel
+
+This method will send a show request to the core app to show a viewmodel of the given type.
+The parameters are passed to the onInit() method by the presenter after creating and parenting
+the view. The viewmodel will be shown asynchronously, so this method will return immediatly.
+The viewmodel is show for a result, meaning that a result is reported back via onInit() as
+soon as the shown viewmodel emits resultReady() or has been destroyed. The request code is
+passed to the onResult() method in order to identify the show request.
+
+@sa ViewModel::show, ViewModel::onInit, ViewModel::resultReady, ViewModel::onResult,
+CoreApp::show
+*/
+
+/*!
+@fn QtMvvm::ViewModel::showForResult(quint32, const char *, const QVariantHash &) const
+
+@param viewModelName The name of the viewmodel class to be shown
+@copydetails ViewModel::showForResult(quint32, const QVariantHash &) const
+*/
+
+/*!
+@fn QtMvvm::ViewModel::showForResult(quint32, const QMetaObject *, const QVariantHash &) const
+
+@param viewMetaObject The metaobject of the viewmodel class to be shown
+@copydetails ViewModel::showForResult(quint32, const QVariantHash &) const
+*/

@@ -16,29 +16,40 @@ namespace QtMvvm {
 class CoreApp;
 
 class ViewModelPrivate;
+//! The base class for all viewmodels
 class Q_MVVMCORE_EXPORT ViewModel : public QObject
 {
 	Q_OBJECT
 
 public:
+	//! Default constructor with parent
 	explicit ViewModel(QObject *parent = nullptr);
 	~ViewModel();
 
 public Q_SLOTS:
+	//! Called by the presenter to initialize the viewmodel
 	virtual void onInit(const QVariantHash &params);
+	//! Called by the presenter when a result of a showed viewmodel is ready
 	virtual void onResult(quint32 requestCode, const QVariant &result);
 
 Q_SIGNALS:
+	//! Should be emitted when the viewmodels result is ready
 	void resultReady(const QVariant &result);
 
 protected:
+	//! Show another viewmodel as a child of this one
 	template <typename TViewModel>
 	inline void show(const QVariantHash &params = {}) const;
+	//! @copybrief ViewModel::show(const QVariantHash &) const
 	void show(const char *viewModelName, const QVariantHash &params = {}) const;
+	//! @copybrief ViewModel::show(const QVariantHash &) const
 	void show(const QMetaObject *viewMetaObject, const QVariantHash &params = {}) const;
+	//! Show another viewmodel as a child of this one and expect its result
 	template <typename TViewModel>
 	inline void showForResult(quint32 requestCode, const QVariantHash &params = {}) const;
+	//! @copybrief ViewModel::showForResult(quint32, const QVariantHash &) const
 	void showForResult(quint32 requestCode, const char *viewModelName, const QVariantHash &params = {}) const;
+	//! @copybrief ViewModel::showForResult(quint32, const QVariantHash &) const
 	void showForResult(quint32 requestCode, const QMetaObject *viewMetaObject, const QVariantHash &params = {}) const;
 
 private:
