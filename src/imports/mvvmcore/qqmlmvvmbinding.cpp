@@ -8,7 +8,7 @@ QQmlMvvmBinding::QQmlMvvmBinding(QObject *parent) :
 	_completed(false),
 	_viewModel(nullptr),
 	_viewModelProperty(),
-	_view(nullptr),
+	_view(parent),
 	_viewProperty(),
 	_type(TwoWay),
 	_viewModelChangeSignal(),

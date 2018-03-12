@@ -51,15 +51,15 @@ void QQmlMvvmMessage::about(const QString &description, const QUrl &websiteUrl, 
 	QtMvvm::about(description, websiteUrl, licenseName, licenseUrl, companyName, addQtVersion, extraTopInfos, extraBottomInfos);
 }
 
-void QQmlMvvmMessage::getInput(const QString &title, const QString &text, const char *inputType, const QJSValue &onResult, const QVariant &defaultValue, const QVariantMap &viewProperties, const QString &okText, const QString &cancelText)
+void QQmlMvvmMessage::getInput(const QString &title, const QString &text, const QString &inputType, const QJSValue &onResult, const QVariant &defaultValue, const QVariantMap &viewProperties, const QString &okText, const QString &cancelText)
 {
 	if(onResult.isCallable()) {
 		auto engine = _engine;
-		QtMvvm::getInput(title, text, inputType, this, [engine, onResult](QVariant result){
+		QtMvvm::getInput(title, text, qUtf8Printable(inputType), this, [engine, onResult](QVariant result){
 			QJSValue(onResult).call({engine->toScriptValue(result)});
 		}, defaultValue, viewProperties, okText, cancelText);
 	} else
-		QtMvvm::getInput(title, text, inputType, defaultValue, viewProperties, okText, cancelText);
+		QtMvvm::getInput(title, text, qUtf8Printable(inputType), defaultValue, viewProperties, okText, cancelText);
 }
 
 void QQmlMvvmMessage::getExistingDirectory(const QJSValue &onResult, const QString &title, const QUrl &dir)

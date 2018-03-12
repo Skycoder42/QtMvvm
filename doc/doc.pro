@@ -5,6 +5,7 @@ OTHER_FILES += Doxyfile \
 	doxme.py \
 	../README.md \
 	*.dox \
+	qmldoc/mvvmcore/* \
 	snippets/*.cpp \
 	images/*
 

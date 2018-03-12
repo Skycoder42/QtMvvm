@@ -11,17 +11,12 @@ hold any references to it. This class serves as a passive watcher over a binding
 */
 
 /*!
-@property QtMvvm::Binding::valid
+@fn QtMvvm::Binding::isValid
 
-@default{`false`}
+@returns `true` If the binding is valid and active, `false` if invalid or already unbound
 
 A binding is considered valid is if has successfully been set up and has not been unbound yet.
 A valid binding means view and viewModel are valid can the properties could be found.
-
-@accessors{
-	@readAc{isValid()}
-	@finalAc
-}
 
 @sa Binding::unbind, bind()
 */

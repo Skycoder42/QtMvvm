@@ -15,9 +15,6 @@ class Q_MVVMCORE_EXPORT Binding
 {
 	Q_GADGET
 
-	//! Specifies whether the binding is a valid and active binding
-	Q_PROPERTY(bool valid READ isValid FINAL)
-
 public:
 	//! Flags to control how to bind the properties
 	enum BindingDirectionFlag {
@@ -34,7 +31,7 @@ public:
 	Binding(QPointer<BindingPrivate> d_ptr);
 	~Binding();
 
-	//! @readAcFn{Binding::valid}
+	//! Specifies whether the binding is a valid and active binding
 	bool isValid() const;
 
 	//! Remove the binding by disconnecting all change signals

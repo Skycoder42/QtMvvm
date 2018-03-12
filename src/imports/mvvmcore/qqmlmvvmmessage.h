@@ -48,7 +48,7 @@ public Q_SLOTS:
 
 	void getInput(const QString &title,
 				  const QString &text,
-				  const char *inputType,
+				  const QString &inputType,
 				  const QJSValue &onResult = {},
 				  const QVariant &defaultValue = {},
 				  const QVariantMap &viewProperties = {},
