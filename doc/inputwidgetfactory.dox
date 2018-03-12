@@ -39,9 +39,10 @@ InputWidgetFactory::addAlias
 @tparam TWidget The type of the widget to provide for that type
 
 The TWidget type must extend QWidget and have a constructor that takes a single `QWidget*` as
-argument.
+argument. It furthermore needs to have a USER property, which is used to read and write the
+input value.
 
-@sa MessageConfig::createInput, InputWidgetFactory::addAlias
+@sa InputWidgetFactory::createInput, InputWidgetFactory::addAlias
 */
 
 /*!
@@ -51,9 +52,10 @@ argument.
 @param creator A function that creates a new instance of a widget for the given type
 
 The `QWidget*` argument of the creator function must be used as the parent of the created
-widget that is returned by the function.
+widget that is returned by the function. It furthermore needs to have a USER property, which is
+used to read and write the input value.
 
-@sa MessageConfig::createInput, InputWidgetFactory::addAlias
+@sa InputWidgetFactory::createInput, InputWidgetFactory::addAlias
 */
 
 /*!
@@ -64,7 +66,7 @@ widget that is returned by the function.
 
 If an input widget for the alias type is requested, one of the target type is created instead.
 
-@sa MessageConfig::createInput, InputWidgetFactory::addSimpleWidget
+@sa InputWidgetFactory::createInput, InputWidgetFactory::addSimpleWidget
 */
 
 /*!
@@ -75,5 +77,5 @@ If an input widget for the alias type is requested, one of the target type is cr
 
 If an input widget for the alias type is requested, one of the target type is created instead.
 
-@sa MessageConfig::createInput, InputWidgetFactory::addSimpleWidget
+@sa InputWidgetFactory::createInput, InputWidgetFactory::addSimpleWidget
 */

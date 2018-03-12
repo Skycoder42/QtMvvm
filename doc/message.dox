@@ -228,22 +228,25 @@ via QVariant can be used as input value. However, only for the most common types
 edit views exist. In case you want to use types not present in the list below, you need to
 create edit views yourself
 
- Type					| Widgets edit					| Quick edit
-------------------------|-------------------------------|------------
- bool					| QCheckBox						| CheckBox
- switch					| -/-							| Switch
- QString, string		| QLineEdit						| TextField
- int					| QSpinBox						| SpinBox
- double, number			| QDoubleSpinBox				| DoubleSpinBox
- QDate					| QDateEdit						| -/-
- QTime					| QTimeEdit						| -/-
- QDateTime, date		| QDateTimeEdit					| -/-
- QFont					| QFontComboBox					| FontEdit
- QKeySequence			| QKeySequenceEdit				| -/-
- QUrl, url				| QLineEdit with QUrlValidator	| UrlField
- selection, list		| QComboBox						| ListEdit
- radiolist				| -/-							| RadioListEdit
- action (settings only)	| QPushButton					| ItemDelegate
+ Type					| Widgets edit					| Quick edit	| Quick delegate
+------------------------|-------------------------------|---------------|----------------
+ bool					| QCheckBox						| CheckBox		| BoolDelegate
+ switch					| -/-							| Switch		| SwitchDelegate
+ QString, string		| QLineEdit						| TextField		| MsgDelegate (*)
+ int					| QSpinBox						| SpinBox		| MsgDelegate
+ double, number			| QDoubleSpinBox				| DoubleSpinBox	| MsgDelegate
+ QDate					| QDateEdit						| -/-			| -/-
+ QTime					| QTimeEdit						| -/-			| -/-
+ QDateTime, date		| QDateTimeEdit					| -/-			| -/-
+ QFont					| QFontComboBox					| FontEdit		| MsgDelegate
+ QKeySequence			| QKeySequenceEdit				| -/-			| -/-
+ QUrl, url				| QLineEdit with QUrlValidator	| UrlField		| MsgDelegate
+ selection, list		| QComboBox						| ListEdit		| ListDelegate
+ radiolist				| -/-							| RadioListEdit	| -/-
+ action (settings only)	| QPushButton					| -/-			| ItemDelegate
+
+(*) The MsgDelegate is used for any type but the ones that have explicit delegates. It will
+show a dialog with an input of the "Quick edit" column
 
 The following types have special properties as well:
 

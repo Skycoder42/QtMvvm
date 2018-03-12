@@ -1,0 +1,159 @@
+/*!
+@class QtMvvm::InputViewFactory
+
+The factory is used by the QuickPresenter to create input views and delegates for various
+types. This is used to for example create the edits of input dialogs or for the list delegates
+of a SettingsView.
+
+@sa QuickPresenter, QuickPresenter::inputViewFactory, MessageConfig::TypeInputDialog,
+QtMvvm::getInput, SettingsViewModel
+*/
+
+/*!
+@fn QtMvvm::InputViewFactory::getInputUrl
+
+@param type The input type to create a view for
+@param viewProperties A map with extra properties to be set on the edit
+@returns A url to a QML component suitable for editing input of the given type
+
+The factory first checks if the given type is registered as alias. If yes, it continues with
+the aliased type. Then it checks for a url registered as simple view exists for the given
+type and uses that one if present. If no simple view is set the default mapping for type to
+urls is used (See MessageConfig::TypeInputDialog for a full table of supported types). If no
+url can be found for a type, an invalid url is returned.
+
+The viewProperties are used to setup the created view by settings them as properties on the
+view. For every key-value-pair in the map, QObject::setProperty is called on the view to
+set the property.
+
+@sa MessageConfig::TypeInputDialog, InputViewFactory::addSimpleInput,
+InputViewFactory::addInputAlias, InputViewFactory::getDelegate
+*/
+
+/*!
+@fn QtMvvm::InputViewFactory::getDelegate
+
+@param type The input type to create a delegate for
+@param viewProperties A map with extra properties to be set on the delegate
+@returns A url to a QML component suitable for editing input of the given type, as a delegate
+
+Delegates can be used to provide "editabel" list items for ListViews. (For example, the
+SettingsView makes use of them). Available roles are:
+- group
+- key
+- type
+- title
+- tooltip
+- delegateUrl
+- inputValue
+- properties
+
+The factory first checks if the given type is registered as alias. If yes, it continues with
+the aliased type. Then it checks for a url registered as simple delegate exists for the given
+type and uses that one if present. If no simple delegate is set the default mapping for type
+to urls is used (See MessageConfig::TypeInputDialog for a full table of supported types). If
+no url can be found for a type, the MsgDelegate is returned, which will simply show an input
+of the given type. Thus, for all not explicitly supported delegate types, the getInputUrl() is
+used to find an edit for the dialog.
+
+The viewProperties are used to setup the created delegate by settings them as properties on
+the delegate. For every key-value-pair in the map, QObject::setProperty is called on the
+delegate to set the property.
+
+@sa MessageConfig::TypeInputDialog, InputViewFactory::addSimpleDelegate,
+InputViewFactory::addDelegateAlias, InputViewFactory::getInputUrl
+*/
+
+/*!
+@fn QtMvvm::InputViewFactory::addSimpleInput(const QUrl &)
+
+@tparam TType The type to add an input view for
+@param qmlFileUrl The URL of the QML file that contains the component
+
+The qmlFileUrl must be a valid URL to a QML file with a displayable quick item. The item must
+have a property named `inputValue` that is used to read and write the edit data.
+
+@sa InputViewFactory::getInputUrl, InputViewFactory::addInputAlias
+*/
+
+/*!
+@fn QtMvvm::InputViewFactory::addSimpleInput(const QByteArray &, const QUrl &)
+
+@param type The type to add an input view for
+@param qmlFileUrl The URL of the QML file that contains the component
+
+The qmlFileUrl must be a valid URL to a QML file with a displayable quick item. The item must
+have a property named `inputValue` that is used to read and write the edit data.
+
+@sa InputViewFactory::getInputUrl, InputViewFactory::addInputAlias
+*/
+
+/*!
+@fn QtMvvm::InputViewFactory::addSimpleDelegate(const QUrl &)
+
+@tparam TType The type to add a delegate view for
+@param qmlFileUrl The URL of the QML file that contains the component
+
+The qmlFileUrl must be a valid URL to a QML file with a displayable quick item that can be
+used as a delegate for a ListView.
+
+@sa InputViewFactory::getDelegate, InputViewFactory::addDelegateAlias
+*/
+
+/*!
+@fn QtMvvm::InputViewFactory::addSimpleDelegate(const QByteArray &, const QUrl &)
+
+@param type The type to add a delegate view for
+@param qmlFileUrl The URL of the QML file that contains the component
+
+The qmlFileUrl must be a valid URL to a QML file with a displayable quick item that can be
+used as a delegate for a ListView.
+
+@sa InputViewFactory::getDelegate, InputViewFactory::addDelegateAlias
+*/
+
+/*!
+@fn QtMvvm::InputViewFactory::addInputAlias()
+
+@tparam TAliasType The type to add as a new alias
+@tparam TTargetType The type the alias should be translated to
+
+If an input view for the alias type is requested, one of the target type is created instead.
+
+@sa InputViewFactory::getInputUrl, InputViewFactory::addSimpleInput
+*/
+
+/*!
+@fn QtMvvm::InputViewFactory::addInputAlias(const QByteArray &, const QByteArray &)
+
+@param alias The type to add as a new alias
+@param targetType The type the alias should be translated to
+
+If an input view for the alias type is requested, one of the target type is created instead.
+
+@sa InputViewFactory::getInputUrl, InputViewFactory::addSimpleInput
+*/
+
+/*!
+@fn QtMvvm::InputViewFactory::addDelegateAlias()
+
+@tparam TAliasType The type to add as a new alias
+@tparam TTargetType The type the alias should be translated to
+
+If an delegate view for the alias type is requested, one of the target type is created
+instead.
+
+@sa InputViewFactory::getDelegate, InputViewFactory::addSimpleDelegate
+*/
+
+/*!
+@fn QtMvvm::InputViewFactory::addDelegateAlias(const QByteArray &, const QByteArray &)
+
+@param alias The type to add as a new alias
+@param targetType The type the alias should be translated to
+
+If an delegate view for the alias type is requested, one of the target type is created
+instead.
+
+@sa InputViewFactory::getDelegate, InputViewFactory::addSimpleDelegate
+*/

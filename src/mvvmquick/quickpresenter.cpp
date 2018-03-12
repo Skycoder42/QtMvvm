@@ -17,6 +17,7 @@ namespace {
 void qtMvvmQuickInit()
 {
 	qmlRegisterType<QUrlValidator>("de.skycoder42.QtMvvm.Quick.Private", 1, 0, "UrlValidator");
+	QtMvvm::ServiceRegistry::instance()->registerObject<QtMvvm::InputViewFactory>(true);
 	QtMvvm::ServiceRegistry::instance()->registerInterface<QtMvvm::IPresenter, QtMvvm::QuickPresenter>(true);
 }
 
@@ -43,9 +44,9 @@ QuickPresenter::QuickPresenter(QObject *parent) :
 
 QuickPresenter::~QuickPresenter() {}
 
-void QuickPresenter::addViewSearchDir(const QString &dirUrl)
+void QuickPresenter::addViewSearchDir(const QString &dirPath)
 {
-	QuickPresenterPrivate::currentPresenter()->d->searchDirs.prepend(dirUrl);
+	QuickPresenterPrivate::currentPresenter()->d->searchDirs.prepend(dirPath);
 }
 
 void QuickPresenter::registerViewExplicitly(const QMetaObject *viewModelType, const QUrl &viewUrl)
@@ -93,12 +94,12 @@ bool QuickPresenter::presentToQml(QObject *qmlPresenter, QObject *viewObject)
 
 InputViewFactory *QuickPresenter::inputViewFactory() const
 {
-	return d->inputViewFactory.data();
+	return d->inputViewFactory;
 }
 
 void QuickPresenter::setInputViewFactory(InputViewFactory *inputViewFactory)
 {
-	d->inputViewFactory.reset(inputViewFactory);
+	d->inputViewFactory = inputViewFactory;
 	emit inputViewFactoryChanged(inputViewFactory);
 }
 
@@ -166,7 +167,8 @@ int QuickPresenter::presentMethodIndex(const QMetaObject *presenterMetaObject, Q
 		if(nameOrClassContains(viewObject, QStringLiteral("Drawer"))) {
 			logDebug() << "Presenting" << viewObject->metaObject()->className() << "as drawer";
 			index = presenterMetaObject->indexOfMethod("presentDrawerContent(QVariant)");
-		} if(index == -1 && nameOrClassContains(viewObject, QStringLiteral("Tab"))) {
+		}
+		if(index == -1 && nameOrClassContains(viewObject, QStringLiteral("Tab"))) {
 			logDebug() << "Presenting" << viewObject->metaObject()->className() << "as tab";
 			index = presenterMetaObject->indexOfMethod("presentTab(QVariant)");
 		}
@@ -198,7 +200,7 @@ QuickPresenterPrivate::QuickPresenterPrivate() :
 	explicitMappings(),
 	searchDirs({QStringLiteral(":/qtmvvm/views")}),
 	qmlPresenter(nullptr),
-	inputViewFactory(new InputViewFactory())
+	inputViewFactory(nullptr)
 {}
 
 QuickPresenter *QuickPresenterPrivate::currentPresenter()

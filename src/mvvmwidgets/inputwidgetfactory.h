@@ -19,6 +19,7 @@ class InputWidgetFactory : public QObject
 	Q_OBJECT
 
 public:
+	//! Default constructor
 	Q_INVOKABLE explicit InputWidgetFactory(QObject *parent = nullptr);
 	virtual ~InputWidgetFactory();
 

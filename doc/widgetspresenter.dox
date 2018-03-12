@@ -22,6 +22,7 @@ the default one.
 @accessors{
 	@readAc{inputWidgetFactory()}
 	@writeAc{setInputWidgetFactory()}
+	@notifyAc{inputWidgetFactoryChanged()}
 }
 
 @sa #QTMVVM_INJECT
@@ -92,6 +93,7 @@ registration have precedence over implicit ones.
 
 @param viewModelMetaObject The metobject of the viewmodel to find a view for
 @returns The metaobject of the view to used, or `nullptr` if none was found
+@throws PresenterException If no view could be found
 
 The default implementation simply check all explicitly registered views and then tries to
 match the name with the implicitly registered ones. If no match if found, the same is tried
@@ -114,4 +116,73 @@ parent or its central widget are a QMdiArea, and the views class name ends with 
 it is presented as QMdiSubWindow. For all other cases, showForeground() is called.
 
 @sa WidgetsPresenter::showForeground, QDialog, QMainWindow, QDockWidget, QMdiArea
+*/
+
+/*!
+@fn QtMvvm::WidgetsPresenter::showForeground
+
+@param view The view to be presented
+
+This method is called by tryPresent() to simply show a standard window. The method however
+does not only show the window, but also makes shure it becomes the currently active
+foreground window.
+
+@sa WidgetsPresenter::tryPresent
+*/
+
+/*!
+@fn QtMvvm::WidgetsPresenter::presentMessageBox
+
+@param config The configuration of the message box
+@param result The message result to report the result to
+@throws PresenterException If presenting the dialog failed
+
+This method is called by showDialog() to present a dialog from a message config with the
+MessageConfig::type set to MessageConfig::TypeMessageBox. You can override it to customize
+how to show them.
+
+@sa WidgetsPresenter::showDialog
+*/
+
+/*!
+@fn QtMvvm::WidgetsPresenter::presentInputDialog
+
+@param config The configuration of the input dialog
+@param result The message result to report the result to
+@throws PresenterException If presenting the dialog failed
+
+This method is called by showDialog() to present a dialog from a message config with the
+MessageConfig::type set to MessageConfig::TypeInputDialog. You can override it to customize
+how to show them.
+
+@sa WidgetsPresenter::showDialog
+*/
+
+/*!
+@fn QtMvvm::WidgetsPresenter::presentFileDialog
+
+@param config The configuration of the file dialog
+@param result The message result to report the result to
+@throws PresenterException If presenting the dialog failed
+
+This method is called by showDialog() to present a dialog from a message config with the
+MessageConfig::type set to MessageConfig::TypeFileDialog. You can override it to customize
+how to show them.
+
+@sa WidgetsPresenter::showDialog
+*/
+
+/*!
+@fn QtMvvm::WidgetsPresenter::presentOtherDialog
+
+@param config The configuration of the dialog
+@param result The message result to report the result to
+@throws PresenterException If presenting the dialog failed
+
+This method is called by showDialog() to present a dialog from a message config with the
+MessageConfig::type set to to custom type (i.e. none of the 3 default types). The default
+implementation simply throws the PresenterException. If you want to support additional types
+to the 3 default types, reimplement this method to do so.
+
+@sa WidgetsPresenter::showDialog
 */

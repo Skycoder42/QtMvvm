@@ -50,6 +50,14 @@ The following list shows which classes belong to which Qt module, in alphabetica
 
 <b>Current Version</b><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0
+
+<b>Available Types</b>
+- @ref QtMvvm::MessageConfig "MessageConfig" (uncreatable)
+- @ref QtMvvm::MessageResult "MessageResult" (uncreatable)
+- MvvmBinding
+- Message (singleton)
+- @ref QtMvvm::SettingsViewModel "SettingsViewModel" (uncreatable)
+- @ref QtMvvm::ViewModel "ViewModel" (uncreatable)
 */
 
 /*!

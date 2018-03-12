@@ -10,8 +10,8 @@
 
 using namespace QtMvvm;
 
-InputViewFactory::InputViewFactory() :
-	QObject(nullptr),
+InputViewFactory::InputViewFactory(QObject *parent) :
+	QObject(parent),
 	d(new InputViewFactoryPrivate())
 {}
 

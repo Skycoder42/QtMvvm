@@ -1,0 +1,132 @@
+/*!
+@class QtMvvm::QuickPresenter
+
+This presenter is automatically registered as the default presenter for the IPresenter
+interface with the ServiceRegistry, but as weak service, in order to make it possible to
+overwrite it.
+
+The class handles all the logic required for presenting Quick Controsl 2 based views. You can
+extend this class and reimplement it's virtual methods if you need to adjust how certain views
+or dialogs are presented, or if you want to support custom stuff.
+
+By default, the presenter will use the `":/qtmvvm/views"` directory for finding views. When
+presenting a viewmodel, the presenter tries to find a view url with a matching name. If the
+viewmodel is for example named `MyViewModel`, then the view must start with `My` too. For
+example it can be named `MyView.qml` or `MyDialog.qml`
+
+@note Implicit detection of views for viewmodels can sometimes lead to ambiguities and thus a
+wrong view beeing found. In such cases, use registerViewExplicitly() instead.
+*/
+
+/*!
+@property QtMvvm::QuickPresenter::inputViewFactory
+
+@default{<i>Injected</i>}
+
+Do not set this property yourself. It is automatically injected when showing the viewmodel.
+You can use the ServiceRegistry::registerInterface if you need to use a factory different from
+the default one.
+
+@accessors{
+	@readAc{inputViewFactory()}
+	@writeAc{setInputViewFactory()}
+	@notifyAc{inputViewFactoryChanged()}
+}
+
+@sa #QTMVVM_INJECT
+*/
+
+/*!
+@fn QtMvvm::QuickPresenter::addViewSearchDir
+
+@param dirPath A path to directory to be searched for input views
+
+Simply adds the directory to the ones beeing searched for views. The new directoy will be
+prepended to the search list and thus be searched before any other directory.
+
+@sa QuickPresenter::registerViewExplicitly
+*/
+
+/*!
+@fn QtMvvm::QuickPresenter::registerViewExplicitly(const QUrl &)
+
+@tparam TViewModel The viewmodel to to register the view for
+@param viewUrl The QML url register within the presenter. Must be a valid qml component
+
+The url is registered with the current presenter. It is registered explicitly, which means
+that whenever the given viewmodel is beeing presented, this exact url will be used. Explicit
+registration have precedence over implicit ones.
+
+@sa QuickPresenter::addViewSearchDir
+*/
+
+/*!
+@fn QtMvvm::QuickPresenter::registerViewExplicitly(const QMetaObject *, const QUrl &)
+
+@param viewModelType The viewmodel to to register the view for
+@param viewUrl The QML url register within the presenter. Must be a valid qml component
+
+The url is registered with the current presenter. It is registered explicitly, which means
+that whenever the given viewmodel is beeing presented, this exact url will be used. Explicit
+registration have precedence over implicit ones.
+
+@sa QuickPresenter::addViewSearchDir
+*/
+
+/*!
+@fn QtMvvm::QuickPresenter::presentToQml
+
+@param qmlPresenter The presenter to present the view to
+@param viewObject The view QML object to be presented
+@returns `true` if successfully presented, `false` if not
+
+Is called from the qml presentation part to actually present a view to another view that takes
+the role of a presenter, or the actual main presenter.
+
+The default implementation uses presentMethodIndex() to find a method to call, then calls it
+and returns the result of that method call. If no method was found, false is returned.
+
+@sa QuickPresenter::presentMethodIndex
+*/
+
+/*!
+@fn QtMvvm::QuickPresenter::findViewUrl
+
+@param viewModelType The metobject of the viewmodel to find a view for
+@returns The URL of the found file
+@throws PresenterException If no view url could be found
+
+The default implementation simply check all explicitly registered views and then tries to
+match the name with all qml files available in the search dirs. If no match if found, the
+same is tried for the parent viewmodel type recursively, until the ViewModel base is reached.
+
+@sa QuickPresenter::addViewSearchDir
+*/
+
+/*!
+@fn QtMvvm::QuickPresenter::presentMethodIndex
+
+@param presenterMetaObject The metobject of the presenter to search a method on
+@param viewObject The QML item to be presented on that presenter
+@returns The index of the method from the meta object to be called, or `-1` if no method could
+be found.
+
+This method is called to find the method. The method must take a single argument, the view to
+be presented, and return a bool to report whether presenting actually worked or not. The
+default implementation first checks if the view extends QQuickPopup, and if yes looks for the
+`presentPopup` method. If the view is a normal QQuickItem, the name is analyzed. If the name
+contains `Drawer`, the `presentDrawerContent` method is checkd. If the name contains `Tab`,
+the `presentTab` method is checkd. If none applies or none was found, the method looks for the
+`presentItem` method. If that one is not found as well, `-1 is returned.
+
+@sa QuickPresenter::presentToQml
+*/
+
+/*!
+@fn QtMvvm::QuickPresenter::nameOrClassContains
+
+@param obj The object to search for the string
+@param contained The string to be searched
+@param caseSensitive Specifies if the check should be case sensitive
+@returns `true` if the object or class name contain the string, `false` if not
+*/
