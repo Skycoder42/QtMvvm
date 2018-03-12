@@ -19,6 +19,7 @@ The following list shows which classes belong to which Qt module, in alphabetica
 	- SettingsViewModel
 	- ViewModel
 	- All Methods not explicitly listed
+	- QML import: @ref de::skycoder42::QtMvvm::Core "de.skycoder42.QtMvvm.Core"
 - QtMvvmWidgets:
 	- InputWidgetFactory
 	- IPresentingView
@@ -27,15 +28,50 @@ The following list shows which classes belong to which Qt module, in alphabetica
 - QtMvvmQuick:
 	- InputViewFactory
 	- QuickPresenter
+	- QML import: @ref de::skycoder42::QtMvvm::Quick "de.skycoder42.QtMvvm.Quick"
 - QtMvvmDataSyncCore:
 	- AccountModel
 	- DataSyncViewModel
 	- ExchangeDevicesModel
 	- NetworkExchangeViewModel
+	- QML import: @ref de::skycoder42::QtMvvm::DataSync::Core "de.skycoder42.QtMvvm.DataSync.Core"
 - QtMvvmDataSyncWidgets:
 	- DataSyncWindow
 	- NetworkExchangeWindow
 	- registerDataSyncWidgets()
 - QtMvvmDataSyncQuick:
 	- registerDataSyncQuick()
+	- QML import: @ref de::skycoder42::QtMvvm::DataSync::Quick "de.skycoder42.QtMvvm.DataSync.Quick"
+*/
+
+/*!
+@namespace de::skycoder42::QtMvvm::Core
+@brief The QML import for the QtMvvmCore QML module
+
+<b>Current Version</b><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0
+*/
+
+/*!
+@namespace de::skycoder42::QtMvvm::Quick
+@brief The QML import for the QtMvvmQuick QML module
+
+<b>Current Version</b><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0
+*/
+
+/*!
+@namespace de::skycoder42::QtMvvm::DataSync::Core
+@brief The QML import for the QtMvvmDataSyncCore QML module
+
+<b>Current Version</b><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0
+*/
+
+/*!
+@namespace de::skycoder42::QtMvvm::DataSync::Quick
+@brief The QML import for the QtMvvmDataSyncQuick QML module
+
+<b>Current Version</b><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0
 */
