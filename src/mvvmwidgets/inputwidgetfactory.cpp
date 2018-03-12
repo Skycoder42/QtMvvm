@@ -18,7 +18,8 @@
 
 using namespace QtMvvm;
 
-InputWidgetFactory::InputWidgetFactory() :
+InputWidgetFactory::InputWidgetFactory(QObject *parent) :
+	QObject(parent),
 	d(new InputWidgetFactoryPrivate())
 {}
 

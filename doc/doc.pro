@@ -6,7 +6,8 @@ OTHER_FILES += Doxyfile \
 	../README.md \
 	*.dox \
 	snippets/*.cpp \
-	images/*
+	images/* \
+	gh_header.html
 
 system($$QMAKE_MKDIR $$shell_quote($$shell_path($$OUT_PWD/qtmvvm)))
 

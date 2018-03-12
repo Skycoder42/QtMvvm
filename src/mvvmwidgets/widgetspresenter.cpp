@@ -28,6 +28,7 @@ namespace {
 
 void qtMvvmWidgetsInit()
 {
+	QtMvvm::ServiceRegistry::instance()->registerObject<QtMvvm::InputWidgetFactory>(true);
 	QtMvvm::ServiceRegistry::instance()->registerInterface<QtMvvm::IPresenter, QtMvvm::WidgetsPresenter>(true);
 }
 
@@ -91,16 +92,8 @@ void WidgetsPresenter::present(ViewModel *viewModel, const QVariantHash &params,
 	view->setAttribute(Qt::WA_DeleteOnClose);
 	viewModel->onInit(params);
 
-	// present the view
-	auto presented = false;
-	auto tPresenter = dynamic_cast<IPresentingView*>(parentView);
-	if(tPresenter)
-		presented = tPresenter->tryPresent(view);
-	if(!presented)
-		presented = tryPresent(view, parentView);
-
-	//handle the present result
-	if(!presented) {
+	// present the view and handle the present result
+	if(!tryPresent(view, parentView)) {
 		view->deleteLater();
 		throw PresenterException(QByteArrayLiteral("Unable to find a method that is able to present a view of type") +
 								 viewMetaObject->className());
@@ -125,12 +118,12 @@ void WidgetsPresenter::showDialog(const MessageConfig &config, MessageResult *re
 
 InputWidgetFactory *WidgetsPresenter::inputWidgetFactory() const
 {
-	return d->inputViewFactory.data();
+	return d->inputViewFactory;
 }
 
 void WidgetsPresenter::setInputWidgetFactory(InputWidgetFactory *inputWidgetFactory)
 {
-	d->inputViewFactory.reset(inputWidgetFactory);
+	d->inputViewFactory = inputWidgetFactory;
 	emit inputWidgetFactoryChanged(inputWidgetFactory);
 }
 
@@ -179,6 +172,10 @@ const QMetaObject *WidgetsPresenter::findWidgetMetaObject(const QMetaObject *vie
 
 bool WidgetsPresenter::tryPresent(QWidget *view, QWidget *parentView)
 {
+	auto tPresenter = dynamic_cast<IPresentingView*>(parentView);
+	if(tPresenter && tPresenter->tryPresent(view))
+		return true;
+
 	auto metaObject = view->metaObject();
 
 	// Check if QDialog
@@ -434,7 +431,7 @@ void WidgetsPresenter::presentOtherDialog(const MessageConfig &config, QPointer<
 // ------------- Private Implementation -------------
 
 WidgetsPresenterPrivate::WidgetsPresenterPrivate() :
-	inputViewFactory(new InputWidgetFactory()),
+	inputViewFactory(),
 	implicitMappings({&SettingsDialog::staticMetaObject}),
 	explicitMappings()
 {}

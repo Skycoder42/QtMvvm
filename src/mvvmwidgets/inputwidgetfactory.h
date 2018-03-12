@@ -3,6 +3,7 @@
 
 #include <functional>
 
+#include <QtCore/qobject.h>
 #include <QtCore/qscopedpointer.h>
 
 #include <QtWidgets/qwidget.h>
@@ -12,21 +13,29 @@
 namespace QtMvvm {
 
 class InputWidgetFactoryPrivate;
-class InputWidgetFactory
+//! A factory class to generate input edit widgets by their type names
+class InputWidgetFactory : public QObject
 {
+	Q_OBJECT
+
 public:
-	InputWidgetFactory();
+	Q_INVOKABLE explicit InputWidgetFactory(QObject *parent = nullptr);
 	virtual ~InputWidgetFactory();
 
+	//! Create a new input widget of the given input type
 	virtual QWidget *createInput(const QByteArray &type, QWidget *parent, const QVariantMap &viewProperties);
 
-	virtual void addSimpleWidget(const QByteArray &type, const std::function<QWidget*(QWidget*)> &creator);
+	//! Adds a new generator to create widgets for the given type
 	template <typename TType, typename TWidget>
 	inline void addSimpleWidget();
+	//! @copybrief addSimpleWidget()
+	virtual void addSimpleWidget(const QByteArray &type, const std::function<QWidget*(QWidget*)> &creator);
 
-	virtual void addAlias(const QByteArray &alias, const QByteArray &targetType);
+	//! Adds a type name alias
 	template <typename TAliasType, typename TTargetType>
 	inline void addAlias();
+	//! @copybrief addAlias()
+	virtual void addAlias(const QByteArray &alias, const QByteArray &targetType);
 
 private:
 	QScopedPointer<InputWidgetFactoryPrivate> d;

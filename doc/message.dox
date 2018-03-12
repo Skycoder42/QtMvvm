@@ -228,21 +228,22 @@ via QVariant can be used as input value. However, only for the most common types
 edit views exist. In case you want to use types not present in the list below, you need to
 create edit views yourself
 
- Type				| Widgets edit					| Quick edit
---------------------|-------------------------------|------------
- bool				| QCheckBox						| CheckBox
- switch				| -/-							| Switch
- QString, string	| QLineEdit						| TextField
- int				| QSpinBox						| SpinBox
- double, number		| QDoubleSpinBox				| DoubleSpinBox
- QDate				| QDateEdit						| -/-
- QTime				| QTimeEdit						| -/-
- QDateTime, date	| QDateTimeEdit					| -/-
- QFont				| QFontComboBox					| FontEdit
- QKeySequence		| QKeySequenceEdit				| -/-
- QUrl, url			| QLineEdit with QUrlValidator	| UrlField
- selection, list	| QComboBox						| ListEdit
- radiolist			| -/-							| RadioListEdit
+ Type					| Widgets edit					| Quick edit
+------------------------|-------------------------------|------------
+ bool					| QCheckBox						| CheckBox
+ switch					| -/-							| Switch
+ QString, string		| QLineEdit						| TextField
+ int					| QSpinBox						| SpinBox
+ double, number			| QDoubleSpinBox				| DoubleSpinBox
+ QDate					| QDateEdit						| -/-
+ QTime					| QTimeEdit						| -/-
+ QDateTime, date		| QDateTimeEdit					| -/-
+ QFont					| QFontComboBox					| FontEdit
+ QKeySequence			| QKeySequenceEdit				| -/-
+ QUrl, url				| QLineEdit with QUrlValidator	| UrlField
+ selection, list		| QComboBox						| ListEdit
+ radiolist				| -/-							| RadioListEdit
+ action (settings only)	| QPushButton					| ItemDelegate
 
 The following types have special properties as well:
 

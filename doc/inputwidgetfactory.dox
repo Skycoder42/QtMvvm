@@ -1,0 +1,79 @@
+/*!
+@class QtMvvm::InputWidgetFactory
+
+The factory is used by the WidgetsPresenter to create input widgets for various types. This is
+used to for example create the edits of input dialogs or for the edit fields of a
+SettingsDialog.
+
+@sa WidgetsPresenter, WidgetsPresenter::inputWidgetFactory, MessageConfig::TypeInputDialog,
+QtMvvm::getInput, SettingsViewModel
+*/
+
+/*!
+@fn QtMvvm::InputWidgetFactory::createInput
+
+@param type The input type to create a widget for
+@param parent The parent widget for the created widget
+@param viewProperties A map with extra properties to be set on the edit
+@returns A newly created widget suitable for editing input of the given type
+@throws PresenterException In case no widget could be found or created for the given type
+
+The factory first checks if the given type is registered as alias. If yes, it continues with
+the aliased type. Then it checks for a widget registered as simple widget exists for the given
+type and uses that one if present. If no simple widget is set the default mapping for type to
+widgets is used (See MessageConfig::TypeInputDialog for a full table of supported types). If no
+widget can be found for a type, an exception is thrown.
+
+The viewProperties are used to setup the created widget by settings them as properties on the
+widget. For every key-value-pair in the map, QObject::setProperty is called on the widget to
+set the property.
+
+@sa MessageConfig::TypeInputDialog, InputWidgetFactory::addSimpleWidget,
+InputWidgetFactory::addAlias
+*/
+
+/*!
+@fn QtMvvm::InputWidgetFactory::addSimpleWidget()
+
+@tparam TType The type to add a widget for
+@tparam TWidget The type of the widget to provide for that type
+
+The TWidget type must extend QWidget and have a constructor that takes a single `QWidget*` as
+argument.
+
+@sa MessageConfig::createInput, InputWidgetFactory::addAlias
+*/
+
+/*!
+@fn QtMvvm::InputWidgetFactory::addSimpleWidget(const QByteArray &, const std::function<QWidget*(QWidget*)> &)
+
+@param type The type to add a widget for
+@param creator A function that creates a new instance of a widget for the given type
+
+The `QWidget*` argument of the creator function must be used as the parent of the created
+widget that is returned by the function.
+
+@sa MessageConfig::createInput, InputWidgetFactory::addAlias
+*/
+
+/*!
+@fn QtMvvm::InputWidgetFactory::addAlias()
+
+@tparam TAliasType The type to add as a new alias
+@tparam TTargetType The type the alias should be translated to
+
+If an input widget for the alias type is requested, one of the target type is created instead.
+
+@sa MessageConfig::createInput, InputWidgetFactory::addSimpleWidget
+*/
+
+/*!
+@fn QtMvvm::InputWidgetFactory::addAlias(const QByteArray &, const QByteArray &)
+
+@param alias The type to add as a new alias
+@param targetType The type the alias should be translated to
+
+If an input widget for the alias type is requested, one of the target type is created instead.
+
+@sa MessageConfig::createInput, InputWidgetFactory::addSimpleWidget
+*/

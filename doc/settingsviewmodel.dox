@@ -20,7 +20,7 @@ Restoring defaults is only allowed if both this property and the attribute of th
 are true.
 
 @accessors{
-	@readAc{canRestoreDefaults}
+	@readAc{canRestoreDefaults()}
 	@constantAc
 }
 
@@ -30,14 +30,32 @@ are true.
 /*!
 @property QtMvvm::SettingsViewModel::restoreConfig
 
-@default{`<i>A basic question messagebox</i>`}
+@default{<i>A basic question messagebox</i>}
 
 If you want to modify the text or options, you can replace the messagebox with another dialog.
 
 @accessors{
-	@readAc{restoreConfig}
+	@readAc{restoreConfig()}
 	@constantAc
 }
+*/
+
+/*!
+@property QtMvvm::SettingsViewModel::settingsSetupLoader
+
+@default{<i>Injected</i>}
+
+Do not set this property yourself. It is automatically injected when showing the viewmodel.
+You can use the ServiceRegistry::registerInterface if you need to use a loader different from
+the default one.
+
+@accessors{
+	@readAc{settingsSetupLoader()}
+	@writeAc{setSettingsSetupLoader()}
+	@notifyAc{settingsSetupLoaderChanged()}
+}
+
+@sa #QTMVVM_INJECT
 */
 
 /*!

@@ -1,0 +1,21 @@
+/*!
+@class QtMvvm::IPresentingView
+
+If a the viewmodel of a view that was presented by the WidgetsPresenter as used as the parent
+view of another viewmodel, the parent view can implement this interface in order to be used
+as presenter for the view of the child viewmodel. In such a case, if the parent view implements
+this interface, the tryPresent() method is called to try the presentation of the child view
+
+@sa #QtMvvm_IPresentingViewIid, WidgetsPresenter
+*/
+
+/*!
+@fn QtMvvm::IPresentingView::tryPresent
+
+@param view The view that is tryed to be presented
+@returns `true` if successfully presented, `false` if not
+
+If true is returned, the presenter assumes presentation was successful and thus completes. If
+false is returned, it resumes presenting the view normally, just as if that interface was never
+implemented
+*/

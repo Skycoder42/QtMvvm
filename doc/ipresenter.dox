@@ -14,6 +14,8 @@ void myPresenterInit()
 }
 Q_COREAPP_STARTUP_FUNCTION(myPresenterInit)
 @endcode
+
+@sa #QtMvvm_IPresenterIid
 */
 
 /*!

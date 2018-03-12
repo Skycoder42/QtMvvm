@@ -12,16 +12,20 @@
 namespace QtMvvm {
 
 class SettingsDialogPrivate;
+//! The widgets view implementation for the SettingsViewModel
 class Q_MVVMWIDGETS_EXPORT SettingsDialog : public QDialog
 {
 	Q_OBJECT
 
 public:
+	//! View constructor
 	Q_INVOKABLE explicit SettingsDialog(QtMvvm::ViewModel *viewModel, QWidget *parent = nullptr);
 	~SettingsDialog();
 
 protected:
+	//! Returns the stylesheet used highlight labels found when searching
 	virtual QString labelFilterStyleSheet() const;
+	//! Return a url to overwrite the default settings icon
 	virtual QUrl iconOverwrite() const;
 
 private:

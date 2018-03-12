@@ -1,0 +1,117 @@
+/*!
+@class QtMvvm::WidgetsPresenter
+
+This presenter is automatically registered as the default presenter for the IPresenter
+interface with the ServiceRegistry, but as weak service, in order to make it possible to
+overwrite it.
+
+The class handles all the logic required for presenting widget based views. You can extend
+this class and reimplement it's virtual methods if you need to adjust how certain views or
+dialogs are presented, or if you want to support custom stuff
+*/
+
+/*!
+@property QtMvvm::WidgetsPresenter::inputWidgetFactory
+
+@default{<i>Injected</i>}
+
+Do not set this property yourself. It is automatically injected when showing the viewmodel.
+You can use the ServiceRegistry::registerInterface if you need to use a factory different from
+the default one.
+
+@accessors{
+	@readAc{inputWidgetFactory()}
+	@writeAc{setInputWidgetFactory()}
+}
+
+@sa #QTMVVM_INJECT
+*/
+
+/*!
+@fn QtMvvm::WidgetsPresenter::registerView()
+
+@tparam TView The widget type register within the presenter. Must extend QWidget
+
+The widget is registered with the current presenter. It is registered implicitly, which means
+that it's name will be used to find it when a viewmodel is presented for it. Thus, it must be
+named after the viewmodel. If the viewmodel is for example named `MyViewModel`, then the view
+must start with `My` too. For example it can be named `MyWidget`, `MyDialog`, `MyWindow`,
+`MyView`, ...
+
+@note Implicit detection of views for viewmodels can sometimes lead to ambiguities and thus a
+wrong view beeing found. In such cases, use registerViewExplicitly() instead.
+
+@sa WidgetsPresenter::registerViewExplicitly
+*/
+
+/*!
+@fn QtMvvm::WidgetsPresenter::registerView(const QMetaObject *)
+
+@param viewType The widget type register within the presenter. Must extend QWidget
+
+The widget is registered with the current presenter. It is registered implicitly, which means
+that it's name will be used to find it when a viewmodel is presented for it. Thus, it must be
+named after the viewmodel. If the viewmodel is for example named `MyViewModel`, then the view
+must start with `My` too. For example it can be named `MyWidget`, `MyDialog`, `MyWindow`,
+`MyView`, ...
+
+@note Implicit detection of views for viewmodels can sometimes lead to ambiguities and thus a
+wrong view beeing found. In such cases, use registerViewExplicitly() instead.
+
+@sa WidgetsPresenter::registerViewExplicitly
+*/
+
+/*!
+@fn QtMvvm::WidgetsPresenter::registerViewExplicitly()
+
+@tparam TViewModel The viewmodel to to register the view for
+@tparam TView The widget type register within the presenter. Must extend QWidget
+
+The widget is registered with the current presenter. It is registered explicitly, which means
+that whenever the given viewmodel is beeing presented, this exact view will be used. Explicit
+registration have precedence over implicit ones.
+
+@sa WidgetsPresenter::registerView
+*/
+
+/*!
+@fn QtMvvm::WidgetsPresenter::registerViewExplicitly(const QMetaObject *, const QMetaObject *)
+
+@param viewModelType The viewmodel to to register the view for
+@param viewType The widget type register within the presenter. Must extend QWidget
+
+The widget is registered with the current presenter. It is registered explicitly, which means
+that whenever the given viewmodel is beeing presented, this exact view will be used. Explicit
+registration have precedence over implicit ones.
+
+@sa WidgetsPresenter::registerView
+*/
+
+/*!
+@fn QtMvvm::WidgetsPresenter::findWidgetMetaObject
+
+@param viewModelMetaObject The metobject of the viewmodel to find a view for
+@returns The metaobject of the view to used, or `nullptr` if none was found
+
+The default implementation simply check all explicitly registered views and then tries to
+match the name with the implicitly registered ones. If no match if found, the same is tried
+for the parent viewmodel type recursively, until the ViewModel base is reached.
+*/
+
+/*!
+@fn QtMvvm::WidgetsPresenter::tryPresent
+
+@param view The view to be presented
+@param parentView The parent view to present the view to
+@returns `true` if successfully presented, `false` if not
+
+This method is called to perform the actual presentation (i.e. the parenting and how to show)
+the view. The default implementation first checks if the parent implements IPresentingView and
+if yes if it is able to present the view. If not, a bunch of standard widget types are checked
+for special presentation methods. QDialogs are presented via QDialog::open. QDockWidgets that
+are presented to a QMainWindow are added as dock widget (QMainWindow::addDockWidget). If the
+parent or its central widget are a QMdiArea, and the views class name ends with `MdiWindow`,
+it is presented as QMdiSubWindow. For all other cases, showForeground() is called.
+
+@sa WidgetsPresenter::showForeground, QDialog, QMainWindow, QDockWidget, QMdiArea
+*/
