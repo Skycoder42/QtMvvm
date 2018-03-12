@@ -250,6 +250,7 @@ ALIASES                = "accessors{1}=<table><tr><th colspan= 2>Accessors</th><
 						 storedAc{1}=<tr><td><b>STORED</b></td><td>\1</td></tr> \
 						 userAc{1}=<tr><td><b>USER</b></td><td>\1</td></tr> \
 						 "constantAc=<tr><td colspan= 2><b>CONSTANT</b></td></tr>" \
+						 "readonlyAc=<tr><td colspan= 2><b>READ ONLY</b></td></tr>" \
 						 "finalAc=<tr><td colspan= 2><b>FINAL</b></td></tr>" \
 						 "default{1}=<b>Default:</b> \1 <br>" \
 						 "readAcFn{1}=READ accessor for \1" \
@@ -896,7 +897,16 @@ RECURSIVE              = YES
 # run.
 
 EXCLUDE                = ../src/3rdparty \
-						 ../src/plugins
+						 ../src/plugins \
+						 ../src/imports/mvvmquick/settingsuibuilder.h \
+						 ../src/imports/mvvmquick/TintIcon.qml \
+						 ../src/imports/mvvmquick/MsgBoxBase.qml \
+						 ../src/imports/mvvmquick/MsgBox.qml \
+						 ../src/imports/mvvmquick/InputDialog.qml \
+						 ../src/imports/mvvmquick/ListSection.qml \
+						 ../src/imports/mvvmquick/OverviewListView.qml \
+						 ../src/imports/mvvmquick/AndroidFileDialog.qml \
+						 ../src/imports/mvvmquick/AndroidFolderDialog.qml
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
@@ -919,7 +929,8 @@ EXCLUDE_PATTERNS       = moc_* \
 						 *_p.* \
 						 *.cpp \
 						 */src/mvvmquick/*.qml \
-						 */src/mvvmdatasyncquick/*.qml
+						 */src/mvvmdatasyncquick/*.qml \
+						 */imports/mvvmquick/*model.h
 
 # The EXCLUDE_SYMBOLS tag can be used to specify one or more symbol names
 # (namespaces, classes, functions, etc.) that should be excluded from the
@@ -935,6 +946,9 @@ EXCLUDE_SYMBOLS        = QtMvvm::__helpertypes \
 						 QtMvvmQuickDeclarativeModule \
 						 QtMvvmDataSyncCoreDeclarativeModule \
 						 QtMvvmDataSyncQuickDeclarativeModule \
+						 QtMvvm::MultiFilterProxyModel \
+						 QtMvvm::SettingsEntryModel \
+						 QtMvvm::SettingsSectionModel \
 						 \
 						 QAbstractAspect \
 						 QAndroidActivityResultReceiver \
@@ -956,7 +970,6 @@ EXCLUDE_SYMBOLS        = QtMvvm::__helpertypes \
 						 ApplicationWindow \
 						 Dialog \
 						 Drawer \
-						 FileChooser \
 						 Item \
 						 Label \
 						 ListView \

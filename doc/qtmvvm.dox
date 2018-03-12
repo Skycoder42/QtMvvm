@@ -66,6 +66,26 @@ The following list shows which classes belong to which Qt module, in alphabetica
 
 <b>Current Version</b><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0
+
+<b>Available Types</b>
+- @ref QtMvvm::InputViewFactory "InputViewFactory" (uncreatable)
+- QuickPresenter (singleton)
+- FileChooser
+- AlertDialog
+- ContrastToolBar
+- ToolBarLabel
+- ActionButton
+- RoundActionButton
+- MenuButton
+- FileDialog
+- FolderDialog
+- PresenterProgress
+- PresentingStackView
+- PopupPresenter
+- DialogPresenter
+- PresentingDrawer
+- SettingsView
+- QtMvvmApp
 */
 
 /*!

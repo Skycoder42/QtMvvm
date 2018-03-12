@@ -16,26 +16,6 @@ AndroidFileChooser::AndroidFileChooser(QObject *parent) :
 
 AndroidFileChooser::~AndroidFileChooser() {}
 
-QString AndroidFileChooser::title() const
-{
-	return _title;
-}
-
-QUrl AndroidFileChooser::folderUrl() const
-{
-	return _folderUrl;
-}
-
-AndroidFileChooser::ChooserType AndroidFileChooser::type() const
-{
-	return _type;
-}
-
-QStringList AndroidFileChooser::mimeTypes() const
-{
-	return _mimeTypes;
-}
-
 AndroidFileChooser::ChooserFlags AndroidFileChooser::chooserFlags() const
 {
 	return _flags;
@@ -81,42 +61,6 @@ void AndroidFileChooser::open()
 	QtAndroid::startActivity(chooserIntent,
 							 _flags.testFlag(PersistPermissionsFlag) ? RequestCodePersist : RequestCodeNormal,
 							 this);
-}
-
-void AndroidFileChooser::setTitle(const QString &title)
-{
-	if (_title == title)
-		return;
-
-	_title = title;
-	emit titleChanged(title);
-}
-
-void AndroidFileChooser::setFolderUrl(const QUrl &contentUrl)
-{
-	if (_folderUrl == contentUrl)
-		return;
-
-	_folderUrl = contentUrl;
-	emit folderUrlChanged(contentUrl);
-}
-
-void AndroidFileChooser::setType(AndroidFileChooser::ChooserType type)
-{
-	if (_type == type)
-		return;
-
-	_type = type;
-	emit typeChanged(type);
-}
-
-void AndroidFileChooser::setMimeTypes(const QStringList &mimeType)
-{
-	if (_mimeTypes == mimeType)
-		return;
-
-	_mimeTypes = mimeType;
-	emit mimeTypesChanged(mimeType);
 }
 
 void AndroidFileChooser::setChooserFlags(ChooserFlags chooserFlags)
