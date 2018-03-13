@@ -41,9 +41,20 @@ if [ "$DOXY_STYLE_EXTRA" ]; then
 fi
 
 for tagFile in $(find "$qtDocs" -name *.tags); do
-	if [ $(basename "$tagFile") != "qtmvvm.tags" ]; then
-		echo "TAGFILES += \"$tagFile=https://doc.qt.io/qt-5\"" >> $doxyRes
-	fi
+	case $(basename "$tagFile") in
+		qtjsonserializer.tags)
+			echo "TAGFILES += \"$tagFile=https://skycoder42.github.io/QtJsonSerializer\"" >> $doxyRes
+			;;
+		qtdatasync.tags)
+			echo "TAGFILES += \"$tagFile=https://skycoder42.github.io/QtDataSync\"" >> $doxyRes
+			;;
+		qtmvvm.tags|qtquickcontrols.tags)
+			# skipped
+			;;
+		*)
+			echo "TAGFILES += \"$tagFile=https://doc.qt.io/qt-5\"" >> $doxyRes
+			;;
+	esac
 done
 
 cd "$srcDir"

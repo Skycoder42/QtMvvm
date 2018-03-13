@@ -21,6 +21,7 @@ namespace de::skycoder42::QtMvvm::Quick {
 
 /*! @brief A QML singleton to access common presenter methods globally
  *
+ * @extends QtQml.QtObject
  * @since 1.0
  *
  * The main purpose of the class is to create a communication channel between the QML code and

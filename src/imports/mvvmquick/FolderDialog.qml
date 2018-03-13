@@ -4,12 +4,26 @@ import Qt.labs.platform 1.0 as Labs
 import de.skycoder42.QtMvvm.Core 1.0
 import de.skycoder42.QtMvvm.Quick 1.0
 
+/*! @brief A folder dialog implementation based on the labs folder dialog
+ *
+ * @extends Qt.labs.platform.FolderDialog
+ * @extends FileChooser
+ *
+ * @details It is used internally by the DialogPresenter to create a folder dialog for the file
+ * dialog message type
+ *
+ * @note On Android, the dialog extends the FileChooser. For all other platforms, it extends
+ * the @ref Qt.labs.platform.FolderDialog "Qt labs FolderDialog"
+ */
 Labs.FolderDialog {
 	id: _folderDialog
 
+	//! @copydoc FileDialog::msgConfig
 	property var msgConfig
+	//! @copydoc FileDialog::msgResult
 	property MessageResult msgResult
 
+	//! @copydoc FileDialog::closed
 	signal closed()
 
 	title: msgConfig.title

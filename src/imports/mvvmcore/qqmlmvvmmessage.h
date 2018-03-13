@@ -14,6 +14,7 @@ namespace de::skycoder42::QtMvvm::Core {
 
 /*! @brief A QML signelton to access the QtMvvm namespace methods for showing simple dialogs
  *
+ * @extends QtQml.QtObject
  * @since 1.0
  *
  * @sa QtMvvm::MessageConfig, QtMvvm::CoreApp::showDialog

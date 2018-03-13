@@ -5,11 +5,56 @@ import QtQuick.Layouts 1.3
 import de.skycoder42.QtMvvm.Core 1.0
 import de.skycoder42.QtMvvm.Quick 1.0
 
+/*! @brief The view implementation for the QtMvvm::SettingsViewModel
+ *
+ * @extends QtQuick.Controls.Page
+ *
+ * @details This is the view used to present a settings view model. You can extend the class
+ * if you need to extend that view.
+ *
+ * @sa QtMvvm::SettingsViewModel
+ */
 Page {
 	id: _settingsView
+
+	/*! @brief The viewmodel to use
+	 *
+	 * @default{<i>Injected</i>}
+	 *
+	 * @accessors{
+	 *	@memberAc{viewModel}
+	 *  @notifyAc{viewModelChanged()}
+	 * }
+	 *
+	 * @sa QtMvvm::SettingsViewModel
+	 */
 	property SettingsViewModel viewModel: null
+	/*! @brief Specifiy if a back action should always close the full settings
+	 *
+	 * @default{`false`}
+	 *
+	 * The settings view consists of an internal stack view to present settings pages. By
+	 * default only one page is closed at a time. By setting this property to true, a close
+	 * action will always close all of them.
+	 *
+	 * @accessors{
+	 *	@memberAc{fullClose}
+	 *  @notifyAc{fullCloseChanged()}
+	 * }
+	 */
 	property bool fullClose: false
 
+	/*! @brief Can be called to try to close a single settings page
+	 *
+	 * @return type:bool `true` if a page was closed, `false` if not
+	 *
+	 * This method is called by the presenter to close the pages of the settings view one at
+	 * a time.
+	 *
+	 * @note if SettingsView::fullClose is true, this method will always return false.
+	 *
+	 * @sa SettingsView::fullClose, PresentingStackView::closeAction
+	 */
 	function closeAction() {
 		return !fullClose && _settingsStack.closeAction();
 	}
@@ -158,6 +203,7 @@ Page {
 
 	state: "title"
 
+	//! @brief Can be called to toggle the state of the search bar
 	function toggleSearchState() {
 		if(state == "title")
 			state = "search";

@@ -2,6 +2,29 @@ import QtQuick 2.10
 import QtQuick.Controls 2.3
 import de.skycoder42.QtMvvm.Quick 1.0
 
+/*! @brief An extension of the ActionButton to provide a simple "more menu" button
+ *
+ * @details The button already has a text, icon and tooltip and it will automatically display
+ * a context menu when pressed. Add the menu items as the children of the button:
+ *
+ * @code{.qml}
+ * MenuButton {
+ *		id: mButton
+ *
+ *		MenuItem {
+ *			text: "Copy"
+ *		}
+ *
+ *		MenuItem {
+ *			text: "Paste"
+ *		}
+ *
+ *		//...
+ * }
+ * @endcode
+ *
+ * @sa ContrastToolBar
+ */
 ActionButton {
 	id: _menuButton
 	icon.name: "view-more-symbolic"
@@ -10,7 +33,32 @@ ActionButton {
 	checkable: true
 	checked: _moreMenu.visible
 
-	property alias moreMenu: _moreMenu
+	/*! @brief type:Menu A reference to the menu this button is showing
+	 *
+	 * @default{<i>A @ref QtQuick.Controls.Menu "Menu" instance</i>}
+	 *
+	 * @accessors{
+	 *	@memberAc{moreMenu}
+	 *  @notifyAc{moreMenuChanged()}
+	 *	@readonlyAc
+	 * }
+	 *
+	 * @sa menuContent
+	 */
+	readonly property alias moreMenu: _moreMenu
+	/*! @brief type:list The items that should be displayed in the menu
+	 *
+	 * See the @ref QtQuick.Controls.Menu "Menu.contentData" documentation for a
+	 * description of this property.
+	 *
+	 * @accessors{
+	 *	@memberAc{menuContent}
+	 *  @notifyAc{menuContentChanged()}
+	 *	@defaultAc
+	 * }
+	 *
+	 * @sa moreMenu
+	 */
 	default property alias menuContent: _moreMenu.contentData
 
 	MouseArea { //used to catch mouse events to prevent flickering

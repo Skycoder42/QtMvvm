@@ -252,6 +252,7 @@ ALIASES                = "accessors{1}=<table><tr><th colspan= 2>Accessors</th><
 						 "constantAc=<tr><td colspan= 2><b>CONSTANT</b></td></tr>" \
 						 "readonlyAc=<tr><td colspan= 2><b>READ ONLY</b></td></tr>" \
 						 "finalAc=<tr><td colspan= 2><b>FINAL</b></td></tr>" \
+						 "defaultAc=<tr><td colspan= 2><b>DEFAULT</b></td></tr>" \
 						 "default{1}=<b>Default:</b> \1 <br>" \
 						 "readAcFn{1}=READ accessor for \1" \
 						 "writeAcFn{1}=WRITE accessor for \1" \
@@ -905,6 +906,7 @@ EXCLUDE                = ../src/3rdparty \
 						 ../src/imports/mvvmquick/InputDialog.qml \
 						 ../src/imports/mvvmquick/ListSection.qml \
 						 ../src/imports/mvvmquick/OverviewListView.qml \
+						 ../src/imports/mvvmquick/SectionListView.qml \
 						 ../src/imports/mvvmquick/AndroidFileDialog.qml \
 						 ../src/imports/mvvmquick/AndroidFolderDialog.qml
 

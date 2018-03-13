@@ -13,6 +13,7 @@ namespace de::skycoder42::QtMvvm::Quick {
 
 /*! @brief A QML class access the native file chooser on android
  *
+ * @extends QtQml.QtObject
  * @since 1.0
  *
  * @warning Available on android only!

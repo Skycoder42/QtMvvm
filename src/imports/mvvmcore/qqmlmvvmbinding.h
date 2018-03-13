@@ -11,6 +11,7 @@ namespace de::skycoder42::QtMvvm::Core {
 
 /*! @brief A QML class to create a local mvvm multiway binding
  *
+ * @extends QtQml.QtObject
  * @since 1.0
  *
  * It is basically a wrapper around the QtMvvm::bind method. The parameters are set via the
