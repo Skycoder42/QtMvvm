@@ -3,7 +3,7 @@ A mvvm oriented library for Qt, to create Projects for Widgets and Quick Control
 
 [![Travis Build Status](https://travis-ci.org/Skycoder42/QtMvvm.svg?branch=master)](https://travis-ci.org/Skycoder42/QtMvvm)
 [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/cwtt2n6af3dcbswa?svg=true)](https://ci.appveyor.com/project/Skycoder42/qtmvvm)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3b15e17fae4949668b12f54f4090d397)](https://www.codacy.com/app/Skycoder42/QtMvvm)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/367d7e7cd3d644939732c55c4c789a9d)](https://www.codacy.com/app/Skycoder42/QtMvvm)
 [![AUR](https://img.shields.io/aur/version/qt5-mvvmcore.svg)](https://aur.archlinux.org/pkgbase/qt5-mvvm/)
 
 ![Demo Animation Widgets](./doc/images/sample_basic_widgets.gif)
