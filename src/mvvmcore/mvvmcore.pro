@@ -22,7 +22,7 @@ HEADERS += \
 	settingssetuploader_p.h \
 	settingsviewmodel_p.h \
 	settingsviewmodel.h \
-    injection.h
+	injection.h
 
 SOURCES += \
 	viewmodel.cpp \
@@ -42,10 +42,10 @@ TRANSLATIONS += \
 DISTFILES += $$TRANSLATIONS \
 	settings.xsd
 
+load(qt_module)
+
 qpmx_ts_target.path = $$[QT_INSTALL_TRANSLATIONS]
 qpmx_ts_target.depends += lrelease
-
-load(qt_module)
 
 FEATURES += ../../mkspecs/features/qsettingstranslator.prf
 features.files = $$FEATURES
@@ -55,7 +55,7 @@ SCRIPTS += ../../bin/qsettingstranslator.py
 scripts.files = $$SCRIPTS
 scripts.path = $$[QT_INSTALL_BINS]
 
-INSTALLS += features scripts
+INSTALLS += qpmx_ts_target features scripts
 
 win32 {
 	QMAKE_TARGET_PRODUCT = "$$TARGET"
