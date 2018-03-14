@@ -17,7 +17,7 @@
 <context>
     <name>QtMvvm::WidgetsPresenter</name>
     <message>
-        <location filename="../widgetspresenter.cpp" line="+247"/>
+        <location filename="../widgetspresenter.cpp" line="+252"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>

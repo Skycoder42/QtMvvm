@@ -62,7 +62,7 @@
 <context>
     <name>DataSyncView</name>
     <message>
-        <location filename="../../imports/mvvmdatasyncquick/DataSyncView.qml" line="+26"/>
+        <location filename="../../imports/mvvmdatasyncquick/DataSyncView.qml" line="+47"/>
         <source>Synchronization</source>
         <translation>Synchronisation</translation>
     </message>
@@ -72,7 +72,7 @@
         <translation>Synchronisieren</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Edit Identity</source>
         <translation>Identität bearbeiten</translation>
     </message>
@@ -112,7 +112,7 @@
         <translation>Gerät entfernen</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+23"/>
         <source>Add new devices</source>
         <translation>Neue Geräte hinzufügen</translation>
     </message>
@@ -171,7 +171,7 @@
 <context>
     <name>NetworkExchangeView</name>
     <message>
-        <location filename="../../imports/mvvmdatasyncquick/NetworkExchangeView.qml" line="+19"/>
+        <location filename="../../imports/mvvmdatasyncquick/NetworkExchangeView.qml" line="+40"/>
         <source>Network Exchange</source>
         <translation>Netzwerk-Austausch</translation>
     </message>

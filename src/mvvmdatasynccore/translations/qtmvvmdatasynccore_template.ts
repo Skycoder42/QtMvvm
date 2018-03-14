@@ -4,7 +4,7 @@
 <context>
     <name>QtMvvm::AccountModel</name>
     <message>
-        <location filename="../accountmodel.cpp" line="+57"/>
+        <location filename="../accountmodel.cpp" line="+63"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -31,7 +31,7 @@
 <context>
     <name>QtMvvm::DataSyncViewModel</name>
     <message>
-        <location filename="../datasyncviewmodel.cpp" line="+82"/>
+        <location filename="../datasyncviewmodel.cpp" line="+88"/>
         <source>Connecting…</source>
         <translation type="unfinished"></translation>
     </message>
@@ -61,26 +61,26 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+47"/>
         <source>Export account data to file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+19"/>
         <location line="+5"/>
-        <location line="+296"/>
-        <location filename="../networkexchangeviewmodel.cpp" line="+166"/>
+        <location line="+315"/>
+        <location filename="../networkexchangeviewmodel.cpp" line="+189"/>
         <source>Import failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-301"/>
-        <location line="+254"/>
+        <location line="-320"/>
+        <location line="+273"/>
         <source>Unsupported URL Scheme: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-238"/>
+        <location line="-257"/>
         <location line="+24"/>
         <location line="+20"/>
         <source>Import account data</source>
@@ -121,7 +121,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+68"/>
         <source>Login requested!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -131,7 +131,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+20"/>
         <source>Import accepted</source>
         <translation type="unfinished"></translation>
     </message>
@@ -151,15 +151,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+92"/>
+        <location line="+99"/>
         <location line="+6"/>
         <location line="+19"/>
         <source>Export failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-272"/>
-        <location line="+254"/>
+        <location line="-291"/>
+        <location line="+273"/>
         <source>Failed to open URL &quot;%1&quot; with error: %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -194,7 +194,7 @@
 <context>
     <name>QtMvvm::ExchangeDevicesModel</name>
     <message>
-        <location filename="../exchangedevicesmodel.cpp" line="+41"/>
+        <location filename="../exchangedevicesmodel.cpp" line="+62"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -223,35 +223,35 @@
 <context>
     <name>QtMvvm::NetworkExchangeViewModel</name>
     <message>
-        <location filename="../networkexchangeviewmodel.cpp" line="-90"/>
+        <location filename="../networkexchangeviewmodel.cpp" line="-94"/>
         <source>Export accont data to device &quot;%1&quot; with address &quot;%1&quot;:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+83"/>
         <source>Network exchange error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+18"/>
-        <location line="+26"/>
+        <location line="+28"/>
         <source>Import account data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-25"/>
+        <location line="-27"/>
         <source>Enter the password to decrypt the account data received from &quot;%1&quot; with address &quot;%2&quot;. Then choose whether you want to keep you local data or not:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>
-        <location line="+26"/>
+        <location line="+28"/>
         <source>Reset data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-25"/>
-        <location line="+26"/>
+        <location line="-27"/>
+        <location line="+28"/>
         <source>Keep data</source>
         <translation type="unfinished"></translation>
     </message>

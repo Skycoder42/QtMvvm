@@ -20,7 +20,7 @@
 <context>
     <name>MenuButton</name>
     <message>
-        <location filename="../../imports/mvvmquick/MenuButton.qml" line="+9"/>
+        <location filename="../../imports/mvvmquick/MenuButton.qml" line="+32"/>
         <source>More…</source>
         <translation type="unfinished"></translation>
     </message>
@@ -28,7 +28,7 @@
 <context>
     <name>QtMvvm::SettingsUiBuilder</name>
     <message>
-        <location filename="../../imports/mvvmquick/settingsuibuilder.cpp" line="+70"/>
+        <location filename="../../imports/mvvmquick/settingsuibuilder.cpp" line="+58"/>
         <source>:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -36,7 +36,7 @@
 <context>
     <name>SettingsView</name>
     <message>
-        <location filename="../../imports/mvvmquick/SettingsView.qml" line="+36"/>
+        <location filename="../../imports/mvvmquick/SettingsView.qml" line="+81"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>

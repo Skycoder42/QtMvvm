@@ -97,7 +97,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+177"/>
+        <location line="+180"/>
         <source>Account &amp;actions</source>
         <translation type="unfinished"></translation>
     </message>
