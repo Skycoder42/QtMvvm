@@ -94,6 +94,15 @@ The following list shows which classes belong to which Qt module, in alphabetica
 
 <b>Current Version</b><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0
+
+<b>Available Types</b>
+- @ref QtMvvm::AccountModel "AccountModel"
+- @ref QtMvvm::ExchangeDevicesModel "ExchangeDevicesModel"
+- @ref QtMvvm::DataSyncViewModel "DataSyncViewModel" (uncreatable)
+- @ref QtMvvm::NetworkExchangeViewModel "NetworkExchangeViewModel" (uncreatable)
+- PChangeRemoteViewModel (uncreatable, internal)
+- PExportSetupViewModel (uncreatable, internal)
+- PIdentityEditViewModel (uncreatable, internal)
 */
 
 /*!

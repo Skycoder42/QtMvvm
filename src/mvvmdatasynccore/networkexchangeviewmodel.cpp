@@ -43,6 +43,11 @@ NetworkExchangeViewModel::NetworkExchangeViewModel(QObject *parent) :
 
 NetworkExchangeViewModel::~NetworkExchangeViewModel() {}
 
+UserExchangeManager *NetworkExchangeViewModel::userExchangeManager() const
+{
+	return d->exchangeManager;
+}
+
 quint16 NetworkExchangeViewModel::port() const
 {
 	return d->port;
@@ -135,6 +140,7 @@ void NetworkExchangeViewModel::onInit(const QVariantHash &params)
 		connect(d->exchangeManager, &UserExchangeManager::activeChanged,
 				this, &NetworkExchangeViewModel::activeChanged);
 
+		emit userExchangeManagerChanged(d->exchangeManager);
 		emit deviceNameChanged(deviceName());
 
 		d->deviceModel->setup(d->exchangeManager);

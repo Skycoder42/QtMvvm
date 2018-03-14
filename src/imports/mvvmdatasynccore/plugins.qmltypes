@@ -265,12 +265,26 @@ Module {
         ]
         isCreatable: false
         exportMetaObjectRevisions: [0]
+        Property {
+            name: "userExchangeManager"
+            type: "QtDataSync::UserExchangeManager"
+            isReadonly: true
+            isPointer: true
+        }
         Property { name: "port"; type: "ushort" }
         Property { name: "deviceName"; type: "string" }
         Property { name: "active"; type: "bool" }
         Property { name: "deviceModel"; type: "ExchangeDevicesModel"; isReadonly: true; isPointer: true }
         Property { name: "sortedModel"; type: "QSortFilterProxyModel"; isReadonly: true; isPointer: true }
         Signal { name: "ready" }
+        Signal {
+            name: "userExchangeManagerChanged"
+            Parameter {
+                name: "userExchangeManager"
+                type: "QtDataSync::UserExchangeManager"
+                isPointer: true
+            }
+        }
         Signal {
             name: "portChanged"
             Parameter { name: "port"; type: "ushort" }

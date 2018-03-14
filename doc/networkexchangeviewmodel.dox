@@ -1,0 +1,174 @@
+/*!
+@class QtMvvm::NetworkExchangeViewModel
+
+The viewmodel provides data to show a ui that allows you to exchange your user data with
+another device in the same local network.
+
+@sa QtDataSync::UserExchangeManager, DataSyncViewModel
+*/
+
+/*!
+@property QtMvvm::NetworkExchangeViewModel::userExchangeManager
+
+@default{`nullptr` (Is initialized by onInit())}
+
+A reference to the user exchange manager the view model internally uses. Is owned by the
+viewmodel, but can be used to get properties for the ui.
+
+@accessors{
+	@readAc{userExchangeManager()}
+	@notifyAc{userExchangeManagerChanged()}
+}
+*/
+
+/*!
+@property QtMvvm::NetworkExchangeViewModel::port
+
+@default{`QtDataSync::UserExchangeManager::DataExchangePort`}
+
+This port is passed to the exchange manager when activated to set the port.
+
+@accessors{
+	@readAc{port()}
+	@writeAc{setPort()}
+	@notifyAc{portChanged()}
+}
+
+@sa NetworkExchangeViewModel::active, QtDataSync::UserExchangeManager::startExchange,
+QtDataSync::UserExchangeManager::port
+*/
+
+/*!
+@property QtMvvm::NetworkExchangeViewModel::deviceName
+
+@default{`QtDataSync::AccountManager::deviceName`}
+
+This property is simply a forwarding of the QtDataSync::AccountManager::deviceName property.
+
+@accessors{
+	@readAc{deviceName()}
+	@writeAc{setDeviceName()}
+	@notifyAc{deviceNameChanged()}
+}
+
+@sa QtDataSync::AccountManager::deviceName
+*/
+
+/*!
+@property QtMvvm::NetworkExchangeViewModel::active
+
+@default{`false`}
+
+Changing this property will trigger start and stop actions on the underlying manager, using
+the other information provided from this viewmodel.
+
+@accessors{
+	@readAc{active()}
+	@writeAc{setActive()}
+	@notifyAc{activeChanged()}
+}
+
+@sa QtDataSync::AccountManager::startExchange, QtDataSync::AccountManager::stopExchange,
+NetworkExchangeViewModel::port
+*/
+
+/*!
+@property QtMvvm::NetworkExchangeViewModel::deviceModel
+
+@default{<i>An exchange device model</i>}
+
+An unsorted model with all the devices available for exchange. Automatically initialized and
+managed by the viewmodel.
+
+@note You should use the NetworkExchangeViewModel::sortedModel property when creating views.
+It is a sorted version of this model, which is better for users.
+
+@accessors{
+	@readAc{deviceModel()}
+	@constantAc
+}
+
+@sa NetworkExchangeViewModel::sortedModel
+*/
+
+/*!
+@property QtMvvm::NetworkExchangeViewModel::sortedModel
+
+@default{<i>The deviceModel, sorted</i>}
+
+A sorted proxy to the NetworkExchangeViewModel::deviceModel. You should prefer this sorted
+version when binding views to the viewmodel.
+
+@accessors{
+	@readAc{sortedModel()}
+	@constantAc
+}
+
+@sa NetworkExchangeViewModel::deviceModel
+*/
+
+/*!
+@var QtMvvm::NetworkExchangeViewModel::paramSetup
+
+<b>Value:</b> `"setup"`
+
+@sa NetworkExchangeViewModel::showParams
+*/
+
+/*!
+@var QtMvvm::NetworkExchangeViewModel::paramAccountManager
+
+<b>Value:</b> `"accountManager"`
+
+@sa NetworkExchangeViewModel::showParams
+*/
+
+/*!
+@fn QtMvvm::NetworkExchangeViewModel::showParams(const QString &)
+
+@param setup The name of the QtDataSync::Setup to create the viewmodel for
+@return A paramater hash to be passed to ViewModel::show
+
+It's a shortcut to generate parameters for the show methods to show an exchange viewmodel. Use
+them as:
+
+@code{.cpp}
+show<QtMvvm::NetworkExchangeViewModel>(QtMvvm::NetworkExchangeViewModel::showParams(...));
+@endcode
+
+@note Unless you need to explicitly set the setup or node a normal show without any parameters
+will just do fine.
+
+@sa ViewModel::show, NetworkExchangeViewModel::paramSetup
+*/
+
+/*!
+@fn QtMvvm::NetworkExchangeViewModel::showParams(QtDataSync::AccountManager*)
+
+@param accountManager The account manager to create the exchange manager of
+@return A paramater hash to be passed to ViewModel::show
+
+It's a shortcut to generate parameters for the show methods to show an exchange viewmodel. Use
+them as:
+
+@code{.cpp}
+show<QtMvvm::NetworkExchangeViewModel>(QtMvvm::NetworkExchangeViewModel::showParams(...));
+@endcode
+
+@note Unless you need to explicitly set the setup or node a normal show without any parameters
+will just do fine.
+
+@sa ViewModel::show, NetworkExchangeViewModel::paramAccountManager
+*/
+
+/*!
+@fn QtMvvm::NetworkExchangeViewModel::exportTo
+
+@param sortedIndex The index in the sorted model of the device to export to
+
+@warning The passed index **must** be an index from the NetworkExchangeViewModel::sortedModel!
+It is translated to an exchange model index and the passed to ExchangeDevicesModel::infoAt to
+get the user info of the device to export the data to.
+
+@sa ExchangeDevicesModel::infoAt, NetworkExchangeViewModel::sortedModel
+*/

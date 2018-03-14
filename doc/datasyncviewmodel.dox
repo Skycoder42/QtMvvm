@@ -1,0 +1,216 @@
+/*!
+@class QtMvvm::DataSyncViewModel
+
+The viewmodel provides data to show a ui that gives access to all of the important datasync
+account features and the synchronization status. The uis should show:
+
+- The sync status as string (DataSyncViewModel::statusString)
+- A sync progress when actively syncing (QtDataSync::SyncManager::syncProgress)
+- A possible error string, if an error occurs (QtDataSync::SyncManager::lastError)
+- A list of all devices of the account (DataSyncViewModel::sortedModel)
+- Actions to:
+	- Synchronize (syncOrConnect())
+	- Toggle synchronization (QtDataSync::SyncManager::syncEnabled)
+	- Edit the identity (showDeviceInfo())
+	- Reload the list of devices (QtDataSync::AccountManager::listDevices)
+	- Remove devices (removeDevice())
+	- Update the exchange key (QtDataSync::AccountManager::updateExchangeKey)
+	- Change the remote server (changeRemote())
+	- Reset the account (performReset())
+	- Export the account data (startExport())
+	- Import the account data (startImport())
+	- Show the exchange viewmodel (startNetworkExchange())
+
+@sa QtDataSync, NetworkExchangeViewModel
+*/
+
+/*!
+@property QtMvvm::DataSyncViewModel::syncManager
+
+@default{`nullptr` (Is initialized by onInit())}
+
+A reference to the sync manager the view model internally uses. Is owned by the viewmodel, but
+can be used to get properties for the ui.
+
+@accessors{
+	@readAc{syncManager()}
+	@notifyAc{syncManagerChanged()}
+}
+
+@sa DataSyncViewModel::accountManager
+*/
+
+/*!
+@property QtMvvm::DataSyncViewModel::accountManager
+
+@default{`nullptr` (Is initialized by onInit())}
+
+A reference to the account manager the view model internally uses. Is owned by the viewmodel,
+but can be used to get properties for the ui.
+
+@accessors{
+	@readAc{accountManager()}
+	@notifyAc{accountManagerChanged()}
+}
+
+@sa DataSyncViewModel::syncManager
+*/
+
+/*!
+@property QtMvvm::DataSyncViewModel::colorMap
+
+@default{A map inizialized as:}
+ Key									| Value
+----------------------------------------|-------
+QtDataSync::SyncManager::Initializing	| Qt::darkCyan
+QtDataSync::SyncManager::Downloading	| Qt::darkCyan
+QtDataSync::SyncManager::Uploading		| Qt::darkCyan
+QtDataSync::SyncManager::Synchronized	| Qt::darkGreen
+QtDataSync::SyncManager::Error			| Qt::darkRed
+QtDataSync::SyncManager::Disconnected	| Qt::darkYellow
+
+This map is used by the DataSyncViewModel::statusString property to determine the color of the
+status string, based of the state itself. You can change this property if you need different
+colors for your theme.
+
+@accessors{
+	@readAc{colorMap()}
+	@writeAc{setColorMap()}
+	@resetAc{resetColorMap()}
+	@notifyAc{colorMapChanged()}
+}
+
+@sa DataSyncViewModel::statusString, DataSyncViewModel::ColorMap
+*/
+
+/*!
+@property QtMvvm::DataSyncViewModel::statusString
+
+@default{`Disconnected`}
+
+A localized string to display the sync state as a single, simple string. The string is styled
+with different colors based of the DataSyncViewModel::colorMap property.
+
+@accessors{
+	@readAc{statusString()}
+	@notifyAc{statusStringChanged()}
+}
+
+@sa DataSyncViewModel::colorMap, QtDataSync::SyncManager::syncState
+*/
+
+/*!
+@property QtMvvm::DataSyncViewModel::accountModel
+
+@default{<i>An account model</i>}
+
+An unsorted model with all the devices of the current account. Automatically initialized and
+managed by the viewmodel.
+
+@note You should use the DataSyncViewModel::sortedModel property when creating views. It is
+a sorted version of this model, which is better for users.
+
+@accessors{
+	@readAc{accountModel()}
+	@constantAc
+}
+
+@sa DataSyncViewModel::sortedModel
+*/
+
+/*!
+@property QtMvvm::DataSyncViewModel::sortedModel
+
+@default{<i>The accountModel, sorted</i>}
+
+A sorted proxy to the DataSyncViewModel::accountModel. You should prefer this sorted version
+when binding views to the viewmodel.
+
+@accessors{
+	@readAc{sortedModel()}
+	@constantAc
+}
+
+@sa DataSyncViewModel::accountModel
+*/
+
+/*!
+@var QtMvvm::DataSyncViewModel::paramSetup
+
+<b>Value:</b> `"setup"`
+
+@sa DataSyncViewModel::showParams
+*/
+
+/*!
+@var QtMvvm::DataSyncViewModel::paramReplicaNode
+
+<b>Value:</b> `"node"`
+
+@sa DataSyncViewModel::showParams
+*/
+
+/*!
+@fn QtMvvm::DataSyncViewModel::showParams(const QString &)
+
+@param setup The name of the QtDataSync::Setup to create the viewmodel for
+@return A paramater hash to be passed to ViewModel::show
+
+It's a shortcut to generate parameters for the show methods to show a datasync viewmodel. Use
+them as:
+
+@code{.cpp}
+show<QtMvvm::DataSyncViewModel>(QtMvvm::DataSyncViewModel::showParams(...));
+@endcode
+
+@note Unless you need to explicitly set the setup or node a normal show without any parameters
+will just do fine.
+
+@sa ViewModel::show, DataSyncViewModel::paramSetup
+*/
+
+/*!
+@fn QtMvvm::DataSyncViewModel::showParams(QRemoteObjectNode*)
+
+@param node The node to use to get the replicas for the managers
+@return A paramater hash to be passed to ViewModel::show
+
+It's a shortcut to generate parameters for the show methods to show a datasync viewmodel. Use
+them as:
+
+@code{.cpp}
+show<QtMvvm::DataSyncViewModel>(QtMvvm::DataSyncViewModel::showParams(...));
+@endcode
+
+@note Unless you need to explicitly set the setup or node a normal show without any parameters
+will just do fine.
+
+@sa ViewModel::show, DataSyncViewModel::paramReplicaNode
+*/
+
+/*!
+@fn QtMvvm::DataSyncViewModel::formatFingerPrint
+
+@param fingerPrint The fingerprint as a binary string
+@return A human readable string in hex format
+
+The returned string will be of the format:
+@code
+AB:CD:EF:01:02:03:...
+@endcode
+
+@sa QtDataSync::AccountManager::deviceFingerprint, QtDataSync::DeviceInfo::fingerprint
+*/
+
+/*!
+@fn QtMvvm::DataSyncViewModel::removeDevice
+
+@param sortedIndex The index in the sorted model to be removed
+
+@warning The passed index **must** be an index from the DataSyncViewModel::sortedModel! It is
+translated to an account model index and the passed to AccountModel::removeDevice. If you do
+not use the sorted model, use the account model remove directly. If you use the sorted model
+(as recommended) use this method.
+
+@sa AccountModel::removeDevice, DataSyncViewModel::sortedModel
+*/
