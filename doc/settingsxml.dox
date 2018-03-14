@@ -2,11 +2,25 @@
 @page settings_xml The XML settings format
 @brief Documentation of the XML format used to create settings uis
 
+@tableofcontents
+
 This format is used to create settings.xml files to be read by the default XML
 QtMvvm::ISettingsSetupLoader. The files are read via that service and mapped to
 QtMvvm::SettingsElements::Setup.
 
-@tableofcontents
+@section settings_xml_translator Translations
+All the settings files you have can be easily translated via a standard ts/qm file. In order for
+this to work, all you have to do is add the following lines to your pro file:
+
+@code{.pro}
+QTMVVM_TS_SETTINGS += settings.xml
+_never_true_condition: SOURCES += $$files($$PWD/.ts-dummy/*)
+PRE_TARGETDEPS += qtmvvm-tsgen #optional
+@endcode
+
+This will automatically generate a dummy cpp file in the `.ts-dummy` folder for each file
+added to the `QTMVVM_TS_SETTINGS` variable. These files contain dummy code that will then be
+read by lupdate automatically and added to all your ts files.
 
 @section settings_xml_elements Elements
 The possible elements of such a file
@@ -18,10 +32,10 @@ The `<SettingsConfig>` element must be the root Element of the XML document and 
 QtMvvm::SettingsElements::Setup.
 
 @subsubsection settings_xml_elements_config_attribs Attributes
- Name			| Type	| Default	| Description
-----------------|-------|-----------|-------------
- allowSearch	| bool	| `true`	| @copybrief QtMvvm::SettingsElements::Setup::allowSearch
- allowRestore	| bool	| `true`	| @copybrief QtMvvm::SettingsElements::Setup::allowRestore
+ Name			| Type	| Default	| Translated	| Description
+----------------|-------|-----------|---------------|-------------
+ allowSearch	| bool	| `true`	| no			| @copybrief QtMvvm::SettingsElements::Setup::allowSearch
+ allowRestore	| bool	| `true`	| no			| @copybrief QtMvvm::SettingsElements::Setup::allowRestore
 
 @subsubsection settings_xml_elements_config_elements Content
 Can be an arbitrary number of Elements from the following list. However, only one type of
@@ -40,13 +54,13 @@ be of the same type as well:
 The `<Category>` element is mapped to the QtMvvm::SettingsElements::Category.
 
 @subsubsection settings_xml_elements_category_attribs Attributes
- Name		| Type									| Default											| Description
-------------|---------------------------------------|---------------------------------------------------|-------------
- title		| string								| `"General Settings"`								| @copybrief QtMvvm::SettingsElements::Category::title
- icon		| url									| `"qrc:/de/skycoder42/qtmvvm/icons/settings.svg"`	| @copybrief QtMvvm::SettingsElements::Category::icon
- tooltip	| string								| <i>Empty</i>										| @copybrief QtMvvm::SettingsElements::Category::tooltip
- frontends	| @ref settings_xml_types_descriptor	| <i>Empty</i>										| @copybrief QtMvvm::SettingsElements::Category::frontends
- selectors	| @ref settings_xml_types_descriptor	| <i>Empty</i>										| @copybrief QtMvvm::SettingsElements::Category::selectors
+ Name		| Type									| Default											| Translated	| Description
+------------|---------------------------------------|---------------------------------------------------|---------------|-------------
+ title		| string								| `"General Settings"`								| yes			| @copybrief QtMvvm::SettingsElements::Category::title
+ icon		| url									| `"qrc:/de/skycoder42/qtmvvm/icons/settings.svg"`	| no			| @copybrief QtMvvm::SettingsElements::Category::icon
+ tooltip	| string								| <i>Empty</i>										| yes			| @copybrief QtMvvm::SettingsElements::Category::tooltip
+ frontends	| @ref settings_xml_types_descriptor	| <i>Empty</i>										| no			| @copybrief QtMvvm::SettingsElements::Category::frontends
+ selectors	| @ref settings_xml_types_descriptor	| <i>Empty</i>										| no			| @copybrief QtMvvm::SettingsElements::Category::selectors
 
 @subsubsection settings_xml_elements_category_elements Content
 Can be an arbitrary number of Elements from the following list. However, only one type of
@@ -64,13 +78,13 @@ be of the same type as well:
 The `<Section>` element is mapped to the QtMvvm::SettingsElements::Section.
 
 @subsubsection settings_xml_elements_section_attribs Attributes
- Name		| Type									| Default		| Description
-------------|---------------------------------------|---------------|-------------
- title		| string								| `"General"`	| @copybrief QtMvvm::SettingsElements::Section::title
- icon		| url									| <i>Empty</i>	| @copybrief QtMvvm::SettingsElements::Section::icon
- tooltip	| string								| <i>Empty</i>	| @copybrief QtMvvm::SettingsElements::Section::tooltip
- frontends	| @ref settings_xml_types_descriptor	| <i>Empty</i>	| @copybrief QtMvvm::SettingsElements::Section::frontends
- selectors	| @ref settings_xml_types_descriptor	| <i>Empty</i>	| @copybrief QtMvvm::SettingsElements::Section::selectors
+ Name		| Type									| Default		| Translated	| Description
+------------|---------------------------------------|---------------|---------------|-------------
+ title		| string								| `"General"`	| yes			| @copybrief QtMvvm::SettingsElements::Section::title
+ icon		| url									| <i>Empty</i>	| no			| @copybrief QtMvvm::SettingsElements::Section::icon
+ tooltip	| string								| <i>Empty</i>	| yes			| @copybrief QtMvvm::SettingsElements::Section::tooltip
+ frontends	| @ref settings_xml_types_descriptor	| <i>Empty</i>	| no			| @copybrief QtMvvm::SettingsElements::Section::frontends
+ selectors	| @ref settings_xml_types_descriptor	| <i>Empty</i>	| no			| @copybrief QtMvvm::SettingsElements::Section::selectors
 
 @subsubsection settings_xml_elements_section_elements Content
 Can be an arbitrary number of Elements from the following list. However, only one type of
@@ -91,12 +105,12 @@ of organizing them into subgroups. If the title is empty, the tooltip is ignored
 The descriptors however still apply.
 
 @subsubsection settings_xml_elements_group_attribs Attributes
- Name		| Type									| Default		| Description
-------------|---------------------------------------|---------------|-------------
- title		| string								| <i>Empty</i>	| @copybrief QtMvvm::SettingsElements::Group::title
- tooltip	| string								| <i>Empty</i>	| @copybrief QtMvvm::SettingsElements::Group::tooltip
- frontends	| @ref settings_xml_types_descriptor	| <i>Empty</i>	| @copybrief QtMvvm::SettingsElements::Group::frontends
- selectors	| @ref settings_xml_types_descriptor	| <i>Empty</i>	| @copybrief QtMvvm::SettingsElements::Group::selectors
+ Name		| Type									| Default		| Translated	| Description
+------------|---------------------------------------|---------------|---------------|-------------
+ title		| string								| <i>Empty</i>	| yes			| @copybrief QtMvvm::SettingsElements::Group::title
+ tooltip	| string								| <i>Empty</i>	| yes			| @copybrief QtMvvm::SettingsElements::Group::tooltip
+ frontends	| @ref settings_xml_types_descriptor	| <i>Empty</i>	| no			| @copybrief QtMvvm::SettingsElements::Group::frontends
+ selectors	| @ref settings_xml_types_descriptor	| <i>Empty</i>	| no			| @copybrief QtMvvm::SettingsElements::Group::selectors
 
 @subsubsection settings_xml_elements_group_elements Content
 Can be an arbitrary number of Elements from the following list. However, only one type of
@@ -112,15 +126,15 @@ be of the same type as well:
 The `<Entry>` element is mapped to the QtMvvm::SettingsElements::Entry.
 
 @subsubsection settings_xml_elements_entry_attribs Attributes
- Name			| Type									| Default			| Description
-----------------|---------------------------------------|-------------------|-------------
- key			| string								| <i>Empty</i>		| @copybrief QtMvvm::SettingsElements::Entry::key
- type			| @ref settings_xml_types_type			| `"QString"`		| @copybrief QtMvvm::SettingsElements::Entry::type
- title			| string								| <i>Empty</i>		| @copybrief QtMvvm::SettingsElements::Entry::title
- tooltip		| string								| <i>Empty</i>		| @copybrief QtMvvm::SettingsElements::Entry::tooltip
- defaultValue	| variant								| <i>Invalid</i>	| @copybrief QtMvvm::SettingsElements::Entry::defaultValue
- frontends		| @ref settings_xml_types_descriptor	| <i>Empty</i>		| @copybrief QtMvvm::SettingsElements::Entry::frontends
- selectors		| @ref settings_xml_types_descriptor	| <i>Empty</i>		| @copybrief QtMvvm::SettingsElements::Entry::selectors
+ Name			| Type									| Default			| Translated	| Description
+----------------|---------------------------------------|-------------------|---------------|-------------
+ key			| string								| <i>Empty</i>		| no			| @copybrief QtMvvm::SettingsElements::Entry::key
+ type			| @ref settings_xml_types_type			| `"QString"`		| no			| @copybrief QtMvvm::SettingsElements::Entry::type
+ title			| string								| <i>Empty</i>		| yes			| @copybrief QtMvvm::SettingsElements::Entry::title
+ tooltip		| string								| <i>Empty</i>		| yes			| @copybrief QtMvvm::SettingsElements::Entry::tooltip
+ defaultValue	| variant								| <i>Invalid</i>	| yes			| @copybrief QtMvvm::SettingsElements::Entry::defaultValue
+ frontends		| @ref settings_xml_types_descriptor	| <i>Empty</i>		| no			| @copybrief QtMvvm::SettingsElements::Entry::frontends
+ selectors		| @ref settings_xml_types_descriptor	| <i>Empty</i>		| no			| @copybrief QtMvvm::SettingsElements::Entry::selectors
 
 @subsubsection settings_xml_elements_entry_elements Content
 Can be an arbitrary number of Elements from the following list. They can be mixed and in any
@@ -133,7 +147,7 @@ order
 The `<SearchKey>` Element is converted to a string added to the
 QtMvvm::SettingsElements::Entry::searchKeys property. A searchkey can only be a child of an
 Entry, and all the keys are merged to a list. It's a leaf element and must contain the string
-that becomes the search key
+that becomes the search key. The contens of the search key will be translated.
 
 @subsection settings_xml_elements_property Property
 The `<Property>` Element is an XML description of a generic QVariant property. Each property
@@ -142,11 +156,12 @@ parent element. Properties can be children of entries, as well as properties and
 long as for the last two their type is `object`
 
 @subsubsection settings_xml_elements_property_attribs Attributes
- Name	| Type							| Default			| Description
---------|-------------------------------|-------------------|-------------
- key	| string						| <i>Required</i>	| The key of the property
- type	| @ref settings_xml_types_type	| <i>Required</i>	| The type of the properties value
- ts		| bool							| `false`			| Specify whether the properties value should be translated. Does not apply to `list` or `object` types
+ Name	| Type							| Default			| Translated	| Description
+--------|-------------------------------|-------------------|---------------|-------------
+ key	| string						| <i>Required</i>	| no			| The key of the property
+ type	| @ref settings_xml_types_type	| <i>Required</i>	| no			| The type of the properties value
+ ts		| bool							| `false`			| no			| Specify whether the properties value (content) should be translated. Does not apply to `list` or `object` types
+
 
 @subsubsection settings_xml_elements_property_elements Content
 The content depend on the `type` attribute. The following tables shows which type leads
@@ -165,10 +180,10 @@ QVariant values. Each element can be of a different type, but typically they all
 same.
 
 @subsubsection settings_xml_elements_element_attribs Attributes
- Name	| Type							| Default			| Description
---------|-------------------------------|-------------------|-------------
- type	| @ref settings_xml_types_type	| <i>Required</i>	| The type of the list element
- ts		| bool							| `false`			| Specify whether the element value should be translated. Does not apply to `list` or `object` types
+ Name	| Type							| Default			| Translated	| Description
+--------|-------------------------------|-------------------|---------------|-------------
+ type	| @ref settings_xml_types_type	| <i>Required</i>	| no			| The type of the list element
+ ts		| bool							| `false`			| no			| Specify whether the element value (content) should be translated. Does not apply to `list` or `object` types
 
 @subsubsection settings_xml_elements_element_elements Content
 The content depend on the `type` attribute. The following tables shows which type leads
@@ -190,9 +205,9 @@ element must be a `<Group>` element (Each element that support includes as one c
 marked as primary). It is possible to specify an include element in another included document.
 
 @subsubsection settings_xml_elements_include_attribs Attributes
- Name		| Type	| Default	| Description
-------------|-------|-----------|-------------
- optional	| bool	| `false`	| An optional include. If the file cannot be found it is skipped instead of aborting with an error
+ Name		| Type	| Default	| Translated	| Description
+------------|-------|-----------|---------------|-------------
+ optional	| bool	| `false`	| no			| An optional include. If the file cannot be found it is skipped instead of aborting with an error
 
 @subsubsection settings_xml_elements_include_elements Content
 The content of the include element must be a path to an XML file to be read as include. If the
@@ -278,6 +293,10 @@ will trigger QtMvvm::SettingsViewModel::callAction. The Entries `key` attribute 
 the first parameter to the method. The parameters can be specified by adding a `<Property>`
 to the entry with the key `args` and the type `object`. The property of this object are the
 elements of the map passed as the second parameter.
-*/
 
-//! TODO add small sample code snippits?
+@section settings_xml_sample Sample settings XML file
+The following code block is a sample settings XML file. It is the same that is beeing used in
+the example application.
+
+@include settings.xml
+*/

@@ -87,7 +87,7 @@ void SettingsViewModel::setSettingsSetupLoader(ISettingsSetupLoader *settingsSet
 		return;
 
 	d->setupLoader = settingsSetupLoader;
-	emit settingsSetupLoaderChanged(d->setupLoader);
+	emit settingsSetupLoaderChanged(d->setupLoader, {});
 }
 
 void SettingsViewModel::onInit(const QVariantHash &params)

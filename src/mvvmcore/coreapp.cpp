@@ -90,7 +90,7 @@ void CoreApp::bootApp()
 	if(res == EXIT_SUCCESS) {
 		connect(qApp, &QCoreApplication::aboutToQuit,
 				this, &CoreApp::closeApp);
-		emit appStarted();
+		emit appStarted({});
 	} else
 		qApp->exit(res);
 }

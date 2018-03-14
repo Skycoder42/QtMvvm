@@ -78,10 +78,13 @@ StackView {
 	 *
 	 * Use this method in your main presenter to present items via this sub presenter.
 	 *
+	 * If the presented item has a boolean property named `presentAsRoot`, the item will
+	 * replace all contents on the stack instead of beeing pushed on it.
+	 *
 	 * @sa QtMvvmApp::presentItem, @ref QtQuick.Item "Item"
 	 */
 	function presentItem(item) {
-		if(item.presentAsRoot) { //TODO document
+		if(typeof item.presentAsRoot == "boolean" && item.presentAsRoot) {
 			if(safeReplace(null, item))
 				return true;
 			else

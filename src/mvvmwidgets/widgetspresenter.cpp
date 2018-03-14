@@ -124,7 +124,7 @@ InputWidgetFactory *WidgetsPresenter::inputWidgetFactory() const
 void WidgetsPresenter::setInputWidgetFactory(InputWidgetFactory *inputWidgetFactory)
 {
 	d->inputViewFactory = inputWidgetFactory;
-	emit inputWidgetFactoryChanged(inputWidgetFactory);
+	emit inputWidgetFactoryChanged(inputWidgetFactory, {});
 }
 
 const QMetaObject *WidgetsPresenter::findWidgetMetaObject(const QMetaObject *viewModelMetaObject)
@@ -254,7 +254,7 @@ void WidgetsPresenter::presentMessageBox(const MessageConfig &config, QPointer<M
 		if(!mIcon.isNull())
 			info.icon = mIcon;
 		qtHelp = config.viewProperties().value(QStringLiteral("addQtVersion"), true).toBool();
-		qtHelp = config.viewProperties().value(QStringLiteral("showQtHelp"), qtHelp).toBool();//TODO document too
+		qtHelp = config.viewProperties().value(QStringLiteral("showQtHelp"), qtHelp).toBool();
 	}
 
 	info.escapeButton = QMessageBox::NoButton; //use no button for non button closes
@@ -271,7 +271,7 @@ void WidgetsPresenter::presentMessageBox(const MessageConfig &config, QPointer<M
 
 	//special properties
 	QSharedPointer<bool> checked;
-	auto props = config.viewProperties(); //TODO document all these
+	auto props = config.viewProperties();
 	if(!props.value(QStringLiteral("modal"), false).toBool())
 		info.parent = QApplication::activeWindow();
 	if(props.contains(QStringLiteral("windowTitle")))

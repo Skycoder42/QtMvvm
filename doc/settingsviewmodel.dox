@@ -8,7 +8,7 @@ dialog, call show from another ViewModel or the CoreApp:
 show<QtMvvm::SettingsViewModel>();
 @endcode
 
-TODO link to image page
+@sa @ref images_page
 */
 
 /*!

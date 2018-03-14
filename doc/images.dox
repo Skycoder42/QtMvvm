@@ -1,0 +1,42 @@
+/*!
+@page images_page Images page
+@brief A collection of images to show off different UIs
+
+@tableofcontents
+
+This page shows of a bunch of images to show off how the mvvm applications can look. It is
+presented in the form of tables, always comparing how a view looks on widgets next to a ui with
+quick controls 2. All UIs in the same table row have been creating using the same core app and
+thus use the same viewmodel.
+
+@section images_page_main Primary QtMvvm modules
+These are the images of the sample application build with the main QtMvvm modules. On the left
+is the widgets variant, on the right the quick controls 2
+
+ Widgets UI											| Quick UI
+----------------------------------------------------|----------
+ @image html widgets_main.png "Main View"			| @image html quick_main.png "Main View"
+ @image html widgets_result.png "Result View"		| @image html quick_result.png "Result View"
+ @image html widgets_tabs.png "Tabs View"			| @image html quick_tabs.png "Tabs View"
+ @image html widgets_input.png "Input Dialog"		| @image html quick_input.png "Input Dialog"
+ @image html widgets_file.png "File Dialog"			| @image html quick_file.png "File Dialog"
+ @image html widgets_message.png "Message Box"		| @image html quick_message.png "Message Box"
+ @image html widgets_about.png "About Dialog"		| @image html quick_about.png "About Dialog"
+ @image html widgets_settings.png "Settings View"	| @image html quick_settings_1.png "Settings View Page 1" @image html quick_settings_2.png "Settings View Page 2"
+
+@section images_page_datasync Datasync QtMvvm modules
+These are the images of the sample application using the datasync mvvm module. On the left
+is the widgets variant, on the right the quick controls 2
+
+ Widgets UI															| Quick UI
+--------------------------------------------------------------------|----------
+ @image html widgets_ds_main.png "Main View"						| @image html quick_ds_main_1.png "Main View" @image html quick_ds_main_2.png "Main View"
+ @image html widgets_ds_edit.png "Edit Identity Dialog"				| @image html quick_ds_edit.png "Edit Identity Dialog"
+ @image html widgets_ds_remote.png "Edit Remote Dialog"				| @image html quick_ds_remote.png "Edit Remote View"
+ @image html widgets_ds_reset.png "Reset Identity Dialog"			| @image html quick_ds_reset.png "Reset Identity Dialog"
+ @image html widgets_ds_exchange.png "Exchange View"				| @image html quick_ds_exchange.png "Exchange View"
+ @image html widgets_ds_import.png "Import Dialog"					| @image html widgets_ds_import.png "Import Dialog"
+ @image html widgets_ds_import_trust.png "Import Trusted Dialog"	| @image html quick_ds_import_trust.png "Import Trusted Dialog"
+ @image html widgets_ds_export.png "Export Dialog"					| @image html quick_ds_export.png "Export Dialog"
+ @image html widgets_ds_grant.png "Grant Dialog"					| @image html quick_ds_grant.png "Grant Dialog"
+*/

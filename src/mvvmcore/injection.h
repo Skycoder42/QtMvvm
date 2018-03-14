@@ -6,7 +6,6 @@
 //! The primary namespace of the QtMvvm library
 namespace QtMvvm {
 
-//TODO sa in service registry
 //! Registers QVariant converters from QObject to an interface type registered with Q_DECLARE_INTERFACE
 template <typename TInterface>
 inline void registerInterfaceConverter() {

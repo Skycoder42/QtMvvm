@@ -25,6 +25,11 @@
 #undef logCritical
 #include <QtMvvmCore/private/qtmvvm_logging_p.h>
 
+#define PSIG(x) [this]() { \
+	(this->*(x))(QPrivateSignal{}); \
+}
+
+
 using namespace QtMvvm;
 using namespace QtDataSync;
 
@@ -271,7 +276,7 @@ void DataSyncViewModel::setColorMap(DataSyncViewModel::ColorMap colorMap)
 		return;
 
 	d->colorMap = colorMap;
-	emit colorMapChanged(d->colorMap);
+	emit colorMapChanged(d->colorMap, {});
 }
 
 void DataSyncViewModel::resetColorMap()
@@ -283,7 +288,7 @@ void DataSyncViewModel::resetColorMap()
 	d->colorMap.insert(SyncManager::Synchronized, Qt::darkGreen);
 	d->colorMap.insert(SyncManager::Error, Qt::darkRed);
 	d->colorMap.insert(SyncManager::Disconnected, Qt::darkYellow);
-	emit colorMapChanged(d->colorMap);
+	emit colorMapChanged(d->colorMap, {});
 }
 
 void DataSyncViewModel::showImportDialog(LoginRequest request)
@@ -353,9 +358,9 @@ void DataSyncViewModel::onInit(const QVariantHash &params)
 
 		//sync manager
 		connect(d->syncManager, &SyncManager::syncStateChanged,
-				this, &DataSyncViewModel::statusStringChanged);
+				this, PSIG(&DataSyncViewModel::statusStringChanged));
 		connect(d->syncManager, &SyncManager::lastErrorChanged,
-				this, &DataSyncViewModel::statusStringChanged);
+				this, PSIG(&DataSyncViewModel::statusStringChanged));
 
 		//account manager
 		connect(d->accountManager, &AccountManager::loginRequested,
@@ -371,9 +376,9 @@ void DataSyncViewModel::onInit(const QVariantHash &params)
 		d->accountModel->setup(d->accountManager, d->syncManager);
 		d->sortedModel->sort(0);
 
-		emit syncManagerChanged(d->syncManager);
-		emit accountManagerChanged(d->accountManager);
-		emit ready();
+		emit syncManagerChanged(d->syncManager, {});
+		emit accountManagerChanged(d->accountManager, {});
+		emit ready({});
 	} catch(SetupDoesNotExistException &e) {
 		logCritical() << "Failed to init DataSyncViewModel with error:"
 					  << e.what();

@@ -9,7 +9,7 @@ A mvvm oriented library for Qt, to create Projects for Widgets and Quick Control
 ![Demo Animation Widgets](./doc/images/sample_basic_widgets.gif)
 ![Demo Animation Quick](./doc/images/sample_basic_quick.gif)
 
-For more images, check the [Images page](https://skycoder42.github.io/QtMvvm/TODO)
+For more images, check the [Images page](https://skycoder42.github.io/QtMvvm/images_page.html)
 
 ## Features
 The main feature of QtMvvm is the seperation between ui and logic. With this library, you can create a core library, containing your application logic, as well as ui controllers (called "ViewModels"), and create multiple ui projects on top of it. This way you can for example provide both, a widgets and a qt quick based application, or create different uis for different devices, without having to code anything twice.
@@ -104,7 +104,6 @@ The following chapters will explain how to create a QtMvvm Project and how to co
 - ViewModel
 - ServiceRegistry
 - IPresenter
-- TODO add more
 
 The easiest way to create a QtMvvm Project is to use the provided project template. If you did not install via a package manager or the repository, follow the steps below to add the wizard.
 

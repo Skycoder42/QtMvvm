@@ -100,7 +100,7 @@ InputViewFactory *QuickPresenter::inputViewFactory() const
 void QuickPresenter::setInputViewFactory(InputViewFactory *inputViewFactory)
 {
 	d->inputViewFactory = inputViewFactory;
-	emit inputViewFactoryChanged(inputViewFactory);
+	emit inputViewFactoryChanged(inputViewFactory, {});
 }
 
 QUrl QuickPresenter::findViewUrl(const QMetaObject *viewModelType)

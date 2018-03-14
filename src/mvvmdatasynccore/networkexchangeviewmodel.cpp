@@ -14,6 +14,10 @@
 #undef logCritical
 #include <QtMvvmCore/private/qtmvvm_logging_p.h>
 
+#define PSIGARG(x, argt) [this](argt arg) { \
+	(this->*(x))(arg, QPrivateSignal{}); \
+}
+
 using namespace QtMvvm;
 using namespace QtDataSync;
 
@@ -98,7 +102,7 @@ void NetworkExchangeViewModel::setPort(quint16 port)
 		return;
 
 	d->port = port;
-	emit portChanged(d->port);
+	emit portChanged(d->port, {});
 }
 
 void NetworkExchangeViewModel::setDeviceName(QString deviceName)
@@ -132,20 +136,20 @@ void NetworkExchangeViewModel::onInit(const QVariantHash &params)
 		}
 
 		connect(d->exchangeManager->accountManager(), &AccountManager::deviceNameChanged,
-				this, &NetworkExchangeViewModel::deviceNameChanged);
+				this, PSIGARG(&NetworkExchangeViewModel::deviceNameChanged, QString));
 		connect(d->exchangeManager, &UserExchangeManager::userDataReceived,
 				this, &NetworkExchangeViewModel::newUserData);
 		connect(d->exchangeManager, &UserExchangeManager::exchangeError,
 				this, &NetworkExchangeViewModel::exchangeError);
 		connect(d->exchangeManager, &UserExchangeManager::activeChanged,
-				this, &NetworkExchangeViewModel::activeChanged);
+				this, PSIGARG(&NetworkExchangeViewModel::activeChanged, bool));
 
-		emit userExchangeManagerChanged(d->exchangeManager);
-		emit deviceNameChanged(deviceName());
+		emit userExchangeManagerChanged(d->exchangeManager, {});
+		emit deviceNameChanged(deviceName(), {});
 
 		d->deviceModel->setup(d->exchangeManager);
 		d->sortedModel->sort(0);
-		emit ready();
+		emit ready({});
 	} catch(SetupDoesNotExistException &e) {
 		logCritical() << "Failed to init DataSyncViewModel with error:"
 					  << e.what();

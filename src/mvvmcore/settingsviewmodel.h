@@ -69,7 +69,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
 	//! @notifyAcFn{SettingsViewModel::settingsSetupLoader}
-	void settingsSetupLoaderChanged(QtMvvm::ISettingsSetupLoader* settingsSetupLoader);
+	void settingsSetupLoaderChanged(QtMvvm::ISettingsSetupLoader* settingsSetupLoader, QPrivateSignal);
 
 	//! Is emitted when the initialization has been completed and the viewmodel is ready for loading settings
 	void beginLoadSetup();

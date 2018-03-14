@@ -57,7 +57,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
 	//! @notifyAcFn{QuickPresenter::inputViewFactory}
-	void inputViewFactoryChanged(InputViewFactory* inputViewFactory);
+	void inputViewFactoryChanged(InputViewFactory* inputViewFactory, QPrivateSignal);
 
 protected:
 	//! Is called to find the URL of the view to be used for the given viewmodel

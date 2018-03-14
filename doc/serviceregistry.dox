@@ -6,6 +6,9 @@ with the registry are available for DI. When using lazy initialization, services
 can also have dependencies to be injected. When the registry creates them it will
 automatically inject them. Automatic DI is also done for ViewModel created by the CoreApp.
 
+@note If a service has a slot named `qtmvvm_init()` it is called automatically by the registry
+right after all dependant services have been injected.
+
 The following example shows how to use DI. The first shows how to use it with a simple,
 interface-less service for an already created object:
 
@@ -20,6 +23,7 @@ public:
 
 public Q_SLOTS:
 	void baum();
+	void qtmvvm_init(); //is called by the registry
 };
 
 // myclass.h
@@ -76,6 +80,7 @@ public:
 
 public Q_SLOTS:
 	void baum() override;
+	void qtmvvm_init(); //is called by the registry
 };
 
 // myclass.h

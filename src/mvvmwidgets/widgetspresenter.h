@@ -58,7 +58,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
 	//! @notifyAcFn{WidgetsPresenter::inputWidgetFactory}
-	void inputWidgetFactoryChanged(InputWidgetFactory* inputWidgetFactory);
+	void inputWidgetFactoryChanged(InputWidgetFactory* inputWidgetFactory, QPrivateSignal);
 
 protected:
 	//! Is called to find the meta object of the view to be used for the given viewmodel

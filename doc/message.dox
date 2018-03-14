@@ -212,6 +212,13 @@ message to show:
  Critical Error	| MessageConfig::SubTypeQuestion
  About Dialog	| MessageConfig::SubTypeAbout
 
+The widgets implementation does support a few extra properties for this type:
+- modal (bool = true), configure application modality
+- windowTitle (QString), the window title
+- details (QString), the message box details box
+- checkable (bool = false), gives the messagebox a small checkbox
+- checkString (QString), the string to display for that checkbox
+
 @sa MessageConfig::type, MessageConfig::subType, MessageConfig::TypeInputDialog,
 MessageConfig::TypeFileDialog
 */
@@ -484,6 +491,8 @@ MessageConfig::NoButton when beeing discarded this way.
 /*!
 @fn QtMvvm::MessageResult::dialogDone
 
+@privsig
+
 @param button The button that was pressed by the user to complete the dialog
 
 Is emitted as soon as the dialog was closed with the button that was pressed, or
@@ -637,4 +646,181 @@ in `<p></p>` blocks. Furthermore, QML only supports a small subset of HTML in th
 mode that is used.
 
 @sa QtMvvm::information, MessageConfig, CoreApp::showDialog
+*/
+
+
+/*!
+@fn QtMvvm::getInput(const QString &, const QString &, const char *, const QVariant &, const QVariantMap &, const QString &, const QString &)
+
+@param title The input dialog title (MessageConfig::title)
+@param text A label to describe what to input (MessageConfig::text)
+@param inputType The data type of the edit to be used (MessageConfig::subType)
+@param defaultValue A default value to initialize the edit with (MessageConfig::defaultValue)
+@param viewProperties Additional properties to be passed to the edit (MessageConfig::viewProperties)
+@param okText An optional text overwrite for the OK button (MessageConfig::buttonTexts)
+@param cancelText An optional text overwrite for the CANCEL button (MessageConfig::buttonTexts)
+
+Shows an input dialog. The kind of edit to use is determined by using the `inputType`. The
+view properties will be applied to both, the dialog and the edit.
+
+@sa MessageConfig, CoreApp::showDialog
+*/
+
+/*!
+@fn QtMvvm::getInput(const QString &, const QString &, const char *, const std::function<void(QVariant)> &, const QVariant &, const QVariantMap &, const QString &, const QString &)
+
+@param onResult A handler to be called when the input dialog has been closed. Reports the
+result or an invalid variant in case the input has been canceled.
+@copydetails QtMvvm::getInput(const QString &, const QString &, const char *, const QVariant &, const QVariantMap &, const QString &, const QString &)
+*/
+
+/*!
+@fn QtMvvm::getInput(const QString &, const QString &, const char *, QObject *, const std::function<void(QVariant)> &, const QVariant &, const QVariantMap &, const QString &, const QString &)
+
+@param scope A scope to limit to. `onResult` is only called as long as scope has not been deleted
+@copydetails QtMvvm::getInput(const QString &, const QString &, const char *, const std::function<void(QVariant)> &, const QVariant &, const QVariantMap &, const QString &, const QString &)
+*/
+
+/*!
+@fn QtMvvm::getInput(const QString &, const QString &, const TEdit &, const QVariantMap &, const QString &, const QString &)
+
+@param title The input dialog title (MessageConfig::title)
+@param text A label to describe what to input (MessageConfig::text)
+@param defaultValue A default value to initialize the edit with (MessageConfig::defaultValue)
+@param viewProperties Additional properties to be passed to the edit (MessageConfig::viewProperties)
+@param okText An optional text overwrite for the OK button (MessageConfig::buttonTexts)
+@param cancelText An optional text overwrite for the CANCEL button (MessageConfig::buttonTexts)
+@tparam TEdit The input to type to create an edit for and to get a value of
+
+Shows an input dialog. The kind of edit to use is determined by using the `TEdit` type name.
+The view properties will be applied to both, the dialog and the edit.
+
+@sa MessageConfig, CoreApp::showDialog
+*/
+
+/*!
+@fn QtMvvm::getInput(const QString &, const QString &, const std::function<void(TEdit, bool)> &, const TEdit &, const QVariantMap &, const QString &, const QString &)
+
+@param onResult A handler to be called when the input dialog has been closed. Reports the
+result and `true` as second parameter, or a default constructed value and `false` in case the
+input has been canceled
+@copydetails QtMvvm::getInput(const QString &, const QString &, const TEdit &, const QVariantMap &, const QString &, const QString &)
+*/
+
+/*!
+@fn QtMvvm::getInput(const QString &, const QString &, QObject *, const std::function<void(TEdit, bool)> &, const TEdit &, const QVariantMap &, const QString &, const QString &)
+
+@param scope A scope to limit to. `onResult` is only called as long as scope has not been deleted
+@copydetails QtMvvm::getInput(const QString &, const QString &, const std::function<void(TEdit, bool)> &, const TEdit &, const QVariantMap &, const QString &, const QString &)
+*/
+
+
+/*!
+@fn QtMvvm::getExistingDirectory(const QString &, const QUrl &)
+
+@param title The input dialog title (MessageConfig::title)
+@param dir The directory URL to start the file dialog from (MessageConfig::defaultValue)
+
+Shows a folder dialog to let the user select an existing directory.
+
+@sa MessageConfig, CoreApp::showDialog
+*/
+
+/*!
+@fn QtMvvm::getExistingDirectory(const std::function<void(QUrl)> &, const QString &, const QUrl &)
+
+@param onResult A handler to be called when the folder dialog has been closed. Reports the
+selected directory URL or an invalid URL in case the input has been canceled.
+@copydetails QtMvvm::getExistingDirectory(const QString &, const QUrl &)
+*/
+
+/*!
+@fn QtMvvm::getExistingDirectory(QObject *, const std::function<void(QUrl)> &, const QString &, const QUrl &)
+
+@param scope A scope to limit to. `onResult` is only called as long as scope has not been deleted
+@copydetails QtMvvm::getExistingDirectory(const std::function<void(QUrl)> &, const QString &, const QUrl &)
+*/
+
+/*!
+@fn QtMvvm::getOpenFile(const QString &, const QStringList &, const QUrl &)
+
+@param title The input dialog title (MessageConfig::title)
+@param supportedMimeTypes A list of all allowed mimetypes (MessageConfig::viewProperties, extra property named `mimeTypes`)
+@param dir The directory URL to start the file dialog from (MessageConfig::defaultValue)
+
+Shows a file dialog to let the user select an existing file. The selectable files are limited
+to the mime types allowed.
+
+@sa MessageConfig, CoreApp::showDialog
+*/
+
+/*!
+@fn QtMvvm::getOpenFile(const std::function<void(QUrl)> &, const QString &, const QStringList &, const QUrl &)
+
+@param onResult A handler to be called when the file dialog has been closed. Reports the
+selected file URL or an invalid URL in case the input has been canceled.
+@copydetails QtMvvm::getOpenFile(const QString &, const QStringList &, const QUrl &)
+*/
+
+/*!
+@fn QtMvvm::getOpenFile(QObject *, const std::function<void(QUrl)> &, const QString &, const QStringList &, const QUrl &)
+
+@param scope A scope to limit to. `onResult` is only called as long as scope has not been deleted
+@copydetails QtMvvm::getOpenFile(const std::function<void(QUrl)> &, const QString &, const QStringList &, const QUrl &)
+*/
+
+/*!
+@fn QtMvvm::getOpenFiles(const QString &, const QStringList &, const QUrl &)
+
+@param title The input dialog title (MessageConfig::title)
+@param supportedMimeTypes A list of all allowed mimetypes (MessageConfig::viewProperties, extra property named `mimeTypes`)
+@param dir The directory URL to start the file dialog from (MessageConfig::defaultValue)
+
+Shows a file dialog to let the user select multiple existing files. The selectable files are
+limited to the mime types allowed.
+
+@sa MessageConfig, CoreApp::showDialog
+*/
+
+/*!
+@fn QtMvvm::getOpenFiles(const std::function<void(QList<QUrl>)> &, const QString &, const QStringList &, const QUrl &)
+
+@param onResult A handler to be called when the file dialog has been closed. Reports the
+selected file URLs in a list or an empty list in case the input has been canceled.
+@copydetails QtMvvm::getOpenFiles(const QString &, const QStringList &, const QUrl &)
+*/
+
+/*!
+@fn QtMvvm::getOpenFiles(QObject *, const std::function<void(QList<QUrl>)> &, const QString &, const QStringList &, const QUrl &)
+
+@param scope A scope to limit to. `onResult` is only called as long as scope has not been deleted
+@copydetails QtMvvm::getOpenFiles(const std::function<void(QList<QUrl>)> &, const QString &, const QStringList &, const QUrl &)
+*/
+
+/*!
+@fn QtMvvm::getSaveFile(const QString &, const QStringList &, const QUrl &)
+
+@param title The input dialog title (MessageConfig::title)
+@param supportedMimeTypes A list of all allowed mimetypes (MessageConfig::viewProperties, extra property named `mimeTypes`)
+@param dir The directory URL to start the file dialog from (MessageConfig::defaultValue)
+
+Shows a file dialog to let the user select an (non existing) file name for saving. The
+selectable files are limited to the mime types allowed.
+
+@sa MessageConfig, CoreApp::showDialog
+*/
+
+/*!
+@fn QtMvvm::getSaveFile(const std::function<void(QUrl)> &, const QString &, const QStringList &, const QUrl &)
+
+@param onResult A handler to be called when the file dialog has been closed. Reports the
+selected file URL or an invalid URL in case the input has been canceled.
+@copydetails QtMvvm::getSaveFile(const QString &, const QStringList &, const QUrl &)
+*/
+
+/*!
+@fn QtMvvm::getSaveFile(QObject *, const std::function<void(QUrl)> &, const QString &, const QStringList &, const QUrl &)
+
+@param scope A scope to limit to. `onResult` is only called as long as scope has not been deleted
+@copydetails QtMvvm::getSaveFile(const std::function<void(QUrl)> &, const QString &, const QStringList &, const QUrl &)
 */

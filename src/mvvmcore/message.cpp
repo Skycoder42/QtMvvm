@@ -265,7 +265,7 @@ void MessageResult::setAutoDelete(bool autoDelete)
 		return;
 
 	d->autoDelete = autoDelete;
-	emit autoDeleteChanged(autoDelete);
+	emit autoDeleteChanged(autoDelete, {});
 }
 
 // ------------- Private Implementation -------------

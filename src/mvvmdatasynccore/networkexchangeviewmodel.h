@@ -74,16 +74,16 @@ public Q_SLOTS:
 
 Q_SIGNALS:
 	//! Is emitted as soon as all the user exchange manager has been initialized
-	void ready();
+	void ready(QPrivateSignal);
 
 	//! @notifyAcFn{NetworkExchangeViewModel::userExchangeManager}
-	void userExchangeManagerChanged(QtDataSync::UserExchangeManager* userExchangeManager);
+	void userExchangeManagerChanged(QtDataSync::UserExchangeManager* userExchangeManager, QPrivateSignal);
 	//! @notifyAcFn{NetworkExchangeViewModel::port}
-	void portChanged(quint16 port);
+	void portChanged(quint16 port, QPrivateSignal);
 	//! @notifyAcFn{NetworkExchangeViewModel::deviceName}
-	void deviceNameChanged(QString deviceName);
+	void deviceNameChanged(QString deviceName, QPrivateSignal);
 	//! @notifyAcFn{NetworkExchangeViewModel::active}
-	void activeChanged(bool active);
+	void activeChanged(bool active, QPrivateSignal);
 
 protected:
 	void onInit(const QVariantHash &params) override;

@@ -51,7 +51,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
 	//! Is emitted once the app has successfully started
-	void appStarted();
+	void appStarted(QPrivateSignal);
 
 protected:
 	//! Is called as part of the app registration, before any view setups

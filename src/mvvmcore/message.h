@@ -218,10 +218,10 @@ public Q_SLOTS:
 
 Q_SIGNALS:
 	//! Is emitted as soon as the dialog was completed
-	void dialogDone(QtMvvm::MessageConfig::StandardButton button);
+	void dialogDone(QtMvvm::MessageConfig::StandardButton button, QPrivateSignal);
 
 	//! @notifyAcFn{MessageResult::autoDelete}
-	void autoDeleteChanged(bool autoDelete);
+	void autoDeleteChanged(bool autoDelete, QPrivateSignal);
 
 private:
 	QScopedPointer<MessageResultPrivate> d;
@@ -321,7 +321,7 @@ Q_MVVMCORE_EXPORT MessageResult *getInput(const QString &title,
 										  const QVariantMap &viewProperties = {},
 										  const QString &okText = {},
 										  const QString &cancelText = {});
-//! @copydoc QtMvvm::getInput(const QString &, const QString &, const char *, const std::function<void(QVariant)> &, const QVariant &, const QVariantMap &, const QString &, const QString &)
+//! @copybrief QtMvvm::getInput(const QString &, const QString &, const char *, const std::function<void(QVariant)> &, const QVariant &, const QVariantMap &, const QString &, const QString &)
 Q_MVVMCORE_EXPORT void getInput(const QString &title,
 								const QString &text,
 								const char *inputType,
@@ -331,7 +331,7 @@ Q_MVVMCORE_EXPORT void getInput(const QString &title,
 								const QVariantMap &viewProperties = {},
 								const QString &okText = {},
 								const QString &cancelText = {});
-//! @copydoc QtMvvm::getInput(const QString &, const QString &, const char *, const QVariant &, const QVariantMap &, const QString &, const QString &)
+//! @copybrief QtMvvm::getInput(const QString &, const QString &, const char *, const QVariant &, const QVariantMap &, const QString &, const QString &)
 Q_MVVMCORE_EXPORT void getInput(const QString &title,
 								const QString &text,
 								const char *inputType,
@@ -351,7 +351,7 @@ inline MessageResult *getInput(const QString &title,
 							   const QString &cancelText = {}) {
 	return getInput(title, text, QMetaType::typeName(qMetaTypeId<TEdit>()), QVariant::fromValue(defaultValue), viewProperties, okText, cancelText);
 }
-//! @copydoc QtMvvm::getInput(const QString &, const QString &, const std::function<void(TEdit, bool)> &, const TEdit &, const QVariantMap &, const QString &, const QString &)
+//! @copybrief QtMvvm::getInput(const QString &, const QString &, const std::function<void(TEdit, bool)> &, const TEdit &, const QVariantMap &, const QString &, const QString &)
 template <typename TEdit>
 inline void getInput(const QString &title,
 					 const QString &text,
@@ -365,7 +365,7 @@ inline void getInput(const QString &title,
 		onResult(v.template value<TEdit>(), v.isValid());
 	}, QVariant::fromValue(defaultValue), viewProperties, okText, cancelText);
 }
-//! @copydoc QtMvvm::getInput(const QString &, const QString &, const TEdit &, const QVariantMap &, const QString &, const QString &)
+//! @copybrief QtMvvm::getInput(const QString &, const QString &, const TEdit &, const QVariantMap &, const QString &, const QString &)
 template <typename TEdit>
 inline void getInput(const QString &title,
 					 const QString &text,
@@ -387,59 +387,59 @@ inline void getInput(const QString &title,
 //! @brief A shortcut to show a file dialog to select an existing directory
 Q_MVVMCORE_EXPORT MessageResult *getExistingDirectory(const QString &title = {},
 													  const QUrl &dir = {});
-//! @copydoc QtMvvm::getExistingDirectory(const std::function<void(QUrl)> &, const QString &, const QUrl &)
+//! @copybrief QtMvvm::getExistingDirectory(const std::function<void(QUrl)> &, const QString &, const QUrl &)
 Q_MVVMCORE_EXPORT void getExistingDirectory(QObject *scope,
 											const std::function<void(QUrl)> &onResult,
 											const QString &title = {},
 											const QUrl &dir = {});
-//! @copydoc QtMvvm::getExistingDirectory(const QString &, const QUrl &)
+//! @copybrief QtMvvm::getExistingDirectory(const QString &, const QUrl &)
 Q_MVVMCORE_EXPORT void getExistingDirectory(const std::function<void(QUrl)> &onResult,
 											const QString &title = {},
 											const QUrl &dir = {});
 
-//! @brief A shortcut to show a file dialog to select an existing file
+//! A shortcut to show a file dialog to select an existing file
 Q_MVVMCORE_EXPORT MessageResult *getOpenFile(const QString &title = {},
 											 const QStringList &supportedMimeTypes = {},
 											 const QUrl &dir = {});
-//! @copydoc QtMvvm::getOpenFile(const std::function<void(QUrl)> &, const QString &, const QStringList &, const QUrl &)
+//! @copybrief QtMvvm::getOpenFile(const std::function<void(QUrl)> &, const QString &, const QStringList &, const QUrl &)
 Q_MVVMCORE_EXPORT void getOpenFile(QObject *scope,
 								   const std::function<void(QUrl)> &onResult,
 								   const QString &title = {},
 								   const QStringList &supportedMimeTypes = {},
 								   const QUrl &dir = {});
-//! @copydoc QtMvvm::getOpenFile(const QString &, const QStringList &, const QUrl &)
+//! @copybrief QtMvvm::getOpenFile(const QString &, const QStringList &, const QUrl &)
 Q_MVVMCORE_EXPORT void getOpenFile(const std::function<void(QUrl)> &onResult,
 								   const QString &title = {},
 								   const QStringList &supportedMimeTypes = {},
 								   const QUrl &dir = {});
 
-//! @brief A shortcut to show a file dialog to select multiple existing files
+//! A shortcut to show a file dialog to select multiple existing files
 Q_MVVMCORE_EXPORT MessageResult *getOpenFiles(const QString &title = {},
 											  const QStringList &supportedMimeTypes = {},
 											  const QUrl &dir = {});
-//! @copydoc QtMvvm::getOpenFiles(const std::function<void(QList<QUrl>)> &, const QString &, const QStringList &, const QUrl &)
+//! @copybrief QtMvvm::getOpenFiles(const std::function<void(QList<QUrl>)> &, const QString &, const QStringList &, const QUrl &)
 Q_MVVMCORE_EXPORT void getOpenFiles(QObject *scope,
 									const std::function<void(QList<QUrl>)> &onResult,
 									const QString &title = {},
 									const QStringList &supportedMimeTypes = {},
 									const QUrl &dir = {});
-//! @copydoc QtMvvm::getOpenFiles(const QString &, const QStringList &, const QUrl &)
+//! @copybrief QtMvvm::getOpenFiles(const QString &, const QStringList &, const QUrl &)
 Q_MVVMCORE_EXPORT void getOpenFiles(const std::function<void(QList<QUrl>)> &onResult,
 									const QString &title = {},
 									const QStringList &supportedMimeTypes = {},
 									const QUrl &dir = {});
 
-//! @brief A shortcut to show a file dialog to select a new file for saving
+//! A shortcut to show a file dialog to select a new file for saving
 Q_MVVMCORE_EXPORT MessageResult *getSaveFile(const QString &title = {},
 											 const QStringList &supportedMimeTypes = {},
 											 const QUrl &dir = {});
-//! @copydoc QtMvvm::getSaveFile(const std::function<void(QUrl)> &, const QString &, const QStringList &, const QUrl &)
+//! @copybrief QtMvvm::getSaveFile(const std::function<void(QUrl)> &, const QString &, const QStringList &, const QUrl &)
 Q_MVVMCORE_EXPORT void getSaveFile(QObject *scope,
 								   const std::function<void(QUrl)> &onResult,
 								   const QString &title = {},
 								   const QStringList &supportedMimeTypes = {},
 								   const QUrl &dir = {});
-//! @copydoc QtMvvm::getSaveFile(const QString &, const QStringList &, const QUrl &)
+//! @copybrief QtMvvm::getSaveFile(const QString &, const QStringList &, const QUrl &)
 Q_MVVMCORE_EXPORT void getSaveFile(const std::function<void(QUrl)> &onResult,
 								   const QString &title = {},
 								   const QStringList &supportedMimeTypes = {},

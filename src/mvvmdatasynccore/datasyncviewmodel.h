@@ -98,16 +98,16 @@ public Q_SLOTS:
 
 Q_SIGNALS:
 	//! @notifyAcFn{DataSyncViewModel::syncManager}
-	void syncManagerChanged(QtDataSync::SyncManager* syncManager);
+	void syncManagerChanged(QtDataSync::SyncManager* syncManager, QPrivateSignal);
 	//! @notifyAcFn{DataSyncViewModel::accountManager}
-	void accountManagerChanged(QtDataSync::AccountManager* accountManager);
+	void accountManagerChanged(QtDataSync::AccountManager* accountManager, QPrivateSignal);
 	//! @notifyAcFn{DataSyncViewModel::colorMap}
-	void colorMapChanged(ColorMap colorMap);
+	void colorMapChanged(ColorMap colorMap, QPrivateSignal);
 	//! @notifyAcFn{DataSyncViewModel::statusString}
-	void statusStringChanged();
+	void statusStringChanged(QPrivateSignal);
 
 	//! Is emitted as soon as all the datasync managers have been initialized
-	void ready();
+	void ready(QPrivateSignal);
 
 protected:
 	void onInit(const QVariantHash &params) override;
