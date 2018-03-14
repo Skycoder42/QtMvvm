@@ -111,4 +111,53 @@ The following list shows which classes belong to which Qt module, in alphabetica
 
 <b>Current Version</b><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0
+
+<b>Available Types</b>
+- DataSyncView
+- NetworkExchangeView
+- IdentityEditView (internal)
+- ExportSetupView (internal)
+- ChangeRemoteView (internal)
+*/
+
+/*!
+@fn QtMvvm::registerDataSyncWidgets
+
+You must add this method to your main.cpp in order to register all the datasync views with the
+WidgetsPresenter when using the widgets ui:
+
+@code{.cpp}
+int main(int argc, char *argv[])
+{
+	QApplication a(argc, argv);
+
+	QtMvvm::registerDataSyncWidgets();
+	// register other stuff etc...
+
+	return a.exec();
+}
+@endcode
+
+@sa WidgetsPresenter::registerView
+*/
+
+/*!
+@fn QtMvvm::registerDataSyncQuick
+
+You must add this method to your main.cpp in order to register all the datasync views with the
+QuickPresenter when using the quick ui:
+
+@code{.cpp}
+int main(int argc, char *argv[])
+{
+	QApplication a(argc, argv);
+
+	QtMvvm::registerDataSyncQuick();
+	// register other stuff etc...
+
+	return a.exec();
+}
+@endcode
+
+@sa QuickPresenter
 */

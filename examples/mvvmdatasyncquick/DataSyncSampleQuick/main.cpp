@@ -1,5 +1,6 @@
 #include <QtWidgets/QApplication>
 #include <QtQml/QQmlApplicationEngine>
+#include <QtMvvmDataSyncQuick/qtmvvmdatasyncquick_global.h>
 
 #include <samplecoreapp.h>
 #include <sampleviewmodel.h>
@@ -15,6 +16,7 @@ int main(int argc, char *argv[])
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 	QApplication app(argc, argv);
 
+	QtMvvm::registerDataSyncQuick();
 	qmlRegisterUncreatableType<SampleViewModel>("de.skycoder42.QtMvvm.Sample", 1, 0, "SampleViewModel", QStringLiteral("ViewModels cannot be created"));
 
 	QQmlApplicationEngine engine;

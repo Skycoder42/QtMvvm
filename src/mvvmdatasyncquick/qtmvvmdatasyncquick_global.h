@@ -11,6 +11,7 @@
 
 namespace QtMvvm {
 
+//! A method to initialize the datasync quick mvvm module
 Q_MVVMDATASYNCQUICK_EXPORT void registerDataSyncQuick();
 
 }

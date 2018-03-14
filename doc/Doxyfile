@@ -908,7 +908,11 @@ EXCLUDE                = ../src/3rdparty \
 						 ../src/imports/mvvmquick/OverviewListView.qml \
 						 ../src/imports/mvvmquick/SectionListView.qml \
 						 ../src/imports/mvvmquick/AndroidFileDialog.qml \
-						 ../src/imports/mvvmquick/AndroidFolderDialog.qml
+						 ../src/imports/mvvmquick/AndroidFolderDialog.qml \
+						 ../src/imports/mvvmdatasyncquick/SubButton.qml \
+						 ../src/imports/mvvmdatasyncquick/IdentityEditView.qml \
+						 ../src/imports/mvvmdatasyncquick/ExportSetupView.qml \
+						 ../src/imports/mvvmdatasyncquick/ChangeRemoteView.qml
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded

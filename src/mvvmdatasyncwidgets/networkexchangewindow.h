@@ -12,11 +12,13 @@
 namespace QtMvvm {
 
 class NetworkExchangeWindowPrivate;
+//! The widgets view implementation for the NetworkExchangeViewModel
 class Q_MVVMDATASYNCWIDGETS_EXPORT NetworkExchangeWindow : public QWidget
 {
 	Q_OBJECT
 
 public:
+	//! View constructor
 	Q_INVOKABLE explicit NetworkExchangeWindow(QtMvvm::ViewModel *viewModel, QWidget *parent = nullptr);
 	~NetworkExchangeWindow();
 

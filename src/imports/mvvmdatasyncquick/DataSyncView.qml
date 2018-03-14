@@ -8,8 +8,29 @@ import de.skycoder42.QtMvvm.Core 1.0
 import de.skycoder42.QtMvvm.Quick 1.0
 import de.skycoder42.QtMvvm.DataSync.Core 1.0
 
+/*! @brief The view implementation for the QtMvvm::DataSyncViewModel
+ *
+ * @extends QtQuick.Controls.Page
+ *
+ * @details This is the view used to present a datasync view model. You can extend the class
+ * if you need to extend that view.
+ *
+ * @sa QtMvvm::DataSyncViewModel
+ */
 Page {
 	id: _dataSyncView
+
+	/*! @brief The viewmodel to use
+	 *
+	 * @default{<i>Injected</i>}
+	 *
+	 * @accessors{
+	 *	@memberAc{viewModel}
+	 *  @notifyAc{viewModelChanged()}
+	 * }
+	 *
+	 * @sa QtMvvm::DataSyncViewModel
+	 */
 	property DataSyncViewModel viewModel: null
 
 	header: ContrastToolBar {

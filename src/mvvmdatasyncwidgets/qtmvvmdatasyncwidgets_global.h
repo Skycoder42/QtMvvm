@@ -11,6 +11,7 @@
 
 namespace QtMvvm {
 
+//! A method to initialize the datasync widgets mvvm module
 Q_MVVMDATASYNCWIDGETS_EXPORT void registerDataSyncWidgets();
 
 }
