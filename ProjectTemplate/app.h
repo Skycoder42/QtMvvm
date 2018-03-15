@@ -13,9 +13,6 @@ public:
 protected:
 	void performRegistrations() override;
 	int startApp(const QStringList &arguments) override;
-
-protected slots:
-	void aboutToQuit() override;
 };
 
 #undef coreApp

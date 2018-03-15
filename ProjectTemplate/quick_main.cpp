@@ -1,6 +1,7 @@
 #include <QtGui/QGuiApplication>
 #include <QtQml/QQmlApplicationEngine>
 #include <%{AppHdrName}>
+#include <%{VmHdrName}>
 
 QTMVVM_REGISTER_CORE_APP(%{AppCn})
 
