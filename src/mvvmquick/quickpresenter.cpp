@@ -197,10 +197,10 @@ bool QuickPresenter::nameOrClassContains(const QObject *obj, const QString &cont
 // ------------- Private Implementation -------------
 
 QuickPresenterPrivate::QuickPresenterPrivate() :
-	explicitMappings(),
-	searchDirs({QStringLiteral(":/qtmvvm/views")}),
 	qmlPresenter(nullptr),
-	inputViewFactory(nullptr)
+	inputViewFactory(nullptr),
+	explicitMappings(),
+	searchDirs({QStringLiteral(":/qtmvvm/views")})
 {}
 
 QuickPresenter *QuickPresenterPrivate::currentPresenter()

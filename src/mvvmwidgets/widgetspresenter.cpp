@@ -431,7 +431,7 @@ void WidgetsPresenter::presentOtherDialog(const MessageConfig &config, QPointer<
 // ------------- Private Implementation -------------
 
 WidgetsPresenterPrivate::WidgetsPresenterPrivate() :
-	inputViewFactory(),
+	inputViewFactory(nullptr),
 	implicitMappings({&SettingsDialog::staticMetaObject}),
 	explicitMappings()
 {}

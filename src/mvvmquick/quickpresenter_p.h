@@ -20,11 +20,11 @@ public:
 	static void setQmlPresenter(QObject *presenter);
 
 private:
-	QHash<const QMetaObject *, QUrl> explicitMappings;
-	QStringList searchDirs;
-
 	QPointer<QObject> qmlPresenter;
 	InputViewFactory *inputViewFactory;
+
+	QHash<const QMetaObject *, QUrl> explicitMappings;
+	QStringList searchDirs;
 };
 
 }
