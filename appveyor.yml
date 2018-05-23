@@ -5,7 +5,7 @@ image:
 version: build-{build}
 
 environment:
-  QT_VER: 5.10.1
+  QT_VER: 5.11.0
   EXTRA_MODULES: .qtremoteobjects;.skycoder42.datasync
 
   matrix:
@@ -33,8 +33,6 @@ matrix:
       image: Visual Studio 2017
     - PLATFORM: mingw53_32
       image: Visual Studio 2017
-    - PLATFORM: static
-      image: Visual Studio 2015
 
 install:
   - git clone https://github.com/Skycoder42/QtModules.git .\qtmodules-travis

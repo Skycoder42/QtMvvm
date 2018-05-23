@@ -10,7 +10,7 @@ osx_image: xcode9.2
 env:
   global:
     - QPMX_CACHE_DIR=$HOME/.qpmx-cache
-    - QT_VER=5.10.1
+    - QT_VER=5.11.0
     - EXTRA_MODULES=".qtremoteobjects .skycoder42.datasync"
     - DOCKER_IMAGE=datasync
 
@@ -49,7 +49,7 @@ deploy:
   api_key:
     secure: DNJ5j4HmaEKSrFk+4+hMBAiM4eEJJrfvrSPgY37S1rVByFmtfpAF3ZDb0UuJpD7PEWP5cOOOwg5t7pjh3FBREQYgSxmigmJuBH7Y660+NJ+yn+iZyQJO6aNl4wLhzLBKFq7vgWTaoovM7URVYfBrY++NvoIpHWsd+rxohNcF/xiFTbKtwa9qh82SGtAdnrvYGaQ/Je8q7i9Uhh9vE4hnDauzGSrMCpr5mzbyvtYTKTfzEadty2wTXETboCd6dDg6GLFvxwxeNxe4/gg4kRVEPk/pAU1skNwsfjInBS2EqlWvOqoHggkl726+3E4QcHlL0AkkTpEafPb2zDUKsV8YlnFs3ckL1/c6+ict7iX5tt4woug940CvzU7cTOXTvinZPoFmFDv9d46CU5vYEuXUy4ExQCxHDeimk0VwICxJNxkYS+CNCSrGAMkwHZV3V6SUcoPuha4zz7mKpP0IGOmQhG/ZBtRNryh7tyI/dqhMu6j5RhqoBIPkVJdbgHC5tXgLfAmQOeE+jXLeYXV0oVine2Oof7E4WNVvS1if2HXUxB5S8wNnS3qQ7tNHtxk0gHRa5YvBOyV80ApVhmf/3cO/AXvBMT0rR3FhOso+drd8RiTLgYn5qNV9t0Bq9ykm1GAIAwIJVieyV69b43qqOfhuUA9v1y7dpzn7HYjUYUWCo90=
   file_glob: true
-  file: install/opt/build_*_$QT_VER.tar.xz
+  file: install/build_*_$QT_VER.tar.xz
   on:
     repo: Skycoder42/QtMvvm
     tags: true
