@@ -1,6 +1,8 @@
 #include "tabview.h"
 #include "ui_tabview.h"
 #include "tabitemview.h"
+#include <QTabBar>
+
 TabView::TabView(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 	QTabWidget(parent),
 	IPresentingView(),
