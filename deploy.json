@@ -12,7 +12,7 @@
 	"dependencies": [
 		".skycoder42.datasync"
 	],
-	"excludes": [ "static" ],
+	"excludes": [],
 	"license": {
 		"name": "BSD-3-Clause",
 		"path": "LICENSE"
