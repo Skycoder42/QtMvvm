@@ -1,17 +1,24 @@
 TEMPLATE = subdirs
-CONFIG += ordered
 
 SUBDIRS += mvvmcore \
 	mvvmwidgets \
-	mvvmquick
+	mvvmquick \
+	imports
+
+mvvmwidgets.depends += mvvmcore
+mvvmquick.depends += mvvmcore
+imports.depends += mvvmcore mvvmquick
 
 qtHaveModule(datasync) {
 	SUBDIRS += mvvmdatasynccore \
 		mvvmdatasyncwidgets \
 		mvvmdatasyncquick
-}
 
-SUBDIRS += imports
+	mvvmdatasynccore.depends += mvvmcore
+	mvvmdatasyncwidgets.depends += mvvmdatasynccore mvvmwidgets
+	mvvmdatasyncquick.depends += mvvmdatasynccore mvvmquick
+	imports.depends += mvvmdatasynccore mvvmdatasyncquick
+}
 
 imports.CONFIG += no_lrelease_target
 

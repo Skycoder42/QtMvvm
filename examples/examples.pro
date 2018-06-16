@@ -4,10 +4,14 @@ SUBDIRS = mvvmcore \
 	mvvmwidgets \
 	mvvmquick
 
+mvvmwidgets.depends += mvvmcore
+mvvmquick.depends += mvvmcore
+
 qtHaveModule(datasync) {
 	SUBDIRS += mvvmdatasynccore \
 		mvvmdatasyncwidgets \
 		mvvmdatasyncquick
-}
 
-CONFIG += ordered
+	mvvmdatasyncwidgets.depends += mvvmdatasynccore
+	mvvmdatasyncquick.depends += mvvmdatasynccore
+}

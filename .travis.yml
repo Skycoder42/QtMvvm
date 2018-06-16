@@ -58,6 +58,7 @@ before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
   - rm -fr $QPMX_CACHE_DIR/locks
+  - rm -rf $QPMX_CACHE_DIR/tmp
 cache:
   directories:
     - $HOME/.gradle/caches/
