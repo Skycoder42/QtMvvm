@@ -21,12 +21,12 @@ NetworkExchangeWindow::NetworkExchangeWindow(ViewModel *viewModel, QWidget *pare
 		 nullptr, "editingFinished()");
 	bind(d->viewModel, "active",
 		 d->ui->exchangeCheckBox, "checked",
-		 Binding::OneWayToViewModel);//NOTE workaround because of buggy active property in datasync
+		 Binding::OneWayToViewModel);
 
 	d->ui->treeView->setModel(d->viewModel->sortedModel());
 }
 
-NetworkExchangeWindow::~NetworkExchangeWindow() {}
+NetworkExchangeWindow::~NetworkExchangeWindow() = default;
 
 void NetworkExchangeWindow::activated(const QModelIndex &index)
 {

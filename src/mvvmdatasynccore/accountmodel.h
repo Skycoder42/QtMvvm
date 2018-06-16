@@ -27,7 +27,7 @@ public:
 
 	//! Default constructor
 	explicit AccountModel(QObject *parent = nullptr);
-	~AccountModel();
+	~AccountModel() override;
 
 	//! Setups up the model to use the account and a sync manager. Automatically loads devices
 	Q_INVOKABLE void setup(QtDataSync::AccountManager *accountManager,

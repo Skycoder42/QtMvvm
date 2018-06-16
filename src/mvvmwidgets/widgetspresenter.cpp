@@ -53,7 +53,7 @@ WidgetsPresenter::WidgetsPresenter(QObject *parent) :
 	initResources();
 }
 
-WidgetsPresenter::~WidgetsPresenter() {}
+WidgetsPresenter::~WidgetsPresenter() = default;
 
 void WidgetsPresenter::registerView(const QMetaObject *viewType)
 {
@@ -148,7 +148,7 @@ const QMetaObject *WidgetsPresenter::findWidgetMetaObject(const QMetaObject *vie
 
 			auto shortest = std::numeric_limits<int>::max();
 			const QMetaObject *res = nullptr;
-			for(auto metaObject : d->implicitMappings) {
+			for(auto metaObject : qAsConst(d->implicitMappings)) {
 				QByteArray vName = metaObject->className();
 				//strip namespaces
 				lIndex = vName.lastIndexOf("::");
@@ -349,7 +349,7 @@ void WidgetsPresenter::presentInputDialog(const MessageConfig &config, QPointer<
 		dialog->done(btnBox->standardButton(btn));
 	});
 	QObject::connect(dialog, &QDialog::finished,
-					 dialog, [dialog, input, property, result](int resCode){
+					 dialog, [input, property, result](int resCode){
 		if(result) {
 			result->complete(static_cast<MessageConfig::StandardButton>(resCode),
 							 property.read(input));
@@ -408,7 +408,7 @@ void WidgetsPresenter::presentFileDialog(const MessageConfig &config, QPointer<M
 				if(isMultiFile)
 					result->setResult(QVariant::fromValue(dialog->selectedUrls()));
 				else if(!dialog->selectedUrls().isEmpty())
-					result->setResult(dialog->selectedUrls().first());
+					result->setResult(dialog->selectedUrls().value(0));
 				result->complete(MessageConfig::Ok);
 			} else
 				result->complete(MessageConfig::Cancel);
@@ -431,9 +431,7 @@ void WidgetsPresenter::presentOtherDialog(const MessageConfig &config, QPointer<
 // ------------- Private Implementation -------------
 
 WidgetsPresenterPrivate::WidgetsPresenterPrivate() :
-	inputViewFactory(nullptr),
-	implicitMappings({&SettingsDialog::staticMetaObject}),
-	explicitMappings()
+	implicitMappings{&SettingsDialog::staticMetaObject}
 {}
 
 WidgetsPresenter *WidgetsPresenterPrivate::currentPresenter()
@@ -446,11 +444,11 @@ WidgetsPresenter *WidgetsPresenterPrivate::currentPresenter()
 #endif
 		return static_cast<WidgetsPresenter*>(ServiceRegistry::instance()->service<IPresenter>());
 	} catch(QException &e) {
-		qFatal(e.what());
+		qFatal("%s", e.what());
 	}
 }
 
-QValidator *QtMvvm::createUrlValidator(const QStringList &schemes, QObject *parent)
+QValidator *QtMvvm::createUrlValidator(QStringList schemes, QObject *parent)
 {
-	return new QUrlValidator(schemes, parent);
+	return new QUrlValidator(std::move(schemes), parent);
 }

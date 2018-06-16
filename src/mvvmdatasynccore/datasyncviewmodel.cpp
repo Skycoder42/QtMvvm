@@ -58,7 +58,7 @@ DataSyncViewModel::DataSyncViewModel(QObject *parent) :
 	resetColorMap();
 }
 
-DataSyncViewModel::~DataSyncViewModel() {}
+DataSyncViewModel::~DataSyncViewModel() = default;
 
 SyncManager *DataSyncViewModel::syncManager() const
 {
@@ -115,6 +115,7 @@ QSortFilterProxyModel *DataSyncViewModel::sortedModel() const
 QString DataSyncViewModel::formatFingerPrint(const QByteArray &fingerPrint)
 {
 	QByteArrayList res;
+	res.reserve(fingerPrint.size());
 	for(char c : fingerPrint)
 		res.append(QByteArray(1, c).toHex().toUpper());
 	return QString::fromUtf8(res.join(':'));
@@ -148,7 +149,7 @@ void DataSyncViewModel::startExport()
 void DataSyncViewModel::startImport()
 {
 	auto home = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
-	getOpenFile(this, [this](QUrl url) {
+	getOpenFile(this, [this](const QUrl &url) {
 		if(url.isValid()) {
 			logDebug() << "Importing from URL" << url;
 
@@ -168,8 +169,7 @@ void DataSyncViewModel::startImport()
 			if(!device->open(QIODevice::ReadOnly | QIODevice::Text)) {
 				critical(tr("Import failed"),
 						 tr("Failed to open URL \"%1\" with error: %2")
-						 .arg(url.toString())
-						 .arg(device->errorString()));
+						 .arg(url.toString(), device->errorString()));
 				return;
 			}
 			auto data = device->readAll();
@@ -275,7 +275,7 @@ void DataSyncViewModel::setColorMap(DataSyncViewModel::ColorMap colorMap)
 	if (d->colorMap == colorMap)
 		return;
 
-	d->colorMap = colorMap;
+	d->colorMap = std::move(colorMap);
 	emit colorMapChanged(d->colorMap, {});
 }
 
@@ -303,9 +303,8 @@ void DataSyncViewModel::showImportDialog(LoginRequest request)
 				"<p>Name: %1<br/>"
 				"Fingerprint: %2</p>"
 				"<p>Do you want accept the request?</p>")
-			 .arg(request.device().name())
-			 .arg(formatFingerPrint(request.device().fingerprint())),
-			 this, [this, request](bool ok) {
+			 .arg(request.device().name(), formatFingerPrint(request.device().fingerprint())),
+			 this, [request](bool ok) {
 		auto req = request;
 		if(!req.handled()) {
 			if(ok)
@@ -331,14 +330,13 @@ void DataSyncViewModel::showAccessGranted(const QUuid &id)
 
 void DataSyncViewModel::triggerGranted(const QList<DeviceInfo> &devices)
 {
-	for(auto device : devices) {
+	for(const auto &device : devices) {
 		if(d->pendingGrants.remove(device.deviceId())) {
 			information(tr("Account access granted"),
 						tr("<p>Account access has been granted to device:</p>"
 						   "<p>Name: %1<br/>"
 						   "Fingerprint: %2</p>")
-						.arg(device.name())
-						.arg(formatFingerPrint(device.fingerprint())));
+						.arg(device.name(), formatFingerPrint(device.fingerprint())));
 		}
 	}
 }
@@ -410,9 +408,6 @@ void DataSyncViewModel::onResult(quint32 requestCode, const QVariant &result)
 
 QtMvvm::DataSyncViewModelPrivate::DataSyncViewModelPrivate(DataSyncViewModel *q_ptr) :
 	q(q_ptr),
-	syncManager(nullptr),
-	accountManager(nullptr),
-	colorMap(),
 	accountModel(new AccountModel(q_ptr)),
 	sortedModel(new QSortFilterProxyModel(q_ptr))
 {}
@@ -420,7 +415,7 @@ QtMvvm::DataSyncViewModelPrivate::DataSyncViewModelPrivate(DataSyncViewModel *q_
 void DataSyncViewModelPrivate::performExport(bool trusted, bool includeServer, const QString &password)
 {
 	auto home = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
-	getSaveFile(q, [this, trusted, includeServer, password](QUrl url) {
+	getSaveFile(q, [this, trusted, includeServer, password](const QUrl &url) {
 		if(url.isValid()) {
 			logDebug() << "Exporting to URL" << url;
 
@@ -441,13 +436,12 @@ void DataSyncViewModelPrivate::performExport(bool trusted, bool includeServer, c
 			if(!device->open(QIODevice::WriteOnly | QIODevice::Text)) {
 				critical(DataSyncViewModel::tr("Export failed"),
 						 DataSyncViewModel::tr("Failed to open URL \"%1\" with error: %2")
-						 .arg(url.toString())
-						 .arg(device->errorString()));
+						 .arg(url.toString(), device->errorString()));
 				return;
 			}
 
 			QPointer<DataSyncViewModel> qPtr(q);
-			auto resFn = [this, qPtr, device](QByteArray data) {
+			auto resFn = [qPtr, device](const QByteArray &data) {
 				if(!qPtr)
 					return;
 				device->write(data);
@@ -455,7 +449,7 @@ void DataSyncViewModelPrivate::performExport(bool trusted, bool includeServer, c
 				information(DataSyncViewModel::tr("Export completed"),
 							DataSyncViewModel::tr("Data was successfully exported."));
 			};
-			auto errFn = [this, qPtr, device](QString error){
+			auto errFn = [qPtr, device](const QString &error){
 				if(!qPtr)
 					return;
 				critical(DataSyncViewModel::tr("Export failed"), error);
@@ -474,7 +468,7 @@ void DataSyncViewModelPrivate::performExport(bool trusted, bool includeServer, c
 void DataSyncViewModelPrivate::performImport(bool trusted, const QString &password, const QByteArray &data, bool keepData)
 {
 	QPointer<DataSyncViewModel> qPtr(q);
-	auto resFn = [this, qPtr](bool ok, QString error) {
+	auto resFn = [qPtr](bool ok, const QString &error) {
 		if(!qPtr)
 			return;
 		if(ok) {

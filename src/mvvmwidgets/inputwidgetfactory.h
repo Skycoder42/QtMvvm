@@ -21,7 +21,7 @@ class InputWidgetFactory : public QObject
 public:
 	//! Default constructor
 	Q_INVOKABLE explicit InputWidgetFactory(QObject *parent = nullptr);
-	virtual ~InputWidgetFactory();
+	~InputWidgetFactory() override;
 
 	//! Create a new input widget of the given input type
 	virtual QWidget *createInput(const QByteArray &type, QWidget *parent, const QVariantMap &viewProperties);

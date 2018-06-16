@@ -20,7 +20,7 @@ class Q_MVVMDATASYNCWIDGETS_EXPORT NetworkExchangeWindow : public QWidget
 public:
 	//! View constructor
 	Q_INVOKABLE explicit NetworkExchangeWindow(QtMvvm::ViewModel *viewModel, QWidget *parent = nullptr);
-	~NetworkExchangeWindow();
+	~NetworkExchangeWindow() override;
 
 private Q_SLOTS:
 	void activated(const QModelIndex &index);

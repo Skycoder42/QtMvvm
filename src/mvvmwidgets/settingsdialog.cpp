@@ -58,7 +58,7 @@ SettingsDialog::SettingsDialog(ViewModel *viewModel, QWidget *parent) :
 			d, &SettingsDialogPrivate::createUi);
 }
 
-SettingsDialog::~SettingsDialog() {}
+SettingsDialog::~SettingsDialog() = default;
 
 QString SettingsDialog::labelFilterStyleSheet() const
 {
@@ -82,14 +82,10 @@ SettingsDialogPrivate::SettingsDialogPrivate(SettingsDialog *q_ptr, ViewModel *v
 	QObject(q_ptr),
 	q(q_ptr),
 	viewModel(static_cast<SettingsViewModel*>(viewModel)),
-	ui(new Ui::SettingsDialog()),
-	delegate(nullptr),
-	maxWidthBase(0),
-	entryMap(),
-	changedEntries()
+	ui(new Ui::SettingsDialog())
 {}
 
-SettingsDialogPrivate::~SettingsDialogPrivate() {}
+SettingsDialogPrivate::~SettingsDialogPrivate() = default;
 
 void SettingsDialogPrivate::createUi()
 {
@@ -101,7 +97,7 @@ void SettingsDialogPrivate::createUi()
 	ui->filterLineEdit->setVisible(setup.allowSearch);
 	ui->buttonBox->button(QDialogButtonBox::RestoreDefaults)->setVisible(setup.allowRestore && viewModel->canRestoreDefaults());
 
-	for(auto category : setup.categories)
+	for(const auto &category : qAsConst(setup.categories))
 		createCategory(category);
 
 	resetListSize();
@@ -121,7 +117,7 @@ void SettingsDialogPrivate::createCategory(const SettingsElements::Category &cat
 	ui->contentStackWidget->addWidget(tab);
 	ui->categoryListWidget->addItem(item);
 
-	for(auto section : category.sections)
+	for(const auto &section : category.sections)
 		createSection(section, tab);
 }
 
@@ -148,7 +144,7 @@ void SettingsDialogPrivate::createSection(const SettingsElements::Section &secti
 	tabWidget->tabBar()->setTabToolTip(index, tooltip);
 	tabWidget->tabBar()->setTabWhatsThis(index, tooltip);
 
-	for(auto group : section.groups)
+	for(const auto &group : section.groups)
 		createGroup(group, scrollContent, layout);
 }
 
@@ -168,7 +164,7 @@ void SettingsDialogPrivate::createGroup(const SettingsElements::Group &group, QW
 		groupBox->setLayout(sectionLayout);
 	}
 
-	for(auto entry : group.entries)
+	for(const auto &entry : group.entries)
 		createEntry(entry, sectionWidget, sectionLayout);
 }
 
@@ -237,7 +233,7 @@ void SettingsDialogPrivate::saveValues()
 
 void SettingsDialogPrivate::restoreValues()
 {
-	for(auto info : entryMap)
+	for(const auto &info : qAsConst(entryMap))
 		viewModel->resetValue(info.first.key);
 }
 
@@ -393,7 +389,7 @@ bool SettingsDialogPrivate::searchInEntry(const QRegularExpression &regex, QLabe
 
 	auto keys = entryMap.value(content).first.searchKeys;
 	keys.append(label->text());
-	for(auto key : keys) {
+	for(const auto &key : keys) {
 		if(regex.match(key).hasMatch()) {
 			label->setStyleSheet(q->labelFilterStyleSheet());
 			return true;
@@ -427,8 +423,8 @@ void SettingsDialogPrivate::buttonBoxClicked(QAbstractButton *button)
 	case QDialogButtonBox::RestoreDefaults:
 		if(viewModel->canRestoreDefaults()) {
 			auto result = CoreApp::showDialog(viewModel->restoreConfig());
-			connect(result, &MessageResult::dialogDone, this, [this](MessageConfig::StandardButton result) {
-				if(result == MessageConfig::Yes) {
+			connect(result, &MessageResult::dialogDone, this, [this](MessageConfig::StandardButton btnResult) {
+				if(btnResult == MessageConfig::Yes) {
 					restoreValues();
 					q->accept();
 				}
@@ -452,10 +448,10 @@ void SettingsDialogPrivate::filterTextChanged(const QString &searchText)
 
 
 
-CategoryItemDelegate::CategoryItemDelegate(const std::function<void(int)> &updateFunc, const QSize &iconSize, int layoutSpacing, QObject *parent) :
+CategoryItemDelegate::CategoryItemDelegate(std::function<void(int)> updateFunc, QSize iconSize, int layoutSpacing, QObject *parent) :
 	QStyledItemDelegate(parent),
 	_iconSize(iconSize + QSize(0, layoutSpacing)),
-	_updateFunc(updateFunc)
+	_updateFunc(std::move(updateFunc))
 {}
 
 QSize CategoryItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const

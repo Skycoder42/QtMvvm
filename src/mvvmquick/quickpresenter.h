@@ -28,7 +28,7 @@ class Q_MVVMQUICK_EXPORT QuickPresenter : public QObject, public IPresenter
 public:
 	//! Invokable constructor
 	Q_INVOKABLE explicit QuickPresenter(QObject *parent = nullptr);
-	~QuickPresenter();
+	~QuickPresenter() override;
 
 	//! Register a subclass of the QuickPresenter as the active presenter for the CoreApp
 	template <typename TPresenter>

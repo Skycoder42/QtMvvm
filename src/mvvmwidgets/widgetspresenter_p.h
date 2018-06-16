@@ -17,12 +17,12 @@ public:
 
 	static WidgetsPresenter *currentPresenter();
 
-	InputWidgetFactory* inputViewFactory;
+	InputWidgetFactory* inputViewFactory = nullptr;
 	QSet<const QMetaObject*> implicitMappings;
 	QHash<const QMetaObject*, const QMetaObject*> explicitMappings;
 };
 
-Q_MVVMWIDGETS_EXPORT QValidator *createUrlValidator(const QStringList &schemes, QObject* parent = nullptr);
+Q_MVVMWIDGETS_EXPORT QValidator *createUrlValidator(QStringList schemes, QObject* parent = nullptr);
 
 }
 

@@ -25,7 +25,7 @@ class Q_MVVMDATASYNCWIDGETS_EXPORT DataSyncWindow : public QWidget
 public:
 	//! View constructor
 	Q_INVOKABLE explicit DataSyncWindow(QtMvvm::ViewModel *viewModel, QWidget *parent = nullptr);
-	~DataSyncWindow();
+	~DataSyncWindow() override;
 
 	//! @readAcFn{DataSyncWindow::syncProgress}
 	double syncProgress() const;

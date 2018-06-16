@@ -21,12 +21,12 @@ void SettingsSectionModel::setup(const SettingsElements::Setup &setup)
 	_sections.clear();
 	_hasSections = false;
 	auto rIndex = 0;
-	for(auto category : setup.categories) {
+	for(const auto &category : setup.categories) {
 		if(category.sections.size() == 1) { // single sects are always at the beginning
 			_hasSections = true;
 			_sections.insert(rIndex++, category);
 		} else {
-			for(auto section : category.sections)
+			for(const auto &section : category.sections)
 				_sections.append(SectionInfo{section, category});
 		}
 	}
@@ -62,9 +62,9 @@ QVariant SettingsSectionModel::data(const QModelIndex &index, int role) const
 	{
 		const auto &section = _sections[index.row()];
 		if(section.searchKeys.isEmpty()) {
-			for(auto group : section.groups) {
+			for(const auto &group : section.groups) {
 				section.searchKeys.append(group.title);
-				for(auto entry : group.entries) {
+				for(const auto &entry : group.entries) {
 					section.searchKeys.append(entry.title);
 					section.searchKeys.append(entry.tooltip);
 					section.searchKeys.append(entry.searchKeys);
@@ -97,13 +97,13 @@ bool SettingsSectionModel::hasSections() const
 
 
 SettingsSectionModel::SectionInfo::SectionInfo(SettingsElements::Section section, SettingsElements::Category category) :
-	Section(section),
-	category(category)
+	Section(std::move(section)),
+	category(std::move(category))
 {
-	category.sections.clear();
+	this->category.sections.clear();
 }
 
-SettingsSectionModel::SectionInfo::SectionInfo(SettingsElements::Category category) :
+SettingsSectionModel::SectionInfo::SectionInfo(const SettingsElements::Category &category) :
 	Section{category.title, category.icon, category.tooltip, category.sections.first().groups, {}, {}},
 	category()
 {}

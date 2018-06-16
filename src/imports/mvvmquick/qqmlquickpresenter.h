@@ -158,7 +158,7 @@ private Q_SLOTS:
 	void statusChanged(QQmlComponent::Status status);
 
 private:
-	typedef std::tuple<ViewModel*, QVariantHash, QPointer<ViewModel>> PresentTuple;
+	using PresentTuple = std::tuple<ViewModel*, QVariantHash, QPointer<ViewModel>>;
 	QQmlEngine *_engine;
 	QPointer<QObject> _qmlPresenter;
 
@@ -166,7 +166,7 @@ private:
 	QCache<QUrl, QQmlComponent> _componentCache;
 	QHash<QQmlComponent*, PresentTuple> _loadCache;
 
-	void addObject(QQmlComponent *component, ViewModel *viewModel, const QVariantHash &params, QPointer<ViewModel> parent);
+	void addObject(QQmlComponent *component, ViewModel *viewModel, const QVariantHash &params, const QPointer<ViewModel> &parent);
 };
 
 }

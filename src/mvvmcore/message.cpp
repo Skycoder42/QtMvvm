@@ -30,17 +30,15 @@ MessageConfig::MessageConfig(const QByteArray &type, const QByteArray &subType) 
 	resetButtons();
 }
 
-MessageConfig::MessageConfig(const MessageConfig &other) :
-	d(other.d)
-{}
+MessageConfig::MessageConfig(MessageConfig &&other)= default;
 
-MessageConfig::~MessageConfig() {}
+MessageConfig::MessageConfig(const MessageConfig &other) = default;
 
-MessageConfig &MessageConfig::operator=(const MessageConfig &other)
-{
-	d = other.d;
-	return (*this);
-}
+MessageConfig::~MessageConfig() = default;
+
+MessageConfig &MessageConfig::operator=(const MessageConfig &other) = default;
+
+MessageConfig &MessageConfig::operator=(MessageConfig &&other) = default;
 
 QByteArray MessageConfig::type() const
 {
@@ -194,7 +192,7 @@ MessageResult::MessageResult() :
 	d(new MessageResultPrivate())
 {}
 
-MessageResult::~MessageResult() {}
+MessageResult::~MessageResult() = default;
 
 bool MessageResult::hasResult() const
 {
@@ -256,7 +254,7 @@ void MessageResult::discardMessage()
 void MessageResult::setResult(QVariant result)
 {
 	QMutexLocker lock(&d->mutex);
-	d->result = result;
+	d->result = std::move(result);
 }
 
 void MessageResult::setAutoDelete(bool autoDelete)
@@ -270,29 +268,13 @@ void MessageResult::setAutoDelete(bool autoDelete)
 
 // ------------- Private Implementation -------------
 
-QtMvvm::MessageConfigPrivate::MessageConfigPrivate(const QByteArray &type, const QByteArray &subType) :
+QtMvvm::MessageConfigPrivate::MessageConfigPrivate(QByteArray type, QByteArray subType) :
 	QSharedData(),
-	type(type),
-	subType(subType),
-	title(),
-	text(),
-	buttons(MessageConfig::Ok),
-	buttonTexts(),
-	defaultValue(),
-	editProperties()
+	type(std::move(type)),
+	subType(std::move(subType))
 {}
 
-QtMvvm::MessageConfigPrivate::MessageConfigPrivate(const QtMvvm::MessageConfigPrivate &other) :
-	QSharedData(other),
-	type(other.type),
-	subType(other.subType),
-	title(other.title),
-	text(other.text),
-	buttons(other.buttons),
-	buttonTexts(other.buttonTexts),
-	defaultValue(other.defaultValue),
-	editProperties(other.editProperties)
-{}
+QtMvvm::MessageConfigPrivate::MessageConfigPrivate(const QtMvvm::MessageConfigPrivate &other) = default;
 
 // ------------- Namespace methods implementation -------------
 
@@ -409,8 +391,7 @@ MessageResult *QtMvvm::about(const QString &description, const QUrl &websiteUrl,
 	config.setViewProperty(QStringLiteral("addQtVersion"), addQtVersion);
 
 	config.setTitle(MessageConfig::tr("%1 — Version %2")
-					.arg(QGuiApplication::applicationDisplayName())
-					.arg(QCoreApplication::applicationVersion()));
+					.arg(QGuiApplication::applicationDisplayName(), QCoreApplication::applicationVersion()));
 
 	//create the content string:
 	//basic text
@@ -431,7 +412,7 @@ MessageResult *QtMvvm::about(const QString &description, const QUrl &websiteUrl,
 		}
 		if(!extraTopInfos.isEmpty()) {
 			auto withBr = addQtVersion;
-			for(auto info : extraTopInfos) {
+			for(const auto &info : extraTopInfos) {
 				text += info + (withBr ? br : QString());
 				withBr = true;
 			}
@@ -443,14 +424,12 @@ MessageResult *QtMvvm::about(const QString &description, const QUrl &websiteUrl,
 			.arg(companyName.isEmpty() ? QCoreApplication::organizationName() : companyName);
 	if(websiteUrl.isValid()) {
 		text += br + MessageConfig::tr("Project Website: <a href=\"%1\">%2</a>")
-				.arg(QString::fromUtf8(websiteUrl.toEncoded()))
-				.arg(websiteUrl.toString());
+				.arg(QString::fromUtf8(websiteUrl.toEncoded()), websiteUrl.toString());
 	}
 	if(!licenseName.isEmpty()) {
 		if(licenseUrl.isValid()) {
 			text += br + MessageConfig::tr("License: <a href=\"%1\">%2</a>")
-					.arg(QString::fromUtf8(licenseUrl.toEncoded()))
-					.arg(licenseName);
+					.arg(QString::fromUtf8(licenseUrl.toEncoded()), licenseName);
 		} else {
 			text += br + MessageConfig::tr("License: %1")
 					.arg(licenseName);

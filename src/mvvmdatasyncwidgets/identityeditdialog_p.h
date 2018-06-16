@@ -21,7 +21,7 @@ class Q_MVVMDATASYNCWIDGETS_EXPORT IdentityEditDialog : public QDialog
 
 public:
 	Q_INVOKABLE explicit IdentityEditDialog(QtMvvm::ViewModel *viewModel, QWidget *parent = nullptr);
-	~IdentityEditDialog();
+	~IdentityEditDialog() override;
 
 public Q_SLOTS:
 	void accept() override;

@@ -39,7 +39,7 @@ bool MultiFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &
 		auto rData = sourceModel()->data(sourceModel()->index(source_row, 0, source_parent), role);
 		//try as stringlist
 		auto strList = rData.toStringList();
-		for(auto str : strList) {
+		for(const auto &str : strList) {
 			if(_filterRegex.match(str).hasMatch())
 				return true;
 		}

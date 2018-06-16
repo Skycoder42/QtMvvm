@@ -48,7 +48,7 @@ void SelectComboBox::setCurrentValue(const QVariant &data)
 void SelectComboBox::setListElements(const QVariantList &listElements)
 {
 	clear();
-	for(auto item : listElements) {
+	for(const auto &item : listElements) {
 		if(item.type() == QVariant::String)
 			addItem(item.toString(), item);
 		else {

@@ -90,10 +90,10 @@ Binding::Binding() :
 {}
 
 Binding::Binding(QPointer<BindingPrivate> d_ptr) :
-	d(d_ptr)
+	d(std::move(d_ptr))
 {}
 
-Binding::~Binding() {}
+Binding::~Binding() = default;
 
 bool Binding::isValid() const
 {
@@ -110,26 +110,26 @@ void Binding::unbind()
 
 // ------------- Private Implementation -------------
 
-Binding BindingPrivate::bind(QObject *viewModel, const QMetaProperty &viewModelProperty, QObject *view, const QMetaProperty &viewProperty, Binding::BindingDirection type, const QMetaMethod &viewModelChangeSignal, const QMetaMethod &viewChangeSignal)
+Binding BindingPrivate::bind(QObject *viewModel, QMetaProperty viewModelProperty, QObject *view, QMetaProperty viewProperty, Binding::BindingDirection type, QMetaMethod viewModelChangeSignal, QMetaMethod viewChangeSignal)
 {
-	QPointer<BindingPrivate> binderPrivate = new BindingPrivate(viewModel, viewModelProperty, view, viewProperty);
+	QPointer<BindingPrivate> binderPrivate = new BindingPrivate(viewModel, std::move(viewModelProperty), view, std::move(viewProperty));
 
 	if(type.testFlag(Binding::SingleInit))
 		binderPrivate->init();
 	if(type.testFlag(Binding::OneWayToView))
-		binderPrivate->bindFrom(viewModelChangeSignal);
+		binderPrivate->bindFrom(std::move(viewModelChangeSignal));
 	if(type.testFlag(Binding::OneWayToViewModel))
-		binderPrivate->bindTo(viewChangeSignal);
+		binderPrivate->bindTo(std::move(viewChangeSignal));
 
 	return binderPrivate;
 }
 
-BindingPrivate::BindingPrivate(QObject *viewModel, const QMetaProperty &viewModelProperty, QObject *view, const QMetaProperty &viewProperty) :
+BindingPrivate::BindingPrivate(QObject *viewModel, QMetaProperty viewModelProperty, QObject *view, QMetaProperty viewProperty) :
 	QObject(view),
 	viewModel(viewModel),
 	view(view),
-	viewModelProperty(viewModelProperty),
-	viewProperty(viewProperty)
+	viewModelProperty(std::move(viewModelProperty)),
+	viewProperty(std::move(viewProperty))
 {
 	connect(viewModel, &QObject::destroyed,
 			this, &BindingPrivate::deleteLater);

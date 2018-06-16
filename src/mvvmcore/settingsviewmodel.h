@@ -38,7 +38,7 @@ public:
 
 	//! Invokable constructor
 	Q_INVOKABLE explicit SettingsViewModel(QObject *parent = nullptr);
-	~SettingsViewModel();
+	~SettingsViewModel() override;
 
 	//! @readAcFn{SettingsViewModel::canRestoreDefaults}
 	virtual bool canRestoreDefaults() const;

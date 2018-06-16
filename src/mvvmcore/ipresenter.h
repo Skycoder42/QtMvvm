@@ -35,7 +35,9 @@ protected:
 //! The interface for a GUI view presenter
 class Q_MVVMCORE_EXPORT IPresenter
 {
+	Q_DISABLE_COPY(IPresenter)
 public:
+	inline IPresenter() = default;
 	inline virtual ~IPresenter() = default;
 
 	//! Called to present a viewmodel

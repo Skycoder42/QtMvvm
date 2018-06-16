@@ -14,7 +14,7 @@ SettingsViewModel::SettingsViewModel(QObject *parent) :
 	d(new SettingsViewModelPrivate())
 {}
 
-SettingsViewModel::~SettingsViewModel() {}
+SettingsViewModel::~SettingsViewModel() = default;
 
 QVariantHash SettingsViewModel::showParams(QSettings *settings, const QString &setupFile)
 {

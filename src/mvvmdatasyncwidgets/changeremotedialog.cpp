@@ -50,7 +50,7 @@ ChangeRemoteDialog::ChangeRemoteDialog(ViewModel *viewModel, QWidget *parent) :
 	ui->treeView->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
 }
 
-ChangeRemoteDialog::~ChangeRemoteDialog() {}
+ChangeRemoteDialog::~ChangeRemoteDialog() = default;
 
 void ChangeRemoteDialog::accept()
 {

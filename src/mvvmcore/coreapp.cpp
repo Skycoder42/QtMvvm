@@ -15,7 +15,7 @@ CoreApp::CoreApp(QObject *parent) :
 	d(new CoreAppPrivate())
 {}
 
-CoreApp::~CoreApp() {}
+CoreApp::~CoreApp() = default;
 
 CoreApp *CoreApp::instance()
 {

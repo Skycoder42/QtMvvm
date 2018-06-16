@@ -43,7 +43,7 @@ public:
 private:
 	struct EntryInfo : public SettingsElements::Entry {
 	public:
-		EntryInfo(SettingsElements::Entry entry = {}, const QUrl &delegateUrl = {}, SettingsElements::Group group = {});
+		EntryInfo(SettingsElements::Entry entry = {}, QUrl delegateUrl = {}, SettingsElements::Group group = {});
 
 		QUrl delegateUrl;
 		SettingsElements::Group group;

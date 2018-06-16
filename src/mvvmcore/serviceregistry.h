@@ -35,7 +35,7 @@ public:
 	void registerInterface(bool weak = false);
 	//! Register a service for its interface via a constructor function
 	template <typename TInterface, typename TService, typename TFunc>
-	void registerInterface(const TFunc &fn, bool weak = false);
+	void registerInterface(TFunc fn, bool weak = false);
 	//! Register a service for its interface via an already existing instance
 	template <typename TInterface, typename TService>
 	void registerInterface(TService *service, bool weak = false);
@@ -44,7 +44,7 @@ public:
 	void registerObject(bool weak = false);
 	//! Register a service via a constructor function
 	template <typename TService, typename TFunc>
-	void registerObject(const TFunc &fn, bool weak = false);
+	void registerObject(TFunc fn, bool weak = false);
 	//! Register a service via an already existing instance
 	template <typename TService>
 	void registerObject(TService *service, bool weak = false);
@@ -159,11 +159,11 @@ void ServiceRegistry::registerInterface(bool weak)
 }
 
 template <typename TInterface, typename TService, typename TFunc>
-void ServiceRegistry::registerInterface(const TFunc &fn, bool weak)
+void ServiceRegistry::registerInterface(TFunc fn, bool weak)
 {
 	QTMVVM_SERVICE_ASSERT(TInterface, TService)
 	QByteArrayList injectables;
-	auto packed_fn = __helpertypes::pack_function(fn, injectables);
+	auto packed_fn = __helpertypes::pack_function(std::move(fn), injectables);
 	registerService(qobject_interface_iid<TInterface*>(), packed_fn, injectables, weak);
 }
 
@@ -189,11 +189,11 @@ void ServiceRegistry::registerObject(bool weak)
 }
 
 template<typename TService, typename TFunc>
-void ServiceRegistry::registerObject(const TFunc &fn, bool weak)
+void ServiceRegistry::registerObject(TFunc fn, bool weak)
 {
 	QTMVVM_SERVICE_ASSERT(TService)
 	QByteArrayList injectables;
-	auto packed_fn = __helpertypes::pack_function(fn, injectables);
+	auto packed_fn = __helpertypes::pack_function(std::move(fn), injectables);
 	registerService(__helpertypes::qobject_iid<TService*>(), packed_fn, injectables, weak);
 }
 

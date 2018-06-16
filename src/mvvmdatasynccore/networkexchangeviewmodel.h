@@ -46,7 +46,7 @@ public:
 
 	//! Invokable constructor
 	Q_INVOKABLE explicit NetworkExchangeViewModel(QObject *parent = nullptr);
-	~NetworkExchangeViewModel();
+	~NetworkExchangeViewModel() override;
 
 	//! @readAcFn{NetworkExchangeViewModel::userExchangeManager}
 	QtDataSync::UserExchangeManager* userExchangeManager() const;

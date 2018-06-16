@@ -130,7 +130,7 @@ public:
 
 	//! @private
 	explicit AndroidFileChooser(QObject *parent = nullptr);
-	~AndroidFileChooser();
+	~AndroidFileChooser() override;
 
 	//! @private
 	ChooserFlags chooserFlags() const;

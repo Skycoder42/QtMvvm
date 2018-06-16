@@ -51,9 +51,9 @@ protected:
 
 private:
 	QString _label;
-	bool _trusted;
+	bool _trusted = false;
 	QString _password;
-	bool _includeServer;
+	bool _includeServer = false;
 };
 
 }

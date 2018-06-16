@@ -19,7 +19,7 @@ class Q_MVVMQUICK_EXPORT InputViewFactory : public QObject
 public:
 	//! Default constructor
 	Q_INVOKABLE InputViewFactory(QObject *parent = nullptr);
-	virtual ~InputViewFactory();
+	~InputViewFactory() override;
 
 	//! Find the input view URL of the given input type
 	Q_INVOKABLE virtual QUrl getInputUrl(const QByteArray &type, const QVariantMap &viewProperties);

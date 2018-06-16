@@ -14,14 +14,14 @@ namespace QtMvvm {
 class MessageConfigPrivate : public QSharedData
 {
 public:
-	MessageConfigPrivate(const QByteArray &type, const QByteArray &subType);
+	MessageConfigPrivate(QByteArray type, QByteArray subType);
 	MessageConfigPrivate(const MessageConfigPrivate &other);
 
 	QByteArray type;
 	QByteArray subType;
 	QString title;
 	QString text;
-	MessageConfig::StandardButtons buttons;
+	MessageConfig::StandardButtons buttons = MessageConfig::Ok;
 	QHash<MessageConfig::StandardButton, QString> buttonTexts;
 	QVariant defaultValue;
 	QVariantMap editProperties;

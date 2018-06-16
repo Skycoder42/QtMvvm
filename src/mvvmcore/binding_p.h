@@ -15,19 +15,19 @@ class BindingPrivate : public QObject
 	Q_OBJECT
 
 public:
-	static Binding bind(QObject *viewModel, const QMetaProperty &viewModelProperty,
-						QObject *view, const QMetaProperty &viewProperty,
+	static Binding bind(QObject *viewModel, QMetaProperty viewModelProperty,
+						QObject *view, QMetaProperty viewProperty,
 						Binding::BindingDirection type,
-						const QMetaMethod &viewModelChangeSignal,
-						const QMetaMethod &viewChangeSignal);
+						QMetaMethod viewModelChangeSignal,
+						QMetaMethod viewChangeSignal);
 
 private Q_SLOTS:
 	void viewModelTrigger();
 	void viewTrigger();
 
 private:
-	BindingPrivate(QObject *viewModel, const QMetaProperty &viewModelProperty,
-				   QObject *view, const QMetaProperty &viewProperty);
+	BindingPrivate(QObject *viewModel, QMetaProperty viewModelProperty,
+				   QObject *view, QMetaProperty viewProperty);
 
 	void init();
 	void bindFrom(QMetaMethod changeSignal);

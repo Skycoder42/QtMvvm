@@ -20,7 +20,7 @@ OTHER_FILES += qmldir
 
 generate_qmltypes {
 	typeextra1.target = qmltypes
-	typeextra1.depends += export LD_LIBRARY_PATH := "$$shadowed($$dirname(_QMAKE_CONF_))/lib/:$(LD_LIBRARY_PATH)"
+	typeextra1.depends += export LD_LIBRARY_PATH := "$$shadowed($$dirname(_QMAKE_CONF_))/lib/:$$[QT_INSTALL_LIBS]:$(LD_LIBRARY_PATH)"
 	typeextra2.target = qmltypes
 	typeextra2.depends += export QML2_IMPORT_PATH := "$$shadowed($$dirname(_QMAKE_CONF_))/qml/"
 	QMAKE_EXTRA_TARGETS += typeextra1 typeextra2

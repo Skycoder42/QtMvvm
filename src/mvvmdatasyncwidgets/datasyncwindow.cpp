@@ -42,7 +42,7 @@ DataSyncWindow::DataSyncWindow(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 			this, &DataSyncWindow::viewModelReady);
 }
 
-DataSyncWindow::~DataSyncWindow() {}
+DataSyncWindow::~DataSyncWindow() = default;
 
 double DataSyncWindow::syncProgress() const
 {

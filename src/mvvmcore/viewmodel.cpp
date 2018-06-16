@@ -9,7 +9,7 @@ ViewModel::ViewModel(QObject *parent) :
 	d(new ViewModelPrivate())
 {}
 
-ViewModel::~ViewModel() {}
+ViewModel::~ViewModel() = default;
 
 void ViewModel::onInit(const QVariantHash &) {}
 
@@ -64,15 +64,11 @@ void ViewModel::showForResult(quint32 requestCode, const QMetaObject *viewMetaOb
 	showImp(viewMetaObject, params, const_cast<ViewModel*>(this), requestCode);
 }
 
-void ViewModel::showImp(const QMetaObject *metaObject, const QVariantHash &params, QPointer<ViewModel> parent, quint32 requestCode)
+void ViewModel::showImp(const QMetaObject *metaObject, QVariantHash params, QPointer<ViewModel> parent, quint32 requestCode)
 {
 	QMetaObject::invokeMethod(CoreAppPrivate::dInstance().data(), "showViewModel", Qt::QueuedConnection,
 							  Q_ARG(const QMetaObject*, metaObject),
-							  Q_ARG(QVariantHash, params),
-							  Q_ARG(QPointer<ViewModel>, parent),
+							  Q_ARG(QVariantHash, std::move(params)),
+							  Q_ARG(QPointer<ViewModel>, std::move(parent)),
 							  Q_ARG(quint32, requestCode));
 }
-
-// ------------- Private Implementation -------------
-
-ViewModelPrivate::ViewModelPrivate() {}

@@ -20,7 +20,7 @@ class Q_MVVMWIDGETS_EXPORT SettingsDialog : public QDialog
 public:
 	//! View constructor
 	Q_INVOKABLE explicit SettingsDialog(QtMvvm::ViewModel *viewModel, QWidget *parent = nullptr);
-	~SettingsDialog();
+	~SettingsDialog() override;
 
 protected:
 	//! Returns the stylesheet used highlight labels found when searching

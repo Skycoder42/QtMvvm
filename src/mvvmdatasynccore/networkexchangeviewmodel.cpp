@@ -45,7 +45,7 @@ NetworkExchangeViewModel::NetworkExchangeViewModel(QObject *parent) :
 	d->sortedModel->setSourceModel(d->deviceModel);
 }
 
-NetworkExchangeViewModel::~NetworkExchangeViewModel() {}
+NetworkExchangeViewModel::~NetworkExchangeViewModel() = default;
 
 UserExchangeManager *NetworkExchangeViewModel::userExchangeManager() const
 {
@@ -91,8 +91,7 @@ void NetworkExchangeViewModel::exportTo(int sortedIndex)
 		d->activeExports.insert(exCode, info);
 		showForResult<ExportSetupViewModel>(exCode,
 											ExportSetupViewModel::showParams(tr("Export accont data to device \"%1\" with address \"%1\":")
-																			 .arg(info.name())
-																			 .arg(ExchangeDevicesModel::fullAddress(info))));
+																			 .arg(info.name(), ExchangeDevicesModel::fullAddress(info))));
 	}
 }
 
@@ -111,7 +110,7 @@ void NetworkExchangeViewModel::setDeviceName(QString deviceName)
 		this->deviceName() == deviceName)
 		return;
 
-	d->exchangeManager->accountManager()->setDeviceName(deviceName);
+	d->exchangeManager->accountManager()->setDeviceName(std::move(deviceName));
 }
 
 void NetworkExchangeViewModel::setActive(bool active)
@@ -136,7 +135,7 @@ void NetworkExchangeViewModel::onInit(const QVariantHash &params)
 		}
 
 		connect(d->exchangeManager->accountManager(), &AccountManager::deviceNameChanged,
-				this, PSIGARG(&NetworkExchangeViewModel::deviceNameChanged, QString));
+				this, PSIGARG(&NetworkExchangeViewModel::deviceNameChanged, const QString &));
 		connect(d->exchangeManager, &UserExchangeManager::userDataReceived,
 				this, &NetworkExchangeViewModel::newUserData);
 		connect(d->exchangeManager, &UserExchangeManager::exchangeError,
@@ -179,7 +178,7 @@ void NetworkExchangeViewModel::exchangeError(const QString &errorString)
 void NetworkExchangeViewModel::newUserData(const UserInfo &userInfo, bool trusted)
 {
 	QPointer<NetworkExchangeViewModel> qPtr(this);
-	auto importDoneHandler = [this, qPtr](bool ok, QString error) {
+	auto importDoneHandler = [qPtr](bool ok, const QString &error) {
 		if(!qPtr)
 			return;
 		if(ok) {
@@ -194,8 +193,7 @@ void NetworkExchangeViewModel::newUserData(const UserInfo &userInfo, bool truste
 		config.setTitle(tr("Import account data"))
 				.setText(tr("Enter the password to decrypt the account data received from \"%1\" with address \"%2\". "
 							"Then choose whether you want to keep you local data or not:")
-						 .arg(userInfo.name())
-						 .arg(ExchangeDevicesModel::fullAddress(userInfo)))
+						 .arg(userInfo.name(), ExchangeDevicesModel::fullAddress(userInfo)))
 				.setButtons(MessageConfig::YesToAll | MessageConfig::Yes | MessageConfig::Cancel)
 				.setButtonText(MessageConfig::YesToAll, tr("Reset data"))
 				.setButtonText(MessageConfig::Yes, tr("Keep data"))
@@ -222,8 +220,7 @@ void NetworkExchangeViewModel::newUserData(const UserInfo &userInfo, bool truste
 		config.setTitle(tr("Import account data"))
 				.setText(tr("Do you want to import data received from \"%1\" with address \"%2\"? "
 							"Keep the local data after changing the account?")
-						 .arg(userInfo.name())
-						 .arg(ExchangeDevicesModel::fullAddress(userInfo)))
+						 .arg(userInfo.name(), ExchangeDevicesModel::fullAddress(userInfo)))
 				.setButtons(MessageConfig::YesToAll | MessageConfig::Yes | MessageConfig::Cancel)
 				.setButtonText(MessageConfig::YesToAll, tr("Reset data"))
 				.setButtonText(MessageConfig::Yes, tr("Keep data"));
@@ -248,9 +245,6 @@ void NetworkExchangeViewModel::newUserData(const UserInfo &userInfo, bool truste
 // ------------- Private Implementation -------------
 
 NetworkExchangeViewModelPrivate::NetworkExchangeViewModelPrivate(NetworkExchangeViewModel *q_ptr) :
-	exchangeManager(nullptr),
 	deviceModel(new ExchangeDevicesModel(q_ptr)),
-	sortedModel(new QSortFilterProxyModel(q_ptr)),
-	port(UserExchangeManager::DataExchangePort),
-	activeExports()
+	sortedModel(new QSortFilterProxyModel(q_ptr))
 {}

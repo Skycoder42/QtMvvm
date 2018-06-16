@@ -23,7 +23,7 @@ ExchangeDevicesModel::ExchangeDevicesModel(QObject *parent) :
 	d(new ExchangeDevicesModelPrivate())
 {}
 
-ExchangeDevicesModel::~ExchangeDevicesModel() {}
+ExchangeDevicesModel::~ExchangeDevicesModel() = default;
 
 void ExchangeDevicesModel::setup(QtDataSync::UserExchangeManager *exchangeManager)
 {
@@ -34,7 +34,7 @@ void ExchangeDevicesModel::setup(QtDataSync::UserExchangeManager *exchangeManage
 	d->exchangeManager = exchangeManager;
 	d->devices.clear();
 	d->devices.reserve(d->exchangeManager->devices().size());
-	for(auto device : d->exchangeManager->devices())
+	for(const auto &device : d->exchangeManager->devices())
 		d->devices.append(device);
 	endResetModel();
 
@@ -149,7 +149,8 @@ void ExchangeDevicesModel::updateDevices(const QList<UserInfo> &devices)
 {
 	//find new devices and update existing
 	QList<ExchangeDevicesModelPrivate::LimitedUserInfo> addList;
-	for(auto device : devices) {
+	addList.reserve(devices.size());
+	for(const auto &device : devices) {
 		auto dIndex = d->devices.indexOf(device);
 		if(dIndex != -1) {
 			if(device.name() != d->devices[dIndex].name()) {

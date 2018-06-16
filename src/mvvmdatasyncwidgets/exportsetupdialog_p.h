@@ -21,7 +21,7 @@ class Q_MVVMDATASYNCWIDGETS_EXPORT ExportSetupDialog : public QDialog
 
 public:
 	Q_INVOKABLE explicit ExportSetupDialog(QtMvvm::ViewModel *viewModel, QWidget *parent = nullptr);
-	~ExportSetupDialog();
+	~ExportSetupDialog() override;
 
 public Q_SLOTS:
 	void accept() override;

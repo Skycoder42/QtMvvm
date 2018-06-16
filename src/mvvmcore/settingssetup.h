@@ -114,7 +114,9 @@ class SettingsLoaderException : public QException {};
 //! An interface for a generic settings setup loader
 class ISettingsSetupLoader
 {
+	Q_DISABLE_COPY(ISettingsSetupLoader)
 public:
+	inline ISettingsSetupLoader() = default;
 	virtual inline ~ISettingsSetupLoader() = default;
 
 	//! Can be used to overwrite the default icon for categories

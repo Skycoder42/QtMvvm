@@ -4,8 +4,7 @@ using namespace QtMvvm;
 using namespace QtDataSync;
 
 IdentityEditViewModel::IdentityEditViewModel(QObject *parent) :
-	ViewModel(parent),
-	_manager(nullptr)
+	ViewModel(parent)
 {
 	connect(this, &IdentityEditViewModel::nameChanged,
 			this, &IdentityEditViewModel::validChanged);
@@ -41,12 +40,12 @@ void IdentityEditViewModel::save()
 		_manager->setDeviceName(_nameBuffer);
 }
 
-void IdentityEditViewModel::setName(const QString &name)
+void IdentityEditViewModel::setName(QString name)
 {
 	if (_nameBuffer == name)
 		return;
 
-	_nameBuffer = name;
+	_nameBuffer = std::move(name);
 	emit nameChanged(_nameBuffer);
 }
 

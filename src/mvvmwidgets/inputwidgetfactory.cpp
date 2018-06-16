@@ -23,7 +23,7 @@ InputWidgetFactory::InputWidgetFactory(QObject *parent) :
 	d(new InputWidgetFactoryPrivate())
 {}
 
-InputWidgetFactory::~InputWidgetFactory() {}
+InputWidgetFactory::~InputWidgetFactory() = default;
 
 QWidget *InputWidgetFactory::createInput(const QByteArray &type, QWidget *parent, const QVariantMap &viewProperties)
 {

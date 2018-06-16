@@ -29,7 +29,7 @@ public:
 public Q_SLOTS:
 	void save();
 
-	void setName(const QString &name);
+	void setName(QString name);
 
 Q_SIGNALS:
 	void nameChanged(const QString &name);
@@ -40,7 +40,7 @@ protected:
 	void onInit(const QVariantHash &showParams) override;
 
 private:
-	QtDataSync::AccountManager *_manager;
+	QtDataSync::AccountManager *_manager = nullptr;
 	QString _nameBuffer;
 };
 

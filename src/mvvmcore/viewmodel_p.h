@@ -6,11 +6,7 @@
 
 namespace QtMvvm {
 
-class ViewModelPrivate
-{
-public:
-	ViewModelPrivate();
-};
+class ViewModelPrivate {};
 
 }
 

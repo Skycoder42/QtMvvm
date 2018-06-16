@@ -28,7 +28,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
 	void currentValueChanged();
-	void listElementsChanged(QVariantList listElements);
+	void listElementsChanged(const QVariantList &listElements);
 };
 
 }

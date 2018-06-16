@@ -40,7 +40,7 @@ private:
 	struct SectionInfo : public SettingsElements::Section {
 	public:
 		SectionInfo(SettingsElements::Section section = {}, SettingsElements::Category category = {});
-		SectionInfo(SettingsElements::Category category);
+		SectionInfo(const SettingsElements::Category &category);
 
 		SettingsElements::Category category;
 		mutable QStringList searchKeys;

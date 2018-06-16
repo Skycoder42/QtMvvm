@@ -10,7 +10,9 @@ namespace QtMvvm {
 //! A simple interface to make it possible for any view to present subviews
 class Q_MVVMWIDGETS_EXPORT IPresentingView
 {
+	Q_DISABLE_COPY(IPresentingView)
 public:
+	inline IPresentingView() = default;
 	inline virtual ~IPresentingView() = default;
 
 	//! Is called to try to present a view

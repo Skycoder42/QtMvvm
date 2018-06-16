@@ -18,7 +18,7 @@ AccountModel::AccountModel(QObject *parent) :
 	d(new AccountModelPrivate())
 {}
 
-AccountModel::~AccountModel() {}
+AccountModel::~AccountModel() = default;
 
 void AccountModel::setup(AccountManager *accountManager, SyncManager *syncManager)
 {

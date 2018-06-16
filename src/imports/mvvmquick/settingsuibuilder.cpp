@@ -14,16 +14,10 @@ using namespace QtMvvm;
 
 SettingsUiBuilder::SettingsUiBuilder(QObject *parent) :
 	QObject(parent),
-	_buildView(nullptr),
-	_viewModel(nullptr),
-	_filterText(),
-	_allowSearch(true),
-	_allowRestore(true),
 	_sectionFilterModel(new MultiFilterProxyModel(this)),
 	_sectionModel(new SettingsSectionModel(this)),
 	_entryFilterModel(new MultiFilterProxyModel(this)),
-	_entryModel(new SettingsEntryModel(this)),
-	_currentSetup()
+	_entryModel(new SettingsEntryModel(this))
 {
 	_sectionFilterModel->setSourceModel(_sectionModel);
 	_sectionFilterModel->addFilterRoles(SettingsSectionModel::FilterRoles);
@@ -55,7 +49,7 @@ void SettingsUiBuilder::showDialog(const QString &key, const QString &title, con
 		_viewModel->callAction(key, properties.value(QStringLiteral("args")).toMap());
 	else {
 		qmlDebug(this) << "Creating input dialog for settings entry" << key;
-		getInput(title + tr(":"), QString(), qUtf8Printable(type), this, [this, key](QVariant value) {
+		getInput(title + tr(":"), QString(), qUtf8Printable(type), this, [this, key](const QVariant &value) {
 			if(value.isValid())
 				_viewModel->saveValue(key, value);
 		}, _viewModel->loadValue(key, defaultValue), properties);
@@ -71,10 +65,10 @@ void SettingsUiBuilder::restoreDefaults()
 	connect(result, &MessageResult::dialogDone, this, [this](MessageConfig::StandardButton btn) {
 		if(btn != MessageConfig::Yes)
 			return;
-		for(auto category : qAsConst(_currentSetup.categories)) {
-			for(auto section : category.sections) {
-				for(auto group : section.groups) {
-					for(auto entry : group.entries)
+		for(const auto &category : qAsConst(_currentSetup.categories)) {
+			for(const auto &section : category.sections) {
+				for(const auto &group : section.groups) {
+					for(const auto &entry : group.entries)
 						_viewModel->resetValue(entry.key);
 				}
 			}
@@ -88,10 +82,10 @@ void SettingsUiBuilder::setFilterText(QString filterText)
 	if (_filterText == filterText)
 		return;
 
-	_filterText = filterText;
-	emit filterTextChanged(filterText);
+	_filterText = std::move(filterText);
+	emit filterTextChanged(_filterText);
 
-	QRegularExpression regex(filterText,
+	QRegularExpression regex(_filterText,
 							 QRegularExpression::CaseInsensitiveOption |
 							 QRegularExpression::UseUnicodePropertiesOption |
 							 QRegularExpression::DontCaptureOption);

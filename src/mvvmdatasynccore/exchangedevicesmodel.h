@@ -28,7 +28,7 @@ public:
 
 	//! Default constructor
 	explicit ExchangeDevicesModel(QObject *parent = nullptr);
-	~ExchangeDevicesModel();
+	~ExchangeDevicesModel() override;
 
 	//! Setups up the model to use the exchange manager. Automatically displays all devices of the manager
 	Q_INVOKABLE void setup(QtDataSync::UserExchangeManager *exchangeManager);

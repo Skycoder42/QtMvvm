@@ -55,7 +55,7 @@ void QQmlMvvmMessage::getInput(const QString &title, const QString &text, const 
 {
 	if(onResult.isCallable()) {
 		auto engine = _engine;
-		QtMvvm::getInput(title, text, qUtf8Printable(inputType), this, [engine, onResult](QVariant result){
+		QtMvvm::getInput(title, text, qUtf8Printable(inputType), this, [engine, onResult](const QVariant &result){
 			QJSValue(onResult).call({engine->toScriptValue(result)});
 		}, defaultValue, viewProperties, okText, cancelText);
 	} else
@@ -66,7 +66,7 @@ void QQmlMvvmMessage::getExistingDirectory(const QJSValue &onResult, const QStri
 {
 	if(onResult.isCallable()) {
 		auto engine = _engine;
-		QtMvvm::getExistingDirectory(this, [engine, onResult](QUrl url){
+		QtMvvm::getExistingDirectory(this, [engine, onResult](const QUrl &url){
 			QJSValue(onResult).call({engine->toScriptValue(url)});
 		}, title, dir);
 	} else
@@ -77,7 +77,7 @@ void QQmlMvvmMessage::getOpenFile(const QJSValue &onResult, const QString &title
 {
 	if(onResult.isCallable()) {
 		auto engine = _engine;
-		QtMvvm::getOpenFile(this, [engine, onResult](QUrl url){
+		QtMvvm::getOpenFile(this, [engine, onResult](const QUrl &url){
 			QJSValue(onResult).call({engine->toScriptValue(url)});
 		}, title, supportedMimeTypes, dir);
 	} else
@@ -88,7 +88,7 @@ void QQmlMvvmMessage::getOpenFiles(const QJSValue &onResult, const QString &titl
 {
 	if(onResult.isCallable()) {
 		auto engine = _engine;
-		QtMvvm::getOpenFiles(this, [engine, onResult](QList<QUrl> url){
+		QtMvvm::getOpenFiles(this, [engine, onResult](const QList<QUrl> &url){
 			QJSValue(onResult).call({engine->toScriptValue(url)});
 		}, title, supportedMimeTypes, dir);
 	} else
@@ -99,7 +99,7 @@ void QQmlMvvmMessage::getSaveFile(const QJSValue &onResult, const QString &title
 {
 	if(onResult.isCallable()) {
 		auto engine = _engine;
-		QtMvvm::getSaveFile(this, [engine, onResult](QUrl url){
+		QtMvvm::getSaveFile(this, [engine, onResult](const QUrl &url){
 			QJSValue(onResult).call({engine->toScriptValue(url)});
 		}, title, supportedMimeTypes, dir);
 	} else

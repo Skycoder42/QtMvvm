@@ -40,7 +40,7 @@ class Q_MVVMDATASYNCCORE_EXPORT DataSyncViewModel : public ViewModel
 
 public:
 	//! A mapping from sync states to a text color
-	typedef QMap<QtDataSync::SyncManager::SyncState, QColor> ColorMap;
+	using ColorMap = QMap<QtDataSync::SyncManager::SyncState, QColor>;
 
 	//! The parameter for a setup name for the onInit() method
 	static const QString paramSetup;
@@ -54,7 +54,7 @@ public:
 
 	//! Invokable constructor
 	Q_INVOKABLE explicit DataSyncViewModel(QObject *parent = nullptr);
-	~DataSyncViewModel();
+	~DataSyncViewModel() override;
 
 	//! @readAcFn{DataSyncViewModel::syncManager}
 	QtDataSync::SyncManager* syncManager() const;

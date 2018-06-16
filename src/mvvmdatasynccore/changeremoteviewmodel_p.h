@@ -44,8 +44,8 @@ public:
 public Q_SLOTS:
 	bool completeSetup();
 
-	void setUrl(const QUrl &url);
-	void setAccessKey(const QString &accessKey);
+	void setUrl(QUrl url);
+	void setAccessKey(QString accessKey);
 	void setKeepAlive(int keepAlive);
 	void setKeepData(bool keepData);
 
@@ -62,8 +62,8 @@ Q_SIGNALS:
 private:
 	QUrl _url;
 	QString _accessKey;
-	int _keepAlive;
-	bool _keepData;
+	int _keepAlive = 1;
+	bool _keepData = true;
 
 	QStandardItemModel *_headerModel;
 };

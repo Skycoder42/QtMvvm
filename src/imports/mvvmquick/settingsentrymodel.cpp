@@ -22,8 +22,8 @@ void SettingsEntryModel::setup(const SettingsElements::Section &section, Setting
 	_entries.clear();
 	_viewModel = viewModel;
 	auto rIndex = 0;
-	for(auto group : section.groups) {
-		for(auto entry : group.entries) {
+	for(const auto &group : section.groups) {
+		for(const auto &entry : group.entries) {
 			auto url = factory->getDelegate(entry.type, entry.properties);
 			if(group.title.isEmpty()) // unnamed groups are presented first
 				_entries.insert(rIndex++, EntryInfo{entry, url});
@@ -104,14 +104,14 @@ Qt::ItemFlags SettingsEntryModel::flags(const QModelIndex &index) const
 
 
 
-SettingsEntryModel::EntryInfo::EntryInfo(SettingsElements::Entry entry, const QUrl &delegateUrl, SettingsElements::Group group) :
-	Entry(entry),
-	delegateUrl(delegateUrl),
-	group(group)
+SettingsEntryModel::EntryInfo::EntryInfo(SettingsElements::Entry entry, QUrl delegateUrl, SettingsElements::Group group) :
+	Entry(std::move(entry)),
+	delegateUrl(std::move(delegateUrl)),
+	group(std::move(group))
 {
 	static const QRegularExpression nameRegex(QStringLiteral("&(?!&)"),
 											  QRegularExpression::DontCaptureOption |
 											  QRegularExpression::OptimizeOnFirstUsageOption);
 	title.remove(nameRegex);
-	group.entries.clear();
+	this->group.entries.clear();
 }

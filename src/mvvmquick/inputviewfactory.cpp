@@ -15,7 +15,7 @@ InputViewFactory::InputViewFactory(QObject *parent) :
 	d(new InputViewFactoryPrivate())
 {}
 
-InputViewFactory::~InputViewFactory() {}
+InputViewFactory::~InputViewFactory() = default;
 
 QUrl InputViewFactory::getInputUrl(const QByteArray &type, const QVariantMap &viewProperties)
 {

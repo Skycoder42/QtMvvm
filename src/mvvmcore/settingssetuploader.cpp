@@ -20,9 +20,7 @@ using namespace QtMvvm::SettingsElements;
 #define trctx(x) QCoreApplication::translate("qtmvvm_settings_xml", qUtf8Printable(x))
 
 SettingsSetupLoader::SettingsSetupLoader(QObject *parent) :
-	QObject(parent),
-	_defaultIcon(QStringLiteral("qrc:/de/skycoder42/qtmvvm/icons/settings.svg")),
-	_cache()
+	QObject{parent}
 {}
 
 void SettingsSetupLoader::changeDefaultIcon(const QUrl &defaultIcon)
@@ -344,29 +342,29 @@ QVariant SettingsSetupLoader::readElement(QXmlStreamReader &reader) const
 
 bool SettingsSetupLoader::readCategoryInclude(QXmlStreamReader &reader, Category &category, const QFileSelector *selector) const
 {
-	return readInclude(reader, [this, &category, selector](QXmlStreamReader &reader){
-		category = readCategory(reader, selector);
+	return readInclude(reader, [this, &category, selector](QXmlStreamReader &mReader){
+		category = readCategory(mReader, selector);
 	}, QStringLiteral("Category"), selector);
 }
 
 bool SettingsSetupLoader::readSectionInclude(QXmlStreamReader &reader, Section &section, const QFileSelector *selector) const
 {
-	return readInclude(reader, [this, &section, selector](QXmlStreamReader &reader){
-		section = readSection(reader, selector);
+	return readInclude(reader, [this, &section, selector](QXmlStreamReader &mReader){
+		section = readSection(mReader, selector);
 	}, QStringLiteral("Section"), selector);
 }
 
 bool SettingsSetupLoader::readGroupInclude(QXmlStreamReader &reader, Group &group, const QFileSelector *selector) const
 {
-	return readInclude(reader, [this, &group, selector](QXmlStreamReader &reader){
-		group = readGroup(reader, selector);
+	return readInclude(reader, [this, &group, selector](QXmlStreamReader &mReader){
+		group = readGroup(mReader, selector);
 	}, QStringLiteral("Group"), selector);
 }
 
 bool SettingsSetupLoader::readEntryInclude(QXmlStreamReader &reader, Entry &entry, const QFileSelector *selector) const
 {
-	return readInclude(reader, [this, &entry](QXmlStreamReader &reader){
-		entry = readEntry(reader);
+	return readInclude(reader, [this, &entry](QXmlStreamReader &mReader){
+		entry = readEntry(mReader);
 	}, QStringLiteral("Entry"), selector);
 }
 
@@ -504,8 +502,7 @@ SettingsXmlException::SettingsXmlException(QXmlStreamReader &reader, const QByte
 SettingsXmlException::SettingsXmlException(const QFile &fileError) :
 	SettingsLoaderException(),
 	_what(QStringLiteral("Failed to open file \"%1\" with error: %2")
-		  .arg(fileError.fileName())
-		  .arg(fileError.errorString())
+		  .arg(fileError.fileName(), fileError.errorString())
 		  .toUtf8())
 {}
 

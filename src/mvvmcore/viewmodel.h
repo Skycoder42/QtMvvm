@@ -24,7 +24,7 @@ class Q_MVVMCORE_EXPORT ViewModel : public QObject
 public:
 	//! Default constructor with parent
 	explicit ViewModel(QObject *parent = nullptr);
-	~ViewModel();
+	~ViewModel() override;
 
 public Q_SLOTS:
 	//! Called by the presenter to initialize the viewmodel
@@ -39,14 +39,14 @@ Q_SIGNALS:
 protected:
 	//! Show another viewmodel as a child of this one
 	template <typename TViewModel>
-	inline void show(const QVariantHash &params = {}) const;
+	inline void show(QVariantHash params = {}) const;
 	//! @copybrief ViewModel::show(const QVariantHash &) const
 	void show(const char *viewModelName, const QVariantHash &params = {}) const;
 	//! @copybrief ViewModel::show(const QVariantHash &) const
 	void show(const QMetaObject *viewMetaObject, const QVariantHash &params = {}) const;
 	//! Show another viewmodel as a child of this one and expect its result
 	template <typename TViewModel>
-	inline void showForResult(quint32 requestCode, const QVariantHash &params = {}) const;
+	inline void showForResult(quint32 requestCode, QVariantHash params = {}) const;
 	//! @copybrief ViewModel::showForResult(quint32, const QVariantHash &) const
 	void showForResult(quint32 requestCode, const char *viewModelName, const QVariantHash &params = {}) const;
 	//! @copybrief ViewModel::showForResult(quint32, const QVariantHash &) const
@@ -57,23 +57,23 @@ private:
 
 	QScopedPointer<ViewModelPrivate> d;
 
-	static void showImp(const QMetaObject *metaObject, const QVariantHash &params, QPointer<ViewModel> parent, quint32 requestCode = 0);
+	static void showImp(const QMetaObject *metaObject, QVariantHash params, QPointer<ViewModel> parent, quint32 requestCode = 0);
 };
 
 // ------------- Generic Implementation -------------
 
 template<typename TViewModel>
-inline void ViewModel::show(const QVariantHash &params) const
+inline void ViewModel::show(QVariantHash params) const
 {
 	static_assert(std::is_base_of<ViewModel, TViewModel>::value, "TViewModel must extend QtMvvm::ViewModel");
-	showImp(&TViewModel::staticMetaObject, params, const_cast<ViewModel*>(this));
+	showImp(&TViewModel::staticMetaObject, std::move(params), const_cast<ViewModel*>(this));
 }
 
 template<typename TViewModel>
-void ViewModel::showForResult(quint32 requestCode, const QVariantHash &params) const
+void ViewModel::showForResult(quint32 requestCode, QVariantHash params) const
 {
 	static_assert(std::is_base_of<ViewModel, TViewModel>::value, "TViewModel must extend QtMvvm::ViewModel");
-	showImp(&TViewModel::staticMetaObject, params, const_cast<ViewModel*>(this), requestCode);
+	showImp(&TViewModel::staticMetaObject, std::move(params), const_cast<ViewModel*>(this), requestCode);
 }
 
 }

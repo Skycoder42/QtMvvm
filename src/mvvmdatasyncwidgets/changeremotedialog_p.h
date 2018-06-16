@@ -21,7 +21,7 @@ class Q_MVVMDATASYNCWIDGETS_EXPORT ChangeRemoteDialog : public QDialog
 
 public:
 	Q_INVOKABLE explicit ChangeRemoteDialog(QtMvvm::ViewModel *viewModel, QWidget *parent = nullptr);
-	~ChangeRemoteDialog();
+	~ChangeRemoteDialog() override;
 
 public Q_SLOTS:
 	void accept() override;

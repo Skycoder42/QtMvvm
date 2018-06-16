@@ -51,7 +51,8 @@ QStringList QQmlQuickPresenter::mimeTypeFilters(const QStringList &mimeTypes) co
 {
 	QMimeDatabase db;
 	QStringList filters;
-	for(auto mime : mimeTypes) {
+	filters.reserve(mimeTypes.size());
+	for(const auto &mime : mimeTypes) {
 		auto mType = db.mimeTypeForName(mime);
 		if(mType.isValid())
 			filters.append(mType.filterString());
@@ -183,7 +184,7 @@ void QQmlQuickPresenter::statusChanged(QQmlComponent::Status status)
 	}
 }
 
-void QQmlQuickPresenter::addObject(QQmlComponent *component, ViewModel *viewModel, const QVariantHash &params, QPointer<ViewModel> parent)
+void QQmlQuickPresenter::addObject(QQmlComponent *component, ViewModel *viewModel, const QVariantHash &params, const QPointer<ViewModel> &parent)
 {
 	if(!_qmlPresenter) {
 		logWarning() << "No QML-Presenter registered! Unable to present viewModel of type"

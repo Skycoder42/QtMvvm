@@ -24,7 +24,7 @@ class Q_MVVMCORE_EXPORT CoreApp : public QObject
 public:
 	//! Default Constructor
 	explicit CoreApp(QObject *parent = nullptr);
-	~CoreApp();
+	~CoreApp() override;
 
 	//! Returns the current CoreApp instance
 	static CoreApp *instance();

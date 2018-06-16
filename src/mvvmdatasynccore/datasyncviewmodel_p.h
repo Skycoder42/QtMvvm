@@ -17,8 +17,8 @@ public:
 	DataSyncViewModelPrivate(DataSyncViewModel *q_ptr);
 
 	DataSyncViewModel *q;
-	QtDataSync::SyncManager *syncManager;
-	QtDataSync::AccountManager *accountManager;
+	QtDataSync::SyncManager *syncManager = nullptr;
+	QtDataSync::AccountManager *accountManager = nullptr;
 	DataSyncViewModel::ColorMap colorMap;
 	AccountModel *accountModel;
 	QSortFilterProxyModel *sortedModel;

@@ -33,7 +33,7 @@ ExportSetupDialog::ExportSetupDialog(ViewModel *viewModel, QWidget *parent) :
 		 Binding::OneWayToView);
 }
 
-ExportSetupDialog::~ExportSetupDialog() {}
+ExportSetupDialog::~ExportSetupDialog() = default;
 
 void ExportSetupDialog::accept()
 {

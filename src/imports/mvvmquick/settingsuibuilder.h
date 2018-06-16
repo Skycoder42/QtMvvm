@@ -51,12 +51,12 @@ private Q_SLOTS:
 	void startBuildUi();
 
 private:
-	QQuickItem* _buildView;
-	SettingsViewModel *_viewModel;
+	QQuickItem* _buildView = nullptr;
+	SettingsViewModel *_viewModel = nullptr;
 	QString _filterText;
 
-	bool _allowSearch;
-	bool _allowRestore;
+	bool _allowSearch = true;
+	bool _allowRestore = true;
 
 	MultiFilterProxyModel *_sectionFilterModel;
 	SettingsSectionModel *_sectionModel;

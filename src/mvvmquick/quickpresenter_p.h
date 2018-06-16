@@ -14,17 +14,15 @@ class Q_MVVMQUICK_EXPORT QuickPresenterPrivate
 	friend class QtMvvm::QuickPresenter;
 
 public:
-	QuickPresenterPrivate();
-
 	static QuickPresenter *currentPresenter();
 	static void setQmlPresenter(QObject *presenter);
 
 private:
 	QPointer<QObject> qmlPresenter;
-	InputViewFactory *inputViewFactory;
+	InputViewFactory *inputViewFactory = nullptr;
 
 	QHash<const QMetaObject *, QUrl> explicitMappings;
-	QStringList searchDirs;
+	QStringList searchDirs{QStringLiteral(":/qtmvvm/views")};
 };
 
 }

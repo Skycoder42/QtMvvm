@@ -30,7 +30,7 @@ IdentityEditDialog::IdentityEditDialog(ViewModel *viewModel, QWidget *parent) :
 		 Binding::OneWayToView);
 }
 
-IdentityEditDialog::~IdentityEditDialog() {}
+IdentityEditDialog::~IdentityEditDialog() = default;
 
 void IdentityEditDialog::accept()
 {

@@ -17,7 +17,7 @@ ServiceRegistry::ServiceRegistry(ServiceRegistryPrivate *d_ptr) :
 	d(d_ptr)
 {}
 
-ServiceRegistry::~ServiceRegistry() {}
+ServiceRegistry::~ServiceRegistry() = default;
 
 ServiceRegistry *ServiceRegistry::instance()
 {
@@ -58,14 +58,12 @@ QObject *ServiceRegistry::serviceObj(const QByteArray &iid)
 
 void ServiceRegistry::injectServices(QObject *object)
 {
-	auto &d = ServiceRegistry::instance()->d;
 	QMutexLocker _(&d->serviceMutex);
 	d->injectLocked(object);
 }
 
 QObject *ServiceRegistry::constructInjected(const QMetaObject *metaObject, QObject *parent)
 {
-	auto &d = ServiceRegistry::instance()->d;
 	QMutexLocker _(&d->serviceMutex);
 	return d->constructInjectedLocked(metaObject, parent);
 }
@@ -138,8 +136,7 @@ void ServiceRegistryPrivate::injectLocked(QObject *object)
 
 
 ServiceRegistryPrivate::ServiceInfo::ServiceInfo(bool weak) :
-	_weak(weak),
-	_instance(nullptr)
+	_weak{weak}
 {}
 
 ServiceRegistryPrivate::ServiceInfo::~ServiceInfo()
@@ -174,16 +171,17 @@ QObject *ServiceRegistryPrivate::ServiceInfo::instance(ServiceRegistryPrivate *d
 
 
 
-ServiceRegistryPrivate::FnServiceInfo::FnServiceInfo(const std::function<QObject*(QObjectList)> &creator, const QByteArrayList &injectables, bool weak) :
+ServiceRegistryPrivate::FnServiceInfo::FnServiceInfo(std::function<QObject*(QObjectList)> creator, QByteArrayList injectables, bool weak) :
 	ServiceInfo(weak),
-	creator(creator),
-	injectables(injectables)
+	creator(std::move(creator)),
+	injectables(std::move(injectables))
 {}
 
 QObject *ServiceRegistryPrivate::FnServiceInfo::construct(ServiceRegistryPrivate *d) const
 {
 	QObjectList params;
-	for(auto iid : injectables) {
+	params.reserve(injectables.size());
+	for(const auto &iid : injectables) {
 		auto ref = d->services.value(iid);
 		if(!ref)
 			throw ServiceDependencyException(iid);

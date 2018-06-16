@@ -23,9 +23,11 @@ namespace QtMvvm {
 
 class CategoryItemDelegate : public QStyledItemDelegate
 {
+	Q_OBJECT
+
 public:
-	CategoryItemDelegate(const std::function<void(int)> &updateFunc,
-						 const QSize &iconSize,
+	CategoryItemDelegate(std::function<void(int)> updateFunc,
+						 QSize iconSize,
 						 int layoutSpacing,
 						 QObject *parent = nullptr);
 
@@ -42,17 +44,17 @@ class SettingsDialogPrivate : public QObject
 
 public:
 	SettingsDialogPrivate(SettingsDialog *q_ptr, ViewModel *viewModel);
-	~SettingsDialogPrivate();
+	~SettingsDialogPrivate() override;
 
 	static const QString TabContentId;
 
 	SettingsDialog *q;
 	SettingsViewModel *viewModel;
 	QScopedPointer<Ui::SettingsDialog> ui;
-	CategoryItemDelegate *delegate;
-	int maxWidthBase;
+	CategoryItemDelegate *delegate = nullptr;
+	int maxWidthBase = 0;
 
-	typedef QPair<SettingsElements::Entry, QMetaProperty> EntryInfo;
+	using EntryInfo = QPair<SettingsElements::Entry, QMetaProperty>;
 	QHash<QWidget*, EntryInfo> entryMap;
 	QSet<QWidget*> changedEntries;
 

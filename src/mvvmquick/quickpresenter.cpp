@@ -42,7 +42,7 @@ QuickPresenter::QuickPresenter(QObject *parent) :
 	initResources();
 }
 
-QuickPresenter::~QuickPresenter() {}
+QuickPresenter::~QuickPresenter() = default;
 
 void QuickPresenter::addViewSearchDir(const QString &dirPath)
 {
@@ -124,7 +124,7 @@ QUrl QuickPresenter::findViewUrl(const QMetaObject *viewModelType)
 
 			QUrl resUrl;
 			auto shortest = std::numeric_limits<int>::max();
-			for(auto dir : qAsConst(d->searchDirs)) {
+			for(const auto &dir : qAsConst(d->searchDirs)) {
 				QDir searchDir(dir,
 							   QStringLiteral("%1*.qml").arg(QString::fromLatin1(cName)),
 							   QDir::NoSort,
@@ -196,13 +196,6 @@ bool QuickPresenter::nameOrClassContains(const QObject *obj, const QString &cont
 
 // ------------- Private Implementation -------------
 
-QuickPresenterPrivate::QuickPresenterPrivate() :
-	qmlPresenter(nullptr),
-	inputViewFactory(nullptr),
-	explicitMappings(),
-	searchDirs({QStringLiteral(":/qtmvvm/views")})
-{}
-
 QuickPresenter *QuickPresenterPrivate::currentPresenter()
 {
 	try {
@@ -213,7 +206,7 @@ QuickPresenter *QuickPresenterPrivate::currentPresenter()
 #endif
 		return static_cast<QuickPresenter*>(ServiceRegistry::instance()->service<IPresenter>());
 	} catch(QException &e) {
-		qFatal(e.what());
+		qFatal("%s", e.what());
 	}
 }
 

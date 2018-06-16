@@ -28,7 +28,7 @@ class Q_MVVMWIDGETS_EXPORT WidgetsPresenter : public QObject, public IPresenter
 public:
 	//! Invokable constructor
 	Q_INVOKABLE explicit WidgetsPresenter(QObject *parent = nullptr);
-	~WidgetsPresenter();
+	~WidgetsPresenter() override;
 
 	//! Register a subclass of the WidgetsPresenter as the active presenter for the CoreApp
 	template <typename TPresenter>

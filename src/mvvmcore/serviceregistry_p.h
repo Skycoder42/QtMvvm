@@ -13,6 +13,7 @@ class ServiceRegistryPrivate
 {
 public:
 	class ServiceInfo {
+		Q_DISABLE_COPY(ServiceInfo)
 	public:
 		ServiceInfo(bool weak);
 		virtual ~ServiceInfo();
@@ -25,12 +26,12 @@ public:
 
 	private:
 		const bool _weak;
-		QObject *_instance;
+		QObject *_instance = nullptr;
 	};
 
 	class FnServiceInfo : public ServiceInfo {
 	public:
-		FnServiceInfo(const std::function<QObject*(QObjectList)> &creator, const QByteArrayList &injectables, bool weak);
+		FnServiceInfo(std::function<QObject*(QObjectList)> creator, QByteArrayList injectables, bool weak);
 
 	protected:
 		QObject *construct(ServiceRegistryPrivate *d) const final;

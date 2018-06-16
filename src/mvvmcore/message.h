@@ -112,10 +112,12 @@ public:
 	MessageConfig(const QByteArray &type = TypeMessageBox, const QByteArray &subType = {});
 	//! Copy constructor
 	MessageConfig(const MessageConfig &other);
+	MessageConfig(MessageConfig &&other);
 	~MessageConfig();
 
 	//! Assignment operator
 	MessageConfig &operator=(const MessageConfig &other);
+	MessageConfig &operator=(MessageConfig &&other);
 
 	//! @readAcFn{MessageConfig::type}
 	QByteArray type() const;
@@ -180,7 +182,7 @@ class Q_MVVMCORE_EXPORT MessageResult : public QObject
 
 public:
 	explicit MessageResult();
-	~MessageResult();
+	~MessageResult() override;
 
 	//! Checks if the dialog has a result
 	bool hasResult() const;
@@ -361,7 +363,7 @@ inline void getInput(const QString &title,
 					 const QVariantMap &viewProperties = {},
 					 const QString &okText = {},
 					 const QString &cancelText = {}) {
-	getInput(title, text, QMetaType::typeName(qMetaTypeId<TEdit>()), scope, [onResult](QVariant v) {
+	getInput(title, text, QMetaType::typeName(qMetaTypeId<TEdit>()), scope, [onResult](const QVariant &v) {
 		onResult(v.template value<TEdit>(), v.isValid());
 	}, QVariant::fromValue(defaultValue), viewProperties, okText, cancelText);
 }
@@ -374,7 +376,7 @@ inline void getInput(const QString &title,
 					 const QVariantMap &viewProperties = {},
 					 const QString &okText = {},
 					 const QString &cancelText = {}) {
-	getInput(title, text, QMetaType::typeName(qMetaTypeId<TEdit>()), [onResult](QVariant v) {
+	getInput(title, text, QMetaType::typeName(qMetaTypeId<TEdit>()), [onResult](const QVariant &v) {
 		onResult(v.template value<TEdit>(), v.isValid());
 	}, QVariant::fromValue(defaultValue), viewProperties, okText, cancelText);
 }

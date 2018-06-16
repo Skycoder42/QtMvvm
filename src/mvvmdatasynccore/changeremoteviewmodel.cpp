@@ -11,10 +11,6 @@ std::tuple<RemoteConfig, bool> ChangeRemoteViewModel::result(const QVariant &dat
 
 ChangeRemoteViewModel::ChangeRemoteViewModel(QObject *parent) :
 	ViewModel(parent),
-	_url(),
-	_accessKey(),
-	_keepAlive(),
-	_keepData(true),
 	_headerModel(new QStandardItemModel(0, 2, this))
 {
 	_headerModel->setHorizontalHeaderLabels({tr("Key"), tr("Value")});
@@ -83,21 +79,21 @@ bool ChangeRemoteViewModel::completeSetup()
 	return true;
 }
 
-void ChangeRemoteViewModel::setUrl(const QUrl &url)
+void ChangeRemoteViewModel::setUrl(QUrl url)
 {
 	if (_url == url)
 		return;
 
-	_url = url;
+	_url = std::move(url);
 	emit urlChanged(_url);
 }
 
-void ChangeRemoteViewModel::setAccessKey(const QString &accessKey)
+void ChangeRemoteViewModel::setAccessKey(QString accessKey)
 {
 	if (_accessKey == accessKey)
 		return;
 
-	_accessKey = accessKey;
+	_accessKey = std::move(accessKey);
 	emit accessKeyChanged(_accessKey);
 }
 

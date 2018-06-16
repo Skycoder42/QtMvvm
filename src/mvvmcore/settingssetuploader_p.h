@@ -28,7 +28,7 @@ public:
 	bool event(QEvent *event) override;
 
 private:
-	QUrl _defaultIcon;
+	QUrl _defaultIcon{QStringLiteral("qrc:/de/skycoder42/qtmvvm/icons/settings.svg")};
 	mutable QCache<QString, SettingsElements::Setup> _cache;
 
 	//Functions to read the settings XML

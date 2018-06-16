@@ -14,7 +14,7 @@ AndroidFileChooser::AndroidFileChooser(QObject *parent) :
 	_result()
 {}
 
-AndroidFileChooser::~AndroidFileChooser() {}
+AndroidFileChooser::~AndroidFileChooser() = default;
 
 AndroidFileChooser::ChooserFlags AndroidFileChooser::chooserFlags() const
 {

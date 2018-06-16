@@ -17,11 +17,7 @@ std::tuple<bool, bool, QString> ExportSetupViewModel::result(const QVariant &dat
 }
 
 ExportSetupViewModel::ExportSetupViewModel(QObject *parent) :
-	ViewModel(parent),
-	_label(),
-	_trusted(false),
-	_password(),
-	_includeServer(false)
+	ViewModel(parent)
 {
 	connect(this, &ExportSetupViewModel::trustedChanged,
 			this, &ExportSetupViewModel::validChanged);
@@ -90,7 +86,7 @@ void ExportSetupViewModel::setPassword(QString password)
 	if (_password == password)
 		return;
 
-	_password = password;
+	_password = std::move(password);
 	emit passwordChanged(_password);
 }
 
