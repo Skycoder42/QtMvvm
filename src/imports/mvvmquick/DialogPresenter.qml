@@ -184,7 +184,7 @@ QtObject {
 		var props = config.viewProperties;
 		props["msgConfig"] = config;
 		props["msgResult"] = result;
-		var incubator = _msgBoxComponent.incubateObject(rootItem, props);
+		var incubator = _msgBoxComponent.incubateObject(rootItem, props, Qt.Synchronous);
 		return incubator.status !== Component.Error;
 	}
 
@@ -204,7 +204,7 @@ QtObject {
 		var props = config.viewProperties;
 		props["msgConfig"] = config;
 		props["msgResult"] = result;
-		var incubator = _inputComponent.incubateObject(rootItem, props);
+		var incubator = _inputComponent.incubateObject(rootItem, props, Qt.Synchronous);
 		return incubator.status !== Component.Error;
 	}
 
@@ -226,9 +226,9 @@ QtObject {
 		props["msgResult"] = result;
 		var incubator = null;
 		if(config.subType == "folder")
-			incubator = _folderComponent.incubateObject(rootItem, props);
+			incubator = _folderComponent.incubateObject(rootItem, props, Qt.Synchronous);
 		else
-			incubator = _fileComponent.incubateObject(rootItem, props);
+			incubator = _fileComponent.incubateObject(rootItem, props, Qt.Synchronous);
 		return incubator.status !== Component.Error;
 	}
 }

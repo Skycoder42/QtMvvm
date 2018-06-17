@@ -38,7 +38,7 @@ MsgBoxBase {
 
 		Loader {
 			id: _inputViewLoad
-			asynchronous: true
+			asynchronous: false
 			clip: true
 			visible: _inputViewLoad.item
 

@@ -256,13 +256,12 @@ Page {
 		filterText: _searchField.text
 
 		onPresentOverview: _overviewComponent.incubateObject(_settingsStack, {
-																	model: model,
-																	showSections: hasSections
-																}, Qt.Asynchronous)
+																 model: model,
+																 showSections: hasSections
+															 }, Qt.Synchronous)
 		onPresentSection: _sectionViewComponent.incubateObject(_settingsStack, {
 																   model: model
-															   }, Qt.Asynchronous)
-
+															   }, Qt.Synchronous)
 		onCloseSettings: {
 			_settingsView.fullClose = true;
 			QuickPresenter.popView();

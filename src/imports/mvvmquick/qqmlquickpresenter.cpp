@@ -123,7 +123,7 @@ void QQmlQuickPresenter::present(ViewModel *viewModel, const QVariantHash &param
 				this, &QQmlQuickPresenter::loadingProgressChanged);
 		connect(_latestComponent, &QQmlComponent::statusChanged,
 				this, &QQmlQuickPresenter::statusChanged);
-		_latestComponent->loadUrl(viewUrl, QQmlComponent::Asynchronous);
+		_latestComponent->loadUrl(viewUrl, QQmlComponent::PreferSynchronous);
 	}
 }
 
