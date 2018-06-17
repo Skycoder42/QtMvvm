@@ -230,22 +230,35 @@ Page {
 	Component {
 		id: _overviewComponent
 
-		OverviewListView {
-			id: __ovListView
-			builder: _builder
+		ScrollView {
+			property alias model: __ovListView.model
+			property alias showSections: __ovListView.showSections
+			anchors.fill: parent
+			clip: true
 
-			Component.onCompleted: _settingsStack.push(__ovListView)
+			OverviewListView {
+				id: __ovListView
+				builder: _builder
+
+				Component.onCompleted: _settingsStack.push(__ovListView)
+			}
 		}
 	}
 
 	Component {
 		id: _sectionViewComponent
 
-		SectionListView {
-			id: __secListView
-			builder: _builder
+		ScrollView {
+			property alias model: __secListView.model
+			anchors.fill: parent
+			clip: true
 
-			Component.onCompleted: _settingsStack.push(__secListView)
+			SectionListView {
+				id: __secListView
+				builder: _builder
+
+				Component.onCompleted: _settingsStack.push(__secListView)
+			}
 		}
 	}
 
