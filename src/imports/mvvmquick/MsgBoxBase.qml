@@ -69,8 +69,9 @@ AlertDialog {
 
 		standardButtons: msgConfig.buttons
 		onStandardButtonsChanged: {
-			for(var key in msgConfig.buttonTexts)
+			Object.keys(msgConfig.buttonTexts).forEach(function(key) {
 				standardButton(key).text = msgConfig.buttonTexts[key]
+			});
 		}
 
 		onClicked: {

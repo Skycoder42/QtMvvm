@@ -39,7 +39,9 @@ void SettingsUiBuilder::loadSection(const SettingsElements::Section &section)
 {
 	auto inputFactory = QuickPresenterPrivate::currentPresenter()->inputViewFactory();
 	_entryModel->setup(section, _viewModel, inputFactory);
+#ifndef QT_NO_DEBUG
 	qmlDebug(this) << "Loaded section " << section.title;
+#endif
 	emit presentSection(_entryFilterModel);
 }
 
@@ -48,7 +50,9 @@ void SettingsUiBuilder::showDialog(const QString &key, const QString &title, con
 	if(type == QStringLiteral("action"))
 		_viewModel->callAction(key, properties.value(QStringLiteral("args")).toMap());
 	else {
+#ifndef QT_NO_DEBUG
 		qmlDebug(this) << "Creating input dialog for settings entry " << key;
+#endif
 		getInput(title + tr(":"), QString(), qUtf8Printable(type), this, [this, key](const QVariant &value) {
 			if(value.isValid())
 				_viewModel->saveValue(key, value);

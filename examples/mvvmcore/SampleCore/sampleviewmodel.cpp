@@ -43,7 +43,7 @@ void SampleViewModel::setName(QString name)
 	if (_name == name)
 		return;
 
-	_name = name;
+	_name = std::move(name);
 	emit nameChanged(_name);
 	if(_active && _eventService) {
 		_eventService->removeEvent(_eventId);
@@ -88,8 +88,8 @@ void SampleViewModel::getInput()
 
 void SampleViewModel::getFiles()
 {
-	QtMvvm::getOpenFiles(this, [this](QList<QUrl> urls) {
-		for(auto url : urls)
+	QtMvvm::getOpenFiles(this, [this](const QList<QUrl> &urls) {
+		for(const auto &url : urls)
 			addEvent(url.toString());
 	}, tr("Open Files:"), {QStringLiteral("text/plain"), QStringLiteral("application/pdf")});
 }
