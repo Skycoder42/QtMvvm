@@ -131,6 +131,13 @@ void ServiceRegistryPrivate::injectLocked(QObject *object)
 			tProp.write(object, variant);
 		}
 	}
+
+	// if available, call qtmvvm_init
+	auto initMethod = metaObject->indexOfMethod("qtmvvm_init()");
+	if(initMethod != -1) {
+		auto method = metaObject->method(initMethod);
+		method.invoke(object);
+	}
 }
 
 
@@ -199,13 +206,7 @@ ServiceRegistryPrivate::MetaServiceInfo::MetaServiceInfo(const QMetaObject *meta
 
 QObject *ServiceRegistryPrivate::MetaServiceInfo::construct(ServiceRegistryPrivate *d) const
 {
-	auto instance = d->constructInjectedLocked(metaObject, nullptr); //services are created without a parent
-	auto initMethod = metaObject->indexOfMethod("qtmvvm_init()");
-	if(initMethod != -1) {
-		auto method = metaObject->method(initMethod);
-		method.invoke(instance);
-	}
-	return instance;
+	return d->constructInjectedLocked(metaObject, nullptr); //services are created without a parent
 }
 
 // ------------- Exceptions Implementation -------------

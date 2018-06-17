@@ -52,7 +52,7 @@ public:
 		const QMetaObject *metaObject;
 	};
 
-	QMutex serviceMutex;
+	QMutex serviceMutex{QMutex::Recursive};
 	QHash<QByteArray, QSharedPointer<ServiceInfo>> services;
 
 	bool serviceBlocked(const QByteArray &iid) const;
