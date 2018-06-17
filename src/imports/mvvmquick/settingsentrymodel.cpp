@@ -36,6 +36,10 @@ void SettingsEntryModel::setup(const SettingsElements::Section &section, Setting
 
 int SettingsEntryModel::rowCount(const QModelIndex &parent) const
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+	if(!checkIndex(parent, QAbstractItemModel::CheckIndexOption::ParentIsInvalid))
+		return 0;
+#endif
 	if (parent.isValid())
 		return 0;
 	else
@@ -44,8 +48,13 @@ int SettingsEntryModel::rowCount(const QModelIndex &parent) const
 
 QVariant SettingsEntryModel::data(const QModelIndex &index, int role) const
 {
-	if (!index.isValid())
-		return QVariant();
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+	if(!checkIndex(index, QAbstractItemModel::CheckIndexOption::ParentIsInvalid | QAbstractItemModel::CheckIndexOption::IndexIsValid))
+		return {};
+#else
+	if(!index.isValid())
+		return {};
+#endif
 
 	auto entry = _entries.value(index.row());
 	switch (role) {
@@ -75,7 +84,14 @@ QVariant SettingsEntryModel::data(const QModelIndex &index, int role) const
 
 bool SettingsEntryModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-	if (!index.isValid() || role != SettingsValueRole)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+	if(!checkIndex(index, QAbstractItemModel::CheckIndexOption::ParentIsInvalid | QAbstractItemModel::CheckIndexOption::IndexIsValid))
+		return false;
+#else
+	if(!index.isValid())
+		return false;
+#endif
+	if(role != SettingsValueRole)
 		return false;
 
 	_viewModel->saveValue(_entries.value(index.row()).key, value);
@@ -99,6 +115,10 @@ QHash<int, QByteArray> SettingsEntryModel::roleNames() const
 
 Qt::ItemFlags SettingsEntryModel::flags(const QModelIndex &index) const
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+	if(!checkIndex(index, QAbstractItemModel::CheckIndexOption::ParentIsInvalid))
+		return Qt::NoItemFlags;
+#endif
 	return QAbstractListModel::flags(index) | Qt::ItemIsEditable;
 }
 

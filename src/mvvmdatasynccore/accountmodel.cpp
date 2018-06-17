@@ -80,6 +80,10 @@ QVariant AccountModel::headerData(int section, Qt::Orientation orientation, int 
 
 int AccountModel::rowCount(const QModelIndex &parent) const
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+	if(!checkIndex(parent, QAbstractItemModel::CheckIndexOption::ParentIsInvalid))
+		return 0;
+#endif
 	if (parent.isValid())
 		return 0;
 	else
@@ -88,6 +92,10 @@ int AccountModel::rowCount(const QModelIndex &parent) const
 
 int AccountModel::columnCount(const QModelIndex &parent) const
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+	if(!checkIndex(parent, QAbstractItemModel::CheckIndexOption::ParentIsInvalid))
+		return 0;
+#endif
 	if (parent.isValid())
 		return 0;
 	else
@@ -96,8 +104,13 @@ int AccountModel::columnCount(const QModelIndex &parent) const
 
 QVariant AccountModel::data(const QModelIndex &index, int role) const
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+	if(!checkIndex(index, QAbstractItemModel::CheckIndexOption::ParentIsInvalid | QAbstractItemModel::CheckIndexOption::IndexIsValid))
+		return {};
+#else
 	if (!index.isValid())
-		return QVariant();
+		return {};
+#endif
 
 	switch (index.column()) {
 	case 0:
@@ -131,8 +144,13 @@ QHash<int, QByteArray> AccountModel::roleNames() const
 
 bool AccountModel::removeDevice(const QModelIndex &index)
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+	if(!checkIndex(index, QAbstractItemModel::CheckIndexOption::ParentIsInvalid | QAbstractItemModel::CheckIndexOption::IndexIsValid))
+		return false;
+#else
 	if (!index.isValid())
 		return false;
+#endif
 	else {
 		d->accountManager->removeDevice(d->devices.value(index.row()));
 		return true;

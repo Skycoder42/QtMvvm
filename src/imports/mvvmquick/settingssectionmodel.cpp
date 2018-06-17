@@ -35,6 +35,10 @@ void SettingsSectionModel::setup(const SettingsElements::Setup &setup)
 
 int SettingsSectionModel::rowCount(const QModelIndex &parent) const
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+	if(!checkIndex(parent, QAbstractItemModel::CheckIndexOption::ParentIsInvalid))
+		return 0;
+#endif
 	if (parent.isValid())
 		return 0;
 	else
@@ -43,8 +47,13 @@ int SettingsSectionModel::rowCount(const QModelIndex &parent) const
 
 QVariant SettingsSectionModel::data(const QModelIndex &index, int role) const
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+	if(!checkIndex(index, QAbstractItemModel::CheckIndexOption::ParentIsInvalid | QAbstractItemModel::CheckIndexOption::IndexIsValid))
+		return {};
+#else
 	if (!index.isValid())
-		return QVariant();
+		return {};
+#endif
 
 	switch (role) {
 	case Qt::DisplayRole:

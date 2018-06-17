@@ -44,10 +44,15 @@ void ExchangeDevicesModel::setup(QtDataSync::UserExchangeManager *exchangeManage
 
 UserInfo ExchangeDevicesModel::infoAt(const QModelIndex &index) const
 {
-	if(index.isValid())
-		return d->devices.value(index.row());
-	else
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+	if(!checkIndex(index, QAbstractItemModel::CheckIndexOption::ParentIsInvalid | QAbstractItemModel::CheckIndexOption::IndexIsValid))
 		return {};
+#else
+	if(!index.isValid())
+		return {};
+#endif
+	else
+		return d->devices.value(index.row());
 }
 
 QVariant ExchangeDevicesModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -83,6 +88,10 @@ QVariant ExchangeDevicesModel::headerData(int section, Qt::Orientation orientati
 
 int ExchangeDevicesModel::rowCount(const QModelIndex &parent) const
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+	if(!checkIndex(parent, QAbstractItemModel::CheckIndexOption::ParentIsInvalid))
+		return 0;
+#endif
 	if (parent.isValid())
 		return 0;
 	else
@@ -91,6 +100,10 @@ int ExchangeDevicesModel::rowCount(const QModelIndex &parent) const
 
 int ExchangeDevicesModel::columnCount(const QModelIndex &parent) const
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+	if(!checkIndex(parent, QAbstractItemModel::CheckIndexOption::ParentIsInvalid))
+		return 0;
+#endif
 	if (parent.isValid())
 		return 0;
 	else
@@ -99,8 +112,13 @@ int ExchangeDevicesModel::columnCount(const QModelIndex &parent) const
 
 QVariant ExchangeDevicesModel::data(const QModelIndex &index, int role) const
 {
-	if (!index.isValid())
-		return QVariant();
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+	if(!checkIndex(index, QAbstractItemModel::CheckIndexOption::ParentIsInvalid | QAbstractItemModel::CheckIndexOption::IndexIsValid))
+		return {};
+#else
+	if(!index.isValid())
+		return {};
+#endif
 
 	switch (index.column()) {
 	case 0:
