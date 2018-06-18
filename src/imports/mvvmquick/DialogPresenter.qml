@@ -56,6 +56,9 @@ QtObject {
 	 */
 	property Item rootItem: null
 
+	//TODO document
+	readonly property bool empty: _popups.length == 0
+
 	/*! @brief The primary presenting method to present a dialog
 	 *
 	 * @param type:MessageConfig config The message configuration to create a dialog of

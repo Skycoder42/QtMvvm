@@ -172,6 +172,9 @@ ApplicationWindow {
 			closed = _drawerLoader.item.closeAction();
 		if(!closed)
 			closed = _rootStack.closeAction();
+		//if everything was closed -> still accept it
+		if(closed && _rootDialogs.emtpy && _rootPopup.empty && _rootStack.empty)
+			closed = false;
 		return closed;
 	}
 

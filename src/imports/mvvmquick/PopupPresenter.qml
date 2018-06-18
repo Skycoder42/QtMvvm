@@ -55,6 +55,9 @@ QtObject {
 	 */
 	property Item rootItem: null
 
+	//TODO document
+	readonly property bool empty: _popups.length == 0
+
 	//! Internal property
 	property var _popups: []
 
