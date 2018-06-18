@@ -161,87 +161,90 @@ Page {
 				text: qsTr("Other Devices:")
 			}
 
-			ListView {
-				id: _devicesList
+			ScrollView {
+				id: _devicesScrollView
+
 				Layout.fillWidth: true
 				Layout.fillHeight: true
 				clip: true
-				model: viewModel.sortedModel
 
-				ScrollBar.vertical: ScrollBar {}
+				ListView {
+					id: _devicesList
 
-				delegate: SwipeDelegate {
-					id: _swipeDelegate
-					width: parent.width
+					model: viewModel.sortedModel
+					delegate: SwipeDelegate {
+						id: _swipeDelegate
+						width: _devicesScrollView.width
 
-					contentItem: ColumnLayout {
-						id: _delegateLayout
-						spacing: 8
+						contentItem: ColumnLayout {
+							id: _delegateLayout
+							spacing: 8
 
-						Label {
-							id: _nameLabel
-							Layout.fillWidth: true
-							text: name
+							Label {
+								id: _nameLabel
+								Layout.fillWidth: true
+								text: name
+							}
+
+							Label {
+								id: _fpLabel
+								font.pointSize: _nameLabel.font.pointSize * 0.8
+								Layout.fillWidth: true
+								Layout.leftMargin: 8
+								text: fingerPrint
+								elide: Text.ElideMiddle
+								opacity: 0.75
+							}
 						}
 
-						Label {
-							id: _fpLabel
-							font.pointSize: _nameLabel.font.pointSize * 0.8
-							Layout.fillWidth: true
-							Layout.leftMargin: 8
-							text: fingerPrint
-							elide: Text.ElideMiddle
-							opacity: 0.75
-						}
-					}
-
-					ListView.onRemove: SequentialAnimation {
-						PropertyAction {
-							target: _swipeDelegate
-							property: "ListView.delayRemove"
-							value: true
-						}
-						NumberAnimation {
-							target: _swipeDelegate
-							property: "height"
-							to: 0
-							easing.type: Easing.InOutQuad
-						}
-						PropertyAction {
-							target: _swipeDelegate
-							property: "ListView.delayRemove"
-							value: false
-						}
-					}
-
-					swipe.right: Rectangle {
-						height: parent.height
-						width: height
-						anchors.right: parent.right
-						color: {
-							if(QuickPresenter.currentStyle === "Material")
-								return Material.color(Material.Red);
-							else if(QuickPresenter.currentStyle === "Universal")
-								return Universal.color(Universal.Red);
-							else
-								return "#FF0000";
+						ListView.onRemove: SequentialAnimation {
+							PropertyAction {
+								target: _swipeDelegate
+								property: "ListView.delayRemove"
+								value: true
+							}
+							NumberAnimation {
+								target: _swipeDelegate
+								property: "height"
+								to: 0
+								easing.type: Easing.InOutQuad
+							}
+							PropertyAction {
+								target: _swipeDelegate
+								property: "ListView.delayRemove"
+								value: false
+							}
 						}
 
-						ActionButton {
-							anchors.centerIn: parent
-							implicitHeight: parent.height
-							implicitWidth: parent.width
+						swipe.right: Rectangle {
+							height: _devicesScrollView.height
+							width: height
+							anchors.right: parent.right
+							color: {
+								if(QuickPresenter.currentStyle === "Material")
+									return Material.color(Material.Red);
+								else if(QuickPresenter.currentStyle === "Universal")
+									return Universal.color(Universal.Red);
+								else
+									return "#FF0000";
+							}
 
-							icon.name: "user-trash"
-							icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_delete_forever.svg"
-							text: qsTr("Remove Device")
+							ActionButton {
+								anchors.centerIn: parent
+								implicitHeight: parent.height
+								implicitWidth: parent.width
 
-							Material.foreground: "white"
-							Universal.foreground: "white"
+								icon.name: "user-trash"
+								icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_delete_forever.svg"
+								text: qsTr("Remove Device")
 
-							onClicked: {
-								_swipeDelegate.swipe.close();
-								viewModel.removeDevice(index)
+								Material.foreground: "white"
+								Universal.foreground: "white"
+
+								onClicked: {
+									_swipeDelegate.swipe.close();
+									viewModel.removeDevice(index)
+								}
 							}
 						}
 					}

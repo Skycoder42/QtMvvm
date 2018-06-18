@@ -143,67 +143,69 @@ Page {
 			Label {
 				text: qsTr("Extra Headers:")
 				Layout.fillWidth: true
-				color: _headerList.focus ? _accessKeyEdit.selectionColor : palette.text
-				opacity: _headerList.focus ? 1 : 0.5
+				color: _headerScrollView.focus ? _accessKeyEdit.selectionColor : palette.text
+				opacity: _headerScrollView.focus ? 1 : 0.5
 			}
 
-			ListView {
-				id: _headerList
+			ScrollView {
+				id: _headerScrollView
 				Layout.fillWidth: true
 				Layout.fillHeight: true
 				clip: true
 
-				model: viewModel.headerModel
+				ListView {
+					id: _headerList
 
-				ScrollBar.vertical: ScrollBar {}
+					model: viewModel.headerModel
 
-				delegate: ItemDelegate {
-					width: parent.width
-					text: qsTr("%1: %2").arg(key).arg(value)
+					delegate: ItemDelegate {
+						width: _headerScrollView.width
+						text: qsTr("%1: %2").arg(key).arg(value)
 
-					Button {
-						id: _rmButton
-						flat: true
-						icon.width: 24
-						icon.height: 24
-						icon.name: "user-trash"
-						icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_delete_forever.svg"
-						anchors.right: parent.right
-						implicitHeight: parent.height
-						implicitWidth: implicitHeight
+						Button {
+							id: _rmButton
+							flat: true
+							icon.width: 24
+							icon.height: 24
+							icon.name: "user-trash"
+							icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_delete_forever.svg"
+							anchors.right: parent.right
+							implicitHeight: parent.height
+							implicitWidth: implicitHeight
 
-						onClicked: viewModel.removeHeaderConfig(index)
-					}
-				}
-
-				footer: RowLayout {
-					width: parent.width
-
-					TextField {
-						id: _keyEdit
-						placeholderText: qsTr("Key")
-						Layout.fillWidth: true
+							onClicked: viewModel.removeHeaderConfig(index)
+						}
 					}
 
-					TextField {
-						id: _valueEdit
-						placeholderText: qsTr("Value")
-						Layout.fillWidth: true
-					}
+					footer: RowLayout {
+						width: _headerScrollView.width
 
-					Button {
-						id: _addButton
-						flat: true
-						enabled: _keyEdit.text !== ""
-						icon.width: 24
-						icon.height: 24
-						icon.name: "list-add"
-						icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_add.svg"
+						TextField {
+							id: _keyEdit
+							placeholderText: qsTr("Key")
+							Layout.fillWidth: true
+						}
 
-						onClicked: {
-							viewModel.addHeaderConfig(_keyEdit.text, _valueEdit.text);
-							_keyEdit.clear();
-							_valueEdit.clear();
+						TextField {
+							id: _valueEdit
+							placeholderText: qsTr("Value")
+							Layout.fillWidth: true
+						}
+
+						Button {
+							id: _addButton
+							flat: true
+							enabled: _keyEdit.text !== ""
+							icon.width: 24
+							icon.height: 24
+							icon.name: "list-add"
+							icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_add.svg"
+
+							onClicked: {
+								viewModel.addHeaderConfig(_keyEdit.text, _valueEdit.text);
+								_keyEdit.clear();
+								_valueEdit.clear();
+							}
 						}
 					}
 				}

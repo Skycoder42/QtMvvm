@@ -231,17 +231,17 @@ Page {
 		id: _overviewComponent
 
 		ScrollView {
+			id: __ovScrollView
 			property alias model: __ovListView.model
 			property alias showSections: __ovListView.showSections
-			anchors.fill: parent
 			clip: true
 
 			OverviewListView {
 				id: __ovListView
 				builder: _builder
-
-				Component.onCompleted: _settingsStack.push(__ovListView)
 			}
+
+			Component.onCompleted: _settingsStack.push(__ovScrollView)
 		}
 	}
 
@@ -249,16 +249,16 @@ Page {
 		id: _sectionViewComponent
 
 		ScrollView {
+			id: __secScrollView
 			property alias model: __secListView.model
-			anchors.fill: parent
 			clip: true
 
 			SectionListView {
 				id: __secListView
 				builder: _builder
-
-				Component.onCompleted: _settingsStack.push(__secListView)
 			}
+
+			Component.onCompleted: _settingsStack.push(__secScrollView)
 		}
 	}
 

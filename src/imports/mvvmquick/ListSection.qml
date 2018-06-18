@@ -16,14 +16,7 @@ Label {
 
 	background: Rectangle {
 		anchors.fill: parent
-		color: {
-			if(QuickPresenter.currentStyle === "Material")
-				return Material.background;
-			else if(QuickPresenter.currentStyle === "Universal")
-				return Universal.background;
-			else
-				return "white";
-		}
+		color: "transparent"
 
 		Rectangle {
 			anchors.left: parent.left

@@ -114,40 +114,42 @@ Page {
 				}
 			}
 
-			ListView {
-				id: _exchangeList
+			ScrollView {
+				id: _exchangeScrollView
+
 				Layout.fillWidth: true
 				Layout.fillHeight: true
 				clip: true
 
-				model: viewModel.sortedModel
+				ListView {
+					id: _exchangeList
 
-				ScrollBar.vertical: ScrollBar {}
+					model: viewModel.sortedModel
+					delegate: ItemDelegate {
+						width: _exchangeScrollView.width
 
-				delegate: ItemDelegate {
-					width: parent.width
+						contentItem: ColumnLayout {
+							id: _delegateLayout
+							spacing: 8
 
-					contentItem: ColumnLayout {
-						id: _delegateLayout
-						spacing: 8
+							Label {
+								id: _nameLabel
+								Layout.fillWidth: true
+								text: name
+							}
 
-						Label {
-							id: _nameLabel
-							Layout.fillWidth: true
-							text: name
+							Label {
+								id: _addressLabel
+								font.pointSize: _nameLabel.font.pointSize * 0.8
+								Layout.fillWidth: true
+								Layout.leftMargin: 8
+								text: address
+								opacity: 0.75
+							}
 						}
 
-						Label {
-							id: _addressLabel
-							font.pointSize: _nameLabel.font.pointSize * 0.8
-							Layout.fillWidth: true
-							Layout.leftMargin: 8
-							text: address
-							opacity: 0.75
-						}
+						onClicked: viewModel.exportTo(index)
 					}
-
-					onClicked: viewModel.exportTo(index)
 				}
 			}
 		}
