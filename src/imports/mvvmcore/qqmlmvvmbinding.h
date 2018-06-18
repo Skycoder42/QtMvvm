@@ -157,9 +157,14 @@ Q_SIGNALS:
 private Q_SLOTS:
 	void resetBinding();
 
+	void viewWasSet();
+	void viewModelWasSet();
+
 private:
 	Binding _binding;
 	bool _completed = false;
+	bool _viewSet = false;
+	bool _viewModelSet = false;
 
 	QObject* _viewModel = nullptr;
 	QString _viewModelProperty;
