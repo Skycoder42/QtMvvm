@@ -1,18 +1,10 @@
 #include "qqmlmvvmbinding.h"
 using namespace QtMvvm;
+#include <QtQml>
 
 QQmlMvvmBinding::QQmlMvvmBinding(QObject *parent) :
 	QObject(parent),
-	QQmlParserStatus(),
-	_binding(),
-	_completed(false),
-	_viewModel(nullptr),
-	_viewModelProperty(),
-	_view(parent),
-	_viewProperty(),
-	_type(TwoWay),
-	_viewModelChangeSignal(),
-	_viewChangeSignal()
+	QQmlParserStatus()
 {
 	connect(this, &QQmlMvvmBinding::viewModelChanged,
 			this, &QQmlMvvmBinding::resetBinding);
@@ -30,6 +22,8 @@ void QQmlMvvmBinding::classBegin() {}
 
 void QQmlMvvmBinding::componentComplete()
 {
+	if(!_view)
+		_view = parent();
 	_completed = true;
 	resetBinding();
 }

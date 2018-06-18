@@ -159,13 +159,13 @@ private Q_SLOTS:
 
 private:
 	Binding _binding;
-	bool _completed;
+	bool _completed = false;
 
-	QObject* _viewModel;
+	QObject* _viewModel = nullptr;
 	QString _viewModelProperty;
-	QObject* _view;
+	QObject* _view = nullptr;
 	QString _viewProperty;
-	BindingDirection _type;
+	BindingDirection _type = TwoWay;
 	QString _viewModelChangeSignal;
 	QString _viewChangeSignal;
 };
