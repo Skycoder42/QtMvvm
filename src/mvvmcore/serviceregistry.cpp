@@ -15,9 +15,19 @@ Q_GLOBAL_STATIC_WITH_ARGS(ServiceRegistry, _instance,
 
 ServiceRegistry::ServiceRegistry(ServiceRegistryPrivate *d_ptr) :
 	d(d_ptr)
-{}
+{
+	// register quit scope cleanup
+	QObject::connect(qApp, &QCoreApplication::aboutToQuit, [this](){
+		d->destroyServices(DestroyOnAppQuit);
+	});
+	// register destroy scope cleanup
+	qAddPostRoutine(&ServiceRegistryPrivate::appDestroyedHook);
+}
 
-ServiceRegistry::~ServiceRegistry() = default;
+ServiceRegistry::~ServiceRegistry()
+{
+	d->destroyServices(DestroyOnRegistryDestroy);
+}
 
 ServiceRegistry *ServiceRegistry::instance()
 {
@@ -30,20 +40,30 @@ bool ServiceRegistry::isRegistered(const QByteArray &iid) const
 	return d->services.contains(iid);
 }
 
-void ServiceRegistry::registerService(const QByteArray &iid, const QMetaObject *metaObject, bool weak)
+void ServiceRegistry::registerService(const QByteArray &iid, const QMetaObject *metaObject, bool weak, DestructionScope scope)
 {
 	QMutexLocker _(&d->serviceMutex);
 	if(d->serviceBlocked(iid))
 		throw ServiceExistsException(iid);
-	d->services.insert(iid, QSharedPointer<ServiceRegistryPrivate::MetaServiceInfo>::create(metaObject, weak));
+	d->services.insert(iid, QSharedPointer<ServiceRegistryPrivate::MetaServiceInfo>::create(metaObject, weak, scope));
+}
+
+void ServiceRegistry::registerService(const QByteArray &iid, const QMetaObject *metaObject, bool weak)
+{
+	registerService(iid, metaObject, weak, DestroyOnAppDestroy);
+}
+
+void ServiceRegistry::registerService(const QByteArray &iid, const std::function<QObject *(const QObjectList &)> &fn, QByteArrayList injectables, bool weak, DestructionScope scope)
+{
+	QMutexLocker _(&d->serviceMutex);
+	if(d->serviceBlocked(iid))
+		throw ServiceExistsException(iid);
+	d->services.insert(iid, QSharedPointer<ServiceRegistryPrivate::FnServiceInfo>::create(fn, std::move(injectables), weak, scope));
 }
 
 void ServiceRegistry::registerService(const QByteArray &iid, const std::function<QObject*(const QObjectList &)> &fn, QByteArrayList injectables, bool weak)
 {
-	QMutexLocker _(&d->serviceMutex);
-	if(d->serviceBlocked(iid))
-		throw ServiceExistsException(iid);
-	d->services.insert(iid, QSharedPointer<ServiceRegistryPrivate::FnServiceInfo>::create(fn, injectables, weak));
+	registerService(iid, fn, std::move(injectables), weak, DestroyOnAppDestroy);
 }
 
 QObject *ServiceRegistry::serviceObj(const QByteArray &iid)
@@ -140,16 +160,37 @@ void ServiceRegistryPrivate::injectLocked(QObject *object)
 	}
 }
 
+void ServiceRegistryPrivate::destroyServices(ServiceRegistry::DestructionScope scope)
+{
+	QMutexLocker _(&serviceMutex);
+	logDebug() << "Beginning destruction for services in scope:" << scope;
+	for(auto it = services.begin(); it != services.end();) {
+		if(it.value()->needsDestroy(scope)) {
+			logDebug() << "Destroying service:" << it.key();
+			it = services.erase(it);
+		} else
+			it++;
+	}
+	logDebug() << "Finished destruction for services in scope:" << scope;
+}
+
+void ServiceRegistryPrivate::appDestroyedHook()
+{
+	if(_instance.exists() && !_instance.isDestroyed())
+		_instance->d->destroyServices(ServiceRegistry::DestroyOnAppDestroy);
+}
 
 
-ServiceRegistryPrivate::ServiceInfo::ServiceInfo(bool weak) :
-	_weak{weak}
+
+ServiceRegistryPrivate::ServiceInfo::ServiceInfo(bool weak, ServiceRegistry::DestructionScope scope) :
+	_weak{weak},
+	_scope{scope}
 {}
 
 ServiceRegistryPrivate::ServiceInfo::~ServiceInfo()
 {
-	if(_instance) {
-		if(QCoreApplication::closingDown())
+	if(_instance && _scope != ServiceRegistry::DestroyNever) {
+		if(_closingDown)
 			delete _instance;
 		else
 			QMetaObject::invokeMethod(_instance, "deleteLater");
@@ -159,6 +200,15 @@ ServiceRegistryPrivate::ServiceInfo::~ServiceInfo()
 bool ServiceRegistryPrivate::ServiceInfo::replaceable() const
 {
 	return _weak && !_instance;
+}
+
+bool ServiceRegistryPrivate::ServiceInfo::needsDestroy(ServiceRegistry::DestructionScope scope) const
+{
+	if(_scope <= scope) {
+		_closingDown = true;
+		return true;
+	} else
+		return false;
 }
 
 QObject *ServiceRegistryPrivate::ServiceInfo::instance(ServiceRegistryPrivate *d, const QByteArray &iid)
@@ -178,10 +228,10 @@ QObject *ServiceRegistryPrivate::ServiceInfo::instance(ServiceRegistryPrivate *d
 
 
 
-ServiceRegistryPrivate::FnServiceInfo::FnServiceInfo(std::function<QObject*(QObjectList)> creator, QByteArrayList injectables, bool weak) :
-	ServiceInfo(weak),
-	creator(std::move(creator)),
-	injectables(std::move(injectables))
+ServiceRegistryPrivate::FnServiceInfo::FnServiceInfo(std::function<QObject*(QObjectList)> creator, QByteArrayList injectables, bool weak, ServiceRegistry::DestructionScope scope) :
+	ServiceInfo{weak, scope},
+	creator{std::move(creator)},
+	injectables{std::move(injectables)}
 {}
 
 QObject *ServiceRegistryPrivate::FnServiceInfo::construct(ServiceRegistryPrivate *d) const
@@ -199,9 +249,9 @@ QObject *ServiceRegistryPrivate::FnServiceInfo::construct(ServiceRegistryPrivate
 
 
 
-ServiceRegistryPrivate::MetaServiceInfo::MetaServiceInfo(const QMetaObject *metaObject, bool weak) :
-	ServiceInfo(weak),
-	metaObject(metaObject)
+ServiceRegistryPrivate::MetaServiceInfo::MetaServiceInfo(const QMetaObject *metaObject, bool weak, ServiceRegistry::DestructionScope scope) :
+	ServiceInfo{weak, scope},
+	metaObject{metaObject}
 {}
 
 QObject *ServiceRegistryPrivate::MetaServiceInfo::construct(ServiceRegistryPrivate *d) const

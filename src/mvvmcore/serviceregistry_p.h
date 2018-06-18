@@ -15,10 +15,11 @@ public:
 	class ServiceInfo {
 		Q_DISABLE_COPY(ServiceInfo)
 	public:
-		ServiceInfo(bool weak);
+		ServiceInfo(bool weak, ServiceRegistry::DestructionScope scope);
 		virtual ~ServiceInfo();
 
 		bool replaceable() const;
+		bool needsDestroy(ServiceRegistry::DestructionScope scope) const;
 		QObject *instance(ServiceRegistryPrivate *d, const QByteArray &iid);
 
 	protected:
@@ -26,12 +27,14 @@ public:
 
 	private:
 		const bool _weak;
+		const ServiceRegistry::DestructionScope _scope;
 		QObject *_instance = nullptr;
+		mutable bool _closingDown = false;
 	};
 
 	class FnServiceInfo : public ServiceInfo {
 	public:
-		FnServiceInfo(std::function<QObject*(QObjectList)> creator, QByteArrayList injectables, bool weak);
+		FnServiceInfo(std::function<QObject*(QObjectList)> creator, QByteArrayList injectables, bool weak, ServiceRegistry::DestructionScope scope);
 
 	protected:
 		QObject *construct(ServiceRegistryPrivate *d) const final;
@@ -43,7 +46,7 @@ public:
 
 	class MetaServiceInfo : public ServiceInfo {
 	public:
-		MetaServiceInfo(const QMetaObject *metaObject, bool weak);
+		MetaServiceInfo(const QMetaObject *metaObject, bool weak, ServiceRegistry::DestructionScope scope);
 
 	protected:
 		QObject *construct(ServiceRegistryPrivate *d) const final;
@@ -58,6 +61,10 @@ public:
 	bool serviceBlocked(const QByteArray &iid) const;
 	QObject *constructInjectedLocked(const QMetaObject *metaObject, QObject *parent);
 	void injectLocked(QObject *object);
+
+	void destroyServices(ServiceRegistry::DestructionScope scope);
+
+	static void appDestroyedHook();
 };
 
 }
