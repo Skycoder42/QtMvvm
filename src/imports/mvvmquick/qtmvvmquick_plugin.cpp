@@ -48,6 +48,9 @@ void QtMvvmQuickDeclarativeModule::registerTypes(const char *uri)
 	qmlRegisterType(QUrl(QStringLiteral("qrc:/de/skycoder42/qtmvvm/quick/qml/FolderDialog.qml")), uri, 1, 0, "FolderDialog");
 #endif
 
+	//Version 1.1
+	qmlRegisterModule(uri, 1, 1);
+
 	// Check to make shure no module update is forgotten
-	static_assert(VERSION_MAJOR == 1 && VERSION_MINOR == 0, "QML module version needs to be updated");
+	static_assert(VERSION_MAJOR == 1 && VERSION_MINOR == 1, "QML module version needs to be updated");
 }

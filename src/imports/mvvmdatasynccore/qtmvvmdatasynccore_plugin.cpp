@@ -31,6 +31,9 @@ void QtMvvmDataSyncCoreDeclarativeModule::registerTypes(const char *uri)
 	qmlRegisterUncreatableType<QtMvvm::ChangeRemoteViewModel>(uri, 1, 0, "PChangeRemoteViewModel", QStringLiteral("ViewModels cannot be created from QML"));
 	qmlRegisterUncreatableType<QtMvvm::ExportSetupViewModel>(uri, 1, 0, "PExportSetupViewModel", QStringLiteral("ViewModels cannot be created from QML"));
 
+	//Version 1.1
+	qmlRegisterModule(uri, 1, 1);
+
 	// Check to make shure no module update is forgotten
-	static_assert(VERSION_MAJOR == 1 && VERSION_MINOR == 0, "QML module version needs to be updated");
+	static_assert(VERSION_MAJOR == 1 && VERSION_MINOR == 1, "QML module version needs to be updated");
 }

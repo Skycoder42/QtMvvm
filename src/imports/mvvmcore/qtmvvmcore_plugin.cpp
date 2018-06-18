@@ -8,10 +8,17 @@
 
 #include "qqmlmvvmbinding.h"
 #include "qqmlmvvmmessage.h"
+#include "qqmlserviceregistry.h"
 
 static QObject *createMessageSingleton(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
 {
-	return new QtMvvm::QQmlMvvmMessage(jsEngine, qmlEngine);
+	return new QtMvvm::QQmlMvvmMessage{jsEngine, qmlEngine};
+}
+
+static QObject *createRegistrySingleton(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
+{
+	Q_UNUSED(jsEngine)
+	return new QtMvvm::QQmlServiceRegistry{qmlEngine};
 }
 
 QtMvvmCoreDeclarativeModule::QtMvvmCoreDeclarativeModule(QObject *parent) :
@@ -32,6 +39,9 @@ void QtMvvmCoreDeclarativeModule::registerTypes(const char *uri)
 
 	qmlRegisterSingletonType<QtMvvm::QQmlMvvmMessage>(uri, 1, 0, "Message", createMessageSingleton);
 
+	//Version 1.1
+	qmlRegisterSingletonType<QtMvvm::QQmlServiceRegistry>(uri, 1, 1, "ServiceRegistry", createRegistrySingleton);
+
 	// Check to make shure no module update is forgotten
-	static_assert(VERSION_MAJOR == 1 && VERSION_MINOR == 0, "QML module version needs to be updated");
+	static_assert(VERSION_MAJOR == 1 && VERSION_MINOR == 1, "QML module version needs to be updated");
 }

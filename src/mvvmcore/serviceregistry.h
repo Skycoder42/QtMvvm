@@ -14,7 +14,7 @@ namespace QtMvvm {
 
 class ServiceRegistryPrivate;
 //! A singleton to prepare services for dependency injection and to access them
-class Q_MVVMCORE_EXPORT ServiceRegistry
+class Q_MVVMCORE_EXPORT ServiceRegistry //MAJOR make a QObject for invokable methods and Q_ENUM
 {
 public:
 	enum DestructionScope {

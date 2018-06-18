@@ -9,12 +9,14 @@ DEFINES += "VERSION_MINOR=$$MODULE_VERSION_MINOR"
 HEADERS += \
 	qtmvvmcore_plugin.h \
 	qqmlmvvmbinding.h \
-	qqmlmvvmmessage.h
+	qqmlmvvmmessage.h \
+	qqmlserviceregistry.h
 
 SOURCES += \
 	qtmvvmcore_plugin.cpp \
 	qqmlmvvmbinding.cpp \
-	qqmlmvvmmessage.cpp
+	qqmlmvvmmessage.cpp \
+	qqmlserviceregistry.cpp
 
 OTHER_FILES += qmldir
 
