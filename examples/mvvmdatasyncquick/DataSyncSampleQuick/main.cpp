@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 	QApplication app(argc, argv);
 
 	QtMvvm::registerDataSyncQuick();
-	qmlRegisterUncreatableType<SampleViewModel>("de.skycoder42.QtMvvm.Sample", 1, 0, "SampleViewModel", QStringLiteral("ViewModels cannot be created"));
+	qmlRegisterUncreatableType<SampleViewModel>("de.skycoder42.QtMvvm.Sample", 1, 1, "SampleViewModel", QStringLiteral("ViewModels cannot be created"));
 
 	QQmlApplicationEngine engine;
 	engine.load(QUrl(QStringLiteral("qrc:/main.qml")));

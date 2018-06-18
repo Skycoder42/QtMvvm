@@ -24,10 +24,14 @@ SOURCES += \
 
 QML_FILES += \
 	QtMvvmApp.qml \
+	QtMvvmApp11.qml \
 	PresentingStackView.qml \
+	PresentingStackView11.qml \
 	PresenterProgress.qml \
 	PopupPresenter.qml \
+	PopupPresenter11.qml \
 	DialogPresenter.qml \
+	DialogPresenter11.qml \
 	TintIcon.qml \
 	AlertDialog.qml \
 	ContrastToolBar.qml \

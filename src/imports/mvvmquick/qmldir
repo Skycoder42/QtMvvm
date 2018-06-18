@@ -25,10 +25,14 @@ MenuButton 1.0 MenuButton.qml
 
 PresenterProgress 1.0 PresenterProgress.qml
 PresentingStackView 1.0 PresentingStackView.qml
+PresentingStackView 1.1 PresentingStackView11.qml
 PopupPresenter 1.0 PopupPresenter.qml
+PopupPresenter 1.1 PopupPresenter11.qml
 DialogPresenter 1.0 DialogPresenter.qml
+DialogPresenter 1.1 DialogPresenter11.qml
 PresentingDrawer 1.0 PresentingDrawer.qml
 
 SettingsView 1.0 SettingsView.qml
 
 QtMvvmApp 1.0 QtMvvmApp.qml
+QtMvvmApp 1.1 QtMvvmApp11.qml

@@ -1,7 +1,7 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
-import de.skycoder42.QtMvvm.Core 1.0
-import de.skycoder42.QtMvvm.Quick 1.0
+import de.skycoder42.QtMvvm.Core 1.1
+import de.skycoder42.QtMvvm.Quick 1.1
 
 /*! @brief A presentation helper that can present generic mvvm dialogs
  *
@@ -55,6 +55,9 @@ QtObject {
 	 * }
 	 */
 	property Item rootItem: null
+
+	//TODO document
+	readonly property bool empty: _popups.length == 0
 
 	/*! @brief The primary presenting method to present a dialog
 	 *

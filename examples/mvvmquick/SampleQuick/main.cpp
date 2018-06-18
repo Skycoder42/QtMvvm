@@ -29,11 +29,11 @@ int main(int argc, char *argv[])
 
 	coreApp->setShowDrawer(true);
 
-	qmlRegisterUncreatableType<SampleViewModel>("de.skycoder42.QtMvvm.Sample", 1, 0, "SampleViewModel", QStringLiteral("ViewModels cannot be created"));
-	qmlRegisterUncreatableType<ResultViewModel>("de.skycoder42.QtMvvm.Sample", 1, 0, "ResultViewModel", QStringLiteral("ViewModels cannot be created"));
-	qmlRegisterUncreatableType<DrawerViewModel>("de.skycoder42.QtMvvm.Sample", 1, 0, "DrawerViewModel", QStringLiteral("ViewModels cannot be created"));
-	qmlRegisterUncreatableType<TabViewModel>("de.skycoder42.QtMvvm.Sample", 1, 0, "TabViewModel", QStringLiteral("ViewModels cannot be created"));
-	qmlRegisterUncreatableType<TabItemViewModel>("de.skycoder42.QtMvvm.Sample", 1, 0, "TabItemViewModel", QStringLiteral("ViewModels cannot be created"));
+	qmlRegisterUncreatableType<SampleViewModel>("de.skycoder42.QtMvvm.Sample", 1, 1, "SampleViewModel", QStringLiteral("ViewModels cannot be created"));
+	qmlRegisterUncreatableType<ResultViewModel>("de.skycoder42.QtMvvm.Sample", 1, 1, "ResultViewModel", QStringLiteral("ViewModels cannot be created"));
+	qmlRegisterUncreatableType<DrawerViewModel>("de.skycoder42.QtMvvm.Sample", 1, 1, "DrawerViewModel", QStringLiteral("ViewModels cannot be created"));
+	qmlRegisterUncreatableType<TabViewModel>("de.skycoder42.QtMvvm.Sample", 1, 1, "TabViewModel", QStringLiteral("ViewModels cannot be created"));
+	qmlRegisterUncreatableType<TabItemViewModel>("de.skycoder42.QtMvvm.Sample", 1, 1, "TabItemViewModel", QStringLiteral("ViewModels cannot be created"));
 
 	QtMvvm::ServiceRegistry::instance()->registerObject<EchoService>();
 	QtMvvm::ServiceRegistry::instance()->registerInterface<IEventService, QuickEventService>();
