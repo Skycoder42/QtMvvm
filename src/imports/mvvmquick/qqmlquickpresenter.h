@@ -8,6 +8,8 @@
 #include <QtCore/QVariant>
 #include <QtCore/QPointer>
 #include <QtCore/QUrl>
+#include <QtCore/QQueue>
+#include <QtCore/QSharedPointer>
 
 #include <QtQml/QQmlComponent>
 
@@ -158,14 +160,15 @@ private Q_SLOTS:
 	void statusChanged(QQmlComponent::Status status);
 
 private:
-	using PresentTuple = std::tuple<ViewModel*, QVariantHash, QPointer<ViewModel>>;
+	using PresentTuple = std::tuple<QSharedPointer<QQmlComponent>, ViewModel*, QVariantHash, QPointer<ViewModel>>;
 	QQmlEngine *_engine;
 	QPointer<QObject> _qmlPresenter;
 
 	QPointer<QQmlComponent> _latestComponent;
-	QCache<QUrl, QQmlComponent> _componentCache;
-	QHash<QQmlComponent*, PresentTuple> _loadCache;
+	QCache<QUrl, QSharedPointer<QQmlComponent>> _componentCache;
+	QQueue<PresentTuple> _loadQueue;
 
+	void processShowQueue();
 	void addObject(QQmlComponent *component, ViewModel *viewModel, const QVariantHash &params, const QPointer<ViewModel> &parent);
 };
 

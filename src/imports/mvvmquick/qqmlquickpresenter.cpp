@@ -16,11 +16,8 @@
 using namespace QtMvvm;
 
 QQmlQuickPresenter::QQmlQuickPresenter(QQmlEngine *engine) :
-	QObject(engine),
-	_engine(engine),
-	_latestComponent(),
-	_componentCache(),
-	_loadCache()
+	QObject{engine},
+	_engine{engine}
 {
 	QuickPresenterPrivate::setQmlPresenter(this);
 	connect(QuickPresenterPrivate::currentPresenter(), &QuickPresenter::inputViewFactoryChanged,
@@ -105,16 +102,19 @@ void QQmlQuickPresenter::hapticLongPress()
 void QQmlQuickPresenter::present(ViewModel *viewModel, const QVariantHash &params, const QUrl &viewUrl, QPointer<ViewModel> parent)
 {
 	auto component = _componentCache.object(viewUrl);
-	if(component)
-		addObject(component, viewModel, params, parent);
-	else {
+	if(component) {
+		_loadQueue.enqueue(std::make_tuple(*component, viewModel, params, parent));
+		processShowQueue();
+	} else {
 		//create component (and replace latest)
 		if(_latestComponent) {
 			disconnect(_latestComponent, &QQmlComponent::progressChanged,
 					   this, &QQmlQuickPresenter::loadingProgressChanged);
 		}
-		_latestComponent = new QQmlComponent(_engine, this);
-		_loadCache.insert(_latestComponent, std::make_tuple(viewModel, params, parent));
+		_latestComponent = new QQmlComponent{_engine};
+		component = new QSharedPointer<QQmlComponent>{_latestComponent.data()};
+		_componentCache.insert(viewUrl, component);
+		_loadQueue.enqueue(std::make_tuple(*component, viewModel, params, parent));
 
 		//setup ui status
 		emit viewLoadingChanged(true);
@@ -157,30 +157,44 @@ void QQmlQuickPresenter::statusChanged(QQmlComponent::Status status)
 	case QQmlComponent::Ready:
 	{
 		logDebug() << "Loaded and cached component" << component->url();
-		_componentCache.insert(component->url(), component);
-		auto loadInfo = _loadCache.value(component);
-		disconnect(component, &QQmlComponent::progressChanged,
-				   this, &QQmlQuickPresenter::loadingProgressChanged);
-		addObject(component, std::get<0>(loadInfo), std::get<1>(loadInfo), std::get<2>(loadInfo));
 		break;
 	}
 	case QQmlComponent::Error:
 	{
-		auto loadInfo = _loadCache.value(component);
-		logWarning().noquote() << "Failed to load component for" << std::get<0>(loadInfo)->metaObject()->className()
+		logWarning().noquote() << "Failed to load component" << component->url()
 							   << "with error:" << component->errorString().trimmed();
-		std::get<0>(loadInfo)->deleteLater();
-		component->deleteLater();
+		_componentCache.remove(component->url());
 		break;
 	}
 	default:
 		return; //not break. code after must not be executed in this case
 	}
 
-	_loadCache.remove(component);
 	if(_latestComponent == component) {
+		disconnect(component, &QQmlComponent::progressChanged,
+				   this, &QQmlQuickPresenter::loadingProgressChanged);
 		_latestComponent = nullptr;
 		emit viewLoadingChanged(false);
+	}
+	processShowQueue();
+}
+
+void QQmlQuickPresenter::processShowQueue()
+{
+	while(!_loadQueue.isEmpty()) {
+		auto loadInfo = _loadQueue.head();
+		switch(std::get<0>(loadInfo)->status()){
+		case QQmlComponent::Ready:
+			addObject(std::get<0>(loadInfo).data(), std::get<1>(loadInfo), std::get<2>(loadInfo), std::get<3>(loadInfo));
+			break;
+		case QQmlComponent::Null:
+		case QQmlComponent::Error:
+			std::get<1>(loadInfo)->deleteLater();
+			break;
+		default:
+			return; //not break. code after must not be executed in this case
+		}
+		_loadQueue.dequeue();
 	}
 }
 
