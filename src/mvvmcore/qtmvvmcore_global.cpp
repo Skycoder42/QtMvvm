@@ -12,7 +12,7 @@ void qtMvvmCoreStartup()
 	using namespace QtMvvm;
 	registerInterfaceConverter<ISettingsSetupLoader>();
 	try {
-		ServiceRegistry::instance()->registerInterface<ISettingsSetupLoader, SettingsSetupLoader>(true);
+		ServiceRegistry::instance()->registerInterface<ISettingsSetupLoader, SettingsSetupLoader>(ServiceRegistry::DestroyOnAppDestroy, true);
 	} catch(ServiceExistsException &e) {
 		logDebug() << "Unable to register default ISettingsSetupLoader with error:" << e.what();
 	}

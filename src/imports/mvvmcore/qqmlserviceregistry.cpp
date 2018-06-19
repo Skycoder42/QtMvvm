@@ -37,7 +37,7 @@ void QQmlServiceRegistry::registerObject(const QUrl &componentUrl, bool weak)
 			Q_UNREACHABLE();
 			return nullptr;
 		}
-	}, {}, weak, ServiceRegistry::DestroyOnAppQuit);
+	}, {}, ServiceRegistry::DestroyOnAppQuit, weak);
 }
 
 QObject *QQmlServiceRegistry::service(const QString &iid)

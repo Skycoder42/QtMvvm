@@ -28,8 +28,8 @@ namespace {
 
 void qtMvvmWidgetsInit()
 {
-	QtMvvm::ServiceRegistry::instance()->registerObject<QtMvvm::InputWidgetFactory>(true);
-	QtMvvm::ServiceRegistry::instance()->registerInterface<QtMvvm::IPresenter, QtMvvm::WidgetsPresenter>(true);
+	QtMvvm::ServiceRegistry::instance()->registerObject<QtMvvm::InputWidgetFactory>(QtMvvm::ServiceRegistry::DestroyOnAppDestroy, true);
+	QtMvvm::ServiceRegistry::instance()->registerInterface<QtMvvm::IPresenter, QtMvvm::WidgetsPresenter>(QtMvvm::ServiceRegistry::DestroyOnAppDestroy, true);
 }
 
 void initResources()

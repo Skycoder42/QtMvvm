@@ -40,7 +40,7 @@ bool ServiceRegistry::isRegistered(const QByteArray &iid) const
 	return d->services.contains(iid);
 }
 
-void ServiceRegistry::registerService(const QByteArray &iid, const QMetaObject *metaObject, bool weak, DestructionScope scope)
+void ServiceRegistry::registerService(const QByteArray &iid, const QMetaObject *metaObject, DestructionScope scope, bool weak)
 {
 	QMutexLocker _(&d->serviceMutex);
 	if(d->serviceBlocked(iid))
@@ -50,10 +50,10 @@ void ServiceRegistry::registerService(const QByteArray &iid, const QMetaObject *
 
 void ServiceRegistry::registerService(const QByteArray &iid, const QMetaObject *metaObject, bool weak)
 {
-	registerService(iid, metaObject, weak, DestroyOnAppDestroy);
+	registerService(iid, metaObject, DestroyOnAppDestroy, weak);
 }
 
-void ServiceRegistry::registerService(const QByteArray &iid, const std::function<QObject *(const QObjectList &)> &fn, QByteArrayList injectables, bool weak, DestructionScope scope)
+void ServiceRegistry::registerService(const QByteArray &iid, const std::function<QObject *(const QObjectList &)> &fn, QByteArrayList injectables, DestructionScope scope, bool weak)
 {
 	QMutexLocker _(&d->serviceMutex);
 	if(d->serviceBlocked(iid))
@@ -63,7 +63,7 @@ void ServiceRegistry::registerService(const QByteArray &iid, const std::function
 
 void ServiceRegistry::registerService(const QByteArray &iid, const std::function<QObject*(const QObjectList &)> &fn, QByteArrayList injectables, bool weak)
 {
-	registerService(iid, fn, std::move(injectables), weak, DestroyOnAppDestroy);
+	registerService(iid, fn, std::move(injectables), DestroyOnAppDestroy, weak);
 }
 
 QObject *ServiceRegistry::serviceObj(const QByteArray &iid)

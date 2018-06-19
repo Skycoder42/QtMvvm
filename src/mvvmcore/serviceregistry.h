@@ -40,41 +40,41 @@ public:
 
 	//! Register a service for its interface via the type
 	template <typename TInterface, typename TService>
-	void registerInterface(bool weak = false, DestructionScope scope = DestroyOnAppDestroy);
+	void registerInterface(DestructionScope scope = DestroyOnAppDestroy, bool weak = false);
 	//! Register a service for its interface via a constructor function
 	template <typename TInterface, typename TService, typename TFunc>
-	void registerInterface(TFunc fn, bool weak = false, DestructionScope scope = DestroyOnAppDestroy);
+	void registerInterface(TFunc fn, DestructionScope scope = DestroyOnAppDestroy, bool weak = false);
 	//! Register a service for its interface via an already existing instance
 	template <typename TInterface, typename TService>
-	void registerInterface(TService *service, bool weak = false, DestructionScope scope = DestroyOnAppDestroy);
+	void registerInterface(TService *service, DestructionScope scope = DestroyOnAppDestroy, bool weak = false);
 	//! Register a service via its type
 	template <typename TService>
-	void registerObject(bool weak = false, DestructionScope scope = DestroyOnAppDestroy);
+	void registerObject(DestructionScope scope = DestroyOnAppDestroy, bool weak = false);
 	//! Register a service via a constructor function
 	template <typename TService, typename TFunc>
-	void registerObject(TFunc fn, bool weak = false, DestructionScope scope = DestroyOnAppDestroy);
+	void registerObject(TFunc fn, DestructionScope scope = DestroyOnAppDestroy, bool weak = false);
 	//! Register a service via an already existing instance
 	template <typename TService>
-	void registerObject(TService *service, bool weak = false, DestructionScope scope = DestroyOnAppDestroy);
+	void registerObject(TService *service, DestructionScope scope = DestroyOnAppDestroy, bool weak = false);
 
 	//! Register a service by an iid via their metadata
 	void registerService(const QByteArray &iid,
 						 const QMetaObject *metaObject,
-						 bool weak,
-						 DestructionScope scope);
-	void registerService(const QByteArray &iid,
-						 const QMetaObject *metaObject,
-						 bool weak = false); //MAJOR merge methods
+						 DestructionScope scope = DestroyOnAppDestroy,
+						 bool weak = false);
+	Q_DECL_DEPRECATED void registerService(const QByteArray &iid,
+										   const QMetaObject *metaObject,
+										   bool weak);
 	//! Register a service by an iid via a generalized constructor function
 	void registerService(const QByteArray &iid,
 						 const std::function<QObject*(const QObjectList &)> &fn,
 						 QByteArrayList injectables,
-						 bool weak,
-						 DestructionScope scope);
-	void registerService(const QByteArray &iid,
-						 const std::function<QObject*(const QObjectList &)> &fn,
-						 QByteArrayList injectables,
-						 bool weak = false);//MAJOR merge methods
+						 DestructionScope scope = DestroyOnAppDestroy,
+						 bool weak = false);
+	Q_DECL_DEPRECATED void registerService(const QByteArray &iid,
+										   const std::function<QObject*(const QObjectList &)> &fn,
+										   QByteArrayList injectables,
+										   bool weak);
 
 	//! Returns the service for the given interface
 	template <typename TInterface>
@@ -169,29 +169,29 @@ bool ServiceRegistry::isRegistered() const
 	Q_ASSERT_X(qobject_interface_iid<TInterface*>(), Q_FUNC_INFO, "TInterface must be registered with Q_DECLARE_INTERFACE");
 
 template<typename TInterface, typename TService>
-void ServiceRegistry::registerInterface(bool weak, DestructionScope scope)
+void ServiceRegistry::registerInterface(DestructionScope scope, bool weak)
 {
 	QTMVVM_SERVICE_ASSERT(TInterface, TService)
-	registerService(qobject_interface_iid<TInterface*>(), &TService::staticMetaObject, weak, scope);
+	registerService(qobject_interface_iid<TInterface*>(), &TService::staticMetaObject, scope, weak);
 }
 
 template <typename TInterface, typename TService, typename TFunc>
-void ServiceRegistry::registerInterface(TFunc fn, bool weak, DestructionScope scope)
+void ServiceRegistry::registerInterface(TFunc fn, DestructionScope scope, bool weak)
 {
 	QTMVVM_SERVICE_ASSERT(TInterface, TService)
 	QByteArrayList injectables;
 	auto packed_fn = __helpertypes::pack_function(std::move(fn), injectables);
-	registerService(qobject_interface_iid<TInterface*>(), packed_fn, injectables, weak, scope);
+	registerService(qobject_interface_iid<TInterface*>(), packed_fn, injectables, scope, weak);
 }
 
 template<typename TInterface, typename TService>
-void ServiceRegistry::registerInterface(TService *service, bool weak, DestructionScope scope)
+void ServiceRegistry::registerInterface(TService *service, DestructionScope scope, bool weak)
 {
 	QTMVVM_SERVICE_ASSERT(TInterface, TService)
 	registerService(qobject_interface_iid<TInterface*>(), [service](const QObjectList &params) -> QObject* {
 		Q_UNUSED(params);
 		return service;
-	}, QByteArrayList(), weak, scope);
+	}, QByteArrayList(), scope, weak);
 }
 
 #undef QTMVVM_SERVICE_ASSERT
@@ -199,29 +199,29 @@ void ServiceRegistry::registerInterface(TService *service, bool weak, Destructio
 	static_assert(__helpertypes::is_qobj<tsvc>::value, "TService must be a qobject class");
 
 template<typename TService>
-void ServiceRegistry::registerObject(bool weak, DestructionScope scope)
+void ServiceRegistry::registerObject(DestructionScope scope, bool weak)
 {
 	QTMVVM_SERVICE_ASSERT(TService)
-	registerService(__helpertypes::qobject_iid<TService*>(), &TService::staticMetaObject, weak, scope);
+	registerService(__helpertypes::qobject_iid<TService*>(), &TService::staticMetaObject, scope, weak);
 }
 
 template<typename TService, typename TFunc>
-void ServiceRegistry::registerObject(TFunc fn, bool weak, DestructionScope scope)
+void ServiceRegistry::registerObject(TFunc fn, DestructionScope scope, bool weak)
 {
 	QTMVVM_SERVICE_ASSERT(TService)
 	QByteArrayList injectables;
 	auto packed_fn = __helpertypes::pack_function(std::move(fn), injectables);
-	registerService(__helpertypes::qobject_iid<TService*>(), packed_fn, injectables, weak, scope);
+	registerService(__helpertypes::qobject_iid<TService*>(), packed_fn, injectables, scope, weak);
 }
 
 template<typename TService>
-void ServiceRegistry::registerObject(TService *service, bool weak, DestructionScope scope)
+void ServiceRegistry::registerObject(TService *service, DestructionScope scope, bool weak)
 {
 	QTMVVM_SERVICE_ASSERT(TService)
 	registerService(__helpertypes::qobject_iid<TService*>(), [service](const QObjectList &params) -> QObject* {
 		Q_UNUSED(params);
 		return service;
-	}, QByteArrayList(), weak, scope);
+	}, QByteArrayList(), scope, weak);
 }
 
 #undef QTMVVM_SERVICE_ASSERT
