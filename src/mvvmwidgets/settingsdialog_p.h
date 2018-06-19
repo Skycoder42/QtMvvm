@@ -56,6 +56,7 @@ public:
 
 	using EntryInfo = QPair<SettingsElements::Entry, QMetaProperty>;
 	QHash<QWidget*, EntryInfo> entryMap;
+	QHash<QString, QWidget*> keyMap;
 	QSet<QWidget*> changedEntries;
 
 	void createCategory(const SettingsElements::Category &category);
@@ -80,6 +81,7 @@ public:
 
 public Q_SLOTS:
 	void createUi();
+	void entryChanged(const QString &key);
 
 	void propertyChanged();
 	void buttonBoxClicked(QAbstractButton *button);

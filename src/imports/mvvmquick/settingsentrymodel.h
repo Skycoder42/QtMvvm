@@ -40,6 +40,9 @@ public:
 	QHash<int, QByteArray> roleNames() const override;
 	Qt::ItemFlags flags(const QModelIndex &index) const override;
 
+private Q_SLOTS:
+	void entryChanged(const QString &key);
+
 private:
 	struct EntryInfo : public SettingsElements::Entry {
 	public:
@@ -49,7 +52,7 @@ private:
 		SettingsElements::Group group;
 	};
 
-	SettingsViewModel *_viewModel;
+	SettingsViewModel *_viewModel = nullptr;
 	QList<EntryInfo> _entries;
 };
 

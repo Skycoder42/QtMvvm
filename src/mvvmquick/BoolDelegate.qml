@@ -14,7 +14,7 @@ CheckDelegate {
 			return Boolean(value);
 	}
 
-	Component.onCompleted: checked = asBool(inputValue)
+	checked: asBool(inputValue)
 	onCheckedChanged: {
 		if(asBool(inputValue) !== checked)
 			inputValue = checked;

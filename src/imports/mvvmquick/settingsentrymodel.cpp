@@ -12,15 +12,21 @@ const QList<int> SettingsEntryModel::FilterRoles {
 };
 
 SettingsEntryModel::SettingsEntryModel(QObject *parent) :
-	QAbstractListModel(parent),
-	_entries()
+	QAbstractListModel{parent}
 {}
 
 void SettingsEntryModel::setup(const SettingsElements::Section &section, SettingsViewModel *viewModel, InputViewFactory *factory)
 {
 	beginResetModel();
 	_entries.clear();
+	if(_viewModel) {
+		disconnect(_viewModel, &SettingsViewModel::valueChanged,
+				   this, &SettingsEntryModel::entryChanged);
+	}
 	_viewModel = viewModel;
+	connect(_viewModel, &SettingsViewModel::valueChanged,
+			this, &SettingsEntryModel::entryChanged,
+			Qt::QueuedConnection); //to not mess up data changes
 	auto rIndex = 0;
 	for(const auto &group : section.groups) {
 		for(const auto &entry : group.entries) {
@@ -120,6 +126,17 @@ Qt::ItemFlags SettingsEntryModel::flags(const QModelIndex &index) const
 		return Qt::NoItemFlags;
 #endif
 	return QAbstractListModel::flags(index) | Qt::ItemIsEditable;
+}
+
+void SettingsEntryModel::entryChanged(const QString &key)
+{
+	for(auto i = 0; i < _entries.size(); i++) {
+		if(_entries[i].key == key) {
+			auto mIndex = index(i);
+			emit dataChanged(mIndex, mIndex, {SettingsValueRole});
+			break;
+		}
+	}
 }
 
 

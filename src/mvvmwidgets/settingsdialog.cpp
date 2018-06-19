@@ -16,14 +16,17 @@
 using namespace QtMvvm;
 
 SettingsDialog::SettingsDialog(ViewModel *viewModel, QWidget *parent) :
-	QDialog(parent),
-	d(new SettingsDialogPrivate(this, viewModel))
+	QDialog{parent},
+	d{new SettingsDialogPrivate{this, viewModel}}
 {
 	d->ui->setupUi(this);
 	connect(d->ui->buttonBox, &QDialogButtonBox::clicked,
 			d, &SettingsDialogPrivate::buttonBoxClicked);
 	connect(d->ui->filterLineEdit, &QLineEdit::textChanged,
 			d, &SettingsDialogPrivate::filterTextChanged);
+	connect(d->viewModel, &SettingsViewModel::valueChanged,
+			d, &SettingsDialogPrivate::entryChanged,
+			Qt::QueuedConnection); // to detach updated from the bulk save operation
 
 	if(parentWidget()) {
 		setWindowModality(Qt::WindowModal);
@@ -102,6 +105,15 @@ void SettingsDialogPrivate::createUi()
 
 	resetListSize();
 	ui->categoryListWidget->setCurrentRow(0);
+}
+
+void SettingsDialogPrivate::entryChanged(const QString &key)
+{
+	auto content = keyMap.value(key);
+	if(!content)
+		return;
+	auto info = entryMap.value(content);
+	info.second.write(content, viewModel->loadValue(info.first.key, info.first.defaultValue));
 }
 
 void SettingsDialogPrivate::createCategory(const SettingsElements::Category &category)
@@ -195,6 +207,7 @@ void SettingsDialogPrivate::createEntry(const SettingsElements::Entry &entry, QW
 				changedEntries.insert(content);
 
 			entryMap.insert(content, {entry, property});
+			keyMap.insert(entry.key, content);
 		} catch (PresenterException &e) {
 			logWarning() << "Failed to create settings widget for key"
 						 << entry.key

@@ -480,6 +480,10 @@ Module {
             Parameter { name: "settingsSetupLoader"; type: "QtMvvm::ISettingsSetupLoader"; isPointer: true }
         }
         Signal { name: "beginLoadSetup" }
+        Signal {
+            name: "valueChanged"
+            Parameter { name: "key"; type: "string" }
+        }
         Method {
             name: "callAction"
             Parameter { name: "key"; type: "string" }

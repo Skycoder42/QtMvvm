@@ -67,11 +67,13 @@ QVariant SettingsViewModel::loadValue(const QString &key, const QVariant &defaul
 void SettingsViewModel::saveValue(const QString &key, const QVariant &value)
 {
 	d->settings->setValue(key, value);
+	emit valueChanged(key);
 }
 
 void SettingsViewModel::resetValue(const QString &key)
 {
 	d->settings->remove(key);
+	emit valueChanged(key);
 }
 
 void SettingsViewModel::callAction(const QString &key, const QVariantMap &parameters)
