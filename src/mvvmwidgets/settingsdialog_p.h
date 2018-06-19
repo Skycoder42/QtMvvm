@@ -54,6 +54,8 @@ public:
 	CategoryItemDelegate *delegate = nullptr;
 	int maxWidthBase = 0;
 
+	SettingsElements::Setup setup;
+
 	using EntryInfo = QPair<SettingsElements::Entry, QMetaProperty>;
 	QHash<QWidget*, EntryInfo> entryMap;
 	QHash<QString, QWidget*> keyMap;

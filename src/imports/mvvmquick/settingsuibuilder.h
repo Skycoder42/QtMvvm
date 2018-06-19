@@ -19,7 +19,7 @@ class SettingsUiBuilder : public QObject
 	Q_OBJECT
 
 	Q_PROPERTY(QQuickItem* buildView MEMBER _buildView NOTIFY buildViewChanged)
-	Q_PROPERTY(SettingsViewModel* viewModel MEMBER _viewModel NOTIFY viewModelChanged)
+	Q_PROPERTY(SettingsViewModel* viewModel MEMBER _viewModel WRITE setViewModel NOTIFY viewModelChanged)
 	Q_PROPERTY(QString filterText READ filterText WRITE setFilterText NOTIFY filterTextChanged)
 	Q_PROPERTY(bool allowSearch MEMBER _allowSearch  NOTIFY allowSearchChanged)
 	Q_PROPERTY(bool allowRestore MEMBER _allowRestore  NOTIFY allowRestoreChanged)
@@ -49,6 +49,8 @@ Q_SIGNALS:
 
 private Q_SLOTS:
 	void startBuildUi();
+
+	void setViewModel(SettingsViewModel *viewModel);
 
 private:
 	QQuickItem* _buildView = nullptr;

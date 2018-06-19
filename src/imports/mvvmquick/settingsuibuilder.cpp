@@ -64,21 +64,7 @@ void SettingsUiBuilder::restoreDefaults()
 {
 	if(!_viewModel->canRestoreDefaults())
 		return;
-
-	auto result = CoreApp::showDialog(_viewModel->restoreConfig());
-	connect(result, &MessageResult::dialogDone, this, [this](MessageConfig::StandardButton btn) {
-		if(btn != MessageConfig::Yes)
-			return;
-		for(const auto &category : qAsConst(_currentSetup.categories)) {
-			for(const auto &section : category.sections) {
-				for(const auto &group : section.groups) {
-					for(const auto &entry : group.entries)
-						_viewModel->resetValue(entry.key);
-				}
-			}
-		}
-		emit closeSettings();
-	}, Qt::QueuedConnection);
+	_viewModel->resetAll(_currentSetup);
 }
 
 void SettingsUiBuilder::setFilterText(QString filterText)
@@ -117,4 +103,17 @@ void SettingsUiBuilder::startBuildUi()
 		_sectionModel->setup(_currentSetup);
 		emit presentOverview(_sectionFilterModel, _sectionModel->hasSections());
 	}
+}
+
+void SettingsUiBuilder::setViewModel(SettingsViewModel *viewModel)
+{
+	if(_viewModel == viewModel)
+		return;
+
+	disconnect(_viewModel, &SettingsViewModel::resetAccepted,
+			   this, &SettingsUiBuilder::closeSettings);
+	_viewModel = viewModel;
+	connect(_viewModel, &SettingsViewModel::resetAccepted,
+			this, &SettingsUiBuilder::closeSettings);
+	emit viewModelChanged(_viewModel);
 }

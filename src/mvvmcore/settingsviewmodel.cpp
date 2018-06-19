@@ -76,6 +76,28 @@ void SettingsViewModel::resetValue(const QString &key)
 	emit valueChanged(key);
 }
 
+void SettingsViewModel::resetAll(const SettingsElements::Setup &setup)
+{
+	if(!canRestoreDefaults())
+		return;
+
+	auto result = CoreApp::showDialog(restoreConfig());
+	connect(result, &MessageResult::dialogDone, this, [this, setup](MessageConfig::StandardButton btn) {
+		if(btn != MessageConfig::Yes)
+			return;
+		for(const auto &category : setup.categories) {
+			for(const auto &section : category.sections) {
+				for(const auto &group : section.groups) {
+					for(const auto &entry : group.entries) {
+						resetValue(entry.key);
+					}
+				}
+			}
+		}
+		emit resetAccepted({});
+	}, Qt::QueuedConnection);
+}
+
 void SettingsViewModel::callAction(const QString &key, const QVariantMap &parameters)
 {
 	Q_UNUSED(parameters)

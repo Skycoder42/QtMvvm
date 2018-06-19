@@ -485,6 +485,7 @@ Module {
             revision: 1
             Parameter { name: "key"; type: "string" }
         }
+        Signal { name: "resetAccepted"; revision: 1 }
         Method {
             name: "callAction"
             Parameter { name: "key"; type: "string" }
@@ -513,6 +514,11 @@ Module {
         Method {
             name: "resetValue"
             Parameter { name: "key"; type: "string" }
+        }
+        Method {
+            name: "resetAll"
+            revision: 1
+            Parameter { name: "setup"; type: "SettingsElements::Setup" }
         }
     }
     Component {

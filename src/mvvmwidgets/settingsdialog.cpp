@@ -27,6 +27,8 @@ SettingsDialog::SettingsDialog(ViewModel *viewModel, QWidget *parent) :
 	connect(d->viewModel, &SettingsViewModel::valueChanged,
 			d, &SettingsDialogPrivate::entryChanged,
 			Qt::QueuedConnection); // to detach updated from the bulk save operation
+	connect(d->viewModel, &SettingsViewModel::resetAccepted,
+			this, &SettingsDialog::accept);
 
 	if(parentWidget()) {
 		setWindowModality(Qt::WindowModal);
@@ -95,7 +97,7 @@ void SettingsDialogPrivate::createUi()
 	auto icoUrl = q->iconOverwrite();
 	if(icoUrl.isValid())
 		viewModel->settingsSetupLoader()->changeDefaultIcon(icoUrl);
-	auto setup = viewModel->loadSetup(QStringLiteral("widgets"));
+	setup = viewModel->loadSetup(QStringLiteral("widgets"));
 
 	ui->filterLineEdit->setVisible(setup.allowSearch);
 	ui->buttonBox->button(QDialogButtonBox::RestoreDefaults)->setVisible(setup.allowRestore && viewModel->canRestoreDefaults());
@@ -246,8 +248,9 @@ void SettingsDialogPrivate::saveValues()
 
 void SettingsDialogPrivate::restoreValues()
 {
-	for(const auto &info : qAsConst(entryMap))
-		viewModel->resetValue(info.first.key);
+	if(!viewModel->canRestoreDefaults())
+		return;
+	viewModel->resetAll(setup);
 }
 
 int SettingsDialogPrivate::calcSpacing(Qt::Orientation orientation)
@@ -434,15 +437,7 @@ void SettingsDialogPrivate::buttonBoxClicked(QAbstractButton *button)
 		saveValues();
 		break;
 	case QDialogButtonBox::RestoreDefaults:
-		if(viewModel->canRestoreDefaults()) {
-			auto result = CoreApp::showDialog(viewModel->restoreConfig());
-			connect(result, &MessageResult::dialogDone, this, [this](MessageConfig::StandardButton btnResult) {
-				if(btnResult == MessageConfig::Yes) {
-					restoreValues();
-					q->accept();
-				}
-			});
-		}
+		restoreValues();
 		break;
 	default:
 		Q_UNREACHABLE();

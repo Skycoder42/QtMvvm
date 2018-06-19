@@ -2,6 +2,7 @@
 #include "coreapp_p.h"
 #include "qtmvvm_logging_p.h"
 #include "serviceregistry_p.h"
+#include "settingssetup.h"
 
 #include <QtCore/QCommandLineParser>
 #include <QtCore/QRegularExpression>
@@ -32,6 +33,13 @@ void CoreApp::registerApp()
 	//register metatypes
 	qRegisterMetaType<const QMetaObject*>("const QMetaObject*");
 	qRegisterMetaType<MessageConfig::StandardButton>();
+
+	qRegisterMetaType<QtMvvm::SettingsElements::Entry>();
+	qRegisterMetaType<QtMvvm::SettingsElements::Group>();
+	qRegisterMetaType<QtMvvm::SettingsElements::Section>();
+	qRegisterMetaType<QtMvvm::SettingsElements::Category>();
+	qRegisterMetaType<QtMvvm::SettingsElements::Setup>();
+
 	registerInterfaceConverter<IPresenter>();
 
 	//setup
