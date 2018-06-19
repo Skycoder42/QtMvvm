@@ -132,7 +132,8 @@ The `<Entry>` element is mapped to the QtMvvm::SettingsElements::Entry.
  type			| @ref settings_xml_types_type			| `"QString"`		| no			| @copybrief QtMvvm::SettingsElements::Entry::type
  title			| string								| <i>Empty</i>		| yes			| @copybrief QtMvvm::SettingsElements::Entry::title
  tooltip		| string								| <i>Empty</i>		| yes			| @copybrief QtMvvm::SettingsElements::Entry::tooltip
- defaultValue	| variant								| <i>Invalid</i>	| yes			| @copybrief QtMvvm::SettingsElements::Entry::defaultValue
+ default		| variant								| <i>Invalid</i>	| `trdefault`	| @copybrief QtMvvm::SettingsElements::Entry::defaultValue
+ trdefault		| bool									| `false`			| no			| If set to true, `default` will be translated. If not set or set to false, it will not be
  frontends		| @ref settings_xml_types_descriptor	| <i>Empty</i>		| no			| @copybrief QtMvvm::SettingsElements::Entry::frontends
  selectors		| @ref settings_xml_types_descriptor	| <i>Empty</i>		| no			| @copybrief QtMvvm::SettingsElements::Entry::selectors
 
@@ -160,7 +161,7 @@ long as for the last two their type is `object`
 --------|-------------------------------|-------------------|---------------|-------------
  key	| string						| <i>Required</i>	| no			| The key of the property
  type	| @ref settings_xml_types_type	| <i>Required</i>	| no			| The type of the properties value
- ts		| bool							| `false`			| no			| Specify whether the properties value (content) should be translated. Does not apply to `list` or `object` types
+ tr		| bool							| `false`			| no			| Specify whether the properties value (content) should be translated. Does not apply to `list` or `object` types
 
 
 @subsubsection settings_xml_elements_property_elements Content
@@ -183,7 +184,7 @@ same.
  Name	| Type							| Default			| Translated	| Description
 --------|-------------------------------|-------------------|---------------|-------------
  type	| @ref settings_xml_types_type	| <i>Required</i>	| no			| The type of the list element
- ts		| bool							| `false`			| no			| Specify whether the element value (content) should be translated. Does not apply to `list` or `object` types
+ tr		| bool							| `false`			| no			| Specify whether the element value (content) should be translated. Does not apply to `list` or `object` types
 
 @subsubsection settings_xml_elements_element_elements Content
 The content depend on the `type` attribute. The following tables shows which type leads
@@ -231,7 +232,7 @@ The following table lists all basic types that don't need much explanation:
 
 @subsection settings_xml_types_type type
 The `type` type must be a simple string that corresponds to a C++ type name (or special ui
-type, for entry elements). It defines the actual type of for example the defaultValue of the
+type, for entry elements). It defines the actual type of for example the default of the
 `<Entry>` element or the contents of a `<Property>` element. Typical values would be:
 
 - QString or string
