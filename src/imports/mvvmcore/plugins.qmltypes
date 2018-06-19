@@ -482,6 +482,7 @@ Module {
         Signal { name: "beginLoadSetup" }
         Signal {
             name: "valueChanged"
+            revision: 1
             Parameter { name: "key"; type: "string" }
         }
         Method {

@@ -74,7 +74,7 @@ Q_SIGNALS:
 	//! Is emitted when the initialization has been completed and the viewmodel is ready for loading settings
 	void beginLoadSetup();
 
-	void valueChanged(const QString &key); //TODO add to save/reset doc
+	Q_REVISION(1) void valueChanged(const QString &key); //TODO add to save/reset doc
 
 protected:
 	void onInit(const QVariantHash &params) override;
