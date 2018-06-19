@@ -34,14 +34,14 @@ public:
 
 	class FnServiceInfo : public ServiceInfo {
 	public:
-		FnServiceInfo(std::function<QObject*(QObjectList)> creator, QByteArrayList injectables, bool weak, ServiceRegistry::DestructionScope scope);
+		FnServiceInfo(std::function<QObject*(QObjectList)> &&creator, QByteArrayList &&injectables, bool weak, ServiceRegistry::DestructionScope scope);
 
 	protected:
 		QObject *construct(ServiceRegistryPrivate *d) const final;
 
 	private:
-		std::function<QObject*(QObjectList)> creator;
-		QByteArrayList injectables;
+		std::function<QObject*(QObjectList)> _creator;
+		QByteArrayList _injectables;
 	};
 
 	class MetaServiceInfo : public ServiceInfo {
@@ -52,7 +52,26 @@ public:
 		QObject *construct(ServiceRegistryPrivate *d) const final;
 
 	private:
-		const QMetaObject *metaObject;
+		const QMetaObject *_metaObject;
+	};
+
+	class PluginServiceInfo : public ServiceInfo {
+	public:
+		PluginServiceInfo(QString &&key,
+						  QString &&type,
+						  QByteArray &&iid,
+						  bool weak,
+						  ServiceRegistry::DestructionScope scope);
+
+		const QByteArray &iid() const;
+
+	protected:
+		QObject *construct(ServiceRegistryPrivate *d) const final;
+
+	private:
+		QString _key;
+		QString _type;
+		QByteArray _iid;
 	};
 
 	QMutex serviceMutex{QMutex::Recursive};

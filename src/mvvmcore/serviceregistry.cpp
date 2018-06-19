@@ -8,6 +8,8 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QThread>
 
+#include <qpluginfactory.h>
+
 using namespace QtMvvm;
 
 Q_GLOBAL_STATIC_WITH_ARGS(ServiceRegistry, _instance,
@@ -64,6 +66,19 @@ void ServiceRegistry::registerService(const QByteArray &iid, const std::function
 void ServiceRegistry::registerService(const QByteArray &iid, const std::function<QObject*(const QObjectList &)> &fn, QByteArrayList injectables, bool weak)
 {
 	registerService(iid, fn, std::move(injectables), DestroyOnAppDestroy, weak);
+}
+
+void ServiceRegistry::registerService(QByteArray iid, QString pluginKey, QString pluginType, ServiceRegistry::DestructionScope scope, bool weak)
+{
+	QMutexLocker _(&d->serviceMutex);
+	if(d->serviceBlocked(iid))
+		throw ServiceExistsException(iid);
+	auto info = QSharedPointer<ServiceRegistryPrivate::PluginServiceInfo>::create(std::move(pluginKey),
+																				  std::move(pluginType),
+																				  std::move(iid),
+																				  weak,
+																				  scope);
+	d->services.insert(info->iid(), info);
 }
 
 QObject *ServiceRegistry::serviceObj(const QByteArray &iid)
@@ -228,35 +243,71 @@ QObject *ServiceRegistryPrivate::ServiceInfo::instance(ServiceRegistryPrivate *d
 
 
 
-ServiceRegistryPrivate::FnServiceInfo::FnServiceInfo(std::function<QObject*(QObjectList)> creator, QByteArrayList injectables, bool weak, ServiceRegistry::DestructionScope scope) :
+ServiceRegistryPrivate::FnServiceInfo::FnServiceInfo(std::function<QObject*(QObjectList)> &&creator, QByteArrayList &&injectables, bool weak, ServiceRegistry::DestructionScope scope) :
 	ServiceInfo{weak, scope},
-	creator{std::move(creator)},
-	injectables{std::move(injectables)}
+	_creator{std::move(creator)},
+	_injectables{std::move(injectables)}
 {}
 
 QObject *ServiceRegistryPrivate::FnServiceInfo::construct(ServiceRegistryPrivate *d) const
 {
 	QObjectList params;
-	params.reserve(injectables.size());
-	for(const auto &iid : injectables) {
+	params.reserve(_injectables.size());
+	for(const auto &iid : _injectables) {
 		auto ref = d->services.value(iid);
 		if(!ref)
 			throw ServiceDependencyException(iid);
 		params.append(ref->instance(d, iid));
 	}
-	return creator(params);
+	return _creator(params);
 }
 
 
 
 ServiceRegistryPrivate::MetaServiceInfo::MetaServiceInfo(const QMetaObject *metaObject, bool weak, ServiceRegistry::DestructionScope scope) :
 	ServiceInfo{weak, scope},
-	metaObject{metaObject}
+	_metaObject{metaObject}
 {}
 
 QObject *ServiceRegistryPrivate::MetaServiceInfo::construct(ServiceRegistryPrivate *d) const
 {
-	return d->constructInjectedLocked(metaObject, nullptr); //services are created without a parent
+	return d->constructInjectedLocked(_metaObject, nullptr); //services are created without a parent
+}
+
+
+
+ServiceRegistryPrivate::PluginServiceInfo::PluginServiceInfo(QString &&key, QString &&type, QByteArray &&iid, bool weak, ServiceRegistry::DestructionScope scope) :
+	ServiceInfo{weak, scope},
+	_key{std::move(key)},
+	_type{std::move(type)},
+	_iid{std::move(iid)}
+{}
+
+const QByteArray &ServiceRegistryPrivate::PluginServiceInfo::iid() const
+{
+	return _iid;
+}
+
+QObject *ServiceRegistryPrivate::PluginServiceInfo::construct(ServiceRegistryPrivate *d) const
+{
+	try {
+		QPluginFactoryBase factory{_type, _iid};
+		QObject *obj = nullptr;
+		if(_key.isEmpty()){
+			if(!factory.allKeys().isEmpty())
+				obj = factory.plugin(factory.allKeys().value(0));
+		} else
+			obj = factory.plugin(_key);
+		if(!obj) {
+			throw ServiceConstructionException{"No plugin of type \"" + _type.toUtf8() +
+											   "\" found that can provide the interface \"" + _iid +
+											   (_key.isEmpty() ? QByteArray{"\""} : QByteArray{"\" for the key: " + _key.toUtf8()})};
+		}
+		d->injectLocked(obj);
+		return obj;
+	} catch(QPluginLoadException &e) { //convert exception...
+		throw ServiceConstructionException{e.what()};
+	}
 }
 
 // ------------- Exceptions Implementation -------------

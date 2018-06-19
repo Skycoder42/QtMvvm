@@ -57,6 +57,9 @@ public:
 	template <typename TService>
 	void registerObject(TService *service, DestructionScope scope = DestroyOnAppDestroy, bool weak = false);
 
+	template <typename TInterface>
+	void registerPlugin(QString pluginKey, QString pluginType, DestructionScope scope = DestroyOnAppDestroy, bool weak = false);
+
 	//! Register a service by an iid via their metadata
 	void registerService(const QByteArray &iid,
 						 const QMetaObject *metaObject,
@@ -75,6 +78,11 @@ public:
 										   const std::function<QObject*(const QObjectList &)> &fn,
 										   QByteArrayList injectables,
 										   bool weak);
+	void registerService(QByteArray iid,
+						 QString pluginKey,
+						 QString pluginType,
+						 DestructionScope scope = DestroyOnAppDestroy,
+						 bool weak = false);
 
 	//! Returns the service for the given interface
 	template <typename TInterface>
@@ -225,6 +233,12 @@ void ServiceRegistry::registerObject(TService *service, DestructionScope scope, 
 }
 
 #undef QTMVVM_SERVICE_ASSERT
+
+template<typename TInterface>
+void ServiceRegistry::registerPlugin(QString pluginKey, QString pluginType, DestructionScope scope, bool weak)
+{
+	registerService(qobject_interface_iid<TInterface*>(), std::move(pluginKey), std::move(pluginType), scope, weak);
+}
 
 template<typename TInterface>
 TInterface *ServiceRegistry::service()

@@ -1,5 +1,11 @@
 {
-    "dependencies": [],
+    "dependencies": [
+        {
+            "package": "de.skycoder42.qpluginfactory",
+            "provider": "qpm",
+            "version": "1.3.0"
+        }
+    ],
     "license": {
         "file": "",
         "name": ""
@@ -10,5 +16,6 @@
     ],
     "publishers": {
     },
+    "qbsFile": "",
     "source": false
 }
