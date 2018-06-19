@@ -26,7 +26,7 @@ class Q_MVVMDATASYNCCORE_EXPORT NetworkExchangeViewModel : public ViewModel
 	//! The name of your current device
 	Q_PROPERTY(QString deviceName READ deviceName WRITE setDeviceName NOTIFY deviceNameChanged)
 	//! Start or stop the network exchange
-	Q_PROPERTY(bool active READ active WRITE setActive NOTIFY activeChanged)
+	Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged)
 
 	//! The devices model to be used to display found exchange devices
 	Q_PROPERTY(ExchangeDevicesModel* deviceModel READ deviceModel CONSTANT)
@@ -55,7 +55,8 @@ public:
 	//! @readAcFn{NetworkExchangeViewModel::deviceName}
 	QString deviceName() const;
 	//! @readAcFn{NetworkExchangeViewModel::active}
-	bool active() const;
+	bool isActive() const;
+	Q_DECL_DEPRECATED bool active() const;
 	//! @readAcFn{NetworkExchangeViewModel::deviceModel}
 	ExchangeDevicesModel* deviceModel() const;
 	//! @readAcFn{NetworkExchangeViewModel::sortedModel}

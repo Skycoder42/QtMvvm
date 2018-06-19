@@ -20,6 +20,8 @@ public:
 	QSortFilterProxyModel *sortedModel;
 	quint16 port = QtDataSync::UserExchangeManager::DataExchangePort;
 	QHash<quint32, QtDataSync::UserInfo> activeExports;
+
+	bool active = false; //TODO remove once fixed in datasync
 };
 
 }

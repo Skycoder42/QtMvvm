@@ -20,8 +20,7 @@ NetworkExchangeWindow::NetworkExchangeWindow(ViewModel *viewModel, QWidget *pare
 		 Binding::TwoWay,
 		 nullptr, "editingFinished()");
 	bind(d->viewModel, "active",
-		 d->ui->exchangeCheckBox, "checked",
-		 Binding::OneWayToViewModel);
+		 d->ui->exchangeCheckBox, "checked");
 
 	d->ui->treeView->setModel(d->viewModel->sortedModel());
 }

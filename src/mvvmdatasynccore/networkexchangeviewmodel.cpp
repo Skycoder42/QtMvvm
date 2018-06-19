@@ -64,9 +64,14 @@ QString NetworkExchangeViewModel::deviceName() const
 				QString();
 }
 
+bool NetworkExchangeViewModel::isActive() const
+{
+	return d->exchangeManager && d->active; //... d->exchangeManager->isActive();
+}
+
 bool NetworkExchangeViewModel::active() const
 {
-	return d->exchangeManager && d->exchangeManager->isActive();
+	return isActive();
 }
 
 ExchangeDevicesModel *NetworkExchangeViewModel::deviceModel() const
@@ -115,11 +120,14 @@ void NetworkExchangeViewModel::setDeviceName(QString deviceName)
 
 void NetworkExchangeViewModel::setActive(bool active)
 {
-	if(active != this->active()) {
+	if(active != isActive()) {
 		if(active)
-			d->exchangeManager->startExchange(d->port);
-		else
+			d->active = d->exchangeManager->startExchange(d->port);
+		else {
 			d->exchangeManager->stopExchange();
+			d->active = false;
+		}
+		emit activeChanged(d->active, {});
 	}
 }
 
@@ -140,8 +148,8 @@ void NetworkExchangeViewModel::onInit(const QVariantHash &params)
 				this, &NetworkExchangeViewModel::newUserData);
 		connect(d->exchangeManager, &UserExchangeManager::exchangeError,
 				this, &NetworkExchangeViewModel::exchangeError);
-		connect(d->exchangeManager, &UserExchangeManager::activeChanged,
-				this, PSIGARG(&NetworkExchangeViewModel::activeChanged, bool));
+//		connect(d->exchangeManager, &UserExchangeManager::activeChanged,
+//				this, PSIGARG(&NetworkExchangeViewModel::activeChanged, bool));
 
 		emit userExchangeManagerChanged(d->exchangeManager, {});
 		emit deviceNameChanged(deviceName(), {});
