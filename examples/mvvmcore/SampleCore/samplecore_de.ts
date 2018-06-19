@@ -81,77 +81,81 @@
 <context>
     <name>qtmvvm_settings_xml</name>
     <message>
-        <location filename=".ts-dummy/settings.tsdummy.cpp" line="+6"/>
+        <location filename=".ts-dummy/settings.tsdummy.cpp" line="+15"/>
+        <location line="+9"/>
+        <location line="+10"/>
         <source>Select a &amp;mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="-18"/>
+        <location line="+2"/>
         <source>Variant B</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-7"/>
+        <location line="+3"/>
         <source>This is another section</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="-2"/>
         <source>Variant C</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="+20"/>
         <source>https://example.org/test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-12"/>
         <source>Value C</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-17"/>
         <source>Enter a nice name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-16"/>
+        <location line="+18"/>
         <source>Value A+B</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+3"/>
         <source>Value A+B+C</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="-24"/>
         <source>bool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-8"/>
+        <location line="+6"/>
         <source>Open &amp;system settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="+16"/>
         <source>Value A+C</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-25"/>
         <source>&amp;Check me</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+2"/>
+        <location line="+3"/>
         <source>property</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-20"/>
+        <location line="+11"/>
         <source>Another Section</source>
         <translation type="unfinished"></translation>
     </message>
@@ -161,87 +165,88 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-9"/>
+        <location line="-6"/>
         <source>Another main category</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+3"/>
+        <location line="+2"/>
         <source>Text 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-4"/>
+        <location line="-25"/>
         <source>This is a tooltip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="+10"/>
         <source>Enter a &amp;value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+18"/>
         <source>Choose a &amp;font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-20"/>
+        <location line="-23"/>
         <source>Variant A</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+8"/>
         <source>Value A</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-17"/>
         <source>Enter a &amp;name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-2"/>
+        <location line="-3"/>
         <source>I am a checkbox!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-4"/>
+        <location line="+28"/>
         <source>Enter a &amp;number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="-19"/>
         <source>You can use this to trigger whatever kind of action you need</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-23"/>
+        <location line="+12"/>
         <source>Value B</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-3"/>
         <source>The value must be between 0 and 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+18"/>
         <source>Non existing type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-5"/>
         <source>Text 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-25"/>
         <source>Sub-Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-8"/>
+        <location line="+19"/>
         <source>Value B+C</source>
         <translation type="unfinished"></translation>
     </message>

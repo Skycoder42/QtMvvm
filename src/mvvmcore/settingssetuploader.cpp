@@ -249,7 +249,10 @@ Entry SettingsSetupLoader::readEntry(QXmlStreamReader &reader) const
 		throwAttrib(reader, "title");
 	entry.title = trctx(reader.stringValue("title"));
 	entry.tooltip = trctx(reader.stringValue("tooltip"));
-	entry.defaultValue = trctx(reader.stringValue("default"));
+	if(reader.boolValue("trdefault") || reader.boolValue("tsdefault")) //MAJOR remove ts variant
+		entry.defaultValue = trctx(reader.stringValue("default"));
+	else
+		entry.defaultValue = reader.stringValue("default");
 	entry.frontends = reader.stringValue("frontends");
 	entry.selectors = reader.stringValue("selectors");
 
@@ -329,7 +332,7 @@ QVariant SettingsSetupLoader::readElement(QXmlStreamReader &reader) const
 	if(typeId == QMetaType::UnknownType)
 		throwXmlError(reader, "Unknown type: " + type.toUtf8());
 	QVariant mVariant;
-	if(reader.boolValue("tr"))
+	if(reader.boolValue("tr") || reader.boolValue("ts")) //MAJOR remove ts variant
 		mVariant = trctx(reader.readElementText());
 	else
 		mVariant = reader.readElementText();
