@@ -12,6 +12,26 @@ bool QQmlServiceRegistry::isRegistered(const QString &iid) const
 	return ServiceRegistry::instance()->isRegistered(iid.toUtf8());
 }
 
+void QQmlServiceRegistry::registerObject(QObject *object, DestructionScope scope, bool weak)
+{
+	ServiceRegistry::instance()->registerService(__helpertypes::InjectablePrefix + object->metaObject()->className(),
+												 [object](const QObjectList &) {
+		return object;
+	}, {}, static_cast<ServiceRegistry::DestructionScope>(scope), weak);
+}
+
+void QQmlServiceRegistry::registerObject(const QString &iid, const QJSValue &function, bool weak)
+{
+	if(!function.isCallable()) {
+		qmlWarning(this) << "function must be callable";
+		return;
+	}
+	ServiceRegistry::instance()->registerService(iid.toUtf8(), [function](const QObjectList &) {
+		auto fn = function;
+		return fn.call().toQObject();
+	}, {}, ServiceRegistry::DestroyOnAppQuit, weak);
+}
+
 void QQmlServiceRegistry::registerObject(const QUrl &componentUrl, bool weak)
 {
 	ServiceRegistry::instance()->registerService(componentUrl.toString().toUtf8(), [this, componentUrl](const QObjectList &) -> QObject* {

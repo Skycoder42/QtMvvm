@@ -452,6 +452,32 @@ Module {
         }
         Method {
             name: "registerObject"
+            Parameter { name: "object"; type: "QObject"; isPointer: true }
+            Parameter { name: "scope"; type: "QtMvvm::QQmlServiceRegistry::DestructionScope" }
+            Parameter { name: "weak"; type: "bool" }
+        }
+        Method {
+            name: "registerObject"
+            Parameter { name: "object"; type: "QObject"; isPointer: true }
+            Parameter { name: "scope"; type: "QtMvvm::QQmlServiceRegistry::DestructionScope" }
+        }
+        Method {
+            name: "registerObject"
+            Parameter { name: "object"; type: "QObject"; isPointer: true }
+        }
+        Method {
+            name: "registerObject"
+            Parameter { name: "iid"; type: "string" }
+            Parameter { name: "function"; type: "QJSValue" }
+            Parameter { name: "weak"; type: "bool" }
+        }
+        Method {
+            name: "registerObject"
+            Parameter { name: "iid"; type: "string" }
+            Parameter { name: "function"; type: "QJSValue" }
+        }
+        Method {
+            name: "registerObject"
             Parameter { name: "componentUrl"; type: "QUrl" }
             Parameter { name: "weak"; type: "bool" }
         }
