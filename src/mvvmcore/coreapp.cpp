@@ -41,11 +41,14 @@ void CoreApp::registerApp()
 	qRegisterMetaType<QtMvvm::SettingsElements::Setup>();
 
 	registerInterfaceConverter<IPresenter>();
-
 	//setup
 	setParent(qApp);
 	CoreAppPrivate::instance = this;
 	performRegistrations();
+
+	//self-inject properties (after performRegistrations, as they might register an interface converter)
+	ServiceRegistry::instance()->injectServices(this);
+
 	if(CoreAppPrivate::bootEnabled)
 		QMetaObject::invokeMethod(this, "bootApp", Qt::QueuedConnection);
 }
