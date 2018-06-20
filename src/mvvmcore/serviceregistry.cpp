@@ -68,13 +68,13 @@ void ServiceRegistry::registerService(const QByteArray &iid, const std::function
 	registerService(iid, fn, std::move(injectables), DestroyOnAppDestroy, weak);
 }
 
-void ServiceRegistry::registerService(QByteArray iid, QString pluginKey, QString pluginType, ServiceRegistry::DestructionScope scope, bool weak)
+void ServiceRegistry::registerPlugin(QByteArray iid, QString pluginType, QString pluginKey, ServiceRegistry::DestructionScope scope, bool weak)
 {
 	QMutexLocker _(&d->serviceMutex);
 	if(d->serviceBlocked(iid))
 		throw ServiceExistsException(iid);
-	auto info = QSharedPointer<ServiceRegistryPrivate::PluginServiceInfo>::create(std::move(pluginKey),
-																				  std::move(pluginType),
+	auto info = QSharedPointer<ServiceRegistryPrivate::PluginServiceInfo>::create(std::move(pluginType),
+																				  std::move(pluginKey),
 																				  std::move(iid),
 																				  weak,
 																				  scope);
@@ -276,10 +276,10 @@ QObject *ServiceRegistryPrivate::MetaServiceInfo::construct(ServiceRegistryPriva
 
 
 
-ServiceRegistryPrivate::PluginServiceInfo::PluginServiceInfo(QString &&key, QString &&type, QByteArray &&iid, bool weak, ServiceRegistry::DestructionScope scope) :
+ServiceRegistryPrivate::PluginServiceInfo::PluginServiceInfo(QString &&type, QString &&key, QByteArray &&iid, bool weak, ServiceRegistry::DestructionScope scope) :
 	ServiceInfo{weak, scope},
-	_key{std::move(key)},
 	_type{std::move(type)},
+	_key{std::move(key)},
 	_iid{std::move(iid)}
 {}
 
@@ -291,7 +291,13 @@ const QByteArray &ServiceRegistryPrivate::PluginServiceInfo::iid() const
 QObject *ServiceRegistryPrivate::PluginServiceInfo::construct(ServiceRegistryPrivate *d) const
 {
 	try {
-		QPluginFactoryBase factory{_type, _iid};
+		QFileInfo typeInfo{_type};
+		QPluginFactoryBase factory{typeInfo.isAbsolute() ? QString{} : _type, _iid};
+		if(typeInfo.isAbsolute()) {
+			factory.addSearchDir(typeInfo.absolutePath(), false);
+			factory.reloadPlugins();
+		}
+
 		QObject *obj = nullptr;
 		if(_key.isEmpty()){
 			if(!factory.allKeys().isEmpty())

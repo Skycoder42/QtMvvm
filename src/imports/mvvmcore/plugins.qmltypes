@@ -486,6 +486,36 @@ Module {
             Parameter { name: "componentUrl"; type: "QUrl" }
         }
         Method {
+            name: "registerPlugin"
+            Parameter { name: "iid"; type: "string" }
+            Parameter { name: "pluginType"; type: "string" }
+            Parameter { name: "pluginKey"; type: "string" }
+            Parameter { name: "scope"; type: "DestructionScope" }
+            Parameter { name: "weak"; type: "bool" }
+        }
+        Method {
+            name: "registerPlugin"
+            Parameter { name: "iid"; type: "string" }
+            Parameter { name: "pluginType"; type: "string" }
+            Parameter { name: "pluginKey"; type: "string" }
+            Parameter { name: "scope"; type: "DestructionScope" }
+        }
+        Method {
+            name: "registerPlugin"
+            Parameter { name: "iid"; type: "string" }
+            Parameter { name: "pluginType"; type: "string" }
+            Parameter { name: "pluginKey"; type: "string" }
+        }
+        Method {
+            name: "registerPlugin"
+            Parameter { name: "iid"; type: "string" }
+            Parameter { name: "pluginType"; type: "string" }
+        }
+        Method {
+            name: "registerPlugin"
+            Parameter { name: "iid"; type: "string" }
+        }
+        Method {
             name: "service"
             type: "QObject*"
             Parameter { name: "iid"; type: "string" }

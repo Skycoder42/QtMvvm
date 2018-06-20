@@ -58,7 +58,7 @@ public:
 	void registerObject(TService *service, DestructionScope scope = DestroyOnAppDestroy, bool weak = false);
 
 	template <typename TInterface>
-	void registerPlugin(QString pluginKey, QString pluginType, DestructionScope scope = DestroyOnAppDestroy, bool weak = false);
+	void registerPlugin(QString pluginType = {}, QString pluginKey = {}, DestructionScope scope = DestroyOnAppDestroy, bool weak = false);
 
 	//! Register a service by an iid via their metadata
 	void registerService(const QByteArray &iid,
@@ -78,11 +78,11 @@ public:
 										   const std::function<QObject*(const QObjectList &)> &fn,
 										   QByteArrayList injectables,
 										   bool weak);
-	void registerService(QByteArray iid,
-						 QString pluginKey,
-						 QString pluginType,
-						 DestructionScope scope = DestroyOnAppDestroy,
-						 bool weak = false);
+	void registerPlugin(QByteArray iid,
+						QString pluginType = {},
+						QString pluginKey = {},
+						DestructionScope scope = DestroyOnAppDestroy,
+						bool weak = false);
 
 	//! Returns the service for the given interface
 	template <typename TInterface>
@@ -235,9 +235,9 @@ void ServiceRegistry::registerObject(TService *service, DestructionScope scope, 
 #undef QTMVVM_SERVICE_ASSERT
 
 template<typename TInterface>
-void ServiceRegistry::registerPlugin(QString pluginKey, QString pluginType, DestructionScope scope, bool weak)
+void ServiceRegistry::registerPlugin(QString pluginType, QString pluginKey,  DestructionScope scope, bool weak)
 {
-	registerService(qobject_interface_iid<TInterface*>(), std::move(pluginKey), std::move(pluginType), scope, weak);
+	registerPlugin(qobject_interface_iid<TInterface*>(), std::move(pluginType), std::move(pluginKey), scope, weak);
 }
 
 template<typename TInterface>

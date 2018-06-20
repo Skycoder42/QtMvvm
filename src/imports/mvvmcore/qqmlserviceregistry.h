@@ -32,6 +32,12 @@ public:
 	Q_INVOKABLE void registerObject(const QString &iid, const QJSValue &function, bool weak = false);
 	Q_INVOKABLE void registerObject(const QUrl &componentUrl, bool weak = false);
 
+	Q_INVOKABLE void registerPlugin(const QString &iid,
+									QString pluginType = {},
+									QString pluginKey = {},
+									DestructionScope scope = DestroyOnAppDestroy,
+									bool weak = false);
+
 	Q_INVOKABLE QObject *service(const QString &iid);
 
 private:

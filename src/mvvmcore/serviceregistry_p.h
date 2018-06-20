@@ -57,8 +57,8 @@ public:
 
 	class PluginServiceInfo : public ServiceInfo {
 	public:
-		PluginServiceInfo(QString &&key,
-						  QString &&type,
+		PluginServiceInfo(QString &&type,
+						  QString &&key,
 						  QByteArray &&iid,
 						  bool weak,
 						  ServiceRegistry::DestructionScope scope);
@@ -69,8 +69,8 @@ public:
 		QObject *construct(ServiceRegistryPrivate *d) const final;
 
 	private:
-		QString _key;
 		QString _type;
+		QString _key;
 		QByteArray _iid;
 	};
 

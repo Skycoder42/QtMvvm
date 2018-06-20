@@ -76,3 +76,5 @@ never_true_for_lupdate {
 	SOURCES += $$files(../imports/mvvmcore/*.cpp) \
 		$$files(../imports/mvvmcore/*.qml)
 }
+
+mingw: LIBS_PRIVATE += -lQt5Gui -lQt5Core

@@ -60,6 +60,15 @@ void QQmlServiceRegistry::registerObject(const QUrl &componentUrl, bool weak)
 	}, {}, ServiceRegistry::DestroyOnAppQuit, weak);
 }
 
+void QQmlServiceRegistry::registerPlugin(const QString &iid, QString pluginType, QString pluginKey, QQmlServiceRegistry::DestructionScope scope, bool weak)
+{
+	ServiceRegistry::instance()->registerPlugin(iid.toUtf8(),
+												std::move(pluginType),
+												std::move(pluginKey),
+												static_cast<ServiceRegistry::DestructionScope>(scope),
+												weak);
+}
+
 QObject *QQmlServiceRegistry::service(const QString &iid)
 {
 	return ServiceRegistry::instance()->serviceObj(iid.toUtf8());
