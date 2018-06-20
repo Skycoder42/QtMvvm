@@ -54,6 +54,11 @@ void QuickPresenter::registerViewExplicitly(const QMetaObject *viewModelType, co
 	QuickPresenterPrivate::currentPresenter()->d->explicitMappings.insert(viewModelType, viewUrl);
 }
 
+InputViewFactory *QuickPresenter::getInputViewFactory()
+{
+	return QuickPresenterPrivate::currentPresenter()->inputViewFactory();
+}
+
 void QuickPresenter::present(QtMvvm::ViewModel *viewModel, const QVariantHash &params, QPointer<QtMvvm::ViewModel> parent)
 {
 	if(d->qmlPresenter) {

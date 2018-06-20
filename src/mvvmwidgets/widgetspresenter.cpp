@@ -68,6 +68,11 @@ void WidgetsPresenter::registerViewExplicitly(const QMetaObject *viewModelType, 
 	WidgetsPresenterPrivate::currentPresenter()->d->explicitMappings.insert(viewModelType, viewType);
 }
 
+InputWidgetFactory *WidgetsPresenter::getInputWidgetFactory()
+{
+	return WidgetsPresenterPrivate::currentPresenter()->inputWidgetFactory();
+}
+
 void WidgetsPresenter::present(ViewModel *viewModel, const QVariantHash &params, QPointer<ViewModel> parent)
 {
 	// find and create view

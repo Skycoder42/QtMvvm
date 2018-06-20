@@ -46,6 +46,8 @@ public:
 	//! @copybrief registerViewExplicitly()
 	static void registerViewExplicitly(const QMetaObject *viewModelType, const QMetaObject *viewType);
 
+	static InputWidgetFactory* getInputWidgetFactory();
+
 	void present(ViewModel *viewModel, const QVariantHash &params, QPointer<ViewModel> parent) override;
 	void showDialog(const MessageConfig &config, MessageResult *result) override;
 
