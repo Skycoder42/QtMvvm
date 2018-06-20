@@ -7,6 +7,8 @@ class TabViewModel : public QtMvvm::ViewModel
 {
 	Q_OBJECT
 
+	QTMVVM_SINGLETON
+
 public:
 	Q_INVOKABLE explicit TabViewModel(QObject *parent = nullptr);
 	~TabViewModel();

@@ -6,6 +6,7 @@
 
 #include <QtCore/QCommandLineParser>
 #include <QtCore/QRegularExpression>
+#include <QtCore/QMetaClassInfo>
 
 #include <QtGui/QGuiApplication>
 
@@ -41,6 +42,7 @@ void CoreApp::registerApp()
 	qRegisterMetaType<QtMvvm::SettingsElements::Setup>();
 
 	registerInterfaceConverter<IPresenter>();
+
 	//setup
 	setParent(qApp);
 	CoreAppPrivate::instance = this;
@@ -171,6 +173,24 @@ QScopedPointer<CoreAppPrivate> &CoreAppPrivate::dInstance()
 void CoreAppPrivate::showViewModel(const QMetaObject *metaObject, const QVariantHash &params, QPointer<ViewModel> parent, quint32 requestCode)
 {
 	if(presenter) {
+		//first: check for single instance
+		auto isSingleton = false;
+		auto sInfoIndex = metaObject->indexOfClassInfo("qtmvvm_singleton");
+		if(sInfoIndex != -1) {
+			auto sInfo = metaObject->classInfo(sInfoIndex);
+			Q_ASSERT(qstrcmp(sInfo.name(), "qtmvvm_singleton") == 0);
+			isSingleton = qstrcmp(sInfo.value(), "true") == 0;
+		}
+
+		// next handle the singleton
+		if(isSingleton) {
+			auto viewModel = singleInstances.value(metaObject);
+			if(viewModel) {
+				emit viewModel->instanceInvoked(ViewModel::QPrivateSignal{});
+				return;
+			}
+		}
+
 		QPointer<ViewModel> vm;
 		try {
 			auto obj = ServiceRegistry::instance()->constructInjected(metaObject);
@@ -188,6 +208,10 @@ void CoreAppPrivate::showViewModel(const QMetaObject *metaObject, const QVariant
 				});
 			}
 			logDebug() << "Successfully presented" << metaObject->className();
+
+			// if singleton -> store it
+			if(isSingleton)
+				singleInstances.insert(metaObject, vm);
 		} catch(QException &e) {
 			logCritical() << "Failed to present viewmodel of type"
 						  << metaObject->className()

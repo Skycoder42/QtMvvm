@@ -28,6 +28,7 @@ private:
 	static QPointer<CoreApp> instance;
 
 	IPresenter *presenter = nullptr;
+	QHash<const QMetaObject*, QPointer<ViewModel>> singleInstances;
 };
 
 }

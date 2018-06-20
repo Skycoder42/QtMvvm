@@ -14,6 +14,7 @@
 namespace QtMvvm {
 
 class CoreApp;
+class CoreAppPrivate;
 
 class ViewModelPrivate;
 //! The base class for all viewmodels
@@ -36,6 +37,8 @@ Q_SIGNALS:
 	//! Should be emitted when the viewmodels result is ready
 	void resultReady(const QVariant &result);
 
+	Q_REVISION(1) void instanceInvoked(QPrivateSignal);
+
 protected:
 	//! Show another viewmodel as a child of this one
 	template <typename TViewModel>
@@ -54,11 +57,15 @@ protected:
 
 private:
 	friend class QtMvvm::CoreApp;
+	friend class QtMvvm::CoreAppPrivate;
 
 	QScopedPointer<ViewModelPrivate> d;
 
 	static void showImp(const QMetaObject *metaObject, QVariantHash params, QPointer<ViewModel> parent, quint32 requestCode = 0);
 };
+
+//TODO doc
+#define QTMVVM_SINGLETON Q_CLASSINFO("qtmvvm_singleton", "true")
 
 // ------------- Generic Implementation -------------
 

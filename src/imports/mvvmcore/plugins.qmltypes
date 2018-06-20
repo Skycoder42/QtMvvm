@@ -587,6 +587,7 @@ Module {
             name: "resultReady"
             Parameter { name: "result"; type: "QVariant" }
         }
+        Signal { name: "instanceInvoked"; revision: 1 }
         Method {
             name: "onInit"
             Parameter { name: "params"; type: "QVariantHash" }
