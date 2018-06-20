@@ -106,6 +106,27 @@ Module {
         }
     }
     Component {
+        name: "QtMvvm::DataSyncSettingsEntry"
+        exports: [
+            "de.skycoder42.QtMvvm.DataSync.Core/DataSyncSettingsEntry 1.1"
+        ]
+        isCreatable: false
+        exportMetaObjectRevisions: [0]
+        Property { name: "key"; type: "string" }
+        Property { name: "dataVersion"; type: "int" }
+        Property { name: "value"; type: "QByteArray" }
+        Property { name: "varValue"; type: "QVariant" }
+    }
+    Component {
+        name: "QtMvvm::DataSyncSettingsViewModel"
+        prototype: "QtMvvm::SettingsViewModel"
+        exports: [
+            "de.skycoder42.QtMvvm.DataSync.Core/DataSyncSettingsViewModel 1.1"
+        ]
+        isCreatable: false
+        exportMetaObjectRevisions: [0]
+    }
+    Component {
         name: "QtMvvm::DataSyncViewModel"
         prototype: "QtMvvm::ViewModel"
         exports: ["de.skycoder42.QtMvvm.DataSync.Core/DataSyncViewModel 1.0"]

@@ -6,6 +6,7 @@
 #include <QtMvvmDataSyncCore/ExchangeDevicesModel>
 #include <QtMvvmDataSyncCore/DataSyncViewModel>
 #include <QtMvvmDataSyncCore/NetworkExchangeViewModel>
+#include <QtMvvmDataSyncCore/DataSyncSettingsViewModel>
 
 #include <QtMvvmDataSyncCore/private/identityeditviewmodel_p.h>
 #include <QtMvvmDataSyncCore/private/changeremoteviewmodel_p.h>
@@ -32,7 +33,8 @@ void QtMvvmDataSyncCoreDeclarativeModule::registerTypes(const char *uri)
 	qmlRegisterUncreatableType<QtMvvm::ExportSetupViewModel>(uri, 1, 0, "PExportSetupViewModel", QStringLiteral("ViewModels cannot be created from QML"));
 
 	//Version 1.1
-	qmlRegisterModule(uri, 1, 1);
+	qmlRegisterUncreatableType<QtMvvm::DataSyncSettingsEntry>(uri, 1, 1, "DataSyncSettingsEntry", QStringLiteral("Q_GADGETs cannot be created from QML"));
+	qmlRegisterUncreatableType<QtMvvm::DataSyncSettingsViewModel>(uri, 1, 1, "DataSyncSettingsViewModel", QStringLiteral("ViewModels cannot be created from QML"));
 
 	// Check to make shure no module update is forgotten
 	static_assert(VERSION_MAJOR == 1 && VERSION_MINOR == 1, "QML module version needs to be updated");

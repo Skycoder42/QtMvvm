@@ -59,7 +59,7 @@ public:
 	Q_INVOKABLE virtual void saveValue(const QString &key, const QVariant &value);
 	//! Resets the value or group identified by the key
 	Q_INVOKABLE virtual void resetValue(const QString &key);
-	Q_REVISION(1) Q_INVOKABLE virtual void resetAll(const SettingsElements::Setup &setup);
+	Q_REVISION(1) Q_INVOKABLE void resetAll(const SettingsElements::Setup &setup);
 
 public Q_SLOTS:
 	//! Is called when an action type edit is pressed

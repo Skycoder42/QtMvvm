@@ -14,7 +14,9 @@ HEADERS += \
 	networkexchangeviewmodel.h \
 	networkexchangeviewmodel_p.h \
 	exchangedevicesmodel.h \
-	exchangedevicesmodel_p.h
+	exchangedevicesmodel_p.h \
+    datasyncsettingsviewmodel.h \
+    datasyncsettingsviewmodel_p.h
 
 SOURCES += \
 	datasyncviewmodel.cpp \
@@ -23,7 +25,8 @@ SOURCES += \
 	changeremoteviewmodel.cpp \
 	identityeditviewmodel.cpp \
 	networkexchangeviewmodel.cpp \
-	exchangedevicesmodel.cpp
+	exchangedevicesmodel.cpp \
+    datasyncsettingsviewmodel.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmdatasynccore_de.ts \
