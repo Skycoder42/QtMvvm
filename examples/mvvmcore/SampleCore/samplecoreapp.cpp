@@ -1,6 +1,7 @@
 #include "samplecoreapp.h"
 #include "sampleviewmodel.h"
 #include "drawerviewmodel.h"
+#include "tabviewmodel.h"
 
 #include <QtCore/QLoggingCategory>
 #include <QtCore/QCommandLineParser>
@@ -33,6 +34,7 @@ void SampleCoreApp::performRegistrations()
 {
 	Q_INIT_RESOURCE(sample_core);
 
+	qRegisterMetaType<TabViewModel*>();
 	QtMvvm::registerInterfaceConverter<IEventService>();
 
 	QLoggingCategory::setFilterRules(QStringLiteral("qtmvvm.debug=true"));

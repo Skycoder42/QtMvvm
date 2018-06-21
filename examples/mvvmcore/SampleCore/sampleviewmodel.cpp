@@ -68,7 +68,9 @@ void SampleViewModel::setActive(bool active)
 
 void SampleViewModel::showTabs()
 {
-	show<TabViewModel>();
+	show<TabItemViewModel>({
+							   {QStringLiteral("title"), QStringLiteral("Root Tab")}
+						   });
 }
 
 void SampleViewModel::showSettings()

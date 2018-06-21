@@ -172,22 +172,106 @@ QScopedPointer<CoreAppPrivate> &CoreAppPrivate::dInstance()
 
 void CoreAppPrivate::showViewModel(const QMetaObject *metaObject, const QVariantHash &params, QPointer<ViewModel> parent, quint32 requestCode)
 {
+	showViewModelWithReturn(metaObject, params, std::move(parent), requestCode);
+}
+
+void CoreAppPrivate::showDialog(const MessageConfig &config, MessageResult *result)
+{
 	if(presenter) {
-		//first: check for single instance
-		auto isSingleton = false;
-		auto sInfoIndex = metaObject->indexOfClassInfo("qtmvvm_singleton");
-		if(sInfoIndex != -1) {
-			auto sInfo = metaObject->classInfo(sInfoIndex);
-			Q_ASSERT(qstrcmp(sInfo.name(), "qtmvvm_singleton") == 0);
-			isSingleton = qstrcmp(sInfo.value(), "true") == 0;
+		try {
+			presenter->showDialog(config, result);
+			logDebug() << "Successfully presented dialog of type" << config.type();
+		} catch(QException &e) {
+			logCritical() << "Failed to show dialog for type"
+						  << config.type() << ":" << config.subType()
+						  << "with error:"
+						  << e.what();
+			result->complete(MessageConfig::NoButton);
+		}
+	} else {
+		logCritical() << "Failed to show dialog ff type"
+					  << config.type() << ":" << config.subType()
+					  << "- no presenter was set";
+		result->complete(MessageConfig::NoButton);
+	}
+}
+
+bool CoreAppPrivate::isSingleton(const QMetaObject *metaObject) const
+{
+	auto sInfoIndex = metaObject->indexOfClassInfo("qtmvvm_singleton");
+	if(sInfoIndex != -1) {
+		auto sInfo = metaObject->classInfo(sInfoIndex);
+		Q_ASSERT(qstrcmp(sInfo.name(), "qtmvvm_singleton") == 0);
+		return qstrcmp(sInfo.value(), "true") == 0;
+	} else
+		return false;
+}
+
+const QMetaObject *CoreAppPrivate::getContainer(const QMetaObject *metaObject) const
+{
+	auto cInfoIndex = metaObject->indexOfClassInfo("qtmvvm_container_viewmodel");
+	if(cInfoIndex != -1) {
+		auto cInfo = metaObject->classInfo(cInfoIndex);
+		Q_ASSERT(qstrcmp(cInfo.name(), "qtmvvm_container_viewmodel") == 0);
+		auto typeId = QMetaType::type(QByteArray{cInfo.value() + QByteArray{"*"}}.constData());
+		if(typeId == QMetaType::UnknownType) {
+			throw PresenterException {
+				QByteArrayLiteral("Unabled to find the qtmvvm_container_viewmodel of type \"") + cInfo.value() +
+				QByteArrayLiteral("\" for viewmodel of type \"") + metaObject->className() + QByteArrayLiteral("\"")
+			};
+		}
+		auto containerMo = QMetaType::metaObjectForType(typeId);
+		if(!containerMo) {
+			throw PresenterException {
+				QByteArrayLiteral("The qtmvvm_container_viewmodel of type \"") + cInfo.value() +
+				QByteArrayLiteral("\" for viewmodel of type \"") + metaObject->className() +
+				QByteArrayLiteral("\" does exists, but does not have a QMetaObject")
+			};
+		}
+		if(!containerMo->inherits(&ViewModel::staticMetaObject)) {
+			throw PresenterException {
+				QByteArrayLiteral("The qtmvvm_container_viewmodel of type \"") + cInfo.value() +
+				QByteArrayLiteral("\" for viewmodel of type \"") + metaObject->className() +
+				QByteArrayLiteral("\" does exists, but does not extend QtMvvm::ViewModel")
+			};
+		}
+		return containerMo;
+	} else
+		return nullptr;
+}
+
+QPointer<ViewModel> CoreAppPrivate::showViewModelWithReturn(const QMetaObject *metaObject, const QVariantHash &params, QPointer<ViewModel> parent, quint32 requestCode)
+{
+	if(presenter) {
+		// first: check if it has a container, and if yes: show the container
+		try {
+			auto container = getContainer(metaObject);
+			if(container) {
+				logDebug() << "Found container type for" << metaObject->className()
+						   << "as" << container->className();
+				parent = showViewModelWithReturn(container, { //TODO document special parameters
+													 {QStringLiteral("qtmvvm_container_for"), QByteArray{metaObject->className()}},
+													 {QStringLiteral("qtmvvm_child_params"), params}
+												 }, std::move(parent), 0);
+				if(!parent)
+					throw PresenterException{"Failed to present parent container"};
+			}
+		} catch(PresenterException &e) {
+			logCritical() << "Failed to present viewmodel of type"
+						  << metaObject->className()
+						  << "with error:"
+						  << e.what();
+			return nullptr;
 		}
 
-		// next handle the singleton
-		if(isSingleton) {
+		// next: handle a singleton
+		auto isSingle = isSingleton(metaObject);
+		if(isSingle) {
 			auto viewModel = singleInstances.value(metaObject);
 			if(viewModel) {
+				logDebug() << "Found existing single instance for" << metaObject->className();
 				emit viewModel->instanceInvoked(ViewModel::QPrivateSignal{});
-				return;
+				return viewModel;
 			}
 		}
 
@@ -210,8 +294,9 @@ void CoreAppPrivate::showViewModel(const QMetaObject *metaObject, const QVariant
 			logDebug() << "Successfully presented" << metaObject->className();
 
 			// if singleton -> store it
-			if(isSingleton)
+			if(isSingle)
 				singleInstances.insert(metaObject, vm);
+			return vm;
 		} catch(QException &e) {
 			logCritical() << "Failed to present viewmodel of type"
 						  << metaObject->className()
@@ -225,25 +310,6 @@ void CoreAppPrivate::showViewModel(const QMetaObject *metaObject, const QVariant
 					  << metaObject->className()
 					  << "- no presenter was set";
 	}
-}
 
-void CoreAppPrivate::showDialog(const MessageConfig &config, MessageResult *result)
-{
-	if(presenter) {
-		try {
-			presenter->showDialog(config, result);
-			logDebug() << "Successfully presented dialog of type" << config.type();
-		} catch(QException &e) {
-			logCritical() << "Failed to show dialog ff type"
-						  << config.type() << ":" << config.subType()
-						  << "with error:"
-						  << e.what();
-			result->complete(MessageConfig::NoButton);
-		}
-	} else {
-		logCritical() << "Failed to show dialog ff type"
-					  << config.type() << ":" << config.subType()
-					  << "- no presenter was set";
-		result->complete(MessageConfig::NoButton);
-	}
+	return nullptr;
 }

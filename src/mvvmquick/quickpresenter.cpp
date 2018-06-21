@@ -166,21 +166,33 @@ int QuickPresenter::presentMethodIndex(const QMetaObject *presenterMetaObject, Q
 {
 	auto index = -1;
 	if(viewObject->inherits("QQuickPopup")) {
-		logDebug() << "Presenting" << viewObject->metaObject()->className() << "as popup";
 		index = presenterMetaObject->indexOfMethod("presentPopup(QVariant)");
+		if(index != -1) {
+			logDebug() << "Presenting" << viewObject->metaObject()->className()
+					   << "as popup with presenter" << presenterMetaObject->className();
+		}
 	} if(viewObject->inherits("QQuickItem")) {
 		if(nameOrClassContains(viewObject, QStringLiteral("Drawer"))) {
-			logDebug() << "Presenting" << viewObject->metaObject()->className() << "as drawer";
 			index = presenterMetaObject->indexOfMethod("presentDrawerContent(QVariant)");
+			if(index != -1) {
+				logDebug() << "Presenting" << viewObject->metaObject()->className()
+						   << "as drawer with presenter" << presenterMetaObject->className();
+			}
 		}
 		if(index == -1 && nameOrClassContains(viewObject, QStringLiteral("Tab"))) {
-			logDebug() << "Presenting" << viewObject->metaObject()->className() << "as tab";
 			index = presenterMetaObject->indexOfMethod("presentTab(QVariant)");
+			if(index != -1) {
+				logDebug() << "Presenting" << viewObject->metaObject()->className()
+						   << "as tab with presenter" << presenterMetaObject->className();
+			}
 		}
 
 		if(index == -1) {
-			logDebug() << "Presenting" << viewObject->metaObject()->className() << "as item";
 			index = presenterMetaObject->indexOfMethod("presentItem(QVariant)");
+			if(index != -1) {
+				logDebug() << "Presenting" << viewObject->metaObject()->className()
+						   << "as item with presenter" << presenterMetaObject->className();
+			}
 		}
 	}
 	return index;

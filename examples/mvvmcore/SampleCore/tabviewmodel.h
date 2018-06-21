@@ -23,6 +23,8 @@ class TabItemViewModel : public QtMvvm::ViewModel
 
 	Q_PROPERTY(QString title READ title NOTIFY titleChanged)
 
+	QTMVVM_CONTAINER_VM(TabViewModel)
+
 public:
 	Q_INVOKABLE explicit TabItemViewModel(QObject *parent = nullptr);
 	~TabItemViewModel();
@@ -38,5 +40,7 @@ protected:
 private:
 	QString _title;
 };
+
+Q_DECLARE_METATYPE(TabViewModel*)
 
 #endif // TABVIEWMODEL_H

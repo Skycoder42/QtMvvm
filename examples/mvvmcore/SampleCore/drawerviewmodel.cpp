@@ -30,7 +30,9 @@ void DrawerViewModel::open(int index)
 		show<SampleViewModel>();
 		break;
 	case 1:
-		show<TabViewModel>();
+		show<TabItemViewModel>({
+								   {QStringLiteral("title"), QStringLiteral("Root Tab")}
+							   });
 		break;
 	case 2:
 		show<QtMvvm::SettingsViewModel>();

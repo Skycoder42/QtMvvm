@@ -29,6 +29,14 @@ private:
 
 	IPresenter *presenter = nullptr;
 	QHash<const QMetaObject*, QPointer<ViewModel>> singleInstances;
+
+	bool isSingleton(const QMetaObject *metaObject) const;
+	const QMetaObject * getContainer(const QMetaObject *metaObject) const;
+
+	QPointer<ViewModel> showViewModelWithReturn(const QMetaObject *metaObject,
+												const QVariantHash &params,
+												QPointer<ViewModel> parent,
+												quint32 requestCode);
 };
 
 }

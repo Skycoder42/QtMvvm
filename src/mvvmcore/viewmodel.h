@@ -67,6 +67,8 @@ private:
 //TODO doc
 #define QTMVVM_SINGLETON Q_CLASSINFO("qtmvvm_singleton", "true")
 
+#define QTMVVM_CONTAINER_VM(x) Q_CLASSINFO("qtmvvm_container_viewmodel", #x)
+
 // ------------- Generic Implementation -------------
 
 template<typename TViewModel>
