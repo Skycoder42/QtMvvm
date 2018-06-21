@@ -12,7 +12,8 @@ HEADERS += \
 	echoservice.h \
 	resultviewmodel.h \
 	drawerviewmodel.h \
-	tabviewmodel.h
+	tabviewmodel.h \
+    containerviewmodel.h
 
 SOURCES += \
 	samplecoreapp.cpp \
@@ -20,7 +21,8 @@ SOURCES += \
 	echoservice.cpp \
 	resultviewmodel.cpp \
 	drawerviewmodel.cpp \
-	tabviewmodel.cpp
+	tabviewmodel.cpp \
+    containerviewmodel.cpp
 
 RESOURCES += \
 	sample_core.qrc

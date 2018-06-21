@@ -6,6 +6,7 @@
 
 #include "qqmlquickpresenter.h"
 #include "settingsuibuilder.h"
+#include "qqmlviewplaceholder.h"
 #ifdef Q_OS_ANDROID
 #include "androidfilechooser.h"
 #endif
@@ -49,7 +50,7 @@ void QtMvvmQuickDeclarativeModule::registerTypes(const char *uri)
 #endif
 
 	//Version 1.1
-	qmlRegisterModule(uri, 1, 1);
+	qmlRegisterType<QtMvvm::QQmlViewPlaceholder>(uri, 1, 1, "ViewPlaceholder");
 
 	// Check to make shure no module update is forgotten
 	static_assert(VERSION_MAJOR == 1 && VERSION_MINOR == 1, "QML module version needs to be updated");

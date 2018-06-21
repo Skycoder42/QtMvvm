@@ -36,11 +36,13 @@ public:
 
 	//! Show a new ViewModel by its type
 	template <typename TViewModel>
-	static inline void show(const QVariantHash &params = {});
+	static inline void show(const QVariantHash &params = {}, QPointer<ViewModel> parentViewModel = nullptr);
 	//! Show a new ViewModel by its name
-	static void show(const char *viewModelName, const QVariantHash &params = {});
+	static void show(const char *viewModelName, const QVariantHash &params = {}); //MAJOR merge methods
+	static void show(const char *viewModelName, const QVariantHash &params, QPointer<ViewModel> parentViewModel);
 	//! Show a new ViewModel by its metaobject
-	static void show(const QMetaObject *viewModelMetaObject, const QVariantHash &params = {});
+	static void show(const QMetaObject *viewModelMetaObject, const QVariantHash &params = {}); //MAJOR merge methods
+	static void show(const QMetaObject *viewModelMetaObject, const QVariantHash &params, QPointer<ViewModel> parentViewModel);
 
 	//! Show a basic dialog
 	static MessageResult *showDialog(const MessageConfig &config);
@@ -68,14 +70,15 @@ private:
 	friend class QtMvvm::CoreAppPrivate;
 	QScopedPointer<CoreAppPrivate> d;
 
-	static void showImp(const QMetaObject *metaObject, const QVariantHash &params);
+	Q_DECL_DEPRECATED static void showImp(const QMetaObject *metaObject, const QVariantHash &params);
+	static void showImp(const QMetaObject *metaObject, const QVariantHash &params, QPointer<ViewModel> parentViewModel);
 };
 
 template<typename TViewModel>
-inline void CoreApp::show(const QVariantHash &params)
+inline void CoreApp::show(const QVariantHash &params, QPointer<ViewModel> parentViewModel)
 {
 	static_assert(std::is_base_of<ViewModel, TViewModel>::value, "TViewModel must extend QtMvvm::ViewModel");
-	ViewModel::showImp(&TViewModel::staticMetaObject, params, nullptr);
+	showImp(&TViewModel::staticMetaObject, params, std::move(parentViewModel));
 }
 
 }

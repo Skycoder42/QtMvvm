@@ -87,4 +87,6 @@ void ViewModel::showForResult(quint32 requestCode, QVariantHash params) const
 
 }
 
+Q_DECLARE_METATYPE(QtMvvm::ViewModel*)
+
 #endif // QTMVVM_VIEWMODEL_H

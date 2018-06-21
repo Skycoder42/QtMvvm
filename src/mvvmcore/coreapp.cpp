@@ -35,11 +35,12 @@ void CoreApp::registerApp()
 	qRegisterMetaType<const QMetaObject*>("const QMetaObject*");
 	qRegisterMetaType<MessageConfig::StandardButton>();
 
-	qRegisterMetaType<QtMvvm::SettingsElements::Entry>();
-	qRegisterMetaType<QtMvvm::SettingsElements::Group>();
-	qRegisterMetaType<QtMvvm::SettingsElements::Section>();
-	qRegisterMetaType<QtMvvm::SettingsElements::Category>();
-	qRegisterMetaType<QtMvvm::SettingsElements::Setup>();
+	qRegisterMetaType<ViewModel*>();
+	qRegisterMetaType<SettingsElements::Entry>();
+	qRegisterMetaType<SettingsElements::Group>();
+	qRegisterMetaType<SettingsElements::Section>();
+	qRegisterMetaType<SettingsElements::Category>();
+	qRegisterMetaType<SettingsElements::Setup>();
 
 	registerInterfaceConverter<IPresenter>();
 
@@ -57,6 +58,11 @@ void CoreApp::registerApp()
 
 void CoreApp::show(const char *viewModelName, const QVariantHash &params)
 {
+	show(viewModelName, params, nullptr);
+}
+
+void CoreApp::show(const char *viewModelName, const QVariantHash &params, QPointer<ViewModel> parentViewModel)
+{
 	auto metaId = QMetaType::type(viewModelName);
 	auto metaObject = QMetaType::metaObjectForType(metaId);
 	if(!metaObject) {
@@ -64,17 +70,22 @@ void CoreApp::show(const char *viewModelName, const QVariantHash &params)
 								 viewModelName +
 								 QByteArrayLiteral(") does not name a type with meta data"));
 	}
-	show(metaObject, params);
+	show(metaObject, params, std::move(parentViewModel));
 }
 
 void CoreApp::show(const QMetaObject *viewModelMetaObject, const QVariantHash &params)
+{
+	show(viewModelMetaObject, params, nullptr);
+}
+
+void CoreApp::show(const QMetaObject *viewModelMetaObject, const QVariantHash &params, QPointer<ViewModel> parentViewModel)
 {
 	if(!viewModelMetaObject->inherits(&ViewModel::staticMetaObject)) {
 		throw PresenterException(QByteArrayLiteral("Given type (") +
 								 viewModelMetaObject->className() +
 								 QByteArrayLiteral(") is not a class that extends QtMvvm::ViewModel"));
 	}
-	showImp(viewModelMetaObject, params);
+	showImp(viewModelMetaObject, params, std::move(parentViewModel));
 }
 
 MessageResult *CoreApp::showDialog(const MessageConfig &config)
@@ -153,10 +164,15 @@ bool CoreApp::autoParse(QCommandLineParser &parser, const QStringList &arguments
 
 void CoreApp::showImp(const QMetaObject *metaObject, const QVariantHash &params)
 {
+	showImp(metaObject, params, nullptr);
+}
+
+void CoreApp::showImp(const QMetaObject *metaObject, const QVariantHash &params, QPointer<ViewModel> parentViewModel)
+{
 	QMetaObject::invokeMethod(CoreAppPrivate::dInstance().data(), "showViewModel", Qt::QueuedConnection,
 							  Q_ARG(const QMetaObject*, metaObject),
 							  Q_ARG(QVariantHash, params),
-							  Q_ARG(QPointer<ViewModel>, nullptr),
+							  Q_ARG(QPointer<ViewModel>, std::move(parentViewModel)),
 							  Q_ARG(quint32, 0));
 }
 

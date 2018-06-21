@@ -12,7 +12,8 @@ HEADERS += \
 	settingsuibuilder.h \
 	settingssectionmodel.h \
 	multifilterproxymodel.h \
-	settingsentrymodel.h
+	settingsentrymodel.h \
+	qqmlviewplaceholder.h
 
 SOURCES += \
 	qtmvvmquick_plugin.cpp \
@@ -20,7 +21,8 @@ SOURCES += \
 	settingsuibuilder.cpp \
 	settingssectionmodel.cpp \
 	multifilterproxymodel.cpp \
-	settingsentrymodel.cpp
+	settingsentrymodel.cpp \
+	qqmlviewplaceholder.cpp
 
 QML_FILES += \
 	QtMvvmApp.qml \

@@ -8,5 +8,7 @@
         <file>DrawerView.qml</file>
         <file>TabView.qml</file>
         <file>TabItemView.qml</file>
+        <file>ContainerView.qml</file>
+        <file>ChildView.qml</file>
     </qresource>
 </RCC>

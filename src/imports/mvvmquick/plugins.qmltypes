@@ -103,6 +103,61 @@ Module {
         }
     }
     Component {
+        name: "QtMvvm::QQmlViewPlaceholder"
+        defaultProperty: "data"
+        prototype: "QQuickItem"
+        exports: ["de.skycoder42.QtMvvm.Quick/ViewPlaceholder 1.1"]
+        exportMetaObjectRevisions: [0]
+        Property { name: "viewModelType"; type: "string" }
+        Property { name: "showParams"; type: "QVariantHash" }
+        Property { name: "parentViewModel"; type: "QtMvvm::ViewModel"; isPointer: true }
+        Property { name: "autoPresent"; type: "bool" }
+        Property { name: "autoResizeView"; type: "bool" }
+        Property { name: "replaceViews"; type: "bool" }
+        Property { name: "closeViewOnAction"; type: "bool" }
+        Property { name: "loadedView"; type: "QQuickItem"; isReadonly: true; isPointer: true }
+        Signal {
+            name: "viewModelTypeChanged"
+            Parameter { name: "viewModelType"; type: "string" }
+        }
+        Signal {
+            name: "showParamsChanged"
+            Parameter { name: "showParams"; type: "QVariantHash" }
+        }
+        Signal {
+            name: "parentViewModelChanged"
+            Parameter { name: "parentViewModel"; type: "QtMvvm::ViewModel"; isPointer: true }
+        }
+        Signal {
+            name: "autoPresentChanged"
+            Parameter { name: "autoPresent"; type: "bool" }
+        }
+        Signal {
+            name: "autoResizeViewChanged"
+            Parameter { name: "autoResizeView"; type: "bool" }
+        }
+        Signal {
+            name: "replaceViewsChanged"
+            Parameter { name: "replaceViews"; type: "bool" }
+        }
+        Signal {
+            name: "closeViewOnActionChanged"
+            Parameter { name: "closeViewOnAction"; type: "bool" }
+        }
+        Signal {
+            name: "loadedViewChanged"
+            Parameter { name: "loadedView"; type: "QQuickItem"; isPointer: true }
+        }
+        Method { name: "presentView" }
+        Method { name: "discardView" }
+        Method {
+            name: "presentItem"
+            type: "bool"
+            Parameter { name: "item"; type: "QVariant" }
+        }
+        Method { name: "closeAction"; type: "bool" }
+    }
+    Component {
         name: "QtMvvm::SettingsUiBuilder"
         prototype: "QObject"
         exports: ["de.skycoder42.QtMvvm.Quick/SettingsUiBuilder 1.0"]
