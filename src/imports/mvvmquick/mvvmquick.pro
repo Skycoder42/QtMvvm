@@ -48,7 +48,9 @@ QML_FILES += \
 	ListSection.qml \
 	SectionListView.qml \
 	OverviewListView.qml \
-	SettingsView.qml
+	SettingsView.qml \
+	SettingsView11.qml \
+	SearchBar.qml
 
 RESOURCES += \
 	qtmvvmquick_plugin.qrc

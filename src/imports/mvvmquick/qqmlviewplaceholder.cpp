@@ -28,7 +28,7 @@ bool QQmlViewPlaceholder::presentItem(const QVariant &item)
 	// check if the parameter is valid
 	auto quickItem = item.value<QQuickItem*>();
 	if(!quickItem) {
-		qmlWarning(this) << "presentItem called with invalid item of type " << item.typeName();
+		qmlWarning(this) << "presentItem called with invalid item of type: " << item.typeName();
 		return false;
 	}
 
