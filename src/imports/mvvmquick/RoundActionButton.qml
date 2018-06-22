@@ -26,17 +26,12 @@ RoundButton {
 	icon.width: 24
 	icon.height: 24
 
-	ToolTip {
-		id: _backToolTip
-		text: _roundButton.toolTip
-	}
+	ToolTip.visible: pressed && _roundButton.toolTip != ""
+	ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
+	ToolTip.text: _roundButton.toolTip
 
 	onPressAndHold: {
-		if(_backToolTip.text !== "") {
+		if(_roundButton.toolTip !== "")
 			QuickPresenter.hapticLongPress();
-			_backToolTip.visible = true;
-		}
 	}
-	onCanceled: _backToolTip.visible = false
-	onReleased: _backToolTip.visible = false
 }

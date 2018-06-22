@@ -33,17 +33,12 @@ ToolButton {
 	icon.width: 24
 	icon.height: 24
 
-	ToolTip {
-		id: _backToolTip
-		text: _toolButton.toolTip
-	}
+	ToolTip.visible: pressed && _toolButton.toolTip != ""
+	ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
+	ToolTip.text: _toolButton.toolTip
 
 	onPressAndHold: {
-		if(_backToolTip.text !== "") {
+		if(_toolButton.toolTip !== "")
 			QuickPresenter.hapticLongPress();
-			_backToolTip.visible = true;
-		}
 	}
-	onCanceled: _backToolTip.visible = false
-	onReleased: _backToolTip.visible = false
 }
