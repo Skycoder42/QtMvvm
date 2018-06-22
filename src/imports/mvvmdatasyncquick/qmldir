@@ -12,4 +12,6 @@ ExportSetupView 1.0 ExportSetupView.qml
 ChangeRemoteView 1.0 ChangeRemoteView.qml
 
 DataSyncView 1.0 DataSyncView.qml
+DataSyncView 1.1 DataSyncView11.qml
+
 NetworkExchangeView 1.0 NetworkExchangeView.qml

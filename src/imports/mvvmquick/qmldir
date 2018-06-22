@@ -24,6 +24,7 @@ RoundActionButton 1.0 RoundActionButton.qml
 MenuButton 1.0 MenuButton.qml
 
 SearchBar 1.1 SearchBar.qml
+RoundMenuButton 1.1 RoundMenuButton.qml
 
 PresenterProgress 1.0 PresenterProgress.qml
 PresentingStackView 1.0 PresentingStackView.qml

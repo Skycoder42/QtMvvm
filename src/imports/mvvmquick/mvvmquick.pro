@@ -50,7 +50,8 @@ QML_FILES += \
 	OverviewListView.qml \
 	SettingsView.qml \
 	SettingsView11.qml \
-	SearchBar.qml
+	SearchBar.qml \
+	RoundMenuButton.qml
 
 RESOURCES += \
 	qtmvvmquick_plugin.qrc
