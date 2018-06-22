@@ -92,6 +92,35 @@ Module {
         }
     }
     Component {
+        name: "QtMvvm::QQmlCoreApp"
+        prototype: "QObject"
+        exports: ["de.skycoder42.QtMvvm.Core/CoreApp 1.1"]
+        isCreatable: false
+        isSingleton: true
+        exportMetaObjectRevisions: [0]
+        Signal { name: "appStarted" }
+        Method {
+            name: "show"
+            Parameter { name: "viewModelName"; type: "string" }
+            Parameter { name: "params"; type: "QVariantHash" }
+            Parameter { name: "parentViewModel"; type: "QtMvvm::ViewModel"; isPointer: true }
+        }
+        Method {
+            name: "show"
+            Parameter { name: "viewModelName"; type: "string" }
+            Parameter { name: "params"; type: "QVariantHash" }
+        }
+        Method {
+            name: "show"
+            Parameter { name: "viewModelName"; type: "string" }
+        }
+        Method {
+            name: "showDialog"
+            type: "QtMvvm::MessageResult*"
+            Parameter { name: "config"; type: "QtMvvm::MessageConfig" }
+        }
+    }
+    Component {
         name: "QtMvvm::QQmlMvvmBinding"
         prototype: "QObject"
         exports: ["de.skycoder42.QtMvvm.Core/MvvmBinding 1.0"]

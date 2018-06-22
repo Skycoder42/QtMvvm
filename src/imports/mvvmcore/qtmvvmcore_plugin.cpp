@@ -9,16 +9,27 @@
 #include "qqmlmvvmbinding.h"
 #include "qqmlmvvmmessage.h"
 #include "qqmlserviceregistry.h"
+#include "qqmlcoreapp.h"
 
-static QObject *createMessageSingleton(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
+namespace {
+
+QObject *createMessageSingleton(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
 {
 	return new QtMvvm::QQmlMvvmMessage{jsEngine, qmlEngine};
 }
 
-static QObject *createRegistrySingleton(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
+QObject *createRegistrySingleton(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
 {
 	Q_UNUSED(jsEngine)
 	return new QtMvvm::QQmlServiceRegistry{qmlEngine};
+}
+
+QObject *createCoreAppSingleton(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
+{
+	Q_UNUSED(jsEngine)
+	return new QtMvvm::QQmlCoreApp{qmlEngine};
+}
+
 }
 
 QtMvvmCoreDeclarativeModule::QtMvvmCoreDeclarativeModule(QObject *parent) :
@@ -41,6 +52,7 @@ void QtMvvmCoreDeclarativeModule::registerTypes(const char *uri)
 
 	//Version 1.1
 	qmlRegisterSingletonType<QtMvvm::QQmlServiceRegistry>(uri, 1, 1, "ServiceRegistry", createRegistrySingleton);
+	qmlRegisterSingletonType<QtMvvm::QQmlCoreApp>(uri, 1, 1, "CoreApp", createCoreAppSingleton);
 
 	// Check to make shure no module update is forgotten
 	static_assert(VERSION_MAJOR == 1 && VERSION_MINOR == 1, "QML module version needs to be updated");

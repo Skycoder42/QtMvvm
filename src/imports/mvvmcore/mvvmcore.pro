@@ -10,13 +10,15 @@ HEADERS += \
 	qtmvvmcore_plugin.h \
 	qqmlmvvmbinding.h \
 	qqmlmvvmmessage.h \
-	qqmlserviceregistry.h
+	qqmlserviceregistry.h \
+    qqmlcoreapp.h
 
 SOURCES += \
 	qtmvvmcore_plugin.cpp \
 	qqmlmvvmbinding.cpp \
 	qqmlmvvmmessage.cpp \
-	qqmlserviceregistry.cpp
+	qqmlserviceregistry.cpp \
+    qqmlcoreapp.cpp
 
 OTHER_FILES += qmldir
 
