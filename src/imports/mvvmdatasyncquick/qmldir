@@ -8,10 +8,14 @@ depends de.skycoder42.QtMvvm.Quick 1.0
 internal SubButton SubButton.qml
 
 IdentityEditView 1.0 IdentityEditView.qml
+IdentityEditView 1.1 IdentityEditView11.qml
 ExportSetupView 1.0 ExportSetupView.qml
+ExportSetupView 1.1 ExportSetupView11.qml
 ChangeRemoteView 1.0 ChangeRemoteView.qml
+ChangeRemoteView 1.1 ChangeRemoteView11.qml
 
 DataSyncView 1.0 DataSyncView.qml
 DataSyncView 1.1 DataSyncView11.qml
 
 NetworkExchangeView 1.0 NetworkExchangeView.qml
+NetworkExchangeView 1.1 NetworkExchangeView11.qml

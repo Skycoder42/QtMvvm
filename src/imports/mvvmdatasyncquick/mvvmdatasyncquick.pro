@@ -17,9 +17,13 @@ QML_FILES += \
 	DataSyncView.qml \
 	DataSyncView11.qml \
 	NetworkExchangeView.qml \
+	NetworkExchangeView11.qml \
 	IdentityEditView.qml \
+	IdentityEditView11.qml \
 	ExportSetupView.qml \
-	ChangeRemoteView.qml
+	ExportSetupView11.qml \
+	ChangeRemoteView.qml \
+	ChangeRemoteView11.qml
 
 RESOURCES += \
 	qtmvvmdatasyncquick_plugin.qrc
