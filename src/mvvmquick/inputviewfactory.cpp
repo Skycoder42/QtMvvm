@@ -21,9 +21,10 @@ InputViewFactory::~InputViewFactory() = default;
 
 QUrl InputViewFactory::getInputUrl(const QByteArray &type, const QVariantMap &viewProperties)
 {
-	QUrl url;
-
 	Q_UNUSED(viewProperties)
+
+	//TODO document all types
+	QUrl url;
 	if(d->inputAliases.contains(type))
 		url = getInputUrl(d->inputAliases.value(type), viewProperties);
 	else if(d->simpleInputs.contains(type))
@@ -112,6 +113,8 @@ InputViewFactoryPrivate::InputViewFactoryPrivate() :
 		{"string", QStringLiteral("qrc:/qtmvvm/inputs/TextField.qml")},
 		{QMetaType::typeName(QMetaType::Int), QStringLiteral("qrc:/qtmvvm/inputs/SpinBox.qml")},
 		{QMetaType::typeName(QMetaType::Double), QStringLiteral("qrc:/qtmvvm/inputs/DoubleSpinBox.qml")},
+		{"number", QStringLiteral("qrc:/qtmvvm/inputs/DoubleSpinBox.qml")},
+		{"range", QStringLiteral("qrc:/qtmvvm/inputs/Slider.qml")},
 //		{QMetaType::typeName(QMetaType::QDate), QStringLiteral("qrc:/qtmvvm/inputs/.qml")},
 //		{QMetaType::typeName(QMetaType::QTime), QStringLiteral("qrc:/qtmvvm/inputs/.qml")},
 //		{QMetaType::typeName(QMetaType::QDateTime), QStringLiteral("qrc:/qtmvvm/inputs/.qml")},
@@ -124,13 +127,17 @@ InputViewFactoryPrivate::InputViewFactoryPrivate() :
 	},
 	simpleDelegates{
 		{QMetaType::typeName(QMetaType::Bool), QStringLiteral("qrc:/qtmvvm/delegates/BoolDelegate.qml")},
-		{"switch", QStringLiteral("qrc:/qtmvvm/inputs/SwitchDelegate.qml")}
+		{"switch", QStringLiteral("qrc:/qtmvvm/delegates/SwitchDelegate.qml")},
+		{"range", QStringLiteral("qrc:/qtmvvm/delegates/RangeDelegate.qml")}
 	},
 	formatters{
-		{QMetaType::typeName(QMetaType::Int), QSharedPointer<IntFormatter>::create()},
-		{QMetaType::typeName(QMetaType::Double), QSharedPointer<SimpleFormatter<double>>::create()},
+		{QMetaType::typeName(QMetaType::Int), QSharedPointer<IntFormatter>::create()}
 	}
 {
+	auto dblFormatter = QSharedPointer<SimpleFormatter<double>>::create();
+	formatters.insert(QMetaType::typeName(QMetaType::Double), dblFormatter);
+	formatters.insert("number", dblFormatter);
+
 	auto listFormatter = QSharedPointer<ListFormatter>::create();
 	formatters.insert("selection", listFormatter);
 	formatters.insert("list", listFormatter);

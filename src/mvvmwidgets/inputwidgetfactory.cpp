@@ -8,9 +8,11 @@
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QDateTimeEdit>
 #include <QtWidgets/QKeySequenceEdit>
+#include <QtWidgets/QSlider>
 
 #include "fontcombobox_p.h"
 #include "selectcombobox_p.h"
+#include "tooltipslider_p.h"
 
 #include <qurlvalidator.h>
 
@@ -27,12 +29,13 @@ InputWidgetFactory::~InputWidgetFactory() = default;
 
 QWidget *InputWidgetFactory::createInput(const QByteArray &type, QWidget *parent, const QVariantMap &viewProperties)
 {
+	//TODO document all types
 	QWidget *widget = nullptr;
 	if(d->aliases.contains(type))
 		return createInput(d->aliases.value(type), parent, viewProperties);
 	if(d->simpleWidgets.contains(type))
 		widget = d->simpleWidgets.value(type)(parent);
-	else if(type == QMetaType::typeName(QMetaType::Bool))
+	else if(type == QMetaType::typeName(QMetaType::Bool) || type == "switch") //TODO add extra widget
 		widget = new QCheckBox(parent);
 	else if(type == QMetaType::typeName(QMetaType::QString) || type == "string") {
 		auto edit = new QLineEdit(parent);
@@ -49,6 +52,8 @@ QWidget *InputWidgetFactory::createInput(const QByteArray &type, QWidget *parent
 		widget = new QSpinBox(parent);
 	else if(type == QMetaType::typeName(QMetaType::Double) || type == "number")
 		widget = new QDoubleSpinBox(parent);
+	else if(type == "range")
+		widget = new ToolTipSlider(parent);
 	else if(type == QMetaType::typeName(QMetaType::QDate))
 		widget = new QDateEdit(parent);
 	else if(type == QMetaType::typeName(QMetaType::QTime))

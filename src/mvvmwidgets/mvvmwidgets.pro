@@ -12,14 +12,16 @@ HEADERS += \
 	inputwidgetfactory.h \
 	inputwidgetfactory_p.h \
 	settingsdialog_p.h \
-	settingsdialog.h
+	settingsdialog.h \
+    tooltipslider_p.h
 
 SOURCES += \
 	widgetspresenter.cpp \
 	fontcombobox.cpp \
 	selectcombobox.cpp \
 	inputwidgetfactory.cpp \
-	settingsdialog.cpp
+	settingsdialog.cpp \
+    tooltipslider.cpp
 
 FORMS += \
 	settingsdialog.ui

@@ -100,6 +100,14 @@
 			   default="42">
 			<Property key="qtmvvm_preview" type="string" ztr="true">Is set to %n unit(s)</Property>
 		</Entry>
+		<Entry key="prop12"
+			   type="range"
+			   title="&amp;Volume"
+			   default="50">
+			<Property key="minimum" type="int">0</Property>
+			<Property key="maximum" type="int">100</Property>
+			<Property key="valueFormat" type="string">%1 %</Property>
+		</Entry>
 		<Entry key="prop8"
 			   type="selection"
 			   title="Select a &amp;mode"

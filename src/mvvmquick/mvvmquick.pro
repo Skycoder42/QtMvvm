@@ -8,7 +8,7 @@ HEADERS += \
 	quickpresenter_p.h \
 	inputviewfactory.h \
 	inputviewfactory_p.h \
-    formatters_p.h
+	formatters_p.h
 
 SOURCES += \
 	quickpresenter.cpp \
