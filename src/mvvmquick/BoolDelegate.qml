@@ -1,6 +1,7 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
+import de.skycoder42.QtMvvm.Quick 1.1
 
 CheckDelegate {
 	id: _boolDelegate
@@ -20,6 +21,11 @@ CheckDelegate {
 			inputValue = checked;
 	}
 
+	ToolTip.visible: pressed && tooltip != ""
+	ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval
+	ToolTip.text: tooltip
+	onPressAndHold: QuickPresenter.hapticLongPress()
+
 	contentItem: GridLayout {
 		columns: 2
 		rows: 2
@@ -35,11 +41,11 @@ CheckDelegate {
 		}
 
 		Label {
-			id: _textLabel
-			visible: tooltip
+			id: _peviewLabel
+			visible: preview
 			Layout.row: 1
 			Layout.column: 0
-			text: tooltip
+			text: preview
 			wrapMode: Text.WordWrap
 			Layout.fillWidth: true
 		}

@@ -11,18 +11,21 @@
 					   default="true">
 					<SearchKey>property</SearchKey>
 					<SearchKey>bool</SearchKey>
+					<Property key="qtmvvm_preview" type="bool">true</Property>
 				</Entry>
 				<Entry key="prop2"
 					   type="string"
 					   title="Enter a &amp;name">
 					<SearchKey>property</SearchKey>
 					<Property key="placeholderText" type="string" tr="true">Enter a nice name</Property>
+					<Property key="qtmvvm_preview" type="string" tr="true">Your current name: %1</Property>
 				</Entry>
 			</Group>
 			<Group title="Sub-Group" tooltip="This is a tooltip">
 				<Entry key="prop3"
 					   type="action"
-					   title="Open &amp;system settings">
+					   title="Open &amp;system settings"
+					   tooltip="Pressing this action will open the system settings">
 					<Property key="text" type="string">Trigger Action</Property>
 					<Property key="args" type="object">
 						<Property key="hint" type="string" tr="true">You can use this to trigger whatever kind of action you need</Property>
@@ -38,6 +41,7 @@
 						<Element type="string" tr="true">Variant B</Element>
 						<Element type="string" tr="true">Variant C</Element>
 					</Property>
+					<Property key="qtmvvm_preview" type="string" tr="true">Current value: %1</Property>
 				</Entry>
 			</Group>
 		</Section>
@@ -45,9 +49,11 @@
 			<Entry key="prop5"
 				   type="double"
 				   title="Enter a &amp;value"
-				   tooltip="The value must be between 0 and 1">
+				   tooltip="The value must be between 0 and 1"
+				   default="0.0">
 				<Property key="minimum" type="double">0.0</Property>
 				<Property key="maximum" type="double">1.0</Property>
+				<Property key="qtmvvm_preview" type="string" tr="true">Current value: %L1</Property>
 			</Entry>
 			<Entry key="prop6"
 				   type="selection"
@@ -83,6 +89,7 @@
 						<Property key="value" type="int">7</Property>
 					</Element>
 				</Property>
+				<Property key="qtmvvm_preview" type="string" tr="true">Current value: %1</Property>
 			</Entry>
 		</Section>
 	</Category>
@@ -90,7 +97,9 @@
 		<Entry key="prop7"
 			   type="int"
 			   title="Enter a &amp;number"
-			   default="42" />
+			   default="42">
+			<Property key="qtmvvm_preview" type="string" ztr="true">Is set to %n unit(s)</Property>
+		</Entry>
 		<Entry key="prop8"
 			   type="selection"
 			   title="Select a &amp;mode"

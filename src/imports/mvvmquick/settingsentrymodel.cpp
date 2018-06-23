@@ -24,13 +24,14 @@ void SettingsEntryModel::setup(const SettingsElements::Section &section, Setting
 				   this, &SettingsEntryModel::entryChanged);
 	}
 	_viewModel = viewModel;
+	_factory = factory;
 	connect(_viewModel, &SettingsViewModel::valueChanged,
 			this, &SettingsEntryModel::entryChanged,
 			Qt::QueuedConnection); //to not mess up data changes
 	auto rIndex = 0;
 	for(const auto &group : section.groups) {
 		for(const auto &entry : group.entries) {
-			auto url = factory->getDelegate(entry.type, entry.properties);
+			auto url = _factory->getDelegate(entry.type, entry.properties);
 			if(group.title.isEmpty()) // unnamed groups are presented first
 				_entries.insert(rIndex++, EntryInfo{entry, url});
 			else
@@ -83,6 +84,19 @@ QVariant SettingsEntryModel::data(const QModelIndex &index, int role) const
 		return entry.group.title;
 	case SearchKeysRole:
 		return entry.searchKeys;
+	case PreviewRole:
+		if(entry.properties.contains(QStringLiteral("qtmvvm_preview"))) {
+			auto preview = entry.properties.value(QStringLiteral("qtmvvm_preview"));
+			if(preview.type() == QVariant::Bool)
+				return preview.toBool() ? entry.tooltip : QString{};
+			else if(preview.type() == QVariant::String) {
+				return _factory->format(entry.type,
+										preview.toString(),
+										_viewModel->loadValue(entry.key, entry.defaultValue),
+										entry.properties);
+			}
+		}
+		return QString{};
 	default:
 		return QVariant();
 	}
@@ -101,7 +115,7 @@ bool SettingsEntryModel::setData(const QModelIndex &index, const QVariant &value
 		return false;
 
 	_viewModel->saveValue(_entries.value(index.row()).key, value);
-	emit dataChanged(index, index, {SettingsValueRole});
+	emit dataChanged(index, index, {SettingsValueRole, PreviewRole});
 	return true;
 }
 
@@ -115,7 +129,8 @@ QHash<int, QByteArray> SettingsEntryModel::roleNames() const
 		{ToolTipRole, "tooltip"},
 		{DelegateUrlRole, "delegateUrl"},
 		{SettingsValueRole, "inputValue"},
-		{PropertiesRole, "properties"}
+		{PropertiesRole, "properties"},
+		{PreviewRole, "preview"}
 	};
 }
 
@@ -133,7 +148,7 @@ void SettingsEntryModel::entryChanged(const QString &key)
 	for(auto i = 0; i < _entries.size(); i++) {
 		if(_entries[i].key == key) {
 			auto mIndex = index(i);
-			emit dataChanged(mIndex, mIndex, {SettingsValueRole});
+			emit dataChanged(mIndex, mIndex, {SettingsValueRole, PreviewRole});
 			break;
 		}
 	}

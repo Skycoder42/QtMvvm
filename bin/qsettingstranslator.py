@@ -21,6 +21,8 @@ def create_settings_ts(infile, outfile):
 				strings.append(elem.attrib["tooltip"])
 			if "tr" in elem.attrib and elem.attrib["tr"].lower() == "true":
 				strings.append(elem.text)
+			if "ztr" in elem.attrib and elem.attrib["ztr"].lower() == "true": # lazy translations
+				strings.append(elem.text)
 			if "trdefault" in elem.attrib and elem.attrib["trdefault"].lower() == "true":
 				strings.append(elem.attrib["default"])
 			# legaxy keys, because of a typo...

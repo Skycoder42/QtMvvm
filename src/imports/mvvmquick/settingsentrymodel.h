@@ -24,7 +24,9 @@ public:
 		DelegateUrlRole,
 		SettingsValueRole,
 		PropertiesRole,
-		SearchKeysRole
+		SearchKeysRole,
+
+		PreviewRole
 	};
 	Q_ENUM(Roles)
 
@@ -53,6 +55,7 @@ private:
 	};
 
 	SettingsViewModel *_viewModel = nullptr;
+	InputViewFactory *_factory = nullptr;
 	QList<EntryInfo> _entries;
 };
 

@@ -45,6 +45,15 @@ Module {
             Parameter { name: "viewProperties"; type: "QVariantMap" }
         }
         Method {
+            name: "format"
+            revision: 1
+            type: "string"
+            Parameter { name: "type"; type: "QByteArray" }
+            Parameter { name: "formatString"; type: "string" }
+            Parameter { name: "value"; type: "QVariant" }
+            Parameter { name: "viewProperties"; type: "QVariantMap" }
+        }
+        Method {
             name: "addSimpleInput"
             Parameter { name: "type"; type: "QByteArray" }
             Parameter { name: "qmlFileUrl"; type: "QUrl" }
@@ -61,6 +70,12 @@ Module {
         }
         Method {
             name: "addDelegateAlias"
+            Parameter { name: "alias"; type: "QByteArray" }
+            Parameter { name: "targetType"; type: "QByteArray" }
+        }
+        Method {
+            name: "addFormatterAlias"
+            revision: 1
             Parameter { name: "alias"; type: "QByteArray" }
             Parameter { name: "targetType"; type: "QByteArray" }
         }
