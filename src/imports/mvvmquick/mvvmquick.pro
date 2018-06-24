@@ -53,7 +53,8 @@ QML_FILES += \
 	SearchBar.qml \
 	RoundMenuButton.qml \
 	DecorLabel.qml \
-	MsgDelegate.qml
+	MsgDelegate.qml \
+	TimeEdit.qml
 
 RESOURCES += \
 	qtmvvmquick_plugin.qrc

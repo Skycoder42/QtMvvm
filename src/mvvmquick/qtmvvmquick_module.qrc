@@ -10,6 +10,7 @@
         <file>Switch.qml</file>
         <file>RadioListEdit.qml</file>
         <file>Slider.qml</file>
+        <file>TimeEdit.qml</file>
     </qresource>
     <qresource prefix="/qtmvvm/delegates">
         <file>BoolDelegate.qml</file>

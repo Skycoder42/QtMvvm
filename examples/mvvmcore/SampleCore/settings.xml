@@ -100,14 +100,6 @@
 			   default="42">
 			<Property key="qtmvvm_preview" type="string" ztr="true">Is set to %n unit(s)</Property>
 		</Entry>
-		<Entry key="prop12"
-			   type="range"
-			   title="&amp;Volume"
-			   default="50">
-			<Property key="minimum" type="int">0</Property>
-			<Property key="maximum" type="int">100</Property>
-			<Property key="valueFormat" type="string">%1 %</Property>
-		</Entry>
 		<Entry key="prop8"
 			   type="selection"
 			   title="Select a &amp;mode"
@@ -127,7 +119,35 @@
 		<Entry key="prop10"
 			   type="QFont"
 			   title="Choose a &amp;font" />
-		<Entry key="prop11"
+		<Entry key="prop12"
+			   type="range"
+			   title="&amp;Volume"
+			   default="50">
+			<Property key="minimum" type="int">0</Property>
+			<Property key="maximum" type="int">100</Property>
+			<Property key="valueFormat" type="string">%1 %</Property>
+		</Entry>
+		<Entry key="prop13"
+			   type="QTime"
+			   title="Choose a time"
+			   default="14:30">
+			<Property key="qtmvvm_preview" type="string">Selected time: %1</Property>
+			<Property key="qtmvvm_dateformat" type="int">1</Property>
+		</Entry>
+		<Entry key="prop14"
+			   type="QDate"
+			   title="Choose a date"
+			   default="2018-10-10">
+			<Property key="qtmvvm_preview" type="string">Selected date: %1</Property>
+			<Property key="qtmvvm_dateformat" type="string">dd.MM.yyyy</Property>
+		</Entry>
+		<Entry key="prop15"
+			   type="QDateTime"
+			   title="Choose a date and time"
+			   default="2018-10-10T14:30">
+			<Property key="qtmvvm_preview" type="string">Selected date and time: %1</Property>
+		</Entry>
+		<Entry key="propErr"
 			   type="non-existant-type"
 			   title="Non existing type" />
 	</Category>

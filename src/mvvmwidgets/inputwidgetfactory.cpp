@@ -54,13 +54,15 @@ QWidget *InputWidgetFactory::createInput(const QByteArray &type, QWidget *parent
 		widget = new QDoubleSpinBox(parent);
 	else if(type == "range")
 		widget = new ToolTipSlider(parent);
-	else if(type == QMetaType::typeName(QMetaType::QDate))
+	else if(type == QMetaType::typeName(QMetaType::QDate)) {
 		widget = new QDateEdit(parent);
-	else if(type == QMetaType::typeName(QMetaType::QTime))
+		static_cast<QDateEdit*>(widget)->setCalendarPopup(true);
+	} else if(type == QMetaType::typeName(QMetaType::QTime))
 		widget = new QTimeEdit(parent);
-	else if(type == QMetaType::typeName(QMetaType::QDateTime) || type == "date")
+	else if(type == QMetaType::typeName(QMetaType::QDateTime) || type == "date") {
 		widget = new QDateTimeEdit(parent);
-	else if(type == QMetaType::typeName(QMetaType::QFont))
+		static_cast<QDateEdit*>(widget)->setCalendarPopup(true);
+	} else if(type == QMetaType::typeName(QMetaType::QFont))
 		widget = new FontComboBox(parent);
 	else if(type == QMetaType::typeName(QMetaType::QKeySequence))
 		widget = new QKeySequenceEdit(parent);
