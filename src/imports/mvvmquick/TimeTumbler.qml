@@ -5,13 +5,8 @@ import de.skycoder42.QtMvvm.Quick 1.1
 Tumbler {
 	id: _timeTumbler
 
-	function highlightColor() {
-		if(QuickPresenter.currentStyle === "Material")
-			return Material.accentColor;
-		else if(QuickPresenter.currentStyle === "Universal")
-			return Universal.accent;
-		else
-			return palette.highlight;
+	ColorHelper {
+		id: helper
 	}
 
 	Rectangle {
@@ -19,7 +14,7 @@ Tumbler {
 		anchors.verticalCenterOffset: -0.5 * currentItem.height
 		width: currentItem.width * 0.8
 		height: 1
-		color: parent.enabled ? highlightColor() : palette.text
+		color: parent.enabled ? helper.highlight : helper.text
 	}
 
 	Rectangle {
@@ -27,6 +22,6 @@ Tumbler {
 		anchors.verticalCenterOffset: 0.5 * currentItem.height
 		width: currentItem.width * 0.8
 		height: 1
-		color: parent.enabled ? highlightColor() : palette.text
+		color: parent.enabled ? helper.highlight : helper.text
 	}
 }

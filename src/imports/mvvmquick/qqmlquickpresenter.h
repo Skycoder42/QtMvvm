@@ -11,6 +11,8 @@
 #include <QtCore/QQueue>
 #include <QtCore/QSharedPointer>
 
+#include <QtGui/QColor>
+
 #include <QtQml/QQmlComponent>
 
 #include <QtMvvmCore/ViewModel>
@@ -126,6 +128,20 @@ public:
 #endif
 	//! Converts a list of mimetypes into a list of extension filters, for a file dialog
 	Q_INVOKABLE static QStringList mimeTypeFilters(const QStringList &mimeTypes) const;
+
+	/*! @brief Calculates the optimal text color based on the background color
+	 *
+	 * @param accentColor The color to find a contrasting text color for
+	 * @param baseColor The current default text color
+	 * @return A color for text that is easy to read when used with accentColor as
+	 * the background
+	 *
+	 * The method calculates whether the color should be light or dark and then either returns
+	 * white or black, depending on which color fits better. If baseColor is specified, then
+	 * the color value is checked, too. If baseColor is easily readable, it is simply returned
+	 * as result. Otherwise the method proceeds as usual.
+	 */
+	Q_REVISION(1) Q_INVOKABLE static QColor accentTextColor(const QColor &accentColor, const QColor &baseColor) const;
 
 #ifdef DOXYGEN_RUN
 public:

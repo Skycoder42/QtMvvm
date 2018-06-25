@@ -116,6 +116,13 @@ Module {
             type: "QStringList"
             Parameter { name: "mimeTypes"; type: "QStringList" }
         }
+        Method {
+            name: "accentTextColor"
+            revision: 1
+            type: "QColor"
+            Parameter { name: "accentColor"; type: "QColor" }
+            Parameter { name: "baseColor"; type: "QColor" }
+        }
     }
     Component {
         name: "QtMvvm::QQmlViewPlaceholder"

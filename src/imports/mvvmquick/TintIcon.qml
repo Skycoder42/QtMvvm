@@ -1,8 +1,7 @@
 import QtQuick 2.10
-import QtQuick.Controls.Material 2.3
-import QtQuick.Controls.Universal 2.3
+import QtQuick.Controls 2.3
 import QtGraphicalEffects 1.0
-import de.skycoder42.QtMvvm.Quick 1.0
+import de.skycoder42.QtMvvm.Quick 1.1
 
 Item {
 	id: _tintIcon
@@ -23,17 +22,14 @@ Item {
 		visible: false
 	}
 
+	ColorHelper {
+		id: helper
+	}
+
 	ColorOverlay {
 		id: _overlay
 		anchors.fill: _image
 		source: _image
-		color: {
-			if(QuickPresenter.currentStyle === "Material")
-				return Material.foreground;
-			else if(QuickPresenter.currentStyle === "Universal")
-				return Universal.foreground;
-			else
-				return "black";
-		}
+		color: helper.text
 	}
 }

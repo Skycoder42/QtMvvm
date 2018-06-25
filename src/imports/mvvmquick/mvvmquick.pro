@@ -37,6 +37,7 @@ QML_FILES += \
 	TintIcon.qml \
 	AlertDialog.qml \
 	ContrastToolBar.qml \
+	ContrastToolBar11.qml \
 	ToolBarLabel.qml \
 	ActionButton.qml \
 	RoundActionButton.qml \
@@ -56,7 +57,8 @@ QML_FILES += \
 	MsgDelegate.qml \
 	TimeTumbler.qml \
 	TimeEdit.qml \
-	DateEdit.qml
+	DateEdit.qml \
+	ColorHelper.qml
 
 RESOURCES += \
 	qtmvvmquick_plugin.qrc

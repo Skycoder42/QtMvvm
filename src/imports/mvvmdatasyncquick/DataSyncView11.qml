@@ -95,6 +95,11 @@ Page {
 
 	Pane {
 		anchors.fill: parent
+
+		ColorHelper {
+			id: helper
+		}
+
 		ColumnLayout {
 			id: _layout
 			anchors.fill: parent
@@ -146,14 +151,7 @@ Page {
 				Layout.fillWidth: true
 				Layout.minimumHeight: 1
 				Layout.maximumHeight: 1
-				color: {
-					if(QuickPresenter.currentStyle === "Material")
-						return Material.foreground;
-					else if(QuickPresenter.currentStyle === "Universal")
-						return Universal.foreground;
-					else
-						return "black";
-				}
+				color: helper.text
 			}
 
 			Label {

@@ -1,12 +1,11 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
-import QtQuick.Controls.Material 2.3
-import QtQuick.Controls.Universal 2.3
 import QtQuick.Layouts 1.3
 import de.skycoder42.QtDataSync 4.0
 import de.skycoder42.QtMvvm.Core 1.1
 import de.skycoder42.QtMvvm.Quick 1.1
 import de.skycoder42.QtMvvm.DataSync.Core 1.1
+import de.skycoder42.QtMvvm.DataSync.Quick 1.1
 
 /*! @brief The view implementation for the QtMvvm::NetworkExchangeViewModel
  *
@@ -43,6 +42,11 @@ Page {
 
 	Pane {
 		anchors.fill: parent
+
+		ColorHelper {
+			id: helper
+		}
+
 		ColumnLayout {
 			id: _layout
 			anchors.fill: parent
@@ -90,14 +94,7 @@ Page {
 				Layout.fillWidth: true
 				Layout.minimumHeight: 1
 				Layout.maximumHeight: 1
-				color: {
-					if(QuickPresenter.currentStyle === "Material")
-						return Material.foreground;
-					else if(QuickPresenter.currentStyle === "Universal")
-						return Universal.foreground;
-					else
-						return "black";
-				}
+				color: helper.text
 			}
 
 			Switch {

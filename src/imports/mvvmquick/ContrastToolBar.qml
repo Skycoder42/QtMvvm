@@ -28,7 +28,7 @@ ToolBar {
 	 * the color value is checked, too. If baseColor is easily readable, it is simply returned
 	 * as result. Otherwise the method proceeds as usual.
 	 */
-	function accentTextColor(accentColor, baseColor) { //TODO move to global
+	function accentTextColor(accentColor, baseColor) {
 		var a = (0.299 * accentColor.r + 0.587 * accentColor.g + 0.144 * accentColor.b);
 		if(typeof baseColor !== "undefined") {
 			var b = (0.299 * baseColor.r + 0.587 * baseColor.g + 0.144 * baseColor.b);

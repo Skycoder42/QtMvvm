@@ -18,8 +18,11 @@ internal OverviewListView OverviewListView.qml
 
 internal TimeTumbler TimeTumbler.qml
 
+ColorHelper 1.1 ColorHelper.qml
+
 AlertDialog 1.0 AlertDialog.qml
 ContrastToolBar 1.0 ContrastToolBar.qml
+ContrastToolBar 1.1 ContrastToolBar11.qml
 ToolBarLabel 1.0 ToolBarLabel.qml
 ActionButton 1.0 ActionButton.qml
 RoundActionButton 1.0 RoundActionButton.qml

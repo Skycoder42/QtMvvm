@@ -1,8 +1,8 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
-import QtQuick.Controls.Material 2.3
 import QtQuick.Layouts 1.3
 import Qt.labs.calendar 1.0
+import de.skycoder42.QtMvvm.Quick 1.1
 
 ListView {
 	id: _calenderList
@@ -116,12 +116,19 @@ ListView {
 			delegate: Label {
 				id: dayDelegate
 
+				ColorHelper {
+					id: helper
+				}
+
+				readonly property bool isCurrent: model.day === _calenderList.currentDate.getDate() && model.month === _calenderList.currentDate.getMonth()
+				readonly property alias highlightColor: helper.highlight
+
 				horizontalAlignment: Text.AlignHCenter
 				verticalAlignment: Text.AlignVCenter
 				opacity: model.month === grid.month ? 1 : 0.5
 				text: model.day
 				font: grid.font
-				//TODO accent text color
+				color: isCurrent ? QuickPresenter.accentTextColor(highlightColor, palette.text) : palette.text
 
 				background: Rectangle {
 					readonly property double size: Math.max(dayDelegate.width, dayDelegate.height) * 1.2
@@ -130,8 +137,8 @@ ListView {
 					height: size
 					width: size
 
-					color: Material.accentColor //TODO highlight color from globally
-					opacity: model.day === _calenderList.currentDate.getDate() && model.month === _calenderList.currentDate.getMonth() ? 1 : 0
+					color: dayDelegate.highlightColor
+					opacity: dayDelegate.isCurrent ? 1 : 0
 					radius: size / 2
 
 					Behavior on opacity {

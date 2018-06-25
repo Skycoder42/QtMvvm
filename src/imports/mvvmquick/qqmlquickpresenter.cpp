@@ -57,6 +57,20 @@ QStringList QQmlQuickPresenter::mimeTypeFilters(const QStringList &mimeTypes) co
 	return filters;
 }
 
+QColor QQmlQuickPresenter::accentTextColor(const QColor &accentColor, const QColor &baseColor) const
+{
+	auto a = (0.299 * accentColor.redF() + 0.587 * accentColor.greenF() + 0.144 * accentColor.blueF());
+	if(baseColor.isValid()) {
+		auto b = (0.299 * baseColor.redF() + 0.587 * baseColor.greenF() + 0.144 * baseColor.blueF());
+		if (std::abs(a - b) >= 0.5)
+			return baseColor;
+	}
+	if(a < 0.5)
+		return Qt::white;
+	else
+		return Qt::black;
+}
+
 void QQmlQuickPresenter::toggleDrawer()
 {
 	if(!_qmlPresenter) {
