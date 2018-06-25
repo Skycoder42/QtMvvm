@@ -11,7 +11,8 @@ QtMvvm.TimeEdit {
 	onInputValueChanged: {
 		var realTime = typeof inputValue == "string" ? new Date("2000-01-01T" + inputValue) : inputValue
 		if(realTime.getHours() !== time.getHours() ||
-		   realTime.getMinutes() !== time.getMinutes()) {
+		   realTime.getMinutes() !== time.getMinutes() ||
+		   realTime.getSeconds() !== time.getSeconds()) {
 			time = realTime
 		}
 	}
