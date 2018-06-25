@@ -131,7 +131,10 @@ InputViewFactoryPrivate::InputViewFactoryPrivate() :
 		{"range", QStringLiteral("qrc:/qtmvvm/delegates/RangeDelegate.qml")}
 	},
 	formatters{
-		{QMetaType::typeName(QMetaType::Int), QSharedPointer<IntFormatter>::create()}
+		{QMetaType::typeName(QMetaType::Int), QSharedPointer<IntFormatter>::create()},
+		{QMetaType::typeName(QMetaType::QTime), QSharedPointer<DateTimeFormatter<QTime>>::create()},
+		{QMetaType::typeName(QMetaType::QDate), QSharedPointer<DateTimeFormatter<QDate>>::create()},
+		{QMetaType::typeName(QMetaType::QDateTime), QSharedPointer<DateTimeFormatter<QDateTime>>::create()}
 	}
 {
 	auto dblFormatter = QSharedPointer<SimpleFormatter<double>>::create();

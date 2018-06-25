@@ -2,6 +2,7 @@
 #define QTMVVM_FORMATTERS_P_H
 
 #include <QtCore/QCoreApplication>
+#include <QtCore/QDateTime>
 
 #include "inputviewfactory.h"
 
@@ -33,6 +34,23 @@ public:
 		}
 
 		return formatString.arg(value.toString());
+	}
+};
+
+template <typename T>
+class DateTimeFormatter : public Formatter
+{
+public:
+	QString format(const QString &formatString, const QVariant &value, const QVariantMap &viewProperties) const override {
+		auto formatType = viewProperties.value(QStringLiteral("qtmvvm_dateformat"));
+		QString dateStr;
+		if(formatType.type() == QVariant::Int)
+			dateStr = value.template value<T>().toString(static_cast<Qt::DateFormat>(formatType.toInt()));
+		else if(formatType.type() == QVariant::String)
+			dateStr = value.template value<T>().toString(formatType.toString());
+		else
+			dateStr = value.template value<T>().toString(Qt::DefaultLocaleShortDate);
+		return formatString.arg(dateStr);
 	}
 };
 

@@ -139,7 +139,7 @@
 			   title="Choose a date"
 			   default="2018-10-10">
 			<Property key="qtmvvm_preview" type="string">Selected date: %1</Property>
-			<Property key="qtmvvm_dateformat" type="string">dd.MM.yyyy</Property>
+			<Property key="qtmvvm_dateformat" type="string">dd. MMMM yyyy</Property>
 		</Entry>
 		<Entry key="prop15"
 			   type="QDateTime"

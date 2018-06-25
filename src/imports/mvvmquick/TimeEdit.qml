@@ -14,6 +14,10 @@ RowLayout {
 
 	property var _forceTime: new Date()
 
+	property bool showHours: true
+	property bool showMinutes: true
+	property bool showSeconds: false
+
 	readonly property bool is24Hours: {
 		var fmStr = Qt.locale().timeFormat(Locale.LongFormat);
 		var isApPm = false;
@@ -24,17 +28,17 @@ RowLayout {
 		return !isApPm;
 	}
 
-	readonly property int hours: _hourTumbler.currentIndex + (!is24Hours && _amPmTumbler.currentIndex === 1 ? 12 : 0);
-	readonly property int minutes: _minuteTumbler.currentIndex;
+	readonly property int hours: showHours ? (_hourTumbler.currentIndex + (!is24Hours && _amPmTumbler.currentIndex === 1 ? 12 : 0)) : 0
+	readonly property int minutes: showMinutes ? _minuteTumbler.currentIndex : 0
+	readonly property int seconds: showSeconds ? _secondsTumbler.currentIndex : 0
 	property bool _skipChange: false
 
 	function recalcTime() {
-		var hours = _hourTumbler.currentIndex + (!is24Hours && _amPmTumbler.currentIndex === 1 ? 12 : 0);
-		var minutes = _minuteTumbler.currentIndex;
 		if(_forceTime.getHours() !== hours ||
-		   _forceTime.getMinutes() !== minutes) {
+		   _forceTime.getMinutes() !== minutes ||
+		   _forceTime.getSeconds() !== seconds) {
 			_skipChange = true;
-			time = new Date(0, 0, 0, hours, minutes);
+			time = new Date(0, 0, 0, hours, minutes, seconds);
 			_skipChange = false;
 		}
 	}
@@ -48,6 +52,7 @@ RowLayout {
 
 	TimeTumbler {
 		id: _hourTumbler
+		visible: showHours
 		model: {
 			var model = new Array(is24Hours ? 24 : 12);
 			for(var i = 0; i < model.length; i++)
@@ -63,10 +68,12 @@ RowLayout {
 	Label {
 		text: qsTr(":")
 		Layout.minimumWidth: implicitWidth
+		visible: showHours && showMinutes
 	}
 
 	TimeTumbler {
 		id: _minuteTumbler
+		visible: showMinutes
 		model: {
 			var mod = new Array(60)
 			for(var i = 0; i < mod.length; i++) {
@@ -79,9 +86,30 @@ RowLayout {
 		onCurrentIndexChanged: Qt.callLater(recalcTime)
 	}
 
+	Label {
+		text: qsTr(":")
+		Layout.minimumWidth: implicitWidth
+		visible: showSeconds && (showMinutes || showHours)
+	}
+
+	TimeTumbler {
+		id: _secondsTumbler
+		visible: showSeconds
+		model: {
+			var mod = new Array(60)
+			for(var i = 0; i < mod.length; i++) {
+				var data = i.toString();
+				mod[i] = data.length < 2 ? Qt.locale().zeroDigit + data : data;
+			}
+			return mod;
+		}
+		currentIndex: _forceTime.getSeconds()
+		onCurrentIndexChanged: Qt.callLater(recalcTime)
+	}
+
 	TimeTumbler {
 		id: _amPmTumbler
-		visible: !is24Hours
+		visible: !is24Hours && showHours
 		model: [
 			Qt.locale().amText,
 			Qt.locale().pmText,
