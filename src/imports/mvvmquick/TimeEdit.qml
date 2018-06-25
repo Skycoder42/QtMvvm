@@ -46,7 +46,7 @@ RowLayout {
 		Layout.preferredWidth: 0
 	}
 
-	Tumbler {
+	TimeTumbler {
 		id: _hourTumbler
 		model: {
 			var model = new Array(is24Hours ? 24 : 12);
@@ -65,7 +65,7 @@ RowLayout {
 		Layout.minimumWidth: implicitWidth
 	}
 
-	Tumbler {
+	TimeTumbler {
 		id: _minuteTumbler
 		model: {
 			var mod = new Array(60)
@@ -79,7 +79,7 @@ RowLayout {
 		onCurrentIndexChanged: Qt.callLater(recalcTime)
 	}
 
-	Tumbler {
+	TimeTumbler {
 		id: _amPmTumbler
 		visible: !is24Hours
 		model: [

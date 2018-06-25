@@ -54,7 +54,8 @@ QML_FILES += \
 	RoundMenuButton.qml \
 	DecorLabel.qml \
 	MsgDelegate.qml \
-	TimeEdit.qml
+	TimeEdit.qml \
+	TimeTumbler.qml
 
 RESOURCES += \
 	qtmvvmquick_plugin.qrc

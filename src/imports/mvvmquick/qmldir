@@ -16,6 +16,8 @@ internal ListSection ListSection.qml
 internal SectionListView SectionListView.qml
 internal OverviewListView OverviewListView.qml
 
+internal TimeTumbler TimeTumbler.qml
+
 AlertDialog 1.0 AlertDialog.qml
 ContrastToolBar 1.0 ContrastToolBar.qml
 ToolBarLabel 1.0 ToolBarLabel.qml
