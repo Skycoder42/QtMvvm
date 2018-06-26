@@ -6,8 +6,8 @@ import de.skycoder42.QtMvvm.Quick 1.1
 ItemDelegate {
 	id: _msgDelegate
 
-	property alias sourceComponent: _indicator.sourceComponent
-	property alias source: _indicator.source
+	property alias indicatorComponent: _indicator.sourceComponent
+	property alias indicatorSource: _indicator.source
 
 	property string editDialogType: type
 

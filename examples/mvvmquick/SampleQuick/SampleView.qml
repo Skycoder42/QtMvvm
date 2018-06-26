@@ -35,6 +35,10 @@ Page {
 					text: qsTr("Add Files")
 					onTriggered: viewModel.getFiles()
 				}
+				MenuItem {
+					text: qsTr("Add Color")
+					onTriggered: viewModel.getColor()
+				}
 
 				MenuSeparator {}
 

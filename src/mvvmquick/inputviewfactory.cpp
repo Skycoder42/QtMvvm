@@ -119,6 +119,8 @@ InputViewFactoryPrivate::InputViewFactoryPrivate() :
 		{QMetaType::typeName(QMetaType::QDate), QStringLiteral("qrc:/qtmvvm/inputs/DateEdit.qml")},
 		{QMetaType::typeName(QMetaType::QDateTime), QStringLiteral("qrc:/qtmvvm/inputs/DateTimeEdit.qml")},
 		{"date", QStringLiteral("qrc:/qtmvvm/inputs/DateTimeEdit.qml")},
+		{QMetaType::typeName(QMetaType::QColor), QStringLiteral("qrc:/qtmvvm/inputs/ColorEdit.qml")},
+		{"color", QStringLiteral("qrc:/qtmvvm/inputs/ColorEdit.qml")},
 		{QMetaType::typeName(QMetaType::QFont), QStringLiteral("qrc:/qtmvvm/inputs/FontEdit.qml")},
 		{QMetaType::typeName(QMetaType::QUrl), QStringLiteral("qrc:/qtmvvm/inputs/UrlField.qml")},
 		{"selection", QStringLiteral("qrc:/qtmvvm/inputs/ListEdit.qml")},
@@ -128,7 +130,8 @@ InputViewFactoryPrivate::InputViewFactoryPrivate() :
 	simpleDelegates{
 		{QMetaType::typeName(QMetaType::Bool), QStringLiteral("qrc:/qtmvvm/delegates/BoolDelegate.qml")},
 		{"switch", QStringLiteral("qrc:/qtmvvm/delegates/SwitchDelegate.qml")},
-		{"range", QStringLiteral("qrc:/qtmvvm/delegates/RangeDelegate.qml")}
+		{"range", QStringLiteral("qrc:/qtmvvm/delegates/RangeDelegate.qml")},
+		{QMetaType::typeName(QMetaType::QColor), QStringLiteral("qrc:/qtmvvm/delegates/ColorDelegate.qml")}
 	},
 	formatters{
 		{QMetaType::typeName(QMetaType::Int), QSharedPointer<IntFormatter>::create()},

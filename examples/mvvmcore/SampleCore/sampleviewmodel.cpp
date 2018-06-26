@@ -99,7 +99,8 @@ void SampleViewModel::getFiles()
 void SampleViewModel::getColor()
 {
 	QtMvvm::getColor(this, [this](const QColor &color) {
-		addEvent(color.name(QColor::HexArgb));
+		if(color.isValid())
+			addEvent(color.name(QColor::HexArgb));
 	}, tr("Select a color:"), true);
 }
 

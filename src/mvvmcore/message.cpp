@@ -164,7 +164,8 @@ MessageConfig &MessageConfig::resetButtons()
 			d->buttons = Close;
 		else
 			d->buttons = Ok;
-	} else if(d->type == TypeInputDialog)
+	} else if(d->type == TypeInputDialog ||
+			  d->type == TypeColorDialog)
 		d->buttons = Ok | Cancel;
 	else
 		d->buttons = Ok;

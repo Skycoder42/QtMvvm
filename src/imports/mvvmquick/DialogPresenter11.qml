@@ -76,7 +76,9 @@ QtObject {
 			return createInput(config, result)
 		else if(config.type == "file")
 			return createFile(config, result)
-		else
+		else if(config.type == "color") {
+			return createColor(config, result)
+		} else
 			return false;
 	}
 
@@ -207,6 +209,7 @@ QtObject {
 		var props = config.viewProperties;
 		props["msgConfig"] = config;
 		props["msgResult"] = result;
+		console.log(config.buttons);
 		var incubator = _inputComponent.incubateObject(rootItem, props, Qt.Synchronous);
 		return incubator.status !== Component.Error;
 	}
@@ -233,5 +236,12 @@ QtObject {
 		else
 			incubator = _fileComponent.incubateObject(rootItem, props, Qt.Synchronous);
 		return incubator.status !== Component.Error;
+	}
+
+	function createColor(config, result) {
+		config.viewProperties["alpha"] = (config.subType == "argb");
+		config.type = "input";
+		config.subType = "QColor";
+		return createInput(config, result);
 	}
 }

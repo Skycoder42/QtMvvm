@@ -34,6 +34,7 @@ DecorLabel 1.1 DecorLabel.qml
 MsgDelegate 1.1 MsgDelegate.qml
 TimeEdit 1.1 TimeEdit.qml
 DateEdit 1.1 DateEdit.qml
+ColorEdit 1.1 ColorEdit.qml
 
 PresenterProgress 1.0 PresenterProgress.qml
 PresentingStackView 1.0 PresentingStackView.qml

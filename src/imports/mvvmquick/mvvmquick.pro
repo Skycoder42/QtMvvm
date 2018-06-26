@@ -58,7 +58,8 @@ QML_FILES += \
 	TimeTumbler.qml \
 	TimeEdit.qml \
 	DateEdit.qml \
-	ColorHelper.qml
+	ColorHelper.qml \
+	ColorEdit.qml
 
 RESOURCES += \
 	qtmvvmquick_plugin.qrc
