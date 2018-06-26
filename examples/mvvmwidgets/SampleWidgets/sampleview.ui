@@ -111,6 +111,7 @@
     <addaction name="separator"/>
     <addaction name="actionUseless_Input"/>
     <addaction name="actionAdd_Files"/>
+    <addaction name="actionAdd_Color"/>
    </widget>
    <addaction name="menu_Actions"/>
    <addaction name="menu_Help"/>
@@ -139,6 +140,11 @@
   <action name="actionShow_Settings">
    <property name="text">
     <string>Show &amp;Settings</string>
+   </property>
+  </action>
+  <action name="actionAdd_Color">
+   <property name="text">
+    <string>Add &amp;Color</string>
    </property>
   </action>
  </widget>

@@ -9,6 +9,8 @@
 #include <QtCore/qurl.h>
 #include <QtCore/qvariant.h>
 
+#include <QtGui/qcolor.h>
+
 #include "QtMvvmCore/qtmvvmcore_global.h"
 
 namespace QtMvvm {
@@ -77,6 +79,7 @@ public:
 	//! A type to show a generic file dialog
 	static const QByteArray TypeFileDialog;
 	//! @}
+	static const QByteArray TypeColorDialog;
 
 	/**
 	 * @name Possible values for MessageConfig::subType when using the type MessageConfig::TypeMessageBox
@@ -107,6 +110,10 @@ public:
 	//! A subType for to show a save file dialog
 	static const QByteArray SubTypeSaveFile;
 	//! @}
+
+
+	static const QByteArray SubTypeRgb;
+	static const QByteArray SubTypeArgb;
 
 	//! Default constructor, can take a type and a subtype
 	MessageConfig(const QByteArray &type = TypeMessageBox, const QByteArray &subType = {});
@@ -447,6 +454,19 @@ Q_MVVMCORE_EXPORT void getSaveFile(const std::function<void(QUrl)> &onResult,
 								   const QStringList &supportedMimeTypes = {},
 								   const QUrl &dir = {});
 //! @}
+
+Q_MVVMCORE_EXPORT MessageResult *getColor(const QString &title = {},
+										  const QColor &color = {},
+										  bool argb = false);
+Q_MVVMCORE_EXPORT void getColor(QObject *scope,
+								const std::function<void(QColor)> &onResult,
+								const QString &title = {},
+								const QColor &color = {},
+								bool argb = false);
+Q_MVVMCORE_EXPORT void getColor(const std::function<void(QColor)> &onResult,
+								const QString &title = {},
+								const QColor &color = {},
+								bool argb = false);
 
 }
 

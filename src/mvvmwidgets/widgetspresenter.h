@@ -77,6 +77,7 @@ protected:
 	virtual void presentInputDialog(const MessageConfig &config, QPointer<MessageResult> result);
 	//! Called to present a dialog of MessageConfig::TypeFileDialog
 	virtual void presentFileDialog(const MessageConfig &config, QPointer<MessageResult> result);
+	void presentColorDialog(const MessageConfig &config, QPointer<MessageResult> result); //MAJOR make virtual
 	//! Called to present a dialog of a non standard MessageConfig::type
 	virtual void presentOtherDialog(const MessageConfig &config, QPointer<MessageResult> result);
 

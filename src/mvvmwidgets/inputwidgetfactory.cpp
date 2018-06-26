@@ -13,6 +13,7 @@
 #include "fontcombobox_p.h"
 #include "selectcombobox_p.h"
 #include "tooltipslider_p.h"
+#include "coloredit_p.h"
 
 #include <qurlvalidator.h>
 
@@ -62,7 +63,9 @@ QWidget *InputWidgetFactory::createInput(const QByteArray &type, QWidget *parent
 	else if(type == QMetaType::typeName(QMetaType::QDateTime) || type == "date") {
 		widget = new QDateTimeEdit(parent);
 		static_cast<QDateEdit*>(widget)->setCalendarPopup(true);
-	} else if(type == QMetaType::typeName(QMetaType::QFont))
+	} else if(type == QMetaType::typeName(QMetaType::QColor) || type == "color")
+		widget = new ColorEdit(parent);
+	else if(type == QMetaType::typeName(QMetaType::QFont))
 		widget = new FontComboBox(parent);
 	else if(type == QMetaType::typeName(QMetaType::QKeySequence))
 		widget = new QKeySequenceEdit(parent);

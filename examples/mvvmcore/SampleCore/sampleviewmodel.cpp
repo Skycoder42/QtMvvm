@@ -96,6 +96,13 @@ void SampleViewModel::getFiles()
 	}, tr("Open Files:"), {QStringLiteral("text/plain"), QStringLiteral("application/pdf")});
 }
 
+void SampleViewModel::getColor()
+{
+	QtMvvm::getColor(this, [this](const QColor &color) {
+		addEvent(color.name(QColor::HexArgb));
+	}, tr("Select a color:"), true);
+}
+
 void SampleViewModel::getResult()
 {
 	showForResult<ResultViewModel>(ResCode, {

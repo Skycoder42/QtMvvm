@@ -457,6 +457,33 @@ Module {
             name: "getSaveFile"
             Parameter { name: "onResult"; type: "QJSValue" }
         }
+        Method {
+            name: "getColor"
+            revision: 1
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "color"; type: "QColor" }
+            Parameter { name: "argb"; type: "bool" }
+        }
+        Method {
+            name: "getColor"
+            revision: 1
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "color"; type: "QColor" }
+        }
+        Method {
+            name: "getColor"
+            revision: 1
+            Parameter { name: "onResult"; type: "QJSValue" }
+            Parameter { name: "title"; type: "string" }
+        }
+        Method {
+            name: "getColor"
+            revision: 1
+            Parameter { name: "onResult"; type: "QJSValue" }
+        }
+        Method { name: "getColor"; revision: 1 }
     }
     Component {
         name: "QtMvvm::QQmlServiceRegistry"

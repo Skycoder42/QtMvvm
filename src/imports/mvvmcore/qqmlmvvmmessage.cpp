@@ -105,3 +105,14 @@ void QQmlMvvmMessage::getSaveFile(const QJSValue &onResult, const QString &title
 	} else
 		QtMvvm::getSaveFile(title, supportedMimeTypes, dir);
 }
+
+void QtMvvm::QQmlMvvmMessage::getColor(const QJSValue &onResult, const QString &title, const QColor &color, bool argb)
+{
+	if(onResult.isCallable()) {
+		auto engine = _engine;
+		QtMvvm::getColor(this, [engine, onResult](const QColor &color){
+			QJSValue(onResult).call({engine->toScriptValue(color)});
+		}, title, color, argb);
+	} else
+		QtMvvm::getColor(title, color, argb);
+}

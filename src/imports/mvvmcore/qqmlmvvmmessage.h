@@ -110,6 +110,11 @@ public Q_SLOTS:
 							const QStringList &supportedMimeTypes = {},
 							const QUrl &dir = {});
 
+	Q_REVISION(1) static void getColor(const QJSValue &onResult = {},
+									   const QString &title = {},
+									   const QColor &color = {},
+									   bool argb = false);
+
 #ifndef DOXYGEN_RUN
 #undef static
 #endif

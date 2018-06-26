@@ -13,7 +13,8 @@ HEADERS += \
 	inputwidgetfactory_p.h \
 	settingsdialog_p.h \
 	settingsdialog.h \
-    tooltipslider_p.h
+    tooltipslider_p.h \
+    coloredit_p.h
 
 SOURCES += \
 	widgetspresenter.cpp \
@@ -21,7 +22,8 @@ SOURCES += \
 	selectcombobox.cpp \
 	inputwidgetfactory.cpp \
 	settingsdialog.cpp \
-    tooltipslider.cpp
+    tooltipslider.cpp \
+    coloredit.cpp
 
 FORMS += \
 	settingsdialog.ui

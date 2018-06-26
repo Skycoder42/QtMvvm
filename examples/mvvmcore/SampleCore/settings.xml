@@ -147,6 +147,10 @@
 			   default="2018-10-10T14:30">
 			<Property key="qtmvvm_preview" type="string">Selected date and time: %1</Property>
 		</Entry>
+		<Entry key="prop16"
+			   type="QColor"
+			   title="Choose a color"
+			   default="#AA00FF" />
 		<Entry key="propErr"
 			   type="non-existant-type"
 			   title="Non existing type" />

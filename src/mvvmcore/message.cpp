@@ -10,6 +10,7 @@ using namespace QtMvvm;
 const QByteArray MessageConfig::TypeMessageBox = "msgbox";
 const QByteArray MessageConfig::TypeInputDialog = "input";
 const QByteArray MessageConfig::TypeFileDialog = "file";
+const QByteArray MessageConfig::TypeColorDialog = "color";
 
 const QByteArray MessageConfig::SubTypeInformation = "information";
 const QByteArray MessageConfig::SubTypeWarning = "warning";
@@ -21,6 +22,9 @@ const QByteArray MessageConfig::SubTypeDir = "dir";
 const QByteArray MessageConfig::SubTypeOpenFile = "open";
 const QByteArray MessageConfig::SubTypeOpenFiles = "files";
 const QByteArray MessageConfig::SubTypeSaveFile = "save";
+
+const QByteArray MessageConfig::SubTypeRgb = "rgb";
+const QByteArray MessageConfig::SubTypeArgb = "argb";
 
 MessageConfig::MessageConfig(const QByteArray &type, const QByteArray &subType) :
 	d(new MessageConfigPrivate(type, subType))
@@ -572,4 +576,28 @@ void QtMvvm::getSaveFile(QObject *scope, const std::function<void (QUrl)> &onRes
 void QtMvvm::getSaveFile(const std::function<void (QUrl)> &onResult, const QString &title, const QStringList &supportedMimeTypes, const QUrl &dir)
 {
 	getSaveFile(CoreApp::instance(), onResult, title, supportedMimeTypes, dir);
+}
+
+MessageResult *QtMvvm::getColor(const QString &title, const QColor &color, bool argb)
+{
+	MessageConfig config(MessageConfig::TypeColorDialog, argb ? MessageConfig::SubTypeArgb : MessageConfig::SubTypeRgb);
+	config.setTitle(title);
+	config.setDefaultValue(color);
+	return CoreApp::showDialog(config);
+}
+
+void QtMvvm::getColor(QObject *scope, const std::function<void (QColor)> &onResult, const QString &title, const QColor &color, bool argb)
+{
+	auto result = getColor(title, color, argb);
+	if(result) {
+		QObject::connect(result, &MessageResult::dialogDone,
+						 scope, [onResult, result](MessageConfig::StandardButton type) {
+			onResult(type == MessageConfig::Ok ? result->result().value<QColor>() : QColor{});
+		}, Qt::QueuedConnection);
+	}
+}
+
+void QtMvvm::getColor(const std::function<void (QColor)> &onResult, const QString &title, const QColor &color, bool argb)
+{
+	getColor(CoreApp::instance(), onResult, title, color, argb);
 }

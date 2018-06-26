@@ -18,6 +18,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QColorDialog>
 
 #include <QtMvvmCore/private/qtmvvm_logging_p.h>
 
@@ -116,6 +117,8 @@ void WidgetsPresenter::showDialog(const MessageConfig &config, MessageResult *re
 		presentInputDialog(config, result);
 	else if(config.type() == MessageConfig::TypeFileDialog)
 		presentFileDialog(config, result);
+	else if(config.type() == MessageConfig::TypeColorDialog)
+		presentColorDialog(config, result);
 	else
 		presentOtherDialog(config, result);
 	logDebug() << "Presented dialog of type" << config.type();
@@ -294,6 +297,7 @@ void WidgetsPresenter::presentMessageBox(const MessageConfig &config, QPointer<M
 
 	//create and show the msgbox
 	auto msgBox = DialogMaster::createMessageBox(info);
+	msgBox->setAttribute(Qt::WA_DeleteOnClose);
 	connect(msgBox, &QMessageBox::finished,
 			result, [msgBox, qtHelp, checked, result](){
 		int sBtn = msgBox->standardButton(msgBox->clickedButton());
@@ -375,6 +379,7 @@ void WidgetsPresenter::presentFileDialog(const MessageConfig &config, QPointer<M
 	if(!props.value(QStringLiteral("modal"), false).toBool())
 		parent = QApplication::activeWindow();
 	auto dialog = new QFileDialog(parent);
+	dialog->setAttribute(Qt::WA_DeleteOnClose);
 
 	//prepare the dialog
 	auto title = config.title();
@@ -414,6 +419,52 @@ void WidgetsPresenter::presentFileDialog(const MessageConfig &config, QPointer<M
 					result->setResult(QVariant::fromValue(dialog->selectedUrls()));
 				else if(!dialog->selectedUrls().isEmpty())
 					result->setResult(dialog->selectedUrls().value(0));
+				result->complete(MessageConfig::Ok);
+			} else
+				result->complete(MessageConfig::Cancel);
+		}
+	});
+
+	//finalize and show
+	dialog->adjustSize();
+	DialogMaster::masterDialog(dialog);
+	dialog->open();
+}
+
+void WidgetsPresenter::presentColorDialog(const MessageConfig &config, QPointer<MessageResult> result)
+{
+	auto props = config.viewProperties();
+
+	QWidget *parent = nullptr;
+	if(!props.value(QStringLiteral("modal"), false).toBool())
+		parent = QApplication::activeWindow();
+	auto dialog = new QColorDialog{parent};
+	dialog->setAttribute(Qt::WA_DeleteOnClose);
+
+	//prepare the dialog
+	auto title = config.title();
+	if(!title.isNull())
+		dialog->setWindowTitle(title);
+	auto color = config.defaultValue().value<QColor>();
+	if(color.isValid())
+		dialog->setCurrentColor(color);
+
+	//set the color mode
+	if(config.subType() == MessageConfig::SubTypeArgb)
+		dialog->setOptions(QColorDialog::ShowAlphaChannel);
+	else if(config.subType() == MessageConfig::SubTypeRgb)
+		dialog->setOptions(nullptr);
+
+	//set extra props
+	for(auto it = props.constBegin(); it != props.constEnd(); it++)
+		dialog->setProperty(qUtf8Printable(it.key()), it.value());
+
+	//connect stuff
+	QObject::connect(dialog, &QDialog::finished,
+					 dialog, [dialog, result](int resCode){
+		if(result) {
+			if(resCode == QDialog::Accepted) {
+				result->setResult(dialog->currentColor());
 				result->complete(MessageConfig::Ok);
 			} else
 				result->complete(MessageConfig::Cancel);
