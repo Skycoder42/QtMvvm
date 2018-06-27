@@ -64,7 +64,6 @@ Page {
 	}
 
 	function presentTab(item) {
-		console.log("here");
 		tabBar.insertItem(tabBar.count - 1, _newTab.createObject(tabBar, {viewModel: item.viewModel}));
 		item.parent = swipe;
 		swipe.addItem(item);

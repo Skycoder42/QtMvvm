@@ -9,7 +9,7 @@ ListView {
 
 	property date firstDate: new Date(1970, 0, 1)
 	property date lastDate: new Date(9999, 11, 31)
-	property date currentDate: today();
+	property date date: today();
 
 	function today() {
 		var cDate = new Date();
@@ -26,14 +26,14 @@ ListView {
 			if(_skipNextFocus)
 				_skipNextFocus = false;
 			else {
-				_calenderList.currentIndex = calendarModel.indexOf(_calenderList.currentDate);
+				_calenderList.currentIndex = calendarModel.indexOf(_calenderList.date);
 				_calenderList.positionViewAtIndex(_calenderList.currentIndex, ListView.SnapPosition);
 			}
 		}
 	}
 
 	Component.onCompleted: _p.focusDate()
-	onCurrentDateChanged: _p.focusDate()
+	onDateChanged: _p.focusDate()
 
 	implicitWidth: 300
 	implicitHeight: 200
@@ -120,7 +120,7 @@ ListView {
 					id: helper
 				}
 
-				readonly property bool isCurrent: model.day === _calenderList.currentDate.getDate() && model.month === _calenderList.currentDate.getMonth()
+				readonly property bool isCurrent: model.day === _calenderList.date.getDate() && model.month === _calenderList.date.getMonth()
 				readonly property alias highlightColor: helper.highlight
 
 				horizontalAlignment: Text.AlignHCenter
@@ -160,7 +160,7 @@ ListView {
 							_calenderList.incrementCurrentIndex();
 							_p._skipNextFocus = true;
 						}
-						_calenderList.currentDate = model.date;
+						_calenderList.date = model.date;
 					}
 				}
 			}

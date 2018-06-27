@@ -119,6 +119,12 @@ Module {
             type: "QtMvvm::MessageResult*"
             Parameter { name: "config"; type: "QtMvvm::MessageConfig" }
         }
+        Method {
+            name: "safeCastInputType"
+            type: "QVariant"
+            Parameter { name: "type"; type: "string" }
+            Parameter { name: "value"; type: "QVariant" }
+        }
     }
     Component {
         name: "QtMvvm::QQmlMvvmBinding"

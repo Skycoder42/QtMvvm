@@ -123,6 +123,7 @@ InputViewFactoryPrivate::InputViewFactoryPrivate() :
 		{"color", QStringLiteral("qrc:/qtmvvm/inputs/ColorEdit.qml")},
 		{QMetaType::typeName(QMetaType::QFont), QStringLiteral("qrc:/qtmvvm/inputs/FontEdit.qml")},
 		{QMetaType::typeName(QMetaType::QUrl), QStringLiteral("qrc:/qtmvvm/inputs/UrlField.qml")},
+		{"url", QStringLiteral("qrc:/qtmvvm/inputs/UrlField.qml")},
 		{"selection", QStringLiteral("qrc:/qtmvvm/inputs/ListEdit.qml")},
 		{"list", QStringLiteral("qrc:/qtmvvm/inputs/ListEdit.qml")},
 		{"radiolist", QStringLiteral("qrc:/qtmvvm/inputs/RadioListEdit.qml")}

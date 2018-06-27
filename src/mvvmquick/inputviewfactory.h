@@ -68,7 +68,7 @@ public:
 
 	template <typename TType>
 	inline void addFormatter(Formatter *formatter);
-	void addFormatter(const QByteArray &type, Formatter *formatter);
+	void addFormatter(const QByteArray &type, Formatter *formatter); //MAJOR make virtual
 
 	//! Adds a type name alias for views
 	template <typename TAliasType, typename TTargetType>

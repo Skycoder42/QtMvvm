@@ -11,6 +11,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QScrollArea>
 
+#include <QtMvvmCore/CoreApp>
 #include <QtMvvmCore/private/qtmvvm_logging_p.h>
 
 using namespace QtMvvm;
@@ -115,7 +116,7 @@ void SettingsDialogPrivate::entryChanged(const QString &key)
 	if(!content)
 		return;
 	auto info = entryMap.value(content);
-	info.second.write(content, viewModel->loadValue(info.first.key, info.first.defaultValue));
+	info.second.write(content, readValue(info.first));
 }
 
 void SettingsDialogPrivate::createCategory(const SettingsElements::Category &category)
@@ -200,7 +201,7 @@ void SettingsDialogPrivate::createEntry(const SettingsElements::Entry &entry, QW
 			auto widgetFactory = WidgetsPresenterPrivate::currentPresenter()->inputWidgetFactory();
 			content = widgetFactory->createInput(entry.type, sectionWidget, entry.properties);
 			auto property = content->metaObject()->userProperty();
-			property.write(content, viewModel->loadValue(entry.key, entry.defaultValue));
+			property.write(content, readValue(entry));
 			if(property.hasNotifySignal()) {
 				auto changedSlot = metaObject()->method(metaObject()->indexOfSlot("propertyChanged()"));
 				connect(content, property.notifySignal(),
@@ -414,6 +415,11 @@ bool SettingsDialogPrivate::searchInEntry(const QRegularExpression &regex, QLabe
 
 	label->setStyleSheet(QString());
 	return false;
+}
+
+QVariant SettingsDialogPrivate::readValue(const SettingsElements::Entry &entry) const
+{
+	return CoreApp::safeCastInputType(entry.type, viewModel->loadValue(entry.key, entry.defaultValue));
 }
 
 void SettingsDialogPrivate::propertyChanged()

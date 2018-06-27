@@ -97,6 +97,38 @@ MessageResult *CoreApp::showDialog(const MessageConfig &config)
 	return result;
 }
 
+QVariant CoreApp::safeCastInputType(const QByteArray &type, const QVariant &value)
+{
+	// get the target type, either explicitly or from the name
+	auto mType = CoreAppPrivate::dInstance()->inputTypeMapping.value(type, QMetaType::UnknownType);
+	if(mType == QMetaType::UnknownType) {
+		mType = QMetaType::type(type.constData());
+		if(mType == QMetaType::UnknownType) { // no type found -> do nothing but warn
+			logWarning() << "Input type" << type << "has no know C++ type to convert it to. Use QtMvvm::CoreApp::registerInputTypeMapping to add it."
+						 << "To surpress this warning without performing a conversion, register it as `CoreApp::registerInputTypeMapping<QVariant>(" << type << ");`";
+			return value;
+		}
+	}
+
+	// target type is QVariant -> return without converting
+	if(mType == QMetaType::QVariant)
+		return value;
+
+	auto convValue = value;
+	if(!convValue.convert(mType)) {
+		logWarning() << "Failed to convert data for input type" << type
+					 << "from given type" << value.typeName()
+					 << "to the target type" << QMetaType::typeName(mType);
+		return value;
+	} else
+		return convValue;
+}
+
+void CoreApp::registerInputTypeMapping(const QByteArray &type, int targetType)
+{
+	CoreAppPrivate::dInstance()->inputTypeMapping.insert(type, targetType);
+}
+
 void CoreApp::bootApp()
 {
 	if(!d->presenter) {
@@ -180,6 +212,23 @@ void CoreApp::showImp(const QMetaObject *metaObject, const QVariantHash &params,
 
 bool CoreAppPrivate::bootEnabled = true;
 QPointer<CoreApp> CoreAppPrivate::instance = nullptr;
+
+CoreAppPrivate::CoreAppPrivate() :
+	inputTypeMapping{
+		{"switch", QMetaType::Bool},
+		{"string", QMetaType::QString},
+		{"number", QMetaType::Double},
+		{"range", QMetaType::Int},
+		{"date", QMetaType::QDateTime},
+		{"color", QMetaType::QColor},
+		{"url", QMetaType::QUrl},
+		{"var", QMetaType::QVariant},
+		{"variant", QMetaType::QVariant},
+		{"selection", QMetaType::QVariant},
+		{"list", QMetaType::QVariant},
+		{"radiolist", QMetaType::QVariant},
+	}
+{}
 
 QScopedPointer<CoreAppPrivate> &CoreAppPrivate::dInstance()
 {

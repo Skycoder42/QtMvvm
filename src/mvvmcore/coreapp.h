@@ -47,6 +47,11 @@ public:
 	//! Show a basic dialog
 	static MessageResult *showDialog(const MessageConfig &config);
 
+	static QVariant safeCastInputType(const QByteArray &type, const QVariant &value);
+	static void registerInputTypeMapping(const QByteArray &type, int targetType);
+	template <typename T>
+	static void registerInputTypeMapping(const QByteArray &type);
+
 public Q_SLOTS:
 	//! Boots up the app and starts the mvvm presenting
 	void bootApp();
@@ -79,6 +84,12 @@ inline void CoreApp::show(const QVariantHash &params, QPointer<ViewModel> parent
 {
 	static_assert(std::is_base_of<ViewModel, TViewModel>::value, "TViewModel must extend QtMvvm::ViewModel");
 	showImp(&TViewModel::staticMetaObject, params, std::move(parentViewModel));
+}
+
+template<typename T>
+void CoreApp::registerInputTypeMapping(const QByteArray &type)
+{
+	registerInputTypeMapping(type, qMetaTypeId<T>());
 }
 
 }

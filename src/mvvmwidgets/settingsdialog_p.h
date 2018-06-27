@@ -81,6 +81,8 @@ public:
 	bool searchInGroup(const QRegularExpression &regex, QGroupBox *groupWidget);
 	bool searchInEntry(const QRegularExpression &regex, QLabel *label, QWidget *content);
 
+	QVariant readValue(const SettingsElements::Entry &entry) const;
+
 public Q_SLOTS:
 	void createUi();
 	void entryChanged(const QString &key);

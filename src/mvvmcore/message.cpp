@@ -76,7 +76,10 @@ QHash<MessageConfig::StandardButton, QString> MessageConfig::buttonTexts() const
 
 QVariant MessageConfig::defaultValue() const
 {
-	return d->defaultValue;
+	if(d->type == MessageConfig::TypeInputDialog)
+		return CoreApp::safeCastInputType(d->subType, d->defaultValue);
+	else
+		return d->defaultValue;
 }
 
 QVariantMap MessageConfig::viewProperties() const

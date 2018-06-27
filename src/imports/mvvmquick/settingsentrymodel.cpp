@@ -1,6 +1,7 @@
 #include "settingsentrymodel.h"
 
 #include <QtCore/QRegularExpression>
+#include <QtMvvmCore/CoreApp>
 
 using namespace QtMvvm;
 
@@ -77,7 +78,7 @@ QVariant SettingsEntryModel::data(const QModelIndex &index, int role) const
 	case DelegateUrlRole:
 		return entry.delegateUrl;
 	case SettingsValueRole:
-		return _viewModel->loadValue(entry.key, entry.defaultValue);
+		return readValue(entry);
 	case PropertiesRole:
 		return entry.properties;
 	case GroupRole:
@@ -92,7 +93,7 @@ QVariant SettingsEntryModel::data(const QModelIndex &index, int role) const
 			else if(preview.type() == QVariant::String) {
 				return _factory->format(entry.type,
 										preview.toString(),
-										_viewModel->loadValue(entry.key, entry.defaultValue),
+										readValue(entry),
 										entry.properties);
 			}
 		}
@@ -152,6 +153,11 @@ void SettingsEntryModel::entryChanged(const QString &key)
 			break;
 		}
 	}
+}
+
+QVariant SettingsEntryModel::readValue(const SettingsElements::Entry &entry) const
+{
+	return CoreApp::safeCastInputType(entry.type, _viewModel->loadValue(entry.key, entry.defaultValue));
 }
 
 

@@ -209,7 +209,6 @@ QtObject {
 		var props = config.viewProperties;
 		props["msgConfig"] = config;
 		props["msgResult"] = result;
-		console.log(config.buttons);
 		var incubator = _inputComponent.incubateObject(rootItem, props, Qt.Synchronous);
 		return incubator.status !== Component.Error;
 	}

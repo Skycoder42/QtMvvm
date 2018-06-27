@@ -3,16 +3,5 @@ import de.skycoder42.QtMvvm.Quick 1.1 as QtMvvm
 
 QtMvvm.TimeEdit {
 	id: _edit
-
-	property var inputValue: new Date()
-
-	onInputValueChanged: {
-		var realTime = typeof inputValue == "string" ? new Date("2000-01-01T" + inputValue) : inputValue
-		if(realTime.getHours() !== time.getHours() ||
-		   realTime.getMinutes() !== time.getMinutes() ||
-		   realTime.getSeconds() !== time.getSeconds()) {
-			time = realTime
-		}
-	}
-	onTimeChanged: inputValue = time
+	property alias inputValue: _edit.time
 }

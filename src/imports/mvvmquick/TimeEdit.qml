@@ -12,7 +12,7 @@ RowLayout {
 			_forceTime = time
 	}
 
-	property var _forceTime: new Date()
+	property date _forceTime: new Date()
 
 	property bool showHours: true
 	property bool showMinutes: true

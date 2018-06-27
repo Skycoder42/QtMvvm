@@ -156,7 +156,6 @@ StackView {
 	 */
 	function safeReplace(target, item, properties, operation) {
 		var items = [];
-		console.log("current depth: ", depth)
 		for(var i = depth -1; i >= 0; i--) {
 			var cItem = get(i, StackView.ForceLoad);
 			_clearItems.push(cItem);

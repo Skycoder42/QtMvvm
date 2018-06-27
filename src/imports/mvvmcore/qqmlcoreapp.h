@@ -15,6 +15,7 @@ public:
 	explicit QQmlCoreApp(QObject *parent = nullptr);
 
 	Q_INVOKABLE QtMvvm::MessageResult *showDialog(const QtMvvm::MessageConfig &config);
+	Q_INVOKABLE QVariant safeCastInputType(const QString &type, const QVariant &value);
 
 public Q_SLOTS:
 	void show(const QString &viewModelName, const QVariantHash &params = {}, QtMvvm::ViewModel *parentViewModel = nullptr);

@@ -79,7 +79,7 @@ QWidget *InputWidgetFactory::createInput(const QByteArray &type, QWidget *parent
 	} else if(type == "selection" || type == "list")
 		widget = new SelectComboBox(parent);
 	else
-		throw PresenterException("Unable to find an input view for type" + type);
+		throw PresenterException("Unable to find an input view for type: " + type);
 
 	for(auto it = viewProperties.constBegin(); it != viewProperties.constEnd(); it++)
 		widget->setProperty(qUtf8Printable(it.key()), it.value());

@@ -8,16 +8,9 @@ Controls.SwitchDelegate {
 
 	text: title
 
-	function asBool(value) {
-		if(typeof value == "string")
-			return value === "true";
-		else
-			return Boolean(value);
-	}
-
-	checked: asBool(inputValue)
+	checked: inputValue
 	onCheckedChanged: {
-		if(asBool(inputValue) !== checked)
+		if(inputValue !== checked)
 			inputValue = checked;
 	}
 

@@ -57,6 +57,8 @@ private:
 	SettingsViewModel *_viewModel = nullptr;
 	InputViewFactory *_factory = nullptr;
 	QList<EntryInfo> _entries;
+
+	QVariant readValue(const SettingsElements::Entry &entry) const;
 };
 
 }

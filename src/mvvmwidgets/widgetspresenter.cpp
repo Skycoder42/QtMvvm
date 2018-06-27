@@ -20,6 +20,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QColorDialog>
 
+#include <QtMvvmCore/CoreApp>
 #include <QtMvvmCore/private/qtmvvm_logging_p.h>
 
 #include <dialogmaster.h>

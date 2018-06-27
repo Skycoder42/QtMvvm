@@ -14,6 +14,8 @@ class Q_MVVMCORE_EXPORT CoreAppPrivate : public QObject
 	friend class QtMvvm::CoreApp;
 
 public:
+	CoreAppPrivate();
+
 	static QScopedPointer<CoreAppPrivate> &dInstance();
 
 public Q_SLOTS:
@@ -28,6 +30,7 @@ private:
 	static QPointer<CoreApp> instance;
 
 	IPresenter *presenter = nullptr;
+	QHash<QByteArray, int> inputTypeMapping;
 	QHash<const QMetaObject*, QPointer<ViewModel>> singleInstances;
 
 	bool isSingleton(const QMetaObject *metaObject) const;

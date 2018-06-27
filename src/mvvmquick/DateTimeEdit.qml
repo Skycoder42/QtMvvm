@@ -10,23 +10,23 @@ ColumnLayout {
 
 	property var inputValue: new Date()
 
-	readonly property date combinedDate: new Date(_dateEdit.currentDate.getFullYear(),
-												  _dateEdit.currentDate.getMonth(),
-												  _dateEdit.currentDate.getDate(),
+	readonly property date combinedDate: new Date(_dateEdit.date.getFullYear(),
+												  _dateEdit.date.getMonth(),
+												  _dateEdit.date.getDate(),
 												  _timeEdit.time.getHours(),
 												  _timeEdit.time.getMinutes(),
 												  _timeEdit.time.getSeconds())
 
 	onInputValueChanged: {
-		var realDate = typeof inputValue == "string" ? new Date(inputValue) : inputValue
-		if(realDate.getYear() !== combinedDate.getYear() ||
-		   realDate.getMonth() !== combinedDate.getMonth() ||
-		   realDate.getDate() !== combinedDate.getDate() ||
-		   realDate.getHours() !== combinedDate.getHours() ||
-		   realDate.getMinutes() !== combinedDate.getMinutes() ||
-		   realDate.getSeconds() !== combinedDate.getSeconds()) {
-			_dateEdit.currentDate = realDate;
-			_timeEdit.time = realDate;
+		var newDate = inputValue;
+		if(newDate.getYear() !== combinedDate.getYear() ||
+		   newDate.getMonth() !== combinedDate.getMonth() ||
+		   newDate.getDate() !== combinedDate.getDate() ||
+		   newDate.getHours() !== combinedDate.getHours() ||
+		   newDate.getMinutes() !== combinedDate.getMinutes() ||
+		   newDate.getSeconds() !== combinedDate.getSeconds()) {
+			_dateEdit.date = newDate;
+			_timeEdit.time = newDate;
 		}
 	}
 	onCombinedDateChanged: {
