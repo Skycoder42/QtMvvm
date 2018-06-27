@@ -3,6 +3,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.3
 import de.skycoder42.QtMvvm.Core 1.0
+import de.skycoder42.QtMvvm.Quick 1.1
 
 AlertDialog {
 	id: _msgBoxBase
@@ -26,8 +27,8 @@ AlertDialog {
 				id: _icon
 				visible: false
 
-				Layout.preferredWidth: 24
-				Layout.preferredHeight: 24
+				Layout.preferredWidth: implicitWidth
+				Layout.preferredHeight: implicitHeight
 				Layout.alignment: Qt.AlignVCenter
 			}
 

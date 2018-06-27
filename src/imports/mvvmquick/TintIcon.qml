@@ -6,30 +6,25 @@ import de.skycoder42.QtMvvm.Quick 1.1
 Item {
 	id: _tintIcon
 
-	property size iconSize: Qt.size(24, 24)
-	property alias tintColor: _overlay.color
-	property alias source: _image.source
+	property alias icon: _imgBtn.icon
+	property alias source: _imgBtn.icon.source
 
-	Image {
-		id: _image
-		anchors.centerIn: parent
-		fillMode: Image.PreserveAspectFit
-		horizontalAlignment: Image.AlignHCenter
-		verticalAlignment: Image.AlignVCenter
-		width: iconSize.width
-		height: iconSize.height
-		sourceSize: iconSize
+	implicitWidth: _imgBtn.icon.width
+	implicitHeight: _imgBtn.icon.height
+
+	Displace {
+		source: _imgBtn
+		z: 10
+		anchors.fill: parent
+	}
+
+	ActionButton {
+		id: _imgBtn
 		visible: false
-	}
+		z: -10
+		padding: 0
+		anchors.fill: parent
 
-	ColorHelper {
-		id: helper
-	}
-
-	ColorOverlay {
-		id: _overlay
-		anchors.fill: _image
-		source: _image
-		color: helper.text
+		background: Item {}
 	}
 }

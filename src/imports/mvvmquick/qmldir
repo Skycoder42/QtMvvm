@@ -7,7 +7,6 @@ depends QtGraphicalEffects 1.0
 depends Qt.labs.platform 1.0
 depends de.skycoder42.QtMvvm.Core 1.0
 
-internal TintIcon TintIcon.qml
 internal MsgBoxBase MsgBoxBase.qml
 internal MsgBox MsgBox.qml
 internal InputDialog InputDialog.qml
@@ -27,6 +26,7 @@ ToolBarLabel 1.0 ToolBarLabel.qml
 ActionButton 1.0 ActionButton.qml
 RoundActionButton 1.0 RoundActionButton.qml
 MenuButton 1.0 MenuButton.qml
+TintIcon 1.1 TintIcon.qml
 
 SearchBar 1.1 SearchBar.qml
 RoundMenuButton 1.1 RoundMenuButton.qml
