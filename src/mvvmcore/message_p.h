@@ -5,6 +5,7 @@
 #include <QtCore/QPointer>
 #include <QtCore/QMetaMethod>
 #include <QtCore/QMutex>
+#include <QtCore/QAtomicInteger>
 
 #include "qtmvvmcore_global.h"
 #include "message.h"
@@ -41,10 +42,15 @@ public:
 class ProgressControlPrivate
 {
 public:
-	bool indeterminate = false;
-	int minimum = 0;
-	int maximum = 100;
-	int progress = -1;
+	bool autoDelete = true;
+#ifdef Q_ATOMIC_INT8_IS_SUPPORTED
+	QAtomicInteger<bool> indeterminate = false;
+#else
+	QAtomicInteger<quint16> indeterminate = false; //use 16 bit, as 8 bit is not atomic on all platforms
+#endif
+	QAtomicInt minimum = 0;
+	QAtomicInt maximum = 100;
+	QAtomicInt progress = -1;
 };
 
 }

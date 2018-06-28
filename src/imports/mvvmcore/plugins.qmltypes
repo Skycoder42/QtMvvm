@@ -96,10 +96,15 @@ Module {
         prototype: "QObject"
         exports: ["de.skycoder42.QtMvvm.Core/ProgressControl 1.1"]
         exportMetaObjectRevisions: [0]
+        Property { name: "autoDelete"; type: "bool" }
         Property { name: "indeterminate"; type: "bool" }
         Property { name: "minimum"; type: "int" }
         Property { name: "maximum"; type: "int" }
         Property { name: "progress"; type: "int" }
+        Signal {
+            name: "autoDeleteChanged"
+            Parameter { name: "autoDelete"; type: "bool" }
+        }
         Signal {
             name: "indeterminateChanged"
             Parameter { name: "indeterminate"; type: "bool" }
@@ -120,6 +125,10 @@ Module {
         Signal { name: "canceled" }
         Signal { name: "closed" }
         Method { name: "close" }
+        Method {
+            name: "setAutoDelete"
+            Parameter { name: "autoDelete"; type: "bool" }
+        }
         Method {
             name: "setIndeterminate"
             Parameter { name: "indeterminate"; type: "bool" }

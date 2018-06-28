@@ -120,17 +120,32 @@ MessageConfig &MessageConfig::setText(const QString &text)
 MessageConfig &MessageConfig::setButtons(StandardButtons buttons)
 {
 	d->buttons = buttons;
+	for(auto it = d->buttonTexts.begin(); it != d->buttonTexts.end();) {
+		if(d->buttons.testFlag(it.key()))
+			it++;
+		else
+			it = d->buttonTexts.erase(it);
+	}
+	return (*this);
+}
+
+MessageConfig &MessageConfig::addButton(StandardButton button)
+{
+	d->buttons |= button;
 	return (*this);
 }
 
 MessageConfig &MessageConfig::setButtonTexts(const QHash<StandardButton, QString> &buttonTexts)
 {
 	d->buttonTexts = buttonTexts;
+	for(auto it = d->buttonTexts.constBegin(); it != d->buttonTexts.constEnd(); it++)
+		d->buttons |= it.key();
 	return (*this);
 }
 
 MessageConfig &MessageConfig::setButtonText(MessageConfig::StandardButton button, const QString &text)
 {
+	d->buttons |= button;
 	d->buttonTexts.insert(button, text);
 	return (*this);
 }
@@ -196,7 +211,7 @@ void MessageConfig::setButtonTextsMap(const QVariantMap &buttonTexts)
 	QHash<StandardButton, QString> map;
 	for(auto it = buttonTexts.constBegin(); it != buttonTexts.constEnd(); it++)
 		map.insert(static_cast<StandardButton>(it.key().toInt()), it.value().toString());
-	d->buttonTexts = map;
+	setButtonTexts(map);
 }
 
 
@@ -287,6 +302,11 @@ ProgressControl::ProgressControl(QObject *parent) :
 	d{new ProgressControlPrivate{}}
 {}
 
+bool ProgressControl::autoDelete() const
+{
+	return d->autoDelete;
+}
+
 bool ProgressControl::isIndeterminate() const
 {
 	return d->indeterminate;
@@ -317,11 +337,22 @@ void ProgressControl::requestCancel()
 void ProgressControl::notifyClosed()
 {
 	emit closed({});
+	if(d->autoDelete)
+		deleteLater();
 }
 
 void ProgressControl::close()
 {
 	emit closeRequested({});
+}
+
+void ProgressControl::setAutoDelete(bool autoDelete)
+{
+	if (d->autoDelete == autoDelete)
+		return;
+
+	d->autoDelete = autoDelete;
+	emit autoDeleteChanged(d->autoDelete, {});
 }
 
 void ProgressControl::setIndeterminate(bool indeterminate)
@@ -330,7 +361,7 @@ void ProgressControl::setIndeterminate(bool indeterminate)
 		return;
 
 	d->indeterminate = indeterminate;
-	emit indeterminateChanged(d->indeterminate);
+	emit indeterminateChanged(d->indeterminate, {});
 }
 
 void ProgressControl::setMinimum(int minimum)
@@ -339,7 +370,7 @@ void ProgressControl::setMinimum(int minimum)
 		return;
 
 	d->minimum = minimum;
-	emit minimumChanged(d->minimum);
+	emit minimumChanged(d->minimum, {});
 }
 
 void ProgressControl::setMaximum(int maximum)
@@ -348,7 +379,7 @@ void ProgressControl::setMaximum(int maximum)
 		return;
 
 	d->maximum = maximum;
-	emit maximumChanged(d->maximum);
+	emit maximumChanged(d->maximum, {});
 }
 
 void ProgressControl::setProgress(int progress)
@@ -357,7 +388,7 @@ void ProgressControl::setProgress(int progress)
 		return;
 
 	d->progress = progress;
-	emit progressChanged(d->progress);
+	emit progressChanged(d->progress, {});
 }
 
 void ProgressControl::setProgress(double progressPercent)
@@ -704,7 +735,7 @@ MessageResult *QtMvvm::showProgress(const QString &title, const QString &label, 
 	config.setTitle(title);
 	config.setText(label);
 	config.setDefaultValue(QVariant::fromValue<QPointer<ProgressControl>>(control));
-	config.setViewProperty(QStringLiteral("allowCancel"), allowCancel);
+	config.setButtons(allowCancel ? MessageConfig::Cancel : MessageConfig::NoButton);
 	return CoreApp::showDialog(config);
 }
 

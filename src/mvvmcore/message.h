@@ -157,6 +157,7 @@ public:
 	MessageConfig &setText(const QString &text);
 	//! @writeAcFn{MessageConfig::buttons}
 	MessageConfig &setButtons(StandardButtons buttons);
+	MessageConfig &addButton(StandardButton button);
 	//! @writeAcFn{MessageConfig::buttonTexts}
 	MessageConfig &setButtonTexts(const QHash<StandardButton, QString> &buttonTexts);
 	//! @writeAcFn{MessageConfig::buttonTexts}
@@ -245,6 +246,8 @@ class Q_MVVMCORE_EXPORT ProgressControl : public QObject
 {
 	Q_OBJECT
 
+	Q_PROPERTY(bool autoDelete READ autoDelete WRITE setAutoDelete NOTIFY autoDeleteChanged)
+
 	Q_PROPERTY(bool indeterminate READ isIndeterminate WRITE setIndeterminate NOTIFY indeterminateChanged)
 	Q_PROPERTY(int minimum READ minimum WRITE setMinimum NOTIFY minimumChanged)
 	Q_PROPERTY(int maximum READ maximum WRITE setMaximum NOTIFY maximumChanged)
@@ -254,6 +257,7 @@ public:
 	explicit ProgressControl(QObject *parent = nullptr);
 	~ProgressControl() override;
 
+	bool autoDelete() const;
 	bool isIndeterminate() const;
 	int minimum() const;
 	int maximum() const;
@@ -265,6 +269,7 @@ public:
 public Q_SLOTS:
 	void close();
 
+	void setAutoDelete(bool autoDelete);
 	void setIndeterminate(bool indeterminate);
 	void setMinimum(int minimum);
 	void setMaximum(int maximum);
@@ -272,10 +277,11 @@ public Q_SLOTS:
 	void setProgress(double progressPercent);
 
 Q_SIGNALS:
-	void indeterminateChanged(bool indeterminate);
-	void minimumChanged(int minimum);
-	void maximumChanged(int maximum);
-	void progressChanged(int progress);
+	void autoDeleteChanged(bool autoDelete, QPrivateSignal);
+	void indeterminateChanged(bool indeterminate, QPrivateSignal);
+	void minimumChanged(int minimum, QPrivateSignal);
+	void maximumChanged(int maximum, QPrivateSignal);
+	void progressChanged(int progress, QPrivateSignal);
 
 	void closeRequested(QPrivateSignal);
 

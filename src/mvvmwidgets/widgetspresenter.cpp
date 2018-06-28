@@ -19,6 +19,7 @@
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QColorDialog>
+#include <QtWidgets/QProgressDialog>
 
 #include <QtMvvmCore/CoreApp>
 #include <QtMvvmCore/private/qtmvvm_logging_p.h>
@@ -120,6 +121,8 @@ void WidgetsPresenter::showDialog(const MessageConfig &config, MessageResult *re
 		presentFileDialog(config, result);
 	else if(config.type() == MessageConfig::TypeColorDialog)
 		presentColorDialog(config, result);
+	else if(config.type() == MessageConfig::TypeProgressDialog)
+		presentProgressDialog(config, result);
 	else
 		presentOtherDialog(config, result);
 	logDebug() << "Presented dialog of type" << config.type();
@@ -347,18 +350,17 @@ void WidgetsPresenter::presentInputDialog(const MessageConfig &config, QPointer<
 	auto btns = config.buttonTexts();
 	for(auto it = btns.constBegin(); it != btns.constEnd(); it++){
 		auto sBtn = static_cast<QDialogButtonBox::StandardButton>(it.key());
-		if(!btnBox->standardButtons().testFlag(sBtn))
-			btnBox->addButton(sBtn);
+		Q_ASSERT(btnBox->standardButtons().testFlag(sBtn)); //Must be the case now because of the change in MessageConfig
 		btnBox->button(sBtn)->setText(it.value());
 	}
 	layout->addWidget(btnBox);
 
 	//connect stuff
-	QObject::connect(btnBox, &QDialogButtonBox::clicked,
+	connect(btnBox, &QDialogButtonBox::clicked,
 					 dialog, [dialog, btnBox](QAbstractButton *btn){
 		dialog->done(btnBox->standardButton(btn));
 	});
-	QObject::connect(dialog, &QDialog::finished,
+	connect(dialog, &QDialog::finished,
 					 dialog, [input, property, result](int resCode){
 		if(result) {
 			result->complete(static_cast<MessageConfig::StandardButton>(resCode),
@@ -412,7 +414,7 @@ void WidgetsPresenter::presentFileDialog(const MessageConfig &config, QPointer<M
 		dialog->setProperty(qUtf8Printable(it.key()), it.value());
 
 	//connect stuff
-	QObject::connect(dialog, &QDialog::finished,
+	connect(dialog, &QDialog::finished,
 					 dialog, [dialog, isMultiFile, result](int resCode){
 		if(result) {
 			if(resCode == QDialog::Accepted) {
@@ -432,7 +434,7 @@ void WidgetsPresenter::presentFileDialog(const MessageConfig &config, QPointer<M
 	dialog->open();
 }
 
-void WidgetsPresenter::presentColorDialog(const MessageConfig &config, QPointer<MessageResult> result)
+void WidgetsPresenter::presentColorDialog(const MessageConfig &config, const QPointer<MessageResult> &result)
 {
 	auto props = config.viewProperties();
 
@@ -461,7 +463,7 @@ void WidgetsPresenter::presentColorDialog(const MessageConfig &config, QPointer<
 		dialog->setProperty(qUtf8Printable(it.key()), it.value());
 
 	//connect stuff
-	QObject::connect(dialog, &QDialog::finished,
+	connect(dialog, &QDialog::finished,
 					 dialog, [dialog, result](int resCode){
 		if(result) {
 			if(resCode == QDialog::Accepted) {
@@ -476,6 +478,77 @@ void WidgetsPresenter::presentColorDialog(const MessageConfig &config, QPointer<
 	dialog->adjustSize();
 	DialogMaster::masterDialog(dialog);
 	dialog->open();
+}
+
+void WidgetsPresenter::presentProgressDialog(const MessageConfig &config, const QPointer<MessageResult> &result)
+{
+	auto control = config.defaultValue().value<QPointer<ProgressControl>>();
+	if(!control) {
+		logWarning() << "ProgressControl was destroyed before a progress dialog could be shown";
+		return;
+	}
+	auto props = config.viewProperties();
+
+	//TODO implement difference to busy dialog?
+
+	QWidget *parent = nullptr; //TODO move to seperate method
+	if(!props.value(QStringLiteral("modal"), false).toBool())
+		parent = QApplication::activeWindow();
+	auto dialog = DialogMaster::createProgress(parent,
+											   config.text(),
+											   control->isIndeterminate() ? 0 : control->maximum(),
+											   control->isIndeterminate() ? 0 : control->minimum(),
+											   config.buttons().testFlag(MessageConfig::Cancel),
+											   config.title(),
+											   props.value(QStringLiteral("minimumDuration"), 0).toInt(),
+											   config.buttonTexts().value(MessageConfig::Cancel));
+	dialog->setAttribute(Qt::WA_DeleteOnClose);
+	dialog->setAutoReset(false);
+	dialog->setAutoClose(false);
+
+	//set extra props
+	for(auto it = props.constBegin(); it != props.constEnd(); it++)
+		dialog->setProperty(qUtf8Printable(it.key()), it.value());
+
+	//connect stuff
+	connect(control, &ProgressControl::closeRequested,
+			dialog, &QProgressDialog::close);
+	connect(control, &ProgressControl::minimumChanged,
+			dialog, &QProgressDialog::setMinimum);
+	connect(control, &ProgressControl::maximumChanged,
+			dialog, &QProgressDialog::setMaximum);
+	connect(control, &ProgressControl::progressChanged,
+			dialog, &QProgressDialog::setValue);
+	connect(control, &ProgressControl::indeterminateChanged,
+			dialog, [dialog, control](bool indeterminate){
+		if(indeterminate)
+			dialog->setRange(0, 0);
+		else if(control) {
+			dialog->setRange(control->minimum(), control->maximum());
+			dialog->setValue(control->progress());
+		} else
+			dialog->setRange(0, 1);
+	});
+
+	connect(dialog, &QProgressDialog::canceled,
+			dialog, &QProgressDialog::show); //TODO check if working, disable cancel button
+	connect(dialog, &QProgressDialog::canceled,
+			control, &ProgressControl::requestCancel);
+	connect(dialog, &QDialog::finished,
+					 dialog, [dialog, result, control](int){
+		if(control)
+			control->notifyClosed();
+		if(result) {
+			if(dialog->wasCanceled())
+				result->complete(MessageConfig::Cancel);
+			else
+				result->complete(MessageConfig::Close);
+		}
+	});
+
+	//show
+	dialog->open();
+	dialog->setValue(control->progress()); //do after open, as set value causes open
 }
 
 void WidgetsPresenter::presentOtherDialog(const MessageConfig &config, QPointer<MessageResult> result)
