@@ -2,7 +2,7 @@ import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.3
-import de.skycoder42.QtMvvm.Core 1.0
+import de.skycoder42.QtMvvm.Core 1.1
 import de.skycoder42.QtMvvm.Quick 1.1
 
 AlertDialog {
@@ -13,6 +13,9 @@ AlertDialog {
 
 	property alias iconVisible: _icon.visible
 	property alias iconSource: _icon.source
+	property bool autoHandleBtns: true
+
+	signal buttonClicked(int button)
 
 	header: Pane {
 		id: _headerPane
@@ -45,6 +48,7 @@ AlertDialog {
 
 	footer: DialogButtonBox {
 		id: _btnBox
+		visible: msgConfig.buttons !== MessageConfig.NoButton
 
 		readonly property var _allBtns: [
 			DialogButtonBox.NoButton,
@@ -76,26 +80,27 @@ AlertDialog {
 		}
 
 		onClicked: {
-			if(msgResult) {
+			_msgBoxBase.buttonClicked(button);
+			if(msgResult && autoHandleBtns) {
 				_allBtns.forEach(function(sBtn) {
 					if(button === standardButton(sBtn)) {
 						msgResult.complete(sBtn);
 						msgResult = null;
 					}
-				})
+				});
 			}
 		}
 	}
 
 	onClosed: {
-		if(msgResult) {
+		if(msgResult && autoHandleBtns) {
 			msgResult.complete(MessageConfig.NoButton);
 			msgResult = null;
 		}
 	}
 
 	Component.onCompleted: {
-		if(msgResult)
+		if(msgResult && autoHandleBtns)
 			msgResult.setCloseTarget(_msgBoxBase, "reject()");
 	}
 }

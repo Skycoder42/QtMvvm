@@ -263,7 +263,7 @@ public:
 	int maximum() const;
 	int progress() const;
 
-	Q_INVOKABLE void requestCancel(MessageConfig::StandardButton btn);
+	Q_INVOKABLE void requestCancel(QtMvvm::MessageConfig::StandardButton btn);
 	Q_INVOKABLE void notifyClosed();
 
 public Q_SLOTS:
@@ -287,7 +287,7 @@ Q_SIGNALS:
 	void changeLabel(const QString &text, QPrivateSignal);
 	void closeRequested(QPrivateSignal);
 
-	void canceled(MessageConfig::StandardButton btn, QPrivateSignal);
+	void canceled(QtMvvm::MessageConfig::StandardButton btn, QPrivateSignal);
 	void closed(QPrivateSignal);
 
 private:

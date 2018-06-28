@@ -39,6 +39,10 @@ Page {
 					text: qsTr("Add Color")
 					onTriggered: viewModel.getColor()
 				}
+				MenuItem {
+					text: qsTr("Show Progress")
+					onTriggered: viewModel.showProgress()
+				}
 
 				MenuSeparator {}
 

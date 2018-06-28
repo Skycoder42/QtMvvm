@@ -76,9 +76,11 @@ QtObject {
 			return createInput(config, result)
 		else if(config.type == "file")
 			return createFile(config, result)
-		else if(config.type == "color") {
+		else if(config.type == "color")
 			return createColor(config, result)
-		} else
+		else if(config.type == "progress")
+			return createProgress(config, result)
+		else
 			return false;
 	}
 
@@ -93,6 +95,10 @@ QtObject {
 	 */
 	function closeAction() {
 		if(_popups.length > 0) {
+			if(typeof _popups[_popups.length - 1].closeAction == "function") {
+				if(_popups[_popups.length - 1].closeAction())
+					return true;
+			}
 			_popups[_popups.length - 1].reject();
 			return true;
 		} else
@@ -173,6 +179,24 @@ QtObject {
 		}
 	}
 
+	//! Internal property
+	property Component _progressComponent: ProgressDialog {
+		id: __progress
+
+		onClosed: {
+			var index = _popups.indexOf(__progress);
+			if(index > -1) {
+				__progress.destroy();
+				_dialogPresenter._popups.splice(index, 1);
+			}
+		}
+
+		Component.onCompleted: {
+			_popups.push(__progress)
+			__progress.open()
+		}
+	}
+
 	/*! @brief Method present a dialog of the QtMvvm::MessageConfig::TypeMessageBox
 	 *
 	 * @param type:MessageConfig config The message configuration to create a dialog of
@@ -242,5 +266,13 @@ QtObject {
 		config.type = "input";
 		config.subType = "QColor";
 		return createInput(config, result);
+	}
+
+	function createProgress(config, result) {
+		var props = config.viewProperties;
+		props["msgConfig"] = config;
+		props["msgResult"] = result;
+		var incubator = _progressComponent.incubateObject(rootItem, props, Qt.Synchronous);
+		return incubator.status !== Component.Error;
 	}
 }

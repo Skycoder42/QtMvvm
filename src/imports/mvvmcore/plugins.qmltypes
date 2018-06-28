@@ -128,7 +128,7 @@ Module {
         Signal { name: "closeRequested" }
         Signal {
             name: "canceled"
-            Parameter { name: "btn"; type: "MessageConfig::StandardButton" }
+            Parameter { name: "btn"; type: "QtMvvm::MessageConfig::StandardButton" }
         }
         Signal { name: "closed" }
         Method { name: "close" }
@@ -162,7 +162,7 @@ Module {
         }
         Method {
             name: "requestCancel"
-            Parameter { name: "btn"; type: "MessageConfig::StandardButton" }
+            Parameter { name: "btn"; type: "QtMvvm::MessageConfig::StandardButton" }
         }
         Method { name: "notifyClosed" }
     }

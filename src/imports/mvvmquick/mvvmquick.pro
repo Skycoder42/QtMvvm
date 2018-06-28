@@ -59,7 +59,8 @@ QML_FILES += \
 	TimeEdit.qml \
 	DateEdit.qml \
 	ColorHelper.qml \
-	ColorEdit.qml
+	ColorEdit.qml \
+	ProgressDialog.qml
 
 RESOURCES += \
 	qtmvvmquick_plugin.qrc

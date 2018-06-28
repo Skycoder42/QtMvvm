@@ -739,7 +739,7 @@ MessageResult *QtMvvm::showProgress(const QString &title, const QString &label, 
 	MessageConfig config(MessageConfig::TypeProgressDialog, isBusy ? MessageConfig::SubTypeBusy : MessageConfig::SubTypeProgress);
 	config.setTitle(title);
 	config.setText(label);
-	config.setDefaultValue(QVariant::fromValue<QPointer<ProgressControl>>(control));
+	config.setDefaultValue(QVariant::fromValue(control));
 	config.setButtons(allowCancel ? MessageConfig::Cancel : MessageConfig::NoButton);
 	return CoreApp::showDialog(config);
 }

@@ -10,6 +10,7 @@ depends de.skycoder42.QtMvvm.Core 1.0
 internal MsgBoxBase MsgBoxBase.qml
 internal MsgBox MsgBox.qml
 internal InputDialog InputDialog.qml
+internal ProgressDialog ProgressDialog.qml
 
 internal ListSection ListSection.qml
 internal SectionListView SectionListView.qml

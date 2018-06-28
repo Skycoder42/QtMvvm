@@ -482,7 +482,7 @@ void WidgetsPresenter::presentColorDialog(const MessageConfig &config, const QPo
 
 void WidgetsPresenter::presentProgressDialog(const MessageConfig &config, const QPointer<MessageResult> &result)
 {
-	auto control = config.defaultValue().value<QPointer<ProgressControl>>();
+	auto control = config.defaultValue().value<ProgressControl*>();
 	if(!control) {
 		logWarning() << "ProgressControl was destroyed before a progress dialog could be shown";
 		return;
