@@ -38,6 +38,8 @@ public Q_SLOTS:
 	void getInput();
 	void getFiles();
 	void getColor();
+	void showProgress();
+
 	void getResult();
 	void clearEvents();
 	void about();

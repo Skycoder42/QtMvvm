@@ -30,6 +30,8 @@ SampleView::SampleView(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 			_viewModel, &SampleViewModel::getFiles);
 	connect(ui->actionAdd_Color, &QAction::triggered,
 			_viewModel, &SampleViewModel::getColor);
+	connect(ui->actionShow_Progress, &QAction::triggered,
+			_viewModel, &SampleViewModel::showProgress);
 	connect(ui->actionShow_Tabs, &QAction::triggered,
 			_viewModel, &SampleViewModel::showTabs);
 	connect(ui->actionShow_Settings, &QAction::triggered,

@@ -346,6 +346,11 @@ void ProgressControl::close()
 	emit closeRequested({});
 }
 
+void ProgressControl::updateLabel(const QString &text)
+{
+	emit changeLabel(text, {});
+}
+
 void ProgressControl::setAutoDelete(bool autoDelete)
 {
 	if (d->autoDelete == autoDelete)

@@ -1,4 +1,5 @@
 #include "sampleviewmodel.h"
+#include <QtCore/QTimer>
 #include <QtCore/QDebug>
 #include <QtMvvmCore/Messages>
 #include <QtMvvmCore/SettingsViewModel>
@@ -102,6 +103,37 @@ void SampleViewModel::getColor()
 		if(color.isValid())
 			addEvent(color.name(QColor::HexArgb));
 	}, tr("Select a color:"), true);
+}
+
+void SampleViewModel::showProgress()
+{
+	auto control = QtMvvm::showIndeterminateProgress(this,
+													 tr("Some ongoing operation"),
+													 tr("Doing some operation long running job…"));
+	auto mTimer = new QTimer{control};
+	connect(mTimer, &QTimer::timeout,
+			control, [control](){
+		if(control->isIndeterminate()) {
+			control->setIndeterminate(false);
+			control->setMinimum(0);
+			control->setMaximum(5);
+			control->setProgress(0);
+		} else if(control->progress() == 4) {
+			control->setProgress(5);
+			control->close();
+		} else
+			control->setProgress(control->progress() + 1);
+	});
+	connect(control, &QtMvvm::ProgressControl::canceled,
+			control, [control, mTimer](){
+		control->updateLabel(tr("<i>Canceling, please wait…</i>"));
+		mTimer->stop();
+		QTimer::singleShot(2000, control, &QtMvvm::ProgressControl::close);
+	});
+	connect(control, &QtMvvm::ProgressControl::closed,
+			mTimer, &QTimer::stop);
+
+	mTimer->start(2000);
 }
 
 void SampleViewModel::getResult()

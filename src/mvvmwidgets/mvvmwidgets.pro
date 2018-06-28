@@ -14,7 +14,8 @@ HEADERS += \
 	settingsdialog_p.h \
 	settingsdialog.h \
     tooltipslider_p.h \
-    coloredit_p.h
+    coloredit_p.h \
+    progressdialog_p.h
 
 SOURCES += \
 	widgetspresenter.cpp \
@@ -23,7 +24,8 @@ SOURCES += \
 	inputwidgetfactory.cpp \
 	settingsdialog.cpp \
     tooltipslider.cpp \
-    coloredit.cpp
+    coloredit.cpp \
+    progressdialog.cpp
 
 FORMS += \
 	settingsdialog.ui

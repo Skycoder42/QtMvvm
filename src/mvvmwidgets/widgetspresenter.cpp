@@ -2,6 +2,7 @@
 #include "widgetspresenter_p.h"
 #include "ipresentingview.h"
 #include "settingsdialog.h"
+#include "progressdialog_p.h"
 
 #include <QtCore/QMetaProperty>
 #include <QtCore/QCoreApplication>
@@ -19,7 +20,6 @@
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QColorDialog>
-#include <QtWidgets/QProgressDialog>
 
 #include <QtMvvmCore/CoreApp>
 #include <QtMvvmCore/private/qtmvvm_logging_p.h>
@@ -489,66 +489,12 @@ void WidgetsPresenter::presentProgressDialog(const MessageConfig &config, const 
 	}
 	auto props = config.viewProperties();
 
-	//TODO implement difference to busy dialog?
-
 	QWidget *parent = nullptr; //TODO move to seperate method
 	if(!props.value(QStringLiteral("modal"), false).toBool())
 		parent = QApplication::activeWindow();
-	auto dialog = DialogMaster::createProgress(parent,
-											   config.text(),
-											   control->isIndeterminate() ? 0 : control->maximum(),
-											   control->isIndeterminate() ? 0 : control->minimum(),
-											   config.buttons().testFlag(MessageConfig::Cancel),
-											   config.title(),
-											   props.value(QStringLiteral("minimumDuration"), 0).toInt(),
-											   config.buttonTexts().value(MessageConfig::Cancel));
+	auto dialog = new ProgressDialog{config, result, control, parent};
 	dialog->setAttribute(Qt::WA_DeleteOnClose);
-	dialog->setAutoReset(false);
-	dialog->setAutoClose(false);
-
-	//set extra props
-	for(auto it = props.constBegin(); it != props.constEnd(); it++)
-		dialog->setProperty(qUtf8Printable(it.key()), it.value());
-
-	//connect stuff
-	connect(control, &ProgressControl::closeRequested,
-			dialog, &QProgressDialog::close);
-	connect(control, &ProgressControl::minimumChanged,
-			dialog, &QProgressDialog::setMinimum);
-	connect(control, &ProgressControl::maximumChanged,
-			dialog, &QProgressDialog::setMaximum);
-	connect(control, &ProgressControl::progressChanged,
-			dialog, &QProgressDialog::setValue);
-	connect(control, &ProgressControl::indeterminateChanged,
-			dialog, [dialog, control](bool indeterminate){
-		if(indeterminate)
-			dialog->setRange(0, 0);
-		else if(control) {
-			dialog->setRange(control->minimum(), control->maximum());
-			dialog->setValue(control->progress());
-		} else
-			dialog->setRange(0, 1);
-	});
-
-	connect(dialog, &QProgressDialog::canceled,
-			dialog, &QProgressDialog::show); //TODO check if working, disable cancel button
-	connect(dialog, &QProgressDialog::canceled,
-			control, &ProgressControl::requestCancel);
-	connect(dialog, &QDialog::finished,
-					 dialog, [dialog, result, control](int){
-		if(control)
-			control->notifyClosed();
-		if(result) {
-			if(dialog->wasCanceled())
-				result->complete(MessageConfig::Cancel);
-			else
-				result->complete(MessageConfig::Close);
-		}
-	});
-
-	//show
 	dialog->open();
-	dialog->setValue(control->progress()); //do after open, as set value causes open
 }
 
 void WidgetsPresenter::presentOtherDialog(const MessageConfig &config, QPointer<MessageResult> result)

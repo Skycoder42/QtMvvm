@@ -112,6 +112,7 @@
     <addaction name="actionUseless_Input"/>
     <addaction name="actionAdd_Files"/>
     <addaction name="actionAdd_Color"/>
+    <addaction name="actionShow_Progress"/>
    </widget>
    <addaction name="menu_Actions"/>
    <addaction name="menu_Help"/>
@@ -145,6 +146,11 @@
   <action name="actionAdd_Color">
    <property name="text">
     <string>Add &amp;Color</string>
+   </property>
+  </action>
+  <action name="actionShow_Progress">
+   <property name="text">
+    <string>Show &amp;Progress</string>
    </property>
   </action>
  </widget>

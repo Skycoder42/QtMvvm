@@ -268,6 +268,7 @@ public:
 
 public Q_SLOTS:
 	void close();
+	void updateLabel(const QString &text);
 
 	void setAutoDelete(bool autoDelete);
 	void setIndeterminate(bool indeterminate);
@@ -283,6 +284,7 @@ Q_SIGNALS:
 	void maximumChanged(int maximum, QPrivateSignal);
 	void progressChanged(int progress, QPrivateSignal);
 
+	void changeLabel(const QString &text, QPrivateSignal);
 	void closeRequested(QPrivateSignal);
 
 	void canceled(QPrivateSignal);

@@ -121,10 +121,18 @@ Module {
             name: "progressChanged"
             Parameter { name: "progress"; type: "int" }
         }
+        Signal {
+            name: "changeLabel"
+            Parameter { name: "text"; type: "string" }
+        }
         Signal { name: "closeRequested" }
         Signal { name: "canceled" }
         Signal { name: "closed" }
         Method { name: "close" }
+        Method {
+            name: "updateLabel"
+            Parameter { name: "text"; type: "string" }
+        }
         Method {
             name: "setAutoDelete"
             Parameter { name: "autoDelete"; type: "bool" }

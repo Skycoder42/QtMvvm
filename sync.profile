@@ -11,7 +11,7 @@
 $publicclassregexp = "QtMvvm::(?!__helpertypes|SettingsElements).+";
 
 %classnames = (
-	"message.h" => "Messages",
+	"message.h" => "Messages,MessageConfig,MessageResult,ProgressControl",
 	"settingssetup.h" => "SettingsElements",
 	"injection.h" => "Injection",
 );
