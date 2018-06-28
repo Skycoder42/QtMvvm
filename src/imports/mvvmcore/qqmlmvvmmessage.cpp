@@ -1,4 +1,5 @@
 #include "qqmlmvvmmessage.h"
+#include <QtQml/QQmlEngine>
 using namespace QtMvvm;
 
 QQmlMvvmMessage::QQmlMvvmMessage(QJSEngine *engine, QObject *parent) :
@@ -110,9 +111,30 @@ void QtMvvm::QQmlMvvmMessage::getColor(const QJSValue &onResult, const QString &
 {
 	if(onResult.isCallable()) {
 		auto engine = _engine;
-		QtMvvm::getColor(this, [engine, onResult](const QColor &color){
-			QJSValue(onResult).call({engine->toScriptValue(color)});
+		QtMvvm::getColor(this, [engine, onResult](const QColor &resColor){
+			QJSValue(onResult).call({engine->toScriptValue(resColor)});
 		}, title, color, argb);
 	} else
 		QtMvvm::getColor(title, color, argb);
+}
+
+ProgressControl *QtMvvm::QQmlMvvmMessage::showProgress(const QString &title, const QString &label, int maximum, int minimum, bool allowCancel, int value)
+{
+	auto control = QtMvvm::showProgress(title, label, maximum, minimum, allowCancel, value);
+	QQmlEngine::setObjectOwnership(control, QQmlEngine::JavaScriptOwnership);
+	return control;
+}
+
+ProgressControl *QtMvvm::QQmlMvvmMessage::showIndeterminateProgress(const QString &title, const QString &label, bool allowCancel)
+{
+	auto control = QtMvvm::showIndeterminateProgress(title, label, allowCancel);
+	QQmlEngine::setObjectOwnership(control, QQmlEngine::JavaScriptOwnership);
+	return control;
+}
+
+ProgressControl *QtMvvm::QQmlMvvmMessage::showBusy(const QString &title, const QString &label, bool allowCancel)
+{
+	auto control = QtMvvm::showBusy(title, label, allowCancel);
+	QQmlEngine::setObjectOwnership(control, QQmlEngine::JavaScriptOwnership);
+	return control;
 }

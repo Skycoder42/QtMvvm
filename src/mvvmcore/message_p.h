@@ -38,6 +38,15 @@ public:
 	bool autoDelete = true;
 };
 
+class ProgressControlPrivate
+{
+public:
+	bool indeterminate = false;
+	int minimum = 0;
+	int maximum = 100;
+	int progress = -1;
+};
+
 }
 
 #endif // QTMVVM_MESSAGE_P_H

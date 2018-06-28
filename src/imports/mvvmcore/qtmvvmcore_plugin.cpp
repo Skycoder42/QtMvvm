@@ -51,6 +51,8 @@ void QtMvvmCoreDeclarativeModule::registerTypes(const char *uri)
 	qmlRegisterSingletonType<QtMvvm::QQmlMvvmMessage>(uri, 1, 0, "Message", createMessageSingleton);
 
 	//Version 1.1
+	qmlRegisterType<QtMvvm::ProgressControl>(uri, 1, 1, "ProgressControl");
+
 	qmlRegisterSingletonType<QtMvvm::QQmlServiceRegistry>(uri, 1, 1, "ServiceRegistry", createRegistrySingleton);
 	qmlRegisterSingletonType<QtMvvm::QQmlCoreApp>(uri, 1, 1, "CoreApp", createCoreAppSingleton);
 

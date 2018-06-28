@@ -80,6 +80,7 @@ public:
 	static const QByteArray TypeFileDialog;
 	//! @}
 	static const QByteArray TypeColorDialog;
+	static const QByteArray TypeProgressDialog;
 
 	/**
 	 * @name Possible values for MessageConfig::subType when using the type MessageConfig::TypeMessageBox
@@ -114,6 +115,9 @@ public:
 
 	static const QByteArray SubTypeRgb;
 	static const QByteArray SubTypeArgb;
+
+	static const QByteArray SubTypeProgress;
+	static const QByteArray SubTypeBusy;
 
 	//! Default constructor, can take a type and a subtype
 	MessageConfig(const QByteArray &type = TypeMessageBox, const QByteArray &subType = {});
@@ -234,6 +238,52 @@ Q_SIGNALS:
 
 private:
 	QScopedPointer<MessageResultPrivate> d;
+};
+
+class ProgressControlPrivate;
+class Q_MVVMCORE_EXPORT ProgressControl : public QObject
+{
+	Q_OBJECT
+
+	Q_PROPERTY(bool indeterminate READ isIndeterminate WRITE setIndeterminate NOTIFY indeterminateChanged)
+	Q_PROPERTY(int minimum READ minimum WRITE setMinimum NOTIFY minimumChanged)
+	Q_PROPERTY(int maximum READ maximum WRITE setMaximum NOTIFY maximumChanged)
+	Q_PROPERTY(int progress READ progress WRITE setProgress NOTIFY progressChanged)
+
+public:
+	explicit ProgressControl(QObject *parent = nullptr);
+	~ProgressControl() override;
+
+	bool isIndeterminate() const;
+	int minimum() const;
+	int maximum() const;
+	int progress() const;
+
+	Q_INVOKABLE void requestCancel();
+	Q_INVOKABLE void notifyClosed();
+
+public Q_SLOTS:
+	void close();
+
+	void setIndeterminate(bool indeterminate);
+	void setMinimum(int minimum);
+	void setMaximum(int maximum);
+	void setProgress(int progress);
+	void setProgress(double progressPercent);
+
+Q_SIGNALS:
+	void indeterminateChanged(bool indeterminate);
+	void minimumChanged(int minimum);
+	void maximumChanged(int maximum);
+	void progressChanged(int progress);
+
+	void closeRequested(QPrivateSignal);
+
+	void canceled(QPrivateSignal);
+	void closed(QPrivateSignal);
+
+private:
+	QScopedPointer<ProgressControlPrivate> d;
 };
 
 /**
@@ -467,6 +517,39 @@ Q_MVVMCORE_EXPORT void getColor(const std::function<void(QColor)> &onResult,
 								const QString &title = {},
 								const QColor &color = {},
 								bool argb = false);
+
+Q_MVVMCORE_EXPORT MessageResult *showProgress(const QString &title,
+											  const QString &label,
+											  ProgressControl *control,
+											  bool allowCancel = true,
+											  bool isBusy = false);
+Q_MVVMCORE_EXPORT ProgressControl *showProgress(QObject *scope,
+												const QString &title = {},
+												const QString &label = {},
+												int maximum = 100,
+												int minimum = 0,
+												bool allowCancel = true,
+												int value = 0);
+Q_MVVMCORE_EXPORT ProgressControl *showProgress(const QString &title = {},
+												const QString &label = {},
+												int maximum = 100,
+												int minimum = 0,
+												bool allowCancel = true,
+												int value = 0);
+Q_MVVMCORE_EXPORT ProgressControl *showIndeterminateProgress(QObject *scope,
+															 const QString &title = {},
+															 const QString &label = {},
+															 bool allowCancel = true);
+Q_MVVMCORE_EXPORT ProgressControl *showIndeterminateProgress(const QString &title = {},
+															 const QString &label = {},
+															 bool allowCancel = true);
+Q_MVVMCORE_EXPORT ProgressControl *showBusy(QObject *scope,
+											const QString &title = {},
+											const QString &label = {},
+											bool allowCancel = true);
+Q_MVVMCORE_EXPORT ProgressControl *showBusy(const QString &title = {},
+											const QString &label = {},
+											bool allowCancel = true);
 
 }
 

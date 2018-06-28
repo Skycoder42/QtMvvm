@@ -3,6 +3,8 @@
 #include "coreapp.h"
 #include "qtmvvm_logging_p.h"
 
+#include <cmath>
+
 #include <QtGui/QGuiApplication>
 
 using namespace QtMvvm;
@@ -11,6 +13,7 @@ const QByteArray MessageConfig::TypeMessageBox = "msgbox";
 const QByteArray MessageConfig::TypeInputDialog = "input";
 const QByteArray MessageConfig::TypeFileDialog = "file";
 const QByteArray MessageConfig::TypeColorDialog = "color";
+const QByteArray MessageConfig::TypeProgressDialog = "progress";
 
 const QByteArray MessageConfig::SubTypeInformation = "information";
 const QByteArray MessageConfig::SubTypeWarning = "warning";
@@ -25,6 +28,9 @@ const QByteArray MessageConfig::SubTypeSaveFile = "save";
 
 const QByteArray MessageConfig::SubTypeRgb = "rgb";
 const QByteArray MessageConfig::SubTypeArgb = "argb";
+
+const QByteArray MessageConfig::SubTypeProgress = "progress";
+const QByteArray MessageConfig::SubTypeBusy = "busy";
 
 MessageConfig::MessageConfig(const QByteArray &type, const QByteArray &subType) :
 	d(new MessageConfigPrivate(type, subType))
@@ -272,6 +278,92 @@ void MessageResult::setAutoDelete(bool autoDelete)
 
 	d->autoDelete = autoDelete;
 	emit autoDeleteChanged(autoDelete, {});
+}
+
+
+
+ProgressControl::ProgressControl(QObject *parent) :
+	QObject{parent},
+	d{new ProgressControlPrivate{}}
+{}
+
+bool ProgressControl::isIndeterminate() const
+{
+	return d->indeterminate;
+}
+
+ProgressControl::~ProgressControl() = default;
+
+int ProgressControl::minimum() const
+{
+	return d->minimum;
+}
+
+int ProgressControl::maximum() const
+{
+	return d->maximum;
+}
+
+int ProgressControl::progress() const
+{
+	return d->progress;
+}
+
+void ProgressControl::requestCancel()
+{
+	emit canceled({});
+}
+
+void ProgressControl::notifyClosed()
+{
+	emit closed({});
+}
+
+void ProgressControl::close()
+{
+	emit closeRequested({});
+}
+
+void ProgressControl::setIndeterminate(bool indeterminate)
+{
+	if (d->indeterminate == indeterminate)
+		return;
+
+	d->indeterminate = indeterminate;
+	emit indeterminateChanged(d->indeterminate);
+}
+
+void ProgressControl::setMinimum(int minimum)
+{
+	if (d->minimum == minimum)
+		return;
+
+	d->minimum = minimum;
+	emit minimumChanged(d->minimum);
+}
+
+void ProgressControl::setMaximum(int maximum)
+{
+	if (d->maximum == maximum)
+		return;
+
+	d->maximum = maximum;
+	emit maximumChanged(d->maximum);
+}
+
+void ProgressControl::setProgress(int progress)
+{
+	if (d->progress == progress)
+		return;
+
+	d->progress = progress;
+	emit progressChanged(d->progress);
+}
+
+void ProgressControl::setProgress(double progressPercent)
+{
+	Q_ASSERT_X(progressPercent >= 0.0 && progressPercent <= 1.0, Q_FUNC_INFO, "progressPercent must be in the range [0.0,1.0]");
+	setProgress(static_cast<int>(std::round((d->maximum - d->minimum) * progressPercent + d->minimum)));
 }
 
 // ------------- Private Implementation -------------
@@ -604,4 +696,55 @@ void QtMvvm::getColor(QObject *scope, const std::function<void (QColor)> &onResu
 void QtMvvm::getColor(const std::function<void (QColor)> &onResult, const QString &title, const QColor &color, bool argb)
 {
 	getColor(CoreApp::instance(), onResult, title, color, argb);
+}
+
+MessageResult *QtMvvm::showProgress(const QString &title, const QString &label, ProgressControl *control, bool allowCancel, bool isBusy)
+{
+	MessageConfig config(MessageConfig::TypeProgressDialog, isBusy ? MessageConfig::SubTypeBusy : MessageConfig::SubTypeProgress);
+	config.setTitle(title);
+	config.setText(label);
+	config.setDefaultValue(QVariant::fromValue<QPointer<ProgressControl>>(control));
+	config.setViewProperty(QStringLiteral("allowCancel"), allowCancel);
+	return CoreApp::showDialog(config);
+}
+
+ProgressControl *QtMvvm::showProgress(QObject *scope, const QString &title, const QString &label, int maximum, int minimum, bool allowCancel, int value)
+{
+	auto control = new ProgressControl{scope};
+	control->setMaximum(maximum);
+	control->setMinimum(minimum);
+	control->setProgress(value);
+	showProgress(title, label, control, allowCancel, false);
+	return control;
+}
+
+ProgressControl *QtMvvm::showProgress(const QString &title, const QString &label, int maximum, int minimum, bool allowCancel, int value)
+{
+	return showProgress(nullptr, title, label, maximum, minimum, allowCancel, value);
+}
+
+ProgressControl *QtMvvm::showIndeterminateProgress(QObject *scope, const QString &title, const QString &label, bool allowCancel)
+{
+	auto control = new ProgressControl{scope};
+	control->setIndeterminate(true);
+	showProgress(title, label, control, allowCancel, false);
+	return control;
+}
+
+ProgressControl *QtMvvm::showIndeterminateProgress(const QString &title, const QString &label, bool allowCancel)
+{
+	return showIndeterminateProgress(nullptr, title, label, allowCancel);
+}
+
+ProgressControl *QtMvvm::showBusy(QObject *scope, const QString &title, const QString &label, bool allowCancel)
+{
+	auto control = new ProgressControl{scope};
+	control->setIndeterminate(true);
+	showProgress(title, label, control, allowCancel, true);
+	return control;
+}
+
+ProgressControl *QtMvvm::showBusy(const QString &title, const QString &label, bool allowCancel)
+{
+	return showBusy(nullptr, title, label, allowCancel);
 }
