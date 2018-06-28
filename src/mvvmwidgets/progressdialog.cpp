@@ -42,18 +42,20 @@ ProgressDialog::ProgressDialog(const MessageConfig &config, QPointer<MessageResu
 	layout->addWidget(_progress);
 
 	//add the cancel button, in case it was requested
-	if(config.buttons().testFlag(MessageConfig::Cancel)) {
+	if(config.buttons() != MessageConfig::NoButton) {
 		_btnBox = new QDialogButtonBox{this};
-		_btnBox->setStandardButtons(QDialogButtonBox::Cancel); //is ok, as the buttons are the same
-		auto btnTexts = config.buttonTexts();
-		if(btnTexts.contains(MessageConfig::Cancel))
-			_btnBox->button(QDialogButtonBox::Cancel)->setText(btnTexts.value(MessageConfig::Cancel));
+		_btnBox->setStandardButtons(static_cast<QDialogButtonBox::StandardButtons>(static_cast<int>(config.buttons()))); //is ok, as the buttons are the same
+		auto btns = config.buttonTexts();
+		for(auto it = btns.constBegin(); it != btns.constEnd(); it++){
+			auto sBtn = static_cast<QDialogButtonBox::StandardButton>(it.key());
+			Q_ASSERT(_btnBox->standardButtons().testFlag(sBtn)); //Must be the case now because of the change in MessageConfig
+			_btnBox->button(sBtn)->setText(it.value());
+		}
 		layout->addWidget(_btnBox);
 		// connect the box
 		connect(_btnBox, &QDialogButtonBox::clicked,
 				this, [this](QAbstractButton *btn) {
-			if(_btnBox->standardButton(btn) == QDialogButtonBox::Cancel)
-				tryCancel();
+			tryCancel(_btnBox->standardButton(btn));
 		});
 	}
 
@@ -75,9 +77,6 @@ ProgressDialog::ProgressDialog(const MessageConfig &config, QPointer<MessageResu
 				this, &ProgressDialog::setIndetem);
 	}
 
-	connect(this, &ProgressDialog::canceled,
-			_control, &ProgressControl::requestCancel);
-
 	adjustSize();
 	DialogMaster::masterDialog(this, true, Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinMaxButtonsHint);
 }
@@ -87,29 +86,25 @@ void ProgressDialog::done(int code)
 	QDialog::done(code);
 	if(_control)
 		_control->notifyClosed();
-	if(_result) {
-		if(_wasCanceled)
-			_result->complete(MessageConfig::Cancel);
-		else
-			_result->complete(MessageConfig::Close);
-	}
+	if(_result)
+		_result->complete(_cancelAction);
 }
 
 void ProgressDialog::closeEvent(QCloseEvent *event)
 {
 	event->ignore();
-	tryCancel();
+	tryCancel(QDialogButtonBox::Cancel);
 }
 
-void ProgressDialog::tryCancel()
+void ProgressDialog::tryCancel(QDialogButtonBox::StandardButton btn)
 {
-	if(!_wasCanceled && _btnBox) {
-		_wasCanceled = true;
-		_btnBox->button(QDialogButtonBox::Cancel)->setEnabled(false);
+	if(_cancelAction == MessageConfig::NoButton && _btnBox) {
+		_cancelAction = static_cast<MessageConfig::StandardButton>(btn);
+		_btnBox->setEnabled(false);
 		if(_control)
-			_control->requestCancel();
+			_control->requestCancel(_cancelAction);
 		else
-			done(QDialogButtonBox::Cancel);
+			done(btn);
 	}
 }
 

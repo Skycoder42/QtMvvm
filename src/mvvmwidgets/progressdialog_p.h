@@ -27,14 +27,11 @@ public:
 public Q_SLOTS:
 	void done(int code) override;
 
-Q_SIGNALS:
-	void canceled();
-
 protected:
 	void closeEvent(QCloseEvent *event) override;
 
 private Q_SLOTS:
-	void tryCancel();
+	void tryCancel(QDialogButtonBox::StandardButton btn);
 
 	void updateLabel(const QString &text);
 	void setIndetem(bool indetem);
@@ -49,7 +46,7 @@ private:
 	QLabel *_label;
 	QProgressBar *_progress;
 	QDialogButtonBox *_btnBox = nullptr;
-	bool _wasCanceled = false;
+	MessageConfig::StandardButton _cancelAction = MessageConfig::NoButton;
 };
 
 }

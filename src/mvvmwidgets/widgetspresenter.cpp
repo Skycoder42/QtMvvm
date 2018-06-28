@@ -357,7 +357,7 @@ void WidgetsPresenter::presentInputDialog(const MessageConfig &config, QPointer<
 
 	//connect stuff
 	connect(btnBox, &QDialogButtonBox::clicked,
-					 dialog, [dialog, btnBox](QAbstractButton *btn){
+			dialog, [dialog, btnBox](QAbstractButton *btn){
 		dialog->done(btnBox->standardButton(btn));
 	});
 	connect(dialog, &QDialog::finished,

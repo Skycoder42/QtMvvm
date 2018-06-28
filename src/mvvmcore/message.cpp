@@ -329,9 +329,9 @@ int ProgressControl::progress() const
 	return d->progress;
 }
 
-void ProgressControl::requestCancel()
+void ProgressControl::requestCancel(MessageConfig::StandardButton btn)
 {
-	emit canceled({});
+	emit canceled(btn, {});
 }
 
 void ProgressControl::notifyClosed()

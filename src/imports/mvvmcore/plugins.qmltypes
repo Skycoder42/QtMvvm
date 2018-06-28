@@ -126,7 +126,10 @@ Module {
             Parameter { name: "text"; type: "string" }
         }
         Signal { name: "closeRequested" }
-        Signal { name: "canceled" }
+        Signal {
+            name: "canceled"
+            Parameter { name: "btn"; type: "MessageConfig::StandardButton" }
+        }
         Signal { name: "closed" }
         Method { name: "close" }
         Method {
@@ -157,7 +160,10 @@ Module {
             name: "setProgress"
             Parameter { name: "progressPercent"; type: "double" }
         }
-        Method { name: "requestCancel" }
+        Method {
+            name: "requestCancel"
+            Parameter { name: "btn"; type: "MessageConfig::StandardButton" }
+        }
         Method { name: "notifyClosed" }
     }
     Component {
