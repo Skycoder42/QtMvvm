@@ -13,10 +13,12 @@ DEFINES += "VERSION=\\\"$$VERSION\\\""
 DEFINES += "COMPANY=\\\"$$COMPANY\\\""
 DEFINES += "BUNDLE_PREFIX=\\\"$$BUNDLE_PREFIX\\\""
 
-HEADERS +=
+HEADERS += \
+    settingsgenerator.h
 
 SOURCES += \
-	main.cpp
+	main.cpp \
+    settingsgenerator.cpp
 
 load(qt_tool)
 

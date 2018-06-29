@@ -9,12 +9,12 @@
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
-	
+
 	<xs:complexType name="Import">
 		<xs:simpleContent>
 			<xs:extension base="xs:string">
 				<xs:attribute default="true" name="required" type="xs:boolean" use="optional"/>
-				<xs:attribute name="rootnode" type="xs:string" use="optional"/>
+				<xs:attribute name="rootNode" type="xs:string" use="optional"/>
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
@@ -23,7 +23,7 @@
 		<xs:attribute name="key" type="xs:string" use="required"/>
 		<xs:attribute name="type" type="xs:string" use="required"/>
 	</xs:complexType>
-	
+
 	<xs:complexType name="Param">
 		<xs:simpleContent>
 			<xs:extension base="xs:string">
@@ -33,14 +33,14 @@
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
-	
+
 	<xs:complexType name="Backend">
 		<xs:sequence>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="Param" type="Param"/>
 		</xs:sequence>
 		<xs:attribute name="class" type="xs:string" use="required"/>
 	</xs:complexType>
-	
+
 	<xs:complexType name="Node">
 		<xs:sequence>
 			<xs:choice maxOccurs="unbounded" minOccurs="0">
@@ -51,7 +51,7 @@
 		</xs:sequence>
 		<xs:attribute name="key" type="xs:string" use="required"/>
 	</xs:complexType>
-	
+
 	<xs:complexType name="Entry">
 		<xs:complexContent>
 			<xs:extension base="Node">
@@ -62,11 +62,11 @@
 				<xs:attribute name="qmlGroupKey" type="xs:string" use="optional"/>
 				<xs:attribute name="default" type="xs:string" use="optional"/>
 				<xs:attribute default="false" name="tr" type="xs:boolean" use="optional"/>
-				<xs:attribute name="trcontext" type="xs:string" use="optional"/>
+				<xs:attribute name="trContext" type="xs:string" use="optional"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	
+
 	<xs:complexType name="Settings">
 		<xs:sequence>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="Include" type="Include"/>
