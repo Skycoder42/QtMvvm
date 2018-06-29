@@ -46,48 +46,55 @@ AlertDialog {
 		}
 	}
 
-	footer: DialogButtonBox {
-		id: _btnBox
+	footer: Item {
 		visible: msgConfig.buttons !== MessageConfig.NoButton
+		implicitWidth: _btnBox.implicitWidth
+		implicitHeight: _btnBox.implicitHeight
 
-		readonly property var _allBtns: [
-			DialogButtonBox.NoButton,
-			DialogButtonBox.Ok,
-			DialogButtonBox.Save,
-			DialogButtonBox.SaveAll,
-			DialogButtonBox.Open,
-			DialogButtonBox.Yes,
-			DialogButtonBox.YesToAll,
-			DialogButtonBox.No,
-			DialogButtonBox.NoToAll,
-			DialogButtonBox.Abort,
-			DialogButtonBox.Retry,
-			DialogButtonBox.Ignore,
-			DialogButtonBox.Close,
-			DialogButtonBox.Cancel,
-			DialogButtonBox.Discard,
-			DialogButtonBox.Help,
-			DialogButtonBox.Apply,
-			DialogButtonBox.Reset,
-			DialogButtonBox.RestoreDefaults,
-		]
+		DialogButtonBox {
+			id: _btnBox
+			anchors.fill: parent
 
-		standardButtons: msgConfig.buttons
-		onStandardButtonsChanged: {
-			Object.keys(msgConfig.buttonTexts).forEach(function(key) {
-				standardButton(key).text = msgConfig.buttonTexts[key]
-			});
-		}
+			readonly property var _allBtns: [
+				DialogButtonBox.NoButton,
+				DialogButtonBox.Ok,
+				DialogButtonBox.Save,
+				DialogButtonBox.SaveAll,
+				DialogButtonBox.Open,
+				DialogButtonBox.Yes,
+				DialogButtonBox.YesToAll,
+				DialogButtonBox.No,
+				DialogButtonBox.NoToAll,
+				DialogButtonBox.Abort,
+				DialogButtonBox.Retry,
+				DialogButtonBox.Ignore,
+				DialogButtonBox.Close,
+				DialogButtonBox.Cancel,
+				DialogButtonBox.Discard,
+				DialogButtonBox.Help,
+				DialogButtonBox.Apply,
+				DialogButtonBox.Reset,
+				DialogButtonBox.RestoreDefaults,
+			]
 
-		onClicked: {
-			_msgBoxBase.buttonClicked(button);
-			if(msgResult && autoHandleBtns) {
-				_allBtns.forEach(function(sBtn) {
-					if(button === standardButton(sBtn)) {
-						msgResult.complete(sBtn);
-						msgResult = null;
-					}
+			standardButtons: msgConfig.buttons
+			onStandardButtonsChanged: {
+				Object.keys(msgConfig.buttonTexts).forEach(function(key) {
+					standardButton(key).text = msgConfig.buttonTexts[key]
 				});
+			}
+
+			onClicked: {
+				_msgBoxBase.buttonClicked(button);
+				if(msgResult && autoHandleBtns) {
+					_allBtns.forEach(function(sBtn) {
+						if(button === standardButton(sBtn)) {
+							msgResult.complete(sBtn);
+							msgResult = null;
+							_msgBoxBase.done(sBtn);
+						}
+					});
+				}
 			}
 		}
 	}

@@ -302,6 +302,7 @@ void WidgetsPresenter::presentMessageBox(const MessageConfig &config, QPointer<M
 	//create and show the msgbox
 	auto msgBox = DialogMaster::createMessageBox(info);
 	msgBox->setAttribute(Qt::WA_DeleteOnClose);
+	result->setCloseTarget(msgBox, QStringLiteral("reject()"));
 	connect(msgBox, &QMessageBox::finished,
 			result, [msgBox, qtHelp, checked, result](){
 		int sBtn = msgBox->standardButton(msgBox->clickedButton());
@@ -324,6 +325,7 @@ void WidgetsPresenter::presentInputDialog(const MessageConfig &config, QPointer<
 		parent = QApplication::activeWindow();
 	auto dialog = new QDialog(parent);
 	dialog->setAttribute(Qt::WA_DeleteOnClose);
+	result->setCloseTarget(dialog, QStringLiteral("reject()"));
 	auto layout = new QVBoxLayout(dialog);
 	dialog->setLayout(layout);
 
@@ -383,6 +385,7 @@ void WidgetsPresenter::presentFileDialog(const MessageConfig &config, QPointer<M
 		parent = QApplication::activeWindow();
 	auto dialog = new QFileDialog(parent);
 	dialog->setAttribute(Qt::WA_DeleteOnClose);
+	result->setCloseTarget(dialog, QStringLiteral("reject()"));
 
 	//prepare the dialog
 	auto title = config.title();
@@ -443,6 +446,7 @@ void WidgetsPresenter::presentColorDialog(const MessageConfig &config, const QPo
 		parent = QApplication::activeWindow();
 	auto dialog = new QColorDialog{parent};
 	dialog->setAttribute(Qt::WA_DeleteOnClose);
+	result->setCloseTarget(dialog, QStringLiteral("reject()"));
 
 	//prepare the dialog
 	auto title = config.title();
@@ -494,6 +498,7 @@ void WidgetsPresenter::presentProgressDialog(const MessageConfig &config, const 
 		parent = QApplication::activeWindow();
 	auto dialog = new ProgressDialog{config, result, control, parent};
 	dialog->setAttribute(Qt::WA_DeleteOnClose);
+	result->setCloseTarget(dialog, QStringLiteral("reject()"));
 	dialog->open();
 }
 

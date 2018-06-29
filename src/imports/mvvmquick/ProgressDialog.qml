@@ -17,16 +17,6 @@ MsgBoxBase {
 	readonly property bool _allowClose: !progressControl || !msgResult
 
 	onButtonClicked: tryCancel(button)
-	onAboutToHide: { //TODO find a way to NOT auto react on button presses... better that this solution
-		var closeFn = function(){
-			if(!_allowClose)
-				_progressDialog.visible = true;
-		};
-		if(QuickPresenter.currentStyle == "Material")
-			Qt.callLater(closeFn);
-		else
-			closeFn();
-	}
 
 	Component.onCompleted: {
 		if(msgResult)
