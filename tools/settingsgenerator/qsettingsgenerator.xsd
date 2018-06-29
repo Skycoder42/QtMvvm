@@ -10,6 +10,20 @@
 		</xs:simpleContent>
 	</xs:complexType>
 	
+	<xs:complexType name="Import">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute default="true" name="required" type="xs:boolean" use="optional"/>
+				<xs:attribute name="rootnode" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="TypeMapping">
+		<xs:attribute name="key" type="xs:string" use="required"/>
+		<xs:attribute name="type" type="xs:string" use="required"/>
+	</xs:complexType>
+	
 	<xs:complexType name="Param">
 		<xs:simpleContent>
 			<xs:extension base="xs:string">
@@ -32,6 +46,7 @@
 			<xs:choice maxOccurs="unbounded" minOccurs="0">
 				<xs:element name="Node" type="Node"/>
 				<xs:element name="Entry" type="Entry"/>
+				<xs:element name="Import" type="Import"/>
 			</xs:choice>
 		</xs:sequence>
 		<xs:attribute name="key" type="xs:string" use="required"/>
@@ -56,12 +71,15 @@
 		<xs:sequence>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="Include" type="Include"/>
 			<xs:element maxOccurs="1" minOccurs="0" name="Backend" type="Backend"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="TypeMapping" type="TypeMapping"/>
 			<xs:choice maxOccurs="unbounded" minOccurs="0">
 				<xs:element name="Node" type="Node"/>
 				<xs:element name="Entry" type="Entry"/>
+				<xs:element name="Import" type="Import"/>
 			</xs:choice>
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="optional"/>
+		<xs:attribute name="prefix" type="xs:string" use="optional"/>
 	</xs:complexType>
 
 	<!-- root elements-->
