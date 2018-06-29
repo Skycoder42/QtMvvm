@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<!-- Type definitions -->
+	<xs:complexType name="Include">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute default="false" name="local" type="xs:boolean" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	
+	<xs:complexType name="Param">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="key" type="xs:string" use="required"/>
+				<xs:attribute name="type" type="xs:string" use="required"/>
+				<xs:attribute default="false" name="asStr" type="xs:boolean" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	
+	<xs:complexType name="Backend">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Param" type="Param"/>
+		</xs:sequence>
+		<xs:attribute name="class" type="xs:string" use="required"/>
+	</xs:complexType>
+	
+	<xs:complexType name="Node">
+		<xs:sequence>
+			<xs:choice maxOccurs="unbounded" minOccurs="0">
+				<xs:element name="Node" type="Node"/>
+				<xs:element name="Entry" type="Entry"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="key" type="xs:string" use="required"/>
+	</xs:complexType>
+	
+	<xs:complexType name="Entry">
+		<xs:complexContent>
+			<xs:extension base="Node">
+				<xs:sequence>
+					<xs:element maxOccurs="1" minOccurs="0" name="Code" type="xs:string"/>
+				</xs:sequence>
+				<xs:attribute name="type" type="xs:string" use="required"/>
+				<xs:attribute name="qmlGroupKey" type="xs:string" use="optional"/>
+				<xs:attribute name="default" type="xs:string" use="optional"/>
+				<xs:attribute default="false" name="tr" type="xs:boolean" use="optional"/>
+				<xs:attribute name="trcontext" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="Settings">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Include" type="Include"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="Backend" type="Backend"/>
+			<xs:choice maxOccurs="unbounded" minOccurs="0">
+				<xs:element name="Node" type="Node"/>
+				<xs:element name="Entry" type="Entry"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="optional"/>
+	</xs:complexType>
+
+	<!-- root elements-->
+	<xs:element name="Settings" type="Settings"/>
+</xs:schema>

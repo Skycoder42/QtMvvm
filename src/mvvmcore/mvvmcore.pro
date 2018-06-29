@@ -22,7 +22,10 @@ HEADERS += \
 	settingssetuploader_p.h \
 	settingsviewmodel_p.h \
 	settingsviewmodel.h \
-	injection.h
+	injection.h \
+	isettingsaccessor.h \
+	qsettingsaccessor.h \
+	settingsentry.h
 
 SOURCES += \
 	viewmodel.cpp \
@@ -33,7 +36,9 @@ SOURCES += \
 	message.cpp \
 	ipresenter.cpp \
 	settingssetuploader.cpp \
-	settingsviewmodel.cpp
+	settingsviewmodel.cpp \
+	isettingsaccessor.cpp \
+	qsettingsaccessor.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmcore_de.ts \
