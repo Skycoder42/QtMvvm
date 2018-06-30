@@ -59,44 +59,51 @@ private:
 		QString trContext;
 	};
 
-	struct Import {
-		bool required;
-		QString rootNode;
-		QString import;
+	struct Import : public Node {
+		inline Import() = default;
+		inline Import(Node &&node) :
+			Node(std::move(node))
+		{}
 	};
 
 	struct Settings : public Node {
 		QString name;
 		QString prefix;
+		QString baseKey;
 
 		QList<Include> includes;
 		QSharedPointer<Backend> backend;
 		QHash<QString, QString> typeMapping;
-	} _data;
+	};
 
-	void readData();
+	Include readInclude(QXmlStreamReader &xml);
+	Param readParam(QXmlStreamReader &xml);
+	QSharedPointer<Backend> readBackend(QXmlStreamReader &xml);
+	QPair<QString, QString> readTypeMapping(QXmlStreamReader &xml);
 
-	Include readInclude();
-	Param readParam();
-	QSharedPointer<Backend> readBackend();
-	QPair<QString, QString> readTypeMapping();
+	Node readNode(QXmlStreamReader &xml);
+	Entry readEntry(QXmlStreamReader &xml);
+	Import readImport(QXmlStreamReader &xml);
 
-	Node readNode();
-	Entry readEntry();
-	Import readImport();
+	Settings readSettings(QXmlStreamReader &xml);
 
-	Settings readSettings();
+	void writeHeader(const Settings &settings);
+	void writeNodeElements(const Node &node, int intendent = 1);
+	void writeNode(const Node &node, int intendent = 1);
+	void writeEntry(const Entry &entry, int intendent = 1);
+
+	void writeSource(const Settings &settings);
 
 	template <typename T = QString>
-	T readAttrib(const QString &key, const T &defaultValue = {}, bool required = false) const;
+	T readAttrib(QXmlStreamReader &xml, const QString &key, const T &defaultValue = {}, bool required = false) const;
 
-	void checkError() const;
+	void checkError(QXmlStreamReader &xml) const;
 	Q_NORETURN void throwFile(const QFileDevice &file) const;
-	Q_NORETURN void throwReader(const QString &overwriteError = {}) const;
-	Q_NORETURN void throwChild();
+	Q_NORETURN void throwReader(QXmlStreamReader &xml, const QString &overwriteError = {}) const;
+	Q_NORETURN void throwChild(QXmlStreamReader &xml);
 };
 
 template<>
-bool SettingsGenerator::readAttrib<bool>(const QString &key, const bool &defaultValue, bool required) const;
+bool SettingsGenerator::readAttrib<bool>(QXmlStreamReader &xml, const QString &key, const bool &defaultValue, bool required) const;
 
 #endif // SETTINGSGENERATOR_H
