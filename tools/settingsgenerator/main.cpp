@@ -44,11 +44,10 @@ int main(int argc, char *argv[])
 
 	try {
 		SettingsGenerator generator {
-			parser.value(QStringLiteral("in")),
 			parser.value(QStringLiteral("header")),
 			parser.value(QStringLiteral("impl"))
 		};
-		generator.process();
+		generator.process(parser.value(QStringLiteral("in")));
 		return EXIT_SUCCESS;
 	} catch (const QString &str) {
 		qCritical() << qUtf8Printable(str);

@@ -1,0 +1,21 @@
+{
+    "dependencies": [
+        {
+            "package": "de.skycoder42.qxmlcodegen",
+            "provider": "qpm",
+            "version": "1.0.0"
+        }
+    ],
+    "license": {
+        "file": "",
+        "name": ""
+    },
+    "prcFile": "",
+    "priFile": "",
+    "priIncludes": [
+    ],
+    "publishers": {
+    },
+    "qbsFile": "",
+    "source": false
+}

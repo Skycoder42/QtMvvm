@@ -76,3 +76,5 @@ qpmx.user.json
 
 # ts dummy dirs
 .ts-dummy
+.qpmx-dev-cache
+qpmx.json.user

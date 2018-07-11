@@ -14,11 +14,15 @@ DEFINES += "COMPANY=\\\"$$COMPANY\\\""
 DEFINES += "BUNDLE_PREFIX=\\\"$$BUNDLE_PREFIX\\\""
 
 HEADERS += \
-    settingsgenerator.h
+	settingsgenerator.h
 
 SOURCES += \
 	main.cpp \
-    settingsgenerator.cpp
+	settingsgenerator.cpp
+
+XML_SCHEMA_DEFINITIONS += qsettingsgenerator.xsd
+
+include(../3rdparty/3rdparty.pri)
 
 load(qt_tool)
 
@@ -30,4 +34,5 @@ win32 {
 	QMAKE_TARGET_BUNDLE_PREFIX = $${BUNDLE_PREFIX}.
 }
 
-DISTFILES += qsettingsgenerator.xsd
+!ReleaseBuild:!DebugBuild:!system(qpmx -d $$shell_quote($$_PRO_FILE_PWD_) --qmake-run init $$QPMX_EXTRA_OPTIONS $$shell_quote($$QMAKE_QMAKE) $$shell_quote($$OUT_PWD)): error(qpmx initialization failed. Check the compilation log for details.)
+else: include($$OUT_PWD/qpmx_generated.pri)
