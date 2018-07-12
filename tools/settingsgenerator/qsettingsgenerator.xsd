@@ -7,24 +7,25 @@
 		<qxg:include>QtCore/QHash</qxg:include>
 	</qxg:config>
 	<qxg:method name="read_type_mapping" type="QHash&lt;QString, QString&gt;" asGroup="true"/>
+	<qxg:method name="read_included_file" type="NodeContentGroup"/>
 
 	<!-- Type definitions -->
 	<xs:complexType name="IncludeType">
 		<xs:simpleContent>
-			<xs:extension base="xs:string" qxg:member="include">
+			<xs:extension base="xs:string" qxg:member="includePath">
 				<xs:attribute default="false" name="local" type="xs:boolean" use="optional"/>
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
 
-	<!--xs:complexType name="Import">
+	<xs:complexType name="ImportType">
 		<xs:simpleContent>
-			<xs:extension base="xs:string">
+			<xs:extension base="xs:string" qxg:member="importPath">
 				<xs:attribute default="true" name="required" type="xs:boolean" use="optional"/>
 				<xs:attribute name="rootNode" type="xs:string" use="optional"/>
 			</xs:extension>
 		</xs:simpleContent>
-	</xs:complexType-->
+	</xs:complexType>
 
 	<xs:complexType name="TypeMappingEntry">
 		<xs:attribute name="key" type="xs:string" use="required"/>
@@ -56,10 +57,10 @@
 
 	<xs:group name="NodeContentGroup">
 		<xs:sequence>
-			<xs:choice maxOccurs="unbounded" minOccurs="0" qxg:unordered="true">
-				<xs:element name="Node" type="NodeType" qxg:member="nodes"/>
-				<xs:element name="Entry" type="EntryType" qxg:member="entries"/>
-				<!--xs:element name="Import" type="Import"/-->
+			<xs:choice maxOccurs="unbounded" minOccurs="0" qxg:member="contentNodes">
+				<xs:element name="Node" type="NodeType"/>
+				<xs:element name="Entry" type="EntryType"/>
+				<xs:element name="Import" type="ImportType" qxg:method="read_included_file" qxg:methodType="NodeContentGroup"/>
 			</xs:choice>
 		</xs:sequence>
 	</xs:group>

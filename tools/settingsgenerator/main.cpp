@@ -49,8 +49,8 @@ int main(int argc, char *argv[])
 		};
 		generator.process(parser.value(QStringLiteral("in")));
 		return EXIT_SUCCESS;
-	} catch (const QString &str) {
-		qCritical() << qUtf8Printable(str);
+	} catch (const QException &e) {
+		qCritical() << e.what();
 		return EXIT_FAILURE;
 	}
 }

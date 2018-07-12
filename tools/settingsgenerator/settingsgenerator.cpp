@@ -37,6 +37,58 @@ bool SettingsGenerator::read_type_mapping(QXmlStreamReader &reader, QHash<QStrin
 	return hasNext;
 }
 
+void SettingsGenerator::read_included_file(QXmlStreamReader &reader, NodeContentGroup &data)
+{
+	ImportType import;
+	read_ImportType(reader, import);
+
+	//make the path relative if possbile
+	if(dynamic_cast<QFileDevice*>(reader.device())) {
+		QFileInfo docInfo{static_cast<QFileDevice*>(reader.device())->fileName()};
+		import.importPath = docInfo.dir().absoluteFilePath(import.importPath);
+	}
+
+	// read the document
+	try {
+		auto settings = readDocument(import.importPath);
+		NodeContentGroup *cGrp = &settings;
+		if(import.rootNode) {
+			for(const auto &key : import.rootNode.value().split(QLatin1Char('/'), QString::SkipEmptyParts)) {
+				cGrp = findContentGroup(cGrp, key);
+				if(!cGrp)
+					return;
+			}
+		}
+		data = *cGrp;
+	} catch(QException &e) {
+		if(import.required)
+			throw;
+		else {
+			qWarning() << e.what();
+			return;
+		}
+	}
+}
+
+SettingsGeneratorBase::NodeContentGroup *SettingsGenerator::findContentGroup(SettingsGeneratorBase::NodeContentGroup *cGrp, const QString &key)
+{
+	for(const auto &cNode : cGrp->contentNodes) {
+		if(nonstd::holds_alternative<NodeType>(cNode)) {
+			if(std::get<NodeType>(cNode).key == key)
+				return const_cast<NodeType*>(&(std::get<NodeType>(cNode)));
+		} else if(nonstd::holds_alternative<EntryType>(cNode)) {
+			if(std::get<EntryType>(cNode).key == key)
+				return const_cast<EntryType*>(&(std::get<EntryType>(cNode)));
+		} else if(nonstd::holds_alternative<NodeContentGroup>(cNode)) {
+			auto res = findContentGroup(const_cast<NodeContentGroup*>(&(std::get<NodeContentGroup>(cNode))), key);
+			if(res)
+				return res;
+		}
+	}
+
+	return nullptr;
+}
+
 void SettingsGenerator::writeHeader(const SettingsType &settings)
 {
 	QString incGuard = QFileInfo{_hdrFile.fileName()}
@@ -49,9 +101,9 @@ void SettingsGenerator::writeHeader(const SettingsType &settings)
 	// write the includes
 	for(const auto &inc : settings.includes) {
 		if(inc.local)
-			_hdr << "#include \"" << inc.include << "\"\n";
+			_hdr << "#include \"" << inc.includePath << "\"\n";
 		else
-			_hdr << "#include <" << inc.include << ">\n";
+			_hdr << "#include <" << inc.includePath << ">\n";
 	}
 	_hdr << "\n";
 
@@ -77,10 +129,14 @@ void SettingsGenerator::writeHeader(const SettingsType &settings)
 
 void SettingsGenerator::writeNodeElements(const NodeContentGroup &node, int intendent)
 {
-	for(const auto &cNode : node.nodes)
-		writeNode(cNode, intendent);
-	for(const auto &cEntry : node.entries)
-		writeEntry(cEntry, intendent);
+	for(const auto &cNode : node.contentNodes) {
+		if(nonstd::holds_alternative<NodeType>(cNode))
+			writeNode(nonstd::get<NodeType>(cNode), intendent);
+		else if(nonstd::holds_alternative<EntryType>(cNode))
+			writeEntry(nonstd::get<EntryType>(cNode), intendent);
+		else if(nonstd::holds_alternative<NodeContentGroup>(cNode))
+			writeNodeElements(nonstd::get<NodeContentGroup>(cNode), intendent);
+	}
 }
 
 void SettingsGenerator::writeNode(const NodeType &node, int intendent)

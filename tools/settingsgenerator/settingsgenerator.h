@@ -16,6 +16,7 @@ public:
 
 protected:
 	bool read_type_mapping(QXmlStreamReader &reader, QHash<QString, QString> &data, bool hasNext) override;
+	void read_included_file(QXmlStreamReader &reader, NodeContentGroup &data) override;
 
 private:
 	QFile _hdrFile;
@@ -23,6 +24,8 @@ private:
 
 	QTextStream _hdr;
 	QTextStream _src;
+
+	NodeContentGroup *findContentGroup(NodeContentGroup *cGrp, const QString &key);
 
 	void writeHeader(const SettingsType &settings);
 	void writeNodeElements(const NodeContentGroup &node, int intendent = 1);
