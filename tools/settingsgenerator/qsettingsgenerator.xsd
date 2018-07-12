@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-		   xmlns:qxg="https://skycoder42.de/QXmlCodeGen"><!-- TODO proper name/url -->
+		   xmlns:qxg="https://skycoder42.de/xml/schemas/QXmlCodeGen">
 	<!-- QXG Definitions -->
 	<qxg:config class="SettingsGeneratorBase"
-				stdcompat="true">
+				stdcompat="true"
+				schemaUrl="qrc:/schemas/qsettingsgenerator.xsd">
 		<qxg:include>QtCore/QHash</qxg:include>
 	</qxg:config>
 	<qxg:method name="read_type_mapping" type="QHash&lt;QString, QString&gt;" asGroup="true"/>
@@ -60,7 +61,7 @@
 			<xs:choice maxOccurs="unbounded" minOccurs="0" qxg:member="contentNodes">
 				<xs:element name="Node" type="NodeType"/>
 				<xs:element name="Entry" type="EntryType"/>
-				<xs:element name="Import" type="ImportType" qxg:method="read_included_file" qxg:methodType="NodeContentGroup"/>
+				<xs:element name="Import" type="ImportType" qxg:method="read_included_file"/>
 			</xs:choice>
 		</xs:sequence>
 	</xs:group>
@@ -89,7 +90,7 @@
 		<xs:sequence>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="Include" type="IncludeType" qxg:member="includes"/>
 			<xs:element maxOccurs="1" minOccurs="0" name="Backend" type="BackendType"/>
-			<xs:group ref="TypeMappingGroup" qxg:member="typeMappings" qxg:method="read_type_mapping" qxg:methodType="QHash&lt;QString, QString&gt;"/> <!-- TODO should be auto-detected -->
+			<xs:group ref="TypeMappingGroup" qxg:member="typeMappings" qxg:method="read_type_mapping"/>
 			<xs:group ref="NodeContentGroup" qxg:inherit="true"/>
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="optional"/>

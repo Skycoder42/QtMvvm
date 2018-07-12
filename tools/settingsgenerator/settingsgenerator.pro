@@ -1,6 +1,7 @@
 option(host_build)
 
 QT = core
+!force_bootstrap:qtHaveModule(xmlpatterns): QT += xmlpatterns
 
 TARGET = qsettingsgenerator
 VERSION = $$MODULE_VERSION
@@ -20,7 +21,10 @@ SOURCES += \
 	main.cpp \
 	settingsgenerator.cpp
 
-XML_SCHEMA_DEFINITIONS += qsettingsgenerator.xsd
+XML_SCHEMA_DEFINITIONS += \
+	qsettingsgenerator.xsd
+
+contains(QT, xmlpatterns):RESOURCES += qsettingsgenerator.qrc
 
 include(../3rdparty/3rdparty.pri)
 

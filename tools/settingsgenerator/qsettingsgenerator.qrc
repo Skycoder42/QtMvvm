@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/schemas">
+        <file>qsettingsgenerator.xsd</file>
+    </qresource>
+</RCC>
