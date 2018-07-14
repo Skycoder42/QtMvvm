@@ -3,8 +3,7 @@
 #include "coreapp.h"
 #include "qtmvvm_logging_p.h"
 
-#include <cmath>
-
+#include <QtCore/QtMath>
 #include <QtGui/QGuiApplication>
 
 using namespace QtMvvm;
@@ -399,7 +398,7 @@ void ProgressControl::setProgress(int progress)
 void ProgressControl::setProgress(double progressPercent)
 {
 	Q_ASSERT_X(progressPercent >= 0.0 && progressPercent <= 1.0, Q_FUNC_INFO, "progressPercent must be in the range [0.0,1.0]");
-	setProgress(static_cast<int>(std::round((d->maximum - d->minimum) * progressPercent + d->minimum)));
+	setProgress(static_cast<int>(qRound((d->maximum - d->minimum) * progressPercent + d->minimum)));
 }
 
 // ------------- Private Implementation -------------
