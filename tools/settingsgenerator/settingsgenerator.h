@@ -5,6 +5,7 @@
 #include <QTextStream>
 
 #include "qsettingsgenerator.h"
+#include "settingstranslator.h"
 
 class SettingsGenerator : public SettingsGeneratorBase
 {
@@ -25,7 +26,14 @@ private:
 	QTextStream _hdr;
 	QTextStream _src;
 
-	NodeContentGroup *findContentGroup(NodeContentGroup *cGrp, const QString &key);
+	void convertFromConf(QXmlStreamReader &reader, SettingsConfigBase::SettingsConfigType &conf, SettingsType &data);
+	void readCategory(QXmlStreamReader &reader, SettingsConfigBase::CategoryContentGroup &content, NodeContentGroup &targetRootNode);
+	void readSection(QXmlStreamReader &reader, SettingsConfigBase::SectionContentGroup &content, NodeContentGroup &targetRootNode);
+	void readGroup(QXmlStreamReader &reader, SettingsConfigBase::GroupContentGroup &content, NodeContentGroup &targetRootNode);
+	void readEntry(QXmlStreamReader &reader, SettingsConfigBase::EntryType &entry, NodeContentGroup &targetRootNode);
+
+	NodeContentGroup *findContentGroup(NodeContentGroup *cGrp, const QString &key, bool *isEntry = nullptr);
+	NodeContentGroup *replaceNodeByEntry(NodeContentGroup *cGrp, NodeContentGroup *node, EntryType &&entry);
 
 	void writeHeader(const SettingsType &settings);
 	void writeNodeElements(const NodeContentGroup &node, int intendent = 1);

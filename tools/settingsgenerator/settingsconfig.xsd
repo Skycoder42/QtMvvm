@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   xmlns:qxg="https://skycoder42.de/xml/schemas/QXmlCodeGen">
+	<!-- QXG Definitions -->
+	<qxg:config class="SettingsConfigBase"
+				stdcompat="true"
+				schemaUrl="qrc:/schemas/settingsconfig.xsd"
+				visibility="public">
+		<qxg:include>QtCore/QHash</qxg:include>
+	</qxg:config>
+	<qxg:method name="finish_group_content" type="GroupContentGroup" asGroup="true"/>
+	<qxg:method name="finish_section_content" type="SectionContentGroup" asGroup="true"/>
+	<qxg:method name="finish_category_content" type="CategoryContentGroup" asGroup="true"/>
+	<qxg:method name="finish_settings_config_content" type="SettingsConfigContentGroup" asGroup="true"/>
+
+	<!-- Basic property-like elements definitions -->
+	<xs:complexType name="IncludeType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string" qxg:member="includePath">
+				<xs:attribute type="xs:boolean" name="optional" default="false" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="ElementType" mixed="true" qxg:declare="true" qxg:member="content">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" type="PropertyType" name="Property" qxg:member="properties"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" type="ElementType" name="Element" qxg:member="elements"/>
+		</xs:sequence>
+		<xs:attribute type="xs:string" name="type" use="required"/>
+		<xs:attribute type="xs:boolean" name="tr" use="optional" default="false"/>
+		<xs:attribute type="xs:boolean" name="ztr" use="optional" default="false"/>
+	</xs:complexType>
+
+	<xs:complexType name="PropertyType" qxg:declare="true">
+		<xs:complexContent>
+			<xs:extension base="ElementType">
+				<xs:attribute type="xs:string" name="key" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+
+	<!-- Group Definitions to build the elements from -->
+	<xs:attributeGroup name="BasicContainerInfo">
+		<xs:attribute type="xs:string" name="title" use="optional"/>
+		<xs:attribute type="xs:string" name="tooltip" use="optional"/>
+		<xs:attribute type="xs:string" name="frontends" use="optional"/>
+		<xs:attribute type="xs:string" name="selectors" use="optional"/>
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="ExtendedContainerInfo">
+		<xs:attributeGroup ref="BasicContainerInfo" qxg:inherit="true"/>
+		<xs:attribute type="xs:string" name="icon" use="optional"/>
+	</xs:attributeGroup>
+
+	<xs:group name="GroupContentGroup">
+		<xs:sequence>
+			<xs:choice maxOccurs="unbounded" minOccurs="0" qxg:member="content">
+				<xs:element type="IncludeType" name="Include"/>
+				<xs:element type="EntryType" name="Entry"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:group name="SectionContentGroup">
+		<xs:sequence>
+			<xs:choice maxOccurs="unbounded" minOccurs="0" qxg:member="content">
+				<xs:element type="IncludeType" name="Include"/>
+				<xs:element type="GroupType" name="Group"/>
+				<xs:element type="EntryType" name="Entry"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:group name="CategoryContentGroup">
+		<xs:sequence>
+			<xs:choice maxOccurs="unbounded" minOccurs="0" qxg:member="content">
+				<xs:element type="IncludeType" name="Include"/>
+				<xs:element type="SectionType" name="Section"/>
+				<xs:element type="GroupType" name="Group"/>
+				<xs:element type="EntryType" name="Entry"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:group name="SettingsConfigContentGroup">
+		<xs:sequence>
+			<xs:choice maxOccurs="unbounded" minOccurs="0" qxg:member="content">
+				<xs:element type="IncludeType" name="Include"/>
+				<xs:element type="CategoryType" name="Category"/>
+				<xs:element type="SectionType" name="Section"/>
+				<xs:element type="GroupType" name="Group"/>
+				<xs:element type="EntryType" name="Entry"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+
+
+
+	<!-- Element definitions -->
+	<xs:complexType name="EntryType" qxg:declare="true">
+		<xs:sequence>
+			<xs:choice maxOccurs="unbounded" minOccurs="0" qxg:unordered="true">
+				<xs:element type="xs:string" name="SearchKey" qxg:member="searchKeys"/>
+				<xs:element type="PropertyType" name="Property" qxg:member="properties"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attributeGroup ref="BasicContainerInfo" qxg:inherit="true"/>
+		<xs:attribute type="xs:string" name="key" use="required"/>
+		<xs:attribute type="xs:string" name="type" use="required"/>
+		<xs:attribute type="xs:string" name="default" use="optional" qxg:member="defaultValue"/>
+		<xs:attribute type="xs:boolean" name="trdefault" use="optional" default="false"/>
+	</xs:complexType>
+
+	<xs:complexType name="GroupType" qxg:declare="true">
+		<xs:group ref="GroupContentGroup" qxg:inherit="true" qxg:method="finish_group_content"/>
+		<xs:attributeGroup ref="BasicContainerInfo" qxg:inherit="true"/>
+	</xs:complexType>
+
+	<xs:complexType name="SectionType" qxg:declare="true">
+		<xs:group ref="SectionContentGroup" qxg:inherit="true" qxg:method="finish_section_content"/>
+		<xs:attributeGroup ref="ExtendedContainerInfo" qxg:inherit="true"/>
+	</xs:complexType>
+
+	<xs:complexType name="CategoryType" qxg:declare="true">
+		<xs:group ref="CategoryContentGroup" qxg:inherit="true" qxg:method="finish_category_content"/>
+		<xs:attributeGroup ref="ExtendedContainerInfo" qxg:inherit="true"/>
+	</xs:complexType>
+
+	<xs:complexType name="SettingsConfigType" qxg:declare="true">
+		<xs:group ref="SettingsConfigContentGroup" qxg:inherit="true" qxg:method="finish_settings_config_content"/>
+		<xs:attribute type="xs:boolean" name="allowSearch" use="optional" default="true"/>
+		<xs:attribute type="xs:boolean" name="allowRestore" use="optional" default="true"/>
+	</xs:complexType>
+
+	<!-- root elements-->
+	<xs:element name="SettingsConfig" type="SettingsConfigType"/>
+	<xs:element name="Category" type="CategoryType"/>
+	<xs:element name="Section" type="SectionType"/>
+	<xs:element name="Group" type="GroupType"/>
+	<xs:element name="Entry" type="EntryType"/>
+</xs:schema>

@@ -50,7 +50,25 @@ void SettingsGenerator::read_included_file(QXmlStreamReader &reader, NodeContent
 
 	// read the document
 	try {
-		auto settings = readDocument(import.importPath);
+		QFile xmlFile{import.importPath};
+		if(!xmlFile.open(QIODevice::ReadOnly | QIODevice::Text))
+			throw FileException{xmlFile};
+
+		QXmlStreamReader subReader{&xmlFile};
+		if(!subReader.readNextStartElement())
+			throw XmlException{subReader};
+
+		SettingsType settings;
+		if(subReader.name() == QStringLiteral("Settings")) {
+			read_SettingsType(subReader, settings);
+		} else if(subReader.name() == QStringLiteral("SettingsConfig")) {
+			SettingsTranslator confReader;
+			SettingsConfigBase::SettingsConfigType settingsConf;
+			confReader.read_SettingsConfigType(subReader, settingsConf);
+			convertFromConf(reader, settingsConf, settings);
+		} else
+			throwChild(subReader);
+
 		NodeContentGroup *cGrp = &settings;
 		if(import.rootNode) {
 			for(const auto &key : import.rootNode.value().split(QLatin1Char('/'), QString::SkipEmptyParts)) {
@@ -59,8 +77,8 @@ void SettingsGenerator::read_included_file(QXmlStreamReader &reader, NodeContent
 					return;
 			}
 		}
-		data = *cGrp;
-	} catch(QException &e) {
+		data = std::move(*cGrp);
+	} catch(FileException &e) {
 		if(import.required)
 			throw;
 		else {
@@ -70,17 +88,131 @@ void SettingsGenerator::read_included_file(QXmlStreamReader &reader, NodeContent
 	}
 }
 
-SettingsGeneratorBase::NodeContentGroup *SettingsGenerator::findContentGroup(SettingsGeneratorBase::NodeContentGroup *cGrp, const QString &key)
+void SettingsGenerator::convertFromConf(QXmlStreamReader &reader, SettingsConfigBase::SettingsConfigType &conf, SettingsType &data)
 {
-	for(const auto &cNode : cGrp->contentNodes) {
+	for(auto &element : conf.content) {
+		if(nonstd::holds_alternative<SettingsConfigBase::CategoryType>(element))
+			readCategory(reader, nonstd::get<SettingsConfigBase::CategoryType>(element), data);
+		else if(nonstd::holds_alternative<SettingsConfigBase::SectionType>(element))
+			readSection(reader, nonstd::get<SettingsConfigBase::SectionType>(element), data);
+		else if(nonstd::holds_alternative<SettingsConfigBase::GroupType>(element))
+			readGroup(reader, nonstd::get<SettingsConfigBase::GroupType>(element), data);
+		else if(nonstd::holds_alternative<SettingsConfigBase::EntryType>(element))
+			readEntry(reader, nonstd::get<SettingsConfigBase::EntryType>(element), data);
+		else
+			throw XmlException{reader, QStringLiteral("Unexpected child element in included SettingsConf")};
+	}
+}
+
+void SettingsGenerator::readCategory(QXmlStreamReader &reader, SettingsConfigBase::CategoryContentGroup &content, NodeContentGroup &targetRootNode)
+{
+	for(auto &element : content.content) {
+		if(nonstd::holds_alternative<SettingsConfigBase::SectionType>(element))
+			readSection(reader, nonstd::get<SettingsConfigBase::SectionType>(element), targetRootNode);
+		else if(nonstd::holds_alternative<SettingsConfigBase::GroupType>(element))
+			readGroup(reader, nonstd::get<SettingsConfigBase::GroupType>(element), targetRootNode);
+		else if(nonstd::holds_alternative<SettingsConfigBase::EntryType>(element))
+			readEntry(reader, nonstd::get<SettingsConfigBase::EntryType>(element), targetRootNode);
+		else
+			throw XmlException{reader, QStringLiteral("Unexpected child element in included SettingsConf Categoy")};
+	}
+}
+
+void SettingsGenerator::readSection(QXmlStreamReader &reader, SettingsConfigBase::SectionContentGroup &content, NodeContentGroup &targetRootNode)
+{
+	for(auto &element : content.content) {
+		if(nonstd::holds_alternative<SettingsConfigBase::GroupType>(element))
+			readGroup(reader, nonstd::get<SettingsConfigBase::GroupType>(element), targetRootNode);
+		else if(nonstd::holds_alternative<SettingsConfigBase::EntryType>(element))
+			readEntry(reader, nonstd::get<SettingsConfigBase::EntryType>(element), targetRootNode);
+		else
+			throw XmlException{reader, QStringLiteral("Unexpected child element in included SettingsConf Section")};
+	}
+}
+
+void SettingsGenerator::readGroup(QXmlStreamReader &reader, SettingsConfigBase::GroupContentGroup &content, NodeContentGroup &targetRootNode)
+{
+	for(auto &element : content.content) {
+		if(nonstd::holds_alternative<SettingsConfigBase::EntryType>(element))
+			readEntry(reader, nonstd::get<SettingsConfigBase::EntryType>(element), targetRootNode);
+		else
+			throw XmlException{reader, QStringLiteral("Unexpected child element in included SettingsConf Group")};
+	}
+}
+
+void SettingsGenerator::readEntry(QXmlStreamReader &reader, SettingsConfigBase::EntryType &entry, NodeContentGroup &targetRootNode)
+{
+	auto keyChain = entry.key.split(QLatin1Char('/'), QString::SkipEmptyParts);
+	auto entryKey = keyChain.takeLast();
+
+	auto cGrp = &targetRootNode;
+	for(const auto &key : keyChain) {
+		auto nGrp = findContentGroup(cGrp, key);
+		if(!nGrp) {
+			NodeType nNode;
+			nNode.key = key;
+			cGrp->contentNodes.append(std::move(nNode));
+			nGrp = &(std::get<NodeType>(cGrp->contentNodes.last()));
+		}
+		cGrp = nGrp;
+	}
+
+	auto isEntry = false;
+	auto eGrp = findContentGroup(cGrp, entryKey, &isEntry);
+	if(!eGrp) {
+		EntryType nEntry;
+		nEntry.key = entryKey;
+		cGrp->contentNodes.append(std::move(nEntry));
+		eGrp = &(std::get<EntryType>(cGrp->contentNodes.last()));
+	} else if(!isEntry) {
+		EntryType nEntry;
+		nEntry.key = entryKey;
+		nEntry.contentNodes = std::move(eGrp->contentNodes);
+		eGrp = replaceNodeByEntry(cGrp, eGrp, std::move(nEntry));
+		Q_ASSERT(eGrp);
+	} else
+		throw XmlException{reader, QStringLiteral("Found duplicated entry with key: %1").arg(entry.key)};
+
+	auto nEntry = static_cast<EntryType*>(eGrp);
+	nEntry->type = std::move(entry.type);
+	nEntry->defaultValue = std::move(entry.defaultValue);
+	nEntry->tr = std::move(entry.trdefault);
+}
+
+SettingsGeneratorBase::NodeContentGroup *SettingsGenerator::findContentGroup(SettingsGeneratorBase::NodeContentGroup *cGrp, const QString &key, bool *isEntry)
+{
+	if(isEntry)
+		*isEntry = false;
+	for(auto &cNode : cGrp->contentNodes) {
 		if(nonstd::holds_alternative<NodeType>(cNode)) {
 			if(std::get<NodeType>(cNode).key == key)
-				return const_cast<NodeType*>(&(std::get<NodeType>(cNode)));
+				return &(std::get<NodeType>(cNode));
 		} else if(nonstd::holds_alternative<EntryType>(cNode)) {
-			if(std::get<EntryType>(cNode).key == key)
-				return const_cast<EntryType*>(&(std::get<EntryType>(cNode)));
+			if(std::get<EntryType>(cNode).key == key) {
+				if(isEntry)
+					*isEntry = true;
+				return &(std::get<EntryType>(cNode));
+			}
 		} else if(nonstd::holds_alternative<NodeContentGroup>(cNode)) {
-			auto res = findContentGroup(const_cast<NodeContentGroup*>(&(std::get<NodeContentGroup>(cNode))), key);
+			auto res = findContentGroup(&(std::get<NodeContentGroup>(cNode)), key);
+			if(res)
+				return res;
+		}
+	}
+
+	return nullptr;
+}
+
+SettingsGeneratorBase::NodeContentGroup *SettingsGenerator::replaceNodeByEntry(SettingsGeneratorBase::NodeContentGroup *cGrp, NodeContentGroup *node, SettingsGeneratorBase::EntryType &&entry)
+{
+	for(auto &cNode : cGrp->contentNodes) {
+		if(nonstd::holds_alternative<NodeType>(cNode)) {
+			if(&std::get<NodeType>(cNode) == node) {
+				cNode = std::move(entry);
+				return &(std::get<EntryType>(cNode));
+			}
+		} else if(nonstd::holds_alternative<NodeContentGroup>(cNode)) {
+			auto res = replaceNodeByEntry(&(std::get<NodeContentGroup>(cNode)), node, std::move(entry));
 			if(res)
 				return res;
 		}
