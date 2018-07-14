@@ -14,8 +14,10 @@ SettingsGenerator::SettingsGenerator(const QString &hdrPath, const QString &srcP
 
 void SettingsGenerator::process(const QString &inPath)
 {
-	// TODO add xml patterns...
+	// read settings and adjust defaults
 	auto settings = readDocument(inPath);
+	if(!settings.name)
+		settings.name = QFileInfo{_hdrFile.fileName()}.baseName();
 
 	if(!_hdrFile.open(QIODevice::WriteOnly | QIODevice::Text))
 		throw FileException{_hdrFile};
@@ -231,7 +233,12 @@ void SettingsGenerator::writeHeader(const SettingsType &settings)
 		 << "#define " << incGuard << "\n\n";
 
 	// write the includes
-	for(const auto &inc : settings.includes) {
+	auto includes = QList<IncludeType> {
+		{false, QStringLiteral("QtCore/QObject")},
+		{false, QStringLiteral("QtMvvmCore/ISettingsAccessor")},
+		{false, QStringLiteral("QtMvvmCore/SettingsEntry")}
+	} + settings.includes;
+	for(const auto &inc : includes) {
 		if(inc.local)
 			_hdr << "#include \"" << inc.includePath << "\"\n";
 		else
@@ -240,21 +247,20 @@ void SettingsGenerator::writeHeader(const SettingsType &settings)
 	_hdr << "\n";
 
 	// create the class
-	auto name = settings.name.value_or(QFileInfo{_hdrFile.fileName()}.baseName());
-	_hdr << "class " << QString{settings.prefix ? settings.prefix.value() + QLatin1Char(' ') + name : name} << " : public QObject\n"
+	_hdr << "class " << QString{settings.prefix ? settings.prefix.value() + QLatin1Char(' ') + settings.name.value() : settings.name.value()} << " : public QObject\n"
 		 << "{\n"
 		 << "\tQ_OBJECT\n\n"
-		 << "\tQ_PROPERTY(ISettingsAccessor *accessor READ accessor CONSTANT FINAL)\n\n"
+		 << "\tQ_PROPERTY(QtMvvm::ISettingsAccessor *accessor READ accessor CONSTANT FINAL)\n\n"
 		 << "public:\n"
-		 << "\tQ_INVOKABLE explicit " << name << "(QObject *parent = nullptr);\n"
-		 << "\texplicit " << name << "(QObject *parent, ISettingsAccessor *accessor);\n\n"
-		 << "\tstatic " << name << " *instance();\n\n"
-		 << "\tISettingsAccessor *accessor() const;\n\n";
+		 << "\tQ_INVOKABLE explicit " << settings.name.value() << "(QObject *parent = nullptr);\n"
+		 << "\texplicit " << settings.name.value() << "(QtMvvm::ISettingsAccessor *accessor, QObject *parent);\n\n"
+		 << "\tstatic " << settings.name.value() << " *instance();\n\n"
+		 << "\tQtMvvm::ISettingsAccessor *accessor() const;\n\n";
 
 	writeNodeElements(settings);
 
 	_hdr << "\nprivate:\n"
-		 << "\tISettingsAccessor *_accessor;\n"
+		 << "\tQtMvvm::ISettingsAccessor *_accessor;\n"
 		 << "};\n\n"
 		 << "#endif //" << incGuard << '\n';
 }
@@ -287,5 +293,24 @@ void SettingsGenerator::writeEntry(const EntryType &entry, int intendent)
 
 void SettingsGenerator::writeSource(const SettingsType &settings)
 {
+	_src << "#include \"" << _hdrFile.fileName() << "\"\n\n";
 
+	_src << settings.name.value() << "::" << settings.name.value() << "(QObject *parent) : \n"
+		 << "\t" << settings.name.value() << "{nullptr, parent}\n"
+		 << "{}\n\n";
+
+	_src << settings.name.value() << "::" << settings.name.value() << "(QtMvvm::ISettingsAccessor *accessor, QObject *parent) : \n"
+		 << "\tQObject{parent},\n"
+		 << "\t_accessor{accessor}\n"
+		 << "{}\n\n";
+
+	_src << settings.name.value() << " *" << settings.name.value() << "::instance()\n"
+		 << "{\n"
+		 << "\treturn nullptr;\n"
+		 << "}\n\n";
+
+	_src << "QtMvvm::ISettingsAccessor *" << settings.name.value() << "::accessor() const\n"
+		 << "{\n"
+		 << "\treturn _accessor;\n"
+		 << "}\n\n";
 }

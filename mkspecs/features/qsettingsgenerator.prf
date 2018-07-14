@@ -1,0 +1,58 @@
+isEmpty(QMAKE_QSETTINGSGENERATOR): qtPrepareTool(QMAKE_QSETTINGSGENERATOR, qsettingsgenerator)
+
+isEmpty(QSETTINGSGENERATOR_DIR): QSETTINGSGENERATOR_DIR = .
+isEmpty(MOC_DIR): MOC_DIR = .
+isEmpty(QSETTINGSTRANSLATOR_DIR): QSETTINGSTRANSLATOR_DIR = $$_PRO_FILE_PWD_/.ts-dummy
+
+!ReleaseBuild:!DebugBuild: {
+	qsettingstranslator_c.name = qsettingsgenerator --translate ${QMAKE_FILE_IN}
+	qsettingstranslator_c.input = SETTINGS_TRANSLATIONS #TODO compability
+	qsettingstranslator_c.variable_out = CPP_DUMMIES
+	qsettingstranslator_c.commands = $$QMAKE_QSETTINGSGENERATOR --translate --in ${QMAKE_FILE_IN} --impl ${QMAKE_FILE_OUT}
+	qsettingstranslator_c.output = $$QSETTINGSTRANSLATOR_DIR/${QMAKE_FILE_BASE}.tsdummy$${first(QMAKE_EXT_CPP)}
+	qsettingstranslator_c.CONFIG += no_link
+	qsettingstranslator_c.depends += $$QMAKE_QSETTINGSGENERATOR_EXE
+
+	QMAKE_EXTRA_COMPILERS += qsettingstranslator_c
+
+	qtmvvm_tsgen_target.target = qtmvvm-tsgen
+	qtmvvm_tsgen_target.depends += compiler_qsettingstranslator_c_make_all
+	qtmvvm_tsgen_target.commands += @echo $$shell_quote(>>> Remember to add the line \"_never_true_condition: SOURCES += $${LITERAL_DOLLAR}$${LITERAL_DOLLAR}$${LITERAL_DOLLAR}$${LITERAL_DOLLAR}files($${LITERAL_DOLLAR}$${LITERAL_DOLLAR}$${LITERAL_DOLLAR}$${LITERAL_DOLLAR}PWD/.ts-dummy/*)\" to your pro file)
+	QMAKE_EXTRA_TARGETS += qtmvvm_tsgen_target
+} else {
+	qtmvvm_tsgen_target.target = qtmvvm-tsgen
+	QMAKE_EXTRA_TARGETS += qtmvvm_tsgen_target
+}
+
+{
+	qsettingsgenerator_c.name = qsettingsgenerator ${QMAKE_FILE_IN}.h
+	qsettingsgenerator_c.input = SETTINGS_DEFINITIONS
+	qsettingsgenerator_c.variable_out = QSETTINGSGENERATOR_HEADERS
+	qsettingsgenerator_c.commands = $$QMAKE_QSETTINGSGENERATOR --in ${QMAKE_FILE_IN} --header ${QMAKE_FILE_OUT} --impl $$QSETTINGSGENERATOR_DIR/${QMAKE_FILE_BASE}$${first(QMAKE_EXT_CPP)}
+	qsettingsgenerator_c.output = $$QSETTINGSGENERATOR_DIR/${QMAKE_FILE_BASE}$${first(QMAKE_EXT_H)}
+	qsettingsgenerator_c.CONFIG += target_predeps
+	qsettingsgenerator_c.depends += $$QMAKE_QSETTINGSGENERATOR_EXE
+	QMAKE_EXTRA_COMPILERS += qsettingsgenerator_c
+
+	qsettingsgenerator_m.name = qsettingsgenerator moc ${QMAKE_FILE_IN}
+	qsettingsgenerator_m.input = QSETTINGSGENERATOR_HEADERS
+	qsettingsgenerator_m.variable_out = GENERATED_SOURCES
+	qsettingsgenerator_m.commands = ${QMAKE_FUNC_mocCmdBase} ${QMAKE_FILE_IN} -o ${QMAKE_FILE_OUT}
+	qsettingsgenerator_m.output = $$MOC_DIR/$${QMAKE_H_MOD_MOC}${QMAKE_FILE_BASE}$${first(QMAKE_EXT_CPP)}
+	qsettingsgenerator_m.CONFIG += target_predeps
+	qsettingsgenerator_m.depends += $$QMAKE_QSETTINGSGENERATOR_EXE $$WIN_INCLUDETEMP $$moc_predefs.output
+	qsettingsgenerator_m.dependency_type = TYPE_C
+	QMAKE_EXTRA_COMPILERS += qsettingsgenerator_m
+
+	qsettingsgenerator_s.name = qsettingsgenerator src ${QMAKE_FILE_IN}.cpp
+	qsettingsgenerator_s.input = QSETTINGSGENERATOR_HEADERS
+	qsettingsgenerator_s.variable_out = GENERATED_SOURCES
+	qsettingsgenerator_s.commands = $$escape_expand(\\n) # force creation of rule
+	qsettingsgenerator_s.output = $$QSETTINGSGENERATOR_DIR/${QMAKE_FILE_BASE}$${first(QMAKE_EXT_CPP)}
+	qsettingsgenerator_s.CONFIG += target_predeps
+	QMAKE_EXTRA_COMPILERS += qsettingsgenerator_s
+}
+
+INCLUDEPATH += $$absolute_path($$QSETTINGSGENERATOR_DIR, $$OUT_PWD)
+QMAKE_DIR_REPLACE += QSETTINGSGENERATOR_DIR
+QMAKE_DIR_REPLACE_SANE += QSETTINGSGENERATOR_DIR
