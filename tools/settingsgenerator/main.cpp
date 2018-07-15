@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 		};
 		generator.process(parser.value(QStringLiteral("in")));
 		return EXIT_SUCCESS;
-	} catch (const QException &e) {
+	} catch (SettingsGenerator::Exception &e) {
 		qCritical() << e.what();
 		return EXIT_FAILURE;
 	}

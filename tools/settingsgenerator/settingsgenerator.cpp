@@ -154,7 +154,7 @@ void SettingsGenerator::readEntry(QXmlStreamReader &reader, SettingsConfigBase::
 			NodeType nNode;
 			nNode.key = key;
 			cGrp->contentNodes.append(std::move(nNode));
-			nGrp = &(std::get<NodeType>(cGrp->contentNodes.last()));
+			nGrp = &(nonstd::get<NodeType>(cGrp->contentNodes.last()));
 		}
 		cGrp = nGrp;
 	}
@@ -165,7 +165,7 @@ void SettingsGenerator::readEntry(QXmlStreamReader &reader, SettingsConfigBase::
 		EntryType nEntry;
 		nEntry.key = entryKey;
 		cGrp->contentNodes.append(std::move(nEntry));
-		eGrp = &(std::get<EntryType>(cGrp->contentNodes.last()));
+		eGrp = &(nonstd::get<EntryType>(cGrp->contentNodes.last()));
 	} else if(!isEntry) {
 		EntryType nEntry;
 		nEntry.key = entryKey;
@@ -187,16 +187,16 @@ SettingsGeneratorBase::NodeContentGroup *SettingsGenerator::findContentGroup(Set
 		*isEntry = false;
 	for(auto &cNode : cGrp->contentNodes) {
 		if(nonstd::holds_alternative<NodeType>(cNode)) {
-			if(std::get<NodeType>(cNode).key == key)
-				return &(std::get<NodeType>(cNode));
+			if(nonstd::get<NodeType>(cNode).key == key)
+				return &(nonstd::get<NodeType>(cNode));
 		} else if(nonstd::holds_alternative<EntryType>(cNode)) {
-			if(std::get<EntryType>(cNode).key == key) {
+			if(nonstd::get<EntryType>(cNode).key == key) {
 				if(isEntry)
 					*isEntry = true;
-				return &(std::get<EntryType>(cNode));
+				return &(nonstd::get<EntryType>(cNode));
 			}
 		} else if(nonstd::holds_alternative<NodeContentGroup>(cNode)) {
-			auto res = findContentGroup(&(std::get<NodeContentGroup>(cNode)), key);
+			auto res = findContentGroup(&(nonstd::get<NodeContentGroup>(cNode)), key);
 			if(res)
 				return res;
 		}
@@ -209,12 +209,12 @@ SettingsGeneratorBase::NodeContentGroup *SettingsGenerator::replaceNodeByEntry(S
 {
 	for(auto &cNode : cGrp->contentNodes) {
 		if(nonstd::holds_alternative<NodeType>(cNode)) {
-			if(&std::get<NodeType>(cNode) == node) {
+			if(&nonstd::get<NodeType>(cNode) == node) {
 				cNode = std::move(entry);
-				return &(std::get<EntryType>(cNode));
+				return &(nonstd::get<EntryType>(cNode));
 			}
 		} else if(nonstd::holds_alternative<NodeContentGroup>(cNode)) {
-			auto res = replaceNodeByEntry(&(std::get<NodeContentGroup>(cNode)), node, std::move(entry));
+			auto res = replaceNodeByEntry(&(nonstd::get<NodeContentGroup>(cNode)), node, std::move(entry));
 			if(res)
 				return res;
 		}

@@ -16,12 +16,12 @@ DEFINES += "BUNDLE_PREFIX=\\\"$$BUNDLE_PREFIX\\\""
 
 HEADERS += \
 	settingsgenerator.h \
-    settingstranslator.h
+	settingstranslator.h
 
 SOURCES += \
 	main.cpp \
 	settingsgenerator.cpp \
-    settingstranslator.cpp
+	settingstranslator.cpp
 
 XML_SCHEMA_DEFINITIONS += \
 	qsettingsgenerator.xsd \
