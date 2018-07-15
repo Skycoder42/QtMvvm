@@ -1,7 +1,7 @@
 TARGET = QtMvvmCore
 
 QT = core gui
-MODULE_CONFIG += qsettingsgenerator
+MODULE_CONFIG += qsettingsgenerator qsettingstranslator
 
 HEADERS += \
 	viewmodel.h \
