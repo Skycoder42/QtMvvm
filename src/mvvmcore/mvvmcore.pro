@@ -51,7 +51,10 @@ load(qt_module)
 qpmx_ts_target.path = $$[QT_INSTALL_TRANSLATIONS]
 qpmx_ts_target.depends += lrelease
 
-FEATURES += ../../mkspecs/features/qsettingsgenerator.prf
+FEATURES += \
+	../../mkspecs/features/qsettingsgenerator.prf \
+	../../mkspecs/features/qsettingstranslator.prf
+
 features.files = $$FEATURES
 features.path = $$[QT_HOST_DATA]/mkspecs/features/
 
