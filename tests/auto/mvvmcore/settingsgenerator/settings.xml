@@ -1,3 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Settings name="TestSettings">
+<Settings name="TestSettings"
+		  prefix="SOME_EXPORT"
+		  baseKey="tests">
+	<Include>QtCore/QDateTime</Include>
+	<Include local="false">QtCore/QUrl</Include>
+	<Include local="true">testbackend.h</Include>
+
+	<Backend class="TestBackend">
+		<Param type="QString" asStr="true">Test Backend</Param>
+		<Param type="int">42</Param>
+	</Backend>
+
+	<TypeMapping key="range" type="int"/>
+
+	<Node key="emptyNode"/>
+	<Entry key="emptyEntry"
+		   type="bool"/>
+	<Entry key="advancedEntry"
+		   type="QString"
+		   qmlGroupKey="qmlAdvancedEntry"
+		   default="Hello World"
+		   tr="true"
+		   trContext="some_context"/>
+	<Entry key="codeEntry"
+		   type="QUrl">
+		<Code>QUrl::fromLocalFile(QStringLiteral("/path/to/something"))</Code>
+	</Entry>
+
+	<Node key="parentNode">
+		<Node key="emptyChildNode"/>
+		<Node key="fullChildNode">
+			<Entry key="replaceEntry"
+				   type="range"
+				   default="42"/>
+		</Node>
+		<Entry key="parentEntry"
+			   type="bool">
+			<Node key="subNode"/>
+			<Entry key="nodeWithCodeEntry"
+				   type="int">
+				<Node key="someNode"/>
+				<Code>
+					qRound(42.5)
+				</Code>
+			</Entry>
+			<Entry key="leafEntry"
+				   type="QString"
+				   default="translate me"
+				   tr="true"/>
+		</Entry>
+	</Node>
 </Settings>

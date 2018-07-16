@@ -36,9 +36,9 @@ private:
 	NodeContentGroup *replaceNodeByEntry(NodeContentGroup *cGrp, NodeContentGroup *node, EntryType &&entry);
 
 	void writeHeader(const SettingsType &settings);
-	void writeNodeElements(const NodeContentGroup &node, int intendent = 1);
-	void writeNode(const NodeType &node, int intendent = 1);
-	void writeEntry(const EntryType &entry, int intendent = 1);
+	void writeNodeElements(const NodeContentGroup &node, const QHash<QString, QString> &typeMappings, int intendent = 1);
+	void writeNode(const NodeType &node, const QHash<QString, QString> &typeMappings, int intendent = 1);
+	void writeEntry(const EntryType &entry, const QHash<QString, QString> &typeMappings, int intendent = 1);
 
 	void writeSource(const SettingsType &settings);
 };

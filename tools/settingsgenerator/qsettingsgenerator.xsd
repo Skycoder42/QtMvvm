@@ -42,7 +42,6 @@
 	<xs:complexType name="ParamType">
 		<xs:simpleContent>
 			<xs:extension base="xs:string" qxg:member="value">
-				<xs:attribute name="key" type="xs:string" use="required"/>
 				<xs:attribute name="type" type="xs:string" use="required"/>
 				<xs:attribute default="false" name="asStr" type="xs:boolean" use="optional"/>
 			</xs:extension>
@@ -80,7 +79,7 @@
 				<xs:attribute name="type" type="xs:string" use="required"/>
 				<xs:attribute name="qmlGroupKey" type="xs:string" use="optional"/>
 				<xs:attribute name="default" type="xs:string" use="optional" qxg:member="defaultValue"/>
-				<xs:attribute default="false" name="tr" type="xs:boolean" use="optional"/>
+				<xs:attribute name="tr" type="xs:boolean" default="false" use="optional"/>
 				<xs:attribute name="trContext" type="xs:string" use="optional"/>
 			</xs:extension>
 		</xs:complexContent>
