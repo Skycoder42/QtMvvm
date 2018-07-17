@@ -12,8 +12,7 @@
 			<Entry key="node1/entry2"
 				   type="int"
 				   title="dummy"
-				   default="42"
-				   trdefault="true">
+				   default="42">
 			</Entry>
 		</Section>
 		<Section>

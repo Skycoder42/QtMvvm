@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 	parser.addHelpOption();
 
 	parser.addOption({
-						 {QStringLiteral("t"), QStringLiteral("translate")},
+						 {QStringLiteral("t"), QStringLiteral("tr"), QStringLiteral("translate")},
 						 QStringLiteral("Translate the given settings file. The output will be"
 						 "a dummy cpp file, writte to --impl.")
 					 });

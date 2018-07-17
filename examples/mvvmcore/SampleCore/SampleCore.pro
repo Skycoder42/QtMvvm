@@ -13,7 +13,7 @@ HEADERS += \
 	resultviewmodel.h \
 	drawerviewmodel.h \
 	tabviewmodel.h \
-    containerviewmodel.h
+	containerviewmodel.h
 
 SOURCES += \
 	samplecoreapp.cpp \
@@ -22,14 +22,13 @@ SOURCES += \
 	resultviewmodel.cpp \
 	drawerviewmodel.cpp \
 	tabviewmodel.cpp \
-    containerviewmodel.cpp
+	containerviewmodel.cpp
 
 RESOURCES += \
 	sample_core.qrc
 
 QTMVVM_TS_SETTINGS += settings.xml
 _never_true_condition: SOURCES += $$files($$PWD/.ts-dummy/*)
-PRE_TARGETDEPS += qtmvvm-tsgen
 
 TRANSLATIONS += samplecore_de.ts
 DISTFILES += $$TRANSLATIONS

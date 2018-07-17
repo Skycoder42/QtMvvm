@@ -35,6 +35,8 @@ private:
 	NodeContentGroup *findContentGroup(NodeContentGroup *cGrp, const QString &key, bool *isEntry = nullptr);
 	NodeContentGroup *replaceNodeByEntry(NodeContentGroup *cGrp, NodeContentGroup *node, EntryType &&entry);
 
+	void fixTrContext(NodeContentGroup &group, const QString &context);
+
 	void writeHeader(const SettingsType &settings);
 	void writeNodeElementDeclarations(const NodeContentGroup &node, const QHash<QString, QString> &typeMappings, int intendent = 1);
 	void writeNodeDeclaration(const NodeType &node, const QHash<QString, QString> &typeMappings, int intendent = 1);

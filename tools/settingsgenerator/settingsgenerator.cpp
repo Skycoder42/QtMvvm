@@ -17,7 +17,8 @@ void SettingsGenerator::process(const QString &inPath)
 	// read settings and adjust defaults
 	auto settings = readDocument(inPath);
 	if(!settings.name)
-		settings.name = QFileInfo{_hdrFile.fileName()}.baseName();
+		settings.name = QFileInfo{inPath}.baseName();
+	fixTrContext(settings, QFileInfo{inPath}.fileName());
 
 	if(!_hdrFile.open(QIODevice::WriteOnly | QIODevice::Text))
 		throw FileException{_hdrFile};
@@ -79,7 +80,9 @@ void SettingsGenerator::read_included_file(QXmlStreamReader &reader, NodeContent
 					return;
 			}
 		}
+
 		data = std::move(*cGrp);
+		fixTrContext(data, QFileInfo{import.importPath}.fileName());
 	} catch(FileException &e) {
 		if(import.required)
 			throw;
@@ -223,6 +226,21 @@ SettingsGeneratorBase::NodeContentGroup *SettingsGenerator::replaceNodeByEntry(S
 	return nullptr;
 }
 
+void SettingsGenerator::fixTrContext(NodeContentGroup &group, const QString &context)
+{
+	for(auto &node : group.contentNodes) {
+		if(nonstd::holds_alternative<NodeType>(node))
+			fixTrContext(nonstd::get<NodeType>(node), context);
+		else if(nonstd::holds_alternative<EntryType>(node)) {
+			auto &entry = nonstd::get<EntryType>(node);
+			if(!entry.trContext)
+				entry.trContext = context;
+			fixTrContext(entry, context);
+		} else if(nonstd::holds_alternative<NodeContentGroup>(node))
+			fixTrContext(nonstd::get<NodeContentGroup>(node), context);
+	}
+}
+
 void SettingsGenerator::writeHeader(const SettingsType &settings)
 {
 	QString incGuard = QFileInfo{_hdrFile.fileName()}
@@ -306,7 +324,7 @@ void SettingsGenerator::writeSource(const SettingsType &settings)
 		_src << "#include <QtMvvmCore/QSettingsAccessor>\n";
 	_src << "\n";
 
-	auto backend = settings.backend.value_or(BackendType{QStringLiteral("QtMvvm::QSettingsAccessor"), {}});
+	auto backend = settings.backend.value_or(BackendType{QStringLiteral("QtMvvm::QSettingsAccessor"), {}, {}});
 
 	_src << "namespace {\n\n"
 		 << "void __generated_settings_setup()\n"
@@ -384,7 +402,7 @@ void SettingsGenerator::writeEntryDefinition(const SettingsGeneratorBase::EntryT
 	else if(entry.defaultValue) {
 		_src << ", QVariant{";
 		if(entry.tr)
-			_src << "QCoreApplication::translate(\"" << entry.trContext.value_or(QStringLiteral("qtmvvm_settings_xml")) << "\", \"" << entry.defaultValue.value() << "\")";
+			_src << "QCoreApplication::translate(\"" << entry.trContext.value() << "\", \"" << entry.defaultValue.value() << "\")";
 		else
 			_src << "QStringLiteral(\"" << entry.defaultValue.value() << "\")";
 		_src << "}.value<" << typeMappings.value(entry.type, entry.type) << ">()";

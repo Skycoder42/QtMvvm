@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Settings>
 	<Node key="baum42">
-		<Entry key="importedEntry" type="bool"/>
+		<Entry key="importedEntry" type="bool" default="false" tr="true"/>
 	</Node>
 	<Entry key="unimportedEntry" type="bool"/>
 </Settings>
