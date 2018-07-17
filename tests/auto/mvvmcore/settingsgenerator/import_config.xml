@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SettingsConfig allowSearch="true" allowRestore="true">
+	<Category>
+		<Entry key="node1/entry1"
+			   type="bool"
+			   title="dummy"
+			   default="true">
+		</Entry>
+	</Category>
+	<Category>
+		<Section>
+			<Entry key="node1/entry2"
+				   type="int"
+				   title="dummy"
+				   default="42">
+			</Entry>
+		</Section>
+		<Section>
+			<Group>
+				<Entry key="node2/entry1"
+					   type="string"
+					   title="dummy">
+				</Entry>
+				<Entry key="node1"
+					   type="url"
+					   title="dummy">
+				</Entry>
+			</Group>
+		</Section>
+	</Category>
+</SettingsConfig>

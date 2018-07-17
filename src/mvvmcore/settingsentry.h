@@ -14,6 +14,7 @@ public:
 	SettingsEntry() = default;
 
 	bool isSet() const;
+	QString key() const;
 
 	T get() const;
 	void set(const T &value);
@@ -26,7 +27,7 @@ public:
 	void addChangeCallback(QObject *scope, const std::function<void(T)> &callback);
 
 	// internal
-	void setup(const QString &key, ISettingsAccessor *accessor, const QVariant &defaultValue = {});
+	void setup(QString key, ISettingsAccessor *accessor, QVariant defaultValue = {});
 
 private:
 	QString _key;
@@ -40,10 +41,10 @@ class SettingsEntry<void>
 	Q_DISABLE_COPY(SettingsEntry)
 
 public:
-	SettingsEntry() = default;
+	inline SettingsEntry() = default;
 
 	// internal
-	void setup(const QString &, ISettingsAccessor *, const QVariant & = {}) {}
+	inline void setup(const QString &, ISettingsAccessor *, const QVariant & = {}) {}
 };
 
 
@@ -53,6 +54,12 @@ template<typename T>
 bool SettingsEntry<T>::isSet() const
 {
 	return _accessor->contains(_key);
+}
+
+template<typename T>
+QString SettingsEntry<T>::key() const
+{
+	return _key;
 }
 
 template<typename T>
@@ -110,12 +117,12 @@ SettingsEntry<T>::operator const T() const
 }
 
 template<typename T>
-void SettingsEntry<T>::setup(const QString &key, ISettingsAccessor *accessor, const QVariant &defaultValue)
+void SettingsEntry<T>::setup(QString key, ISettingsAccessor *accessor, QVariant defaultValue)
 {
 	Q_ASSERT_X(accessor, Q_FUNC_INFO, "You must set a valid accessor before initializing the settings!");
-	_key  = key;
+	_key = std::move(key);
 	_accessor = accessor;
-	_default = defaultValue;
+	_default = std::move(defaultValue);
 }
 
 }

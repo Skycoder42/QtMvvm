@@ -57,17 +57,13 @@ Good links to get started:
 		- Package: `qtmvvm`
 		- **IMPORTANT:** Due to limitations of homebrew, you must run `source /usr/local/opt/qtmvvm/bashrc.sh` before you can use the module. Some goes for the `qtdatasync` dependency.
 2. Simply add my repository to your Qt MaintenanceTool (Image-based How-To here: [Add custom repository](https://github.com/Skycoder42/QtModules/blob/master/README.md#add-my-repositories-to-qt-maintenancetool)):
-	1. Open the MaintenanceTool, located in your Qt install directory (e.g. `~/Qt/MaintenanceTool`)
-	2. Select `Add or remove components` and click on the `Settings` button
-	3. Go to `Repositories`, scroll to the bottom, select `User defined repositories` and press `Add`
-	4. In the right column (selected by default), type:
+	1. Start the MaintenanceTool from the commandline using `/path/to/MaintenanceTool --addTempRepository <url>` with one of the following urls (GUI-Method is currently broken, see [QTIFW-1156](https://bugreports.qt.io/browse/QTIFW-1156)) - This must be done *every time* you start the tool:
 		- On Linux: https://install.skycoder42.de/qtmodules/linux_x64
 		- On Windows: https://install.skycoder42.de/qtmodules/windows_x86
 		- On Mac: https://install.skycoder42.de/qtmodules/mac_x64
-	5. Press `Ok`, make shure `Add or remove components` is still selected, and continue the install (`Next >`)
-	6. A new entry appears under all supported Qt Versions (e.g. `Qt > Qt 5.10 > Skycoder42 Qt modules`)
-	7. You can install either all of my modules, or select the one you need: `Qt Mvvm`
-	8. Continue the setup and thats it! you can now use the module for all of your installed Kits for that Qt Version
+	2. A new entry appears under all supported Qt Versions (e.g. `Qt > Qt 5.11 > Skycoder42 Qt modules`)
+	3. You can install either all of my modules, or select the one you need: `Qt Mvvm`
+	4. Continue the setup and thats it! you can now use the module for all of your installed Kits for that Qt Version
 3. Download the compiled modules from the release page. **Note:** You will have to add the correct ones yourself and may need to adjust some paths to fit your installation! In addition to that, you will have to download the modules this one depends on as well. See Section "Requirements" below.
 4. Build it yourself! **Note:** This requires all build an runtime dependencies to be available (See Section "Requirements" below). If you don't have/need cmake, you can ignore the related warnings. To automatically build and install to your Qt installation, run:
 	- `qmake`

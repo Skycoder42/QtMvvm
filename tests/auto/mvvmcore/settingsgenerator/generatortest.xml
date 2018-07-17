@@ -6,7 +6,7 @@
 	<Include local="false">QtCore/QUrl</Include>
 	<Include local="true">testbackend.h</Include>
 
-	<Backend class="TestBackend">
+	<Backend class="TestBackend" scope="DestroyOnAppQuit">
 		<Param type="QString" asStr="true">Test Backend</Param>
 		<Param type="int">42</Param>
 	</Backend>
@@ -35,13 +35,14 @@
 				   default="42"/>
 		</Node>
 		<Entry key="parentEntry"
-			   type="bool">
+			   type="bool"
+			   default="true">
 			<Node key="subNode"/>
 			<Entry key="nodeWithCodeEntry"
 				   type="int">
 				<Node key="someNode"/>
 				<Code>
-					qRound(42.5)
+					qRound(42.8)
 				</Code>
 			</Entry>
 			<Entry key="leafEntry"

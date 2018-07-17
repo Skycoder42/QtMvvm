@@ -1,6 +1,7 @@
 #ifndef TESTBACKEND_H
 #define TESTBACKEND_H
 
+#include <QtCore/QVariantHash>
 #include <QtMvvmCore/ISettingsAccessor>
 
 class TestBackend : public QtMvvm::ISettingsAccessor
@@ -23,6 +24,8 @@ public slots:
 public:
 	QString _name;
 	int _code;
+
+	QVariantHash _data;
 };
 
 #define SOME_EXPORT

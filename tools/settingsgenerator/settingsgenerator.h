@@ -36,11 +36,13 @@ private:
 	NodeContentGroup *replaceNodeByEntry(NodeContentGroup *cGrp, NodeContentGroup *node, EntryType &&entry);
 
 	void writeHeader(const SettingsType &settings);
-	void writeNodeElements(const NodeContentGroup &node, const QHash<QString, QString> &typeMappings, int intendent = 1);
-	void writeNode(const NodeType &node, const QHash<QString, QString> &typeMappings, int intendent = 1);
-	void writeEntry(const EntryType &entry, const QHash<QString, QString> &typeMappings, int intendent = 1);
+	void writeNodeElementDeclarations(const NodeContentGroup &node, const QHash<QString, QString> &typeMappings, int intendent = 1);
+	void writeNodeDeclaration(const NodeType &node, const QHash<QString, QString> &typeMappings, int intendent = 1);
+	void writeEntryDeclaration(const EntryType &entry, const QHash<QString, QString> &typeMappings, int intendent = 1);
 
 	void writeSource(const SettingsType &settings);
+	void writeNodeElementDefinitions(const NodeContentGroup &node, const QHash<QString, QString> &typeMappings, const optional<QString> &baseKey, const QStringList &keyChain = {});
+	void writeEntryDefinition(const EntryType &entry, const QHash<QString, QString> &typeMappings, const optional<QString> &baseKey, QStringList keyChain);
 };
 
 #endif // SETTINGSGENERATOR_H

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Settings name="TestImportSettings">
+	<Include>QtCore/QUrl</Include>
+	<TypeMapping key="string" type="QString"/>
+	<TypeMapping key="url" type="QUrl"/>
+
+	<Node key="impRoot">
+		<Import required="false" rootNode="baum42">import_normal.xml</Import>
+	</Node>
+	<Import required="true">import_config.xml</Import>
+</Settings>

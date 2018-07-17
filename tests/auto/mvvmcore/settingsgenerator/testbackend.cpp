@@ -8,20 +8,24 @@ TestBackend::TestBackend(QString name, int code, QObject *parent) :
 
 bool TestBackend::contains(const QString &key) const
 {
-	return false;
+	return _data.contains(key);
 }
 
 QVariant TestBackend::load(const QString &key, const QVariant &defaultValue) const
 {
-	return {};
+	return _data.value(key, defaultValue);
 }
 
 void TestBackend::save(const QString &key, const QVariant &value)
 {
+	_data.insert(key, value);
+	emit entryChanged(key, value);
 }
 
 void TestBackend::remove(const QString &key)
 {
+	_data.remove(key);
+	emit entryRemoved(key);
 }
 
 void TestBackend::sync()

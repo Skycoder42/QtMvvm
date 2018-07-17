@@ -53,6 +53,7 @@
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="Param" type="ParamType"/>
 		</xs:sequence>
 		<xs:attribute name="class" type="xs:string" use="required" qxg:member="className"/>
+		<xs:attribute name="scope" type="xs:string" use="optional"/>
 	</xs:complexType>
 
 	<xs:group name="NodeContentGroup">
