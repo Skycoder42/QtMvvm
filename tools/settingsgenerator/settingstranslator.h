@@ -1,21 +1,23 @@
 #ifndef SETTINGSTRANSLATOR_H
 #define SETTINGSTRANSLATOR_H
 
-#include "settingsconfig.h"
+#include <QFile>
+#include <QTextStream>
 
-class SettingsTranslator : public SettingsConfigBase
+#include "settingsconfigimpl.h"
+
+class SettingsTranslator : public SettingsConfigImpl
 {
-protected:
-	bool finish_group_content(QXmlStreamReader &reader, GroupContentGroup &data, bool hasNext) override;
-	bool finish_section_content(QXmlStreamReader &reader, SectionContentGroup &data, bool hasNext) override;
-	bool finish_category_content(QXmlStreamReader &reader, CategoryContentGroup &data, bool hasNext) override;
-	bool finish_settings_config_content(QXmlStreamReader &reader, SettingsConfigContentGroup &data, bool hasNext) override;
+public:
+	SettingsTranslator(const QString &srcPath);
+
+	void process(const QString &inPath);
 
 private:
-	template <typename TGroup>
-	void finishContents(QXmlStreamReader &reader, TGroup &group);
-	template <typename TIter, typename TList>
-	bool readGeneralInclude(QXmlStreamReader &reader, IncludeType include, TIter &it, TList &list);
+	QFile _srcFile;
+	QTextStream _src;
+
+	void writeTranslations(const SettingsConfigType &settings);
 };
 
 #endif // SETTINGSTRANSLATOR_H

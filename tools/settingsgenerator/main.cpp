@@ -5,6 +5,7 @@
 #include <QDebug>
 
 #include "settingsgenerator.h"
+#include "settingstranslator.h"
 
 int main(int argc, char *argv[])
 {
@@ -42,15 +43,26 @@ int main(int argc, char *argv[])
 
 	parser.process(a);
 
-	try {
-		SettingsGenerator generator {
-			parser.value(QStringLiteral("header")),
-			parser.value(QStringLiteral("impl"))
-		};
-		generator.process(parser.value(QStringLiteral("in")));
-		return EXIT_SUCCESS;
-	} catch (SettingsGenerator::Exception &e) {
-		qCritical() << e.what();
-		return EXIT_FAILURE;
+	if(parser.isSet(QStringLiteral("translate"))) {
+		try {
+			SettingsTranslator translator {parser.value(QStringLiteral("impl"))};
+			translator.process(parser.value(QStringLiteral("in")));
+			return EXIT_SUCCESS;
+		} catch (SettingsTranslator::Exception &e) {
+			qCritical() << e.what();
+			return EXIT_FAILURE;
+		}
+	} else {
+		try {
+			SettingsGenerator generator {
+				parser.value(QStringLiteral("header")),
+				parser.value(QStringLiteral("impl"))
+			};
+			generator.process(parser.value(QStringLiteral("in")));
+			return EXIT_SUCCESS;
+		} catch (SettingsGenerator::Exception &e) {
+			qCritical() << e.what();
+			return EXIT_FAILURE;
+		}
 	}
 }

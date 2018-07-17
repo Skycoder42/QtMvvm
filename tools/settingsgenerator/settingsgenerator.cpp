@@ -64,7 +64,7 @@ void SettingsGenerator::read_included_file(QXmlStreamReader &reader, NodeContent
 		if(subReader.name() == QStringLiteral("Settings")) {
 			read_SettingsType(subReader, settings);
 		} else if(subReader.name() == QStringLiteral("SettingsConfig")) {
-			SettingsTranslator confReader;
+			SettingsConfigImpl confReader;
 			SettingsConfigBase::SettingsConfigType settingsConf;
 			confReader.read_SettingsConfigType(subReader, settingsConf);
 			convertFromConf(reader, settingsConf, settings);
