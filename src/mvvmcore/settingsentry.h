@@ -21,7 +21,7 @@ public:
 	void reset();
 
 	SettingsEntry<T> &operator=(const T &value);
-	operator const T() const;
+	operator T() const;
 
 	void addChangeCallback(const std::function<void(T)> &callback);
 	void addChangeCallback(QObject *scope, const std::function<void(T)> &callback);
@@ -111,7 +111,7 @@ void SettingsEntry<T>::addChangeCallback(QObject *scope, const std::function<voi
 }
 
 template<typename T>
-SettingsEntry<T>::operator const T() const
+SettingsEntry<T>::operator T() const
 {
 	return get();
 }

@@ -18,6 +18,7 @@ private:
 };
 
 
+
 void SettingsGeneratorTest::testSettingsGenerator()
 {
 	auto settings = TestSettings::instance();
@@ -61,7 +62,7 @@ void SettingsGeneratorTest::testSettingsGenerator()
 	QCOMPARE(tBackend->_data.value(tKey).toString(), tValue);
 	QCOMPARE(cValue, tValue);
 	QVERIFY(settings->advancedEntry.isSet());
-	QCOMPARE(static_cast<QString>(settings->advancedEntry), tValue);
+	QCOMPARE(settings->advancedEntry, tValue);
 }
 
 void SettingsGeneratorTest::testImportedSettings()
