@@ -9,7 +9,7 @@ debug_and_release {
 }
 QSETTINGSTRANSLATOR_DIR = $$QSETTINGSTRANSLATOR_DIR$$SUFFIX
 
-!ReleaseBuild:!DebugBuild: {
+!ReleaseBuild: {
 	qsettingstranslator_c.name = qsettingsgenerator --translate ${QMAKE_FILE_IN}
 	qsettingstranslator_c.input = SETTINGS_TRANSLATIONS #TODO compability
 	qsettingstranslator_c.variable_out = CPP_DUMMIES
@@ -21,12 +21,16 @@ QSETTINGSTRANSLATOR_DIR = $$QSETTINGSTRANSLATOR_DIR$$SUFFIX
 	QMAKE_EXTRA_COMPILERS += qsettingstranslator_c
 
 	DBL_DOLLAR = $${LITERAL_DOLLAR}$${LITERAL_DOLLAR}$${LITERAL_DOLLAR}$${LITERAL_DOLLAR}
+	defineReplace(qmake_escape) {
+		win32: return($$1)
+		else: return($$shell_quote($$1))
+	}
 
 	lupdate_fakepri_c.name = fakepri ${QMAKE_FILE_IN}
 	lupdate_fakepri_c.input = CPP_DUMMIES GENERATED_SOURCES
 	lupdate_fakepri_c.variable_out = TS_FAKEPRI_FILES
-	lupdate_fakepri_c.commands = echo $$shell_quote(BUILD_SOURCES += ${QMAKE_FILE_IN}) > $@ \
-		$$escape_expand(\\n\\t)echo $$shell_quote(for(src, BUILD_SOURCES): SOURCES += $${DBL_DOLLAR}PWD/$${DBL_DOLLAR}src) >> $@
+	lupdate_fakepri_c.commands = echo $$qmake_escape(BUILD_SOURCES += ${QMAKE_FILE_IN}) > ${QMAKE_FILE_OUT} \
+		$$escape_expand(\\n\\t)echo $$qmake_escape(for(src, BUILD_SOURCES): SOURCES += $${DBL_DOLLAR}PWD/$${DBL_DOLLAR}src) >> ${QMAKE_FILE_OUT}
 	lupdate_fakepri_c.output = .ts-sources.pri
 	lupdate_fakepri_c.CONFIG += combine no_link
 	QMAKE_EXTRA_COMPILERS += lupdate_fakepri_c
@@ -34,17 +38,16 @@ QSETTINGSTRANSLATOR_DIR = $$QSETTINGSTRANSLATOR_DIR$$SUFFIX
 	lupdate_fakepro_c.name = fakepro ${QMAKE_FILE_IN}
 	lupdate_fakepro_c.input = TS_FAKEPRI_FILES
 	lupdate_fakepro_c.variable_out = TS_FAKEPRO_FILES
-	lupdate_fakepro_c.commands = echo $$shell_quote(EXTRAPRI =) $(realpath $<) > $@ \
-		$$escape_expand(\\n\\t)echo $$shell_quote(include($${DBL_DOLLAR}EXTRAPRI)) >> $@ \
-		$$escape_expand(\\n\\t)echo $$shell_quote(include($$_PRO_FILE_)) >> $@
+	lupdate_fakepro_c.commands = echo $$qmake_escape(include($$shadowed($$_PRO_FILE_PWD_)/${QMAKE_FILE_IN})) > ${QMAKE_FILE_OUT} \
+		$$escape_expand(\\n\\t)echo $$qmake_escape(include($$_PRO_FILE_)) >> ${QMAKE_FILE_OUT}
 	lupdate_fakepro_c.output = $$_PRO_FILE_PWD_/.tsdummy.pro.dummy
 	lupdate_fakepro_c.CONFIG += combine no_link
 	QMAKE_EXTRA_COMPILERS += lupdate_fakepro_c
 
 	lupdate_c.name = lupdate ${QMAKE_FILE_IN}
 	lupdate_c.input = TS_FAKEPRO_FILES SOURCES CPP_DUMMIES GENERATED_SOURCES
-	lupdate_c.commands = $$QMAKE_LUPDATE -locations relative -pro-out $$shell_quote($$_PRO_FILE_PWD_) -pro $< \
-		$$escape_expand(\\n\\t)$$QMAKE_MKDIR $$QSETTINGSTRANSLATOR_DIR/.lupdate
+	lupdate_c.commands = $$QMAKE_LUPDATE -locations relative -pro-out $$shell_quote($$_PRO_FILE_PWD_) -pro $$shell_quote($$_PRO_FILE_PWD_/.tsdummy.pro.dummy) \
+		$$escape_expand(\\n\\t)echo created > $$QSETTINGSTRANSLATOR_DIR/.lupdate
 	lupdate_c.output = $$QSETTINGSTRANSLATOR_DIR/.lupdate
 	lupdate_c.CONFIG += combine no_link
 	lupdate_c.depends += $$QMAKE_LUPDATE_EXE
