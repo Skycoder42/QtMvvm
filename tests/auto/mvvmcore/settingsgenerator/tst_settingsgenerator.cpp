@@ -12,6 +12,9 @@ class SettingsGeneratorTest : public QObject
 private Q_SLOTS:
 	void testSettingsGenerator();
 	void testImportedSettings();
+
+private:
+	void trStuff();
 };
 
 
@@ -80,6 +83,11 @@ void SettingsGeneratorTest::testImportedSettings()
 	QCOMPARE(settings->node1.entry1.get(), true);
 	QCOMPARE(settings->node1.entry2.get(), 42);
 	QCOMPARE(settings->node2.entry1.get(), QString{});
+}
+
+void SettingsGeneratorTest::trStuff()
+{
+	tr("somet translated text...");
 }
 
 QTEST_MAIN(SettingsGeneratorTest)

@@ -1,6 +1,13 @@
 isEmpty(QMAKE_QSETTINGSGENERATOR): qtPrepareTool(QMAKE_QSETTINGSGENERATOR, qsettingsgenerator)
+isEmpty(QMAKE_LUPDATE): qtPrepareTool(QMAKE_LUPDATE, lupdate)
 
-isEmpty(QSETTINGSTRANSLATOR_DIR): QSETTINGSTRANSLATOR_DIR = $$_PRO_FILE_PWD_/.ts-dummy
+isEmpty(QSETTINGSTRANSLATOR_DIR): QSETTINGSTRANSLATOR_DIR = .tr-dummies
+isEmpty(MOC_DIR): MOC_DIR = .
+debug_and_release {
+	CONFIG(debug, debug|release):SUFFIX = /debug
+	CONFIG(release, debug|release):SUFFIX = /release
+}
+QSETTINGSTRANSLATOR_DIR = $$QSETTINGSTRANSLATOR_DIR$$SUFFIX
 
 !ReleaseBuild:!DebugBuild: {
 	qsettingstranslator_c.name = qsettingsgenerator --translate ${QMAKE_FILE_IN}
@@ -12,8 +19,36 @@ isEmpty(QSETTINGSTRANSLATOR_DIR): QSETTINGSTRANSLATOR_DIR = $$_PRO_FILE_PWD_/.ts
 	qsettingstranslator_c.depends += $$QMAKE_QSETTINGSGENERATOR_EXE
 
 	QMAKE_EXTRA_COMPILERS += qsettingstranslator_c
-	PRE_TARGETDEPS += compiler_qsettingstranslator_c_make_all
 } else {
 	qtmvvm_tsgen_target.target = qtmvvm-tsgen
 	QMAKE_EXTRA_TARGETS += qtmvvm_tsgen_target
 }
+
+{
+	DBL_DOLLAR = $${LITERAL_DOLLAR}$${LITERAL_DOLLAR}$${LITERAL_DOLLAR}$${LITERAL_DOLLAR}
+
+	lupdate_fakepro_c.name = fakepro ${QMAKE_FILE_IN}
+	lupdate_fakepro_c.input = CPP_DUMMIES GENERATED_SOURCES
+	lupdate_fakepro_c.variable_out = TS_FAKEPRO_FILES
+	lupdate_fakepro_c.commands = echo $$shell_quote(BUILD_SOURCES += ${QMAKE_FILE_IN}) > .tspri.pri \
+		$$escape_expand(\\n\\t)echo $$shell_quote(for(src, BUILD_SOURCES): SOURCES += $${DBL_DOLLAR}PWD/$${DBL_DOLLAR}src) >> .tspri.pri \
+		$$escape_expand(\\n\\t)echo $$shell_quote(EXTRAPRI =) $(realpath .tspri.pri) > ${QMAKE_FILE_OUT} \
+		$$escape_expand(\\n\\t)echo $$shell_quote(include($${DBL_DOLLAR}EXTRAPRI)) >> ${QMAKE_FILE_OUT} \
+		$$escape_expand(\\n\\t)echo $$shell_quote(include($$_PRO_FILE_)) >> ${QMAKE_FILE_OUT}
+	lupdate_fakepro_c.output = $$_PRO_FILE_PWD_/.tspro.prodummy
+	lupdate_fakepro_c.CONFIG += combine no_link
+	QMAKE_EXTRA_COMPILERS += lupdate_fakepro_c
+
+	lupdate_c.name = lupdate ${QMAKE_FILE_IN}
+	lupdate_c.input = TS_FAKEPRO_FILES SOURCES CPP_DUMMIES GENERATED_SOURCES
+	lupdate_c.commands = $$QMAKE_LUPDATE -locations relative -pro-out $$shell_quote($$_PRO_FILE_PWD_) -pro $$shell_quote($$_PRO_FILE_PWD_/.tspro.prodummy) \
+		$$escape_expand(\\n\\t)$$QMAKE_MKDIR $$QSETTINGSTRANSLATOR_DIR/.lupdate
+	lupdate_c.output = $$QSETTINGSTRANSLATOR_DIR/.lupdate
+	lupdate_c.CONFIG += combine no_link
+	!no_auto_lupdate: lupdate_c.CONFIG += target_predeps
+	lupdate_c.depends += $$QMAKE_LUPDATE_EXE
+	QMAKE_EXTRA_COMPILERS += lupdate_c
+}
+
+QMAKE_DIR_REPLACE += QSETTINGSTRANSLATOR_DIR
+QMAKE_DIR_REPLACE_SANE += QSETTINGSTRANSLATOR_DIR

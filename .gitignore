@@ -78,3 +78,4 @@ qpmx.user.json
 .ts-dummy
 .qpmx-dev-cache
 qpmx.json.user
+*.prodummy

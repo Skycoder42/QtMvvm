@@ -21,7 +21,7 @@ SETTINGS_DEFINITIONS += \
 SETTINGS_TRANSLATIONS += \
 	translatortest.xml
 
-_never_true: SOURCES += $$files(.ts-dummy/*)
+#_never_true: SOURCES += $$files(.ts-dummy/*)
 
 DISTFILES += \
 	import_normal.xml \
