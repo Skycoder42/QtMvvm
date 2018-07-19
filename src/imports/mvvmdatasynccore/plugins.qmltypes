@@ -115,7 +115,7 @@ Module {
         Property { name: "key"; type: "string" }
         Property { name: "dataVersion"; type: "int" }
         Property { name: "value"; type: "QByteArray" }
-        Property { name: "varValue"; type: "QVariant" }
+        Property { name: "variantValue"; type: "QVariant" }
     }
     Component {
         name: "QtMvvm::DataSyncSettingsViewModel"

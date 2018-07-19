@@ -1,7 +1,5 @@
 #include "datasyncsettingsviewmodel.h"
 #include "datasyncsettingsviewmodel_p.h"
-#include <QtCore/QDataStream>
-#include <QtCore/QDebug>
 
 #undef logDebug
 #undef logInfo
@@ -40,8 +38,8 @@ void DataSyncSettingsViewModel::saveValue(const QString &key, const QVariant &va
 	try {
 		d->store->save({key, value});
 	} catch (QException &e) {
-		qCritical() << "Failed to save entry" << key << "to datasync settings with error:"
-					<< e.what();
+		logCritical() << "Failed to save entry" << key << "to datasync settings with error:"
+					  << e.what();
 	}
 }
 
@@ -50,41 +48,9 @@ void DataSyncSettingsViewModel::resetValue(const QString &key)
 	try {
 		d->store->remove(key);
 	} catch (QException &e) {
-		qCritical() << "Failed to remove entry" << key << "from datasync settings with error:"
-					<< e.what();
+		logCritical() << "Failed to remove entry" << key << "from datasync settings with error:"
+					  << e.what();
 	}
-}
-
-
-
-DataSyncSettingsEntry::DataSyncSettingsEntry() = default;
-
-DataSyncSettingsEntry::DataSyncSettingsEntry(QString key, const QVariant &value) :
-	_key{std::move(key)}
-{
-	setValue(value);
-}
-
-QString DataSyncSettingsEntry::key() const
-{
-	return _key;
-}
-
-QVariant DataSyncSettingsEntry::value() const
-{
-	QVariant value;
-	QDataStream stream(_value);
-	stream.setVersion(_dataVersion);
-	stream >> value;
-	return value;
-}
-
-void DataSyncSettingsEntry::setValue(const QVariant &value)
-{
-	_value.clear();
-	QDataStream stream(&_value, QIODevice::WriteOnly);
-	_dataVersion = stream.version();
-	stream << value;
 }
 
 // ------------- Private Implementation -------------
