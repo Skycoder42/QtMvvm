@@ -44,7 +44,12 @@ void QSettingsAccessor::save(const QString &key, const QVariant &value)
 
 void QSettingsAccessor::remove(const QString &key)
 {
+	d->settings->beginGroup(key);
+	auto allKeys = d->settings->allKeys();
+	d->settings->endGroup();
 	d->settings->remove(key);
+	for(const auto &subKey : allKeys)
+		emit entryRemoved(key + QLatin1Char('/') + subKey);
 	emit entryRemoved(key);
 }
 

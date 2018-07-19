@@ -22,7 +22,7 @@ QSETTINGSTRANSLATOR_DIR = $$QSETTINGSTRANSLATOR_DIR$$SUFFIX
 
 	DBL_DOLLAR = $${LITERAL_DOLLAR}$${LITERAL_DOLLAR}$${LITERAL_DOLLAR}$${LITERAL_DOLLAR}
 	defineReplace(qmake_escape) {
-		win32: return($$1)
+		win32:!mingw: return($$1)
 		else: return($$shell_quote($$1))
 	}
 
