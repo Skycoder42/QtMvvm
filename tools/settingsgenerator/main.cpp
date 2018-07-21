@@ -21,9 +21,14 @@ int main(int argc, char *argv[])
 	parser.addHelpOption();
 
 	parser.addOption({
-						 {QStringLiteral("t"), QStringLiteral("tr"), QStringLiteral("translate")},
+						 {QStringLiteral("tr"), QStringLiteral("translate")},
 						 QStringLiteral("Translate the given settings file. The output will be"
 						 "a dummy cpp file, writte to --impl.")
+					 });
+	parser.addOption({
+						 QStringLiteral("qml"),
+						 QStringLiteral("Generate the QML-bindings for the given settings xml "
+						 "instead of the default cpp bindings.")
 					 });
 	parser.addOption({
 						 QStringLiteral("in"),
@@ -58,7 +63,10 @@ int main(int argc, char *argv[])
 				parser.value(QStringLiteral("header")),
 				parser.value(QStringLiteral("impl"))
 			};
-			generator.process(parser.value(QStringLiteral("in")));
+			if(parser.isSet(QStringLiteral("qml")))
+				generator.processQml(parser.value(QStringLiteral("in")));
+			else
+				generator.process(parser.value(QStringLiteral("in")));
 			return EXIT_SUCCESS;
 		} catch (SettingsGenerator::Exception &e) {
 			qCritical() << e.what();

@@ -14,6 +14,7 @@ public:
 					  const QString &srcPath);
 
 	void process(const QString &inPath);
+	void processQml(const QString &inPath);
 
 protected:
 	bool read_type_mapping(QXmlStreamReader &reader, QHash<QString, QString> &data, bool hasNext) override;
@@ -33,7 +34,7 @@ private:
 	void readEntry(QXmlStreamReader &reader, SettingsConfigBase::EntryType &entry, NodeContentGroup &targetRootNode);
 
 	NodeContentGroup *findContentGroup(NodeContentGroup *cGrp, const QString &key, bool *isEntry = nullptr);
-	NodeContentGroup *replaceNodeByEntry(NodeContentGroup *cGrp, NodeContentGroup *node, EntryType &&entry);
+	NodeContentGroup *replaceNodeByEntry(NodeContentGroup *cGrp, NodeContentGroup *node, EntryType &entry);
 
 	void fixTrContext(NodeContentGroup &group, const QString &context);
 

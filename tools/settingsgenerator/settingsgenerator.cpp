@@ -31,6 +31,11 @@ void SettingsGenerator::process(const QString &inPath)
 	_srcFile.close();
 }
 
+void SettingsGenerator::processQml(const QString &inPath)
+{
+
+}
+
 bool SettingsGenerator::read_type_mapping(QXmlStreamReader &reader, QHash<QString, QString> &data, bool hasNext)
 {
 	TypeMappingGroup grp;
@@ -173,7 +178,7 @@ void SettingsGenerator::readEntry(QXmlStreamReader &reader, SettingsConfigBase::
 		EntryType nEntry;
 		nEntry.key = entryKey;
 		nEntry.contentNodes = std::move(eGrp->contentNodes);
-		eGrp = replaceNodeByEntry(cGrp, eGrp, std::move(nEntry));
+		eGrp = replaceNodeByEntry(cGrp, eGrp, nEntry);
 		Q_ASSERT(eGrp);
 	} else
 		throw XmlException{reader, QStringLiteral("Found duplicated entry with key: %1").arg(entry.key)};
@@ -181,7 +186,7 @@ void SettingsGenerator::readEntry(QXmlStreamReader &reader, SettingsConfigBase::
 	auto nEntry = static_cast<EntryType*>(eGrp);
 	nEntry->type = std::move(entry.type);
 	nEntry->defaultValue = std::move(entry.defaultValue);
-	nEntry->tr = std::move(entry.trdefault);
+	nEntry->tr = entry.trdefault;
 }
 
 SettingsGeneratorBase::NodeContentGroup *SettingsGenerator::findContentGroup(SettingsGeneratorBase::NodeContentGroup *cGrp, const QString &key, bool *isEntry)
@@ -214,7 +219,7 @@ SettingsGeneratorBase::NodeContentGroup *SettingsGenerator::findContentGroup(Set
 	return nullptr;
 }
 
-SettingsGeneratorBase::NodeContentGroup *SettingsGenerator::replaceNodeByEntry(SettingsGeneratorBase::NodeContentGroup *cGrp, NodeContentGroup *node, SettingsGeneratorBase::EntryType &&entry)
+SettingsGeneratorBase::NodeContentGroup *SettingsGenerator::replaceNodeByEntry(SettingsGeneratorBase::NodeContentGroup *cGrp, NodeContentGroup *node, SettingsGeneratorBase::EntryType &entry)
 {
 	for(auto &cNode : cGrp->contentNodes) {
 		if(nonstd::holds_alternative<NodeType>(cNode)) {
@@ -223,7 +228,7 @@ SettingsGeneratorBase::NodeContentGroup *SettingsGenerator::replaceNodeByEntry(S
 				return &(nonstd::get<EntryType>(cNode));
 			}
 		} else if(nonstd::holds_alternative<NodeContentGroup>(cNode)) {
-			auto res = replaceNodeByEntry(&(nonstd::get<NodeContentGroup>(cNode)), node, std::move(entry));
+			auto res = replaceNodeByEntry(&(nonstd::get<NodeContentGroup>(cNode)), node, entry);
 			if(res)
 				return res;
 		}
