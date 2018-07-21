@@ -38,7 +38,8 @@ SOURCES += \
 	settingssetuploader.cpp \
 	settingsviewmodel.cpp \
 	isettingsaccessor.cpp \
-	qsettingsaccessor.cpp
+	qsettingsaccessor.cpp \
+    settingsentry.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmcore_de.ts \

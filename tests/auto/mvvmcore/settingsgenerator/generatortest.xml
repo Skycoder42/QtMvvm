@@ -51,4 +51,21 @@
 				   tr="true"/>
 		</Entry>
 	</Node>
+
+	<Entry key="voidEntry"
+		   type="void"/>
+	<Entry key="variantEntry"
+		   type="QVariant"/>
+
+	<ListEntry key="listEntry"
+			   type="QByteArray">
+		<Entry key="dummyChild"
+			   type="bool"/>
+		<Code>&quot;Hello World&quot;</Code>
+		<Init> {
+			&quot;test1&quot;,
+			&quot;test2&quot;,
+			&quot;test3&quot;
+		} </Init>
+	</ListEntry>
 </Settings>

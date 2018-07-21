@@ -4,7 +4,7 @@
 <context>
     <name>SettingsGeneratorTest</name>
     <message>
-        <location filename="tst_settingsgenerator.cpp" line="+91"/>
+        <location filename="tst_settingsgenerator.cpp" line="+138"/>
         <source>somet translated text...</source>
         <translation type="unfinished"></translation>
     </message>

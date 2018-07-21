@@ -1,6 +1,6 @@
 #include "datasyncsettingsentry.h"
 #include <QtCore/QDataStream>
-#if QT_HAS_INCLUDE(<optional>)
+#if QT_HAS_INCLUDE(<optional>) && __cplusplus >= 201703L
 #include <optional>
 #define QTMVVM_HAS_OPTIONAL
 #endif

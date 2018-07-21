@@ -24,6 +24,13 @@ void TestBackend::save(const QString &key, const QVariant &value)
 
 void TestBackend::remove(const QString &key)
 {
+	for(auto it = _data.begin(); it != _data.end();) {
+		if(it.key().startsWith(key + QLatin1Char('/'))) {
+			it = _data.erase(it);
+			emit entryRemoved(key);
+		} else
+			++it;
+	}
 	_data.remove(key);
 	emit entryRemoved(key);
 }

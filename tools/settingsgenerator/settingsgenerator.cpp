@@ -198,6 +198,12 @@ SettingsGeneratorBase::NodeContentGroup *SettingsGenerator::findContentGroup(Set
 					*isEntry = true;
 				return &(nonstd::get<EntryType>(cNode));
 			}
+		} else if(nonstd::holds_alternative<ListEntryType>(cNode)) {
+			if(nonstd::get<ListEntryType>(cNode).key == key) {
+				if(isEntry)
+					*isEntry = true;
+				return &(nonstd::get<ListEntryType>(cNode));
+			}
 		} else if(nonstd::holds_alternative<NodeContentGroup>(cNode)) {
 			auto res = findContentGroup(&(nonstd::get<NodeContentGroup>(cNode)), key);
 			if(res)
@@ -233,6 +239,11 @@ void SettingsGenerator::fixTrContext(NodeContentGroup &group, const QString &con
 			fixTrContext(nonstd::get<NodeType>(node), context);
 		else if(nonstd::holds_alternative<EntryType>(node)) {
 			auto &entry = nonstd::get<EntryType>(node);
+			if(!entry.trContext)
+				entry.trContext = context;
+			fixTrContext(entry, context);
+		} else if(nonstd::holds_alternative<ListEntryType>(node)) {
+			auto &entry = nonstd::get<ListEntryType>(node);
 			if(!entry.trContext)
 				entry.trContext = context;
 			fixTrContext(entry, context);
@@ -290,6 +301,8 @@ void SettingsGenerator::writeNodeElementDeclarations(const NodeContentGroup &nod
 			writeNodeDeclaration(nonstd::get<NodeType>(cNode), typeMappings, intendent);
 		else if(nonstd::holds_alternative<EntryType>(cNode))
 			writeEntryDeclaration(nonstd::get<EntryType>(cNode), typeMappings, intendent);
+		else if(nonstd::holds_alternative<ListEntryType>(cNode))
+			writeListEntryDeclaration(nonstd::get<ListEntryType>(cNode), typeMappings, intendent);
 		else if(nonstd::holds_alternative<NodeContentGroup>(cNode))
 			writeNodeElementDeclarations(nonstd::get<NodeContentGroup>(cNode), typeMappings, intendent);
 	}
@@ -311,6 +324,21 @@ void SettingsGenerator::writeEntryDeclaration(const EntryType &entry, const QHas
 		_hdr << TABS << "struct : QtMvvm::SettingsEntry<" << mType << "> { //" << entry.key << "\n";
 		writeNodeElementDeclarations(entry, typeMappings, intendent + 1);
 		_hdr << TABS << "\tinline auto &operator=(const " << mType << " &__value) { SettingsEntry<" << mType << ">::operator=(__value); return *this; }\n";
+		_hdr << TABS << "} " << entry.key << ";\n";
+	}
+}
+
+void SettingsGenerator::writeListEntryDeclaration(const SettingsGeneratorBase::ListEntryType &entry, const QHash<QString, QString> &typeMappings, int intendent)
+{
+	if(entry.contentNodes.isEmpty())
+		_hdr << TABS << "QtMvvm::SettingsEntry<QList<" << typeMappings.value(entry.type, entry.type) << ">> " << entry.key << ";\n";
+	else {
+		const QString mType = QStringLiteral("QList<") + typeMappings.value(entry.type, entry.type) + QLatin1Char('>');
+		_hdr << TABS << "struct : QtMvvm::SettingsEntry<" << mType << "> { //" << entry.key << "\n";
+		writeNodeElementDeclarations(entry, typeMappings, intendent + 1);
+		_hdr << TABS << "\tinline auto &operator=(const " << mType << " &__value) { SettingsEntry<" << mType << ">::operator=(__value); return *this; }\n";
+		_hdr << TABS << "\tinline auto &operator+=(const " << typeMappings.value(entry.type, entry.type) << " &__value) { SettingsEntry<" << mType << ">::operator+=(__value); return *this; }\n";
+		_hdr << TABS << "\tinline auto &operator+=(const " << mType << " &__value) { SettingsEntry<" << mType << ">::operator+=(__value); return *this; }\n";
 		_hdr << TABS << "} " << entry.key << ";\n";
 	}
 }
@@ -387,12 +415,14 @@ void SettingsGenerator::writeNodeElementDefinitions(const SettingsGeneratorBase:
 			writeNodeElementDefinitions(xNode, typeMappings, baseKey, QStringList{keyChain} << xNode.key);
 		} else if(nonstd::holds_alternative<EntryType>(cNode))
 			writeEntryDefinition(nonstd::get<EntryType>(cNode), typeMappings, baseKey, keyChain);
+		else if(nonstd::holds_alternative<ListEntryType>(cNode))
+			writeListEntryDefinition(nonstd::get<ListEntryType>(cNode), typeMappings, baseKey, keyChain);
 		else if(nonstd::holds_alternative<NodeContentGroup>(cNode))
 			writeNodeElementDefinitions(nonstd::get<NodeContentGroup>(cNode), typeMappings, baseKey, keyChain);
 	}
 }
 
-void SettingsGenerator::writeEntryDefinition(const SettingsGeneratorBase::EntryType &entry, const QHash<QString, QString> &typeMappings, const optional<QString> &baseKey, QStringList keyChain)
+void SettingsGenerator::writeEntryDefinition(const SettingsGeneratorBase::EntryType &entry, const QHash<QString, QString> &typeMappings, const optional<QString> &baseKey, QStringList keyChain, bool skipChildren)
 {
 	keyChain.append(entry.key);
 	_src << "\t" << keyChain.join(QLatin1Char('.'))
@@ -408,5 +438,16 @@ void SettingsGenerator::writeEntryDefinition(const SettingsGeneratorBase::EntryT
 		_src << "}.value<" << typeMappings.value(entry.type, entry.type) << ">()";
 	}
 	_src << ");\n";
-	writeNodeElementDefinitions(entry, typeMappings, baseKey, std::move(keyChain));
+	if(!skipChildren)
+		writeNodeElementDefinitions(entry, typeMappings, baseKey, keyChain);
+}
+
+void SettingsGenerator::writeListEntryDefinition(const SettingsGeneratorBase::ListEntryType &entry, const QHash<QString, QString> &typeMappings, const optional<QString> &baseKey, QStringList keyChain)
+{
+	writeEntryDefinition(entry, typeMappings, baseKey, keyChain, entry.init.has_value());
+	if(entry.init) {
+		keyChain.append(entry.key);
+		_src << "\t" << keyChain.join(QLatin1Char('.')) << ".setupInit(" << entry.init.value().trimmed() << ");\n";
+		writeNodeElementDefinitions(entry, typeMappings, baseKey, keyChain);
+	}
 }

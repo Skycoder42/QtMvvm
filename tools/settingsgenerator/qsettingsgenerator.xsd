@@ -14,7 +14,7 @@
 	<xs:complexType name="IncludeType">
 		<xs:simpleContent>
 			<xs:extension base="xs:string" qxg:member="includePath">
-				<xs:attribute default="false" name="local" type="xs:boolean" use="optional"/>
+				<xs:attribute name="local" type="xs:boolean" use="optional" default="false"/>
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
@@ -22,7 +22,7 @@
 	<xs:complexType name="ImportType">
 		<xs:simpleContent>
 			<xs:extension base="xs:string" qxg:member="importPath">
-				<xs:attribute default="true" name="required" type="xs:boolean" use="optional"/>
+				<xs:attribute name="required" type="xs:boolean" use="optional" default="true"/>
 				<xs:attribute name="rootNode" type="xs:string" use="optional"/>
 			</xs:extension>
 		</xs:simpleContent>
@@ -43,7 +43,7 @@
 		<xs:simpleContent>
 			<xs:extension base="xs:string" qxg:member="value">
 				<xs:attribute name="type" type="xs:string" use="required"/>
-				<xs:attribute default="false" name="asStr" type="xs:boolean" use="optional"/>
+				<xs:attribute name="asStr" type="xs:boolean" use="optional" default="false"/>
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
@@ -53,7 +53,7 @@
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="Param" type="ParamType"/>
 		</xs:sequence>
 		<xs:attribute name="class" type="xs:string" use="required" qxg:member="className"/>
-		<xs:attribute name="scope" type="xs:string" use="optional"/>
+		<xs:attribute name="scope" type="xs:string" use="optional"/> <!-- TODO make an enum -->
 	</xs:complexType>
 
 	<xs:group name="NodeContentGroup">
@@ -61,6 +61,7 @@
 			<xs:choice maxOccurs="unbounded" minOccurs="0" qxg:member="contentNodes">
 				<xs:element name="Node" type="NodeType"/>
 				<xs:element name="Entry" type="EntryType"/>
+				<xs:element name="ListEntry" type="ListEntryType"/>
 				<xs:element name="Import" type="ImportType" qxg:method="read_included_file"/>
 			</xs:choice>
 		</xs:sequence>
@@ -82,6 +83,16 @@
 				<xs:attribute name="default" type="xs:string" use="optional" qxg:member="defaultValue"/>
 				<xs:attribute name="tr" type="xs:boolean" default="false" use="optional"/>
 				<xs:attribute name="trContext" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ListEntryType" qxg:declare="true">
+		<xs:complexContent>
+			<xs:extension base="EntryType">
+				<xs:sequence>
+					<xs:element maxOccurs="1" minOccurs="0" name="Init" type="xs:string"/>
+				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
