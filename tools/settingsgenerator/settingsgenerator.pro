@@ -15,15 +15,19 @@ DEFINES += "COMPANY=\\\"$$COMPANY\\\""
 DEFINES += "BUNDLE_PREFIX=\\\"$$BUNDLE_PREFIX\\\""
 
 HEADERS += \
-	settingsgenerator.h \
 	settingstranslator.h \
-    settingsconfigimpl.h
+    settingsconfigimpl.h \
+    cppsettingsgenerator.h \
+    settingsgeneratorimpl.h \
+    qmlsettingsgenerator.h
 
 SOURCES += \
 	main.cpp \
-	settingsgenerator.cpp \
 	settingstranslator.cpp \
-    settingsconfigimpl.cpp
+    settingsconfigimpl.cpp \
+    cppsettingsgenerator.cpp \
+    settingsgeneratorimpl.cpp \
+    qmlsettingsgenerator.cpp
 
 XML_SCHEMA_DEFINITIONS += \
 	qsettingsgenerator.xsd \

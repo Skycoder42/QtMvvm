@@ -4,7 +4,8 @@
 #include <QXmlStreamReader>
 #include <QDebug>
 
-#include "settingsgenerator.h"
+#include "cppsettingsgenerator.h"
+#include "qmlsettingsgenerator.h"
 #include "settingstranslator.h"
 
 int main(int argc, char *argv[])
@@ -57,18 +58,27 @@ int main(int argc, char *argv[])
 			qCritical() << e.what();
 			return EXIT_FAILURE;
 		}
-	} else {
+	} else if(parser.isSet(QStringLiteral("qml"))) {
 		try {
-			SettingsGenerator generator {
+			QmlSettingsGenerator generator {
 				parser.value(QStringLiteral("header")),
 				parser.value(QStringLiteral("impl"))
 			};
-			if(parser.isSet(QStringLiteral("qml")))
-				generator.processQml(parser.value(QStringLiteral("in")));
-			else
-				generator.process(parser.value(QStringLiteral("in")));
+			generator.process(parser.value(QStringLiteral("in")));
 			return EXIT_SUCCESS;
-		} catch (SettingsGenerator::Exception &e) {
+		} catch (SettingsGeneratorImpl::Exception &e) {
+			qCritical() << e.what();
+			return EXIT_FAILURE;
+		}
+	} else {
+		try {
+			CppSettingsGenerator generator {
+				parser.value(QStringLiteral("header")),
+				parser.value(QStringLiteral("impl"))
+			};
+			generator.process(parser.value(QStringLiteral("in")));
+			return EXIT_SUCCESS;
+		} catch (SettingsGeneratorImpl::Exception &e) {
 			qCritical() << e.what();
 			return EXIT_FAILURE;
 		}
