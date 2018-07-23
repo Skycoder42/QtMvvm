@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Settings name="TestSettings">
+	<Include>QtCore/QDateTime</Include>
+	<Include local="false">QtCore/QUrl</Include>
+
+	<Qml uri="de.skycoder42.QtMvvm.Core.test"
+		 major="4"
+		 minor="2"
+		 type="Singleton"
+		 register="true"
+		 header="generatortest.h"/>
+
+	<TypeMapping key="range" type="int"/>
+
+	<Node key="emptyNode"/>
+	<Entry key="emptyEntry"
+		   type="bool"/>
+	<Entry key="advancedEntry"
+		   type="QString"
+		   qmlGroupKey="qmlAdvancedEntry"
+		   default="Hello World"
+		   tr="true"
+		   trContext="some_context"/>
+	<Entry key="codeEntry"
+		   type="QUrl">
+		<Code>QUrl::fromLocalFile(QStringLiteral("/path/to/something"))</Code>
+	</Entry>
+
+	<Node key="parentNode">
+		<Node key="emptyChildNode"/>
+		<Node key="fullChildNode">
+			<Entry key="replaceEntry"
+				   type="range"
+				   default="42"/>
+		</Node>
+		<Entry key="parentEntry"
+			   type="bool"
+			   default="true">
+			<Node key="subNode"/>
+			<Entry key="nodeWithCodeEntry"
+				   type="int">
+				<Node key="someNode"/>
+				<Code>
+					qRound(42.8)
+				</Code>
+			</Entry>
+			<Entry key="leafEntry"
+				   type="QString"
+				   default="translate me"
+				   tr="true"/>
+		</Entry>
+	</Node>
+
+	<Entry key="voidEntry"
+		   type="void"/>
+	<Entry key="variantEntry"
+		   type="QVariant"/>
+
+	<ListEntry key="listEntry"
+			   type="QByteArray">
+		<Entry key="dummyChild"
+			   type="bool"/>
+		<Code>&quot;Hello World&quot;</Code>
+		<Init> {
+			&quot;test1&quot;,
+			&quot;test2&quot;,
+			&quot;test3&quot;
+		} </Init>
+	</ListEntry>
+</Settings>

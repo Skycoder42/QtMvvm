@@ -10,7 +10,9 @@ SOURCES += \
 	tst_qmlsettingsgenerator.cpp
 
 QML_SETTINGS_DEFINITIONS += \
-	../../mvvmcore/settingsgenerator/generatortest.xml
+	generatortest.xml
+
+SETTINGS_DEFINITIONS += $$QML_SETTINGS_DEFINITIONS
 
 DISTFILES += \
 	tst_qmlsettingsgenerator.qml

@@ -53,7 +53,7 @@ void CppSettingsGenerator::writeHeader(const SettingsType &settings)
 	_hdr << "\n";
 
 	// create the class
-	_hdr << "class " << QString{settings.prefix ? settings.prefix.value() + QLatin1Char(' ') + settings.name.value() : settings.name.value()} << " : public QObject\n"
+	_hdr << "class " << (settings.prefix ? settings.prefix.value() + QLatin1Char(' ') + settings.name.value() : settings.name.value()) << " : public QObject\n"
 		 << "{\n"
 		 << "\tQ_OBJECT\n\n"
 		 << "\tQ_PROPERTY(QtMvvm::ISettingsAccessor *accessor READ accessor CONSTANT FINAL)\n\n"
@@ -82,6 +82,8 @@ void CppSettingsGenerator::writeNodeElementDeclarations(const NodeContentGroup &
 			writeListEntryDeclaration(nonstd::get<ListEntryType>(cNode), typeMappings, intendent);
 		else if(nonstd::holds_alternative<NodeContentGroup>(cNode))
 			writeNodeElementDeclarations(nonstd::get<NodeContentGroup>(cNode), typeMappings, intendent);
+		else
+			Q_UNREACHABLE();
 	}
 }
 
@@ -196,6 +198,8 @@ void CppSettingsGenerator::writeNodeElementDefinitions(const SettingsGeneratorBa
 			writeListEntryDefinition(nonstd::get<ListEntryType>(cNode), typeMappings, baseKey, keyChain);
 		else if(nonstd::holds_alternative<NodeContentGroup>(cNode))
 			writeNodeElementDefinitions(nonstd::get<NodeContentGroup>(cNode), typeMappings, baseKey, keyChain);
+		else
+			Q_UNREACHABLE();
 	}
 }
 

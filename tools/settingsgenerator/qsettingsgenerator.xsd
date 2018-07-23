@@ -19,6 +19,15 @@
 		</xs:simpleContent>
 	</xs:complexType>
 
+	<xs:complexType name="QmlType">
+		<xs:attribute name="uri" type="xs:string" use="required"/>
+		<xs:attribute name="major" type="xs:integer" use="optional" default="1"/>
+		<xs:attribute name="minor" type="xs:integer" use="optional" default="0"/>
+		<xs:attribute name="type" type="xs:string" use="optional" default="Singleton"/> <!-- TODO enum -->
+		<xs:attribute name="register" type="xs:boolean" use="optional" default="true" qxg:member="autoRegister"/>
+		<xs:attribute name="header" type="xs:string" use="optional"/>
+	</xs:complexType>
+
 	<xs:complexType name="ImportType">
 		<xs:simpleContent>
 			<xs:extension base="xs:string" qxg:member="importPath">
@@ -93,7 +102,6 @@
 				<xs:sequence>
 					<xs:element maxOccurs="1" minOccurs="0" name="Init" type="xs:string"/>
 				</xs:sequence>
-				<xs:attribute name="qmllist" type="xs:boolean" use="optional" default="false"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -102,6 +110,7 @@
 		<xs:sequence>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="Include" type="IncludeType" qxg:member="includes"/>
 			<xs:element maxOccurs="1" minOccurs="0" name="Backend" type="BackendType"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="Qml" type="QmlType"/>
 			<xs:group ref="TypeMappingGroup" qxg:member="typeMappings" qxg:method="read_type_mapping"/>
 			<xs:group ref="NodeContentGroup" qxg:inherit="true"/>
 		</xs:sequence>
