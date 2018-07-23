@@ -56,6 +56,10 @@
 		   type="void"/>
 	<Entry key="variantEntry"
 		   type="QVariant"/>
+	<Entry key="simpleListEntry"
+		   type="QList&lt;int&gt;">
+		<Code>{42}</Code>
+	</Entry>
 
 	<ListEntry key="listEntry"
 			   type="QByteArray">

@@ -40,6 +40,7 @@ void SettingsGeneratorTest::testSettingsGenerator()
 	QCOMPARE(settings->parentNode.parentEntry.nodeWithCodeEntry.key(), QStringLiteral("tests/parentNode/parentEntry/nodeWithCodeEntry"));
 	QCOMPARE(settings->parentNode.parentEntry.leafEntry.key(), QStringLiteral("tests/parentNode/parentEntry/leafEntry"));
 	QCOMPARE(settings->variantEntry.key(), QStringLiteral("tests/variantEntry"));
+	QCOMPARE(settings->simpleListEntry.key(), QStringLiteral("tests/simpleListEntry"));
 	QCOMPARE(settings->listEntry.key(), QStringLiteral("tests/listEntry"));
 	QCOMPARE(settings->listEntry.dummyChild.key(), QStringLiteral("tests/listEntry/dummyChild"));
 
@@ -52,6 +53,7 @@ void SettingsGeneratorTest::testSettingsGenerator()
 	QCOMPARE(settings->parentNode.parentEntry.nodeWithCodeEntry.get(), 43);
 	QCOMPARE(settings->parentNode.parentEntry.leafEntry.get(), QStringLiteral("translate me"));
 	QCOMPARE(settings->variantEntry.get(), QVariant{});
+	QCOMPARE(settings->simpleListEntry.get(), QList<int>{42});
 	QByteArrayList iList{"test1", "test2", "test3"};
 	QCOMPARE(settings->listEntry.get(), iList);
 	QCOMPARE(settings->listEntry.dummyChild.get(), false);

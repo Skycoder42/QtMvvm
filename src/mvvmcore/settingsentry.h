@@ -192,6 +192,8 @@ public:
 	const_iterator constBegin() const;
 	const_iterator constEnd() const;
 
+	void addChangeCallback(const std::function<void(QList<TType>)> &callback);
+	void addChangeCallback(QObject *scope, const std::function<void(QList<TType>)> &callback);
 	void addChangeCallback(const std::function<void(int, TType)> &callback); // index, value
 	void addChangeCallback(QObject *scope, const std::function<void(int, TType)> &callback);
 	void addSizeChangeCallback(const std::function<void(int)> &callback); // size
@@ -475,6 +477,27 @@ typename SettingsEntry<QList<TType>>::const_iterator SettingsEntry<QList<TType>>
 }
 
 template<typename TType>
+void SettingsEntry<QList<TType>>::addChangeCallback(const std::function<void (QList<TType>)> &callback)
+{
+	addChangeCallback(_accessor, callback);
+}
+
+template<typename TType>
+void SettingsEntry<QList<TType>>::addChangeCallback(QObject *scope, const std::function<void (QList<TType>)> &callback)
+{
+	QObject::connect(_accessor, &ISettingsAccessor::entryChanged,
+					 scope, [this, callback](const QString &key, const QVariant &) {
+		if(key.startsWith(_key))
+			callback(get());
+	});
+	QObject::connect(_accessor, &ISettingsAccessor::entryRemoved,
+					 scope, [this, callback](const QString &key) {
+		if(key.startsWith(_key))
+			callback(get());
+	});
+}
+
+template<typename TType>
 void SettingsEntry<QList<TType>>::addChangeCallback(const std::function<void (int, TType)> &callback)
 {
 	addChangeCallback(_accessor, callback);
@@ -496,7 +519,7 @@ void SettingsEntry<QList<TType>>::addChangeCallback(QObject *scope, const std::f
 					 scope, [mKey, mDefault, callback](const QString &key) {
 		auto match = mKey.match(key);
 		if(match.hasMatch())
-			callback(match.captured(1).toInt(), mDefault);
+			callback(match.captured(1).toInt(), mDefault.template value<TType>());
 	});
 }
 

@@ -154,12 +154,11 @@ void CppSettingsGenerator::writeSource(const SettingsType &settings)
 				first = false;
 			else
 				_src << ",\n";
-			_src << "\t\tQVariant{";
+			_src << "\t\t";
 			if(param.asStr)
-				_src << "QStringLiteral(\"" << param.value << "\")";
+				_src << "QVariant{QStringLiteral(\"" << param.value << "\")}.value<" << param.type << ">()";
 			else
 				_src << param.value;
-			_src << "}.value<" << param.type << ">()";
 		}
 		_src << "\n\t";
 	}
