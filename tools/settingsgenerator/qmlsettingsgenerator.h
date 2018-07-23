@@ -19,18 +19,22 @@ private:
 	QTextStream _hdr;
 	QTextStream _src;
 
+	QString _cppName;
 	QString _name;
 	QString _prefixName;
 	QHash<QString, QString> _typeMappings;
 
 	void writeHeader(const SettingsType &settings, const QString &inHdrPath);
 
-	void writeListTypeClasses(const SettingsType &settings);
-	std::tuple<int, QList<int>> writeNodeContentClassesDeclarations(const NodeContentGroup &node, int offset = 0);
-	void writeNodeClassPropertiesDeclarations(const NodeContentGroup &node, QList<int> &childOffsets);
-	void writeNodePropertyDeclaration(const NodeType &entry, int classIndex, const QString &overwriteName = {});
-	void writeEntryPropertyDeclaration(const EntryType &entry, int classIndex);
-	int writeNodeClassDeclaration(const NodeType &node, int offset);
+	void writeListTypeBaseClass(const SettingsType &settings);
+
+	std::tuple<int, QList<int>> writeNodeContentClassesDeclarations(const NodeContentGroup &node, const QStringList &keyList, int offset = 0);
+	int writeNodeClassDeclaration(const NodeType &node, const QStringList &keyList, int offset);
+	int writeListEntryListClass(const ListEntryType &entry, QStringList keyList, int offset);
+
+	void writeNodeClassPropertiesDeclarations(const NodeContentGroup &node, const QStringList &keyList, QList<int> &childOffsets, QList<QPair<QString, int>> &childConstructs);
+	void writeNodePropertyDeclaration(const NodeType &entry, int classIndex, QList<QPair<QString, int>> &childConstructs, const QString &overwriteName = {});
+	void writeEntryPropertyDeclaration(const EntryType &entry, QStringList keyList, int classIndex, QList<QPair<QString, int>> &childConstructs);
 
 	void writeSource(const SettingsType &settings);
 };

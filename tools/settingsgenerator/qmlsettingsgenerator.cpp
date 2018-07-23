@@ -14,6 +14,7 @@ void QmlSettingsGenerator::process(const QString &inPath)
 	auto settings = readDocument(inPath);
 	if(!settings.name)
 		settings.name = QFileInfo{inPath}.baseName();
+	_cppName = settings.name.value();
 	settings.name.value().prepend(QStringLiteral("QMLTYPE_"));
 	fixTrContext(settings, QFileInfo{inPath}.fileName());
 
@@ -57,12 +58,13 @@ void QmlSettingsGenerator::writeHeader(const SettingsGeneratorBase::SettingsType
 	}
 	_hdr << "\n";
 
-	writeListTypeClasses(settings);
+	writeListTypeBaseClass(settings);
 
 	// create all the qmltype classes
+	auto keyList = settings.prefix ? QStringList{settings.prefix.value()} : QStringList{};
 	int offset;
 	QList<int> childOffsets;
-	std::tie(offset, childOffsets) = writeNodeContentClassesDeclarations(settings);
+	std::tie(offset, childOffsets) = writeNodeContentClassesDeclarations(settings, keyList);
 
 	// create the class
 	_hdr << "class " << _prefixName << " : public QObject\n"
@@ -70,7 +72,8 @@ void QmlSettingsGenerator::writeHeader(const SettingsGeneratorBase::SettingsType
 		 << "\tQ_OBJECT\n\n"
 		 << "\tQ_PROPERTY(QtMvvm::ISettingsAccessor *accessor READ accessor CONSTANT FINAL)\n\n";
 
-	writeNodeClassPropertiesDeclarations(settings, childOffsets);
+	QList<QPair<QString, int>> childConstructs;
+	writeNodeClassPropertiesDeclarations(settings, keyList, childOffsets, childConstructs);
 
 	_hdr << "public:\n"
 		 << "\texplicit " << settings.name.value() << "(QObject *parent = nullptr);\n"
@@ -82,77 +85,64 @@ void QmlSettingsGenerator::writeHeader(const SettingsGeneratorBase::SettingsType
 		 << "#endif //" << incGuard << '\n';
 }
 
-void QmlSettingsGenerator::writeListTypeClasses(const SettingsGeneratorBase::SettingsType &settings)
+void QmlSettingsGenerator::writeListTypeBaseClass(const SettingsGeneratorBase::SettingsType &settings)
 {
-	// write the list wrapper base class
-	_hdr << "class " << _prefixName << "_ListType : public QObject\n"
-		 << "{\n"
-		 << "\tQ_OBJECT\n\n"
-		 << "\tQ_PROPERTY(QVariant value READ value WRITE setValue NOTIFY valueChanged)\n\n"
-		 << "public:\n"
-		 << "\tclass Accessor {\n"
-		 << "\tpublic:\n"
-		 << "\t\tinline virtual ~Accessor() = default;\n"
-		 << "\t\tvirtual QVariant value() const = 0;\n"
-		 << "\t\tvirtual void setValue(const QVariant &value) = 0;\n"
-		 << "\t};\n\n"
-		 << "\texplicit " << _prefixName << "_ListType(QObject *parent);\n\n"
-		 << "\tQVariant value() const { return _data ? _data->value() : _buffer; }\n"
-		 << "\tvoid setValue(const QVariant &value) { if(_data) _data->setValue(value); else _buffer = value; }\n"
-		 << "\tvoid setAccessor(Accessor *accessor) { _data.reset(accessor); if(_buffer.isValid()) _data->setValue(_buffer); _buffer.clear(); }\n\n"
-		 << "Q_SIGNALS:\n"
-		 << "\tvoid valueChanged(const QVariant &value);\n\n"
-		 << "private:\n"
-		 << "\tQScopedPointer<Accessor> _data;\n"
-		 << "\tQVariant _buffer;\n"
-		 << "};\n\n";
-
 	// write the generic variant
 	_hdr << "template <typename T>\n"
-		 << "class " << _prefixName << "_ListType_Accessor : public " << _prefixName << "_ListType::Accessor\n"
+		 << "class " << _prefixName << "_ListType : public QObject\n"
 		 << "{\n"
 		 << "public:\n"
+		 << "\ttemplate <typename TList>\n"
 		 << "\tstruct ListData {\n"
+		 << "\t\tstatic_assert(std::is_base_of<" << _prefixName << "_ListType<T>, TList>::value, \"TList must extend " << _prefixName << "_ListType<T>\");\n"
 		 << "\t\tQtMvvm::SettingsEntry<QList<T>> &entry;\n"
-		 << "\t\tQList<" << _prefixName << "_ListType> elements;\n"
+		 << "\t\tQList<TList*> elements;\n"
 		 << "\t};\n\n"
-		 << "\t" << _prefixName << "_ListType_Accessor(QtMvvm::SettingsEntry<QList<T>> &entry, int index) : \n"
-		 << "\t\t_entry{entry},\n"
-		 << "\t\t_index{index}\n"
+		 << "\t" << _prefixName << "_ListType(QtMvvm::SettingsEntry<QList<T>> &entry, QObject *parent) : \n"
+		 << "\t\tQObject{parent},\n"
+		 << "\t\t_entry{entry}\n"
 		 << "\t{}\n"
-		 << "\tQVariant value() const final { return QVariant::fromValue(_entry.getAt(_index)); }\n"
-		 << "\tvoid setValue(const QVariant &value) final { _entry.setAt(_index, value.template value<T>()); }\n\n"
+		 << "\tT value() const { return _index >= 0 ? _entry.getAt(_index) : _buffer; }\n"
+		 << "\tvoid setValue(const T &value) { if(_index >= 0) _entry.setAt(_index, value); else { _index = -2; _buffer = value; } }\n\n"
 		 << "private:\n"
 		 << "\tfriend class " << _prefixName << ";\n"
 		 << "\tQtMvvm::SettingsEntry<QList<T>> &_entry;\n"
-		 << "\tconst int _index;\n\n"
-		 << "\tstatic void append(QQmlListProperty<" << _prefixName << "_ListType>* list, " << _prefixName << "_ListType* element) {\n"
-		 << "\t\tconst auto data = reinterpret_cast<ListData*>(list->data);\n"
+		 << "\tint _index = -1;\n"
+		 << "\tT _buffer{};\n\n"
+		 << "\ttemplate <typename TList>\n"
+		 << "\tstatic void append(QQmlListProperty<TList> *list, TList *element) {\n"
+		 << "\t\tconst auto data = reinterpret_cast<ListData<TList>*>(list->data);\n"
 		 << "\t\tconst auto maxIndex = data->entry.size();\n"
 		 << "\t\tfor(auto index = data->elements.size(); index <= maxIndex; index++) {\n"
-		 << "\t\t\t" << _prefixName << "_ListType *elem;\n"
+		 << "\t\t\tTList *elem;\n"
 		 << "\t\t\tif(index == maxIndex) {\n"
 		 << "\t\t\t\telem = element;\n"
 		 << "\t\t\t\telem->setParent(list->object);\n"
 		 << "\t\t\t} else\n"
-		 << "\t\t\t\telem = new " << _prefixName << "_ListType{list->object};\n"
+		 << "\t\t\t\telem = new TList{list->object};\n"
+		 << "\t\t\tconst auto copyDefault = elem->_index == -2;\n"
+		 << "\t\t\telem->_index = index;\n"
 		 << "\t\t\tdata->elements.append(elem);\n"
-		 << "\t\t\telem->setAccessor(new " << _prefixName << "_ListType_Accessor<T>{data->entry, index});\n"
+		 << "\t\t\tif(copyDefault)\n"
+		 << "\t\t\t\telem->setValue(T{std::move(elem->_buffer)});\n"
 		 << "\t\t\tdata->entry.addChangeCallback(elem, [index, elem](int i, const T &d) {\n"
 		 << "\t\t\t\tif(i == index)\n"
-		 << "\t\t\t\t\temit elem->valueChanged(QVariant::fromValue(d));\n"
+		 << "\t\t\t\t\temit elem->valueChanged(d);\n"
 		 << "\t\t\t});\n"
 		 << "\t\t}\n"
 		 << "\t}\n\n"
-		 << "\tstatic " << _prefixName << "_ListType *at(QQmlListProperty<" << _prefixName << "_ListType>* list, int index) {\n"
-		 << "\t\tconst auto data = reinterpret_cast<ListData*>(list->data);\n"
+		 << "\ttemplate <typename TList>\n"
+		 << "\tstatic TList *at(QQmlListProperty<TList> *list, int index) {\n"
+		 << "\t\tconst auto data = reinterpret_cast<ListData<TList>*>(list->data);\n"
 		 << "\t\treturn data->elements.size() > index ? data->elements.value(index) : nullptr;\n"
 		 << "\t}\n\n"
-		 << "\tstatic int count(QQmlListProperty<" << _prefixName << "_ListType>* list) {\n"
-		 << "\t\treturn reinterpret_cast<ListData*>(list->data)->elements.size();\n"
+		 << "\ttemplate <typename TList>\n"
+		 << "\tstatic int count(QQmlListProperty<TList> *list) {\n"
+		 << "\t\treturn reinterpret_cast<ListData<TList>*>(list->data)->elements.size();\n"
 		 << "\t}\n\n"
-		 << "\tstatic void clear(QQmlListProperty<" << _prefixName << "_ListType>* list) {\n"
-		 << "\t\tconst auto data = reinterpret_cast<ListData*>(list->data);\n"
+		 << "\ttemplate <typename TList>\n"
+		 << "\tstatic void clear(QQmlListProperty<TList> *list) {\n"
+		 << "\t\tconst auto data = reinterpret_cast<ListData<TList>*>(list->data);\n"
 		 << "\t\tfor(auto elem : qAsConst(data->elements))\n"
 		 << "\t\t\telem->deleteLater();\n"
 		 << "\t\tdata->elements.clear();\n"
@@ -161,28 +151,30 @@ void QmlSettingsGenerator::writeListTypeClasses(const SettingsGeneratorBase::Set
 		 << "};\n\n";
 }
 
-std::tuple<int, QList<int>> QmlSettingsGenerator::writeNodeContentClassesDeclarations(const SettingsGeneratorBase::NodeContentGroup &node, int offset)
+std::tuple<int, QList<int>> QmlSettingsGenerator::writeNodeContentClassesDeclarations(const SettingsGeneratorBase::NodeContentGroup &node, const QStringList &keyList, int offset)
 {
 	QList<int> offsetList;
 	for(const auto &cNode : node.contentNodes) {
 		if(nonstd::holds_alternative<NodeType>(cNode)) {
-			offset = writeNodeClassDeclaration(nonstd::get<NodeType>(cNode), offset);
+			offset = writeNodeClassDeclaration(nonstd::get<NodeType>(cNode), keyList, offset);
 			offsetList.append(offset - 1);
 		} else if(nonstd::holds_alternative<EntryType>(cNode)) {
 			if(!nonstd::get<EntryType>(cNode).contentNodes.isEmpty()) {
-				offset = writeNodeClassDeclaration(nonstd::get<EntryType>(cNode), offset);
+				offset = writeNodeClassDeclaration(nonstd::get<EntryType>(cNode), keyList, offset);
 				offsetList.append(offset - 1);
 			} else
 				offsetList.append(-1);
 		} else if(nonstd::holds_alternative<ListEntryType>(cNode)) {
+			offset = writeListEntryListClass(nonstd::get<ListEntryType>(cNode), keyList, offset);
+			offsetList.append(offset - 1); //double offset!!!
 			if(!nonstd::get<ListEntryType>(cNode).contentNodes.isEmpty()) {
-				offset = writeNodeClassDeclaration(nonstd::get<ListEntryType>(cNode), offset);
+				offset = writeNodeClassDeclaration(nonstd::get<ListEntryType>(cNode), keyList, offset);
 				offsetList.append(offset - 1);
 			} else
 				offsetList.append(-1);
 		} else if(nonstd::holds_alternative<NodeContentGroup>(cNode)) {
 			QList<int> subList;
-			std::tie(offset, subList) = writeNodeContentClassesDeclarations(nonstd::get<NodeContentGroup>(cNode), offset);
+			std::tie(offset, subList) = writeNodeContentClassesDeclarations(nonstd::get<NodeContentGroup>(cNode), keyList, offset);
 			offsetList.append(subList);
 		} else
 			Q_UNREACHABLE();
@@ -190,71 +182,93 @@ std::tuple<int, QList<int>> QmlSettingsGenerator::writeNodeContentClassesDeclara
 	return std::make_tuple(offset, offsetList);
 }
 
-void QmlSettingsGenerator::writeNodeClassPropertiesDeclarations(const SettingsGeneratorBase::NodeContentGroup &node, QList<int> &childOffsets)
+int QmlSettingsGenerator::writeNodeClassDeclaration(const SettingsGeneratorBase::NodeType &node, const QStringList &keyList, int offset)
 {
-	for(const auto &cNode : node.contentNodes) {
-		if(nonstd::holds_alternative<NodeType>(cNode))
-			writeNodePropertyDeclaration(nonstd::get<NodeType>(cNode), childOffsets.takeFirst());
-		else if(nonstd::holds_alternative<EntryType>(cNode))
-			writeEntryPropertyDeclaration(nonstd::get<EntryType>(cNode), childOffsets.takeFirst());
-		else if(nonstd::holds_alternative<ListEntryType>(cNode))
-			writeEntryPropertyDeclaration(nonstd::get<ListEntryType>(cNode), childOffsets.takeFirst());
-		else if(nonstd::holds_alternative<NodeContentGroup>(cNode))
-			writeNodeClassPropertiesDeclarations(nonstd::get<NodeContentGroup>(cNode), childOffsets);
-		else
-			Q_UNREACHABLE();
-	}
-}
-
-void QmlSettingsGenerator::writeNodePropertyDeclaration(const SettingsGeneratorBase::NodeType &entry, int classIndex, const QString &overwriteName)
-{
-	const auto &mName = overwriteName.isNull() ? entry.key : overwriteName;
-	_hdr << "\tQ_PROPERTY(" << _name << "_" << classIndex << "* " << mName
-		 << " MEMBER _" << mName << " CONSTANT)\n";
-
-	_hdr << "\t" << _name << "_" << classIndex << "* _" << mName << ";\n\n";
-}
-
-void QmlSettingsGenerator::writeEntryPropertyDeclaration(const SettingsGeneratorBase::EntryType &entry, int classIndex)
-{
-	const auto &mType = _typeMappings.value(entry.type, entry.type);
-	if(mType != QStringLiteral("void")) {
-		_hdr << "\tQ_PROPERTY(" << mType << " " << entry.key
-			 << " READ get_" << entry.key
-			 << " WRITE set_" << entry.key
-			 << " NOTIFY notify_" << entry.key << ")\n";
-
-		_hdr << "\t" << mType << " get_" << entry.key << "() const;\n"
-			 << "\tvoid set_" << entry.key << "(const " << mType << "& value);\n"
-			 << "Q_SIGNALS:\n"
-			 << "\tvoid notify_" << entry.key << "();\n"
-			 << "private:\n\n";
-	}
-
-	if(!entry.contentNodes.isEmpty())
-		writeNodePropertyDeclaration(entry, classIndex, entry.qmlGroupKey.value_or(entry.key + QStringLiteral("Group")));
-}
-
-int QmlSettingsGenerator::writeNodeClassDeclaration(const SettingsGeneratorBase::NodeType &node, int offset)
-{
+	auto subList = QStringList{keyList} << node.key;
 	QList<int> childOffsets;
-	std::tie(offset, childOffsets) = writeNodeContentClassesDeclarations(node, offset);
+	std::tie(offset, childOffsets) = writeNodeContentClassesDeclarations(node, subList, offset);
 
 	_hdr << "class " << _prefixName << "_" << offset << " : public QObject // " << node.key << "\n"
 		 << "{\n"
 		 << "\tQ_OBJECT\n\n";
 
-	_hdr << "public:\n"
-		 << "\t" << _name << "_" << offset << "(QtMvvm::ISettingsAccessor *accessor, const QString &parentKey, QObject *parent);\n\n"
-		 << "private:\n"
-		 << "\tQtMvvm::ISettingsAccessor *_accessor;\n"
-		 << "\tQString _nodeKey;\n\n";
+	QList<QPair<QString, int>> childConstructs;
+	writeNodeClassPropertiesDeclarations(node, subList, childOffsets, childConstructs);
 
-	writeNodeClassPropertiesDeclarations(node, childOffsets);
-
-	_hdr << "};\n\n";
+	_hdr << "\t" << _cppName << " *_settings;\n\n"
+		 << "public:\n"
+		 << "\t" << _name << "_" << offset << "(" << _cppName << " *settings, QObject *parent) : \n"
+		 << "\t\tQObject{parent},\n";
+	for(const auto &info : childConstructs)
+		_hdr << "\t\t_" << info.first << "{new " << _name << "_" << info.second << "{settings, this}},\n";
+	_hdr << "\t\t_settings{settings}\n"
+		 << "\t{}\n"
+		 << "};\n\n";
 
 	return ++offset;
+}
+
+int QmlSettingsGenerator::writeListEntryListClass(const SettingsGeneratorBase::ListEntryType &entry, QStringList keyList, int offset)
+{
+	const auto &mType = _typeMappings.value(entry.type, entry.type);
+	_hdr << "class " << _prefixName << "_" << offset << " : public " << _prefixName << "_ListType<" << mType << "> // " << entry.key << "\n"
+		 << "{\n"
+		 << "\tQ_OBJECT\n\n"
+		 << "\tQ_PROPERTY(" << mType << " value READ value WRITE setValue NOTIFY valueChanged)\n\n"
+		 << "public:\n"
+		 << "\texplicit " << _name << "_" << offset << "(QObject *parent = nullptr);\n\n"
+		 << "Q_SIGNALS:\n"
+		 << "\tvoid valueChanged(const " << mType << " &value);\n"
+		 << "};\n\n";
+
+	return ++offset;
+}
+
+void QmlSettingsGenerator::writeNodeClassPropertiesDeclarations(const SettingsGeneratorBase::NodeContentGroup &node, const QStringList &keyList, QList<int> &childOffsets, QList<QPair<QString, int>> &childConstructs)
+{
+	for(const auto &cNode : node.contentNodes) {
+		if(nonstd::holds_alternative<NodeType>(cNode))
+			writeNodePropertyDeclaration(nonstd::get<NodeType>(cNode), childOffsets.takeFirst(), childConstructs);
+		else if(nonstd::holds_alternative<EntryType>(cNode))
+			writeEntryPropertyDeclaration(nonstd::get<EntryType>(cNode), keyList, childOffsets.takeFirst(), childConstructs);
+		else if(nonstd::holds_alternative<ListEntryType>(cNode)) {
+			childOffsets.takeFirst(); //TODO use...
+			writeEntryPropertyDeclaration(nonstd::get<ListEntryType>(cNode), keyList, childOffsets.takeFirst(), childConstructs);
+		} else if(nonstd::holds_alternative<NodeContentGroup>(cNode))
+			writeNodeClassPropertiesDeclarations(nonstd::get<NodeContentGroup>(cNode), keyList, childOffsets, childConstructs);
+		else
+			Q_UNREACHABLE();
+	}
+}
+
+void QmlSettingsGenerator::writeNodePropertyDeclaration(const SettingsGeneratorBase::NodeType &entry, int classIndex, QList<QPair<QString, int>> &childConstructs, const QString &overwriteName)
+{
+	const auto &mName = overwriteName.isNull() ? entry.key : overwriteName;
+	_hdr << "\tQ_PROPERTY(" << _name << "_" << classIndex << "* " << mName
+		 << " MEMBER _" << mName << " CONSTANT)\n";
+	_hdr << "\t" << _name << "_" << classIndex << "* _" << mName << ";\n\n";
+	childConstructs.append({mName, classIndex});
+}
+
+void QmlSettingsGenerator::writeEntryPropertyDeclaration(const SettingsGeneratorBase::EntryType &entry, QStringList keyList, int classIndex, QList<QPair<QString, int>> &childConstructs)
+{
+	keyList.append(entry.key);
+	const auto &mType = _typeMappings.value(entry.type, entry.type);
+	if(mType != QStringLiteral("void")) {
+		_hdr << "\tQ_PROPERTY(" << mType << " " << entry.key
+			 << " READ get_" << entry.key
+			 << " WRITE set_" << entry.key
+			 << " NOTIFY " << entry.key << "_changed)\n";
+
+		_hdr << "\t" << mType << " get_" << entry.key << "() const { return _settings->" << keyList.join(QLatin1Char('.')) << ".get(); }\n"
+			 << "\tvoid set_" << entry.key << "(const " << mType << "& value) { _settings->" << keyList.join(QLatin1Char('.')) << ".set(value); }\n"
+			 << "Q_SIGNALS:\n"
+			 << "\tvoid " << entry.key << "_changed();\n"
+			 << "private:\n\n";
+	}
+
+	if(!entry.contentNodes.isEmpty())
+		writeNodePropertyDeclaration(entry, classIndex, childConstructs, entry.qmlGroupKey.value_or(entry.key + QStringLiteral("Group")));
 }
 
 void QmlSettingsGenerator::writeSource(const SettingsGeneratorBase::SettingsType &settings)
