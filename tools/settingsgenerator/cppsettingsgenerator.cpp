@@ -110,14 +110,14 @@ void CppSettingsGenerator::writeEntryDeclaration(const EntryType &entry, const Q
 void CppSettingsGenerator::writeListEntryDeclaration(const SettingsGeneratorBase::ListEntryType &entry, const QHash<QString, QString> &typeMappings, int intendent)
 {
 	if(entry.contentNodes.isEmpty())
-		_hdr << TABS << "QtMvvm::SettingsEntry<QList<" << typeMappings.value(entry.type, entry.type) << ">> " << entry.key << ";\n";
+		_hdr << TABS << "QtMvvm::SettingsListEntry<" << typeMappings.value(entry.type, entry.type) << "> " << entry.key << ";\n";
 	else {
-		const QString mType = QStringLiteral("QList<") + typeMappings.value(entry.type, entry.type) + QLatin1Char('>');
-		_hdr << TABS << "struct : QtMvvm::SettingsEntry<" << mType << "> { //" << entry.key << "\n";
+		const QString mType = typeMappings.value(entry.type, entry.type);
+		_hdr << TABS << "struct : QtMvvm::SettingsListEntry<" << mType << "> { //" << entry.key << "\n";
 		writeNodeElementDeclarations(entry, typeMappings, intendent + 1);
-		_hdr << TABS << "\tinline auto &operator=(const " << mType << " &__value) { SettingsEntry<" << mType << ">::operator=(__value); return *this; }\n";
-		_hdr << TABS << "\tinline auto &operator+=(const " << typeMappings.value(entry.type, entry.type) << " &__value) { SettingsEntry<" << mType << ">::operator+=(__value); return *this; }\n";
-		_hdr << TABS << "\tinline auto &operator+=(const " << mType << " &__value) { SettingsEntry<" << mType << ">::operator+=(__value); return *this; }\n";
+		_hdr << TABS << "\tinline auto &operator=(const QList<" << mType << "> &__value) { SettingsListEntry<" << mType << ">::operator=(__value); return *this; }\n";
+		_hdr << TABS << "\tinline auto &operator+=(const QList<" << mType << "> &__value) { SettingsListEntry<" << mType << ">::operator+=(__value); return *this; }\n";
+		_hdr << TABS << "\tinline auto &operator+=(const " << mType << " &__value) { SettingsListEntry<" << mType << ">::operator+=(__value); return *this; }\n";
 		_hdr << TABS << "} " << entry.key << ";\n";
 	}
 }
@@ -131,14 +131,31 @@ void CppSettingsGenerator::writeSource(const SettingsType &settings)
 		_src << "#include <QtMvvmCore/QSettingsAccessor>\n";
 	_src << "\n";
 
-	auto backend = settings.backend.value_or(BackendType{QStringLiteral("QtMvvm::QSettingsAccessor"), {}, {}});
+	auto backend = settings.backend.value_or(BackendType{QStringLiteral("QtMvvm::QSettingsAccessor"), {}});
 
 	_src << "namespace {\n\n"
 		 << "void __generated_settings_setup()\n"
 		 << "{\n"
 		 << "\tQtMvvm::ServiceRegistry::instance()->registerObject<" << settings.name.value() << ">(";
-	if(backend.scope)
-		_src << "QtMvvm::ServiceRegistry::" << backend.scope.value();
+	if(settings.scope) {
+		switch(settings.scope.value()) {
+		case SettingsGeneratorBase::DestroyOnAppQuit:
+			_src << "QtMvvm::ServiceRegistry::DestroyOnAppQuit";
+			break;
+		case SettingsGeneratorBase::DestroyOnAppDestroy:
+			_src << "QtMvvm::ServiceRegistry::DestroyOnAppDestroy";
+			break;
+		case SettingsGeneratorBase::DestroyOnRegistryDestroy:
+			_src << "QtMvvm::ServiceRegistry::DestroyOnRegistryDestroy";
+			break;
+		case SettingsGeneratorBase::DestroyNever:
+			_src << "QtMvvm::ServiceRegistry::DestroyNever";
+			break;
+		default:
+			Q_UNREACHABLE();
+			break;
+		}
+	}
 	_src << ");\n"
 		 << "}\n\n"
 		 << "}\n"

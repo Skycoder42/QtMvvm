@@ -28,18 +28,18 @@ private:
 
 	void writeListTypeBaseClass();
 
-	std::tuple<int, QList<int>> writeNodeContentClassesDeclarations(const NodeContentGroup &node, const QStringList &keyList, int offset = 0);
-	int writeNodeClassDeclaration(const NodeType &node, QStringList keyList, int offset);
-	int writeListEntryListClass(const ListEntryType &entry, int offset);
+	std::tuple<int, QList<int>> writeNodeContentClasses(const NodeContentGroup &node, const QStringList &keyList, int offset = 0);
+	int writeNodeClass(const NodeType &node, QStringList keyList, int offset);
+	int writeListEntryElementClass(const ListEntryType &entry, QStringList keyList, int offset);
 
-	void writeNodeClassPropertiesDeclarations(const NodeContentGroup &node,
-											  const QStringList &keyList,
-											  QList<int> &childOffsets,
-											  QList<int> &listEntries,
-											  QList<QPair<QString, int>> &childConstructs);
-	void writeNodePropertyDeclaration(const NodeType &entry, int classIndex, QList<QPair<QString, int>> &childConstructs, const QString &overwriteName = {});
-	void writeEntryPropertyDeclaration(const EntryType &entry, QStringList keyList, int classIndex, QList<QPair<QString, int>> &childConstructs);
-	void writeListEntryPropertyDeclaration(const ListEntryType &entry, QStringList keyList, int listIndex, int classIndex, QList<QPair<QString, int>> &childConstructs);
+	void writeProperties(const NodeContentGroup &node,
+						 const QStringList &keyList,
+						 QList<int> &childOffsets,
+						 QList<int> &listEntries,
+						 QList<QPair<QString, int>> &childConstructs);
+	void writeNodeProperty(const NodeType &entry, int classIndex, QList<QPair<QString, int>> &childConstructs, const QString &overwriteName = {});
+	void writeEntryProperty(const EntryType &entry, QStringList keyList, int classIndex, QList<QPair<QString, int>> &childConstructs);
+	void writeListEntryProperty(const ListEntryType &entry, QStringList keyList, int listIndex, int classIndex, QList<QPair<QString, int>> &childConstructs);
 
 	void writeMemberInits(const QStringList &keyList, const QList<QPair<QString, int>> &childConstructs);
 	void writeEntryPropertySignalConnects(const NodeContentGroup &node, const QStringList &keyList, int classIndex, QList<int> &listEntries);
@@ -47,6 +47,8 @@ private:
 	void writeListEntryPropertySignalConnect(const ListEntryType &entry, QStringList keyList, QList<int> &listEntries);
 
 	void writeSource(const SettingsType &settings);
+
+	void writeQmlRegistration(const SettingsType &settings);
 };
 
 #endif // QMLSETTINGSGENERATOR_H

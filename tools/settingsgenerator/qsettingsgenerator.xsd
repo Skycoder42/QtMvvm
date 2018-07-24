@@ -10,6 +10,24 @@
 	<qxg:method name="read_type_mapping" type="QHash&lt;QString, QString&gt;" asGroup="true"/>
 	<qxg:method name="read_included_file" type="NodeContentGroup"/>
 
+	<!-- Basic Types -->
+	<xs:simpleType name="QmlRegistrationMode">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Singleton"/>
+			<xs:enumeration value="Uncreatable"/>
+			<xs:enumeration value="Creatable"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="InstanceScope">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="DestroyOnAppQuit"/>
+			<xs:enumeration value="DestroyOnAppDestroy"/>
+			<xs:enumeration value="DestroyOnRegistryDestroy"/>
+			<xs:enumeration value="DestroyNever"/>
+		</xs:restriction>
+	</xs:simpleType>
+
 	<!-- Type definitions -->
 	<xs:complexType name="IncludeType">
 		<xs:simpleContent>
@@ -23,7 +41,7 @@
 		<xs:attribute name="uri" type="xs:string" use="required"/>
 		<xs:attribute name="major" type="xs:integer" use="optional" default="1"/>
 		<xs:attribute name="minor" type="xs:integer" use="optional" default="0"/>
-		<xs:attribute name="type" type="xs:string" use="optional" default="Singleton"/> <!-- TODO enum -->
+		<xs:attribute name="type" type="QmlRegistrationMode" use="optional" default="Singleton"/>
 		<xs:attribute name="register" type="xs:boolean" use="optional" default="true" qxg:member="autoRegister"/>
 		<xs:attribute name="header" type="xs:string" use="optional"/>
 	</xs:complexType>
@@ -62,7 +80,6 @@
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="Param" type="ParamType"/>
 		</xs:sequence>
 		<xs:attribute name="class" type="xs:string" use="required" qxg:member="className"/>
-		<xs:attribute name="scope" type="xs:string" use="optional"/> <!-- TODO make an enum -->
 	</xs:complexType>
 
 	<xs:group name="NodeContentGroup">
@@ -117,6 +134,7 @@
 		<xs:attribute name="name" type="xs:string" use="optional"/>
 		<xs:attribute name="prefix" type="xs:string" use="optional"/>
 		<xs:attribute name="baseKey" type="xs:string" use="optional"/>
+		<xs:attribute name="scope" type="InstanceScope" use="optional"/>
 	</xs:complexType>
 
 	<!-- root elements-->

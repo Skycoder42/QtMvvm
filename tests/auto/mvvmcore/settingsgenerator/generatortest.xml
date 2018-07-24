@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Settings name="TestSettings"
 		  prefix="SOME_EXPORT"
-		  baseKey="tests">
+		  baseKey="tests"
+		  scope="DestroyOnAppQuit">
 	<Include>QtCore/QDateTime</Include>
 	<Include local="false">QtCore/QUrl</Include>
 	<Include local="true">testbackend.h</Include>
 
-	<Backend class="TestBackend" scope="DestroyOnAppQuit">
+	<Backend class="TestBackend">
 		<Param type="QString" asStr="true">Test Backend</Param>
 		<Param type="int">42</Param>
 	</Backend>

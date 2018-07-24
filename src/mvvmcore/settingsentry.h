@@ -39,10 +39,22 @@ private:
 	QVariant _default;
 };
 
-template <typename TType>
-class SettingsEntry<QList<TType>>
+template <>
+class SettingsEntry<void>
 {
 	Q_DISABLE_COPY(SettingsEntry)
+
+public:
+	inline SettingsEntry() = default;
+
+	// internal
+	inline void setup(const QString &, ISettingsAccessor *, const QVariant & = {}) {}
+};
+
+template <typename TType>
+class SettingsListEntry
+{
+	Q_DISABLE_COPY(SettingsListEntry)
 
 public:
 	class ListElement
@@ -60,10 +72,10 @@ public:
 		inline operator TType() const && { return _self->getAt(_index); }
 
 	private:
-		friend class SettingsEntry<QList<TType>>;
-		inline ListElement(SettingsEntry<QList<TType>> *self, int index) : _self{self}, _index{index} {}
+		friend class SettingsListEntry<TType>;
+		inline ListElement(SettingsListEntry<TType> *self, int index) : _self{self}, _index{index} {}
 
-		SettingsEntry<QList<TType>> *_self;
+		SettingsListEntry<TType> *_self;
 		int _index;
 	};
 
@@ -95,15 +107,15 @@ public:
 
 	private:
 		template <typename T>
-		friend class SettingsEntry<QList<TType>>::iterator_base;
+		friend class SettingsListEntry<TType>::iterator_base;
 
-		inline iterator_value(SettingsEntry<QList<TType>> *self, int index) : _self{self}, _index{index} {}
+		inline iterator_value(SettingsListEntry<TType> *self, int index) : _self{self}, _index{index} {}
 		inline iterator_value(const iterator_value &other) = default;
 		inline iterator_value &operator=(const iterator_value &other) = default;
 		inline iterator_value(iterator_value &&other) noexcept = default;
 		inline iterator_value &operator=(iterator_value &&other) noexcept = default;
 
-		SettingsEntry<QList<TType>> *_self;
+		SettingsListEntry<TType> *_self;
 		int _index;
 	};
 
@@ -150,9 +162,9 @@ public:
 		inline value_type operator[](difference_type delta) const { return iterator_value{_value._self, _value._index + delta}; }
 
 	private:
-		friend class SettingsEntry<QList<TType>>;
+		friend class SettingsListEntry<TType>;
 
-		inline iterator_base(SettingsEntry<QList<TType>> *self, int index) : _value{self, index} {}
+		inline iterator_base(SettingsListEntry<TType> *self, int index) : _value{self, index} {}
 		inline iterator_base(iterator_value value) : _value{std::move(value)} {}
 		iterator_value _value;
 	};
@@ -160,7 +172,7 @@ public:
 	using iterator = iterator_base<iterator_value>;
 	using const_iterator = iterator_base<const iterator_value>;
 
-	SettingsEntry() = default;
+	SettingsListEntry() = default;
 
 	bool isSet() const;
 	QString key() const;
@@ -169,7 +181,7 @@ public:
 	void set(const QList<TType> &value);
 	void reset(bool reInit = true);
 
-	SettingsEntry<QList<TType>> &operator=(const QList<TType> &value);
+	SettingsListEntry<TType> &operator=(const QList<TType> &value);
 	operator QList<TType>() const;
 
 	int size() const;
@@ -182,8 +194,8 @@ public:
 
 	ListElement operator[](int index);
 	const ListElement operator[](int index) const;
-	SettingsEntry<QList<TType>> &operator+=(const TType &value);
-	SettingsEntry<QList<TType>> &operator+=(const QList<TType> &values);
+	SettingsListEntry<TType> &operator+=(const TType &value);
+	SettingsListEntry<TType> &operator+=(const QList<TType> &values);
 
 	iterator begin();
 	iterator end();
@@ -208,18 +220,6 @@ private:
 	ISettingsAccessor *_accessor = nullptr;
 	QVariant _default;
 	QList<TType> _init;
-};
-
-template <>
-class SettingsEntry<void>
-{
-	Q_DISABLE_COPY(SettingsEntry)
-
-public:
-	inline SettingsEntry() = default;
-
-	// internal
-	inline void setup(const QString &, ISettingsAccessor *, const QVariant & = {}) {}
 };
 
 // ------------- Generic Implementation -------------
@@ -312,19 +312,19 @@ void SettingsEntry<T>::setup(QString key, ISettingsAccessor *accessor, QVariant 
 // ------------- Generic Implementation ListEntry -------------
 
 template<typename TType>
-bool SettingsEntry<QList<TType>>::isSet() const
+bool SettingsListEntry<TType>::isSet() const
 {
 	return _accessor->contains(_key + QStringLiteral("/size"));
 }
 
 template<typename TType>
-QString SettingsEntry<QList<TType>>::key() const
+QString SettingsListEntry<TType>::key() const
 {
 	return _key;
 }
 
 template<typename TType>
-QList<TType> SettingsEntry<QList<TType>>::get() const
+QList<TType> SettingsListEntry<TType>::get() const
 {
 	auto mSize = size();
 	QList<TType> resList;
@@ -335,14 +335,14 @@ QList<TType> SettingsEntry<QList<TType>>::get() const
 }
 
 template<typename TType>
-void SettingsEntry<QList<TType>>::set(const QList<TType> &value)
+void SettingsListEntry<TType>::set(const QList<TType> &value)
 {
 	reset(false);
 	push(value);
 }
 
 template<typename TType>
-void SettingsEntry<QList<TType>>::reset(bool reInit)
+void SettingsListEntry<TType>::reset(bool reInit)
 {
 	_accessor->remove(_key);
 	if(reInit && !_init.isEmpty())
@@ -350,44 +350,44 @@ void SettingsEntry<QList<TType>>::reset(bool reInit)
 }
 
 template<typename TType>
-SettingsEntry<QList<TType>> &SettingsEntry<QList<TType>>::operator=(const QList<TType> &value)
+SettingsListEntry<TType> &SettingsListEntry<TType>::operator=(const QList<TType> &value)
 {
 	set(value);
 	return *this;
 }
 
 template<typename TType>
-SettingsEntry<QList<TType>>::operator QList<TType>() const
+SettingsListEntry<TType>::operator QList<TType>() const
 {
 	return get();
 }
 
 template<typename TType>
-int SettingsEntry<QList<TType>>::size() const
+int SettingsListEntry<TType>::size() const
 {
 	return _accessor->load(_key + QStringLiteral("/size"), 0).toInt();
 }
 
 template<typename TType>
-TType SettingsEntry<QList<TType>>::getAt(int index) const
+TType SettingsListEntry<TType>::getAt(int index) const
 {
 	return _accessor->load(_key + QStringLiteral("/%1/value").arg(index), _default).template value<TType>();
 }
 
 template<typename TType>
-void SettingsEntry<QList<TType>>::setAt(int index, const TType &value)
+void SettingsListEntry<TType>::setAt(int index, const TType &value)
 {
 	_accessor->save(_key + QStringLiteral("/%1/value").arg(index), QVariant::fromValue(value));
 }
 
 template<typename TType>
-void SettingsEntry<QList<TType>>::push(const TType &value)
+void SettingsListEntry<TType>::push(const TType &value)
 {
 	push(QList<TType>{value});
 }
 
 template<typename TType>
-void SettingsEntry<QList<TType>>::push(const QList<TType> &values)
+void SettingsListEntry<TType>::push(const QList<TType> &values)
 {
 	auto cIndex = size();
 	for(const auto &value : values)
@@ -396,7 +396,7 @@ void SettingsEntry<QList<TType>>::push(const QList<TType> &values)
 }
 
 template<typename TType>
-TType QtMvvm::SettingsEntry<QList<TType>>::pop()
+TType QtMvvm::SettingsListEntry<TType>::pop()
 {
 	auto res = getAt(size() - 1);
 	chop(1);
@@ -404,7 +404,7 @@ TType QtMvvm::SettingsEntry<QList<TType>>::pop()
 }
 
 template<typename TType>
-void QtMvvm::SettingsEntry<QList<TType>>::chop(int count)
+void QtMvvm::SettingsListEntry<TType>::chop(int count)
 {
 	auto cSize = size();
 	auto nSize = qMax(size() - count, 0);
@@ -414,76 +414,76 @@ void QtMvvm::SettingsEntry<QList<TType>>::chop(int count)
 }
 
 template<typename TType>
-const typename SettingsEntry<QList<TType>>::ListElement SettingsEntry<QList<TType>>::operator[](int index) const
+const typename SettingsListEntry<TType>::ListElement SettingsListEntry<TType>::operator[](int index) const
 {
 	return ListElement{this, index};
 }
 
 
 template<typename TType>
-typename SettingsEntry<QList<TType>>::ListElement SettingsEntry<QList<TType>>::operator[](int index)
+typename SettingsListEntry<TType>::ListElement SettingsListEntry<TType>::operator[](int index)
 {
 	return ListElement{this, index};
 }
 
 template<typename TType>
-SettingsEntry<QList<TType>> &SettingsEntry<QList<TType>>::operator+=(const TType &value)
+SettingsListEntry<TType> &SettingsListEntry<TType>::operator+=(const TType &value)
 {
 	push(value);
 	return *this;
 }
 
 template<typename TType>
-SettingsEntry<QList<TType>> &SettingsEntry<QList<TType>>::operator+=(const QList<TType> &values)
+SettingsListEntry<TType> &SettingsListEntry<TType>::operator+=(const QList<TType> &values)
 {
 	push(values);
 	return *this;
 }
 
 template<typename TType>
-typename SettingsEntry<QList<TType>>::iterator SettingsEntry<QList<TType>>::begin()
+typename SettingsListEntry<TType>::iterator SettingsListEntry<TType>::begin()
 {
 	return iterator{this, 0};
 }
 
 template<typename TType>
-typename SettingsEntry<QList<TType>>::iterator QtMvvm::SettingsEntry<QList<TType>>::end()
+typename SettingsListEntry<TType>::iterator QtMvvm::SettingsListEntry<TType>::end()
 {
 	return iterator{this, size()};
 }
 
 template<typename TType>
-typename SettingsEntry<QList<TType>>::const_iterator SettingsEntry<QList<TType>>::begin() const
+typename SettingsListEntry<TType>::const_iterator SettingsListEntry<TType>::begin() const
 {
 	return constBegin();
 }
 
 template<typename TType>
-typename SettingsEntry<QList<TType>>::const_iterator SettingsEntry<QList<TType>>::end() const
+typename SettingsListEntry<TType>::const_iterator SettingsListEntry<TType>::end() const
 {
 	return constEnd();
 }
 
 template<typename TType>
-typename SettingsEntry<QList<TType>>::const_iterator SettingsEntry<QList<TType>>::constBegin() const
+typename SettingsListEntry<TType>::const_iterator SettingsListEntry<TType>::constBegin() const
 {
-	return const_iterator{const_cast<SettingsEntry<QList<TType>>*>(this), 0};
+	return const_iterator{const_cast<SettingsListEntry<TType>*>(this), 0};
 }
 
 template<typename TType>
-typename SettingsEntry<QList<TType>>::const_iterator SettingsEntry<QList<TType>>::constEnd() const
+typename SettingsListEntry<TType>::const_iterator SettingsListEntry<TType>::constEnd() const
 {
-	return const_iterator{const_cast<SettingsEntry<QList<TType>>*>(this), size()};
+	return const_iterator{const_cast<SettingsListEntry<TType>*>(this), size()};
 }
 
 template<typename TType>
-void SettingsEntry<QList<TType>>::addChangeCallback(const std::function<void (QList<TType>)> &callback)
+void SettingsListEntry<TType>::addChangeCallback(const std::function<void (QList<TType>)> &callback)
 {
 	addChangeCallback(_accessor, callback);
 }
 
 template<typename TType>
-void SettingsEntry<QList<TType>>::addChangeCallback(QObject *scope, const std::function<void (QList<TType>)> &callback)
+void SettingsListEntry<TType>::addChangeCallback(QObject *scope, const std::function<void (QList<TType>)> &callback)
 {
 	QObject::connect(_accessor, &ISettingsAccessor::entryChanged,
 					 scope, [this, callback](const QString &key, const QVariant &) {
@@ -498,13 +498,13 @@ void SettingsEntry<QList<TType>>::addChangeCallback(QObject *scope, const std::f
 }
 
 template<typename TType>
-void SettingsEntry<QList<TType>>::addChangeCallback(const std::function<void (int, TType)> &callback)
+void SettingsListEntry<TType>::addChangeCallback(const std::function<void (int, TType)> &callback)
 {
 	addChangeCallback(_accessor, callback);
 }
 
 template<typename TType>
-void SettingsEntry<QList<TType>>::addChangeCallback(QObject *scope, const std::function<void (int, TType)> &callback)
+void SettingsListEntry<TType>::addChangeCallback(QObject *scope, const std::function<void (int, TType)> &callback)
 {
 	QRegularExpression mKey {QStringLiteral("^%1\\/\\d+\\/value$").arg(QRegularExpression::escape(_key))};
 	mKey.optimize();
@@ -524,13 +524,13 @@ void SettingsEntry<QList<TType>>::addChangeCallback(QObject *scope, const std::f
 }
 
 template<typename TType>
-void SettingsEntry<QList<TType>>::addSizeChangeCallback(const std::function<void (int)> &callback)
+void SettingsListEntry<TType>::addSizeChangeCallback(const std::function<void (int)> &callback)
 {
 	addSizeChangeCallback(_accessor, callback);
 }
 
 template<typename TType>
-void SettingsEntry<QList<TType>>::addSizeChangeCallback(QObject *scope, const std::function<void (int)> &callback)
+void SettingsListEntry<TType>::addSizeChangeCallback(QObject *scope, const std::function<void (int)> &callback)
 {
 	QString mKey = _key + QStringLiteral("/size");
 	auto mInit = _init;
@@ -547,7 +547,7 @@ void SettingsEntry<QList<TType>>::addSizeChangeCallback(QObject *scope, const st
 }
 
 template<typename TType>
-void SettingsEntry<QList<TType>>::setup(QString key, ISettingsAccessor *accessor, QVariant defaultValue)
+void SettingsListEntry<TType>::setup(QString key, ISettingsAccessor *accessor, QVariant defaultValue)
 {
 	Q_ASSERT_X(accessor, Q_FUNC_INFO, "You must set a valid accessor before initializing the settings!");
 	_key = std::move(key);
@@ -556,7 +556,7 @@ void SettingsEntry<QList<TType>>::setup(QString key, ISettingsAccessor *accessor
 }
 
 template<typename TType>
-void QtMvvm::SettingsEntry<QList<TType> >::setupInit(QList<TType> init)
+void QtMvvm::SettingsListEntry<TType>::setupInit(QList<TType> init)
 {
 	_init = std::move(init);
 	if(!isSet())
