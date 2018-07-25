@@ -3,6 +3,7 @@
 
 #include "settingsgeneratorimpl.h"
 #include <tuple>
+#include <QSet>
 
 class QmlSettingsGenerator : public SettingsGeneratorImpl
 {
@@ -24,7 +25,9 @@ private:
 	QString _prefixName;
 	QHash<QString, QString> _typeMappings;
 
-	void writeHeader(const SettingsType &settings, const QString &inHdrPath);
+	QSet<int> _listTypes;
+
+	int writeHeader(const SettingsType &settings, const QString &inHdrPath);
 
 	void writeListTypeBaseClass();
 
@@ -46,9 +49,9 @@ private:
 	void writeEntryPropertySignalConnect(const EntryType &entry, QStringList keyList, int classIndex);
 	void writeListEntryPropertySignalConnect(const ListEntryType &entry, QStringList keyList, QList<int> &listEntries);
 
-	void writeSource(const SettingsType &settings);
+	void writeSource(const SettingsType &settings, int typeNum);
 
-	void writeQmlRegistration(const SettingsType &settings);
+	void writeQmlRegistration(QmlRegistrationMode mode, int typeNum);
 };
 
 #endif // QMLSETTINGSGENERATOR_H

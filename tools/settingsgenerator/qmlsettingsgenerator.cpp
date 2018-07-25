@@ -14,26 +14,27 @@ void QmlSettingsGenerator::process(const QString &inPath)
 	auto settings = readDocument(inPath);
 	if(!settings.name)
 		settings.name = QFileInfo{inPath}.baseName();
-	_cppName = settings.name.value();
-	settings.name.value().prepend(QStringLiteral("QMLTYPE_"));
 	fixTrContext(settings, QFileInfo{inPath}.fileName());
 
-	_name = settings.name.value();
+	_cppName = settings.name.value();
+	_name = QStringLiteral("QMLTYPE_") + _cppName;
 	_prefixName = settings.prefix ? settings.prefix.value() + QLatin1Char(' ') + _name : _name;
 	_typeMappings = settings.typeMappings;
 
 	if(!_hdrFile.open(QIODevice::WriteOnly | QIODevice::Text))
 		throw FileException{_hdrFile};
-	writeHeader(settings, QFileInfo{inPath}.completeBaseName() + QStringLiteral(".h"));
+	_listTypes.clear();
+	auto typeNum = writeHeader(settings, QFileInfo{inPath}.completeBaseName() + QStringLiteral(".h"));
 	_hdrFile.close();
 
 	if(!_srcFile.open(QIODevice::WriteOnly | QIODevice::Text))
 		throw FileException{_srcFile};
-	writeSource(settings);
+	writeSource(settings, typeNum);
+	_listTypes.clear();
 	_srcFile.close();
 }
 
-void QmlSettingsGenerator::writeHeader(const SettingsType &settings, const QString &inHdrPath)
+int QmlSettingsGenerator::writeHeader(const SettingsType &settings, const QString &inHdrPath)
 {
 	QString incGuard = QFileInfo{_hdrFile.fileName()}
 					   .completeBaseName()
@@ -67,7 +68,7 @@ void QmlSettingsGenerator::writeHeader(const SettingsType &settings, const QStri
 	std::tie(offset, childOffsets) = writeNodeContentClasses(settings, keyList);
 
 	// create the class
-	_hdr << "class " << _name << " : public QObject\n"
+	_hdr << "class " << (settings.prefix ? settings.prefix.value() + QLatin1Char(' ') : QString{}) << _name << " : public QObject\n"
 		 << "{\n"
 		 << "\tQ_OBJECT\n\n"
 		 << "\tQ_PROPERTY(QtMvvm::ISettingsAccessor *accessor READ accessor CONSTANT FINAL)\n\n";
@@ -90,11 +91,13 @@ void QmlSettingsGenerator::writeHeader(const SettingsType &settings, const QStri
 		 << "\t{}\n\n"
 		 << "\tQtMvvm::ISettingsAccessor *accessor() const { return _settings->accessor(); }\n"
 		 << "\t" << _cppName << " *settings() const { return _settings; }\n\n"
-		 << "\t" << (settings.prefix ? settings.prefix.value() + QLatin1Char(' ') : QString{}) << "static void registerQmlTypes(const char *uri, int major, int minor);\n";
+		 << "\tstatic void registerQmlTypes(const char *uri, int major, int minor);\n";
 	if(settings.qml)
-		_hdr << "\t" << (settings.prefix ? settings.prefix.value() + QLatin1Char(' ') : QString{}) << "static void registerQmlTypes();\n";
+		_hdr << "\tstatic void registerQmlTypes();\n";
 	_hdr << "};\n\n"
 		 << "#endif //" << incGuard << '\n';
+
+	return offset;
 }
 
 void QmlSettingsGenerator::writeListTypeBaseClass()
@@ -143,7 +146,9 @@ void QmlSettingsGenerator::writeListTypeBaseClass()
 		 << "\t\telement->_entry = &data->entry;\n"
 		 << "\t\tdata->elements.append(element);\n"
 		 << "\t\tif(copyDefault)\n"
-		 << "\t\t\telement->setValue(T{std::move(element->_buffer)});\n"
+		 << "\t\t\tdata->entry.push(T{std::move(element->_buffer)});\n"
+		 << "\t\telse\n"
+		 << "\t\t\tdata->entry.push(T{});\n"
 		 << "\t\tdata->entry.addChangeCallback(element, [maxIndex, element](int i, const T &d) {\n"
 		 << "\t\t\tif(i == maxIndex)\n"
 		 << "\t\t\t\temit element->valueChanged(d);\n"
@@ -248,6 +253,11 @@ int QmlSettingsGenerator::writeListEntryElementClass(const ListEntryType &entry,
 		 << "\texplicit " << _name << "_" << offset << "(QObject *parent = nullptr) : \n"
 		 << "\t\t" << _name << "_ListType{parent}\n"
 		 << "\t{}\n\n"
+		 << "\texplicit " << _name << "_" << offset << "(const " << mType << " &value, QObject *parent = nullptr) : \n"
+		 << "\t\t" << _name << "_" << offset << "{parent}\n"
+		 << "\t{\n"
+		 << "\t\tsetValue(value);\n"
+		 << "\t}\n\n"
 		 << "Q_SIGNALS:\n"
 		 << "\tvoid valueChanged(const " << mType << " &value);\n"
 		 << "};\n\n";
@@ -266,6 +276,7 @@ void QmlSettingsGenerator::writeProperties(const NodeContentGroup &node, const Q
 			auto lIndex = childOffsets.takeFirst(); //done seperately because of undefine param call order
 			writeListEntryProperty(nonstd::get<ListEntryType>(cNode), keyList, lIndex, childOffsets.takeFirst(), childConstructs);
 			listEntries.append(lIndex);
+			_listTypes.insert(lIndex);
 		} else if(nonstd::holds_alternative<NodeContentGroup>(cNode))
 			writeProperties(nonstd::get<NodeContentGroup>(cNode), keyList, childOffsets, listEntries, childConstructs);
 		else
@@ -317,7 +328,12 @@ void QmlSettingsGenerator::writeListEntryProperty(const ListEntryType &entry, QS
 		 << "\t\t\t&" << _name << "_" << listIndex << "::at<" << _name << "_" << listIndex << ">,\n"
 		 << "\t\t\t&" << _name << "_" << listIndex << "::clear<" << _name << "_" << listIndex << ">\n"
 		 << "\t\t};\n"
-		 << "\t}\n\n";
+		 << "\t}\n"
+		 << "public:\n"
+		 << "\tQ_INVOKABLE " << _name << "_" << listIndex << " *create_" << entry.key << "_element(const " << _typeMappings.value(entry.type, entry.type) << " &value) {\n"
+		 << "\t\treturn new " << _name << "_" << listIndex << "{value, this};\n"
+		 << "\t}\n"
+		 << "private:\n\n";
 
 	childConstructs.append({entry.key, -1});
 
@@ -370,27 +386,71 @@ void QmlSettingsGenerator::writeListEntryPropertySignalConnect(const SettingsGen
 	_hdr << "\t\t_settings->" << keyList.join(QLatin1Char('.'))
 		 << ".addSizeChangeCallback(this, std::bind(&"
 		 << _name << "_" << classIndex << "::adjust<" << _name << "_" << classIndex
-		 << ">, &_" << entry.key << ", this, std::placeholders::_1));\n";
+		 << ">, &_" << entry.key << ", this, std::placeholders::_1));\n"
+		 << "\t\t"<< _name << "_" << classIndex << "::adjust<" << _name << "_" << classIndex
+		 << ">(&_" << entry.key << ", this, _settings->" << keyList.join(QLatin1Char('.')) << ".size());\n";
 }
 
-void QmlSettingsGenerator::writeSource(const SettingsType &settings)
+void QmlSettingsGenerator::writeSource(const SettingsType &settings, int typeNum)
 {
-	_src << "#include \"" << _hdrFile.fileName() << "\"\n\n";
+	_src << "#include \"" << _hdrFile.fileName() << "\"\n"
+		 << "#include <QtCore/QCoreApplication>\n"
+		 << "#include <QtQml/QQmlEngine>\n\n";
 
-	writeQmlRegistration(settings);
+	writeQmlRegistration(settings.qml ? settings.qml.value().type : Singleton, typeNum);
 
 	if(settings.qml) {
 		const auto &qml = settings.qml.value();
-		_src << "\nvoid " << _name << "::registerQmlTypes()\n"
+		_src << "void " << _name << "::registerQmlTypes()\n"
 			 << "{\n"
 			 << "\tregisterQmlTypes(\"" << qml.uri << "\", " << qml.major << ", " << qml.minor << ");\n"
 			 << "}\n";
+
+		if(qml.autoRegister) {
+			_src << "\nnamespace {\n\n"
+				 << "void __register_qml_types()\n"
+				 << "{\n"
+				 << "\t" << _name << "::registerQmlTypes();\n"
+				 << "}\n\n"
+				 << "}\n"
+				 << "Q_COREAPP_STARTUP_FUNCTION(__register_qml_types)\n";
+		}
 	}
 }
 
-void QmlSettingsGenerator::writeQmlRegistration(const SettingsType &settings)
+void QmlSettingsGenerator::writeQmlRegistration(QmlRegistrationMode mode, int typeNum)
 {
-	_src << "\nvoid " << _name << "::registerQmlTypes(const char *uri, int major, int minor)\n"
+	if(mode == Singleton) {
+		_src << "namespace {\n\n"
+			 << "QObject *__create_qml_singleton(QQmlEngine *qmlEngine, QJSEngine *)\n"
+			 << "{\n"
+			 << "\treturn new " << _name << "{qmlEngine};\n"
+			 << "}\n\n"
+			 << "}\n\n";
+	}
+
+	_src << "void " << _name << "::registerQmlTypes(const char *uri, int major, int minor)\n"
 		 << "{\n"
-		 << "}\n";
+		 << "\tconst QString msg{QStringLiteral(\"Settings-Helpertypes cannot be created\")};\n\n";
+	for(auto i = 0; i < typeNum; i++) {
+		if(_listTypes.contains(i))
+			_src << "\tqmlRegisterType<" << _name << "_" << i << ">(uri, major, minor, \"" << _cppName << "_ListElement_" << i << "\");\n";
+		else
+			_src << "\tqmlRegisterUncreatableType<" << _name << "_" << i << ">(uri, major, minor, \"" << _name << "_" << i << "\", msg);\n";
+	}
+	switch(mode) {
+	case Singleton:
+		_src << "\n\tqmlRegisterSingletonType<" << _name << ">(uri, major, minor, \"" << _cppName << "\", __create_qml_singleton);\n";
+		break;
+	case Uncreatable:
+		_src << "\n\tqmlRegisterUncreatableType<" << _name << ">(uri, major, minor, \"" << _cppName << "\", msg);\n";
+		break;
+	case Creatable:
+		_src << "\n\tqmlRegisterType<" << _name << ">(uri, major, minor, \"" << _cppName << "\");\n";
+		break;
+	default:
+		Q_UNREACHABLE();
+		break;
+	}
+	_src << "}\n\n";
 }

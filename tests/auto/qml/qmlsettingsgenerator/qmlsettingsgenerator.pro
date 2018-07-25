@@ -6,8 +6,12 @@ CONFIG -= app_bundle
 
 TARGET = tst_qmlsettingsgenerator
 
+HEADERS += \
+	testbackend.h
+
 SOURCES += \
-	tst_qmlsettingsgenerator.cpp
+	tst_qmlsettingsgenerator.cpp \
+	testbackend.cpp
 
 QML_SETTINGS_DEFINITIONS += \
 	generatortest.xml

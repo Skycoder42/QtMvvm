@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Settings name="TestSettings">
+<Settings name="TestSettings"
+		  prefix="SOME_EXPORT">
 	<Include>QtCore/QDateTime</Include>
 	<Include local="false">QtCore/QUrl</Include>
+	<Include local="true">testbackend.h</Include>
+
+	<Backend class="TestBackend"/>
 
 	<Qml uri="de.skycoder42.QtMvvm.Core.test"
 		 major="4"
