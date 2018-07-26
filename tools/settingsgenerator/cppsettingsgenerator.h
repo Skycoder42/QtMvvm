@@ -18,16 +18,24 @@ private:
 	QTextStream _hdr;
 	QTextStream _src;
 
+	QHash<QString, QString> _typeMappings;
+
 	void writeHeader(const SettingsType &settings);
-	void writeNodeElementDeclarations(const NodeContentGroup &node, const QHash<QString, QString> &typeMappings, int intendent = 1);
-	void writeNodeDeclaration(const NodeType &node, const QHash<QString, QString> &typeMappings, int intendent = 1);
-	void writeEntryDeclaration(const EntryType &entry, const QHash<QString, QString> &typeMappings, int intendent = 1);
-	void writeListEntryDeclaration(const ListEntryType &entry, const QHash<QString, QString> &typeMappings, int intendent = 1);
+	void writeNodeElementDeclarations(const NodeContentGroup &node, int intendent = 1);
+	void writeNodeDeclaration(const NodeType &node, int intendent = 1);
+	void writeEntryDeclaration(const EntryType &entry, int intendent = 1);
+	void writeListNodeDeclaration(const ListNodeType &node, int intendent = 1);
 
 	void writeSource(const SettingsType &settings);
-	void writeNodeElementDefinitions(const NodeContentGroup &node, const QHash<QString, QString> &typeMappings, const optional<QString> &baseKey, const QStringList &keyChain = {});
-	void writeEntryDefinition(const EntryType &entry, const QHash<QString, QString> &typeMappings, const optional<QString> &baseKey, QStringList keyChain, bool skipChildren = false);
-	void writeListEntryDefinition(const ListEntryType &entry, const QHash<QString, QString> &typeMappings, const optional<QString> &baseKey, QStringList keyChain);
+	void writeNodeElementDefinitions(const NodeContentGroup &node,
+									 const QStringList &keyChain,
+									 const QStringList &entryChain = {},
+									 int intendent = 1,
+									 const QStringList &listTypeChain = {});
+	void writeEntryDefinition(const EntryType &entry, QStringList keyChain, QStringList entryChain, int intendent, const QStringList &listTypeChain);
+	void writeListNodeDefinition(const ListNodeType &node, QStringList keyChain, QStringList entryChain, int intendent, QStringList listTypeChain);
+
+	QString concatKeys(const QStringList &keyChain, int intendet) const;
 };
 
 #endif // CPPSETTINGSGENERATOR_H

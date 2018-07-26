@@ -1,4 +1,5 @@
 #include "testbackend.h"
+#include <QDebug>
 
 TestBackend::TestBackend(QString name, int code, QObject *parent) :
 	ISettingsAccessor{parent},
@@ -26,8 +27,9 @@ void TestBackend::remove(const QString &key)
 {
 	for(auto it = _data.begin(); it != _data.end();) {
 		if(it.key().startsWith(key + QLatin1Char('/'))) {
+			auto rmKey = it.key();
 			it = _data.erase(it);
-			emit entryRemoved(key);
+			emit entryRemoved(rmKey);
 		} else
 			++it;
 	}

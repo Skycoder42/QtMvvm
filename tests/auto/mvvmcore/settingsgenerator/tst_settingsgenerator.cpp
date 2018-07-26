@@ -41,8 +41,7 @@ void SettingsGeneratorTest::testSettingsGenerator()
 	QCOMPARE(settings->parentNode.parentEntry.leafEntry.key(), QStringLiteral("tests/parentNode/parentEntry/leafEntry"));
 	QCOMPARE(settings->variantEntry.key(), QStringLiteral("tests/variantEntry"));
 	QCOMPARE(settings->simpleListEntry.key(), QStringLiteral("tests/simpleListEntry"));
-	QCOMPARE(settings->listEntry.key(), QStringLiteral("tests/listEntry"));
-	QCOMPARE(settings->listEntry.dummyChild.key(), QStringLiteral("tests/listEntry/dummyChild"));
+	QCOMPARE(settings->listNode.key(), QStringLiteral("tests/listNode"));
 
 	//verify defaults
 	QCOMPARE(settings->emptyEntry.get(), false);
@@ -54,9 +53,6 @@ void SettingsGeneratorTest::testSettingsGenerator()
 	QCOMPARE(settings->parentNode.parentEntry.leafEntry.get(), QStringLiteral("translate me"));
 	QCOMPARE(settings->variantEntry.get(), QVariant{});
 	QCOMPARE(settings->simpleListEntry.get(), QList<int>{42});
-	QByteArrayList iList{"test1", "test2", "test3"};
-	QCOMPARE(settings->listEntry.get(), iList);
-	QCOMPARE(settings->listEntry.dummyChild.get(), false);
 
 	//verify read/write (just on a single entry, they work all the same)
 	auto tKey = QStringLiteral("tests/advancedEntry");
@@ -74,44 +70,79 @@ void SettingsGeneratorTest::testSettingsGenerator()
 	QCOMPARE(settings->advancedEntry, tValue);
 
 	//verify list stuff
-	QVERIFY(settings->listEntry.isSet());
-	QCOMPARE(settings->listEntry.size(), 3);
-	QCOMPARE(settings->listEntry.getAt(0), "test1");
-	QCOMPARE(settings->listEntry[1].get(), "test2");
-	QCOMPARE(static_cast<QByteArray>(settings->listEntry[2]), "test3");
-	QCOMPARE(settings->listEntry.getAt(3), "Hello World");
+	QVERIFY(!settings->listNode.isSet());
+	QCOMPARE(settings->listNode.size(), 0);
+	settings->listNode.push();
+	QVERIFY(settings->listNode.isSet());
+	QCOMPARE(settings->listNode.size(), 1);
 
-	settings->listEntry.push("baum");
-	QCOMPARE(settings->listEntry.size(), 4);
-	QCOMPARE(settings->listEntry.getAt(3), "baum");
-	settings->listEntry.setAt(1, "tree");
-	settings->listEntry[2] = "eetr";
-	QCOMPARE(settings->listEntry.size(), 4);
-	QCOMPARE(settings->listEntry.getAt(1), "tree");
-	QCOMPARE(settings->listEntry.getAt(2), "eetr");
-	settings->listEntry += "baum42";
-	QCOMPARE(settings->listEntry.size(), 5);
-	QCOMPARE(settings->listEntry.getAt(4), "baum42");
-	QCOMPARE(settings->listEntry.pop(), "baum42");
-	QCOMPARE(settings->listEntry.size(), 4);
-	QCOMPARE(settings->listEntry.getAt(4), "Hello World");
-	settings->listEntry.chop(10);
-	QCOMPARE(settings->listEntry.size(), 0);
-	QVERIFY(settings->listEntry.isSet());
+	QCOMPARE(settings->listNode.at(0).simpleChild.key(), QStringLiteral("tests/listNode/0/simpleChild"));
+	QCOMPARE(settings->listNode[0].someNode.deepChild.key(), QStringLiteral("tests/listNode/0/someNode/deepChild"));
+	QCOMPARE(settings->listNode[0].someNode.deepParent.key(), QStringLiteral("tests/listNode/0/someNode/deepParent"));
+	QCOMPARE(settings->listNode[0].someNode.deepParent.simpleChild.key(), QStringLiteral("tests/listNode/0/someNode/deepParent/simpleChild"));
+	QCOMPARE(settings->listNode[0].childList.key(), QStringLiteral("tests/listNode/0/childList"));
 
-	settings->listEntry.reset(false);
-	QVERIFY(!settings->listEntry.isSet());
-	QCOMPARE(settings->listEntry.size(), 0);
-	settings->listEntry.reset(true);
-	QVERIFY(settings->listEntry.isSet());
-	QCOMPARE(settings->listEntry.size(), 3);
+	QCOMPARE(settings->listNode.at(0).simpleChild, false);
+	QCOMPARE(settings->listNode[0].someNode.deepChild, 22);
+	QCOMPARE(settings->listNode[0].someNode.deepParent, QStringLiteral("___"));
+	QCOMPARE(settings->listNode[0].someNode.deepParent.simpleChild, true);
+	QVERIFY(!settings->listNode[0].childList.isSet());
+	QCOMPARE(settings->listNode[0].childList.size(), 0);
 
-	for(const auto &elem : qAsConst(settings->listEntry))
-		qDebug() << elem.get() << static_cast<QByteArray>(elem);
-	for(auto &elem : settings->listEntry) {
-		elem = "test1";
-		elem.set("test2");
+	int resVal = -1;
+	settings->listNode[0].someNode.deepChild.addChangeCallback([&](int val){
+		resVal = val;
+	});
+	settings->listNode[0].someNode.deepChild = 47;
+	QCOMPARE(resVal, 47);
+	resVal = -1;
+
+	{
+		auto &newEntry = settings->listNode.push();
+		QCOMPARE(settings->listNode.size(), 2);
+		QCOMPARE(newEntry.simpleChild, false);
+		QCOMPARE(settings->listNode[1].simpleChild.key(), QStringLiteral("tests/listNode/1/simpleChild"));
+		QCOMPARE(settings->listNode[1].simpleChild, false);
+		newEntry.simpleChild = true;
+		QCOMPARE(newEntry.simpleChild, true);
+		QCOMPARE(settings->listNode[1].simpleChild, true);
+		QCOMPARE(settings->listNode[0].simpleChild, false);
 	}
+
+	{
+		auto newEntry = settings->listNode.push_deferred();
+		QCOMPARE(settings->listNode.size(), 2);
+		QCOMPARE(newEntry.element().someNode.deepChild, 22);
+		QCOMPARE(settings->listNode[2].simpleChild.key(), QStringLiteral("tests/listNode/2/simpleChild"));
+		QCOMPARE(settings->listNode[2].someNode.deepChild, 22);
+		newEntry->someNode.deepChild = 44;
+		QCOMPARE((*newEntry).someNode.deepChild, 44);
+		QCOMPARE(settings->listNode[2].someNode.deepChild, 44);
+		QCOMPARE(settings->listNode.size(), 2);
+	}
+	QCOMPARE(settings->listNode.size(), 3);
+	QCOMPARE(resVal, -1); //should be unchanged
+
+	for(const auto &elem : qAsConst(settings->listNode))
+		qDebug() << elem.simpleChild.get();
+	for(auto &elem : settings->listNode)
+		elem.simpleChild = true;
+
+	auto sizeChanged = false;
+	settings->listNode.addChangeCallback([&](int size) {
+		sizeChanged = (size == 1);
+	});
+
+	settings->listNode.pop(2);
+	QVERIFY(sizeChanged);
+	QCOMPARE(settings->listNode.size(), 1);
+	QCOMPARE(settings->listNode[1].simpleChild, false);
+	QCOMPARE(settings->listNode[2].someNode.deepChild, 22);
+
+	settings->listNode.reset();
+	QVERIFY(!settings->listNode.isSet());
+	QCOMPARE(settings->listNode.size(), 0);
+	QCOMPARE(resVal, 22); //should be resetted
 }
 
 void SettingsGeneratorTest::testImportedSettings()

@@ -62,15 +62,25 @@
 		<Code>{42}</Code>
 	</Entry>
 
-	<ListEntry key="listEntry"
-			   type="QByteArray">
-		<Entry key="dummyChild"
+	<ListNode key="listNode">
+		<Entry key="simpleChild"
 			   type="bool"/>
-		<Code>&quot;Hello World&quot;</Code>
-		<Init> {
-			&quot;test1&quot;,
-			&quot;test2&quot;,
-			&quot;test3&quot;
-		} </Init>
-	</ListEntry>
+		<Node key="someNode">
+			<Entry key="deepChild"
+				   type="int"
+				   default="22"/>
+			<Entry key="deepParent"
+				   type="QString"
+				   default="___">
+				<Entry key="simpleChild"
+					   type="bool"
+					   default="true"/>
+			</Entry>
+		</Node>
+		<ListNode key="childList">
+			<Entry key="valueEntry"
+				   type="double"
+				   default="4.2"/>
+		</ListNode>
+	</ListNode>
 </Settings>

@@ -18,6 +18,8 @@ void CppSettingsGenerator::process(const QString &inPath)
 		settings.name = QFileInfo{inPath}.baseName();
 	fixTrContext(settings, QFileInfo{inPath}.fileName());
 
+	_typeMappings = settings.typeMappings;
+
 	if(!_hdrFile.open(QIODevice::WriteOnly | QIODevice::Text))
 		throw FileException{_hdrFile};
 	writeHeader(settings);
@@ -63,7 +65,7 @@ void CppSettingsGenerator::writeHeader(const SettingsType &settings)
 		 << "\tstatic " << settings.name.value() << " *instance();\n\n"
 		 << "\tQtMvvm::ISettingsAccessor *accessor() const;\n\n";
 
-	writeNodeElementDeclarations(settings, settings.typeMappings);
+	writeNodeElementDeclarations(settings);
 
 	_hdr << "\nprivate:\n"
 		 << "\tQtMvvm::ISettingsAccessor *_accessor;\n"
@@ -71,55 +73,48 @@ void CppSettingsGenerator::writeHeader(const SettingsType &settings)
 		 << "#endif //" << incGuard << '\n';
 }
 
-void CppSettingsGenerator::writeNodeElementDeclarations(const NodeContentGroup &node, const QHash<QString, QString> &typeMappings, int intendent)
+void CppSettingsGenerator::writeNodeElementDeclarations(const NodeContentGroup &node, int intendent)
 {
 	for(const auto &cNode : node.contentNodes) {
 		if(nonstd::holds_alternative<NodeType>(cNode))
-			writeNodeDeclaration(nonstd::get<NodeType>(cNode), typeMappings, intendent);
+			writeNodeDeclaration(nonstd::get<NodeType>(cNode), intendent);
 		else if(nonstd::holds_alternative<EntryType>(cNode))
-			writeEntryDeclaration(nonstd::get<EntryType>(cNode), typeMappings, intendent);
-		else if(nonstd::holds_alternative<ListEntryType>(cNode))
-			writeListEntryDeclaration(nonstd::get<ListEntryType>(cNode), typeMappings, intendent);
+			writeEntryDeclaration(nonstd::get<EntryType>(cNode), intendent);
+		else if(nonstd::holds_alternative<ListNodeType>(cNode))
+			writeListNodeDeclaration(nonstd::get<ListNodeType>(cNode), intendent);
 		else if(nonstd::holds_alternative<NodeContentGroup>(cNode))
-			writeNodeElementDeclarations(nonstd::get<NodeContentGroup>(cNode), typeMappings, intendent);
+			writeNodeElementDeclarations(nonstd::get<NodeContentGroup>(cNode), intendent);
 		else
 			Q_UNREACHABLE();
 	}
 }
 
-void CppSettingsGenerator::writeNodeDeclaration(const NodeType &node, const QHash<QString, QString> &typeMappings, int intendent)
+void CppSettingsGenerator::writeNodeDeclaration(const NodeType &node, int intendent)
 {
 	_hdr << TABS << "struct { //" << node.key << "\n";
-	writeNodeElementDeclarations(node, typeMappings, intendent + 1);
+	writeNodeElementDeclarations(node, intendent + 1);
 	_hdr << TABS << "} " << node.key << ";\n";
 }
 
-void CppSettingsGenerator::writeEntryDeclaration(const EntryType &entry, const QHash<QString, QString> &typeMappings, int intendent)
+void CppSettingsGenerator::writeEntryDeclaration(const EntryType &entry, int intendent)
 {
 	if(entry.contentNodes.isEmpty())
-		_hdr << TABS << "QtMvvm::SettingsEntry<" << typeMappings.value(entry.type, entry.type) << "> " << entry.key << ";\n";
+		_hdr << TABS << "QtMvvm::SettingsEntry<" << _typeMappings.value(entry.type, entry.type) << "> " << entry.key << ";\n";
 	else {
-		const auto &mType = typeMappings.value(entry.type, entry.type);
+		const auto &mType = _typeMappings.value(entry.type, entry.type);
 		_hdr << TABS << "struct : QtMvvm::SettingsEntry<" << mType << "> { //" << entry.key << "\n";
-		writeNodeElementDeclarations(entry, typeMappings, intendent + 1);
+		writeNodeElementDeclarations(entry, intendent + 1);
 		_hdr << TABS << "\tinline auto &operator=(const " << mType << " &__value) { SettingsEntry<" << mType << ">::operator=(__value); return *this; }\n";
 		_hdr << TABS << "} " << entry.key << ";\n";
 	}
 }
 
-void CppSettingsGenerator::writeListEntryDeclaration(const SettingsGeneratorBase::ListEntryType &entry, const QHash<QString, QString> &typeMappings, int intendent)
+void CppSettingsGenerator::writeListNodeDeclaration(const ListNodeType &node, int intendent)
 {
-	if(entry.contentNodes.isEmpty())
-		_hdr << TABS << "QtMvvm::SettingsListEntry<" << typeMappings.value(entry.type, entry.type) << "> " << entry.key << ";\n";
-	else {
-		const QString mType = typeMappings.value(entry.type, entry.type);
-		_hdr << TABS << "struct : QtMvvm::SettingsListEntry<" << mType << "> { //" << entry.key << "\n";
-		writeNodeElementDeclarations(entry, typeMappings, intendent + 1);
-		_hdr << TABS << "\tinline auto &operator=(const QList<" << mType << "> &__value) { SettingsListEntry<" << mType << ">::operator=(__value); return *this; }\n";
-		_hdr << TABS << "\tinline auto &operator+=(const QList<" << mType << "> &__value) { SettingsListEntry<" << mType << ">::operator+=(__value); return *this; }\n";
-		_hdr << TABS << "\tinline auto &operator+=(const " << mType << " &__value) { SettingsListEntry<" << mType << ">::operator+=(__value); return *this; }\n";
-		_hdr << TABS << "} " << entry.key << ";\n";
-	}
+	_hdr << TABS << "struct " << node.key << "_element {\n";
+	writeNodeElementDeclarations(node, intendent + 1);
+	_hdr << TABS << "};\n";
+	_hdr << TABS << "QtMvvm::SettingsListNode<" << node.key << "_element> " << node.key << ";\n";
 }
 
 void CppSettingsGenerator::writeSource(const SettingsType &settings)
@@ -188,7 +183,7 @@ void CppSettingsGenerator::writeSource(const SettingsType &settings)
 		 << "\tQObject{parent},\n"
 		 << "\t_accessor{accessor}\n"
 		 << "{\n";
-	writeNodeElementDefinitions(settings, settings.typeMappings, settings.baseKey);
+	writeNodeElementDefinitions(settings, settings.baseKey ? QStringList{settings.baseKey.value()} : QStringList{});
 	_src << "}\n\n";
 
 	_src << settings.name.value() << " *" << settings.name.value() << "::instance()\n"
@@ -202,50 +197,62 @@ void CppSettingsGenerator::writeSource(const SettingsType &settings)
 		 << "}\n\n";
 }
 
-void CppSettingsGenerator::writeNodeElementDefinitions(const SettingsGeneratorBase::NodeContentGroup &node, const QHash<QString, QString> &typeMappings, const optional<QString> &baseKey, const QStringList &keyChain)
+void CppSettingsGenerator::writeNodeElementDefinitions(const SettingsGeneratorBase::NodeContentGroup &node, const QStringList &keyChain, const QStringList &entryChain, int intendent, const QStringList &listTypeChain)
 {
 	for(const auto &cNode : node.contentNodes) {
 		if(nonstd::holds_alternative<NodeType>(cNode)) {
 			const auto &xNode = nonstd::get<NodeType>(cNode);
-			writeNodeElementDefinitions(xNode, typeMappings, baseKey, QStringList{keyChain} << xNode.key);
+			writeNodeElementDefinitions(xNode, QStringList{keyChain} << xNode.key, QStringList{entryChain} << xNode.key, intendent, listTypeChain);
 		} else if(nonstd::holds_alternative<EntryType>(cNode))
-			writeEntryDefinition(nonstd::get<EntryType>(cNode), typeMappings, baseKey, keyChain);
-		else if(nonstd::holds_alternative<ListEntryType>(cNode))
-			writeListEntryDefinition(nonstd::get<ListEntryType>(cNode), typeMappings, baseKey, keyChain);
+			writeEntryDefinition(nonstd::get<EntryType>(cNode), keyChain, entryChain, intendent, listTypeChain);
+		else if(nonstd::holds_alternative<ListNodeType>(cNode))
+			writeListNodeDefinition(nonstd::get<ListNodeType>(cNode), keyChain, entryChain, intendent, listTypeChain);
 		else if(nonstd::holds_alternative<NodeContentGroup>(cNode))
-			writeNodeElementDefinitions(nonstd::get<NodeContentGroup>(cNode), typeMappings, baseKey, keyChain);
+			writeNodeElementDefinitions(nonstd::get<NodeContentGroup>(cNode), keyChain, entryChain, intendent, listTypeChain);
 		else
 			Q_UNREACHABLE();
 	}
 }
 
-void CppSettingsGenerator::writeEntryDefinition(const SettingsGeneratorBase::EntryType &entry, const QHash<QString, QString> &typeMappings, const optional<QString> &baseKey, QStringList keyChain, bool skipChildren)
+void CppSettingsGenerator::writeEntryDefinition(const SettingsGeneratorBase::EntryType &entry, QStringList keyChain, QStringList entryChain, int intendent, const QStringList &listTypeChain)
 {
+	entryChain.append(entry.key);
 	keyChain.append(entry.key);
-	_src << "\t" << keyChain.join(QLatin1Char('.'))
-		 << ".setup(QStringLiteral(\"" << (baseKey ? QStringList{baseKey.value()} + keyChain : keyChain).join(QLatin1Char('/')) << "\"), _accessor";
+	_src << TABS << entryChain.join(QLatin1Char('.'))
+		 << ".setup(" << concatKeys(keyChain, intendent) << ", _accessor";
 	if(entry.code)
-		_src << ", QVariant::fromValue<" << typeMappings.value(entry.type, entry.type) << ">(" << entry.code.value().trimmed() << ")";
+		_src << ", QVariant::fromValue<" << _typeMappings.value(entry.type, entry.type) << ">(" << entry.code.value().trimmed() << ")";
 	else if(entry.defaultValue) {
 		_src << ", QVariant{";
 		if(entry.tr)
 			_src << "QCoreApplication::translate(\"" << entry.trContext.value() << "\", \"" << entry.defaultValue.value() << "\")";
 		else
 			_src << "QStringLiteral(\"" << entry.defaultValue.value() << "\")";
-		_src << "}.value<" << typeMappings.value(entry.type, entry.type) << ">()";
+		_src << "}.value<" << _typeMappings.value(entry.type, entry.type) << ">()";
 	}
 	_src << ");\n";
-	if(!skipChildren)
-		writeNodeElementDefinitions(entry, typeMappings, baseKey, keyChain);
+	writeNodeElementDefinitions(entry, keyChain, entryChain, intendent, listTypeChain);
 }
 
-void CppSettingsGenerator::writeListEntryDefinition(const SettingsGeneratorBase::ListEntryType &entry, const QHash<QString, QString> &typeMappings, const optional<QString> &baseKey, QStringList keyChain)
+void CppSettingsGenerator::writeListNodeDefinition(const ListNodeType &node, QStringList keyChain, QStringList entryChain, int intendent, QStringList listTypeChain)
 {
-	writeEntryDefinition(entry, typeMappings, baseKey, keyChain, entry.init.has_value());
-	if(entry.init) {
-		keyChain.append(entry.key);
-		_src << "\t" << keyChain.join(QLatin1Char('.')) << ".setupInit(" << entry.init.value().trimmed() << ");\n";
-		writeNodeElementDefinitions(entry, typeMappings, baseKey, keyChain);
-	}
+	keyChain.append(node.key);
+	entryChain.append(node.key);
+	listTypeChain.append(node.key + QStringLiteral("_element"));
+	_src << TABS << entryChain.join(QLatin1Char('.'))
+		 << ".setup(" << concatKeys(keyChain, intendent) << ", _accessor, [=](int __index_" << intendent << ", " << listTypeChain.join(QStringLiteral("::")) << " &__entry) {\n";
+
+	keyChain.append(QLatin1Char('%') + QString::number(intendent));
+	entryChain = QStringList{QStringLiteral("__entry")};
+	writeNodeElementDefinitions(node, keyChain, entryChain, intendent + 1, listTypeChain);
+	_src << TABS << "});\n";
+}
+
+QString CppSettingsGenerator::concatKeys(const QStringList &keyChain, int intendet) const
+{
+	QString res = QStringLiteral("QStringLiteral(\"") + keyChain.join(QLatin1Char('/')) + QStringLiteral("\")");
+	for(auto i = 1; i < intendet; i++)
+		res.append(QStringLiteral(".arg(__index_%1)").arg(i));
+	return res;
 }
 

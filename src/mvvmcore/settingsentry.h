@@ -1,8 +1,12 @@
 #ifndef QTMVVM_SETTINGSENTRY_H
 #define QTMVVM_SETTINGSENTRY_H
 
+#include <functional>
+
 #include <QtCore/qlist.h>
 #include <QtCore/qregularexpression.h>
+#include <QtCore/qhash.h>
+#include <QtCore/qsharedpointer.h>
 
 #include "QtMvvmCore/qtmvvmcore_global.h"
 #include "QtMvvmCore/isettingsaccessor.h"
@@ -52,71 +56,40 @@ public:
 };
 
 template <typename TType>
-class SettingsListEntry
+class SettingsListNode
 {
-	Q_DISABLE_COPY(SettingsListEntry)
+	Q_DISABLE_COPY(SettingsListNode)
 
 public:
-	class ListElement
+	class Deferred
 	{
-		Q_DISABLE_COPY(ListElement)
+		Q_DISABLE_COPY(Deferred)
 
 	public:
-		inline ListElement(ListElement &&other) noexcept = default;
-		inline ListElement &operator=(ListElement &&other) noexcept = default;
+		inline Deferred(Deferred &&other) noexcept = default;
+		inline Deferred &operator=(Deferred &&other) noexcept = default;
+		inline ~Deferred() { commit(); }
 
-		TType get() const && { return _self->getAt(_index); }
-		void set(const TType &value) && { _self->setAt(_index, value); }
+		inline TType &element() { return _element; }
 
-		inline ListElement &operator=(const TType &value) && { _self->setAt(_index, value); return *this; }
-		inline operator TType() const && { return _self->getAt(_index); }
+		inline TType &operator*() { return _element; }
+		inline TType *operator->() { return &_element; }
 
-	private:
-		friend class SettingsListEntry<TType>;
-		inline ListElement(SettingsListEntry<TType> *self, int index) : _self{self}, _index{index} {}
-
-		SettingsListEntry<TType> *_self;
-		int _index;
-	};
-
-	template <typename T>
-	class iterator_base;
-
-	class iterator_value
-	{
-	public:
-		TType get() const { return _self->getAt(_index); }
-		void set(const TType &value) { _self->setAt(_index, value); }
-
-		inline iterator_value &operator=(const TType &value) { _self->setAt(_index, value); return *this; }
-		inline operator TType() const { return _self->getAt(_index); }
-
-		inline friend void swap(iterator_value& lhs, iterator_value& rhs) { qSwap(lhs._self, rhs._self); qSwap(lhs._index, rhs._index); }
-
-		inline friend bool operator==(const iterator_value &lhs, const iterator_value &rhs) { assert(lhs._self == rhs._self); return lhs._index == rhs._index; }
-		inline friend bool operator!=(const iterator_value &lhs, const iterator_value &rhs) { assert(lhs._self == rhs._self); return lhs._index != rhs._index; }
-		inline friend bool operator<(const iterator_value &lhs, const iterator_value &rhs) { assert(lhs._self == rhs._self); return lhs._index < rhs._index; }
-		inline friend bool operator>(const iterator_value &lhs, const iterator_value &rhs) { assert(lhs._self == rhs._self); return lhs._index > rhs._index; }
-		inline friend bool operator<=(const iterator_value &lhs, const iterator_value &rhs) { assert(lhs._self == rhs._self); return lhs._index <= rhs._index; }
-		inline friend bool operator>=(const iterator_value &lhs, const iterator_value &rhs) { assert(lhs._self == rhs._self); return lhs._index >= rhs._index; }
-
-		inline friend iterator_value operator+(const iterator_value &value, int delta) { return iterator_value{value._self, value._index + delta}; }
-		inline friend iterator_value operator+(int delta, const iterator_value &value) { return iterator_value{value._self, value._index + delta}; }
-		inline friend iterator_value operator-(const iterator_value &value, int delta) { return iterator_value{value._self, value._index - delta}; }
-		inline friend int operator-(const iterator_value &lhs, const iterator_value &rhs) { assert(lhs._self == rhs._self); return lhs._index - rhs._index; }
+		inline void commit() { if(!_commited) { _commited = true; _node->commit(_index);} }
 
 	private:
-		template <typename T>
-		friend class SettingsListEntry<TType>::iterator_base;
+		friend class SettingsListNode<TType>;
 
-		inline iterator_value(SettingsListEntry<TType> *self, int index) : _self{self}, _index{index} {}
-		inline iterator_value(const iterator_value &other) = default;
-		inline iterator_value &operator=(const iterator_value &other) = default;
-		inline iterator_value(iterator_value &&other) noexcept = default;
-		inline iterator_value &operator=(iterator_value &&other) noexcept = default;
-
-		SettingsListEntry<TType> *_self;
+		SettingsListNode<TType> *_node;
+		TType &_element;
+		bool _commited = false;
 		int _index;
+
+		inline Deferred(SettingsListNode<TType> *node, TType &element, int index) :
+			_node{node},
+			_element{element},
+			_index{index}
+		{}
 	};
 
 	template <typename T>
@@ -129,73 +102,67 @@ public:
 		using pointer = value_type*;
 		using reference = value_type&;
 
+		inline iterator_base() = default;
 		inline iterator_base(const iterator_base<T> &other) = default;
 		inline iterator_base &operator=(const iterator_base<T> &other) = default;
 		inline iterator_base(iterator_base<T> &&other) noexcept = default;
 		inline iterator_base &operator=(iterator_base<T> &&other) noexcept = default;
 
-		inline iterator_base<T> &operator++() { ++_value._index; return *this; }
-		inline iterator_base<T> operator++(int) { return iterator_base<T>{_value._self, _value._index++}; }
-		inline iterator_base<T> &operator--() { --_value._index; return *this; }
-		inline iterator_base<T> operator--(int) { return iterator_base<T>{_value._self, _value._index--}; }
+		inline iterator_base<T> &operator++() { ++_index; return *this; }
+		inline iterator_base<T> operator++(int) { return iterator_base<T>{_node, _index++}; }
+		inline iterator_base<T> &operator--() { --_index; return *this; }
+		inline iterator_base<T> operator--(int) { return iterator_base<T>{_node, _index--}; }
 
-		inline const value_type &operator*() const { return _value; }
-		inline value_type &operator*() { return _value; }
-		inline const value_type *operator->() const { return &_value; }
-		inline value_type *operator->() { return &_value; }
-		inline friend void swap(iterator_base<T> &lhs, iterator_base<T> &rhs) { swap(lhs._value, rhs._value); }
+		inline reference operator*() const { return _node->at(_index); }
+		inline pointer operator->() const { return &_node->at(_index); }
+		inline friend void swap(iterator_base<T> &lhs, iterator_base<T> &rhs) noexcept { std::swap(lhs._node, rhs._node); std::swap(lhs._index, rhs._index); }
 
-		inline friend bool operator==(const iterator_base<T> &lhs, const iterator_base<T> &rhs) { return lhs._value == rhs._value; }
-		inline friend bool operator!=(const iterator_base<T> &lhs, const iterator_base<T> &rhs) { return lhs._value != rhs._value; }
-		inline friend bool operator<(const iterator_base<T> &lhs, const iterator_base<T> &rhs) { return lhs._value < rhs._value; }
-		inline friend bool operator>(const iterator_base<T> &lhs, const iterator_base<T> &rhs) { return lhs._value > rhs._value; }
-		inline friend bool operator<=(const iterator_base<T> &lhs, const iterator_base<T> &rhs) { return lhs._value <= rhs._value; }
-		inline friend bool operator>=(const iterator_base<T> &lhs, const iterator_base<T> &rhs) { return lhs._value >= rhs._value; }
+		inline friend bool operator==(const iterator_base<T> &lhs, const iterator_base<T> &rhs) { assert(lhs._node == rhs._node); return lhs._index == rhs._index; }
+		inline friend bool operator!=(const iterator_base<T> &lhs, const iterator_base<T> &rhs) { assert(lhs._node == rhs._node); return lhs._index != rhs._index; }
+		inline friend bool operator<(const iterator_base<T> &lhs, const iterator_base<T> &rhs) { assert(lhs._node == rhs._node); return lhs._index < rhs._index; }
+		inline friend bool operator>(const iterator_base<T> &lhs, const iterator_base<T> &rhs) { assert(lhs._node == rhs._node); return lhs._index > rhs._index; }
+		inline friend bool operator<=(const iterator_base<T> &lhs, const iterator_base<T> &rhs) { assert(lhs._node == rhs._node); return lhs._index <= rhs._index; }
+		inline friend bool operator>=(const iterator_base<T> &lhs, const iterator_base<T> &rhs) { assert(lhs._node == rhs._node); return lhs._index >= rhs._index; }
 
-		inline iterator_base<T> &operator+=(difference_type delta) { _value._index += delta; return *this; }
-		inline friend iterator_base<T> operator+(const iterator_base<T> &iter, difference_type delta) { return iterator_base<T>{iter._value + delta}; }
-		inline friend iterator_base<T> operator+(difference_type delta, const iterator_base<T> &iter) { return iterator_base<T>{iter._value + delta}; }
-		inline iterator_base<T> &operator-=(difference_type delta) { _value._index -= delta; return *this; }
-		inline friend iterator_base<T> operator-(const iterator_base<T> &iter, difference_type delta) { return iterator_base<T>{iter._value - delta}; }
-		inline friend difference_type operator-(const iterator_base<T> &lhs, const iterator_base<T> &rhs) { return lhs._value - rhs._value; }
+		inline iterator_base<T> &operator+=(difference_type delta) { _index += delta; return *this; }
+		inline friend iterator_base<T> operator+(const iterator_base<T> &iter, difference_type delta) { return iterator_base<T>{iter._node, iter._index + delta}; }
+		inline friend iterator_base<T> operator+(difference_type delta, const iterator_base<T> &iter) { return iterator_base<T>{iter._node, iter._index + delta}; }
+		inline iterator_base<T> &operator-=(difference_type delta) { _index -= delta; return *this; }
+		inline friend iterator_base<T> operator-(const iterator_base<T> &iter, difference_type delta) { return iterator_base<T>{iter._node, iter._index - delta}; }
+		inline friend difference_type operator-(const iterator_base<T> &lhs, const iterator_base<T> &rhs) { assert(lhs._node == rhs._node); return lhs._index - rhs._index; }
 
-		inline value_type operator[](difference_type delta) const { return iterator_value{_value._self, _value._index + delta}; }
+		inline reference operator[](difference_type delta) const { return _node->at(_index + delta); }
 
 	private:
-		friend class SettingsListEntry<TType>;
+		friend class SettingsListNode<TType>;
 
-		inline iterator_base(SettingsListEntry<TType> *self, int index) : _value{self, index} {}
-		inline iterator_base(iterator_value value) : _value{std::move(value)} {}
-		iterator_value _value;
+		SettingsListNode<TType> *_node;
+		int _index;
+
+		inline iterator_base(SettingsListNode<TType> *node, int index) :
+			_node{node},
+			_index{index}
+		{}
 	};
 
-	using iterator = iterator_base<iterator_value>;
-	using const_iterator = iterator_base<const iterator_value>;
+	using iterator = iterator_base<TType>;
+	using const_iterator = iterator_base<const TType>;
 
-	SettingsListEntry() = default;
+	SettingsListNode() = default;
 
 	bool isSet() const;
 	QString key() const;
-
-	QList<TType> get() const;
-	void set(const QList<TType> &value);
-	void reset(bool reInit = true);
-
-	SettingsListEntry<TType> &operator=(const QList<TType> &value);
-	operator QList<TType>() const;
-
 	int size() const;
-	TType getAt(int index) const;
-	void setAt(int index, const TType &value);
-	void push(const TType &value);
-	void push(const QList<TType> &values);
-	TType pop();
-	void chop(int count);
+	const TType &at(int index) const;
+	TType &at(int index);
 
-	ListElement operator[](int index);
-	const ListElement operator[](int index) const;
-	SettingsListEntry<TType> &operator+=(const TType &value);
-	SettingsListEntry<TType> &operator+=(const QList<TType> &values);
+	TType &push();
+	Deferred push_deferred();
+	void pop(int count = 1);
+	void reset();
+
+	TType &operator[](int index);
+	const TType &operator[](int index) const;
 
 	iterator begin();
 	iterator end();
@@ -204,22 +171,26 @@ public:
 	const_iterator constBegin() const;
 	const_iterator constEnd() const;
 
-	void addChangeCallback(const std::function<void(QList<TType>)> &callback);
-	void addChangeCallback(QObject *scope, const std::function<void(QList<TType>)> &callback);
-	void addChangeCallback(const std::function<void(int, TType)> &callback); // index, value
-	void addChangeCallback(QObject *scope, const std::function<void(int, TType)> &callback);
-	void addSizeChangeCallback(const std::function<void(int)> &callback); // size
-	void addSizeChangeCallback(QObject *scope, const std::function<void(int)> &callback);
+	void addChangeCallback(const std::function<void(int)> &callback); // size
+	void addChangeCallback(QObject *scope, const std::function<void(int)> &callback);
 
 	// internal
-	void setup(QString key, ISettingsAccessor *accessor, QVariant defaultValue = {});
-	void setupInit(QList<TType> init);
+	void setup(QString key, ISettingsAccessor *accessor, std::function<void(int, TType&)> setupFn);
 
 private:
+	struct ElementHolder {
+		bool __initialized = false;
+		QSharedPointer<TType> _element;
+		inline ElementHolder() : _element{new TType{}} {}
+	};
+
 	QString _key;
+	QString _sizeKey;
 	ISettingsAccessor *_accessor = nullptr;
-	QVariant _default;
-	QList<TType> _init;
+	std::function<void(int, TType&)> _setupFn;
+	mutable QHash<int, ElementHolder> _cache;
+
+	void commit(int index);
 };
 
 // ------------- Generic Implementation -------------
@@ -308,259 +279,164 @@ void SettingsEntry<T>::setup(QString key, ISettingsAccessor *accessor, QVariant 
 	_default = std::move(defaultValue);
 }
 
-
-// ------------- Generic Implementation ListEntry -------------
+// ------------- Generic Implementation ListNode -------------
 
 template<typename TType>
-bool SettingsListEntry<TType>::isSet() const
+bool SettingsListNode<TType>::isSet() const
 {
-	return _accessor->contains(_key + QStringLiteral("/size"));
+	return _accessor->contains(_sizeKey);
 }
 
 template<typename TType>
-QString SettingsListEntry<TType>::key() const
+QString SettingsListNode<TType>::key() const
 {
 	return _key;
 }
 
 template<typename TType>
-QList<TType> SettingsListEntry<TType>::get() const
+int SettingsListNode<TType>::size() const
 {
-	auto mSize = size();
-	QList<TType> resList;
-	resList.reserve(mSize);
-	for(auto i = 0; i < mSize; ++i)
-		resList.append(getAt(i));
-	return resList;
+	return _accessor->load(_sizeKey, 0).toInt();
 }
 
 template<typename TType>
-void SettingsListEntry<TType>::set(const QList<TType> &value)
+const TType &SettingsListNode<TType>::at(int index) const
 {
-	reset(false);
-	push(value);
+	auto &value = _cache[index];
+	if(!value.__initialized) {
+		_setupFn(index, *(value._element));
+		value.__initialized = true;
+	}
+	return *(value._element);
 }
 
 template<typename TType>
-void SettingsListEntry<TType>::reset(bool reInit)
+TType &SettingsListNode<TType>::at(int index)
 {
-	_accessor->remove(_key);
-	if(reInit && !_init.isEmpty())
-		push(_init);
+	auto &value = _cache[index];
+	if(!value.__initialized) {
+		_setupFn(index, *(value._element));
+		value.__initialized = true;
+	}
+	return *(value._element);
 }
 
 template<typename TType>
-SettingsListEntry<TType> &SettingsListEntry<TType>::operator=(const QList<TType> &value)
-{
-	set(value);
-	return *this;
-}
-
-template<typename TType>
-SettingsListEntry<TType>::operator QList<TType>() const
-{
-	return get();
-}
-
-template<typename TType>
-int SettingsListEntry<TType>::size() const
-{
-	return _accessor->load(_key + QStringLiteral("/size"), 0).toInt();
-}
-
-template<typename TType>
-TType SettingsListEntry<TType>::getAt(int index) const
-{
-	return _accessor->load(_key + QStringLiteral("/%1/value").arg(index), _default).template value<TType>();
-}
-
-template<typename TType>
-void SettingsListEntry<TType>::setAt(int index, const TType &value)
-{
-	_accessor->save(_key + QStringLiteral("/%1/value").arg(index), QVariant::fromValue(value));
-}
-
-template<typename TType>
-void SettingsListEntry<TType>::push(const TType &value)
-{
-	push(QList<TType>{value});
-}
-
-template<typename TType>
-void SettingsListEntry<TType>::push(const QList<TType> &values)
+TType &SettingsListNode<TType>::push()
 {
 	auto cIndex = size();
-	for(const auto &value : values)
-		setAt(cIndex++, value);
-	_accessor->save(_key + QStringLiteral("/size"), cIndex);
+	_accessor->save(_sizeKey, cIndex + 1);
+	return at(cIndex);
 }
 
 template<typename TType>
-TType QtMvvm::SettingsListEntry<TType>::pop()
+typename SettingsListNode<TType>::Deferred SettingsListNode<TType>::push_deferred()
 {
-	auto res = getAt(size() - 1);
-	chop(1);
-	return res;
+	auto cIndex = size();
+	return {this, at(cIndex), cIndex};
 }
 
 template<typename TType>
-void QtMvvm::SettingsListEntry<TType>::chop(int count)
+void SettingsListNode<TType>::pop(int count)
 {
 	auto cSize = size();
 	auto nSize = qMax(size() - count, 0);
 	for(auto i = cSize - 1; i >= nSize; --i)
-		_accessor->remove(_key + QStringLiteral("/%1/value").arg(i));
-	_accessor->save(_key + QStringLiteral("/size"), nSize);
+		_accessor->remove(_key + QStringLiteral("/%1").arg(i));
+	_accessor->save(_sizeKey, nSize);
 }
 
 template<typename TType>
-const typename SettingsListEntry<TType>::ListElement SettingsListEntry<TType>::operator[](int index) const
+void SettingsListNode<TType>::reset()
 {
-	return ListElement{this, index};
+	_accessor->remove(_key);
 }
 
-
 template<typename TType>
-typename SettingsListEntry<TType>::ListElement SettingsListEntry<TType>::operator[](int index)
+const TType &SettingsListNode<TType>::operator[](int index) const
 {
-	return ListElement{this, index};
+	return at(index);
 }
 
+
 template<typename TType>
-SettingsListEntry<TType> &SettingsListEntry<TType>::operator+=(const TType &value)
+TType &SettingsListNode<TType>::operator[](int index)
 {
-	push(value);
-	return *this;
+	return at(index);
 }
 
 template<typename TType>
-SettingsListEntry<TType> &SettingsListEntry<TType>::operator+=(const QList<TType> &values)
-{
-	push(values);
-	return *this;
-}
-
-template<typename TType>
-typename SettingsListEntry<TType>::iterator SettingsListEntry<TType>::begin()
+typename SettingsListNode<TType>::iterator SettingsListNode<TType>::begin()
 {
 	return iterator{this, 0};
 }
 
 template<typename TType>
-typename SettingsListEntry<TType>::iterator QtMvvm::SettingsListEntry<TType>::end()
+typename SettingsListNode<TType>::iterator SettingsListNode<TType>::end()
 {
 	return iterator{this, size()};
 }
 
 template<typename TType>
-typename SettingsListEntry<TType>::const_iterator SettingsListEntry<TType>::begin() const
+typename SettingsListNode<TType>::const_iterator SettingsListNode<TType>::begin() const
 {
 	return constBegin();
 }
 
 template<typename TType>
-typename SettingsListEntry<TType>::const_iterator SettingsListEntry<TType>::end() const
+typename SettingsListNode<TType>::const_iterator SettingsListNode<TType>::end() const
 {
 	return constEnd();
 }
 
 template<typename TType>
-typename SettingsListEntry<TType>::const_iterator SettingsListEntry<TType>::constBegin() const
+typename SettingsListNode<TType>::const_iterator SettingsListNode<TType>::constBegin() const
 {
-	return const_iterator{const_cast<SettingsListEntry<TType>*>(this), 0};
+	return const_iterator{const_cast<SettingsListNode<TType>*>(this), 0};
 }
 
 template<typename TType>
-typename SettingsListEntry<TType>::const_iterator SettingsListEntry<TType>::constEnd() const
+typename SettingsListNode<TType>::const_iterator SettingsListNode<TType>::constEnd() const
 {
-	return const_iterator{const_cast<SettingsListEntry<TType>*>(this), size()};
+	return const_iterator{const_cast<SettingsListNode<TType>*>(this), size()};
 }
 
 template<typename TType>
-void SettingsListEntry<TType>::addChangeCallback(const std::function<void (QList<TType>)> &callback)
+void SettingsListNode<TType>::addChangeCallback(const std::function<void (int)> &callback)
 {
 	addChangeCallback(_accessor, callback);
 }
 
 template<typename TType>
-void SettingsListEntry<TType>::addChangeCallback(QObject *scope, const std::function<void (QList<TType>)> &callback)
+void SettingsListNode<TType>::addChangeCallback(QObject *scope, const std::function<void (int)> &callback)
 {
-	QObject::connect(_accessor, &ISettingsAccessor::entryChanged,
-					 scope, [this, callback](const QString &key, const QVariant &) {
-		if(key.startsWith(_key))
-			callback(get());
-	});
-	QObject::connect(_accessor, &ISettingsAccessor::entryRemoved,
-					 scope, [this, callback](const QString &key) {
-		if(key.startsWith(_key))
-			callback(get());
-	});
-}
-
-template<typename TType>
-void SettingsListEntry<TType>::addChangeCallback(const std::function<void (int, TType)> &callback)
-{
-	addChangeCallback(_accessor, callback);
-}
-
-template<typename TType>
-void SettingsListEntry<TType>::addChangeCallback(QObject *scope, const std::function<void (int, TType)> &callback)
-{
-	QRegularExpression mKey {QStringLiteral("^%1\\/\\d+\\/value$").arg(QRegularExpression::escape(_key))};
-	mKey.optimize();
-	auto mDefault = _default;
-	QObject::connect(_accessor, &ISettingsAccessor::entryChanged,
-					 scope, [mKey, callback](const QString &key, const QVariant &value) {
-		auto match = mKey.match(key);
-		if(match.hasMatch())
-			callback(match.captured(1).toInt(), value.template value<TType>());
-	});
-	QObject::connect(_accessor, &ISettingsAccessor::entryRemoved,
-					 scope, [mKey, mDefault, callback](const QString &key) {
-		auto match = mKey.match(key);
-		if(match.hasMatch())
-			callback(match.captured(1).toInt(), mDefault.template value<TType>());
-	});
-}
-
-template<typename TType>
-void SettingsListEntry<TType>::addSizeChangeCallback(const std::function<void (int)> &callback)
-{
-	addSizeChangeCallback(_accessor, callback);
-}
-
-template<typename TType>
-void SettingsListEntry<TType>::addSizeChangeCallback(QObject *scope, const std::function<void (int)> &callback)
-{
-	QString mKey = _key + QStringLiteral("/size");
-	auto mInit = _init;
+	QString mKey = _sizeKey;
 	QObject::connect(_accessor, &ISettingsAccessor::entryChanged,
 					 scope, [mKey, callback](const QString &key, const QVariant &value) {
 		if(key == mKey)
 			callback(value.toInt());
 	});
 	QObject::connect(_accessor, &ISettingsAccessor::entryRemoved,
-					 scope, [mKey, mInit, callback](const QString &key) {
+					 scope, [mKey, callback](const QString &key) {
 		if(key == mKey)
-			callback(0); //is ok, as in case of a "reinit", the entry changed will be emitted next
+			callback(0);
 	});
 }
 
 template<typename TType>
-void SettingsListEntry<TType>::setup(QString key, ISettingsAccessor *accessor, QVariant defaultValue)
+void SettingsListNode<TType>::setup(QString key, ISettingsAccessor *accessor, std::function<void(int, TType&)> setupFn)
 {
 	Q_ASSERT_X(accessor, Q_FUNC_INFO, "You must set a valid accessor before initializing the settings!");
 	_key = std::move(key);
+	_sizeKey = _key + QStringLiteral("/size");
 	_accessor = accessor;
-	_default = std::move(defaultValue);
+	_setupFn = std::move(setupFn);
 }
 
 template<typename TType>
-void QtMvvm::SettingsListEntry<TType>::setupInit(QList<TType> init)
+void SettingsListNode<TType>::commit(int index)
 {
-	_init = std::move(init);
-	if(!isSet())
-		push(_init);
+	_accessor->save(_sizeKey, qMax(size(), index + 1));
 }
 
 }

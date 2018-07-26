@@ -88,6 +88,7 @@
 				<xs:element name="Node" type="NodeType"/>
 				<xs:element name="Entry" type="EntryType"/>
 				<xs:element name="ListEntry" type="ListEntryType"/>
+				<xs:element name="ListNode" type="ListNodeType"/>
 				<xs:element name="Import" type="ImportType" qxg:method="read_included_file"/>
 			</xs:choice>
 		</xs:sequence>
@@ -96,6 +97,14 @@
 	<xs:complexType name="NodeType" qxg:declare="true">
 		<xs:group ref="NodeContentGroup" qxg:inherit="true"/>
 		<xs:attribute name="key" type="xs:string" use="required"/>
+	</xs:complexType>
+
+	<xs:complexType name="ListNodeType" qxg:declare="true">
+		<xs:complexContent>
+			<xs:extension base="NodeType">
+				<xs:attribute name="listEntry" type="xs:boolean" default="false" use="optional"/>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 
 	<xs:complexType name="EntryType" qxg:declare="true">
