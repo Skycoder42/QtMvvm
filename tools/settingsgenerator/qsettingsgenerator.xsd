@@ -87,7 +87,6 @@
 			<xs:choice maxOccurs="unbounded" minOccurs="0" qxg:member="contentNodes">
 				<xs:element name="Node" type="NodeType"/>
 				<xs:element name="Entry" type="EntryType"/>
-				<xs:element name="ListEntry" type="ListEntryType"/>
 				<xs:element name="ListNode" type="ListNodeType"/>
 				<xs:element name="Import" type="ImportType" qxg:method="read_included_file"/>
 			</xs:choice>
@@ -118,16 +117,6 @@
 				<xs:attribute name="default" type="xs:string" use="optional" qxg:member="defaultValue"/>
 				<xs:attribute name="tr" type="xs:boolean" default="false" use="optional"/>
 				<xs:attribute name="trContext" type="xs:string" use="optional"/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-
-	<xs:complexType name="ListEntryType" qxg:declare="true">
-		<xs:complexContent>
-			<xs:extension base="EntryType">
-				<xs:sequence>
-					<xs:element maxOccurs="1" minOccurs="0" name="Init" type="xs:string"/>
-				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>

@@ -5,9 +5,21 @@ import de.skycoder42.QtMvvm.Core.test 4.2
 Item {
 	id: root
 
-	Component {
-		id: listElement
-		TestSettings_ListElement_8 {}
+	property string changeData: ""
+	Connections {
+		target: TestSettings.parentNode.parentEntryGroup
+		onLeafEntryChanged: {
+			changeData = value;
+		}
+	}
+
+	property bool ready: false
+	property int deepData: 0
+	Connections {
+		target: ready ? TestSettings.listNode[0].someNode : null
+		onDeepChildChanged: {
+			deepData = value;
+		}
 	}
 
 	TestCase {
@@ -28,39 +40,65 @@ Item {
 			compare(TestSettings.parentNode.parentEntryGroup.leafEntry, qsTr("translate me"));
 			compare(TestSettings.variantEntry, undefined);
 			compare(TestSettings.simpleListEntry, [42]);
-			compare(TestSettings.listEntryGroup.dummyChild, false);
 		}
 
-		function test_2_listEntry() {
+		function test_2_changeSignals() {
+			changeData = "";
+			TestSettings.parentNode.parentEntryGroup.leafEntry = "test44";
+			compare(TestSettings.parentNode.parentEntryGroup.leafEntry, "test44");
+			compare(changeData, "test44");
+		}
+
+		function test_3_listEntry() {
 			// test reading
-			compare(TestSettings.listEntry.length, 3);
-			verify(TestSettings.listEntry[0]);
-			compare(TestSettings.listEntry[0].value, "test1");
-			verify(TestSettings.listEntry[1]);
-			compare(TestSettings.listEntry[1].value, "test2");
-			verify(TestSettings.listEntry[2]);
-			compare(TestSettings.listEntry[2].value, "test3");
-			verify(!TestSettings.listEntry[3]);
+			compare(TestSettings.listNode.length, 0);
+			verify(TestSettings.listNode_push());
+			compare(TestSettings.listNode.length, 1);
 
-			// test appending
-			var elem = listElement.createObject(root, {value: "baum42"});
-			verify(elem);
-			compare(elem.value, "baum42");
-			TestSettings.listEntry.push(elem);
-			compare(TestSettings.listEntry.length, 4);
-			verify(TestSettings.listEntry[3]);
-			compare(TestSettings.listEntry[3].value, "baum42");
-			verify(!TestSettings.listEntry[4]);
+			compare(TestSettings.listNode[0].simpleChild, false);
+			verify(TestSettings.listNode[0].someNode)
+			compare(TestSettings.listNode[0].someNode.deepChild, 22);
+			compare(TestSettings.listNode[0].someNode.deepParent, "___");
+			verify(TestSettings.listNode[0].someNode.deepParentGroup)
+			compare(TestSettings.listNode[0].someNode.deepParentGroup.simpleChild, true);
+			compare(TestSettings.listNode[0].childList.length, 0);
 
-			// test resetting
-			var elem2 = TestSettings.create_listEntry_element("newElem");
-			verify(elem2);
-			compare(elem2.value, "newElem");
-			TestSettings.listEntry = [elem2]
-			compare(TestSettings.listEntry.length, 1);
-			verify(TestSettings.listEntry[0]);
-			compare(TestSettings.listEntry[0].value, "newElem");
-			verify(!TestSettings.listEntry[1]);
+			ready = true;
+			deepData = 0;
+			TestSettings.listNode[0].someNode.deepChild = 99;
+			compare(TestSettings.listNode[0].someNode.deepChild, 99);
+			compare(deepData, 99);
+			deepData = 0;
+
+			compare(TestSettings.listNode.length, 1);
+			var newEntry = TestSettings.listNode_push();
+			verify(newEntry);
+			compare(TestSettings.listNode.length, 2);
+			compare(TestSettings.listNode[1], newEntry);
+			compare(newEntry.simpleChild, false);
+			compare(TestSettings.listNode[1].simpleChild, false);
+			newEntry.simpleChild = true;
+			compare(newEntry.simpleChild, true);
+			compare(TestSettings.listNode[1].simpleChild, true);
+			compare(TestSettings.listNode[0].simpleChild, false);
+
+			var newEntry2 = TestSettings.listNode_push_deferred();
+			verify(newEntry2);
+			compare(TestSettings.listNode.length, 2);
+			verify(!TestSettings.listNode[2]);
+			compare(newEntry2.simpleChild, false);
+			newEntry2.simpleChild = true;
+			compare(newEntry2.simpleChild, true);
+			compare(TestSettings.listNode[0].simpleChild, false);
+			compare(TestSettings.listNode.length, 2);
+			TestSettings.listNode.push(newEntry2);
+			compare(TestSettings.listNode.length, 3);
+			compare(TestSettings.listNode[2], newEntry2);
+			compare(deepData, 0);
+
+			TestSettings.listNode = [];
+			compare(TestSettings.listNode.length, 0);
+			verify(!TestSettings.listNode[0]);
 		}
 	}
 

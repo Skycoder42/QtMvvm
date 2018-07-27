@@ -176,6 +176,7 @@ public:
 
 	// internal
 	void setup(QString key, ISettingsAccessor *accessor, std::function<void(int, TType&)> setupFn);
+	void commit(int index);
 
 private:
 	struct ElementHolder {
@@ -189,8 +190,6 @@ private:
 	ISettingsAccessor *_accessor = nullptr;
 	std::function<void(int, TType&)> _setupFn;
 	mutable QHash<int, ElementHolder> _cache;
-
-	void commit(int index);
 };
 
 // ------------- Generic Implementation -------------

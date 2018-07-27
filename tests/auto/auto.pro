@@ -1,4 +1,5 @@
 TEMPLATE = subdirs
 
-SUBDIRS += cmake mvvmcore \
-    qml
+SUBDIRS += cmake \
+	mvvmcore \
+	qml

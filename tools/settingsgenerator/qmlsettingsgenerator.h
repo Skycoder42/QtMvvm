@@ -25,15 +25,13 @@ private:
 	QString _prefixName;
 	QHash<QString, QString> _typeMappings;
 
-	QSet<int> _listTypes;
-
 	int writeHeader(const SettingsType &settings, const QString &inHdrPath);
 
 	void writeListTypeBaseClass();
 
-	std::tuple<int, QList<int>> writeNodeContentClasses(const NodeContentGroup &node, const QStringList &keyList, int offset = 0);
-	int writeNodeClass(const NodeType &node, QStringList keyList, int offset);
-	int writeListEntryElementClass(const ListEntryType &entry, QStringList keyList, int offset);
+	std::tuple<int, QList<int>> writeNodeContentClasses(const NodeContentGroup &node, const QStringList &keyList, int offset = 0, int listDepth = 0);
+	int writeNodeClass(const NodeType &node, QStringList keyList, int offset, int listDepth);
+	int writeListNodeClass(const ListNodeType &entry, QStringList keyList, int offset, int listDepth);
 
 	void writeProperties(const NodeContentGroup &node,
 						 const QStringList &keyList,
@@ -42,12 +40,12 @@ private:
 						 QList<QPair<QString, int>> &childConstructs);
 	void writeNodeProperty(const NodeType &entry, int classIndex, QList<QPair<QString, int>> &childConstructs, const QString &overwriteName = {});
 	void writeEntryProperty(const EntryType &entry, QStringList keyList, int classIndex, QList<QPair<QString, int>> &childConstructs);
-	void writeListEntryProperty(const ListEntryType &entry, QStringList keyList, int listIndex, int classIndex, QList<QPair<QString, int>> &childConstructs);
+	void writeListNodeProperty(const ListNodeType &entry, QStringList keyList, int classIndex, QList<QPair<QString, int>> &childConstructs);
 
 	void writeMemberInits(const QStringList &keyList, const QList<QPair<QString, int>> &childConstructs);
 	void writeEntryPropertySignalConnects(const NodeContentGroup &node, const QStringList &keyList, int classIndex, QList<int> &listEntries);
 	void writeEntryPropertySignalConnect(const EntryType &entry, QStringList keyList, int classIndex);
-	void writeListEntryPropertySignalConnect(const ListEntryType &entry, QStringList keyList, QList<int> &listEntries);
+	void writeListNodePropertySignalConnect(const ListNodeType &entry, QStringList keyList, QList<int> &listEntries);
 
 	void writeSource(const SettingsType &settings, int typeNum);
 

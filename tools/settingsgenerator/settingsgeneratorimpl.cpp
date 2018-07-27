@@ -170,12 +170,9 @@ SettingsGeneratorBase::NodeContentGroup *SettingsGeneratorImpl::findContentGroup
 					*isEntry = true;
 				return &(nonstd::get<EntryType>(cNode));
 			}
-		} else if(nonstd::holds_alternative<ListEntryType>(cNode)) {
-			if(nonstd::get<ListEntryType>(cNode).key == key) {
-				if(isEntry)
-					*isEntry = true;
-				return &(nonstd::get<ListEntryType>(cNode));
-			}
+		} else if(nonstd::holds_alternative<ListNodeType>(cNode)) {
+			if(nonstd::get<ListNodeType>(cNode).key == key)
+				return &(nonstd::get<ListNodeType>(cNode));
 		} else if(nonstd::holds_alternative<NodeContentGroup>(cNode)) {
 			auto res = findContentGroup(&(nonstd::get<NodeContentGroup>(cNode)), key);
 			if(res)
@@ -214,11 +211,8 @@ void SettingsGeneratorImpl::fixTrContext(NodeContentGroup &group, const QString 
 			if(!entry.trContext)
 				entry.trContext = context;
 			fixTrContext(entry, context);
-		} else if(nonstd::holds_alternative<ListEntryType>(node)) {
-			auto &entry = nonstd::get<ListEntryType>(node);
-			if(!entry.trContext)
-				entry.trContext = context;
-			fixTrContext(entry, context);
+		} else if(nonstd::holds_alternative<ListNodeType>(node)) {
+			fixTrContext(nonstd::get<ListNodeType>(node), context);
 		} else if(nonstd::holds_alternative<NodeContentGroup>(node))
 			fixTrContext(nonstd::get<NodeContentGroup>(node), context);
 	}
