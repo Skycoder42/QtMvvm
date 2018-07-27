@@ -284,8 +284,7 @@ void WidgetsPresenter::presentMessageBox(const MessageConfig &config, QPointer<M
 	//special properties
 	QSharedPointer<bool> checked;
 	auto props = config.viewProperties();
-	if(!props.value(QStringLiteral("modal"), false).toBool())
-		info.parent = QApplication::activeWindow();
+	info.parent = WidgetsPresenterPrivate::parent(props);
 	if(props.contains(QStringLiteral("windowTitle")))
 		info.windowTitle = props.value(QStringLiteral("windowTitle")).toString();
 	if(props.contains(QStringLiteral("details")))
@@ -320,10 +319,7 @@ void WidgetsPresenter::presentMessageBox(const MessageConfig &config, QPointer<M
 void WidgetsPresenter::presentInputDialog(const MessageConfig &config, QPointer<MessageResult> result)
 {
 	auto input = d->inputViewFactory->createInput(config.subType(), nullptr, config.viewProperties());
-	QWidget *parent = nullptr;
-	if(!config.viewProperties().value(QStringLiteral("modal"), false).toBool())
-		parent = QApplication::activeWindow();
-	auto dialog = new QDialog(parent);
+	auto dialog = new QDialog{WidgetsPresenterPrivate::parent(config.viewProperties())};
 	dialog->setAttribute(Qt::WA_DeleteOnClose);
 	result->setCloseTarget(dialog, QStringLiteral("reject()"));
 	auto layout = new QVBoxLayout(dialog);
@@ -379,11 +375,7 @@ void WidgetsPresenter::presentInputDialog(const MessageConfig &config, QPointer<
 void WidgetsPresenter::presentFileDialog(const MessageConfig &config, QPointer<MessageResult> result)
 {
 	auto props = config.viewProperties();
-
-	QWidget *parent = nullptr;
-	if(!props.value(QStringLiteral("modal"), false).toBool())
-		parent = QApplication::activeWindow();
-	auto dialog = new QFileDialog(parent);
+	auto dialog = new QFileDialog{WidgetsPresenterPrivate::parent(props)};
 	dialog->setAttribute(Qt::WA_DeleteOnClose);
 	result->setCloseTarget(dialog, QStringLiteral("reject()"));
 
@@ -440,11 +432,7 @@ void WidgetsPresenter::presentFileDialog(const MessageConfig &config, QPointer<M
 void WidgetsPresenter::presentColorDialog(const MessageConfig &config, const QPointer<MessageResult> &result)
 {
 	auto props = config.viewProperties();
-
-	QWidget *parent = nullptr;
-	if(!props.value(QStringLiteral("modal"), false).toBool())
-		parent = QApplication::activeWindow();
-	auto dialog = new QColorDialog{parent};
+	auto dialog = new QColorDialog{WidgetsPresenterPrivate::parent(props)};
 	dialog->setAttribute(Qt::WA_DeleteOnClose);
 	result->setCloseTarget(dialog, QStringLiteral("reject()"));
 
@@ -492,11 +480,7 @@ void WidgetsPresenter::presentProgressDialog(const MessageConfig &config, const 
 		return;
 	}
 	auto props = config.viewProperties();
-
-	QWidget *parent = nullptr; //TODO move to seperate method
-	if(!props.value(QStringLiteral("modal"), false).toBool())
-		parent = QApplication::activeWindow();
-	auto dialog = new ProgressDialog{config, result, control, parent};
+	auto dialog = new ProgressDialog{config, result, control, WidgetsPresenterPrivate::parent(props)};
 	dialog->setAttribute(Qt::WA_DeleteOnClose);
 	result->setCloseTarget(dialog, QStringLiteral("reject()"));
 	dialog->open();
@@ -527,6 +511,14 @@ WidgetsPresenter *WidgetsPresenterPrivate::currentPresenter()
 	} catch(QException &e) {
 		qFatal("%s", e.what());
 	}
+}
+
+QWidget *WidgetsPresenterPrivate::parent(const QVariantMap &properties)
+{
+	if(!properties.value(QStringLiteral("modal"), false).toBool())
+		return QApplication::activeWindow();
+	else
+		return nullptr;
 }
 
 QValidator *QtMvvm::createUrlValidator(QStringList schemes, QObject *parent)

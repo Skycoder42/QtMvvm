@@ -36,7 +36,7 @@ QWidget *InputWidgetFactory::createInput(const QByteArray &type, QWidget *parent
 		return createInput(d->aliases.value(type), parent, viewProperties);
 	if(d->simpleWidgets.contains(type))
 		widget = d->simpleWidgets.value(type)(parent);
-	else if(type == QMetaType::typeName(QMetaType::Bool) || type == "switch") //TODO add extra widget
+	else if(type == QMetaType::typeName(QMetaType::Bool) || type == "switch")
 		widget = new QCheckBox(parent);
 	else if(type == QMetaType::typeName(QMetaType::QString) || type == "string") {
 		auto edit = new QLineEdit(parent);

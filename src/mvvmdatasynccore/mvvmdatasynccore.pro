@@ -16,7 +16,6 @@ HEADERS += \
 	exchangedevicesmodel.h \
 	exchangedevicesmodel_p.h \
     datasyncsettingsviewmodel.h \
-    datasyncsettingsviewmodel_p.h \
     datasyncsettingsaccessor.h \
     datasyncsettingsentry.h \
     datasyncsettingsaccessor_p.h

@@ -15,14 +15,14 @@ public:
 
 QSettingsAccessor::QSettingsAccessor(QObject *parent) :
 	QSettingsAccessor{new QSettings{}, parent}
-{}
+{
+	d->settings->setParent(this);
+}
 
 QSettingsAccessor::QSettingsAccessor(QSettings *settings, QObject *parent) :
 	ISettingsAccessor{parent},
 	d{new QSettingsAccessorPrivate{settings}}
-{
-	d->settings->setParent(this);
-}
+{}
 
 QSettingsAccessor::~QSettingsAccessor() = default;
 
@@ -51,6 +51,11 @@ void QSettingsAccessor::remove(const QString &key)
 	for(const auto &subKey : allKeys)
 		emit entryRemoved(key + QLatin1Char('/') + subKey);
 	emit entryRemoved(key);
+}
+
+QSettings *QSettingsAccessor::settings() const
+{
+	return d->settings;
 }
 
 void QSettingsAccessor::sync()

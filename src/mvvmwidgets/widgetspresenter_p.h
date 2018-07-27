@@ -20,6 +20,8 @@ public:
 	InputWidgetFactory* inputViewFactory = nullptr;
 	QSet<const QMetaObject*> implicitMappings;
 	QHash<const QMetaObject*, const QMetaObject*> explicitMappings;
+
+	static QWidget *parent(const QVariantMap &properties);
 };
 
 Q_MVVMWIDGETS_EXPORT QValidator *createUrlValidator(QStringList schemes, QObject* parent = nullptr);

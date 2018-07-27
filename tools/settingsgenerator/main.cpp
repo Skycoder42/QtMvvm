@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 	QCoreApplication::setOrganizationDomain(QStringLiteral(BUNDLE_PREFIX));
 
 	QCommandLineParser parser;
-	parser.setApplicationDescription(QStringLiteral("A tool to...")); //TODO description
+	parser.setApplicationDescription(QStringLiteral("A tool to create C++ and QML bindings for generic settings access"));
 	parser.addVersionOption();
 	parser.addHelpOption();
 

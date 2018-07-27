@@ -1,5 +1,5 @@
 #include "datasyncsettingsviewmodel.h"
-#include "datasyncsettingsviewmodel_p.h"
+#include "datasyncsettingsaccessor.h"
 
 #undef logDebug
 #undef logInfo
@@ -9,52 +9,46 @@
 
 using namespace QtMvvm;
 
+const QString DataSyncSettingsViewModel::paramSetup(QStringLiteral("setup"));
+const QString DataSyncSettingsViewModel::paramDataStore(QStringLiteral("dataStore"));
+const QString DataSyncSettingsViewModel::paramDataTypeStore(QStringLiteral("dataTypeStore"));
+
 DataSyncSettingsViewModel::DataSyncSettingsViewModel(QObject *parent) :
-	SettingsViewModel{parent},
-	d(new DataSyncSettingsViewModelPrivate{this})
-{
-	connect(d->store, &QtDataSync::DataTypeStoreBase::dataChanged,
-			this, &DataSyncSettingsViewModel::valueChanged);
-}
-
-DataSyncSettingsViewModel::~DataSyncSettingsViewModel() = default;
-
-QVariant DataSyncSettingsViewModel::loadValue(const QString &key, const QVariant &defaultValue) const
-{
-	try {
-		return d->store->load(key).value();
-	} catch (QtDataSync::NoDataException &e) {
-		Q_UNUSED(e)
-		return defaultValue;
-	} catch (QException &e) {
-		logCritical() << "Failed to load entry" << key << "from datasync settings with error:"
-					  << e.what();
-		return defaultValue;
-	}
-}
-
-void DataSyncSettingsViewModel::saveValue(const QString &key, const QVariant &value)
-{
-	try {
-		d->store->save({key, value});
-	} catch (QException &e) {
-		logCritical() << "Failed to save entry" << key << "to datasync settings with error:"
-					  << e.what();
-	}
-}
-
-void DataSyncSettingsViewModel::resetValue(const QString &key)
-{
-	try {
-		d->store->remove(key);
-	} catch (QException &e) {
-		logCritical() << "Failed to remove entry" << key << "from datasync settings with error:"
-					  << e.what();
-	}
-}
-
-// ------------- Private Implementation -------------
-
-DataSyncSettingsViewModelPrivate::DataSyncSettingsViewModelPrivate(DataSyncSettingsViewModel *q_ptr) :
-	store{new QtDataSync::DataTypeStore<DataSyncSettingsEntry>{q_ptr}}
+	SettingsViewModel{parent}
 {}
+
+void DataSyncSettingsViewModel::onInit(const QVariantHash &params)
+{
+	if(!params.contains(paramAccessor)) {
+		auto subParams = params;
+		try {
+			DataSyncSettingsAccessor *accessor = nullptr;
+			auto setup = params.value(paramSetup).toString();
+			if(!setup.isNull())
+				accessor = new DataSyncSettingsAccessor{setup ,this};
+
+			if(!accessor) {
+				auto store = params.value(paramDataStore).value<QtDataSync::DataStore*>();
+				if(store)
+					accessor = new DataSyncSettingsAccessor{store ,this};
+			}
+
+			if(!accessor) {
+				auto store = params.value(paramDataStore).value<QtDataSync::DataTypeStoreBase*>();
+				auto tStore = dynamic_cast<QtDataSync::DataTypeStore<DataSyncSettingsEntry>*>(store);
+				if(tStore)
+					accessor = new DataSyncSettingsAccessor{tStore ,this};
+			}
+
+			if(!accessor)
+				accessor = new DataSyncSettingsAccessor{this};
+
+			subParams.insert(paramAccessor, QVariant::fromValue(accessor));
+		} catch(QtDataSync::Exception &e) {
+			logCritical() << "Failed to create DataSyncSettingsAccessor with error:" << e.what();
+			// will be initialize with the default as fallback
+		}
+		SettingsViewModel::onInit(subParams);
+	} else
+		SettingsViewModel::onInit(params);
+}

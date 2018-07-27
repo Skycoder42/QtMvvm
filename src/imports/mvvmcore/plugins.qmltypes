@@ -760,10 +760,16 @@ Module {
         exports: ["de.skycoder42.QtMvvm.Core/SettingsViewModel 1.0"]
         isCreatable: false
         exportMetaObjectRevisions: [0]
+        Property { name: "accessor"; revision: 1; type: "QtMvvm::ISettingsAccessor"; isPointer: true }
         Property { name: "canRestoreDefaults"; type: "bool"; isReadonly: true }
         Property { name: "restoreConfig"; type: "QtMvvm::MessageConfig"; isReadonly: true }
         Property { name: "settingsSetupLoader"; type: "QtMvvm::ISettingsSetupLoader"; isPointer: true }
         Property { name: "__qtmvvm_inject_settingsSetupLoader"; type: "QByteArray"; isReadonly: true }
+        Signal {
+            name: "accessorChanged"
+            revision: 1
+            Parameter { name: "accessor"; type: "QtMvvm::ISettingsAccessor"; isPointer: true }
+        }
         Signal {
             name: "settingsSetupLoaderChanged"
             Parameter { name: "settingsSetupLoader"; type: "QtMvvm::ISettingsSetupLoader"; isPointer: true }
@@ -779,6 +785,11 @@ Module {
             name: "callAction"
             Parameter { name: "key"; type: "string" }
             Parameter { name: "parameters"; type: "QVariantMap" }
+        }
+        Method {
+            name: "setAccessor"
+            revision: 1
+            Parameter { name: "accessor"; type: "QtMvvm::ISettingsAccessor"; isPointer: true }
         }
         Method {
             name: "setSettingsSetupLoader"

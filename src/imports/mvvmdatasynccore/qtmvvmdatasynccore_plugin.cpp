@@ -7,6 +7,7 @@
 #include <QtMvvmDataSyncCore/DataSyncViewModel>
 #include <QtMvvmDataSyncCore/NetworkExchangeViewModel>
 #include <QtMvvmDataSyncCore/DataSyncSettingsViewModel>
+#include <QtMvvmDataSyncCore/DataSyncSettingsEntry>
 
 #include <QtMvvmDataSyncCore/private/identityeditviewmodel_p.h>
 #include <QtMvvmDataSyncCore/private/changeremoteviewmodel_p.h>

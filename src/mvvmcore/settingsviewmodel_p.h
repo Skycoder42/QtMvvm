@@ -10,8 +10,8 @@ class SettingsViewModelPrivate
 {
 public:
 	ISettingsSetupLoader *setupLoader = nullptr;
+	ISettingsAccessor *accessor = nullptr;
 
-	QSettings *settings = nullptr;
 	QString setupFile;
 
 	SettingsElements::Setup currentSetup;

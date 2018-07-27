@@ -7,25 +7,22 @@
 #include <QtMvvmCore/settingsviewmodel.h>
 
 #include "QtMvvmDataSyncCore/qtmvvmdatasynccore_global.h"
-#include "QtMvvmDataSyncCore/datasyncsettingsentry.h"
 
 namespace QtMvvm {
 
-class DataSyncSettingsViewModelPrivate;
 class Q_MVVMDATASYNCCORE_EXPORT DataSyncSettingsViewModel : public QtMvvm::SettingsViewModel
 {
 	Q_OBJECT
 
 public:
+	static const QString paramSetup;
+	static const QString paramDataStore;
+	static const QString paramDataTypeStore;
+
 	Q_INVOKABLE explicit DataSyncSettingsViewModel(QObject *parent = nullptr);
-	~DataSyncSettingsViewModel() override;
 
-	QVariant loadValue(const QString &key, const QVariant &defaultValue) const override;
-	void saveValue(const QString &key, const QVariant &value) override;
-	void resetValue(const QString &key) override;
-
-private:
-	QScopedPointer<DataSyncSettingsViewModelPrivate> d;
+protected:
+	void onInit(const QVariantHash &params) override;
 };
 
 }

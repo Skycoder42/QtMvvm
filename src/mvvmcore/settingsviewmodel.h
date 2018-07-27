@@ -9,6 +9,7 @@
 
 #include "QtMvvmCore/qtmvvmcore_global.h"
 #include "QtMvvmCore/settingssetup.h"
+#include "QtMvvmCore/isettingsaccessor.h"
 
 namespace QtMvvm {
 
@@ -17,6 +18,8 @@ class SettingsViewModelPrivate;
 class Q_MVVMCORE_EXPORT SettingsViewModel : public ViewModel
 {
 	Q_OBJECT
+
+	Q_PROPERTY(QtMvvm::ISettingsAccessor* accessor READ accessor WRITE setAccessor NOTIFY accessorChanged REVISION 1)
 
 	//! Specifies if restoring the defaults is generally allowed
 	Q_PROPERTY(bool canRestoreDefaults READ canRestoreDefaults CONSTANT)
@@ -28,6 +31,7 @@ class Q_MVVMCORE_EXPORT SettingsViewModel : public ViewModel
 	QTMVVM_INJECT(QtMvvm::ISettingsSetupLoader*, settingsSetupLoader)
 
 public:
+	static const QString paramAccessor;
 	//! The parameter for a QSettings object for the onInit() method
 	static const QString paramSettings;
 	//! The parameter for a settings setup file for the onInit() method
@@ -40,6 +44,7 @@ public:
 	Q_INVOKABLE explicit SettingsViewModel(QObject *parent = nullptr);
 	~SettingsViewModel() override;
 
+	QtMvvm::ISettingsAccessor* accessor() const;
 	//! @readAcFn{SettingsViewModel::canRestoreDefaults}
 	virtual bool canRestoreDefaults() const;
 	//! @readAcFn{SettingsViewModel::restoreConfig}
@@ -50,7 +55,7 @@ public:
 	//! Loads the settings setup of the prepared file for the given frontend
 	SettingsElements::Setup loadSetup(const QString &frontend) const;
 
-	//! Returns the settings this viewmodel operates on
+	//! Returns the settings this viewmodel operates on (or null if not using QtMvvm::QSettingsAccessor)
 	QSettings *settings() const;
 
 	//! Loads the value for the given key from the settings
@@ -65,10 +70,12 @@ public Q_SLOTS:
 	//! Is called when an action type edit is pressed
 	virtual void callAction(const QString &key, const QVariantMap &parameters);
 
+	Q_REVISION(1) void setAccessor(QtMvvm::ISettingsAccessor* accessor);
 	//! @writeAcFn{SettingsViewModel::settingsSetupLoader}
 	void setSettingsSetupLoader(QtMvvm::ISettingsSetupLoader* settingsSetupLoader);
 
 Q_SIGNALS:
+	Q_REVISION(1) void accessorChanged(QtMvvm::ISettingsAccessor* accessor);
 	//! @notifyAcFn{SettingsViewModel::settingsSetupLoader}
 	void settingsSetupLoaderChanged(QtMvvm::ISettingsSetupLoader* settingsSetupLoader, QPrivateSignal);
 

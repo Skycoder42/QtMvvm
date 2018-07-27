@@ -3,9 +3,11 @@
 #include "coreapp.h"
 #include "qtmvvm_logging_p.h"
 #include "settingssetuploader_p.h"
+#include "qsettingsaccessor.h"
 
 using namespace QtMvvm;
 
+const QString SettingsViewModel::paramAccessor(QStringLiteral("accessor"));
 const QString SettingsViewModel::paramSettings(QStringLiteral("settings"));
 const QString SettingsViewModel::paramSetupFile(QStringLiteral("setupFile"));
 
@@ -13,6 +15,11 @@ SettingsViewModel::SettingsViewModel(QObject *parent) :
 	ViewModel(parent),
 	d(new SettingsViewModelPrivate())
 {}
+
+ISettingsAccessor *SettingsViewModel::accessor() const
+{
+	return d->accessor;
+}
 
 SettingsViewModel::~SettingsViewModel() = default;
 
@@ -56,24 +63,23 @@ SettingsElements::Setup SettingsViewModel::loadSetup(const QString &frontend) co
 
 QSettings *SettingsViewModel::settings() const
 {
-	return d->settings;
+	auto qAccessor = qobject_cast<QSettingsAccessor*>(d->accessor);
+	return qAccessor ? qAccessor->settings() : nullptr;
 }
 
 QVariant SettingsViewModel::loadValue(const QString &key, const QVariant &defaultValue) const
 {
-	return d->settings->value(key, defaultValue);
+	return d->accessor->load(key, defaultValue);
 }
 
 void SettingsViewModel::saveValue(const QString &key, const QVariant &value)
 {
-	d->settings->setValue(key, value);
-	emit valueChanged(key);
+	d->accessor->save(key, value);
 }
 
 void SettingsViewModel::resetValue(const QString &key)
 {
-	d->settings->remove(key);
-	emit valueChanged(key);
+	d->accessor->remove(key);
 }
 
 void SettingsViewModel::resetAll(const SettingsElements::Setup &setup)
@@ -105,6 +111,32 @@ void SettingsViewModel::callAction(const QString &key, const QVariantMap &parame
 				 << "and parameters" << parameters;
 }
 
+void QtMvvm::SettingsViewModel::setAccessor(ISettingsAccessor *accessor)
+{
+	if(accessor == d->accessor)
+		return;
+
+	if(d->accessor) {
+		disconnect(d->accessor, &ISettingsAccessor::entryChanged,
+				   this, &SettingsViewModel::valueChanged);
+		disconnect(d->accessor, &ISettingsAccessor::entryRemoved,
+				   this, &SettingsViewModel::valueChanged);
+	}
+
+	if(d->accessor->parent() == this)
+		d->accessor->deleteLater();
+	d->accessor = accessor;
+
+	if(d->accessor) {
+		connect(d->accessor, &ISettingsAccessor::entryChanged,
+				this, &SettingsViewModel::valueChanged);
+		connect(d->accessor, &ISettingsAccessor::entryRemoved,
+				this, &SettingsViewModel::valueChanged);
+	}
+
+	emit accessorChanged(d->accessor);
+}
+
 void SettingsViewModel::setSettingsSetupLoader(ISettingsSetupLoader *settingsSetupLoader)
 {
 	if (d->setupLoader == settingsSetupLoader)
@@ -118,9 +150,16 @@ void SettingsViewModel::onInit(const QVariantHash &params)
 {
 	Q_ASSERT_X(d->setupLoader, Q_FUNC_INFO, "settingsSetupLoader must not be null");
 
-	d->settings = params.value(paramSettings).value<QSettings*>();
-	if(!d->settings)
-		d->settings = new QSettings(this);
+	auto accessor = params.value(paramAccessor).value<ISettingsAccessor*>();
+	if(!accessor) {
+		auto settings = params.value(paramSettings).value<QSettings*>();
+		if(settings)
+			accessor = new QSettingsAccessor{settings, this};
+		else
+			accessor = new QSettingsAccessor{this};
+	}
+	setAccessor(accessor);
+
 	d->setupFile = params.value(paramSetupFile).toString();
 	if(d->setupFile.isEmpty())
 		d->setupFile = QStringLiteral(":/etc/settings.xml");

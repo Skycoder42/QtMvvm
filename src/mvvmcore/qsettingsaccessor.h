@@ -25,6 +25,8 @@ public:
 	void save(const QString &key, const QVariant &value) override;
 	void remove(const QString &key) override;
 
+	QSettings *settings() const;
+
 public Q_SLOTS:
 	void sync() override;
 
