@@ -14,7 +14,7 @@
 
 namespace QtMvvm {
 
-class Q_MVVMCORE_EXPORT SettingsSetupLoader : public QObject, public ISettingsSetupLoader
+class Q_MVVMCORE_EXPORT Q_DECL_DEPRECATED SettingsSetupLoader : public QObject, public ISettingsSetupLoader
 {
 	Q_OBJECT
 	Q_INTERFACES(QtMvvm::ISettingsSetupLoader)

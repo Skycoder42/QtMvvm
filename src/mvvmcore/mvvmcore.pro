@@ -25,7 +25,8 @@ HEADERS += \
 	injection.h \
 	isettingsaccessor.h \
 	qsettingsaccessor.h \
-	settingsentry.h
+	settingsentry.h \
+    settingsconfigloader_p.h
 
 SOURCES += \
 	viewmodel.cpp \
@@ -39,7 +40,8 @@ SOURCES += \
 	settingsviewmodel.cpp \
 	isettingsaccessor.cpp \
 	qsettingsaccessor.cpp \
-	settingsentry.cpp
+	settingsentry.cpp \
+    settingsconfigloader.cpp
 
 include(../settingsconfig/settingsconfig.pri)
 

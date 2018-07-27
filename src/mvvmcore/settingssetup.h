@@ -122,7 +122,7 @@ public:
 	//! Can be used to overwrite the default icon for categories
 	virtual void changeDefaultIcon(const QUrl &defaultIcon) = 0;
 	//! Loads the settings setup from the given file
-	virtual SettingsElements::Setup loadSetup(const QString &filePath, const QString &frontend, const QFileSelector *selector) const = 0;
+	virtual SettingsElements::Setup loadSetup(const QString &filePath, const QString &frontend, const QFileSelector *selector) const = 0; //MAJOR remove const
 };
 
 }

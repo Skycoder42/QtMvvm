@@ -1,7 +1,7 @@
 #include "qtmvvmcore_global.h"
 #include "qtmvvm_logging_p.h"
 #include "serviceregistry.h"
-#include "settingssetuploader_p.h"
+#include "settingsconfigloader_p.h"
 
 #include <QtCore/QCoreApplication>
 
@@ -12,7 +12,7 @@ void qtMvvmCoreStartup()
 	using namespace QtMvvm;
 	registerInterfaceConverter<ISettingsSetupLoader>();
 	try {
-		ServiceRegistry::instance()->registerInterface<ISettingsSetupLoader, SettingsSetupLoader>(ServiceRegistry::DestroyOnAppDestroy, true);
+		ServiceRegistry::instance()->registerInterface<ISettingsSetupLoader, SettingsConfigLoader>(ServiceRegistry::DestroyOnAppDestroy, true);
 	} catch(ServiceExistsException &e) {
 		logDebug() << "Unable to register default ISettingsSetupLoader with error:" << e.what();
 	}
