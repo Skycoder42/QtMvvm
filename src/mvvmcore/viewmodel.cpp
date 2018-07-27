@@ -68,7 +68,7 @@ void ViewModel::showImp(const QMetaObject *metaObject, QVariantHash params, QPoi
 {
 	QMetaObject::invokeMethod(CoreAppPrivate::dInstance().data(), "showViewModel", Qt::QueuedConnection,
 							  Q_ARG(const QMetaObject*, metaObject),
-							  Q_ARG(QVariantHash, std::move(params)),
-							  Q_ARG(QPointer<ViewModel>, std::move(parent)),
+							  Q_ARG(QVariantHash, params),
+							  Q_ARG(QPointer<ViewModel>, parent),
 							  Q_ARG(quint32, requestCode));
 }

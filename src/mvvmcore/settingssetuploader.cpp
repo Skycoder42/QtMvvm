@@ -461,10 +461,10 @@ bool SettingsSetupLoader::isUsable(const T &configElement, const QString &fronte
 		return false;
 
 	auto selects = configElement.selectors.split(QLatin1Char('|'), QString::SkipEmptyParts);
-	for(auto select : selects) {
+	for(const auto &select : selects) {
 		auto sels = select.split(QLatin1Char('&'), QString::SkipEmptyParts);
 		auto allSelected = true;
-		for(auto sel : sels) {
+		for(const auto &sel : sels) {
 			if(!selectors.contains(sel)) {
 				allSelected = false;
 				break;

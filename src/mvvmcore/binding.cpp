@@ -112,14 +112,14 @@ void Binding::unbind()
 
 Binding BindingPrivate::bind(QObject *viewModel, QMetaProperty viewModelProperty, QObject *view, QMetaProperty viewProperty, Binding::BindingDirection type, QMetaMethod viewModelChangeSignal, QMetaMethod viewChangeSignal)
 {
-	QPointer<BindingPrivate> binderPrivate = new BindingPrivate(viewModel, std::move(viewModelProperty), view, std::move(viewProperty));
+	QPointer<BindingPrivate> binderPrivate = new BindingPrivate(viewModel, viewModelProperty, view, viewProperty);
 
 	if(type.testFlag(Binding::SingleInit))
 		binderPrivate->init();
 	if(type.testFlag(Binding::OneWayToView))
-		binderPrivate->bindFrom(std::move(viewModelChangeSignal));
+		binderPrivate->bindFrom(viewModelChangeSignal);
 	if(type.testFlag(Binding::OneWayToViewModel))
-		binderPrivate->bindTo(std::move(viewChangeSignal));
+		binderPrivate->bindTo(viewChangeSignal);
 
 	return binderPrivate;
 }
@@ -128,8 +128,8 @@ BindingPrivate::BindingPrivate(QObject *viewModel, QMetaProperty viewModelProper
 	QObject(view),
 	viewModel(viewModel),
 	view(view),
-	viewModelProperty(std::move(viewModelProperty)),
-	viewProperty(std::move(viewProperty))
+	viewModelProperty(viewModelProperty),
+	viewProperty(viewProperty)
 {
 	connect(viewModel, &QObject::destroyed,
 			this, &BindingPrivate::deleteLater);

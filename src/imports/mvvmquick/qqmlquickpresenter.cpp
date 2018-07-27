@@ -127,8 +127,8 @@ void QQmlQuickPresenter::present(ViewModel *viewModel, const QVariantHash &param
 		}
 		_latestComponent = new QQmlComponent{_engine};
 		component = new QSharedPointer<QQmlComponent>{_latestComponent.data()};
-		_componentCache.insert(viewUrl, component);
 		_loadQueue.enqueue(std::make_tuple(*component, viewModel, params, parent));
+		_componentCache.insert(viewUrl, component);
 
 		//setup ui status
 		emit viewLoadingChanged(true);

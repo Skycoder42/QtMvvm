@@ -110,6 +110,7 @@ void QuickPresenter::setInputViewFactory(InputViewFactory *inputViewFactory)
 
 QUrl QuickPresenter::findViewUrl(const QMetaObject *viewModelType)
 {
+	Q_ASSERT(viewModelType);
 	auto currentMeta = viewModelType;
 	while(currentMeta &&
 		  currentMeta->inherits(&ViewModel::staticMetaObject) &&

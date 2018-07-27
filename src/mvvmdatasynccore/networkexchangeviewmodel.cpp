@@ -115,7 +115,7 @@ void NetworkExchangeViewModel::setDeviceName(QString deviceName)
 		this->deviceName() == deviceName)
 		return;
 
-	d->exchangeManager->accountManager()->setDeviceName(std::move(deviceName));
+	d->exchangeManager->accountManager()->setDeviceName(deviceName);
 }
 
 void NetworkExchangeViewModel::setActive(bool active)

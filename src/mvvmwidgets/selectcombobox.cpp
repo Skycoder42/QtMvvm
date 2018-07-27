@@ -21,7 +21,9 @@ QVariant SelectComboBox::currentValue() const
 QVariantList SelectComboBox::listElements() const
 {
 	QVariantList res;
-	for(auto i = 0; i < count(); i++) {
+	auto mCount = count();
+	res.reserve(mCount);
+	for(auto i = 0; i < mCount; i++) {
 		auto key = itemText(i);
 		auto value = itemData(i);
 		if(key == value)

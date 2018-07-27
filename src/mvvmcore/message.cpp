@@ -39,7 +39,7 @@ MessageConfig::MessageConfig(const QByteArray &type, const QByteArray &subType) 
 	resetButtons();
 }
 
-MessageConfig::MessageConfig(MessageConfig &&other)= default;
+MessageConfig::MessageConfig(MessageConfig &&other) noexcept = default;
 
 MessageConfig::MessageConfig(const MessageConfig &other) = default;
 
@@ -47,7 +47,7 @@ MessageConfig::~MessageConfig() = default;
 
 MessageConfig &MessageConfig::operator=(const MessageConfig &other) = default;
 
-MessageConfig &MessageConfig::operator=(MessageConfig &&other) = default;
+MessageConfig &MessageConfig::operator=(MessageConfig &&other) noexcept = default;
 
 QByteArray MessageConfig::type() const
 {

@@ -4,6 +4,7 @@
 #include <QtWidgets/QStylePainter>
 #include <QtWidgets/QStyleOptionFrame>
 #include <QtMvvmCore/Messages>
+#include <utility>
 using namespace QtMvvm;
 
 ColorEdit::ColorEdit(QWidget *parent) :
@@ -113,7 +114,7 @@ QSize ColorButton::sizeHint() const
 
 void ColorButton::setColor(QColor color)
 {
-	_color = color;
+	_color = std::move(color);
 	repaint();
 }
 

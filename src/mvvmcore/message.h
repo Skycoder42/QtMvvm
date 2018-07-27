@@ -123,12 +123,12 @@ public:
 	MessageConfig(const QByteArray &type = TypeMessageBox, const QByteArray &subType = {});
 	//! Copy constructor
 	MessageConfig(const MessageConfig &other);
-	MessageConfig(MessageConfig &&other);
+	MessageConfig(MessageConfig &&other) noexcept;
 	~MessageConfig();
 
 	//! Assignment operator
 	MessageConfig &operator=(const MessageConfig &other);
-	MessageConfig &operator=(MessageConfig &&other);
+	MessageConfig &operator=(MessageConfig &&other) noexcept;
 
 	//! @readAcFn{MessageConfig::type}
 	QByteArray type() const;

@@ -25,7 +25,7 @@ void ResultViewModel::setResult(QString result)
 	if (_result == result)
 		return;
 
-	_result = result;
+	_result = std::move(result);
 	emit resultChanged(_result);
 }
 
