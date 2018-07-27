@@ -41,6 +41,8 @@ SOURCES += \
 	qsettingsaccessor.cpp \
 	settingsentry.cpp
 
+include(../settingsconfig/settingsconfig.pri)
+
 TRANSLATIONS += \
 	translations/qtmvvmcore_de.ts \
 	translations/qtmvvmcore_template.ts

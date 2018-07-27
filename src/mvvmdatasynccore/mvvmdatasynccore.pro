@@ -15,10 +15,10 @@ HEADERS += \
 	networkexchangeviewmodel_p.h \
 	exchangedevicesmodel.h \
 	exchangedevicesmodel_p.h \
-    datasyncsettingsviewmodel.h \
-    datasyncsettingsaccessor.h \
-    datasyncsettingsentry.h \
-    datasyncsettingsaccessor_p.h
+	datasyncsettingsviewmodel.h \
+	datasyncsettingsaccessor.h \
+	datasyncsettingsentry.h \
+	datasyncsettingsaccessor_p.h
 
 SOURCES += \
 	datasyncviewmodel.cpp \
@@ -28,9 +28,9 @@ SOURCES += \
 	identityeditviewmodel.cpp \
 	networkexchangeviewmodel.cpp \
 	exchangedevicesmodel.cpp \
-    datasyncsettingsviewmodel.cpp \
-    datasyncsettingsaccessor.cpp \
-    datasyncsettingsentry.cpp
+	datasyncsettingsviewmodel.cpp \
+	datasyncsettingsaccessor.cpp \
+	datasyncsettingsentry.cpp
 
 TRANSLATIONS += \
 	translations/qtmvvmdatasynccore_de.ts \

@@ -16,7 +16,6 @@ DEFINES += "BUNDLE_PREFIX=\\\"$$BUNDLE_PREFIX\\\""
 
 HEADERS += \
 	settingstranslator.h \
-    settingsconfigimpl.h \
     cppsettingsgenerator.h \
     settingsgeneratorimpl.h \
     qmlsettingsgenerator.h
@@ -24,18 +23,16 @@ HEADERS += \
 SOURCES += \
 	main.cpp \
 	settingstranslator.cpp \
-    settingsconfigimpl.cpp \
     cppsettingsgenerator.cpp \
     settingsgeneratorimpl.cpp \
     qmlsettingsgenerator.cpp
 
 XML_SCHEMA_DEFINITIONS += \
-	qsettingsgenerator.xsd \
-	settingsconfig.xsd
+	qsettingsgenerator.xsd
+
+include(../../src/settingsconfig/settingsconfig.pri)
 
 contains(QT, xmlpatterns):RESOURCES += qsettingsgenerator.qrc
-
-include(../3rdparty/3rdparty.pri)
 
 load(qt_tool)
 
