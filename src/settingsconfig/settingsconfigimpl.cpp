@@ -68,11 +68,12 @@ struct visitor
 			_iter = _list.erase(_iter);
 	}
 
-	VariantType operator()(const SettingsConfigBase::IncludeType &) const { Q_UNREACHABLE(); return {}; }
 	VariantType operator()(const SettingsConfigBase::EntryType &info) const { process(info); return {}; }
 	VariantType operator()(const SettingsConfigBase::GroupType &info) const { process(info); return {}; }
 	VariantType operator()(const SettingsConfigBase::SectionType &info) const { process(info); return {}; }
 	VariantType operator()(const SettingsConfigBase::CategoryType &info) const { process(info); return {}; }
+	template <typename T>
+	VariantType operator()(const T &) const { Q_UNREACHABLE(); return {}; }
 };
 
 }
