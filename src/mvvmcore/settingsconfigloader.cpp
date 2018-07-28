@@ -136,6 +136,7 @@ Entry SettingsConfigLoader::convertEntry(const EntryType &entry) const
 		auto data = readProperty(prop);
 		ent.properties.insert(data.first, data.second);
 	}
+	return ent;
 }
 
 QVariant SettingsConfigLoader::readElement(const ElementType &element) const
