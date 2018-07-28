@@ -163,10 +163,12 @@ void ServiceRegistryTest::testPluginRegistration()
 		QVERIFY(QFile::exists(QStringLiteral(PLUGIN_TESTDIR "/serviceregistry/libserviceregistry_testplugin.so")));
 #elif defined(Q_OS_DARWIN)
 		QVERIFY(QFile::exists(QStringLiteral(PLUGIN_TESTDIR "/serviceregistry/libserviceregistry_testplugin.dylib")));
-		QVERIFY(QFile::exists(QStringLiteral(PLUGIN_TESTDIR "/serviceregistry/libserviceregistry_testplugin_debug.dylib")));
 #elif defined(Q_OS_WIN)
-		QVERIFY(QFile::exists(QStringLiteral(PLUGIN_TESTDIR "/serviceregistry/libserviceregistry_testplugin.dll")));
-		QVERIFY(QFile::exists(QStringLiteral(PLUGIN_TESTDIR "/serviceregistry/libserviceregistry_testplugind.dll")));
+#ifdef QT_NO_DEBUG
+		QVERIFY(QFile::exists(QStringLiteral(PLUGIN_TESTDIR "/serviceregistry/serviceregistry_testplugin.dll")));
+#else
+		QVERIFY(QFile::exists(QStringLiteral(PLUGIN_TESTDIR "/serviceregistry/serviceregistry_testplugind.dll")));
+#endif
 #endif
 
 		qputenv("QT_PLUGIN_PATH", PLUGIN_TESTDIR);

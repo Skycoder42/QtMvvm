@@ -5,7 +5,7 @@ QT = core mvvmcore
 
 load(qt_build_paths)
 
-TARGET = serviceregistry_testplugin
+TARGET = $$qtLibraryTarget(serviceregistry_testplugin)
 DESTDIR = $$MODULE_BASE_OUTDIR/tests/plugins/serviceregistry
 
 HEADERS += \
