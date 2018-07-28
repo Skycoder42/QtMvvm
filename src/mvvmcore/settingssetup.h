@@ -34,7 +34,7 @@ struct Entry
 	QVariantMap properties;
 
 	//! *[Internal]* A logical string describing the allowed frontends
-	QString frontends;
+	QString frontends; //MAJOR remove all
 	//! *[Internal]* A logical string describing the allowed selectors
 	QString selectors;
 };

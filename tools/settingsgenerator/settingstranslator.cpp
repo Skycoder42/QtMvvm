@@ -4,7 +4,9 @@
 SettingsTranslator::SettingsTranslator(const QString &srcPath) :
 	_srcFile{srcPath},
 	_src{&_srcFile}
-{}
+{
+	setIncludesOptional(true);
+}
 
 void SettingsTranslator::process(const QString &inPath)
 {

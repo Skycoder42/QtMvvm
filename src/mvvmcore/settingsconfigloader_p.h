@@ -23,9 +23,9 @@ public:
 
 private:
 	QUrl _defaultIcon;
-	mutable QCache<QString, SettingsElements::Setup> _cache;
+	mutable QCache<std::tuple<QString, QString, QStringList>, SettingsElements::Setup> _cache;
 
-	SettingsElements::Setup *convertSettings(const SettingsConfigType &settings) const;
+	SettingsElements::Setup convertSettings(const SettingsConfigType &settings) const;
 
 	template <typename... TContent>
 	SettingsElements::Category convertCategory(const CategoryType &category, const QList<variant<TContent...>> &content) const;
@@ -51,5 +51,7 @@ private:
 };
 
 }
+
+uint qHash(const std::tuple<QString, QString, QStringList> &key, uint seed);
 
 #endif // SETTINGSCONFIGLOADER_P_H

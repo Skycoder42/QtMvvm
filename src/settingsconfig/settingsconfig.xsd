@@ -13,15 +13,8 @@
 	<qxg:method name="finish_category_content" type="CategoryContentGroup" asGroup="true"/>
 	<qxg:method name="finish_settings_config_content" type="SettingsConfigContentGroup" asGroup="true"/>
 
-	<!-- Basic property-like elements definitions -->
-	<xs:complexType name="IncludeType">
-		<xs:simpleContent>
-			<xs:extension base="xs:string" qxg:member="includePath">
-				<xs:attribute type="xs:boolean" name="optional" default="false" use="optional"/>
-			</xs:extension>
-		</xs:simpleContent>
-	</xs:complexType>
 
+	<!-- Basic property-like elements definitions -->
 	<xs:complexType name="ElementType" mixed="true" qxg:declare="true" qxg:member="content">
 		<xs:sequence>
 			<xs:element maxOccurs="unbounded" minOccurs="0" type="PropertyType" name="Property" qxg:member="properties"/>
@@ -43,11 +36,15 @@
 
 
 	<!-- Group Definitions to build the elements from -->
-	<xs:attributeGroup name="BasicContainerInfo">
-		<xs:attribute type="xs:string" name="title" use="optional"/>
-		<xs:attribute type="xs:string" name="tooltip" use="optional"/>
+	<xs:attributeGroup name="SelectableContrainerInfo">
 		<xs:attribute type="xs:string" name="frontends" use="optional"/>
 		<xs:attribute type="xs:string" name="selectors" use="optional"/>
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="BasicContainerInfo">
+		<xs:attributeGroup ref="SelectableContrainerInfo" qxg:inherit="true"/>
+		<xs:attribute type="xs:string" name="title" use="optional"/>
+		<xs:attribute type="xs:string" name="tooltip" use="optional"/>
 	</xs:attributeGroup>
 
 	<xs:attributeGroup name="ExtendedContainerInfo">
@@ -100,6 +97,15 @@
 
 
 	<!-- Element definitions -->
+	<xs:complexType name="IncludeType" qxg:declare="true">
+		<xs:simpleContent>
+			<xs:extension base="xs:string" qxg:member="includePath">
+				<xs:attributeGroup ref="SelectableContrainerInfo" qxg:inherit="true"/>
+				<xs:attribute type="xs:boolean" name="optional" default="false" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
 	<xs:complexType name="EntryType" qxg:declare="true">
 		<xs:sequence>
 			<xs:choice maxOccurs="unbounded" minOccurs="0" qxg:unordered="true">

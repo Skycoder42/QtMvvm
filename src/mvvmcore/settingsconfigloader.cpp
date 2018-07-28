@@ -14,41 +14,46 @@ void SettingsConfigLoader::changeDefaultIcon(const QUrl &defaultIcon)
 
 Setup SettingsConfigLoader::loadSetup(const QString &filePath, const QString &frontend, const QFileSelector *selector) const
 {
+	auto keyTuple = std::make_tuple(filePath, frontend, selector->allSelectors());
 	Setup setup;
-	if(!_cache.contains(filePath)) {
+	if(!_cache.contains(keyTuple)) {
 		try {
+			const_cast<SettingsConfigLoader*>(this)->setFilters(frontend, selector);
 			auto config = const_cast<SettingsConfigLoader*>(this)->readDocument(filePath);
+			const_cast<SettingsConfigLoader*>(this)->resetFilters();
+
 			if(!nonstd::holds_alternative<SettingsConfigType>(config))
 				throw SettingsConfigException{"Root Element of \"" + filePath.toUtf8() + "\" must be a SettingsConfig"};
-			_cache.insert(filePath, convertSettings(nonstd::get<SettingsConfigType>(config)));
+
+			setup = convertSettings(nonstd::get<SettingsConfigType>(config));
+			_cache.insert(keyTuple, new Setup{setup});
 		} catch (Exception &e) {
 			throw SettingsConfigException{e};
 		}
 	} else
-		setup = *(_cache.object(filePath));
+		setup = *(_cache.object(keyTuple));
 
-	//TODO clearSetup(setup, frontend, selector->allSelectors());
 	return setup;
 }
 
-Setup *SettingsConfigLoader::convertSettings(const SettingsConfigType &settings) const
+Setup SettingsConfigLoader::convertSettings(const SettingsConfigType &settings) const
 {
-	QScopedPointer<Setup> setup{new Setup{}};
+	Setup setup;
 
-	setup->allowSearch = settings.allowSearch;
-	setup->allowRestore = settings.allowRestore;
+	setup.allowSearch = settings.allowSearch;
+	setup.allowRestore = settings.allowRestore;
 
 	for(const auto &element : settings.content) {
 		if(nonstd::holds_alternative<CategoryType>(element)) {//holds categories -> read them
 			const auto &category = nonstd::get<CategoryType>(element);
-			setup->categories.append(convertCategory(category, category.content));
+			setup.categories.append(convertCategory(category, category.content));
 		} else { //hold anything else -> create default from all child and thus break
-			setup->categories.append(convertCategory({}, settings.content));
+			setup.categories.append(convertCategory({}, settings.content));
 			break;
 		}
 	}
 
-	return setup.take();
+	return setup;
 }
 
 template<typename... TContent>
@@ -58,8 +63,6 @@ Category SettingsConfigLoader::convertCategory(const CategoryType &category, con
 	cat.title = category.title.value_or(tr("General Settings"));
 	cat.icon = category.icon ? QUrl{category.icon.value()} : _defaultIcon;
 	cat.tooltip = category.tooltip.value_or(QString{});
-	cat.selectors = category.selectors.value_or(QString{});
-	cat.frontends = category.frontends.value_or(QString{});
 	for(const auto &element : content) {
 		if(nonstd::holds_alternative<SectionType>(element)) {//holds sections -> read them
 			const auto &section = nonstd::get<SectionType>(element);
@@ -79,8 +82,6 @@ Section SettingsConfigLoader::convertSection(const SectionType &section, const Q
 	sec.title = section.title.value_or(tr("General"));
 	sec.icon = section.icon ? QUrl{section.icon.value()} : QUrl{};
 	sec.tooltip = section.tooltip.value_or(QString{});
-	sec.selectors = section.selectors.value_or(QString{});
-	sec.frontends = section.frontends.value_or(QString{});
 	for(const auto &element : content) {
 		if(nonstd::holds_alternative<GroupType>(element)) {//holds sections -> read them
 			const auto &group = nonstd::get<GroupType>(element);
@@ -99,8 +100,6 @@ Group SettingsConfigLoader::convertGroup(const GroupType &group, const QList<var
 	Group grp;
 	grp.title = group.title.value_or(QString{});
 	grp.tooltip = group.tooltip.value_or(QString{});
-	grp.selectors = group.selectors.value_or(QString{});
-	grp.frontends = group.frontends.value_or(QString{});
 	for(const auto &element : content) {
 		if(nonstd::holds_alternative<EntryType>(element)) {//holds sections -> read them
 			const auto &entry = nonstd::get<EntryType>(element);
@@ -134,4 +133,13 @@ void SettingsConfigException::raise() const
 QException *SettingsConfigException::clone() const
 {
 	return new SettingsConfigException{_what};
+}
+
+
+
+uint qHash(const std::tuple<QString, QString, QStringList> &key, uint seed)
+{
+	return qHash(std::get<0>(key), seed) ^
+			qHash(std::get<1>(key), seed) ^
+			qHash(std::get<2>(key), seed);
 }
