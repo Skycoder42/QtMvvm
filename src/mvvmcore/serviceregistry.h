@@ -47,6 +47,7 @@ public:
 	//! Register a service for its interface via an already existing instance
 	template <typename TInterface, typename TService>
 	void registerInterface(TService *service, DestructionScope scope = DestroyOnAppDestroy, bool weak = false);
+
 	//! Register a service via its type
 	template <typename TService>
 	void registerObject(DestructionScope scope = DestroyOnAppDestroy, bool weak = false);

@@ -1,4 +1,8 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    settingsgenerator
+	settingsgenerator \
+	serviceregistry \
+	serviceregistrytestplugin
+
+serviceregistry.depends += serviceregistrytestplugin
