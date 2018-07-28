@@ -122,6 +122,7 @@ InputViewFactoryPrivate::InputViewFactoryPrivate() :
 		{QMetaType::typeName(QMetaType::QColor), QStringLiteral("qrc:/qtmvvm/inputs/ColorEdit.qml")},
 		{"color", QStringLiteral("qrc:/qtmvvm/inputs/ColorEdit.qml")},
 		{QMetaType::typeName(QMetaType::QFont), QStringLiteral("qrc:/qtmvvm/inputs/FontEdit.qml")},
+		{"font", QStringLiteral("qrc:/qtmvvm/inputs/FontEdit.qml")},
 		{QMetaType::typeName(QMetaType::QUrl), QStringLiteral("qrc:/qtmvvm/inputs/UrlField.qml")},
 		{"url", QStringLiteral("qrc:/qtmvvm/inputs/UrlField.qml")},
 		{"selection", QStringLiteral("qrc:/qtmvvm/inputs/ListEdit.qml")},
@@ -137,13 +138,16 @@ InputViewFactoryPrivate::InputViewFactoryPrivate() :
 	formatters{
 		{QMetaType::typeName(QMetaType::Int), QSharedPointer<IntFormatter>::create()},
 		{QMetaType::typeName(QMetaType::QTime), QSharedPointer<DateTimeFormatter<QTime>>::create()},
-		{QMetaType::typeName(QMetaType::QDate), QSharedPointer<DateTimeFormatter<QDate>>::create()},
-		{QMetaType::typeName(QMetaType::QDateTime), QSharedPointer<DateTimeFormatter<QDateTime>>::create()}
+		{QMetaType::typeName(QMetaType::QDate), QSharedPointer<DateTimeFormatter<QDate>>::create()}
 	}
 {
 	auto dblFormatter = QSharedPointer<SimpleFormatter<double>>::create();
 	formatters.insert(QMetaType::typeName(QMetaType::Double), dblFormatter);
 	formatters.insert("number", dblFormatter);
+
+	auto dateFormatter = QSharedPointer<DateTimeFormatter<QDateTime>>::create();
+	formatters.insert(QMetaType::typeName(QMetaType::QDateTime), dateFormatter);
+	formatters.insert("date", dateFormatter);
 
 	auto listFormatter = QSharedPointer<ListFormatter>::create();
 	formatters.insert("selection", listFormatter);

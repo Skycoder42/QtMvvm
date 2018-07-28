@@ -65,7 +65,7 @@ QWidget *InputWidgetFactory::createInput(const QByteArray &type, QWidget *parent
 		static_cast<QDateEdit*>(widget)->setCalendarPopup(true);
 	} else if(type == QMetaType::typeName(QMetaType::QColor) || type == "color")
 		widget = new ColorEdit(parent);
-	else if(type == QMetaType::typeName(QMetaType::QFont))
+	else if(type == QMetaType::typeName(QMetaType::QFont) || type == "font")
 		widget = new FontComboBox(parent);
 	else if(type == QMetaType::typeName(QMetaType::QKeySequence))
 		widget = new QKeySequenceEdit(parent);

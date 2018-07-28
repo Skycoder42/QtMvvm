@@ -33,6 +33,15 @@ private:
 	SettingsElements::Section convertSection(const SectionType &section, const QList<variant<TContent...>> &content) const;
 	template <typename... TContent>
 	SettingsElements::Group convertGroup(const GroupType &group, const QList<variant<TContent...>> &content) const;
+	SettingsElements::Entry convertEntry(const EntryType &entry) const;
+
+	QVariant readElement(const ElementType &element) const;
+	QPair<QString, QVariant> readProperty(const PropertyType &property) const;
+
+	template <typename TType = QString>
+	TType trIf(const optional<QString> &text, const TType &defaultValue = {}) const;
+	template <typename TType = QString>
+	TType trIf(const optional<QString> &text, bool allowTr, const TType &defaultValue = {}) const;
 };
 
 class SettingsConfigException : public SettingsLoaderException

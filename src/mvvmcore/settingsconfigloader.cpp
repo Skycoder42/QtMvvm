@@ -1,4 +1,5 @@
 #include "settingsconfigloader_p.h"
+#include <QtCore/QCoreApplication>
 using namespace QtMvvm;
 using namespace QtMvvm::SettingsElements;
 
@@ -60,9 +61,9 @@ template<typename... TContent>
 Category SettingsConfigLoader::convertCategory(const CategoryType &category, const QList<variant<TContent...>> &content) const
 {
 	Category cat;
-	cat.title = category.title.value_or(tr("General Settings"));
+	cat.title = trIf(category.title, tr("General Settings"));
 	cat.icon = category.icon ? QUrl{category.icon.value()} : _defaultIcon;
-	cat.tooltip = category.tooltip.value_or(QString{});
+	cat.tooltip = trIf(category.tooltip);
 	for(const auto &element : content) {
 		if(nonstd::holds_alternative<SectionType>(element)) {//holds sections -> read them
 			const auto &section = nonstd::get<SectionType>(element);
@@ -79,9 +80,9 @@ template<typename... TContent>
 Section SettingsConfigLoader::convertSection(const SectionType &section, const QList<variant<TContent...>> &content) const
 {
 	Section sec;
-	sec.title = section.title.value_or(tr("General"));
+	sec.title = trIf(section.title, tr("General"));
 	sec.icon = section.icon ? QUrl{section.icon.value()} : QUrl{};
-	sec.tooltip = section.tooltip.value_or(QString{});
+	sec.tooltip = trIf(section.tooltip);
 	for(const auto &element : content) {
 		if(nonstd::holds_alternative<GroupType>(element)) {//holds sections -> read them
 			const auto &group = nonstd::get<GroupType>(element);
@@ -98,16 +99,99 @@ template<typename... TContent>
 Group SettingsConfigLoader::convertGroup(const GroupType &group, const QList<variant<TContent...>> &content) const
 {
 	Group grp;
-	grp.title = group.title.value_or(QString{});
-	grp.tooltip = group.tooltip.value_or(QString{});
+	grp.title = trIf(group.title);
+	grp.tooltip = trIf(group.tooltip);
 	for(const auto &element : content) {
-		if(nonstd::holds_alternative<EntryType>(element)) {//holds sections -> read them
-			const auto &entry = nonstd::get<EntryType>(element);
-			//TODO read it
-		} else
+		if(nonstd::holds_alternative<EntryType>(element)) //holds sections -> read them
+			grp.entries.append(convertEntry(nonstd::get<EntryType>(element)));
+		else
 			Q_UNREACHABLE();
 	}
 	return grp;
+}
+
+Entry SettingsConfigLoader::convertEntry(const EntryType &entry) const
+{
+	Entry ent;
+	ent.key = entry.key;
+	ent.type = entry.type.toUtf8();
+	ent.title = trIf(entry.title);
+	ent.tooltip = trIf(entry.tooltip);
+	ent.defaultValue = trIf<QVariant>(entry.defaultValue, entry.trdefault);
+	ent.searchKeys.reserve(entry.searchKeys.size());
+	for(const auto &key : entry.searchKeys)
+		ent.searchKeys.append(trIf(key));
+	for(const auto &prop : entry.properties) {
+		auto data = readProperty(prop);
+		ent.properties.insert(data.first, data.second);
+	}
+}
+
+QVariant SettingsConfigLoader::readElement(const ElementType &element) const
+{
+	static const QHash<QString, QString> knownTypeMap {
+		{QStringLiteral("switch"), QStringLiteral("bool")},
+		{QStringLiteral("string"), QStringLiteral("QString")},
+		{QStringLiteral("regexp"), QStringLiteral("QRegularExpression")},
+		{QStringLiteral("number"), QStringLiteral("double")},
+		{QStringLiteral("range"), QStringLiteral("int")},
+		{QStringLiteral("date"), QStringLiteral("QDateTime")},
+		{QStringLiteral("color"), QStringLiteral("QColor")},
+		{QStringLiteral("font"), QStringLiteral("QFont")},
+		{QStringLiteral("url"), QStringLiteral("QUrl")},
+		{QStringLiteral("selection"), QStringLiteral("list")},
+		{QStringLiteral("radiolist"), QStringLiteral("list")}
+	};
+	const auto &realType = knownTypeMap.value(element.type, element.type);
+
+	//TODO move to parser for low-level asserts and conversion (i.e. content matches type, ...)
+	if(realType == QStringLiteral("object")) {
+		QVariantMap obj;
+		for(const auto &prop : element.properties) {
+			auto data = readProperty(prop);
+			obj.insert(data.first, data.second);
+		}
+		return obj;
+	} else if(realType == QStringLiteral("list")) {
+		QVariantList list;
+		list.reserve(element.elements.size());
+		for(const auto &elem : element.elements)
+			list.append(readElement(elem));
+		return list;
+	} else {
+		auto typeId = QMetaType::type(qUtf8Printable(realType));
+		if(typeId == QMetaType::UnknownType)
+			throw SettingsConfigException{"Unknown typename: " + realType.toUtf8()};
+		auto mVariant = trIf<QVariant>(element.content, element.tr);
+		if(!mVariant.convert(typeId))
+			throw SettingsConfigException("Failed to convert element data to type: " + realType.toUtf8());
+		return mVariant;
+	}
+}
+
+QPair<QString, QVariant> SettingsConfigLoader::readProperty(const PropertyType &property) const
+{
+	return {property.key, readElement(property)};
+}
+
+template <typename TType>
+TType SettingsConfigLoader::trIf(const optional<QString> &text, const TType &defaultValue) const
+{
+	if(text)
+		return TType{QCoreApplication::translate("qtmvvm_settings_xml", qUtf8Printable(text.value()))};
+	else
+		return defaultValue;
+}
+
+template <typename TType>
+TType SettingsConfigLoader::trIf(const optional<QString> &text, bool allowTr, const TType &defaultValue) const
+{
+	if(allowTr)
+		return trIf(text, defaultValue);
+	else if(text)
+		return TType{text.value()};
+	else
+		return defaultValue;
 }
 
 
