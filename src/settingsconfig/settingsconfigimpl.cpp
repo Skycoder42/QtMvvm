@@ -36,17 +36,26 @@ struct VariantInfo<QList<SettingsConfigBase::variant<SettingsConfigBase::Include
 	}
 };
 
+template <typename T>
+struct ListInfo;
+
+template <typename T>
+struct ListInfo<QList<T>> {
+	using TElement = T;
+};
+
 template <typename TIter, typename TList>
 struct visitor
 {
 	using IterType = typename std::decay<TIter>::type;
 	using ListType = typename std::decay<TList>::type;
+	using VariantType = typename ListInfo<ListType>::TElement;
 
 	SettingsConfigImpl &_reader;
 	IterType &_iter;
-	ListType &_list;
+	QList<VariantType> &_list;
 
-	visitor(SettingsConfigImpl &reader, IterType &iter, ListType &list) :
+	visitor(SettingsConfigImpl &reader, IterType &iter, QList<VariantType> &list) :
 		_reader{reader},
 		_iter{iter},
 		_list{list}
@@ -59,11 +68,11 @@ struct visitor
 			_iter = _list.erase(_iter);
 	}
 
-	void operator()(const SettingsConfigBase::IncludeType &) const { Q_UNREACHABLE(); }
-	void operator()(const SettingsConfigBase::EntryType &info) const { process(info); }
-	void operator()(const SettingsConfigBase::GroupType &info) const { process(info); }
-	void operator()(const SettingsConfigBase::SectionType &info) const { process(info); }
-	void operator()(const SettingsConfigBase::CategoryType &info) const { process(info); }
+	VariantType operator()(const SettingsConfigBase::IncludeType &) const { Q_UNREACHABLE(); return {}; }
+	VariantType operator()(const SettingsConfigBase::EntryType &info) const { process(info); return {}; }
+	VariantType operator()(const SettingsConfigBase::GroupType &info) const { process(info); return {}; }
+	VariantType operator()(const SettingsConfigBase::SectionType &info) const { process(info); return {}; }
+	VariantType operator()(const SettingsConfigBase::CategoryType &info) const { process(info); return {}; }
 };
 
 }
