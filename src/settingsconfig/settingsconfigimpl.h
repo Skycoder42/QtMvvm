@@ -20,6 +20,10 @@ protected:
 	bool finish_category_content(QXmlStreamReader &reader, CategoryContentGroup &data, bool hasNext) override;
 	bool finish_settings_config_content(QXmlStreamReader &reader, SettingsConfigContentGroup &data, bool hasNext) override;
 
+	virtual QStringList allSelectors() const;
+	virtual QString select(const QString &path) const;
+	const QFileSelector *selector() const;
+
 private:
 	template <typename TGroup>
 	void finishContents(QXmlStreamReader &reader, TGroup &group);

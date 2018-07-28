@@ -21,6 +21,10 @@ public:
 	void changeDefaultIcon(const QUrl &defaultIcon) override;
 	SettingsElements::Setup loadSetup(const QString &filePath, const QString &frontend, const QFileSelector *selector) const override;
 
+protected:
+	QStringList allSelectors() const override;
+	QString select(const QString &path) const override;
+
 private:
 	QUrl _defaultIcon;
 	mutable QCache<std::tuple<QString, QString, QStringList>, SettingsElements::Setup> _cache;

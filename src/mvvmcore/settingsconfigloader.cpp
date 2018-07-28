@@ -1,5 +1,6 @@
 #include "settingsconfigloader_p.h"
 #include <QtCore/QCoreApplication>
+#include <QtCore/QFileSelector>
 using namespace QtMvvm;
 using namespace QtMvvm::SettingsElements;
 
@@ -35,6 +36,16 @@ Setup SettingsConfigLoader::loadSetup(const QString &filePath, const QString &fr
 		setup = *(_cache.object(keyTuple));
 
 	return setup;
+}
+
+QStringList QtMvvm::SettingsConfigLoader::allSelectors() const
+{
+	return selector()->allSelectors();
+}
+
+QString QtMvvm::SettingsConfigLoader::select(const QString &path) const
+{
+	return selector()->select(path);
 }
 
 Setup SettingsConfigLoader::convertSettings(const SettingsConfigType &settings) const

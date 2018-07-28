@@ -3,7 +3,6 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QDir>
 #include <QtCore/QDebug>
-#include <QtCore/QFileSelector>
 
 namespace {
 
@@ -123,6 +122,21 @@ bool SettingsConfigImpl::finish_settings_config_content(QXmlStreamReader &reader
 	return hasNext;
 }
 
+QStringList SettingsConfigImpl::allSelectors() const
+{
+	return {};
+}
+
+QString SettingsConfigImpl::select(const QString &path) const
+{
+	return path;
+}
+
+const QFileSelector *SettingsConfigImpl::selector() const
+{
+	return _selector;
+}
+
 template<typename TGroup>
 void SettingsConfigImpl::finishContents(QXmlStreamReader &reader, TGroup &group)
 {
@@ -155,7 +169,7 @@ bool SettingsConfigImpl::readGeneralInclude(QXmlStreamReader &reader, IncludeTyp
 {
 	try {
 		if(_selector)
-			include.includePath = _selector->select(include.includePath);
+			include.includePath = select(include.includePath);
 
 		//make the path relative if possbile
 		if(dynamic_cast<QFileDevice*>(reader.device())) {
@@ -184,7 +198,7 @@ bool SettingsConfigImpl::isUsable(const SelectableContrainerInfo &element) const
 	}
 
 	if(_selector && element.selectors) {
-		auto selectors = _selector->allSelectors();
+		auto selectors = allSelectors();
 		auto selects = element.selectors.value().split(QLatin1Char('|'), QString::SkipEmptyParts);
 		for(const auto &select : selects) {
 			auto sels = select.split(QLatin1Char('&'), QString::SkipEmptyParts);
