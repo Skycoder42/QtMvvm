@@ -7,6 +7,9 @@ class QFileSelector;
 
 class SettingsConfigImpl : public SettingsConfigBase
 {
+public:
+	bool isUsable(const SelectableContrainerInfo &element) const;
+
 protected:
 	void setFilters(QString frontend, const QFileSelector *selector);
 	void resetFilters();
@@ -22,8 +25,6 @@ private:
 	void finishContents(QXmlStreamReader &reader, TGroup &group);
 	template <typename TIter, typename TList>
 	bool readGeneralInclude(QXmlStreamReader &reader, IncludeType include, TIter &it, TList &list);
-
-	bool isUsable(const SelectableContrainerInfo &element) const;
 
 	QString _frontend;
 	const QFileSelector *_selector = nullptr;

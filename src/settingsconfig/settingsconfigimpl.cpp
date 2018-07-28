@@ -36,6 +36,36 @@ struct VariantInfo<QList<SettingsConfigBase::variant<SettingsConfigBase::Include
 	}
 };
 
+template <typename TIter, typename TList>
+struct visitor
+{
+	using IterType = typename std::decay<TIter>::type;
+	using ListType = typename std::decay<TList>::type;
+
+	SettingsConfigImpl &_reader;
+	IterType &_iter;
+	ListType &_list;
+
+	visitor(SettingsConfigImpl &reader, IterType &iter, ListType &list) :
+		_reader{reader},
+		_iter{iter},
+		_list{list}
+	{}
+
+	void process(const SettingsConfigBase::SelectableContrainerInfo &info) const {
+		if(_reader.isUsable(info))
+			++_iter;
+		else
+			_iter = _list.erase(_iter);
+	}
+
+	void operator()(const SettingsConfigBase::IncludeType &) const { Q_UNREACHABLE(); }
+	void operator()(const SettingsConfigBase::EntryType &info) const { process(info); }
+	void operator()(const SettingsConfigBase::GroupType &info) const { process(info); }
+	void operator()(const SettingsConfigBase::SectionType &info) const { process(info); }
+	void operator()(const SettingsConfigBase::CategoryType &info) const { process(info); }
+};
+
 }
 
 void SettingsConfigImpl::setFilters(QString frontend, const QFileSelector *selector)
@@ -106,15 +136,7 @@ void SettingsConfigImpl::finishContents(QXmlStreamReader &reader, TGroup &group)
 			index = it->index();
 
 		//erase if not usable due to selectors
-		bool visited = false;
-		nonstd::visit([&](auto &&element){ //TODO use trick if neccessary: https://en.cppreference.com/w/cpp/utility/variant/visit
-			visited = true;
-			if(isUsable(element))
-				++it;
-			else
-				it = group.erase(it);
-		}, *it);
-		Q_ASSERT(visited);
+		nonstd::visit(visitor<decltype(it), decltype(group)>{*this, it, group}, *it);
 	}
 }
 
