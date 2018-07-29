@@ -4,7 +4,8 @@ SUBDIRS += \
 	settingsgenerator \
 	serviceregistry \
 	serviceregistrytestplugin \
-    binding
+    binding \
+    qsettingsaccessor
 
 serviceregistry.depends += serviceregistrytestplugin
 
