@@ -33,6 +33,7 @@ public:
 
 	//! Specifies whether the binding is a valid and active binding
 	bool isValid() const;
+	operator bool() const;
 
 	//! Remove the binding by disconnecting all change signals
 	Q_INVOKABLE void unbind();

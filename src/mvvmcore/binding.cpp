@@ -100,6 +100,11 @@ bool Binding::isValid() const
 	return d;
 }
 
+Binding::operator bool() const
+{
+	return d;
+}
+
 void Binding::unbind()
 {
 	if(d) {

@@ -3,7 +3,8 @@ TEMPLATE = subdirs
 SUBDIRS += \
 	settingsgenerator \
 	serviceregistry \
-	serviceregistrytestplugin
+	serviceregistrytestplugin \
+    binding
 
 serviceregistry.depends += serviceregistrytestplugin
 

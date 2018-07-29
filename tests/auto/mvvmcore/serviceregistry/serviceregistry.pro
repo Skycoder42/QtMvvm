@@ -7,16 +7,16 @@ CONFIG -= app_bundle
 
 TARGET = tst_serviceregistry
 
-SOURCES += \
-	tst_serviceregistry.cpp \
-	testservice.cpp \
-	testobject.cpp
-
 HEADERS += \
 	testinterface.h \
 	testservice.h \
 	testobject.h \
 	plugintestinterface.h
+
+SOURCES += \
+	tst_serviceregistry.cpp \
+	testservice.cpp \
+	testobject.cpp
 
 load(qt_build_paths)
 DEFINES += PLUGIN_TESTDIR=\\\"$$MODULE_BASE_OUTDIR/tests/plugins\\\"
