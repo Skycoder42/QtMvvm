@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SettingsConfig allowSearch="true" allowRestore="true">
+	<Group/>
+	<Group>
+		<Entry key="minimal"
+			   type="bool"/>
+	</Group>
+	<Group title="FULL" tooltip="full">
+		<Entry key="a"
+			   type="bool"/>
+		<Entry key="b"
+			   type="bool"/>
+	</Group>
+</SettingsConfig>

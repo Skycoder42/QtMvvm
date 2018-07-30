@@ -1,4 +1,4 @@
-#include "settingsconfigimpl.h"
+#include "settingsconfigimpl_p.h"
 
 #include <QtCore/QFileInfo>
 #include <QtCore/QDir>

@@ -5,7 +5,7 @@
 
 class QFileSelector;
 
-class SettingsConfigImpl : public SettingsConfigBase
+class Q_MVVMCORE_EXPORT SettingsConfigImpl : public SettingsConfigBase
 {
 public:
 	bool isUsable(const SelectableContrainerInfo &element) const;

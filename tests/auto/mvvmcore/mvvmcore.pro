@@ -5,7 +5,8 @@ SUBDIRS += \
 	serviceregistry \
 	serviceregistrytestplugin \
     binding \
-    qsettingsaccessor
+    qsettingsaccessor \
+    settingsconfigloader
 
 serviceregistry.depends += serviceregistrytestplugin
 

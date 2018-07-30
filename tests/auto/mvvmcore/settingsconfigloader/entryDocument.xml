@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SettingsConfig allowSearch="true" allowRestore="true">
+	<Entry key="minimal"
+		   type="bool"/>
+	<Entry key="full"
+		   type="string"
+		   title="FULL"
+		   tooltip="full tip"
+		   default="hello world"
+		   trdefault="false"/>
+	<Entry key="search"
+		   type="int">
+		<SearchKey>hello</SearchKey>
+		<SearchKey>world</SearchKey>
+	</Entry>
+	<Entry key="elements"
+		   type="double">
+		<Property key="simple" type="int">42</Property>
+		<Property key="literal" type="string">baum42</Property>
+		<Property key="list" type="list">
+			<Element type="int">13</Element>
+			<Element type="list">
+				<Element type="number">4.2</Element>
+			</Element>
+			<Element type="object">
+				<Property key="simple" type="int">42</Property>
+			</Element>
+		</Property>
+		<Property key="map" type="object">
+			<Property key="simple" type="int">42</Property>
+			<Property key="list" type="list">
+				<Element type="number">4.2</Element>
+			</Property>
+		</Property>
+	</Entry>
+</SettingsConfig>

@@ -4,7 +4,7 @@
 #include <QFile>
 #include <QTextStream>
 
-#include "settingsconfigimpl.h"
+#include "settingsconfigimpl_p.h"
 
 class SettingsTranslator : public SettingsConfigImpl
 {

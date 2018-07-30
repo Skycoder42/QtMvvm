@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SettingsConfig allowSearch="false" allowRestore="false">
+	<Section/>
+	<Section>
+		<Entry key="direct"
+			   type="double"/>
+	</Section>
+	<Section title="master"
+			 icon="file:///path/to/vengance.png"
+			 tooltip="ruler">
+		<Group/>
+		<Group>
+			<Entry key="indirect"
+				   type="double"/>
+		</Group>
+	</Section>
+</SettingsConfig>

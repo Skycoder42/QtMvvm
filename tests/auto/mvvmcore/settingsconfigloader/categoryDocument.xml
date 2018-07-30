@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SettingsConfig allowSearch="false" allowRestore="false">
+	<Category/>
+	<Category>
+		<Entry key="direct"
+			   type="double"/>
+	</Category>
+	<Category>
+		<Group/>
+		<Group>
+			<Entry key="indirect"
+				   type="double"/>
+		</Group>
+	</Category>
+	<Category title="main"
+			  icon="http://example.com/favicon.png"
+			  tooltip="another tooltip">
+		<Section/>
+		<Section>
+			<Entry key="subdirect"
+				   type="double"/>
+		</Section>
+		<Section>
+			<Group/>
+			<Group>
+				<Entry key="fardirect"
+					   type="double"/>
+			</Group>
+		</Section>
+	</Category>
+</SettingsConfig>

@@ -1,7 +1,8 @@
 HEADERS += \
 	$$PWD/../3rdparty/optional-lite/optional.hpp \
 	$$PWD/../3rdparty/variant-lite/variant.hpp \
-	$$PWD/settingsconfigimpl.h
+    $$PWD/prefix_p.h \
+    $$PWD/settingsconfigimpl_p.h
 
 SOURCES += $$PWD/settingsconfigimpl.cpp
 

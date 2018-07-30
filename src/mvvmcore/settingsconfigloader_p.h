@@ -4,13 +4,14 @@
 #include <QtCore/QObject>
 #include <QtCore/QCache>
 
+#include "qtmvvmcore_global.h"
 #include "settingssetup.h"
 
-#include <settingsconfigimpl.h>
+#include <settingsconfigimpl_p.h>
 
 namespace QtMvvm {
 
-class SettingsConfigLoader : public QObject, public ISettingsSetupLoader, public SettingsConfigImpl
+class Q_MVVMCORE_EXPORT SettingsConfigLoader : public QObject, public ISettingsSetupLoader, public SettingsConfigImpl
 {
 	Q_OBJECT
 	Q_INTERFACES(QtMvvm::ISettingsSetupLoader)
@@ -48,7 +49,7 @@ private:
 	TType trIf(const optional<QString> &text, bool allowTr, const TType &defaultValue = {}) const;
 };
 
-class SettingsConfigException : public SettingsLoaderException
+class Q_MVVMCORE_EXPORT SettingsConfigException : public SettingsLoaderException
 {
 public:
 	SettingsConfigException(SettingsConfigBase::Exception &exception);

@@ -3,10 +3,12 @@
 		   xmlns:qxg="https://skycoder42.de/xml/schemas/QXmlCodeGen">
 	<!-- QXG Definitions -->
 	<qxg:config class="SettingsConfigBase"
+				prefix="Q_MVVMCORE_EXPORT"
 				stdcompat="true"
 				schemaUrl="qrc:/schemas/settingsconfig.xsd"
 				visibility="public">
 		<qxg:include>QtCore/QHash</qxg:include>
+		<qxg:include local="true">prefix_p.h</qxg:include>
 	</qxg:config>
 	<qxg:method name="finish_group_content" type="GroupContentGroup" asGroup="true"/>
 	<qxg:method name="finish_section_content" type="SectionContentGroup" asGroup="true"/>

@@ -1,6 +1,4 @@
-#include <QString>
 #include <QtTest>
-#include <QCoreApplication>
 #include <QtMvvmCore/Binding>
 using namespace QtMvvm;
 

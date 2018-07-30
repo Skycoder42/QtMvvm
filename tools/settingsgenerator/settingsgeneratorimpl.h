@@ -5,7 +5,7 @@
 #include <QTextStream>
 
 #include "qsettingsgenerator.h"
-#include "settingsconfigimpl.h"
+#include "settingsconfigimpl_p.h"
 
 class SettingsGeneratorImpl : public SettingsGeneratorBase
 {

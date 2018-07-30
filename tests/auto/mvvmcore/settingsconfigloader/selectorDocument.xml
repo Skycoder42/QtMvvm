@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SettingsConfig allowSearch="false" allowRestore="false">
+	<Category frontends="widgets" />
+	<Category>
+		<Section frontends="quick" />
+		<Section>
+			<Group frontends="widgets|console"/>
+			<Group>
+				<Entry key="t1"
+					   type="bool"
+					   frontends="quick|console"/>
+			</Group>
+		</Section>
+	</Category>
+
+	<Category selectors="b1" />
+	<Category>
+		<Section selectors="b2|a2" />
+		<Section>
+			<Group selectors="a1&amp;a2"/>
+			<Group>
+				<Entry key="t2"
+					   type="bool"
+					   selectors="a1&amp;a2|b2&amp;a3"/>
+			</Group>
+		</Section>
+	</Category>
+
+	<Category frontends="console|widgets" selectors="a1&amp;a2|b1"/>
+</SettingsConfig>
