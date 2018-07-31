@@ -107,6 +107,12 @@ void SettingsConfigLoaderTest::testConfigLoader_data()
 									 << QStringList{}
 									 << true
 									 << createIncludesSetup();
+
+	QTest::newRow("invalidDocument") << QStringLiteral(SRCDIR "/invalidDocument.xml")
+									 << QStringLiteral("dummy")
+									 << QStringList{}
+									 << false
+									 << Setup{};
 }
 
 void SettingsConfigLoaderTest::testConfigLoader()

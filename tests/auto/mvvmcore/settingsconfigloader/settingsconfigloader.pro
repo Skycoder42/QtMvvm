@@ -32,4 +32,5 @@ DISTFILES += \
     includeDocument_section.xml \
     includeDocument_group.xml \
     includeDocument_entry.xml \
-    includeDocument_filtered.xml
+    includeDocument_filtered.xml \
+    invalidDocument.xml

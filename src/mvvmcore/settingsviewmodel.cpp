@@ -2,7 +2,6 @@
 #include "settingsviewmodel_p.h"
 #include "coreapp.h"
 #include "qtmvvm_logging_p.h"
-#include "settingssetuploader_p.h"
 #include "qsettingsaccessor.h"
 
 using namespace QtMvvm;
@@ -121,10 +120,9 @@ void QtMvvm::SettingsViewModel::setAccessor(ISettingsAccessor *accessor)
 				   this, &SettingsViewModel::valueChanged);
 		disconnect(d->accessor, &ISettingsAccessor::entryRemoved,
 				   this, &SettingsViewModel::valueChanged);
+		if(d->accessor->parent() == this)
+			d->accessor->deleteLater();
 	}
-
-	if(d->accessor->parent() == this)
-		d->accessor->deleteLater();
 	d->accessor = accessor;
 
 	if(d->accessor) {
