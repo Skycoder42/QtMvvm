@@ -15,12 +15,21 @@ INCLUDEPATH += \
 	../../../../src/3rdparty/optional-lite \
 	../../../../src/3rdparty/variant-lite
 
+CONFIG(release, debug|release): INCLUDEPATH += $$shadowed(../../../../src/mvvmcore/release)
+else:CONFIG(debug, debug|release): INCLUDEPATH += $$shadowed(../../../../src/mvvmcore/debug)
+
 SOURCES += \
 	tst_settingsconfigloader.cpp
 
 DISTFILES += \
-    entryDocument.xml \
-    groupDocument.xml \
-    sectionDocument.xml \
-    categoryDocument.xml \
-    selectorDocument.xml
+	entryDocument.xml \
+	groupDocument.xml \
+	sectionDocument.xml \
+	categoryDocument.xml \
+	selectorDocument.xml \
+    includeDocument.xml \
+    includeDocument_category.xml \
+    includeDocument_section.xml \
+    includeDocument_group.xml \
+    includeDocument_entry.xml \
+    includeDocument_filtered.xml

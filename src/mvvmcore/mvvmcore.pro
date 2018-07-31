@@ -19,7 +19,6 @@ HEADERS += \
 	message.h \
 	message_p.h \
 	settingssetup.h \
-	settingssetuploader_p.h \
 	settingsviewmodel_p.h \
 	settingsviewmodel.h \
 	injection.h \
@@ -36,7 +35,6 @@ SOURCES += \
 	binding.cpp \
 	message.cpp \
 	ipresenter.cpp \
-	settingssetuploader.cpp \
 	settingsviewmodel.cpp \
 	isettingsaccessor.cpp \
 	qsettingsaccessor.cpp \

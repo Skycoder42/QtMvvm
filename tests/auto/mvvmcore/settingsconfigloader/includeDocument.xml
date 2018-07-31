@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SettingsConfig allowSearch="false" allowRestore="false">
+	<Include>includeDocument_category.xml</Include>
+	<Category>
+		<Include>includeDocument_section.xml</Include>
+		<Section>
+			<Group/>
+			<Include>includeDocument_group.xml</Include>
+			<Group>
+				<Include>includeDocument_entry.xml</Include>
+			</Group>
+		</Section>
+	</Category>
+
+	<Category>
+		<Include frontends="console">includeDocument_section.xml</Include>
+		<Include optional="true">includeDocument_invalid.xml</Include>
+		<Include>includeDocument_filtered.xml</Include>
+	</Category>
+</SettingsConfig>

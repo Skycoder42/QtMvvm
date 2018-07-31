@@ -172,7 +172,7 @@ bool SettingsConfigImpl::readGeneralInclude(QXmlStreamReader &reader, IncludeTyp
 			include.includePath = select(include.includePath);
 
 		//make the path relative if possbile
-		if(dynamic_cast<QFileDevice*>(reader.device())) {
+		if(QFileInfo{include.includePath}.isRelative() && dynamic_cast<QFileDevice*>(reader.device())) {
 			QFileInfo docInfo{static_cast<QFileDevice*>(reader.device())->fileName()};
 			include.includePath = docInfo.dir().absoluteFilePath(include.includePath);
 		}

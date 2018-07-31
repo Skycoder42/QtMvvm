@@ -11,6 +11,8 @@ private Q_SLOTS:
 	void testConfigLoader_data();
 	void testConfigLoader();
 
+	void testDefaultIcon();
+
 private:
 	Setup createEntryDocumentSetup();
 	Setup createGroupDocumentSetup();
@@ -24,9 +26,6 @@ private:
 	Setup createSelectorsSetup4();
 
 	Setup createIncludesSetup();
-	Setup createCustomTypesSetup();
-	Setup createIconChangeSetup();
-	Setup createTranslationsSetup();
 };
 
 void SettingsConfigLoaderTest::testConfigLoader_data()
@@ -102,6 +101,12 @@ void SettingsConfigLoaderTest::testConfigLoader_data()
 												  }
 											   << true
 											   << createSelectorsSetup4();
+
+	QTest::newRow("includeDocument") << QStringLiteral(SRCDIR "/includeDocument.xml")
+									 << QStringLiteral("dummy")
+									 << QStringList{}
+									 << true
+									 << createIncludesSetup();
 }
 
 void SettingsConfigLoaderTest::testConfigLoader()
@@ -163,6 +168,18 @@ void SettingsConfigLoaderTest::testConfigLoader()
 	} catch(std::exception &e) {
 		if(success)
 			QFAIL(e.what());
+	}
+}
+
+void SettingsConfigLoaderTest::testDefaultIcon()
+{
+	try {
+		QFileSelector selector;
+		SettingsConfigLoader loader;
+		auto res = loader.loadSetup(QStringLiteral(SRCDIR "/entryDocument.xml"), QStringLiteral("dummy"), &selector);
+		QCOMPARE(res.categories.first().icon, QStringLiteral("qrc:/de/skycoder42/qtmvvm/icons/settings.svg"));
+	} catch(std::exception &e) {
+		QFAIL(e.what());
 	}
 }
 
@@ -547,22 +564,56 @@ Setup SettingsConfigLoaderTest::createSelectorsSetup4()
 
 Setup SettingsConfigLoaderTest::createIncludesSetup()
 {
-	return Setup{};
-}
-
-Setup SettingsConfigLoaderTest::createCustomTypesSetup()
-{
-	return Setup{};
-}
-
-Setup SettingsConfigLoaderTest::createIconChangeSetup()
-{
-	return Setup{};
-}
-
-Setup SettingsConfigLoaderTest::createTranslationsSetup()
-{
-	return Setup{};
+	return Setup{
+		false, false, {
+			Category {
+				QStringLiteral("General Settings"), QStringLiteral("qrc:/baum"), {}, {
+					Section {
+						QStringLiteral("General"), {}, {}, {
+							Group {
+								{}, {}, {
+									Entry {
+										QStringLiteral("included"), "url"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			Category {
+				QStringLiteral("General Settings"), QStringLiteral("qrc:/baum"), {}, {
+					Section {
+						QStringLiteral("General"), {}, {}, {
+							Group {
+								{}, {}, {
+									Entry {
+										QStringLiteral("included"), "url"
+									}
+								}
+							}
+						}
+					},
+					Section {
+						QStringLiteral("General"), {}, {}, {
+							Group {},
+							Group {QStringLiteral("incGroup")},
+							Group {
+								{}, {}, {
+									Entry {
+										QStringLiteral("incEntry"), "bool"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			Category {
+				QStringLiteral("General Settings"), QStringLiteral("qrc:/baum")
+			}
+		}
+	};
 }
 
 QTEST_MAIN(SettingsConfigLoaderTest)
