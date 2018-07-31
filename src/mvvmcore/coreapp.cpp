@@ -129,6 +129,11 @@ void CoreApp::registerInputTypeMapping(const QByteArray &type, int targetType)
 	CoreAppPrivate::dInstance()->inputTypeMapping.insert(type, targetType);
 }
 
+IPresenter *CoreApp::presenter()
+{
+	return CoreAppPrivate::dInstance()->presenter;
+}
+
 void CoreApp::bootApp()
 {
 	if(!d->presenter) {

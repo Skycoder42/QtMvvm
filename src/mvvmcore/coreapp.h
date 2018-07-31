@@ -52,6 +52,8 @@ public:
 	template <typename T>
 	static void registerInputTypeMapping(const QByteArray &type);
 
+	static IPresenter *presenter();
+
 public Q_SLOTS:
 	//! Boots up the app and starts the mvvm presenting
 	void bootApp();
@@ -95,13 +97,14 @@ void CoreApp::registerInputTypeMapping(const QByteArray &type)
 }
 
 //! Registers you custom CoreApp class as CoreApp to be used
-#define QTMVVM_REGISTER_CORE_APP(T) \
-	static void _setup_ ## T ## _hook() { \
+#define QTMVVM_REGISTER_CORE_APP(T) namespace {\
+	void __setup_ ## T ## _hook() { \
 		static_assert(std::is_base_of<QtMvvm::CoreApp, T>::value, "QTMVVM_REGISTER_CORE_APP must be used with a class that extends QtMvvm::CoreApp"); \
 		auto app = new T(nullptr); \
 		app->registerApp(); \
 	} \
-	Q_COREAPP_STARTUP_FUNCTION(_setup_ ## T ## _hook)
+	} \
+	Q_COREAPP_STARTUP_FUNCTION(__setup_ ## T ## _hook)
 
 //! A define as shortcut to the CoreApp. Can be redefined to cast to your custom class type
 #define coreApp QtMvvm::CoreApp::instance()
