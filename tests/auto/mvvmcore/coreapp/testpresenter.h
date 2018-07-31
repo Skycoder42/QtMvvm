@@ -16,9 +16,11 @@ public:
 	void showDialog(const QtMvvm::MessageConfig &config, QtMvvm::MessageResult *result) override;
 
 	QList<std::tuple<QtMvvm::ViewModel*, QVariantHash, QPointer<QtMvvm::ViewModel>>> presented;
+	QList<std::tuple<QtMvvm::MessageConfig, QtMvvm::MessageResult*>> dialogs;
 
 Q_SIGNALS:
 	void presentDone();
+	void dialogDone();
 };
 
 #endif // TESTPRESENTER_H

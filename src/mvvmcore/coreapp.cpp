@@ -287,7 +287,9 @@ const QMetaObject *CoreAppPrivate::getContainer(const QMetaObject *metaObject) c
 		if(typeId == QMetaType::UnknownType) {
 			throw PresenterException {
 				QByteArrayLiteral("Unabled to find the qtmvvm_container_viewmodel of type \"") + cInfo.value() +
-				QByteArrayLiteral("\" for viewmodel of type \"") + metaObject->className() + QByteArrayLiteral("\"")
+				QByteArrayLiteral("\" for viewmodel of type \"") + metaObject->className() +
+				QByteArrayLiteral("\" - Make shure to register the container via qRegisterMetaType<") + cInfo.value() +
+				QByteArrayLiteral("*>()")
 			};
 		}
 		auto containerMo = QMetaType::metaObjectForType(typeId);

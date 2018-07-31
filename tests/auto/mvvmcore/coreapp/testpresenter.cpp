@@ -12,4 +12,6 @@ void TestPresenter::present(QtMvvm::ViewModel *viewModel, const QVariantHash &pa
 
 void TestPresenter::showDialog(const QtMvvm::MessageConfig &config, QtMvvm::MessageResult *result)
 {
+	dialogs.append(std::make_tuple(config, result));
+	emit dialogDone();
 }

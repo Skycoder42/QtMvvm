@@ -10,6 +10,9 @@ class CoreAppTest : public QObject
 {
 	Q_OBJECT
 
+public:
+	using MsgFn = std::function<void()>;
+
 private Q_SLOTS:
 	void initTestCase();
 
@@ -27,13 +30,25 @@ private Q_SLOTS:
 	void testPresentDialog();
 	void testPresentMessage_data();
 	void testPresentMessage();
+	void testAboutMessage();
 	void testProgressMessage();
+
+Q_SIGNALS:
+	void msgUnblock(bool success);
+
+private:
+	bool wasClosed = false;
+
+	Q_INVOKABLE void doCloseTest();
 };
+
+Q_DECLARE_METATYPE(CoreAppTest::MsgFn)
 
 void CoreAppTest::initTestCase()
 {
 	qRegisterMetaType<TestViewModel*>();
 	qRegisterMetaType<TestSingleViewModel*>();
+	qRegisterMetaType<MsgFn>("MsgFn");
 	QtMvvm::ServiceRegistry::instance()->registerInterface<QtMvvm::IPresenter, TestPresenter>();
 }
 
@@ -373,15 +388,250 @@ void CoreAppTest::testPresentVmSingleton()
 
 void CoreAppTest::testPresentDialog()
 {
-	Q_UNIMPLEMENTED();
+	auto presenter = TestApp::presenter();
+	presenter->dialogs.clear();
+	QSignalSpy presentSpy{presenter, &TestPresenter::dialogDone};
+
+	MessageConfig config;
+	config.setType("test1")
+			.setSubType("44")
+			.setTitle(QStringLiteral("title"))
+			.setText(QStringLiteral("text"))
+			.addButton(MessageConfig::Ignore)
+			.setButtonText(MessageConfig::Help, QStringLiteral("hell"))
+			.setDefaultValue(42)
+			.setViewProperty(QStringLiteral("test"), QStringLiteral("tset"));
+	QPointer<MessageResult> result = CoreApp::showDialog(config);
+
+	QVERIFY(presentSpy.wait());
+	QCOMPARE(presentSpy.size(), 1);
+	QCOMPARE(presenter->dialogs.size(), 1);
+
+	auto conf = std::get<0>(presenter->dialogs[0]);
+	QCOMPARE(std::get<1>(presenter->dialogs[0]), result.data());
+
+	// test message conf
+	QCOMPARE(conf.type(), "test1");
+	QCOMPARE(conf.subType(), "44");
+	QCOMPARE(conf.title(), QStringLiteral("title"));
+	QCOMPARE(conf.text(), QStringLiteral("text"));
+	QCOMPARE(conf.buttons(), MessageConfig::Ok | MessageConfig::Ignore | MessageConfig::Help);
+	QHash<MessageConfig::StandardButton, QString> btnTxt {
+		{MessageConfig::Help, QStringLiteral("hell")}
+	};
+	QCOMPARE(conf.buttonTexts(), btnTxt);
+	QCOMPARE(conf.defaultValue(), 42);
+	QVariantMap viewProps {
+		{QStringLiteral("test"), QStringLiteral("tset")}
+	};
+	QCOMPARE(conf.viewProperties(), viewProps);
+
+	// test result
+	result->setAutoDelete(false);
+	result->setCloseTarget(this, QStringLiteral("doCloseTest()"));
+	QSignalSpy resultSpy{result.data(), &MessageResult::dialogDone};
+	QVERIFY(!result->autoDelete());
+	QVERIFY(!result->hasResult());
+	wasClosed = false;
+	result->discardMessage();
+	QTRY_VERIFY(wasClosed);
+
+	result->complete(MessageConfig::Ignore, 5.6);
+	QVERIFY(resultSpy.wait());
+	QCOMPARE(resultSpy.size(), 1);
+	QCOMPARE(resultSpy.takeFirst()[0].toInt(), MessageConfig::Ignore);
+	QVERIFY(result->hasResult());
+	QCOMPARE(result->result(), 5.6);
+	result->deleteLater();
 }
 
 void CoreAppTest::testPresentMessage_data()
 {
-	Q_UNIMPLEMENTED();
+	QTest::addColumn<MsgFn>("messageFn");
+	QTest::addColumn<QtMvvm::MessageConfig>("config");
+	QTest::addColumn<int>("btn");
+	QTest::addColumn<QVariant>("result");
+
+	QTest::newRow("msgbox.information") << MsgFn{[this](){
+		information(QStringLiteral("title"),
+					QStringLiteral("text"),
+					this, [this](){
+			emit msgUnblock(true);
+		}, QStringLiteral("okay"));
+	}} << MessageConfig{MessageConfig::TypeMessageBox, MessageConfig::SubTypeInformation}
+			.setTitle(QStringLiteral("title"))
+			.setText(QStringLiteral("text"))
+			.setButtonText(MessageConfig::Ok, QStringLiteral("okay"))
+	   << static_cast<int>(MessageConfig::Ok)
+	   << QVariant{};
+
+	QTest::newRow("msgbox.question") << MsgFn{[this](){
+		question(QStringLiteral("title"),
+				 QStringLiteral("text"),
+				 this, [this](bool ok){
+			emit msgUnblock(ok);
+		}, QStringLiteral("yep"), QStringLiteral("nep"));
+	}} << MessageConfig{MessageConfig::TypeMessageBox, MessageConfig::SubTypeQuestion}
+			.setTitle(QStringLiteral("title"))
+			.setText(QStringLiteral("text"))
+			.setButtonText(MessageConfig::Yes, QStringLiteral("yep"))
+			.setButtonText(MessageConfig::No, QStringLiteral("nep"))
+	   << static_cast<int>(MessageConfig::Yes)
+	   << QVariant{};
+
+	QTest::newRow("msgbox.warning") << MsgFn{[this](){
+		warning(QStringLiteral("title"),
+				QStringLiteral("text"),
+				this, [this](){
+			emit msgUnblock(true);
+		}, QStringLiteral("okay"));
+	}} << MessageConfig{MessageConfig::TypeMessageBox, MessageConfig::SubTypeWarning}
+			.setTitle(QStringLiteral("title"))
+			.setText(QStringLiteral("text"))
+			.setButtonText(MessageConfig::Ok, QStringLiteral("okay"))
+	   << static_cast<int>(MessageConfig::Ok)
+	   << QVariant{};
+
+	QTest::newRow("msgbox.critical") << MsgFn{[this](){
+		critical(QStringLiteral("title"),
+				 QStringLiteral("text"),
+				 this, [this](){
+			emit msgUnblock(true);
+		}, QStringLiteral("okay"));
+	}} << MessageConfig{MessageConfig::TypeMessageBox, MessageConfig::SubTypeCritical}
+			.setTitle(QStringLiteral("title"))
+			.setText(QStringLiteral("text"))
+			.setButtonText(MessageConfig::Ok, QStringLiteral("okay"))
+	   << static_cast<int>(MessageConfig::Ok)
+	   << QVariant{};
+
+	QTest::newRow("input") << MsgFn{[this](){
+		getInput<int>(QStringLiteral("title"),
+					  QStringLiteral("text"),
+					  this, [this](int value, bool ok){
+			emit msgUnblock(ok && value == 42);
+		}, 24, {
+			{QStringLiteral("someProp"), true}
+		}, QStringLiteral("okay"), QStringLiteral("break"));
+	}} << MessageConfig{MessageConfig::TypeInputDialog, QMetaType::typeName(QMetaType::Int)}
+			.setTitle(QStringLiteral("title"))
+			.setText(QStringLiteral("text"))
+			.setDefaultValue(24)
+			.setButtonText(MessageConfig::Ok, QStringLiteral("okay"))
+			.setButtonText(MessageConfig::Cancel, QStringLiteral("break"))
+			.setViewProperty(QStringLiteral("someProp"), true)
+	   << static_cast<int>(MessageConfig::Ok)
+	   << QVariant{42};
+
+	QTest::newRow("path.dir") << MsgFn{[this](){
+		getExistingDirectory(this, [this](const QUrl &url){
+			emit msgUnblock(url == QUrl::fromLocalFile(QStringLiteral("/dir/path.txt")));
+		}, QStringLiteral("title"), QUrl::fromLocalFile(QStringLiteral("/dir")));
+	}} << MessageConfig{MessageConfig::TypeFileDialog, MessageConfig::SubTypeDir}
+			.setTitle(QStringLiteral("title"))
+			.setDefaultValue(QUrl::fromLocalFile(QStringLiteral("/dir")))
+	   << static_cast<int>(MessageConfig::Ok)
+	   << QVariant{QUrl::fromLocalFile(QStringLiteral("/dir/path.txt"))};
+
+	QTest::newRow("path.open.file") << MsgFn{[this](){
+		getOpenFile(this, [this](const QUrl &url){
+			emit msgUnblock(url == QUrl::fromLocalFile(QStringLiteral("/dir/path.txt")));
+		}, QStringLiteral("title"), {
+			QStringLiteral("text/plain")
+		}, QUrl::fromLocalFile(QStringLiteral("/dir")));
+	}} << MessageConfig{MessageConfig::TypeFileDialog, MessageConfig::SubTypeOpenFile}
+			.setTitle(QStringLiteral("title"))
+			.setDefaultValue(QUrl::fromLocalFile(QStringLiteral("/dir")))
+			.setViewProperty(QStringLiteral("mimeTypes"), QStringList{QStringLiteral("text/plain")})
+	   << static_cast<int>(MessageConfig::Ok)
+	   << QVariant{QUrl::fromLocalFile(QStringLiteral("/dir/path.txt"))};
+
+	QTest::newRow("path.open.files") << MsgFn{[this](){
+		getOpenFiles(this, [this](const QList<QUrl> &urls){
+			emit msgUnblock(urls == QList<QUrl>{QUrl::fromLocalFile(QStringLiteral("/dir/path.txt"))});
+		}, QStringLiteral("title"), {
+			QStringLiteral("text/plain")
+		}, QUrl::fromLocalFile(QStringLiteral("/dir")));
+	}} << MessageConfig{MessageConfig::TypeFileDialog, MessageConfig::SubTypeOpenFiles}
+			.setTitle(QStringLiteral("title"))
+			.setDefaultValue(QUrl::fromLocalFile(QStringLiteral("/dir")))
+			.setViewProperty(QStringLiteral("mimeTypes"), QStringList{QStringLiteral("text/plain")})
+	   << static_cast<int>(MessageConfig::Ok)
+	   << QVariant::fromValue(QList<QUrl>{QUrl::fromLocalFile(QStringLiteral("/dir/path.txt"))});
+
+	QTest::newRow("path.save") << MsgFn{[this](){
+		getSaveFile(this, [this](const QUrl &url){
+			emit msgUnblock(url == QUrl::fromLocalFile(QStringLiteral("/dir/path.txt")));
+		}, QStringLiteral("title"), {
+			QStringLiteral("text/plain")
+		}, QUrl::fromLocalFile(QStringLiteral("/dir")));
+	}} << MessageConfig{MessageConfig::TypeFileDialog, MessageConfig::SubTypeSaveFile}
+			.setTitle(QStringLiteral("title"))
+			.setDefaultValue(QUrl::fromLocalFile(QStringLiteral("/dir")))
+			.setViewProperty(QStringLiteral("mimeTypes"), QStringList{QStringLiteral("text/plain")})
+	   << static_cast<int>(MessageConfig::Ok)
+	   << QVariant{QUrl::fromLocalFile(QStringLiteral("/dir/path.txt"))};
+
+	QTest::newRow("color") << MsgFn{[this](){
+		getColor(this, [this](const QColor &color){
+			emit msgUnblock(color == Qt::green);
+		}, QStringLiteral("title"), Qt::red);
+	}} << MessageConfig{MessageConfig::TypeColorDialog, MessageConfig::SubTypeRgb}
+			.setTitle(QStringLiteral("title"))
+			.setDefaultValue(QColor{Qt::red})
+	   << static_cast<int>(MessageConfig::Ok)
+	   << QVariant::fromValue<QColor>(Qt::green);
+
+	QTest::newRow("color") << MsgFn{[this](){
+		getColor(this, [this](const QColor &color){
+			emit msgUnblock(color == QColor{0xab, 0xcd, 0xef, 0x01});
+		}, QStringLiteral("title"), QColor{0x12, 0x34, 0x56, 0x78}, true);
+	}} << MessageConfig{MessageConfig::TypeColorDialog, MessageConfig::SubTypeArgb}
+			.setTitle(QStringLiteral("title"))
+			.setDefaultValue(QColor{0x12, 0x34, 0x56, 0x78})
+	   << static_cast<int>(MessageConfig::Ok)
+	   << QVariant{QColor{0xab, 0xcd, 0xef, 0x01}};
 }
 
 void CoreAppTest::testPresentMessage()
+{
+	QFETCH(MsgFn, messageFn);
+	QFETCH(QtMvvm::MessageConfig, config);
+	QFETCH(int, btn);
+	QFETCH(QVariant, result);
+
+	QVERIFY(messageFn);
+	auto presenter = TestApp::presenter();
+	presenter->dialogs.clear();
+	QSignalSpy presentSpy{presenter, &TestPresenter::dialogDone};
+
+	messageFn();
+	QVERIFY(presentSpy.wait());
+	QCOMPARE(presentSpy.size(), 1);
+	QCOMPARE(presenter->dialogs.size(), 1);
+
+	auto conf = std::get<0>(presenter->dialogs[0]);
+	auto res = std::get<1>(presenter->dialogs[0]);
+
+	// test message conf
+	QCOMPARE(conf.type(), config.type());
+	QCOMPARE(conf.subType(), config.subType());
+	QCOMPARE(conf.title(), config.title());
+	QCOMPARE(conf.text(), config.text());
+	QCOMPARE(conf.buttons(), config.buttons());
+	QCOMPARE(conf.buttonTexts(), config.buttonTexts());
+	QCOMPARE(conf.defaultValue(), config.defaultValue());
+	QCOMPARE(conf.viewProperties(), config.viewProperties());
+
+	//complete it
+	QSignalSpy unblockSpy{this, &CoreAppTest::msgUnblock};
+	res->complete(static_cast<MessageConfig::StandardButton>(btn), result);
+	QVERIFY(unblockSpy.wait());
+	QCOMPARE(unblockSpy.size(), 1);
+	QVERIFY(unblockSpy.takeFirst()[0].toBool());
+}
+
+void CoreAppTest::testAboutMessage()
 {
 	Q_UNIMPLEMENTED();
 }
@@ -389,6 +639,11 @@ void CoreAppTest::testPresentMessage()
 void CoreAppTest::testProgressMessage()
 {
 	Q_UNIMPLEMENTED();
+}
+
+void CoreAppTest::doCloseTest()
+{
+	wasClosed = true;
 }
 
 QTEST_MAIN(CoreAppTest)
