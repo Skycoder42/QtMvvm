@@ -530,34 +530,41 @@ Q_MVVMCORE_EXPORT MessageResult *showProgress(const QString &title,
 											  const QString &label,
 											  ProgressControl *control,
 											  bool allowCancel = true,
-											  bool isBusy = false);
+											  bool isBusy = false,
+											  const QString &cancelText = {});
 Q_MVVMCORE_EXPORT ProgressControl *showProgress(QObject *scope,
 												const QString &title = {},
 												const QString &label = {},
 												int maximum = 100,
 												int minimum = 0,
 												bool allowCancel = true,
-												int value = 0);
+												int value = 0,
+												const QString &cancelText = {});
 Q_MVVMCORE_EXPORT ProgressControl *showProgress(const QString &title = {},
 												const QString &label = {},
 												int maximum = 100,
 												int minimum = 0,
 												bool allowCancel = true,
-												int value = 0);
+												int value = 0,
+												const QString &cancelText = {});
 Q_MVVMCORE_EXPORT ProgressControl *showIndeterminateProgress(QObject *scope,
 															 const QString &title = {},
 															 const QString &label = {},
-															 bool allowCancel = true);
+															 bool allowCancel = true,
+															 const QString &cancelText = {});
 Q_MVVMCORE_EXPORT ProgressControl *showIndeterminateProgress(const QString &title = {},
 															 const QString &label = {},
-															 bool allowCancel = true);
+															 bool allowCancel = true,
+															 const QString &cancelText = {});
 Q_MVVMCORE_EXPORT ProgressControl *showBusy(QObject *scope,
 											const QString &title = {},
 											const QString &label = {},
-											bool allowCancel = true);
+											bool allowCancel = true,
+											const QString &cancelText = {});
 Q_MVVMCORE_EXPORT ProgressControl *showBusy(const QString &title = {},
 											const QString &label = {},
-											bool allowCancel = true);
+											bool allowCancel = true,
+											const QString &cancelText = {});
 
 }
 

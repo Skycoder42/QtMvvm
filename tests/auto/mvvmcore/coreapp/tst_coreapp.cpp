@@ -30,14 +30,13 @@ private Q_SLOTS:
 	void testPresentDialog();
 	void testPresentMessage_data();
 	void testPresentMessage();
-	void testAboutMessage();
-	void testProgressMessage();
 
 Q_SIGNALS:
 	void msgUnblock(bool success);
 
 private:
 	bool wasClosed = false;
+	QPointer<ProgressControl> lastProgress;
 
 	Q_INVOKABLE void doCloseTest();
 };
@@ -505,6 +504,20 @@ void CoreAppTest::testPresentMessage_data()
 	   << static_cast<int>(MessageConfig::Ok)
 	   << QVariant{};
 
+	QTest::newRow("msgbox.about") << MsgFn{[this](){
+		auto res = about({});
+		connect(res, &MessageResult::dialogDone,
+				this, [this](MessageConfig::StandardButton btn){
+			QCOMPARE(btn, MessageConfig::Ok);
+			emit msgUnblock(true);
+		});
+	}} << MessageConfig{MessageConfig::TypeMessageBox, MessageConfig::SubTypeAbout}
+			.setTitle(QStringLiteral("%1 — Version %2")
+					  .arg(QGuiApplication::applicationDisplayName(), QCoreApplication::applicationVersion()))
+			.setViewProperty(QStringLiteral("addQtVersion"), true)
+	   << static_cast<int>(MessageConfig::Ok)
+	   << QVariant{};
+
 	QTest::newRow("input") << MsgFn{[this](){
 		getInput<int>(QStringLiteral("title"),
 					  QStringLiteral("text"),
@@ -591,6 +604,87 @@ void CoreAppTest::testPresentMessage_data()
 			.setDefaultValue(QColor{0x12, 0x34, 0x56, 0x78})
 	   << static_cast<int>(MessageConfig::Ok)
 	   << QVariant{QColor{0xab, 0xcd, 0xef, 0x01}};
+
+	QTest::newRow("progress.progress") << MsgFn{[this](){
+		lastProgress = showProgress(this,
+									QStringLiteral("title"),
+									QStringLiteral("label"),
+									42, 24, true, 33,
+									QStringLiteral("break"));
+		QVERIFY(lastProgress->autoDelete());
+		QVERIFY(!lastProgress->isIndeterminate());
+		QCOMPARE(lastProgress->minimum(), 24);
+		QCOMPARE(lastProgress->maximum(), 42);
+		QCOMPARE(lastProgress->progress(), 33);
+		// triggered from gui in core
+		QString called;
+		connect(lastProgress, &ProgressControl::changeLabel,
+				this, [&](QString label){
+			called = std::move(label);
+		}, Qt::DirectConnection);
+		lastProgress->updateLabel(QStringLiteral("update"));
+		QCOMPARE(called, QStringLiteral("update"));
+
+		connect(lastProgress, &ProgressControl::closed,
+				this, [this](){
+			emit msgUnblock(true);
+		}, Qt::QueuedConnection);
+		// triggered from core in gui
+		connect(lastProgress, &ProgressControl::closeRequested,
+				this, [this](){
+			lastProgress->notifyClosed();
+		}, Qt::QueuedConnection);
+		// triggered from gui in core
+		connect(lastProgress, &ProgressControl::canceled,
+				lastProgress, [this](MessageConfig::StandardButton btn) {
+			QCOMPARE(btn, MessageConfig::Cancel);
+			lastProgress->close();
+		}, Qt::QueuedConnection);
+	}} << MessageConfig{MessageConfig::TypeProgressDialog, MessageConfig::SubTypeProgress}
+			.setTitle(QStringLiteral("title"))
+			.setText(QStringLiteral("label"))
+			.setButtonText(MessageConfig::Cancel, QStringLiteral("break"))
+	   << static_cast<int>(MessageConfig::Cancel)
+	   << QVariant{};
+
+	QTest::newRow("progress.indeterminate") << MsgFn{[this](){
+		lastProgress = showIndeterminateProgress(this,
+												 QStringLiteral("title"),
+												 QStringLiteral("label"),
+												 false);
+		QVERIFY(lastProgress->autoDelete());
+		QVERIFY(lastProgress->isIndeterminate());
+		// triggered from gui in core
+		connect(lastProgress, &ProgressControl::closed,
+				this, [this](){
+			emit msgUnblock(true);
+		}, Qt::QueuedConnection);
+	}} << MessageConfig{MessageConfig::TypeProgressDialog, MessageConfig::SubTypeProgress}
+			.setTitle(QStringLiteral("title"))
+			.setText(QStringLiteral("label"))
+			.setButtons(MessageConfig::NoButton)
+	   << static_cast<int>(MessageConfig::NoButton)
+	   << QVariant{};
+
+	QTest::newRow("progress.busy") << MsgFn{[this](){
+		lastProgress = showBusy(this,
+								QStringLiteral("title"),
+								QStringLiteral("label"),
+								false,
+								QStringLiteral("break"));
+		QVERIFY(lastProgress->autoDelete());
+		QVERIFY(lastProgress->isIndeterminate());
+		// triggered from gui in core
+		connect(lastProgress, &ProgressControl::closed,
+				this, [this](){
+			emit msgUnblock(true);
+		}, Qt::QueuedConnection);
+	}} << MessageConfig{MessageConfig::TypeProgressDialog, MessageConfig::SubTypeBusy}
+			.setTitle(QStringLiteral("title"))
+			.setText(QStringLiteral("label"))
+			.setButtons(MessageConfig::NoButton)
+	   << static_cast<int>(MessageConfig::NoButton)
+	   << QVariant{};
 }
 
 void CoreAppTest::testPresentMessage()
@@ -613,11 +707,19 @@ void CoreAppTest::testPresentMessage()
 	auto conf = std::get<0>(presenter->dialogs[0]);
 	auto res = std::get<1>(presenter->dialogs[0]);
 
+	bool isProgress = false;
+	if(config.type() == MessageConfig::TypeProgressDialog &&
+	   !config.defaultValue().isValid()) {
+		isProgress = true;
+		config.setDefaultValue(QVariant::fromValue<ProgressControl*>(lastProgress));
+	}
+
 	// test message conf
 	QCOMPARE(conf.type(), config.type());
 	QCOMPARE(conf.subType(), config.subType());
 	QCOMPARE(conf.title(), config.title());
-	QCOMPARE(conf.text(), config.text());
+	if(conf.subType() != MessageConfig::SubTypeAbout)
+		QCOMPARE(conf.text(), config.text());
 	QCOMPARE(conf.buttons(), config.buttons());
 	QCOMPARE(conf.buttonTexts(), config.buttonTexts());
 	QCOMPARE(conf.defaultValue(), config.defaultValue());
@@ -625,20 +727,16 @@ void CoreAppTest::testPresentMessage()
 
 	//complete it
 	QSignalSpy unblockSpy{this, &CoreAppTest::msgUnblock};
-	res->complete(static_cast<MessageConfig::StandardButton>(btn), result);
+	if(isProgress){
+		if(config.buttons().testFlag(MessageConfig::Cancel))
+			lastProgress->requestCancel(MessageConfig::Cancel);
+		else
+			lastProgress->notifyClosed();
+	} else
+		res->complete(static_cast<MessageConfig::StandardButton>(btn), result);
 	QVERIFY(unblockSpy.wait());
 	QCOMPARE(unblockSpy.size(), 1);
 	QVERIFY(unblockSpy.takeFirst()[0].toBool());
-}
-
-void CoreAppTest::testAboutMessage()
-{
-	Q_UNIMPLEMENTED();
-}
-
-void CoreAppTest::testProgressMessage()
-{
-	Q_UNIMPLEMENTED();
 }
 
 void CoreAppTest::doCloseTest()

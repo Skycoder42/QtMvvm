@@ -190,6 +190,8 @@ MessageConfig &MessageConfig::resetButtons()
 	} else if(d->type == TypeInputDialog ||
 			  d->type == TypeColorDialog)
 		d->buttons = Ok | Cancel;
+	else if(d->type == TypeProgressDialog)
+		d->buttons = Cancel;
 	else
 		d->buttons = Ok;
 
@@ -733,53 +735,55 @@ void QtMvvm::getColor(const std::function<void (QColor)> &onResult, const QStrin
 	getColor(CoreApp::instance(), onResult, title, color, argb);
 }
 
-MessageResult *QtMvvm::showProgress(const QString &title, const QString &label, ProgressControl *control, bool allowCancel, bool isBusy)
+MessageResult *QtMvvm::showProgress(const QString &title, const QString &label, ProgressControl *control, bool allowCancel, bool isBusy, const QString &cancelText)
 {
 	MessageConfig config(MessageConfig::TypeProgressDialog, isBusy ? MessageConfig::SubTypeBusy : MessageConfig::SubTypeProgress);
 	config.setTitle(title);
 	config.setText(label);
 	config.setDefaultValue(QVariant::fromValue(control));
 	config.setButtons(allowCancel ? MessageConfig::Cancel : MessageConfig::NoButton);
+	if(allowCancel && !cancelText.isNull())
+		config.setButtonText(MessageConfig::Cancel, cancelText);
 	return CoreApp::showDialog(config);
 }
 
-ProgressControl *QtMvvm::showProgress(QObject *scope, const QString &title, const QString &label, int maximum, int minimum, bool allowCancel, int value)
+ProgressControl *QtMvvm::showProgress(QObject *scope, const QString &title, const QString &label, int maximum, int minimum, bool allowCancel, int value, const QString &cancelText)
 {
 	auto control = new ProgressControl{scope};
 	control->setMaximum(maximum);
 	control->setMinimum(minimum);
 	control->setProgress(value);
-	showProgress(title, label, control, allowCancel, false);
+	showProgress(title, label, control, allowCancel, false, cancelText);
 	return control;
 }
 
-ProgressControl *QtMvvm::showProgress(const QString &title, const QString &label, int maximum, int minimum, bool allowCancel, int value)
+ProgressControl *QtMvvm::showProgress(const QString &title, const QString &label, int maximum, int minimum, bool allowCancel, int value, const QString &cancelText)
 {
-	return showProgress(nullptr, title, label, maximum, minimum, allowCancel, value);
+	return showProgress(nullptr, title, label, maximum, minimum, allowCancel, value, cancelText);
 }
 
-ProgressControl *QtMvvm::showIndeterminateProgress(QObject *scope, const QString &title, const QString &label, bool allowCancel)
+ProgressControl *QtMvvm::showIndeterminateProgress(QObject *scope, const QString &title, const QString &label, bool allowCancel, const QString &cancelText)
 {
 	auto control = new ProgressControl{scope};
 	control->setIndeterminate(true);
-	showProgress(title, label, control, allowCancel, false);
+	showProgress(title, label, control, allowCancel, false, cancelText);
 	return control;
 }
 
-ProgressControl *QtMvvm::showIndeterminateProgress(const QString &title, const QString &label, bool allowCancel)
+ProgressControl *QtMvvm::showIndeterminateProgress(const QString &title, const QString &label, bool allowCancel, const QString &cancelText)
 {
-	return showIndeterminateProgress(nullptr, title, label, allowCancel);
+	return showIndeterminateProgress(nullptr, title, label, allowCancel, cancelText);
 }
 
-ProgressControl *QtMvvm::showBusy(QObject *scope, const QString &title, const QString &label, bool allowCancel)
+ProgressControl *QtMvvm::showBusy(QObject *scope, const QString &title, const QString &label, bool allowCancel, const QString &cancelText)
 {
 	auto control = new ProgressControl{scope};
 	control->setIndeterminate(true);
-	showProgress(title, label, control, allowCancel, true);
+	showProgress(title, label, control, allowCancel, true, cancelText);
 	return control;
 }
 
-ProgressControl *QtMvvm::showBusy(const QString &title, const QString &label, bool allowCancel)
+ProgressControl *QtMvvm::showBusy(const QString &title, const QString &label, bool allowCancel, const QString &cancelText)
 {
-	return showBusy(nullptr, title, label, allowCancel);
+	return showBusy(nullptr, title, label, allowCancel, cancelText);
 }
