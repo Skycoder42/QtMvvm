@@ -22,6 +22,14 @@ ISettingsAccessor *SettingsViewModel::accessor() const
 
 SettingsViewModel::~SettingsViewModel() = default;
 
+QVariantHash SettingsViewModel::showParams(ISettingsAccessor *accessor, const QString &setupFile)
+{
+	return {
+		{paramAccessor, QVariant::fromValue(accessor)},
+		{paramSetupFile, setupFile}
+	};
+}
+
 QVariantHash SettingsViewModel::showParams(QSettings *settings, const QString &setupFile)
 {
 	return {

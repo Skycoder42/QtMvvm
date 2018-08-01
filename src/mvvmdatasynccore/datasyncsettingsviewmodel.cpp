@@ -13,6 +13,30 @@ const QString DataSyncSettingsViewModel::paramSetup(QStringLiteral("setup"));
 const QString DataSyncSettingsViewModel::paramDataStore(QStringLiteral("dataStore"));
 const QString DataSyncSettingsViewModel::paramDataTypeStore(QStringLiteral("dataTypeStore"));
 
+QVariantHash DataSyncSettingsViewModel::showParams(const QString &setup, const QString &setupFile)
+{
+	return {
+		{paramSetup, setup},
+		{paramSetupFile, setupFile}
+	};
+}
+
+QVariantHash DataSyncSettingsViewModel::showParams(QtDataSync::DataStore *dataStore, const QString &setupFile)
+{
+	return {
+		{paramDataStore, QVariant::fromValue(dataStore)},
+		{paramSetupFile, setupFile}
+	};
+}
+
+QVariantHash DataSyncSettingsViewModel::showParams(QtDataSync::DataTypeStore<DataSyncSettingsEntry> *dataStore, const QString &setupFile)
+{
+	return {
+		{paramDataTypeStore, QVariant::fromValue<QtDataSync::DataTypeStoreBase*>(dataStore)},
+		{paramSetupFile, setupFile}
+	};
+}
+
 DataSyncSettingsViewModel::DataSyncSettingsViewModel(QObject *parent) :
 	SettingsViewModel{parent}
 {}

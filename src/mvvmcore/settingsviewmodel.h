@@ -38,6 +38,7 @@ public:
 	static const QString paramSetupFile;
 
 	//! Generates show parameter to show a settings viewmodel via ViewModel::show
+	static QVariantHash showParams(ISettingsAccessor *accessor, const QString &setupFile = {});
 	static QVariantHash showParams(QSettings *settings, const QString &setupFile = {});
 
 	//! Invokable constructor
