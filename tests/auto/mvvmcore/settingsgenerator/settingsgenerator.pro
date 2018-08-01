@@ -26,3 +26,5 @@ DISTFILES += \
 	import_config.xml
 
 TRANSLATIONS += test_de.ts
+
+include(../../testrun.pri)

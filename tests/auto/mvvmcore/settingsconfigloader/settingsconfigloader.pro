@@ -27,10 +27,12 @@ DISTFILES += \
 	sectionDocument.xml \
 	categoryDocument.xml \
 	selectorDocument.xml \
-    includeDocument.xml \
-    includeDocument_category.xml \
-    includeDocument_section.xml \
-    includeDocument_group.xml \
-    includeDocument_entry.xml \
-    includeDocument_filtered.xml \
-    invalidDocument.xml
+	includeDocument.xml \
+	includeDocument_category.xml \
+	includeDocument_section.xml \
+	includeDocument_group.xml \
+	includeDocument_entry.xml \
+	includeDocument_filtered.xml \
+	invalidDocument.xml
+
+include(../../testrun.pri)

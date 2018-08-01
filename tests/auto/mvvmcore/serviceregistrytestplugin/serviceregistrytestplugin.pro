@@ -16,3 +16,5 @@ SOURCES += \
 	testplugin.cpp
 
 DISTFILES += serviceregistrytestplugin.json
+
+QMAKE_EXTRA_TARGETS += run-tests

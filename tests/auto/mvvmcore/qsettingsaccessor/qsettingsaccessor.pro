@@ -12,3 +12,5 @@ HEADERS += \
 
 SOURCES += \
 	tst_qsettingsaccessor.cpp
+
+include(../../testrun.pri)

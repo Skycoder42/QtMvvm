@@ -12,3 +12,5 @@ HEADERS += \
 
 SOURCES += \
 	tst_datasyncsettingsaccessor.cpp
+
+include(../../testrun.pri)

@@ -14,3 +14,5 @@ DISTFILES += \
 
 importFiles.path = .
 DEPLOYMENT += importFiles
+
+include(../../testrun.pri)

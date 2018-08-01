@@ -8,4 +8,6 @@ CONFIG -= app_bundle
 TARGET = tst_binding
 
 SOURCES += \
-    tst_binding.cpp
+	tst_binding.cpp
+
+include(../../testrun.pri)

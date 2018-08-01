@@ -16,3 +16,6 @@ equals(MSVC_VER, 14.0) {
 		settingsgenerator \
 		settingsconfigloader
 }
+
+prepareRecursiveTarget(run-tests)
+QMAKE_EXTRA_TARGETS += run-tests

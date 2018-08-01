@@ -8,12 +8,14 @@ CONFIG -= app_bundle
 TARGET = tst_coreapp
 
 SOURCES += \
-    tst_coreapp.cpp \
-    testapp.cpp \
-    testpresenter.cpp \
-    testviewmodel.cpp
+	tst_coreapp.cpp \
+	testapp.cpp \
+	testpresenter.cpp \
+	testviewmodel.cpp
 
 HEADERS += \
-    testapp.h \
-    testpresenter.h \
-    testviewmodel.h
+	testapp.h \
+	testpresenter.h \
+	testviewmodel.h
+
+include(../../testrun.pri)

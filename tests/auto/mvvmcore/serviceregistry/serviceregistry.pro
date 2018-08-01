@@ -20,3 +20,5 @@ SOURCES += \
 
 load(qt_build_paths)
 DEFINES += PLUGIN_TESTDIR=\\\"$$MODULE_BASE_OUTDIR/tests/plugins\\\"
+
+include(../../testrun.pri)

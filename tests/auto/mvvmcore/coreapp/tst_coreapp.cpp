@@ -512,7 +512,7 @@ void CoreAppTest::testPresentMessage_data()
 			emit msgUnblock(true);
 		});
 	}} << MessageConfig{MessageConfig::TypeMessageBox, MessageConfig::SubTypeAbout}
-			.setTitle(QStringLiteral("%1 — Version %2")
+			.setTitle(tr("%1 — Version %2")
 					  .arg(QGuiApplication::applicationDisplayName(), QCoreApplication::applicationVersion()))
 			.setViewProperty(QStringLiteral("addQtVersion"), true)
 	   << static_cast<int>(MessageConfig::Ok)
