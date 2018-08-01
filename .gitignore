@@ -79,3 +79,4 @@ qpmx.user.json
 .qpmx-dev-cache
 qpmx.json.user
 *.pro.dummy
+*.qmlc

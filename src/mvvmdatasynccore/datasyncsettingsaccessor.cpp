@@ -29,7 +29,10 @@ DataSyncSettingsAccessor::DataSyncSettingsAccessor(QtDataSync::DataStore *store,
 DataSyncSettingsAccessor::DataSyncSettingsAccessor(QtDataSync::DataTypeStore<DataSyncSettingsEntry> *store, QObject *parent) :
 	ISettingsAccessor{parent},
 	d{new DataSyncSettingsAccessorPrivate{store}}
-{}
+{
+	connect(d->store, &QtDataSync::DataTypeStoreBase::dataChanged,
+			this, &DataSyncSettingsAccessor::dataChanged);
+}
 
 DataSyncSettingsAccessor::~DataSyncSettingsAccessor() = default;
 
@@ -87,6 +90,14 @@ void DataSyncSettingsAccessor::remove(const QString &key)
 void DataSyncSettingsAccessor::sync()
 {
 	// nothing needs to be done
+}
+
+void DataSyncSettingsAccessor::dataChanged(const QString &key, const QVariant &value)
+{
+	if(value.isValid())
+		emit entryChanged(key, value.value<DataSyncSettingsEntry>().value());
+	else
+		emit entryRemoved(key);
 }
 
 // ------------- Private Implementation -------------

@@ -39,7 +39,7 @@ public:
 	Q_INVOKABLE void unbind();
 
 private:
-	QPointer<QObject> d;
+	QPointer<BindingPrivate> d;
 };
 
 //! Create a multidirectional binding between properties

@@ -38,6 +38,9 @@ private:
 	QMetaProperty viewModelProperty;
 	QMetaProperty viewProperty;
 
+	QMetaObject::Connection modelToViewConnection;
+	QMetaObject::Connection viewToModelConnection;
+
 	void testReadable(const QMetaProperty &property, bool asView) const;
 	void testWritable(const QMetaProperty &property, bool asView) const;
 	void testNotifier(const QMetaProperty &property, bool asView) const;

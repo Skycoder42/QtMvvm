@@ -1,6 +1,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-	qmlsettingsgenerator
+	qmlsettingsgenerator \
+	qmlmvvmcore
 
 equals(MSVC_VER, 14.0): SUBDIRS -= qmlsettingsgenerator

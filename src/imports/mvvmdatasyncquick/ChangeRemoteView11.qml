@@ -69,6 +69,7 @@ Page {
 				id: _urlEdit
 				Layout.fillWidth: true
 
+				placeholderText: "wss://example.org/qdsapp/"
 				validator: UrlValidator {
 					allowedSchemes: ["ws", "wss"]
 				}
@@ -92,6 +93,7 @@ Page {
 				id: _accessKeyEdit
 				Layout.fillWidth: true
 				echoMode: TextInput.Password
+				placeholderText: "Optional access secret"
 
 				MvvmBinding {
 					viewModel: _changeRemoteView.viewModel

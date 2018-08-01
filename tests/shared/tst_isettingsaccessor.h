@@ -10,7 +10,8 @@ class ISettingsAccessorTest : public QObject
 	Q_OBJECT
 
 protected:
-	QtMvvm::ISettingsAccessor *accessor = nullptr;
+	QtMvvm::ISettingsAccessor *first = nullptr;
+	QtMvvm::ISettingsAccessor *second = nullptr;
 
 	virtual QtMvvm::ISettingsAccessor *createFirst() = 0;
 	virtual QtMvvm::ISettingsAccessor *createSecond() = 0;
@@ -18,23 +19,23 @@ protected:
 
 private Q_SLOTS:
 	void testAccessorValid() {
-		accessor = createFirst();
-		QVERIFY(accessor);
+		first = createFirst();
+		QVERIFY(first);
 	}
 
 	void testSimpleOperations() {
-		QSignalSpy changedSpy{accessor, &QtMvvm::ISettingsAccessor::entryChanged};
-		QSignalSpy removedSpy{accessor, &QtMvvm::ISettingsAccessor::entryRemoved};
+		QSignalSpy changedSpy{first, &QtMvvm::ISettingsAccessor::entryChanged};
+		QSignalSpy removedSpy{first, &QtMvvm::ISettingsAccessor::entryRemoved};
 
 		auto key = QStringLiteral("test/key");
-		QVERIFY(!accessor->contains(key));
-		QCOMPARE(accessor->load(key, 24).toInt(), 24);
+		QVERIFY(!first->contains(key));
+		QCOMPARE(first->load(key, 24).toInt(), 24);
 		QVERIFY(changedSpy.isEmpty());
 		QVERIFY(removedSpy.isEmpty());
 
-		accessor->save(key, 42);
-		QVERIFY(accessor->contains(key));
-		QCOMPARE(accessor->load(key, 24).toInt(), 42);
+		first->save(key, 42);
+		QVERIFY(first->contains(key));
+		QCOMPARE(first->load(key, 24).toInt(), 42);
 		if(changedSpy.isEmpty())
 			QVERIFY(changedSpy.wait());
 		QCOMPARE(changedSpy.size(), 1);
@@ -43,9 +44,9 @@ private Q_SLOTS:
 		QCOMPARE(changeEvent[1].toInt(), 42);
 		QVERIFY(removedSpy.isEmpty());
 
-		accessor->remove(key);
-		QVERIFY(!accessor->contains(key));
-		QCOMPARE(accessor->load(key, 24).toInt(), 24);
+		first->remove(key);
+		QVERIFY(!first->contains(key));
+		QCOMPARE(first->load(key, 24).toInt(), 24);
 		if(removedSpy.isEmpty())
 			QVERIFY(removedSpy.wait());
 		QCOMPARE(removedSpy.size(), 1);
@@ -59,13 +60,13 @@ private Q_SLOTS:
 		auto key2 = QStringLiteral("group/key/subkey");
 		auto key3 = QStringLiteral("group/key/subgroup/subkey");
 
-		accessor->save(key0, true);
-		accessor->save(key1, true);
-		accessor->save(key2, true);
-		accessor->save(key3, true);
+		first->save(key0, true);
+		first->save(key1, true);
+		first->save(key2, true);
+		first->save(key3, true);
 
-		QSignalSpy removedSpy{accessor, &QtMvvm::ISettingsAccessor::entryRemoved};
-		accessor->remove(key1);
+		QSignalSpy removedSpy{first, &QtMvvm::ISettingsAccessor::entryRemoved};
+		first->remove(key1);
 		while(removedSpy.size() < 3)
 			QVERIFY(removedSpy.wait());
 
@@ -83,14 +84,14 @@ private Q_SLOTS:
 	}
 
 	void testSync() {
-		auto second = createSecond();
+		second = createSecond();
 		QVERIFY(second);
 		QSignalSpy changedSpy{second, &QtMvvm::ISettingsAccessor::entryChanged};
-		QSignalSpy removedSpy{accessor, &QtMvvm::ISettingsAccessor::entryRemoved};
+		QSignalSpy removedSpy{first, &QtMvvm::ISettingsAccessor::entryRemoved};
 
 		auto key = QStringLiteral("sync/key");
-		accessor->save(key, 13);
-		accessor->sync();
+		first->save(key, 13);
+		first->sync();
 		second->sync();
 		if(!testSyncChangeSignals())
 			QEXPECT_FAIL("", "The testes accessor does not support notifying changes over multiple instances", Continue);
@@ -100,13 +101,13 @@ private Q_SLOTS:
 			QCOMPARE(changedSpy.size(), 1);
 			auto changeEvent = changedSpy.takeFirst();
 			QCOMPARE(changeEvent[0].toString(), key);
-			QCOMPARE(changeEvent[1].toInt(), 42);
+			QCOMPARE(changeEvent[1].toInt(), 13);
 		}
 		QCOMPARE(second->load(key, 24).toInt(), 13);
 
 		second->remove(key);
 		second->sync();
-		accessor->sync();
+		first->sync();
 		if(!testSyncChangeSignals())
 			QEXPECT_FAIL("", "The testes accessor does not support notifying changes over multiple instances", Continue);
 		if(removedSpy.isEmpty())
@@ -115,7 +116,7 @@ private Q_SLOTS:
 			QCOMPARE(removedSpy.size(), 1);
 			QCOMPARE(removedSpy.takeFirst()[0].toString(), key);
 		}
-		QCOMPARE(accessor->load(key, 24).toInt(), 24);
+		QCOMPARE(first->load(key, 24).toInt(), 24);
 	}
 };
 

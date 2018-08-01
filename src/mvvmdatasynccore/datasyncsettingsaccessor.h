@@ -31,6 +31,9 @@ public:
 public Q_SLOTS:
 	void sync() override;
 
+private Q_SLOTS:
+	void dataChanged(const QString &key, const QVariant &value);
+
 private:
 	QScopedPointer<DataSyncSettingsAccessorPrivate> d;
 };

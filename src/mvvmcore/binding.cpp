@@ -108,6 +108,10 @@ Binding::operator bool() const
 void Binding::unbind()
 {
 	if(d) {
+		if(d->modelToViewConnection)
+			QObject::disconnect(d->modelToViewConnection);
+		if(d->viewToModelConnection)
+			QObject::disconnect(d->viewToModelConnection);
 		d->deleteLater();
 		d.clear();
 	}
@@ -165,7 +169,7 @@ void BindingPrivate::bindFrom(QMetaMethod changeSignal)
 		changeSignal = viewModelProperty.notifySignal();
 	}
 	auto trigger = metaObject()->method(metaObject()->indexOfSlot("viewModelTrigger()"));
-	connect(viewModel, changeSignal, this, trigger);
+	modelToViewConnection = connect(viewModel, changeSignal, this, trigger);
 }
 
 void BindingPrivate::bindTo(QMetaMethod changeSignal)
@@ -177,7 +181,7 @@ void BindingPrivate::bindTo(QMetaMethod changeSignal)
 		changeSignal = viewProperty.notifySignal();
 	}
 	auto trigger = metaObject()->method(metaObject()->indexOfSlot("viewTrigger()"));
-	connect(view, changeSignal, this, trigger);
+	viewToModelConnection = connect(view, changeSignal, this, trigger);
 }
 
 void BindingPrivate::testReadable(const QMetaProperty &property, bool asView) const

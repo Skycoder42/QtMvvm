@@ -218,7 +218,10 @@
      <normaloff>:/de/skycoder42/qtmvvm/widgets/icons/remove.ico</normaloff>:/de/skycoder42/qtmvvm/widgets/icons/remove.ico</iconset>
    </property>
    <property name="text">
-    <string>&amp;Remove Selected Header</string>
+    <string>&amp;Remove Header</string>
+   </property>
+   <property name="toolTip">
+    <string>Remove selected Header</string>
    </property>
    <property name="shortcut">
     <string>Del</string>
