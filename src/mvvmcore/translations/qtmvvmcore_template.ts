@@ -4,12 +4,12 @@
 <context>
     <name>MessageConfig</name>
     <message>
-        <location filename="../message.cpp" line="+411"/>
+        <location filename="../message.cpp" line="+530"/>
         <source>%1 — Version %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+13"/>
         <source> (Built with %1)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -29,12 +29,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+5"/>
         <source>License: &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
         <source>License: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -42,7 +42,7 @@
 <context>
     <name>QtMvvm::CoreApp</name>
     <message>
-        <location filename="../coreapp.cpp" line="+107"/>
+        <location filename="../coreapp.cpp" line="+168"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
@@ -58,14 +58,14 @@
     </message>
 </context>
 <context>
-    <name>QtMvvm::SettingsSetupLoader</name>
+    <name>QtMvvm::SettingsConfigLoader</name>
     <message>
-        <location filename="../settingssetuploader.cpp" line="+275"/>
+        <location filename="../settingsconfigloader.cpp" line="+75"/>
         <source>General Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+19"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
@@ -73,7 +73,7 @@
 <context>
     <name>QtMvvm::SettingsViewModel</name>
     <message>
-        <location filename="../settingsviewmodel.cpp" line="+35"/>
+        <location filename="../settingsviewmodel.cpp" line="+49"/>
         <source>Restore Defaults?</source>
         <translation type="unfinished"></translation>
     </message>

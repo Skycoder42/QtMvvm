@@ -70,7 +70,12 @@
     </message>
     <message>
         <location line="+9"/>
-        <source>&amp;Remove Selected Header</source>
+        <source>&amp;Remove Header</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Remove selected Header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

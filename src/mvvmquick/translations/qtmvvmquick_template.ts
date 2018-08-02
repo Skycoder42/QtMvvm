@@ -12,7 +12,7 @@
 <context>
     <name>ListSection</name>
     <message>
-        <location filename="../../imports/mvvmquick/ListSection.qml" line="+15"/>
+        <location filename="../../imports/mvvmquick/ListSection.qml" line="+13"/>
         <source>:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -28,15 +28,23 @@
 <context>
     <name>QtMvvm::SettingsUiBuilder</name>
     <message>
-        <location filename="../../imports/mvvmquick/settingsuibuilder.cpp" line="+58"/>
+        <location filename="../../imports/mvvmquick/settingsuibuilder.cpp" line="+56"/>
         <source>:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SearchBar</name>
+    <message>
+        <location filename="../../imports/mvvmquick/SearchBar.qml" line="+72"/>
+        <source>Search…</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SettingsView</name>
     <message>
-        <location filename="../../imports/mvvmquick/SettingsView.qml" line="+81"/>
+        <location filename="../../imports/mvvmquick/SettingsView.qml" line="+80"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -48,6 +56,33 @@
     <message>
         <location line="+8"/>
         <source>Restore settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SettingsView11</name>
+    <message>
+        <location filename="../../imports/mvvmquick/SettingsView11.qml" line="+75"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Search in settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Restore settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TimeEdit</name>
+    <message>
+        <location filename="../../imports/mvvmquick/TimeEdit.qml" line="+69"/>
+        <location line="+21"/>
+        <source>:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
