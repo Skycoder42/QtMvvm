@@ -48,8 +48,15 @@ linux {
 		runtarget_env_qpa
 }
 
-runtarget.target = run-tests
-runtarget.depends += $(TARGET)
-win32: runtarget.commands = .\$(TARGET)
-else: runtarget.commands = ./$(TARGET)
-QMAKE_EXTRA_TARGETS += runtarget
+win32:!ReleaseBuild:!DebugBuild {
+	runtarget.target = run-tests
+	runtarget.CONFIG = recursive
+	runtarget.recurse_target = run-tests
+	QMAKE_EXTRA_TARGETS += runtarget
+} else {
+	runtarget.target = run-tests
+	runtarget.depends += $(TARGET)
+	win32: runtarget.commands = .\$(TARGET)
+	else: runtarget.commands = ./$(TARGET)
+	QMAKE_EXTRA_TARGETS += runtarget
+}
