@@ -5,7 +5,7 @@ services:
 
 sudo: required
 dist: trusty
-osx_image: xcode9.3
+osx_image: xcode9.4
 
 env:
   global:
@@ -13,6 +13,7 @@ env:
     - QT_VER=5.11.1
     - EXTRA_MODULES=".qtremoteobjects .skycoder42.datasync"
     - DOCKER_IMAGE=datasync
+    - MAKE_RUN_TESTS=true #experimental
 
 matrix:
   include:
