@@ -11,7 +11,7 @@ QSETTINGSTRANSLATOR_DIR = $$QSETTINGSTRANSLATOR_DIR$$SUFFIX
 
 !ReleaseBuild: {
 	qsettingstranslator_c.name = qsettingsgenerator --translate ${QMAKE_FILE_IN}
-	qsettingstranslator_c.input = SETTINGS_TRANSLATIONS #TODO compability
+	qsettingstranslator_c.input = SETTINGS_TRANSLATIONS
 	qsettingstranslator_c.variable_out = CPP_DUMMIES
 	qsettingstranslator_c.commands = $$QMAKE_QSETTINGSGENERATOR --translate --in ${QMAKE_FILE_IN} --impl ${QMAKE_FILE_OUT}
 	qsettingstranslator_c.output = $$QSETTINGSTRANSLATOR_DIR/${QMAKE_FILE_BASE}.tsdummy$${first(QMAKE_EXT_CPP)}

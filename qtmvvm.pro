@@ -23,4 +23,5 @@ sub_runtest.depends += sub-tests
 QMAKE_EXTRA_TARGETS += sub_runtest runtests
 
 DISTFILES += .qmake.conf \
-	sync.profile
+	sync.profile \
+	qbs/Qt/settingsgenerator/*
