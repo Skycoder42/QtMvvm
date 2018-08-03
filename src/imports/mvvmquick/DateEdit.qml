@@ -98,12 +98,22 @@ ListView {
 
 		DayOfWeekRow {
 			Layout.fillWidth: true
+			delegate: Label {
+				text: model.shortName
+				horizontalAlignment: Text.AlignHCenter
+				verticalAlignment: Text.AlignVCenter
+			}
 		}
 
 		WeekNumberColumn {
 			month: model.month
 			year: model.year
 			Layout.fillHeight: true
+			delegate: Label {
+				text: model.weekNumber
+				horizontalAlignment: Text.AlignHCenter
+				verticalAlignment: Text.AlignVCenter
+			}
 		}
 
 		MonthGrid {
@@ -128,7 +138,7 @@ ListView {
 				opacity: model.month === grid.month ? 1 : 0.5
 				text: model.day
 				font: grid.font
-				color: isCurrent ? QuickPresenter.accentTextColor(highlightColor, palette.text) : palette.text
+				color: isCurrent ? QuickPresenter.accentTextColor(highlightColor, helper.text) : helper.text
 
 				background: Rectangle {
 					readonly property double size: Math.max(dayDelegate.width, dayDelegate.height) * 1.2

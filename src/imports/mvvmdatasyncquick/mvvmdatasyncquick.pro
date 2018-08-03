@@ -13,17 +13,11 @@ SOURCES += \
 	qtmvvmdatasyncquick_plugin.cpp
 
 QML_FILES += \
-	SubButton.qml \
 	DataSyncView.qml \
-	DataSyncView11.qml \
 	NetworkExchangeView.qml \
-	NetworkExchangeView11.qml \
 	IdentityEditView.qml \
-	IdentityEditView11.qml \
 	ExportSetupView.qml \
-	ExportSetupView11.qml \
-	ChangeRemoteView.qml \
-	ChangeRemoteView11.qml
+	ChangeRemoteView.qml
 
 RESOURCES += \
 	qtmvvmdatasyncquick_plugin.qrc

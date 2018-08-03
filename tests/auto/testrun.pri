@@ -13,7 +13,7 @@ win32 {
 		runtarget.commands += $$escape_expand(\\n\\t)@set QT_QPA_PLATFORM=minimal
 		runtarget.commands += $$escape_expand(\\n\\t)start /w call $(DESTDIR_TARGET) ^> $(DESTDIR)test.log ^|^| echo FAIL ^> fail ^& exit 0
 		runtarget.commands += $$escape_expand(\\n\\t)type $(DESTDIR)test.log
-		runtarget.commands += $$escape_expand(\\n\\t)@if exist fail exit 1
+		runtarget.commands += $$escape_expand(\\n\\t)@if exist fail exit 42
 		QMAKE_EXTRA_TARGETS += runtarget
 	}
 } else {

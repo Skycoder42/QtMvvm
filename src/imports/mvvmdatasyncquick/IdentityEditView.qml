@@ -2,9 +2,9 @@ import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.2
-import de.skycoder42.QtMvvm.Core 1.0
-import de.skycoder42.QtMvvm.Quick 1.0
-import de.skycoder42.QtMvvm.DataSync.Core 1.0
+import de.skycoder42.QtMvvm.Core 1.1
+import de.skycoder42.QtMvvm.Quick 1.1
+import de.skycoder42.QtMvvm.DataSync.Core 1.1
 
 AlertDialog {
 	id: _identityEditView
@@ -17,11 +17,10 @@ AlertDialog {
 		id: _layout
 		anchors.fill: parent
 
-		Label {
+		DecorLabel {
 			text: qsTr("Device Name:")
 			Layout.fillWidth: true
-			color: _nameEdit.focus ? _nameEdit.selectionColor : palette.text
-			opacity: _nameEdit.focus ? 1 : 0.5
+			edit: _nameEdit
 		}
 
 		TextField {
@@ -36,15 +35,16 @@ AlertDialog {
 			}
 		}
 
-		Label {
+		DecorLabel {
 			id: _fpLabel
 			text: qsTr("Device Fingerprint:")
 			Layout.fillWidth: true
-			opacity: 0.5
 			Layout.topMargin: 16
+			edit: _fpText
 		}
 
 		Label {
+			id: _fpText
 			text: viewModel.fingerPrint
 			Layout.fillWidth: true
 			wrapMode: Text.Wrap

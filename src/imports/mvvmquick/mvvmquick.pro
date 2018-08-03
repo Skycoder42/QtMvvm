@@ -37,7 +37,6 @@ QML_FILES += \
 	TintIcon.qml \
 	AlertDialog.qml \
 	ContrastToolBar.qml \
-	ContrastToolBar11.qml \
 	ToolBarLabel.qml \
 	ActionButton.qml \
 	RoundActionButton.qml \
@@ -50,7 +49,6 @@ QML_FILES += \
 	SectionListView.qml \
 	OverviewListView.qml \
 	SettingsView.qml \
-	SettingsView11.qml \
 	SearchBar.qml \
 	RoundMenuButton.qml \
 	DecorLabel.qml \

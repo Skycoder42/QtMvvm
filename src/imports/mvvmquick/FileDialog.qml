@@ -1,8 +1,8 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
 import Qt.labs.platform 1.0 as Labs
-import de.skycoder42.QtMvvm.Core 1.0
-import de.skycoder42.QtMvvm.Quick 1.0
+import de.skycoder42.QtMvvm.Core 1.1
+import de.skycoder42.QtMvvm.Quick 1.1
 
 /*! @brief A file dialog implementation based on the labs file dialog
  *

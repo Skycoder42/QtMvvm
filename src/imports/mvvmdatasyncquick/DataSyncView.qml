@@ -4,9 +4,9 @@ import QtQuick.Controls.Material 2.3
 import QtQuick.Controls.Universal 2.3
 import QtQuick.Layouts 1.3
 import de.skycoder42.QtDataSync 4.0
-import de.skycoder42.QtMvvm.Core 1.0
-import de.skycoder42.QtMvvm.Quick 1.0
-import de.skycoder42.QtMvvm.DataSync.Core 1.0
+import de.skycoder42.QtMvvm.Core 1.1
+import de.skycoder42.QtMvvm.Quick 1.1
+import de.skycoder42.QtMvvm.DataSync.Core 1.1
 
 /*! @brief The view implementation for the QtMvvm::DataSyncViewModel
  *
@@ -95,6 +95,11 @@ Page {
 
 	Pane {
 		anchors.fill: parent
+
+		ColorHelper {
+			id: helper
+		}
+
 		ColumnLayout {
 			id: _layout
 			anchors.fill: parent
@@ -146,14 +151,7 @@ Page {
 				Layout.fillWidth: true
 				Layout.minimumHeight: 1
 				Layout.maximumHeight: 1
-				color: {
-					if(QuickPresenter.currentStyle === "Material")
-						return Material.foreground;
-					else if(QuickPresenter.currentStyle === "Universal")
-						return Universal.foreground;
-					else
-						return "black";
-				}
+				color: helper.text
 			}
 
 			Label {
@@ -253,65 +251,42 @@ Page {
 		}
 	}
 
-	RoundActionButton {
+	RoundMenuButton {
 		id: _addButton
-		z: 7
+
 		anchors.right: parent.right
 		anchors.bottom: parent.bottom
 		anchors.margins: 16
-		checkable: true
+
 		text: qsTr("Add new devices")
 		icon.name: checked ? "tab-close" : "list-add"
 		icon.source: checked ?
 						 "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_close.svg" :
 						 "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_add.svg"
-	}
+		stickyToolTips: true
 
-	SubButton {
-		id: _exchangeButton
-		z: 3
-		reference: _addButton
-		expanded: _addButton.checked
+		Action {
+			text: qsTr("Network Exchange")
+			icon.name: "network-connect"
+			icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_exchange.svg"
 
-		text: qsTr("Network Exchange")
-		icon.name: "network-connect"
-		icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_exchange.svg"
-
-		onClicked: {
-			viewModel.startNetworkExchange();
-			_addButton.checked = false;
+			onTriggered: viewModel.startNetworkExchange()
 		}
-	}
 
-	SubButton {
-		id: _exportButton
-		z: 3
-		reference: _exchangeButton
-		expanded: _addButton.checked
+		Action {
+			text: qsTr("Export to file")
+			icon.name: "document-export"
+			icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_export.svg"
 
-		text: qsTr("Export to file")
-		icon.name: "document-export"
-		icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_export.svg"
-
-		onClicked: {
-			viewModel.startExport();
-			_addButton.checked = false;
+			onTriggered: viewModel.startExport()
 		}
-	}
 
-	SubButton {
-		id: _importButton
-		z: 3
-		reference: _exportButton
-		expanded: _addButton.checked
+		Action {
+			text: qsTr("Import from file")
+			icon.name: "document-import"
+			icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_import.svg"
 
-		text: qsTr("Import from file")
-		icon.name: "document-import"
-		icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_import.svg"
-
-		onClicked: {
-			viewModel.startImport();
-			_addButton.checked = false;
+			onTriggered: viewModel.startImport()
 		}
 	}
 }

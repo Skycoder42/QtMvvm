@@ -2,9 +2,9 @@ import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.2
-import de.skycoder42.QtMvvm.Core 1.0
-import de.skycoder42.QtMvvm.Quick 1.0
-import de.skycoder42.QtMvvm.DataSync.Core 1.0
+import de.skycoder42.QtMvvm.Core 1.1
+import de.skycoder42.QtMvvm.Quick 1.1
+import de.skycoder42.QtMvvm.DataSync.Core 1.1
 
 AlertDialog {
 	id: _exportSetupView
@@ -43,11 +43,10 @@ AlertDialog {
 			}
 		}
 
-		Label {
+		DecorLabel {
 			text: qsTr("Password:")
 			Layout.fillWidth: true
-			color: _passwordEdit.focus ? _passwordEdit.selectionColor : palette.text
-			opacity: _passwordEdit.focus ? 1 : 0.5
+			edit: _passwordEdit
 			enabled: viewModel.trusted
 		}
 

@@ -1,6 +1,6 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
-import de.skycoder42.QtMvvm.Quick 1.0
+import de.skycoder42.QtMvvm.Quick 1.1
 
 /*! @brief An extension of the @ref QtQuick.Controls.ToolButton "ToolButton" for better appearance
  *
@@ -28,10 +28,15 @@ ToolButton {
 	display: AbstractButton.IconOnly
 
 	implicitHeight: 48
-	implicitWidth: 48
+	//implicitWidth: 48
 
 	icon.width: 24
 	icon.height: 24
+
+	ColorHelper {
+		id: helper
+	}
+	icon.color: helper.text
 
 	ToolTip.visible: pressed && _toolButton.toolTip != ""
 	ToolTip.delay: Qt.styleHints.mousePressAndHoldInterval

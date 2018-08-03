@@ -2,9 +2,9 @@ import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import de.skycoder42.QtDataSync 4.0
-import de.skycoder42.QtMvvm.Core 1.0
-import de.skycoder42.QtMvvm.Quick 1.0
-import de.skycoder42.QtMvvm.DataSync.Core 1.0
+import de.skycoder42.QtMvvm.Core 1.1
+import de.skycoder42.QtMvvm.Quick 1.1
+import de.skycoder42.QtMvvm.DataSync.Core 1.1
 import de.skycoder42.QtMvvm.Quick.Private 1.0
 
 Page {
@@ -33,13 +33,10 @@ Page {
 				text: qsTr("Change Remote")
 			}
 
-			ToolButton {
+			ActionButton {
 				id: _syncButton
-				implicitHeight: 48
 				text: qsTr("Change")
 				enabled: viewModel.valid
-				icon.width: 24
-				icon.height: 24
 				icon.name: "gtk-apply"
 				icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_check.svg"
 				display: AbstractButton.TextBesideIcon
@@ -59,17 +56,17 @@ Page {
 			id: _layout
 			anchors.fill: parent
 
-			Label {
+			DecorLabel {
 				text: qsTr("Remote url:")
 				Layout.fillWidth: true
-				color: _urlEdit.focus ? _urlEdit.selectionColor : palette.text
-				opacity: _urlEdit.focus ? 1 : 0.5
+				edit: _urlEdit
 			}
 
 			TextField {
 				id: _urlEdit
 				Layout.fillWidth: true
 
+				placeholderText: "wss://example.org/qdsapp/"
 				validator: UrlValidator {
 					allowedSchemes: ["ws", "wss"]
 				}
@@ -83,17 +80,17 @@ Page {
 				}
 			}
 
-			Label {
+			DecorLabel {
 				text: qsTr("Access key:")
 				Layout.fillWidth: true
-				color: _accessKeyEdit.focus ? _accessKeyEdit.selectionColor : palette.text
-				opacity: _accessKeyEdit.focus ? 1 : 0.5
+				edit: _accessKeyEdit
 			}
 
 			TextField {
 				id: _accessKeyEdit
 				Layout.fillWidth: true
 				echoMode: TextInput.Password
+				placeholderText: "Optional access secret"
 
 				MvvmBinding {
 					viewModel: _changeRemoteView.viewModel
@@ -104,11 +101,10 @@ Page {
 				}
 			}
 
-			Label {
+			DecorLabel {
 				text: qsTr("Keep-Alive timout:")
 				Layout.fillWidth: true
-				color: _keepAliveEdit.focus ? _accessKeyEdit.selectionColor : palette.text
-				opacity: _keepAliveEdit.focus ? 1 : 0.5
+				edit: _keepAliveEdit
 			}
 
 			SpinBox {
@@ -138,11 +134,10 @@ Page {
 				}
 			}
 
-			Label {
+			DecorLabel {
 				text: qsTr("Extra Headers:")
 				Layout.fillWidth: true
-				color: _headerScrollView.focus ? _accessKeyEdit.selectionColor : palette.text
-				opacity: _headerScrollView.focus ? 1 : 0.5
+				edit: _headerScrollView
 			}
 
 			ScrollView {

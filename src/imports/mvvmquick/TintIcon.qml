@@ -8,6 +8,7 @@ Item {
 
 	property alias icon: _imgBtn.icon
 	property alias source: _imgBtn.icon.source
+	property alias color: _imgBtn.icon.color
 
 	implicitWidth: _imgBtn.icon.width
 	implicitHeight: _imgBtn.icon.height
@@ -24,6 +25,11 @@ Item {
 		z: -10
 		padding: 0
 		anchors.fill: parent
+
+		ColorHelper {
+			id: helper
+		}
+		icon.color: helper.text
 
 		background: Item {}
 	}
