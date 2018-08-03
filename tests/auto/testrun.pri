@@ -7,10 +7,9 @@ win32 {
 	} else {
 		runtarget.target = run-tests
 		runtarget.depends += $(DESTDIR_TARGET)
-		win32-g++: runtarget.commands += @setlocal
-		runtarget.commands += @set \"PATH=$$shell_path($$shadowed($$dirname(_QMAKE_CONF_))/bin);$$shell_path($$[QT_INSTALL_BINS]);$(PATH)\"
-		runtarget.commands += $$escape_expand(\\n\\t)@set \"QT_PLUGIN_PATH=$$shadowed($$dirname(_QMAKE_CONF_))/plugins;$(QT_PLUGIN_PATH)\"
-		runtarget.commands += $$escape_expand(\\n\\t)@set \"QML2_IMPORT_PATH=$$shadowed($$dirname(_QMAKE_CONF_))/qml;$(QML2_IMPORT_PATH)\"
+		runtarget.commands += @set PATH=$$shell_path($$shadowed($$dirname(_QMAKE_CONF_))/bin);$$shell_path($$[QT_INSTALL_BINS]);$(PATH)
+		runtarget.commands += $$escape_expand(\\n\\t)@set QT_PLUGIN_PATH=$$shadowed($$dirname(_QMAKE_CONF_))/plugins;$(QT_PLUGIN_PATH)
+		runtarget.commands += $$escape_expand(\\n\\t)@set QML2_IMPORT_PATH=$$shadowed($$dirname(_QMAKE_CONF_))/qml;$(QML2_IMPORT_PATH)
 		runtarget.commands += $$escape_expand(\\n\\t)@set QT_QPA_PLATFORM=minimal
 		runtarget.commands += $$escape_expand(\\n\\t)start /w call $(DESTDIR_TARGET) ^> $(DESTDIR)test.log ^|^| echo FAIL ^> fail ^& exit 0
 		runtarget.commands += $$escape_expand(\\n\\t)type $(DESTDIR)test.log
