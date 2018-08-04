@@ -1,10 +1,10 @@
-win32 {
-	!ReleaseBuild:!DebugBuild {
-		runtarget.target = run-tests
-		runtarget.CONFIG = recursive
-		runtarget.recurse_target = run-tests
-		QMAKE_EXTRA_TARGETS += runtarget
-	} else {
+win32:!ReleaseBuild:!DebugBuild {
+	runtarget.target = run-tests
+	runtarget.CONFIG = recursive
+	runtarget.recurse_target = run-tests
+	QMAKE_EXTRA_TARGETS += runtarget
+} else {
+	win32:!win32-g++ {
 		oneshell.target = .ONESHELL
 
 		CONFIG(debug, debug|release): outdir_helper = debug
@@ -19,39 +19,38 @@ win32 {
 		runtarget.commands += $$escape_expand(\\n\\t)type $${outdir_helper}\\test.log
 		runtarget.commands += $$escape_expand(\\n\\t)@if exist $${outdir_helper}\\fail exit 42
 		QMAKE_EXTRA_TARGETS += oneshell runtarget
-	}
-} else {
-	linux {
-		runtarget_env_lib.target = run-tests
-		runtarget_env_lib.depends = export LD_LIBRARY_PATH := $$shadowed($$dirname(_QMAKE_CONF_))/lib/:$$[QT_INSTALL_LIBS]:$(LD_LIBRARY_PATH)
-		runtarget_env_qpa.target = run-tests
-		runtarget_env_qpa.depends += export QT_QPA_PLATFORM := minimal
-		QMAKE_EXTRA_TARGETS += \
-			runtarget_env_lib \
-			runtarget_env_qpa
-	} else:mac {
-		runtarget_env_lib.target = run-tests
-		runtarget_env_lib.depends = export DYLD_LIBRARY_PATH := $$shadowed($$dirname(_QMAKE_CONF_))/lib/:$$[QT_INSTALL_LIBS]:$(DYLD_LIBRARY_PATH)
-		runtarget_env_framework.target = run-tests
-		runtarget_env_framework.depends = export DYLD_FRAMEWORK_PATH := $$shadowed($$dirname(_QMAKE_CONF_))/lib/:$$[QT_INSTALL_LIBS]:$(DYLD_FRAMEWORK_PATH)
-		QMAKE_EXTRA_TARGETS += \
-			runtarget_env_lib \
-			runtarget_env_framework
-	}
+	} else {
+		linux|win32-g++ {
+			runtarget_env_lib.target = run-tests
+			runtarget_env_lib.depends = export LD_LIBRARY_PATH := $$shadowed($$dirname(_QMAKE_CONF_))/lib/:$$[QT_INSTALL_LIBS]:$(LD_LIBRARY_PATH)
+			runtarget_env_qpa.target = run-tests
+			runtarget_env_qpa.depends += export QT_QPA_PLATFORM := minimal
+			QMAKE_EXTRA_TARGETS += runtarget_env_lib
+			!win32-g++: QMAKE_EXTRA_TARGETS += runtarget_env_qpa
+		} else:mac {
+			runtarget_env_lib.target = run-tests
+			runtarget_env_lib.depends = export DYLD_LIBRARY_PATH := $$shadowed($$dirname(_QMAKE_CONF_))/lib/:$$[QT_INSTALL_LIBS]:$(DYLD_LIBRARY_PATH)
+			runtarget_env_framework.target = run-tests
+			runtarget_env_framework.depends = export DYLD_FRAMEWORK_PATH := $$shadowed($$dirname(_QMAKE_CONF_))/lib/:$$[QT_INSTALL_LIBS]:$(DYLD_FRAMEWORK_PATH)
+			QMAKE_EXTRA_TARGETS += \
+				runtarget_env_lib \
+				runtarget_env_framework
+		}
 
-	runtarget_env_bin.target = run-tests
-	runtarget_env_bin.depends = export PATH := $$shadowed($$dirname(_QMAKE_CONF_))/bin/:$$[QT_INSTALL_BINS]:$(PATH)
-	runtarget_env_plugins.target = run-tests
-	runtarget_env_plugins.depends = export QT_PLUGIN_PATH := $$shadowed($$dirname(_QMAKE_CONF_))/plugins/:$(QT_PLUGIN_PATH)
-	runtarget_env_qml.target = run-tests
-	runtarget_env_qml.depends += export QML2_IMPORT_PATH := $$shadowed($$dirname(_QMAKE_CONF_))/qml/:$(QML2_IMPORT_PATH)
-	QMAKE_EXTRA_TARGETS += \
-		runtarget_env_bin \
-		runtarget_env_plugins \
-		runtarget_env_qml
+		runtarget_env_bin.target = run-tests
+		runtarget_env_bin.depends = export PATH := $$shadowed($$dirname(_QMAKE_CONF_))/bin/:$$[QT_INSTALL_BINS]:$(PATH)
+		runtarget_env_plugins.target = run-tests
+		runtarget_env_plugins.depends = export QT_PLUGIN_PATH := $$shadowed($$dirname(_QMAKE_CONF_))/plugins/:$(QT_PLUGIN_PATH)
+		runtarget_env_qml.target = run-tests
+		runtarget_env_qml.depends += export QML2_IMPORT_PATH := $$shadowed($$dirname(_QMAKE_CONF_))/qml/:$(QML2_IMPORT_PATH)
+		QMAKE_EXTRA_TARGETS += \
+			runtarget_env_bin \
+			runtarget_env_plugins \
+			runtarget_env_qml
 
-	runtarget.target = run-tests
-	runtarget.depends += $(TARGET)
-	runtarget.commands = ./$(TARGET)
-	QMAKE_EXTRA_TARGETS += runtarget
+		runtarget.target = run-tests
+		runtarget.depends += $(TARGET)
+		runtarget.commands = ./$(TARGET)
+		QMAKE_EXTRA_TARGETS += runtarget
+	}
 }
