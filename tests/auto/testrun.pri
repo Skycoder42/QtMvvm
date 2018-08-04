@@ -40,9 +40,9 @@ win32:!ReleaseBuild:!DebugBuild {
 		runtarget_env_bin.target = run-tests
 		runtarget_env_bin.depends = export PATH := $$shadowed($$dirname(_QMAKE_CONF_))/bin/:$$[QT_INSTALL_BINS]:$(PATH)
 		runtarget_env_plugins.target = run-tests
-		runtarget_env_plugins.depends = export QT_PLUGIN_PATH := $$shadowed($$dirname(_QMAKE_CONF_))/plugins/:$(QT_PLUGIN_PATH)
+		runtarget_env_plugins.depends = export QT_PLUGIN_PATH := $$shadowed($$dirname(_QMAKE_CONF_))/plugins/$${QMAKE_DIRLIST_SEP}$(QT_PLUGIN_PATH)
 		runtarget_env_qml.target = run-tests
-		runtarget_env_qml.depends += export QML2_IMPORT_PATH := $$shadowed($$dirname(_QMAKE_CONF_))/qml/:$(QML2_IMPORT_PATH)
+		runtarget_env_qml.depends += export QML2_IMPORT_PATH := $$shadowed($$dirname(_QMAKE_CONF_))/qml/$${QMAKE_DIRLIST_SEP}$(QML2_IMPORT_PATH)
 		QMAKE_EXTRA_TARGETS += \
 			runtarget_env_bin \
 			runtarget_env_plugins \
