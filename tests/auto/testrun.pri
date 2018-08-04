@@ -37,6 +37,7 @@ win32:!ReleaseBuild:!DebugBuild {
 				runtarget_env_framework
 		}
 
+		win32-g++: QMAKE_DIRLIST_SEP = ";"
 		runtarget_env_bin.target = run-tests
 		runtarget_env_bin.depends = export PATH := $$shadowed($$dirname(_QMAKE_CONF_))/bin/:$$[QT_INSTALL_BINS]:$(PATH)
 		runtarget_env_plugins.target = run-tests
@@ -47,6 +48,7 @@ win32:!ReleaseBuild:!DebugBuild {
 			runtarget_env_bin \
 			runtarget_env_plugins \
 			runtarget_env_qml
+		win32-g++: QMAKE_DIRLIST_SEP = ":"
 
 		runtarget.target = run-tests
 		win32-g++ {
