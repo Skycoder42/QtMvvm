@@ -10,8 +10,8 @@ environment:
   MAKE_RUN_TESTS: true #experimental
 
   matrix:
-    - PLATFORM: mingw53_32
     - PLATFORM: msvc2017_64
+    - PLATFORM: mingw53_32
     - PLATFORM: winrt_x64_msvc2017
     - PLATFORM: winrt_x86_msvc2017
     - PLATFORM: winrt_armv7_msvc2017

@@ -61,7 +61,7 @@ private:
 
 	QScopedPointer<ViewModelPrivate> d;
 
-	static void showImp(const QMetaObject *metaObject, QVariantHash params, QPointer<ViewModel> parent, quint32 requestCode = 0);
+	static void showImp(const QMetaObject *metaObject, const QVariantHash &params, QPointer<ViewModel> parent, quint32 requestCode = 0);
 };
 
 //TODO doc
