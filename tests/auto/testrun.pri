@@ -49,8 +49,13 @@ win32:!ReleaseBuild:!DebugBuild {
 			runtarget_env_qml
 
 		runtarget.target = run-tests
-		runtarget.depends += $(TARGET)
-		runtarget.commands = ./$(TARGET)
+		win32-g++ {
+			runtarget.depends += $(DESTDIR_TARGET)
+			runtarget.commands = ./$(DESTDIR_TARGET)
+		} else {
+			runtarget.depends += $(TARGET)
+			runtarget.commands = ./$(TARGET)
+		}
 		QMAKE_EXTRA_TARGETS += runtarget
 	}
 }
