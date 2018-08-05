@@ -1,5 +1,6 @@
 #include "datasyncsettingsentry.h"
 #include <QtCore/QDataStream>
+#include <QtMvvmCore/private/qtmvvm_logging_p.h>
 #if QT_HAS_INCLUDE(<optional>) && __cplusplus >= 201703L
 #include <optional>
 #define QTMVVM_HAS_OPTIONAL
@@ -65,14 +66,20 @@ QVariant DataSyncSettingsEntry::value() const
 		QDataStream stream{d->data};
 		stream.setVersion(d->version);
 		d->value = QVariant{};
+		stream.startTransaction();
 		stream >> d->value.value();
+		if(!stream.commitTransaction())
+			logWarning() << "Failed to read data of entry with key" << d->key;
 	}
 	return d->value.value_or(QVariant{});
 #else
 	if(!d->data.isNull() && !d->value.isValid()) {
 		QDataStream stream{d->data};
 		stream.setVersion(d->version);
+		stream.startTransaction();
 		stream >> d->value;
+		if(!stream.commitTransaction())
+			logWarning() << "Failed to read data of entry with key" << d->key;
 	}
 	return d->value;
 #endif

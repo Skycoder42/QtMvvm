@@ -17,10 +17,14 @@ The main feature of QtMvvm is the seperation between ui and logic. With this lib
 The key features are:
 
 - Create ViewModels in the core application to prepare data for presentation without binding to any concret GUI
+	- Supports singleton ViewModels
+	- Supports automatic presentation of container ViewModels
 - Functions to show messageboxes (info, warning, error, etc.) from your core app
 	- Asynchronous, with result handling
 	- Supports input dialogs and native file dialogs out of the box
 		- Supports native file pickers on Android
+	- Supports color picker dialog
+	- Supports progress and busy indicator dialogs
 	- custom dialog types can be created
 - Methods to create Two-Way Bindings from C++ and QML
 - Macros and a ServiceRegistry to make Dependency Injection possible for Services and ViewModels
@@ -136,8 +140,8 @@ The most important part is to know how to add new ViewModels and Views.
 ```qml
 import QtQuick 2.10
 import QtQuick.Controls 2.3
-import de.skycoder42.QtMvvm.Core 1.0
-import de.skycoder42.QtMvvm.Quick 1.0
+import de.skycoder42.QtMvvm.Core 1.1
+import de.skycoder42.QtMvvm.Quick 1.1
 import com.example.mvvmexample 1.0 //adjust to the module defined in your main.cpp
 ```
 - Add a property named viewmodel to the root element: `property MyCustomViewModel viewmodel: null` (If you did not register the viewmodel, use `var` instead of `MyCustomViewModel` as property type)
@@ -169,7 +173,7 @@ To create a presenter, the `QtMvvm::IPresenter` must be implemented and provided
 		- The `QtMvvmApp` qml types automatically register themselves as presenter and perform the presentations
 		- Supports Items as new fullscreen pages inside a stack view, as drawer or as tabs
 		- Supports Popups as modal dialogs
-		-
+
 ## Icons
 In many of the UI projects default icons are used for the views (if no icon theme is present). They are taken from:
 

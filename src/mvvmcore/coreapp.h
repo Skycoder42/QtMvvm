@@ -37,21 +37,27 @@ public:
 	//! Show a new ViewModel by its type
 	template <typename TViewModel>
 	static inline void show(const QVariantHash &params = {}, QPointer<ViewModel> parentViewModel = nullptr);
-	//! Show a new ViewModel by its name
+	//! @copydoc CoreApp::show(const char *, const QVariantHash &, QPointer<ViewModel>);
 	static void show(const char *viewModelName, const QVariantHash &params = {}); //MAJOR merge methods
+	//! Show a new ViewModel by its name
 	static void show(const char *viewModelName, const QVariantHash &params, QPointer<ViewModel> parentViewModel);
-	//! Show a new ViewModel by its metaobject
+	//! @copydoc CoreApp::show(const QMetaObject *, const QVariantHash &, QPointer<ViewModel>);
 	static void show(const QMetaObject *viewModelMetaObject, const QVariantHash &params = {}); //MAJOR merge methods
+	//! Show a new ViewModel by its metaobject
 	static void show(const QMetaObject *viewModelMetaObject, const QVariantHash &params, QPointer<ViewModel> parentViewModel);
 
 	//! Show a basic dialog
 	static MessageResult *showDialog(const MessageConfig &config);
 
+	//! Safely casts a value of the given edit type to the corresponding variant type
 	static QVariant safeCastInputType(const QByteArray &type, const QVariant &value);
-	static void registerInputTypeMapping(const QByteArray &type, int targetType);
+	//! Register a type to be used as variant type for the given edit type
 	template <typename T>
 	static void registerInputTypeMapping(const QByteArray &type);
+	//! @copybrief CoreApp::registerInputTypeMapping(const QByteArray &)
+	static void registerInputTypeMapping(const QByteArray &type, int targetType);
 
+	//! Returns the currently used presenter
 	static IPresenter *presenter();
 
 public Q_SLOTS:

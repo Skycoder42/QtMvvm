@@ -1,0 +1,125 @@
+/*!
+@class QtMvvm::ISettingsAccessor
+
+This class is used by the SettingsViewModel and the @ref settings_generator "qsettingsgenerator"
+to access settings. The interface is meant to be used as proxy for some kind of settings
+backend (like QSettings), so access is kept generic and you can decide to use a different
+storage if needed. While this class can be used directly, it is dsigned to only be used
+as backend for a settings viewmodel or a generated settings instance, and thus lacks many
+"comfort" methods one would otherwise expect.
+
+@note All the semantincs desribed below, except for the change signals, are exactly the same
+as for QSettings, as this interface is modeled after QSettings, in other words, the same rules
+for keys and values as for QSettings apply to the methods of this interface.
+
+@section ISettingsAccessor_keys Semantics of keys
+Keys follow the following semantics. All keys are of the format `group/subgroup/key`. Keys
+may or may not be case sensitive, depending on the plattform. The best approach is to assume
+keys are case insensitive when storing, but case sensitive when loading. While the keys are
+seperated into groups and keys, all groups can also serve as keys, i.e. `group/subgroup` is a
+valid key as well.
+
+@section ISettingsAccessor_storing Storing data
+You can assume that data passed to save() is serializable via QDataStream. In other words, to
+convert the variant to binary data, you can simply use operator<< and operator>> of the
+QVariant. Also, just like with QSettings, the saved data does not have to retain the type. The
+only condition is, that whatever you load() for the same key as used for storing must be
+convertible to the same type as the variant, that was passed to the save() method.
+
+Finally, saving data via this method does not have to immediatly store it permanently. However,
+calling load() with the same key right after save() must always return the same value as
+passed to it. Permanent storing can be done asynchronously, but should happen automatically
+without to much time passing after the save() (or remove()), and must always happen before
+the destruction of this object. Furthermore, users can use the sync() method to immediatly store
+data permanently and load all changes done externally.
+
+@section ISettingsAccessor_signals Change signals
+Another specialty of this class are the change signals. They must be emitted whenever save()
+or remove() are called, to ensure at least changes done within the same instance trigger the
+according change signals. Changes done externally should lead to change signals, but don't have
+to, if not supported. For example, the DataSyncSettingsAccessor can indeed detect changes as
+they occur on other instances or externally, and thus emits the signals. QSettings however does
+not support change signals of any kind, and thus external changes do change the data that can
+be loaded, but do not emit any signals.
+
+@section ISettingsAccessor_impl Available implementations
+Currently, the following backends are supported:
+
+- QSettingsAccessor: Wraps QSettings
+- DataSyncSettingsAccessor: Part of mvvm datasync core, allows to store and sync settings via datasync
+- AndroidSettingsAccessor: Wraps the SharedPreferences of the android API
+
+@sa #QtMvvm_ISettingsAccessorIID, QSettingsAccessor, DataSyncSettingsAccessor,
+AndroidSettingsAccessor, SettingsViewModel, DataSyncSettingsViewModel, @ref settings_generator
+*/
+
+/*!
+@fn QtMvvm::ISettingsAccessor::contains
+
+@param key The key of the settings entry to be checked for existance
+@returns true, if a value for that key was stored, false if not
+
+This should only check for values, not for groups, i.e. if key referes to a group that has
+child keys, but no value by itself, you should still return false.
+
+@sa ISettingsAccessor::load
+*/
+
+/*!
+@fn QtMvvm::ISettingsAccessor::load
+
+@param key The key of the settings entry to be loaded
+@param defaultValue A alternative value to be returned if there is no data stored for that key
+@returns The data loaded for the key, or the default value
+
+If the given value does exist, it should be loaded and returned. If the is on data stored for
+that key, simply return whatever is passed as the default value.
+
+@sa @ref ISettingsAccessor_storing, ISettingsAccessor::contains, ISettingsAccessor::save
+*/
+
+/*!
+@fn QtMvvm::ISettingsAccessor::save
+
+@param key The key of the settings entry to be saved
+@param value The data to be stored under that key
+
+Should simply store the passed data under the given key. You dont have to check if the variant
+is actually serializable, as the meta system will automatically warn the user if thats not the
+case. Permanent storing is done asynchronously, but can be forced via sync().
+
+Any implementation of this method *must* emit the entryChanged() signal with the passed data and
+key.
+
+@sa @ref ISettingsAccessor_storing, ISettingsAccessor::entryChanged, ISettingsAccessor::load,
+ISettingsAccessor::remove, ISettingsAccessor::sync
+*/
+
+/*!
+@fn QtMvvm::ISettingsAccessor::remove
+
+@param key The key of the settings entry to be removed
+
+This method should remove the given key and all of its subkeys. If for example the settings
+contained the values `group/subgroup` and `group/subgroup/key`, after this method, both must
+have been removed. Permanent storing is done asynchronously, but can be forced via sync().
+
+Any implementation of this method *must* emit the entryRemoved() signal for **all** the removed
+entries. I.e. for the example above, it must be emitted for both, `group/subgroup` and
+`group/subgroup/key`.
+
+@sa @ref ISettingsAccessor_storing, ISettingsAccessor::entryRemoved, ISettingsAccessor::save,
+ISettingsAccessor::sync
+*/
+
+/*!
+@fn QtMvvm::ISettingsAccessor::sync
+
+You can call this method to immediatly store any changed data to permanent store. This exists
+because typically, calls to save() and remove() only "cache" the changes, and then later write
+them to the permanent store in a single transaction, as this can be an expensive operation.
+Normally, you don't have to care about this, as this happens automatically, but sometimes you
+might want to manually perform this step. Thats what this method is for.
+
+@sa ISettingsAccessor::save, ISettingsAccessor::remove, QSettings::sync
+*/

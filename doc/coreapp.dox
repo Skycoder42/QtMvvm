@@ -92,10 +92,11 @@ CoreApp::disableAutoBoot
 */
 
 /*!
-@fn QtMvvm::CoreApp::show(const QVariantHash &)
+@fn QtMvvm::CoreApp::show(const QVariantHash &, QPointer<ViewModel>)
 
 @tparam TViewModel The type of the viewmodel to be presented
 @param params A map of named parameters to be passed to the viewmodel
+@param parentViewModel The viewmodel to be used as logical parent to the new one, for presenting
 
 Creates a new instance of the Viewmodel class, creates to corresponding view and then shows it.
 This is done via the IPresenter that is currently registered.
@@ -104,25 +105,29 @@ This is done via the IPresenter that is currently registered.
 */
 
 /*!
-@fn QtMvvm::CoreApp::show(const char *, const QVariantHash &)
+@fn QtMvvm::CoreApp::show(const char *, const QVariantHash &, QPointer<ViewModel>)
 
 @param viewModelName The name of the viewmodel to be presented
 @param params A map of named parameters to be passed to the viewmodel
+@param parentViewModel The viewmodel to be used as logical parent to the new one, for presenting
 
 Creates a new instance of the Viewmodel class, creates to corresponding view and then shows it.
-This is done via the IPresenter that is currently registered.
+This is done via the IPresenter that is currently registered, taking the parent viewmodel into
+consideration where neccessary.
 
 @sa ViewModel::show, CoreApp::showDialog
 */
 
 /*!
-@fn QtMvvm::CoreApp::show(const QMetaObject *, const QVariantHash &)
+@fn QtMvvm::CoreApp::show(const QMetaObject *, const QVariantHash &, QPointer<ViewModel>)
 
 @param viewModelMetaObject The metaobject of the viewmodel to be presented
 @param params A map of named parameters to be passed to the viewmodel
+@param parentViewModel The viewmodel to be used as logical parent to the new one, for presenting
 
 Creates a new instance of the Viewmodel class, creates to corresponding view and then shows it.
-This is done via the IPresenter that is currently registered.
+This is done via the IPresenter that is currently registered, taking the parent viewmodel into
+consideration where neccessary.
 
 @sa ViewModel::show, CoreApp::showDialog
 */
@@ -140,6 +145,61 @@ returned object to monitor the dialog and receive the result.
 been closed.
 
 @sa CoreApp::show, MessageConfig, MessageResult
+*/
+
+/*!
+@fn QtMvvm::CoreApp::safeCastInputType
+
+@param type The edit type the given value is supposed to be of
+@param value The value to be cast to the type specified by the edit type
+@returns A variant of the given value, cast to that type
+
+The primary function of this method is to cast types like `url` to their respective C++ equivalent,
+i.e. `QUrl`. The table below shows the default type conversion map, and custom entries can be
+added via registerInputTypeMapping(). For all types not in that mapping, the function tries
+to see `type` like a C++ typename, i.e. `int` and use that to convert the variant. If no type
+can be determined, the value is returned without doing anything.
+
+ Edit-Type	| C++-Type
+------------|----------
+ switch		| bool
+ string		| QString
+ number		| double
+ range		| int
+ date		| QDateTime
+ color		| QColor
+ url		| QUrl
+ var		| QVariant
+ variant	| QVariant
+ selection	| QVariant
+ list		| QVariant
+ radiolist	| QVariant
+
+@sa CoreApp::registerInputTypeMapping
+*/
+
+/*!
+@fn QtMvvm::CoreApp::registerInputTypeMapping(const QByteArray &)
+
+@tparam T The C++ type to be registered for the given edit type
+@param type The edit type to register the C++ type for
+
+Registeres the given type, so that whenever type is passed to safeCastInputType(), the given
+variant will be converter to T
+
+@sa CoreApp::safeCastInputType
+*/
+
+/*!
+@fn QtMvvm::CoreApp::registerInputTypeMapping(const QByteArray &, int)
+
+@param type The edit type to register the C++ type for
+@param targetType The id of C++ type to be registered for the given edit type
+
+Registeres the given type, so that whenever type is passed to safeCastInputType(), the given
+variant will be converter to targetType
+
+@sa CoreApp::safeCastInputType
 */
 
 /*!

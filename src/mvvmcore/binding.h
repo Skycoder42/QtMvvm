@@ -33,6 +33,7 @@ public:
 
 	//! Specifies whether the binding is a valid and active binding
 	bool isValid() const;
+	//! @copydoc Binding::isValid
 	operator bool() const;
 
 	//! Remove the binding by disconnecting all change signals
