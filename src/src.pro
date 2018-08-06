@@ -11,6 +11,7 @@ imports.depends += mvvmcore mvvmquick
 
 android {
 	SUBDIRS += jar
+	jar.CONFIG += no_lrelease_target
 }
 
 qtHaveModule(datasync) {
