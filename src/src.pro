@@ -9,6 +9,10 @@ mvvmwidgets.depends += mvvmcore
 mvvmquick.depends += mvvmcore
 imports.depends += mvvmcore mvvmquick
 
+android {
+	SUBDIRS += jar
+}
+
 qtHaveModule(datasync) {
 	SUBDIRS += mvvmdatasynccore \
 		mvvmdatasyncwidgets \

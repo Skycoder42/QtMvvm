@@ -35,5 +35,3 @@ DISTFILES += $$TRANSLATIONS
 
 target.path = $$[QT_INSTALL_EXAMPLES]/mvvmcore/$$TARGET
 INSTALLS += target
-
-samples_in_build: QMAKE_QSETTINGSTRANSLATOR = $$PWD/../../../bin/qsettingstranslator.py

@@ -41,6 +41,19 @@ SOURCES += \
 	settingsentry.cpp \
 	settingsconfigloader.cpp
 
+android {
+	QT += androidextras
+
+	HEADERS += \
+		androidsettingsaccessor.h \
+		androidsettingsaccessor_p.h
+	SOURCES += \
+		androidsettingsaccessor.cpp
+
+	ANDROID_BUNDLED_JAR_DEPENDENCIES = \
+		jar/QtMvvmCore.jar
+}
+
 include(../settingsconfig/settingsconfig.pri)
 
 TRANSLATIONS += \

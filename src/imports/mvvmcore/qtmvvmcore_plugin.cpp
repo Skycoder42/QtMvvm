@@ -5,6 +5,7 @@
 #include <QtMvvmCore/ViewModel>
 #include <QtMvvmCore/SettingsViewModel>
 #include <QtMvvmCore/Messages>
+#include <QtMvvmCore/ISettingsAccessor>
 
 #include "qqmlmvvmbinding.h"
 #include "qqmlmvvmmessage.h"

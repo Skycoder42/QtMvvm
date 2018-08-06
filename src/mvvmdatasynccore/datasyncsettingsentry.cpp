@@ -1,10 +1,15 @@
 #include "datasyncsettingsentry.h"
 #include <QtCore/QDataStream>
-#include <QtMvvmCore/private/qtmvvm_logging_p.h>
 #if QT_HAS_INCLUDE(<optional>) && __cplusplus >= 201703L
 #include <optional>
 #define QTMVVM_HAS_OPTIONAL
 #endif
+
+#undef logDebug
+#undef logInfo
+#undef logWarning
+#undef logCritical
+#include <QtMvvmCore/private/qtmvvm_logging_p.h>
 using namespace QtMvvm;
 
 namespace QtMvvm {
