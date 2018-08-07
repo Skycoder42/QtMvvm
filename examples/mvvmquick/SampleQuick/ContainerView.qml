@@ -35,29 +35,12 @@ Page {
 			ViewPlaceholder {
 				id: viewPlaceholder
 
-				viewModelType: containerView.viewModel.vmType
-				parentViewModel: containerView.viewModel
-				autoPresent: false
-
 				Layout.fillWidth: true
 				Layout.fillHeight: true
 
 				BusyIndicator {
 					anchors.centerIn: parent
-					anchors.verticalCenterOffset: -(hookButton.height/2)
 					running: !viewPlaceholder.loadedView
-				}
-
-				Button {
-					id: hookButton
-					Layout.fillWidth: true
-					text: qsTr("Load from QML")
-					onClicked: viewPlaceholder.presentView();
-					enabled: !viewPlaceholder.loadedView
-
-					anchors.left: parent.left
-					anchors.right: parent.right
-					anchors.bottom: parent.bottom
 				}
 			}
 

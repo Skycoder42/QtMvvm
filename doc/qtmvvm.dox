@@ -103,6 +103,8 @@ The following list shows which classes belong to which Qt module, in alphabetica
 - @ref QtMvvm::ExchangeDevicesModel "ExchangeDevicesModel"
 - @ref QtMvvm::DataSyncViewModel "DataSyncViewModel" (uncreatable)
 - @ref QtMvvm::NetworkExchangeViewModel "NetworkExchangeViewModel" (uncreatable)
+- @ref QtMvvm::DataSyncSettingsViewModel "DataSyncSettingsViewModel" (uncreatable)
+- @ref QtMvvm::DataSyncSettingsEntry "DataSyncSettingsEntry" (uncreatable)
 - PChangeRemoteViewModel (uncreatable, internal)
 - PExportSetupViewModel (uncreatable, internal)
 - PIdentityEditViewModel (uncreatable, internal)
