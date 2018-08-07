@@ -90,6 +90,7 @@ void DataSyncSettingsAccessor::remove(const QString &key)
 void DataSyncSettingsAccessor::sync()
 {
 	// nothing needs to be done
+	//TODO implement via manager sync with blocking eventloop?
 }
 
 void DataSyncSettingsAccessor::dataChanged(const QString &key, const QVariant &value)

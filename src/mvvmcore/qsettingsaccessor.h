@@ -17,7 +17,7 @@ class Q_MVVMCORE_EXPORT QSettingsAccessor : public ISettingsAccessor
 	Q_INTERFACES(QtMvvm::ISettingsAccessor)
 
 public:
-	//! Constructor
+	//! Default Constructor
 	Q_INVOKABLE explicit QSettingsAccessor(QObject *parent = nullptr);
 	//! Constructor, with settings to be used (takes ownership of the settings)
 	explicit QSettingsAccessor(QSettings *settings, QObject *parent = nullptr);

@@ -48,6 +48,9 @@ for tagFile in $(find "$qtDocs" -name *.tags); do
 		qtdatasync.tags)
 			echo "TAGFILES += \"$tagFile=https://skycoder42.github.io/QtDataSync\"" >> $doxyRes
 			;;
+		qtservice.tags)
+			echo "TAGFILES += \"$tagFile=https://skycoder42.github.io/QtService\"" >> $doxyRes
+			;;
 		qtmvvm.tags|qtquickcontrols.tags)
 			# skipped
 			;;

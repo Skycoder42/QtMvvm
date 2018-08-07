@@ -41,7 +41,7 @@ public:
 
 	//! Generates show parameter to show a settings viewmodel via ViewModel::show
 	static QVariantHash showParams(ISettingsAccessor *accessor, const QString &setupFile = {});
-	//! @copydetails SettingsViewModel::showParams(ISettingsAccessor*, const QString &)
+	//! @copybrief SettingsViewModel::showParams(ISettingsAccessor*, const QString &)
 	static QVariantHash showParams(QSettings *settings, const QString &setupFile = {});
 
 	//! Invokable constructor

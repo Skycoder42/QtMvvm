@@ -1,0 +1,76 @@
+/*!
+@var QtMvvm::DataSyncSettingsViewModel::paramSetup
+
+<b>Value:</b> `"setup"`
+
+@sa DataSyncSettingsViewModel::showParams
+*/
+
+/*!
+@var QtMvvm::DataSyncSettingsViewModel::paramDataStore
+
+<b>Value:</b> `"dataStore"`
+
+@sa DataSyncSettingsViewModel::showParams
+*/
+
+/*!
+@var QtMvvm::DataSyncSettingsViewModel::paramDataTypeStore
+
+<b>Value:</b> `"dataTypeStore"`
+
+@sa DataSyncSettingsViewModel::showParams
+*/
+
+/*!
+@fn QtMvvm::DataSyncSettingsViewModel::showParams(const QString &, const QString &)
+
+@param setup The name of the QtDataSync::Setup to be passed to the internally used
+DataSyncSettingsAccessor
+@param setupFile The path to a file to be used to create the settings. Can be empty to use the
+default path
+@return A paramater hash to be passed to ViewModel::show
+
+It's a shortcut to generate parameters for the show methods to show a settings viewmodel.
+
+@note Unless you need to explicitly set the settings or setup file a normal show without any
+parameters will just do fine.
+
+@sa ViewModel::show, DataSyncSettingsViewModel::paramSetup, SettingsViewModel::paramSetupFile,
+DataSyncSettingsAccessor
+*/
+
+/*!
+@fn QtMvvm::DataSyncSettingsViewModel::showParams(QtDataSync::DataStore*, const QString &)
+
+@param dataStore The store to be passed to the internally used DataSyncSettingsAccessor
+@param setupFile The path to a file to be used to create the settings. Can be empty to use the
+default path
+@return A paramater hash to be passed to ViewModel::show
+
+It's a shortcut to generate parameters for the show methods to show a settings viewmodel.
+
+@note Unless you need to explicitly set the settings or setup file a normal show without any
+parameters will just do fine.
+
+@sa ViewModel::show, DataSyncSettingsViewModel::paramDataStore,
+SettingsViewModel::paramSetupFile, DataSyncSettingsAccessor
+*/
+
+/*!
+@fn QtMvvm::DataSyncSettingsViewModel::showParams(QtDataSync::DataTypeStore<DataSyncSettingsEntry>*, const QString &)
+
+@param dataStore The store to be passed to the internally used DataSyncSettingsAccessor
+@param setupFile The path to a file to be used to create the settings. Can be empty to use the
+default path
+@return A paramater hash to be passed to ViewModel::show
+
+It's a shortcut to generate parameters for the show methods to show a settings viewmodel.
+
+@note Unless you need to explicitly set the settings or setup file a normal show without any
+parameters will just do fine.
+
+@sa ViewModel::show, DataSyncSettingsViewModel::paramDataTypeStore,
+SettingsViewModel::paramSetupFile, DataSyncSettingsAccessor
+*/
+

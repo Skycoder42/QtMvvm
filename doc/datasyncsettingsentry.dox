@@ -1,0 +1,72 @@
+/*!
+@class QtMvvm::DataSyncSettingsAccessor
+
+The data is stored by using the DataSyncSettingsEntry class to wrap the key value pairs into a
+serializable datatype.
+
+@sa DataSyncSettingsEntry
+*/
+
+
+
+/*!
+@class QtMvvm::DataSyncSettingsEntry
+
+In order to be consistend with other settings implementations and the requirements of
+ISettingsAccessor, the actual value stored in this class is serialized not via the json
+serializer, but using QDataStream. The resulting binary data is stored as the
+valueData property in base64 format. When loaded, you can access the data
+in the QVariant format using the DataSyncSettingsEntry::value property.
+
+@sa DataSyncSettingsAccessor
+*/
+
+/*!
+@property QtMvvm::DataSyncSettingsEntry::key
+
+@default{<i>empty</i>}
+
+The key is simply the settings key used to identify the entry. Thus, it is set as the user
+property.
+
+@accessors{
+	@readAc{key()}
+	@writeAc{setKey()}
+	@userAc{`true`}
+}
+
+@sa DataSyncSettingsEntry::variantValue
+*/
+
+/*!
+@property QtMvvm::DataSyncSettingsEntry::dataVersion
+
+@default{`QDataStream::Qt_DefaultCompiledVersion`}
+
+The version is needed to identify the format used for the serialization to be able to
+properly deserialize the data again. It is used internally to set up the internal QDataStream
+
+@accessors{
+	@readAc{dataVersion()}
+	@writeAc{setDataVersion()}
+}
+
+@sa DataSyncSettingsEntry::value
+*/
+
+/*!
+@property QtMvvm::DataSyncSettingsEntry::value
+
+@default{<i>invalid</i>}
+
+The data of the entry. This property does not get stored directly, but instead gets serialized
+to a QByteArray and then stored via the internal valueData property.
+
+@accessors{
+	@readAc{value()}
+	@writeAc{setValue()}
+	@storedAc{`false`}
+}
+
+@sa DataSyncSettingsEntry::valueData
+*/

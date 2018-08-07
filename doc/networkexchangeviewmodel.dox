@@ -63,7 +63,7 @@ Changing this property will trigger start and stop actions on the underlying man
 the other information provided from this viewmodel.
 
 @accessors{
-	@readAc{active()}
+	@readAc{isActive()}
 	@writeAc{setActive()}
 	@notifyAc{activeChanged()}
 }
