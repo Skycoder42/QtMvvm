@@ -40,4 +40,6 @@ private:
 
 }
 
+Q_DECLARE_METATYPE(QtMvvm::DataSyncSettingsAccessor*)
+
 #endif // QTMVVM_DATASYNCSETTINGSACCESSOR_H

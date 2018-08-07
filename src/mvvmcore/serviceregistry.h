@@ -17,12 +17,13 @@ class ServiceRegistryPrivate;
 class Q_MVVMCORE_EXPORT ServiceRegistry //MAJOR make a QObject for invokable methods and Q_ENUM
 {
 public:
+	//! A scope to indicate when a service should be deleted
 	enum DestructionScope {
-		DestroyOnAppQuit = 1,
-		DestroyOnAppDestroy = 2,
-		DestroyOnRegistryDestroy = 3,
+		DestroyOnAppQuit = 1, //!< Destroy when the QCoreApplication::aboutToQuit signal is emitted
+		DestroyOnAppDestroy = 2, //!< Destroy as soon as the QCoreApplication gets destroyed (typically end of main)
+		DestroyOnRegistryDestroy = 3, //!< Destroy together with the service registry instance (static memory, unspecified order!)
 
-		DestroyNever = 127
+		DestroyNever = 127 //!< Never destroy the instance
 	};
 
 	//! @private
@@ -58,6 +59,7 @@ public:
 	template <typename TService>
 	void registerObject(TService *service, DestructionScope scope = DestroyOnAppDestroy, bool weak = false);
 
+	//! Register a service via specifing a plugin to be loaded
 	template <typename TInterface>
 	void registerPlugin(QString pluginType = {}, QString pluginKey = {}, DestructionScope scope = DestroyOnAppDestroy, bool weak = false);
 
@@ -79,11 +81,12 @@ public:
 										   const std::function<QObject*(const QObjectList &)> &fn,
 										   QByteArrayList injectables,
 										   bool weak);
-	void registerPlugin(QByteArray iid,
-						QString pluginType = {},
-						QString pluginKey = {},
-						DestructionScope scope = DestroyOnAppDestroy,
-						bool weak = false);
+	//! Register a service by an iid via specifing a plugin to be loaded
+	void registerService(QByteArray iid,
+						 QString pluginType = {},
+						 QString pluginKey = {},
+						 DestructionScope scope = DestroyOnAppDestroy,
+						 bool weak = false);
 
 	//! Returns the service for the given interface
 	template <typename TInterface>
@@ -238,7 +241,7 @@ void ServiceRegistry::registerObject(TService *service, DestructionScope scope, 
 template<typename TInterface>
 void ServiceRegistry::registerPlugin(QString pluginType, QString pluginKey,  DestructionScope scope, bool weak)
 {
-	registerPlugin(qobject_interface_iid<TInterface*>(), std::move(pluginType), std::move(pluginKey), scope, weak);
+	registerService(qobject_interface_iid<TInterface*>(), std::move(pluginType), std::move(pluginKey), scope, weak);
 }
 
 template<typename TInterface>

@@ -78,9 +78,11 @@ public:
 	static const QByteArray TypeInputDialog;
 	//! A type to show a generic file dialog
 	static const QByteArray TypeFileDialog;
-	//! @}
+	//! A type to show a generic color dialog
 	static const QByteArray TypeColorDialog;
+	//! A type to show a generic progress dialog
 	static const QByteArray TypeProgressDialog;
+	//! @}
 
 	/**
 	 * @name Possible values for MessageConfig::subType when using the type MessageConfig::TypeMessageBox
@@ -112,22 +114,37 @@ public:
 	static const QByteArray SubTypeSaveFile;
 	//! @}
 
-
+	/**
+	 * @name Possible values for MessageConfig::subType when using the type MessageConfig::TypeColorDialog
+	 * @{
+	 */
+	//! @brief A subType to show a color dialog without an alpha channel
 	static const QByteArray SubTypeRgb;
+	//! A subType to show a color dialog with an alpha channel
 	static const QByteArray SubTypeArgb;
+	//! @}
 
+	/**
+	 * @name Possible values for MessageConfig::subType when using the type MessageConfig::TypeProgressDialog
+	 * @{
+	 */
+	//! @brief A subType to show a dialog with a progress bar
 	static const QByteArray SubTypeProgress;
+	//! A subType to show a dialog with a busy indicator
 	static const QByteArray SubTypeBusy;
+	//! @}
 
 	//! Default constructor, can take a type and a subtype
 	MessageConfig(const QByteArray &type = TypeMessageBox, const QByteArray &subType = {});
 	//! Copy constructor
 	MessageConfig(const MessageConfig &other);
+	//! Move constructor
 	MessageConfig(MessageConfig &&other) noexcept;
 	~MessageConfig();
 
-	//! Assignment operator
+	//! Copy assignment operator
 	MessageConfig &operator=(const MessageConfig &other);
+	//! Move assignment operator
 	MessageConfig &operator=(MessageConfig &&other) noexcept;
 
 	//! @readAcFn{MessageConfig::type}
@@ -157,6 +174,7 @@ public:
 	MessageConfig &setText(const QString &text);
 	//! @writeAcFn{MessageConfig::buttons}
 	MessageConfig &setButtons(StandardButtons buttons);
+	//! @writeAcFn{MessageConfig::buttons}
 	MessageConfig &addButton(StandardButton button);
 	//! @writeAcFn{MessageConfig::buttonTexts}
 	MessageConfig &setButtonTexts(const QHash<StandardButton, QString> &buttonTexts);
@@ -242,53 +260,96 @@ private:
 };
 
 class ProgressControlPrivate;
+//! A Helper class to control a generic progress dialog
 class Q_MVVMCORE_EXPORT ProgressControl : public QObject
 {
 	Q_OBJECT
 
+	//! Specifies whether the object should delete itself after completition
 	Q_PROPERTY(bool autoDelete READ autoDelete WRITE setAutoDelete NOTIFY autoDeleteChanged)
 
+	//! Specifies whether the dialog should show an indeterminate or a normal progress
 	Q_PROPERTY(bool indeterminate READ isIndeterminate WRITE setIndeterminate NOTIFY indeterminateChanged)
+	//! The minimum value of the progress bar
 	Q_PROPERTY(int minimum READ minimum WRITE setMinimum NOTIFY minimumChanged)
+	//! The maximum value of the progress bar
 	Q_PROPERTY(int maximum READ maximum WRITE setMaximum NOTIFY maximumChanged)
+	//! The current value of the progress bar
 	Q_PROPERTY(int progress READ progress WRITE setProgress NOTIFY progressChanged)
 
 public:
+	//! Constructor
 	explicit ProgressControl(QObject *parent = nullptr);
 	~ProgressControl() override;
 
+	//! @readAcFn{ProgressControl::autoDelete}
 	bool autoDelete() const;
+	//! @readAcFn{ProgressControl::indeterminate}
 	bool isIndeterminate() const;
+	//! @readAcFn{ProgressControl::minimum}
 	int minimum() const;
+	//! @readAcFn{ProgressControl::maximum}
 	int maximum() const;
+	//! @readAcFn{ProgressControl::progress}
 	int progress() const;
 
+	/**
+	 * @name Presenter-Only methods
+	 * @details The following methods should be used by the presenter only, not from the core
+	 * @{
+	 */
+	//! @brief Signals the core app that the user tried to cancel the progress
 	Q_INVOKABLE void requestCancel(QtMvvm::MessageConfig::StandardButton btn);
+	//! Signals the core app that the dialog was closed
 	Q_INVOKABLE void notifyClosed();
+	//! @}
 
 public Q_SLOTS:
+	//! Closes the dialog asynchronously
 	void close();
+	//! Updates the descriptive text displayed in the progress dialog
 	void updateLabel(const QString &text);
 
+	//! @writeAcFn{ProgressControl::autoDelete}
 	void setAutoDelete(bool autoDelete);
+	//! @writeAcFn{ProgressControl::indeterminate}
 	void setIndeterminate(bool indeterminate);
+	//! @writeAcFn{ProgressControl::minimum}
 	void setMinimum(int minimum);
+	//! @writeAcFn{ProgressControl::maximum}
 	void setMaximum(int maximum);
+	//! @writeAcFn{ProgressControl::progress}
 	void setProgress(int progress);
+	//! @writeAcFn{ProgressControl::progressPercent}
 	void setProgress(double progressPercent);
 
 Q_SIGNALS:
+	//! @notifyAcFn{ProgressControl::autoDelete}
 	void autoDeleteChanged(bool autoDelete, QPrivateSignal);
+	//! @notifyAcFn{ProgressControl::indeterminate}
 	void indeterminateChanged(bool indeterminate, QPrivateSignal);
+	//! @notifyAcFn{ProgressControl::minimum}
 	void minimumChanged(int minimum, QPrivateSignal);
+	//! @notifyAcFn{ProgressControl::maximum}
 	void maximumChanged(int maximum, QPrivateSignal);
+	//! @notifyAcFn{ProgressControl::progress}
 	void progressChanged(int progress, QPrivateSignal);
 
-	void changeLabel(const QString &text, QPrivateSignal);
-	void closeRequested(QPrivateSignal);
-
+	//! Is emitted when the user canceled the dialog
 	void canceled(QtMvvm::MessageConfig::StandardButton btn, QPrivateSignal);
+	//! Is emitted after the dialog gui has been closed
 	void closed(QPrivateSignal);
+
+	/**
+	 * @name Presenter-Only signals
+	 * @details The following signals should be used by the presenter only, not from the core
+	 * @{
+	 */
+	//! @brief Is emitted when the descriptive text in the dialog should be updated
+	void changeLabel(const QString &text, QPrivateSignal);
+	//! Is emitted when a closed was requested from the core code
+	void closeRequested(QPrivateSignal);
+	//! @}
 
 private:
 	QScopedPointer<ProgressControlPrivate> d;
@@ -513,25 +574,40 @@ Q_MVVMCORE_EXPORT void getSaveFile(const std::function<void(QUrl)> &onResult,
 								   const QUrl &dir = {});
 //! @}
 
+/**
+ * @name Methods to show simple color dialogs (MessageConfig::TypeColorDialog)
+ * @{
+ */
+//! @brief A shortcut to show a color dialog to select a color
 Q_MVVMCORE_EXPORT MessageResult *getColor(const QString &title = {},
 										  const QColor &color = {},
 										  bool argb = false);
+//! @copybrief QtMvvm::getColor(const std::function<void(QColor)> &, const QString &, const QColor &, bool)
 Q_MVVMCORE_EXPORT void getColor(QObject *scope,
 								const std::function<void(QColor)> &onResult,
 								const QString &title = {},
 								const QColor &color = {},
 								bool argb = false);
+//! @copybrief QtMvvm::getColor(const QString &, const QColor &, bool)
 Q_MVVMCORE_EXPORT void getColor(const std::function<void(QColor)> &onResult,
 								const QString &title = {},
 								const QColor &color = {},
 								bool argb = false);
+//! @}
 
+/**
+ * @name Methods to show simple progress dialogs (MessageConfig::TypeProgressDialog)
+ * @{
+ */
+//! @brief A shortcut to show a general progress dialog
 Q_MVVMCORE_EXPORT MessageResult *showProgress(const QString &title,
 											  const QString &label,
 											  ProgressControl *control,
 											  bool allowCancel = true,
 											  bool isBusy = false,
 											  const QString &cancelText = {});
+
+//! @copybrief QtMvvm::showProgress(const QString &, const QString &, int, int, bool, int, const QString &)
 Q_MVVMCORE_EXPORT ProgressControl *showProgress(QObject *scope,
 												const QString &title = {},
 												const QString &label = {},
@@ -540,6 +616,7 @@ Q_MVVMCORE_EXPORT ProgressControl *showProgress(QObject *scope,
 												bool allowCancel = true,
 												int value = 0,
 												const QString &cancelText = {});
+//! A shortcut to show a standard progress dialog
 Q_MVVMCORE_EXPORT ProgressControl *showProgress(const QString &title = {},
 												const QString &label = {},
 												int maximum = 100,
@@ -547,24 +624,31 @@ Q_MVVMCORE_EXPORT ProgressControl *showProgress(const QString &title = {},
 												bool allowCancel = true,
 												int value = 0,
 												const QString &cancelText = {});
+
+//! @copybrief QtMvvm::showIndeterminateProgress(const QString &, const QString &, bool, const QString &)
 Q_MVVMCORE_EXPORT ProgressControl *showIndeterminateProgress(QObject *scope,
 															 const QString &title = {},
 															 const QString &label = {},
 															 bool allowCancel = true,
 															 const QString &cancelText = {});
+//! A shortcut to show an indetermiante progress dialog
 Q_MVVMCORE_EXPORT ProgressControl *showIndeterminateProgress(const QString &title = {},
 															 const QString &label = {},
 															 bool allowCancel = true,
 															 const QString &cancelText = {});
+
+//! @copybrief QtMvvm::showBusy(const QString &, const QString &, bool, const QString &)
 Q_MVVMCORE_EXPORT ProgressControl *showBusy(QObject *scope,
 											const QString &title = {},
 											const QString &label = {},
 											bool allowCancel = true,
 											const QString &cancelText = {});
+//! A shortcut to show a busy indicator dialog
 Q_MVVMCORE_EXPORT ProgressControl *showBusy(const QString &title = {},
 											const QString &label = {},
 											bool allowCancel = true,
 											const QString &cancelText = {});
+//! @}
 
 }
 

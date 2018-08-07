@@ -68,7 +68,7 @@ void ServiceRegistry::registerService(const QByteArray &iid, const std::function
 	registerService(iid, fn, std::move(injectables), DestroyOnAppDestroy, weak);
 }
 
-void ServiceRegistry::registerPlugin(QByteArray iid, QString pluginType, QString pluginKey, ServiceRegistry::DestructionScope scope, bool weak)
+void ServiceRegistry::registerService(QByteArray iid, QString pluginType, QString pluginKey, ServiceRegistry::DestructionScope scope, bool weak)
 {
 	QMutexLocker _(&d->serviceMutex);
 	if(d->serviceBlocked(iid))

@@ -317,15 +317,21 @@ void CoreAppTest::testPresentVmForResult()
 
 void CoreAppTest::testPresentVmContainer()
 {
+	QVariantHash showParams {
+		{QStringLiteral("hello"), 13},
+		{QStringLiteral("qtmvvm_container_params"), QVariantHash{
+			{QStringLiteral("test"), 42},
+		}}
+	};
 	QVariantHash initMap {
+		{QStringLiteral("test"), 42},
 		{QStringLiteral("qtmvvm_container_for"), QByteArray{TestContainedViewModel::staticMetaObject.className()}},
-		{QStringLiteral("qtmvvm_child_params"), QVariantHash{}}
 	};
 
 	auto presenter = TestApp::presenter();
 	presenter->presented.clear();
 	QSignalSpy presentSpy{presenter, &TestPresenter::presentDone};
-	CoreApp::show<TestContainedViewModel>();
+	CoreApp::show<TestContainedViewModel>(showParams);
 
 	while(presentSpy.size() < 2)
 		QVERIFY(presentSpy.wait());
@@ -341,7 +347,7 @@ void CoreAppTest::testPresentVmContainer()
 	auto child = std::get<0>(presenter->presented[1]);
 	QVERIFY(child);
 	QCOMPARE(child->metaObject(), &TestContainedViewModel::staticMetaObject);
-	QVERIFY(std::get<1>(presenter->presented[1]).isEmpty());
+	QCOMPARE(std::get<1>(presenter->presented[1]), showParams);
 	QCOMPARE(std::get<2>(presenter->presented[1]), vm);
 }
 

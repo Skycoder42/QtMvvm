@@ -19,6 +19,7 @@ class Q_MVVMCORE_EXPORT SettingsViewModel : public ViewModel
 {
 	Q_OBJECT
 
+	//! Holds the settings accessor used by the viewmodel to access the settings
 	Q_PROPERTY(QtMvvm::ISettingsAccessor* accessor READ accessor WRITE setAccessor NOTIFY accessorChanged REVISION 1)
 
 	//! Specifies if restoring the defaults is generally allowed
@@ -31,6 +32,7 @@ class Q_MVVMCORE_EXPORT SettingsViewModel : public ViewModel
 	QTMVVM_INJECT(QtMvvm::ISettingsSetupLoader*, settingsSetupLoader)
 
 public:
+	//! The parameter for an ISettingsAccessor object for the onInit() method
 	static const QString paramAccessor;
 	//! The parameter for a QSettings object for the onInit() method
 	static const QString paramSettings;
@@ -39,12 +41,14 @@ public:
 
 	//! Generates show parameter to show a settings viewmodel via ViewModel::show
 	static QVariantHash showParams(ISettingsAccessor *accessor, const QString &setupFile = {});
+	//! @copydetails SettingsViewModel::showParams(ISettingsAccessor*, const QString &)
 	static QVariantHash showParams(QSettings *settings, const QString &setupFile = {});
 
 	//! Invokable constructor
 	Q_INVOKABLE explicit SettingsViewModel(QObject *parent = nullptr);
 	~SettingsViewModel() override;
 
+	//! @readAcFn{SettingsViewModel::accessor}
 	QtMvvm::ISettingsAccessor* accessor() const;
 	//! @readAcFn{SettingsViewModel::canRestoreDefaults}
 	virtual bool canRestoreDefaults() const;
@@ -65,26 +69,31 @@ public:
 	Q_INVOKABLE virtual void saveValue(const QString &key, const QVariant &value);
 	//! Resets the value or group identified by the key
 	Q_INVOKABLE virtual void resetValue(const QString &key);
-	Q_REVISION(1) Q_INVOKABLE void resetAll(const SettingsElements::Setup &setup);
+	//! Resets all values that are defined by the entries in the given setup
+	QTMVVM_REVISION_1 Q_INVOKABLE void resetAll(const SettingsElements::Setup &setup);
 
 public Q_SLOTS:
 	//! Is called when an action type edit is pressed
 	virtual void callAction(const QString &key, const QVariantMap &parameters);
 
-	Q_REVISION(1) void setAccessor(QtMvvm::ISettingsAccessor* accessor);
+	//! @writeAcFn{SettingsViewModel::accessor}
+	QTMVVM_REVISION_1 void setAccessor(QtMvvm::ISettingsAccessor* accessor);
 	//! @writeAcFn{SettingsViewModel::settingsSetupLoader}
 	void setSettingsSetupLoader(QtMvvm::ISettingsSetupLoader* settingsSetupLoader);
 
 Q_SIGNALS:
-	Q_REVISION(1) void accessorChanged(QtMvvm::ISettingsAccessor* accessor);
+	//! @notifyAcFn{SettingsViewModel::accessor}
+	QTMVVM_REVISION_1 void accessorChanged(QtMvvm::ISettingsAccessor* accessor);
 	//! @notifyAcFn{SettingsViewModel::settingsSetupLoader}
 	void settingsSetupLoaderChanged(QtMvvm::ISettingsSetupLoader* settingsSetupLoader, QPrivateSignal);
 
 	//! Is emitted when the initialization has been completed and the viewmodel is ready for loading settings
 	void beginLoadSetup();
 
-	Q_REVISION(1) void valueChanged(const QString &key); //TODO add to save/reset doc
-	Q_REVISION(1) void resetAccepted(QPrivateSignal);
+	//! Signal to be emitted whenver a value in the settings is changed or removed to update the GUI
+	QTMVVM_REVISION_1 void valueChanged(const QString &key); //TODO add to save/reset doc
+	//! Is emitted when the user accepted the reset triggered by resetAll()
+	QTMVVM_REVISION_1 void resetAccepted(QPrivateSignal);
 
 protected:
 	void onInit(const QVariantHash &params) override;

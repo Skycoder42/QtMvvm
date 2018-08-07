@@ -6,6 +6,7 @@
 #include <QtCore/qscopedpointer.h>
 #include <QtCore/qobject.h>
 #include <QtCore/qmetaobject.h>
+#include <QtMvvmCore/qtmvvmcore_global.h>
 
 #include "QtMvvmQuick/qtmvvmquick_global.h"
 
@@ -49,10 +50,10 @@ public:
 	//! Find the input list delegate URL of the given input type
 	Q_INVOKABLE virtual QUrl getDelegate(const QByteArray &type, const QVariantMap &viewProperties);
 
-	Q_REVISION(1) Q_INVOKABLE QString format(const QByteArray &type,
-											 const QString &formatString,
-											 const QVariant &value,
-											 const QVariantMap &viewProperties);
+	QTMVVM_REVISION_1 Q_INVOKABLE QString format(const QByteArray &type,
+												 const QString &formatString,
+												 const QVariant &value,
+												 const QVariantMap &viewProperties);
 
 	//! Adds a new QML file to create views for the given type
 	template <typename TType>
@@ -84,7 +85,7 @@ public:
 
 	template <typename TAliasType, typename TTargetType>
 	inline void addFormatterAlias();
-	Q_REVISION(1) Q_INVOKABLE void addFormatterAlias(const QByteArray &alias, const QByteArray &targetType);
+	QTMVVM_REVISION_1 Q_INVOKABLE void addFormatterAlias(const QByteArray &alias, const QByteArray &targetType);
 
 private:
 	QScopedPointer<InputViewFactoryPrivate> d;

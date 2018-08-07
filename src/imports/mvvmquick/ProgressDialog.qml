@@ -24,8 +24,12 @@ MsgBoxBase {
 	}
 
 	function finish() {
-		msgResult.complete(_cancelAction);
-		msgResult = null;
+		if(progressControl)
+			notifyClosed.notifyClosed();
+		if(msgResult) {
+			msgResult.complete(_cancelAction);
+			msgResult = null;
+		}
 		close();
 	}
 

@@ -35,6 +35,8 @@ The types supported by default are:
 - MessageConfig::TypeMessageBox
 - MessageConfig::TypeInputDialog
 - MessageConfig::TypeFileDialog
+- MessageConfig::TypeColorDialog
+- MessageConfig::TypeProgressDialog
 
 @accessors{
 	@readAc{type()}
@@ -42,7 +44,7 @@ The types supported by default are:
 }
 
 @sa MessageConfig::subType, MessageConfig::TypeMessageBox, MessageConfig::TypeInputDialog,
-MessageConfig::TypeFileDialog
+MessageConfig::TypeFileDialog, MessageConfig::TypeColorDialog, MessageConfig::TypeProgressDialog
 */
 
 /*!
@@ -72,6 +74,12 @@ The subtypes supported by default are:
 	- MessageConfig::SubTypeOpenFile
 	- MessageConfig::SubTypeOpenFiles
 	- MessageConfig::SubTypeSaveFile
+- For MessageConfig::TypeColorDialog:
+	- MessageConfig::SubTypeRgb
+	- MessageConfig::SubTypeArgb
+- For MessageConfig::TypeProgressDialog:
+	- MessageConfig::SubTypeProgress
+	- MessageConfig::SubTypeBusy
 
 @accessors{
 	@readAc{subType()}
@@ -131,6 +139,7 @@ the MessageResult::dialogDone signal.
 @accessors{
 	@readAc{buttons()}
 	@writeAc{setButtons()}
+	@writeAc{addButton()}
 	@resetAc{resetButtons()}
 }
 
@@ -296,6 +305,40 @@ MessageConfig::TypeMessageBox
 */
 
 /*!
+@var QtMvvm::MessageConfig::TypeColorDialog
+
+<b>Value:</b> `"color"`
+
+Shows a generic color dialog. If possible, this will use the systems default, otherwise a
+simple color picker gui.
+
+ Dialog Type					| subType value
+--------------------------------|---------------
+ Select a color without alpha	| MessageConfig::SubTypeRgb
+ Select a color with alpha		| MessageConfig::SubTypeArgb
+
+@sa MessageConfig::type, MessageConfig::subType, MessageConfig::TypeInputDialog
+*/
+
+/*!
+@var QtMvvm::MessageConfig::TypeProgressDialog
+
+<b>Value:</b> `"progress"`
+
+Shows a generic progress dialog. The dialog can by dynamically and asynchronously controlled
+from the core app via the ProgressControl class. You must pass an instance of a ProgressControl
+via the MessageConfig::defaultValue property when creating one yourself. The passed control
+will automatically be connected to the corresponding dialog.
+
+ Dialog Type				| subType value
+----------------------------|---------------
+ Display a progress bar		| MessageConfig::SubTypeProgress
+ Display a busy indicator	| MessageConfig::SubTypeBusy
+
+@sa MessageConfig::type, MessageConfig::subType, ProgressControl
+*/
+
+/*!
 @var QtMvvm::MessageConfig::SubTypeInformation
 
 <b>Value:</b> `"information"`
@@ -391,6 +434,54 @@ to save content to it.
 @sa MessageConfig::type, MessageConfig::subType, MessageConfig::TypeFileDialog
 */
 
+/*!
+@var QtMvvm::MessageConfig::SubTypeRgb
+
+<b>Value:</b> `"rgb"`
+
+A color dialog that lets the user select a color, without allowing editing of the alpha channel.
+The alpha channel will always be set to `0xFF`, i.e. non transparent.
+
+@sa MessageConfig::type, MessageConfig::subType, MessageConfig::TypeColorDialog
+*/
+
+/*!
+@var QtMvvm::MessageConfig::SubTypeArgb
+
+<b>Value:</b> `"argb"`
+
+A color dialog that lets the user select a color, including the alpha channel. Please note that
+not all native dialogs support alpha channel editing.
+
+@sa MessageConfig::type, MessageConfig::subType, MessageConfig::TypeColorDialog
+*/
+
+/*!
+@var QtMvvm::MessageConfig::SubTypeProgress
+
+<b>Value:</b> `"progress"`
+
+A dialog with a standard progess bar. This bar can either display a classical progress with min,
+max and value, or be shown as indeterminate progress (can be switched dynamically via the
+ProgressControl)
+
+@sa MessageConfig::type, MessageConfig::subType, MessageConfig::TypeProgressDialog,
+ProgressControl
+*/
+
+/*!
+@var QtMvvm::MessageConfig::SubTypeBusy
+
+<b>Value:</b> `"busy"`
+
+A dialog with a busy indicator shown. This indicator can and will always only show an
+indeterminate progress, other values of the ProgressControl are ignored. On platforms that do
+not have a seperate busy indicator, an indeterminate progress bar can be shown.
+
+@sa MessageConfig::type, MessageConfig::subType, MessageConfig::TypeProgressDialog,
+ProgressControl
+*/
+
 
 
 /*!
@@ -398,6 +489,20 @@ to save content to it.
 
 This class is used to keep track of an active dialog an get the result once it has been
 completed. You should not create it yourself, is is returned from the core app.
+
+The class is semi threadsafe, as it is designed to be used in parallel from the core app and
+the GUI code. From the core app, you can use:
+
+- all properties (read, write, notify)
+- hasResult() method
+- discardMessage() slot
+- dialogDone() signal
+
+From the GUI, if you intend to create your own presenter frontend, you can use:
+
+- result property (read, write)
+- setCloseTarget() method
+- complete() method
 
 @sa CoreApp::showDialog, MessageConfig
 */
@@ -506,6 +611,218 @@ connect to this signal, because auf the reason above, and because before the sig
 considered invalid.
 
 @sa MessageResult::result, MessageResult::complete
+*/
+
+
+
+/*!
+@class QtMvvm::ProgressControl
+
+This class is used together with dialogs of the MessageConfig::TypeProgressDialog type to
+control the currently displayed progress from the core code. The class is semi thread safe,
+as it is designed to be used from the core an the gui in parallel.
+
+From the core code, i.e. wherever you created the progress instance (directly or indirectly),
+you can access:
+
+- all properties (read, write, notify)
+- close() slot
+- updateLabel() slot
+- canceled() signal
+- closed() signal
+
+From the GUI, if you intend to create your own presenter frontend, you can use:
+
+- all properties (read, notify, **not** write)
+- requestCancel() method
+- notifyClosed() method
+- changeLabel() signal
+- closeRequested() signal
+
+@sa MessageConfig::TypeProgressDialog, QtMvvm::showProgress,
+QtMvvm::showIndeterminateProgress, QtMvvm::showBusy
+*/
+
+/*!
+@property QtMvvm::ProgressControl::autoDelete
+
+@default{`true`}
+
+If set to true, the progress control will delete itself automatically right after closed()
+has been emitted.
+
+@accessors{
+	@readAc{autoDelete()}
+	@writeAc{setAutoDelete()}
+	@notifyAc{autoDeleteChanged()}
+}
+
+@sa ProgressControl::closed
+*/
+
+/*!
+@property QtMvvm::ProgressControl::indeterminate
+
+@default{`false`}
+
+If set to true, the dialog will ignore the minimum, maximum and progress properties and simply
+show an indeterminate progress. Setting it back to false restores a normal progress bar using
+these 3.
+
+@accessors{
+	@readAc{isIndeterminate()}
+	@writeAc{setIndeterminate()}
+	@notifyAc{indeterminateChanged()}
+}
+
+@sa ProgressControl::minimum, ProgressControl::maximum, ProgressControl::progress
+*/
+
+/*!
+@property QtMvvm::ProgressControl::minimum
+
+@default{`0`}
+
+The progress percentage (as number in [0,1]) is calculated as
+`(progress - minimum)/(maximum - minimum)` and that value is used to display a progress.
+Chaning this property affects the result accordingly.
+
+@accessors{
+	@readAc{minimum()}
+	@writeAc{setMinimum()}
+	@notifyAc{minimumChanged()}
+}
+
+@sa ProgressControl::maximum, ProgressControl::progress, ProgressControl::indeterminate
+*/
+
+/*!
+@property QtMvvm::ProgressControl::maximum
+
+@default{`100`}
+
+The progress percentage (as number in [0,1]) is calculated as
+`(progress - minimum)/(maximum - minimum)` and that value is used to display a progress.
+Chaning this property affects the result accordingly.
+
+@accessors{
+	@readAc{maximum()}
+	@writeAc{setMaximum()}
+	@notifyAc{maximumChanged()}
+}
+
+@sa ProgressControl::minimum, ProgressControl::progress, ProgressControl::indeterminate
+*/
+
+/*!
+@property QtMvvm::ProgressControl::progress
+
+@default{`-1`}
+
+The progress percentage (as number in [0,1]) is calculated as
+`(progress - minimum)/(maximum - minimum)` and that value is used to display a progress.
+Chaning this property affects the result accordingly.
+
+Setting it to `-1` is a "special value", that means no progress has been set yet, and may
+or may not lead to a different presentation of that state from the simple minimum.
+
+@accessors{
+	@readAc{progress()}
+	@writeAc{setProgress()}
+	@notifyAc{progressChanged()}
+}
+
+@sa ProgressControl::minimum, ProgressControl::maximum, ProgressControl::indeterminate
+*/
+
+/*!
+@fn QtMvvm::ProgressControl::requestCancel
+
+@param btn The button that was pressed by the user
+
+Call this method when the user either presses the cancel button (then pass
+MessageConfig::Cancel) or tried to close the window (pass MessageConfig::NoButton). Your GUI
+implementation should react to that with disabling the cancel button, but still show the
+progress, as the core app is to decide whether to accept that cancel request and if yes will
+eventually close the dialog. Internally, this method will emit canceled() in a thread-safe
+manner.
+
+@note Your dialog should only allow cancelling when the MessageConfig has the
+MessageConfig::Cancel set as a button.
+
+@sa ProgressControl::canceled
+*/
+
+/*!
+@fn QtMvvm::ProgressControl::notifyClosed
+
+You must call this method as soon as you received a closeRequested() and have actually closed
+the dialog. You must call both, this method and MessageResult::complete.
+
+@sa ProgressControl::closeRequested, ProgressControl::closed, MessageResult::complete
+*/
+
+/*!
+@fn QtMvvm::ProgressControl::close
+
+You must use this method from the core code to close the dialog, either after successfully
+completing your long running operation, or as the result of a canceled operation, in case
+the user did cancel.
+
+@sa ProgressControl::canceled, ProgressControl::closeRequested
+*/
+
+/*!
+@fn QtMvvm::ProgressControl::updateLabel
+
+The label text refers to the text initially set via MessageConfig::text. With this method,
+you can easily update this text as your operation commences.
+
+@sa MessageConfig::text, ProgressControl::changeLabel
+*/
+
+/*!
+@fn QtMvvm::ProgressControl::canceled
+
+@param btn The button that was pressed by the user
+
+Cancelling in this case means the user pressed the cancel button (MessageConfig::Cancel) or
+tried to close the dialog (MessageConfig::NoButton). In both cases, the dialog
+*stays visible*! Your core code must react to the request by connecting this signal and
+ideally gracefully cancel the operation and then close() the dialog.
+
+You can ignore the signal in case you showed a non cancelable dialog.
+
+@note For cancel-operations that take a while, it is recommended to tell the user that
+cancelling is in progress, as after pressing cancel he can't do anything until the dialog
+is closed.
+
+@sa ProgressControl::close, ProgressControl::requestCancel
+*/
+
+/*!
+@fn QtMvvm::ProgressControl::closed
+
+@sa ProgressControl::close, ProgressControl::closeRequested, ProgressControl::notifyClosed
+*/
+
+/*!
+@fn QtMvvm::ProgressControl::changeLabel
+
+@param text The new label text
+
+You should use this text and replace the default descriptive text set by MessageConfig::text
+
+@sa ProgressControl::updateLabel, MessageConfig::text
+*/
+
+/*!
+@fn QtMvvm::ProgressControl::closeRequested
+
+When the close() method is called from the core app, this signal eventually gets emitted.
+You must close the dialog immediatly and report that via the notifyClosed() method.
+
+@sa ProgressControl::close, ProgressControl::notifyClosed, ProgressControl::closed
 */
 
 
@@ -718,7 +1035,7 @@ input has been canceled
 /*!
 @fn QtMvvm::getExistingDirectory(const QString &, const QUrl &)
 
-@param title The input dialog title (MessageConfig::title)
+@param title The file dialog title (MessageConfig::title)
 @param dir The directory URL to start the file dialog from (MessageConfig::defaultValue)
 
 Shows a folder dialog to let the user select an existing directory.
@@ -744,7 +1061,7 @@ selected directory URL or an invalid URL in case the input has been canceled.
 /*!
 @fn QtMvvm::getOpenFile(const QString &, const QStringList &, const QUrl &)
 
-@param title The input dialog title (MessageConfig::title)
+@param title The file dialog title (MessageConfig::title)
 @param supportedMimeTypes A list of all allowed mimetypes (MessageConfig::viewProperties, extra property named `mimeTypes`)
 @param dir The directory URL to start the file dialog from (MessageConfig::defaultValue)
 
@@ -772,7 +1089,7 @@ selected file URL or an invalid URL in case the input has been canceled.
 /*!
 @fn QtMvvm::getOpenFiles(const QString &, const QStringList &, const QUrl &)
 
-@param title The input dialog title (MessageConfig::title)
+@param title The file dialog title (MessageConfig::title)
 @param supportedMimeTypes A list of all allowed mimetypes (MessageConfig::viewProperties, extra property named `mimeTypes`)
 @param dir The directory URL to start the file dialog from (MessageConfig::defaultValue)
 
@@ -800,7 +1117,7 @@ selected file URLs in a list or an empty list in case the input has been cancele
 /*!
 @fn QtMvvm::getSaveFile(const QString &, const QStringList &, const QUrl &)
 
-@param title The input dialog title (MessageConfig::title)
+@param title The file dialog title (MessageConfig::title)
 @param supportedMimeTypes A list of all allowed mimetypes (MessageConfig::viewProperties, extra property named `mimeTypes`)
 @param dir The directory URL to start the file dialog from (MessageConfig::defaultValue)
 
@@ -823,4 +1140,134 @@ selected file URL or an invalid URL in case the input has been canceled.
 
 @param scope A scope to limit to. `onResult` is only called as long as scope has not been deleted
 @copydetails QtMvvm::getSaveFile(const std::function<void(QUrl)> &, const QString &, const QStringList &, const QUrl &)
+*/
+
+/*!
+@fn QtMvvm::getColor(const QString &, const QColor &, bool)
+
+@param title The color dialog title (MessageConfig::title)
+@param color The color to initially show in the dialog (MessageConfig::defaultValue)
+@param argb Specify whether the dialog should allow editing of the alpha channel (MessageConfig::subType)
+
+Shows a color dialog to let the user select a color. Depending on the argb parameter the
+alpha channel may or may not be editable.
+
+@sa MessageConfig, CoreApp::showDialog
+*/
+
+/*!
+@fn QtMvvm::getColor(const std::function<void(QColor)> &, const QString &, const QColor &, bool)
+
+@param onResult A handler to be called when the color dialog has been closed. Reports the
+selected color or an invalid color in case the input has been canceled.
+@copydetails QtMvvm::getColor(const QString &, const QColor &, bool)
+*/
+
+/*!
+@fn QtMvvm::getColor(QObject *, const std::function<void(QColor)> &, const QString &, const QColor &, bool)
+
+@param scope A scope to limit to. `onResult` is only called as long as scope has not been deleted
+@copydetails QtMvvm::getColor(const std::function<void(QColor)> &, const QString &, const QColor &, bool)
+*/
+
+/*!
+@fn QtMvvm::showProgress(const QString &, const QString &, ProgressControl*, bool, bool, const QString &)
+
+@param title The progress dialog title (MessageConfig::title)
+@param label The progress dialog label (MessageConfig::text)
+@param control The progress control to be used to control the progress dialog  (MessageConfig::defaultValue)
+@param allowCancel Specify, whether the user can cancel the dialog (MessageConfig::buttons,
+set to `MessageConfig::Cancel` if enabled, `MessageConfig::NoButton` otherwise)
+@param isBusy Specify whether a busy dialog or a progress dialog should be shown (MessageConfig::subType)
+@param cancelText The text for the cancel button, if enabled (MessageConfig::buttonTexts)
+
+Shows a progress dialog to let the user know a long running operation is going on. Unlike
+other dialogs, this one can be "controlled" from within the core code to update the progress
+etc. via the control passed to the method.
+
+@sa ProgressControl, MessageConfig, CoreApp::showDialog
+*/
+
+/*!
+@fn QtMvvm::showProgress(const QString &, const QString &, int, int, bool, int, const QString &)
+
+@param title The progress dialog title (MessageConfig::title)
+@param label The progress dialog label (MessageConfig::text)
+@param maximum The initial maxmium value of the progress (ProgressControl::maximum)
+@param minimum The initial minimum value of the progress (ProgressControl::minimum)
+@param allowCancel Specify, whether the user can cancel the dialog (MessageConfig::buttons,
+set to `MessageConfig::Cancel` if enabled, `MessageConfig::NoButton` otherwise)
+@param value The initial progress value of the progress (ProgressControl::progress)
+@param cancelText The text for the cancel button, if enabled (MessageConfig::buttonTexts)
+@returns A newly created progress control to be used to control the progress dialog (MessageConfig::defaultValue)
+
+Shows a normal progress dialog to let the user know a long running operation is going on. Unlike
+other dialogs, this one can be "controlled" from within the core code to update the progress
+etc. via the returned control. The control is initialized with the parameters passed to this
+method.
+
+@note It is possible to conver the dialog to a indeterminate progress and back by setting the
+ProgressControl::indeterminate property.
+
+@sa ProgressControl, MessageConfig, CoreApp::showDialog
+*/
+
+/*!
+@fn QtMvvm::showProgress(QObject*, const QString &, const QString &, int, int, bool, int, const QString &)
+
+@param scope A scope to limit to. `onResult` is only called as long as scope has not been deleted
+@copydetails QtMvvm::showProgress(const QString &, const QString &, int, int, bool, int, const QString &)
+*/
+
+/*!
+@fn QtMvvm::showIndeterminateProgress(const QString &, const QString &, bool, const QString &)
+
+@param title The progress dialog title (MessageConfig::title)
+@param label The progress dialog label (MessageConfig::text)
+@param allowCancel Specify, whether the user can cancel the dialog (MessageConfig::buttons,
+set to `MessageConfig::Cancel` if enabled, `MessageConfig::NoButton` otherwise)
+@param cancelText The text for the cancel button, if enabled (MessageConfig::buttonTexts)
+@returns A newly created progress control to be used to control the progress dialog (MessageConfig::defaultValue)
+
+Shows an indeterminate progress dialog to let the user know a long running operation is going on.
+Unlike other dialogs, this one can be "controlled" from within the core code to update the
+label etc. via the returned control. The control is initialized with the parameters
+passed to this method.
+
+@note It is possible to conver the dialog to a normal progress and back by setting the
+ProgressControl::indeterminate property.
+
+@sa ProgressControl, MessageConfig, CoreApp::showDialog
+*/
+
+/*!
+@fn QtMvvm::showIndeterminateProgress(QObject*, const QString &, const QString &, bool, const QString &)
+
+@param scope A scope to limit to. `onResult` is only called as long as scope has not been deleted
+@copydetails QtMvvm::showIndeterminateProgress(const QString &, const QString &, bool, const QString &)
+*/
+
+/*!
+@fn QtMvvm::showBusy(const QString &, const QString &, bool, const QString &)
+
+@param title The progress dialog title (MessageConfig::title)
+@param label The progress dialog label (MessageConfig::text)
+@param allowCancel Specify, whether the user can cancel the dialog (MessageConfig::buttons,
+set to `MessageConfig::Cancel` if enabled, `MessageConfig::NoButton` otherwise)
+@param cancelText The text for the cancel button, if enabled (MessageConfig::buttonTexts)
+@returns A newly created progress control to be used to control the progress dialog (MessageConfig::defaultValue)
+
+Shows an busy indicator dialog to let the user know a long running operation is going on.
+Unlike other dialogs, this one can be "controlled" from within the core code to update the
+label etc. via the returned control. The control is initialized with the parameters
+passed to this method.
+
+@sa ProgressControl, MessageConfig, CoreApp::showDialog
+*/
+
+/*!
+@fn QtMvvm::showBusy(QObject*, const QString &, const QString &, bool, const QString &)
+
+@param scope A scope to limit to. `onResult` is only called as long as scope has not been deleted
+@copydetails QtMvvm::showBusy(const QString &, const QString &, bool, const QString &)
 */

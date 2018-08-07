@@ -141,7 +141,7 @@ public:
 	 * the color value is checked, too. If baseColor is easily readable, it is simply returned
 	 * as result. Otherwise the method proceeds as usual.
 	 */
-	Q_REVISION(1) Q_INVOKABLE static QColor accentTextColor(const QColor &accentColor, const QColor &baseColor) const;
+	QTMVVM_REVISION_1 Q_INVOKABLE static QColor accentTextColor(const QColor &accentColor, const QColor &baseColor) const;
 
 #ifdef DOXYGEN_RUN
 public:

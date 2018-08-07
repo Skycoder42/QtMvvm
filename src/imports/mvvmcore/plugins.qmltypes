@@ -122,15 +122,15 @@ Module {
             Parameter { name: "progress"; type: "int" }
         }
         Signal {
-            name: "changeLabel"
-            Parameter { name: "text"; type: "string" }
-        }
-        Signal { name: "closeRequested" }
-        Signal {
             name: "canceled"
             Parameter { name: "btn"; type: "QtMvvm::MessageConfig::StandardButton" }
         }
         Signal { name: "closed" }
+        Signal {
+            name: "changeLabel"
+            Parameter { name: "text"; type: "string" }
+        }
+        Signal { name: "closeRequested" }
         Method { name: "close" }
         Method {
             name: "updateLabel"
@@ -831,7 +831,11 @@ Module {
             name: "resultReady"
             Parameter { name: "result"; type: "QVariant" }
         }
-        Signal { name: "instanceInvoked"; revision: 1 }
+        Signal {
+            name: "instanceInvoked"
+            revision: 1
+            Parameter { name: "params"; type: "QVariantHash" }
+        }
         Method {
             name: "onInit"
             Parameter { name: "params"; type: "QVariantHash" }

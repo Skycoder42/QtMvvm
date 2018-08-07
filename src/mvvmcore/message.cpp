@@ -737,6 +737,7 @@ void QtMvvm::getColor(const std::function<void (QColor)> &onResult, const QStrin
 
 MessageResult *QtMvvm::showProgress(const QString &title, const QString &label, ProgressControl *control, bool allowCancel, bool isBusy, const QString &cancelText)
 {
+	Q_ASSERT_X(control, Q_FUNC_INFO, "control parameter must not be null");
 	MessageConfig config(MessageConfig::TypeProgressDialog, isBusy ? MessageConfig::SubTypeBusy : MessageConfig::SubTypeProgress);
 	config.setTitle(title);
 	config.setText(label);

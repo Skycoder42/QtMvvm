@@ -126,8 +126,6 @@ void CppSettingsGenerator::writeSource(const SettingsType &settings)
 		_src << "#include <QtMvvmCore/QSettingsAccessor>\n";
 	_src << "\n";
 
-	auto backend = settings.backend.value_or(BackendType{QStringLiteral("QtMvvm::QSettingsAccessor"), {}});
-
 	_src << "namespace {\n\n"
 		 << "void __generated_settings_setup()\n"
 		 << "{\n"
@@ -156,26 +154,30 @@ void CppSettingsGenerator::writeSource(const SettingsType &settings)
 		 << "}\n"
 		 << "Q_COREAPP_STARTUP_FUNCTION(__generated_settings_setup)\n\n";
 
-	_src << settings.name.value() << "::" << settings.name.value() << "(QObject *parent) : \n"
-		 << "\t" << settings.name.value() << "{new " << backend.className << "{";
-	if(!backend.param.isEmpty()) {
-		_src << "\n";
-		auto first = true;
-		for(const auto &param : qAsConst(backend.param)) {
-			if(first)
-				first = false;
-			else
-				_src << ",\n";
-			_src << "\t\t";
-			if(param.asStr)
-				_src << "QVariant{QStringLiteral(\"" << param.value << "\")}.value<" << param.type << ">()";
-			else
-				_src << param.value;
+	_src << settings.name.value() << "::" << settings.name.value() << "(QObject *parent) : \n";
+	if(settings.backend) {
+		const auto &backend = settings.backend.value();
+		_src << "\t" << settings.name.value() << "{new " << backend.className << "{";
+		if(!backend.param.isEmpty()) {
+			_src << "\n";
+			auto first = true;
+			for(const auto &param : qAsConst(backend.param)) {
+				if(first)
+					first = false;
+				else
+					_src << ",\n";
+				_src << "\t\t";
+				if(param.asStr)
+					_src << "QVariant{QStringLiteral(\"" << param.value << "\")}.value<" << param.type << ">()";
+				else
+					_src << param.value;
+			}
+			_src << "\n\t";
 		}
-		_src << "\n\t";
-	}
-	_src << "}, parent}\n"
-		 << "{\n"
+		_src << "}, parent}\n";
+	} else
+		_src << "\t" << settings.name.value() << "{QtMvvm::ISettingsAccessor::createDefaultAccessor(nullptr), parent}\n";
+	_src << "{\n"
 		 << "\t_accessor->setParent(this);\n"
 		 << "}\n\n";
 

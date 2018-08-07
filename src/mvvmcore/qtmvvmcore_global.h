@@ -11,4 +11,8 @@
 #	define Q_MVVMCORE_EXPORT Q_DECL_IMPORT
 #endif
 
+#ifndef QTMVVM_REVISION_1
+#define QTMVVM_REVISION_1 Q_REVISION(1)
+#endif
+
 #endif // QTMVVMCORE_GLOBAL_H

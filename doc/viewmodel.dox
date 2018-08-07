@@ -12,7 +12,29 @@ with a single QObject* parameter for the parent. It basically should look like t
 Q_INVOKABLE explicit MyViewModel(QObject *parent = nullptr);
 @endcode
 
-@sa CoreApp::show, #QTMVVM_INJECT
+@section qtmvvm_viewmodel_singleton "Singleton Viewmodels"
+Normally, showing a viewmodel will always create a new instance of it, and thus show a new
+gui. However, by adding the #QTMVVM_SINGLETON macro to the class definition, your viewmodel
+becomes a single instance. This means, it will only be created once, and subsequent show
+requests will instead only trigger the instanceInvoked() signal on the existing instance.
+
+If the existing instance gets destroyed at some point, show requests will show a new instance.
+
+@section qtmvvm_viewmodel_container "Container Viewmodels"
+Some viewmodel require a special viewmodel as their parent to be show in. To simplify the
+handling of those viewmodel, you can specify a parent container for a viewmodel via the
+#QTMVVM_CONTAINER_VM macro. If added, everytime you try to show a viewmodel of this kind, the
+presenter will first create a new viewmodel of the type specified by the macro, and then
+show the original viewmodel immediatly after as child of the newly created parent. (The parent
+and the child can both be singletons)
+
+You can specify parameters to be passed to the parent that is to be created via a special
+parameter named `"qtmvvm_container_params"`. The value of that property must be a variant hash
+as well. In addition, a special parameter is added to the parent parameter, the
+`"qtmvvm_container_for"` parameter, which contains the name of the viewmodel that triggered
+its creation.
+
+@sa CoreApp::show, #QTMVVM_INJECT, #QTMVVM_SINGLETON, #QTMVVM_CONTAINER_VM
 */
 
 /*!
@@ -57,6 +79,18 @@ viewmodel beeing with the emitted result as second parameter. Not emitting this 
 the viewmodel gets destroy leads to the onResult() beeing called with an invalid result.
 
 @sa ViewModel::showForResult, ViewModel::onResult
+*/
+
+/*!
+@fn QtMvvm::ViewModel::instanceInvoked
+
+@param params The show parameters that were passed to the show method
+
+If this viewmodel is a single instance viewmodel (#QTMVVM_SINGLETON), then only the first show
+will actually create a viewmodel. All subsequent shows for that type will instead trigger this
+signal on the existing instance.
+
+@sa #QTMVVM_SINGLETON, @ref qtmvvm_viewmodel_singleton
 */
 
 /*!

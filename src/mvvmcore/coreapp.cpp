@@ -315,16 +315,26 @@ const QMetaObject *CoreAppPrivate::getContainer(const QMetaObject *metaObject) c
 QPointer<ViewModel> CoreAppPrivate::showViewModelWithReturn(const QMetaObject *metaObject, const QVariantHash &params, QPointer<ViewModel> parent, quint32 requestCode)
 {
 	if(presenter) {
-		// first: check if it has a container, and if yes: show the container
+		// first: handle a singleton
+		auto isSingle = isSingleton(metaObject);
+		if(isSingle) {
+			auto viewModel = singleInstances.value(metaObject);
+			if(viewModel) {
+				logDebug() << "Found existing single instance for" << metaObject->className();
+				emit viewModel->instanceInvoked(params, ViewModel::QPrivateSignal{});
+				return viewModel;
+			}
+		}
+
+		// next: check if it has a container, and if yes: show the container
 		try {
 			auto container = getContainer(metaObject);
 			if(container) {
 				logDebug() << "Found container type for" << metaObject->className()
 						   << "as" << container->className();
-				parent = showViewModelWithReturn(container, { //TODO document special parameters
-													 {QStringLiteral("qtmvvm_container_for"), QByteArray{metaObject->className()}},
-													 {QStringLiteral("qtmvvm_child_params"), params}
-												 }, std::move(parent), 0);
+				auto containerParams = params.value(QStringLiteral("qtmvvm_container_params")).toHash();
+				containerParams.insert(QStringLiteral("qtmvvm_container_for"), QByteArray{metaObject->className()});
+				parent = showViewModelWithReturn(container, containerParams, std::move(parent), 0);
 				if(!parent)
 					throw PresenterException{"Failed to present parent container"};
 			}
@@ -334,17 +344,6 @@ QPointer<ViewModel> CoreAppPrivate::showViewModelWithReturn(const QMetaObject *m
 						  << "with error:"
 						  << e.what();
 			return nullptr;
-		}
-
-		// next: handle a singleton
-		auto isSingle = isSingleton(metaObject);
-		if(isSingle) {
-			auto viewModel = singleInstances.value(metaObject);
-			if(viewModel) {
-				logDebug() << "Found existing single instance for" << metaObject->className();
-				emit viewModel->instanceInvoked(ViewModel::QPrivateSignal{});
-				return viewModel;
-			}
 		}
 
 		QPointer<ViewModel> vm;

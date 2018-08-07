@@ -1,6 +1,8 @@
 #ifndef QTMVVM_ISETTINGSACCESSOR_H
 #define QTMVVM_ISETTINGSACCESSOR_H
 
+#include <type_traits>
+
 #include <QtCore/qobject.h>
 #include <QtCore/qstring.h>
 #include <QtCore/qvariant.h>
@@ -16,6 +18,15 @@ class Q_MVVMCORE_EXPORT ISettingsAccessor : public QObject
 	Q_DISABLE_COPY(ISettingsAccessor)
 
 public:
+	// Set the default accessor type to be used by generated settings if none was specified
+	template <typename T>
+	static void setDefaultAccessor();
+	//! @copybrief ISettingsAccessor::setDefaultAccessor
+	static void setDefaultAccessor(int typeId);
+
+	//! Create a new instance of the default accessor type
+	static ISettingsAccessor *createDefaultAccessor(QObject *parent = nullptr);
+
 	//! Constructor
 	ISettingsAccessor(QObject *parent = nullptr);
 
@@ -37,7 +48,17 @@ Q_SIGNALS:
 	void entryChanged(const QString &key, const QVariant &value);
 	//! Is emitted whenever a settings value was removed, at least via this instance
 	void entryRemoved(const QString &key);
+
+private:
+	static int _DefaultAccessorType;
 };
+
+template<typename T>
+void ISettingsAccessor::setDefaultAccessor()
+{
+	static_assert(std::is_base_of<T, ISettingsAccessor>::value, "T must implement the QtMvvm::ISettingsAccessor interface");
+	setDefaultAccessor(qMetaTypeId<T*>());
+}
 
 }
 

@@ -116,11 +116,12 @@ int main(int argc, char *argv[])
 */
 
 /*!
-@fn QtMvvm::ServiceRegistry::registerInterface(bool)
+@fn QtMvvm::ServiceRegistry::registerInterface(DestructionScope, bool)
 
 @tparam TInterface The interface type to register the service for
 @tparam TService The service to be registered for that interface. Must extend QObject and
 implement TInterface
+@param scope The scope at which the service instance should be destroyed
 @param weak Specifies if the registration should be a weak one or a normal one
 @throws ServiceExistsException If a non-weak service has already been registered for
 TInterface
@@ -138,18 +139,19 @@ injection for the interface is not possible. In addition to this, TService must 
 invokable constructor with the following signature:
 `Q_INVOKABLE explicit TService(QObject *parent = nullptr);`
 
-@sa ServiceRegistry::registerObject, QtMvvm::registerInterfaceConverter,
-ServiceRegistry::registerService, ServiceRegistry::service
+@sa ServiceRegistry::registerPlugin, ServiceRegistry::registerObject,
+QtMvvm::registerInterfaceConverter, ServiceRegistry::registerService, ServiceRegistry::service
 */
 
 /*!
-@fn QtMvvm::ServiceRegistry::registerInterface(const TFunc &, bool)
+@fn QtMvvm::ServiceRegistry::registerInterface(TFunc, DestructionScope, bool)
 
 @tparam TInterface The interface type to register the service for
 @tparam TService The service to be registered for that interface. Must extend QObject and
 implement TInterface
 @tparam TFunc The function type of the `fn` parameter.
 @param fn The function to be called to construct the service
+@param scope The scope at which the service instance should be destroyed
 @param weak Specifies if the registration should be a weak one or a normal one
 @throws ServiceExistsException If a non-weak service has already been registered for
 TInterface
@@ -173,17 +175,18 @@ not throw an exception but instead discard (and delete) this one.
 @attention Make shure to register TInterface via QtMvvm::registerInterfaceConverter, otherwise
 injection for the interface is not possible.
 
-@sa ServiceRegistry::registerObject, QtMvvm::registerInterfaceConverter,
-ServiceRegistry::registerService, ServiceRegistry::service
+@sa ServiceRegistry::registerPlugin, ServiceRegistry::registerObject,
+QtMvvm::registerInterfaceConverter, ServiceRegistry::registerService, ServiceRegistry::service
 */
 
 /*!
-@fn QtMvvm::ServiceRegistry::registerInterface(TService *, bool)
+@fn QtMvvm::ServiceRegistry::registerInterface(TService *, DestructionScope, bool)
 
 @tparam TInterface The interface type to register the service for
 @tparam TService The service to be registered for that interface. Must extend QObject and
 implement TInterface
 @param service The service instance to be registered as service
+@param scope The scope at which the service instance should be destroyed
 @param weak Specifies if the registration should be a weak one or a normal one
 @throws ServiceExistsException If a non-weak service has already been registered for
 TInterface
@@ -198,14 +201,15 @@ not throw an exception but instead discard (and delete) this one.
 @attention Make shure to register TInterface via QtMvvm::registerInterfaceConverter, otherwise
 injection for the interface is not possible.
 
-@sa ServiceRegistry::registerObject, QtMvvm::registerInterfaceConverter,
-ServiceRegistry::registerService, ServiceRegistry::service
+@sa ServiceRegistry::registerPlugin, ServiceRegistry::registerObject,
+QtMvvm::registerInterfaceConverter, ServiceRegistry::registerService, ServiceRegistry::service
 */
 
 /*!
-@fn QtMvvm::ServiceRegistry::registerObject(bool)
+@fn QtMvvm::ServiceRegistry::registerObject(DestructionScope, bool)
 
 @tparam TService The service to be registered by its own type. Must extend QObject
+@param scope The scope at which the service instance should be destroyed
 @param weak Specifies if the registration should be a weak one or a normal one
 @throws ServiceExistsException If a non-weak service has already been registered for
 TService
@@ -222,16 +226,17 @@ not throw an exception but instead discard (and delete) this one.
 constructor with the following signature:
 `Q_INVOKABLE explicit TService(QObject *parent = nullptr);`
 
-@sa ServiceRegistry::registerInterface, ServiceRegistry::registerService,
-ServiceRegistry::service
+@sa ServiceRegistry::registerInterface, ServiceRegistry::registerPlugin,
+ServiceRegistry::registerService, ServiceRegistry::service
 */
 
 /*!
-@fn QtMvvm::ServiceRegistry::registerObject(const TFunc &, bool)
+@fn QtMvvm::ServiceRegistry::registerObject(TFunc, DestructionScope, bool)
 
 @tparam TService The service to be registered by its own type. Must extend QObject
 @tparam TFunc The function type of the `fn` parameter.
 @param fn The function to be called to construct the service
+@param scope The scope at which the service instance should be destroyed
 @param weak Specifies if the registration should be a weak one or a normal one
 @throws ServiceExistsException If a non-weak service has already been registered for TService
 
@@ -251,15 +256,16 @@ of this function.
 If the service is registered as weak, registering another service for the same TService will
 not throw an exception but instead discard (and delete) this one.
 
-@sa ServiceRegistry::registerInterface, ServiceRegistry::registerService,
-ServiceRegistry::service
+@sa ServiceRegistry::registerInterface, ServiceRegistry::registerPlugin,
+ServiceRegistry::registerService, ServiceRegistry::service
 */
 
 /*!
-@fn QtMvvm::ServiceRegistry::registerObject(TService *, bool)
+@fn QtMvvm::ServiceRegistry::registerObject(TService *, DestructionScope, bool)
 
 @tparam TService The service to be registered by its own type. Must extend QObject
 @param service The service instance to be registered as service
+@param scope The scope at which the service instance should be destroyed
 @param weak Specifies if the registration should be a weak one or a normal one
 @throws ServiceExistsException If a non-weak service has already been registered for TService
 
@@ -273,16 +279,56 @@ not throw an exception but instead discard (and delete) this one.
 @attention Make shure to register TInterface via QtMvvm::registerInterfaceConverter, otherwise
 injection for the interface is not possible.
 
-@sa ServiceRegistry::registerInterface, ServiceRegistry::registerService,
+@sa ServiceRegistry::registerInterface, ServiceRegistry::registerPlugin,
+ServiceRegistry::registerService, ServiceRegistry::service
+*/
+
+/*!
+@fn QtMvvm::ServiceRegistry::registerPlugin(QString, QString, DestructionScope, bool)
+
+@tparam TInterface The interface type to register the service for
+@param pluginType The kind of plugin to be loaded. Corresponds to the subdirectoy to find the
+plugin in
+@param pluginKey The key to select the plugin by, if multiple are available
+@param scope The scope at which the service instance should be destroyed
+@param weak Specifies if the registration should be a weak one or a normal one
+@throws ServiceExistsException If a non-weak service has already been registered for
+TInterface
+
+If the function returns successfully, from now on a service of the given type can be accessed
+via the registry for the interface. The service is lazy initialized an will be created as soon
+as it is requested for the first time. If it has any injectable properties, they will be
+automatically injected on construction.
+
+If the service is registered as weak, registering another service for the same interface will
+not throw an exception but instead discard (and delete) this one.
+
+To actually create the instance, the registry will try to find a matching plugin to load and
+instanciate it. The two parameters, pluginType and pluginKey are used to select a plugin.
+
+pluginType referes to the kind of plugin, i.e. "imageformats", "platforms", ... The value can
+either be a relative path, which means it is resolved relative to the standard plugin
+directories the application uses to find Qt plugins (pluginType can be empty to directly look
+in the root folders). If the path is absolute, only that absolute folder is searched. For both
+cases, the search is non-recursive.
+
+pluginKey is a key to select the actual plugin files from all the plugins available in the
+folder identified by pluginType. For that, the "Key" property of the metadata of each plugin
+is checked to find one that has the given key in the list. If not specified, one of the
+available plugins is randomly choosen.
+
+@sa ServiceRegistry::registerInterface, ServiceRegistry::registerObject,
+QtMvvm::registerInterfaceConverter, ServiceRegistry::registerService,
 ServiceRegistry::service
 */
 
 /*!
-@fn QtMvvm::ServiceRegistry::registerService(const QByteArray &, const QMetaObject *, bool)
+@fn QtMvvm::ServiceRegistry::registerService(const QByteArray &, const QMetaObject *, DestructionScope, bool)
 
 @param iid The interface id of the type to register the service for
 @param metaObject The metaobject of the service to be registered for that interface. Must
 extend QObject and implement the interface of `iid`, unless it is the id of the service itself
+@param scope The scope at which the service instance should be destroyed
 @param weak Specifies if the registration should be a weak one or a normal one
 @throws ServiceExistsException If a non-weak service has already been registered for the iid
 
@@ -298,15 +344,17 @@ throw an exception but instead discard (and delete) this one.
 have an invokable constructor with the following signature:
 `Q_INVOKABLE explicit Service(QObject *parent = nullptr);`
 
-@sa ServiceRegistry::registerObject, QtMvvm::registerInterface, ServiceRegistry::serviceObj
+@sa QtMvvm::registerInterface, ServiceRegistry::registerObject,
+ServiceRegistry::registerPlugin, ServiceRegistry::serviceObj
 */
 
 /*!
-@fn QtMvvm::ServiceRegistry::registerService(const QByteArray &, const std::function<QObject*(const QObjectList &)> &, QByteArrayList, bool)
+@fn QtMvvm::ServiceRegistry::registerService(const QByteArray &, const std::function<QObject*(const QObjectList &)> &, QByteArrayList, DestructionScope, bool)
 
 @param iid The interface id of the type to register the service for
 @param fn The function to be called to construct the service
 @param injectables The iids of the parameters to be passed to `fn`
+@param scope The scope at which the service instance should be destroyed
 @param weak Specifies if the registration should be a weak one or a normal one
 @throws ServiceExistsException If a non-weak service has already been registered for the iid
 
@@ -323,7 +371,44 @@ to a list of objects.
 If the service is registered as weak, registering another service for the same iid will not
 throw an exception but instead discard (and delete) this one.
 
-@sa ServiceRegistry::registerObject, QtMvvm::registerInterface, ServiceRegistry::serviceObj
+@sa QtMvvm::registerInterface, ServiceRegistry::registerObject,
+ServiceRegistry::registerPlugin, ServiceRegistry::serviceObj*/
+
+/*!
+@fn QtMvvm::ServiceRegistry::registerService(QByteArray, QString, QString, DestructionScope, bool)
+
+@param iid The interface id of the type to register the service for
+@param pluginType The kind of plugin to be loaded. Corresponds to the subdirectoy to find the
+plugin in
+@param pluginKey The key to select the plugin by, if multiple are available
+@param scope The scope at which the service instance should be destroyed
+@param weak Specifies if the registration should be a weak one or a normal one
+@throws ServiceExistsException If a non-weak service has already been registered for the iid
+
+If the function returns successfully, from now on a service of the given type can be accessed
+via the registry for the interface. The service is lazy initialized an will be created as soon
+as it is requested for the first time. If it has any injectable properties, they will be
+automatically injected on construction.
+
+If the service is registered as weak, registering another service for the same interface will
+not throw an exception but instead discard (and delete) this one.
+
+To actually create the instance, the registry will try to find a matching plugin to load and
+instanciate it. The two parameters, pluginType and pluginKey are used to select a plugin.
+
+pluginType referes to the kind of plugin, i.e. "imageformats", "platforms", ... The value can
+either be a relative path, which means it is resolved relative to the standard plugin
+directories the application uses to find Qt plugins (pluginType can be empty to directly look
+in the root folders). If the path is absolute, only that absolute folder is searched. For both
+cases, the search is non-recursive.
+
+pluginKey is a key to select the actual plugin files from all the plugins available in the
+folder identified by pluginType. For that, the "Key" property of the metadata of each plugin
+is checked to find one that has the given key in the list. If not specified, one of the
+available plugins is randomly choosen.
+
+@sa QtMvvm::registerInterface, ServiceRegistry::registerObject,
+ServiceRegistry::registerPlugin, ServiceRegistry::serviceObj
 */
 
 /*!

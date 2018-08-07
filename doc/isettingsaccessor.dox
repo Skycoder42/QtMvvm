@@ -54,6 +54,51 @@ AndroidSettingsAccessor, SettingsViewModel, DataSyncSettingsViewModel, @ref sett
 */
 
 /*!
+@fn QtMvvm::ISettingsAccessor::setDefaultAccessor()
+
+@tparam T The type to be registered as the default type. Must implement ISettingsAccessor
+
+After setting the type via this method, createDefaultAccessor() will create instances of that
+type when called.
+
+@note In order for this to work, the passed type must have an invokable constructor, i.e.
+@code{.cpp}
+Q_INVOKABLE MySettingsAccessor(QObject *parent = nullptr);
+@endcode
+
+@sa ISettingsAccessor::createDefaultAccessor
+*/
+
+/*!
+@fn QtMvvm::ISettingsAccessor::setDefaultAccessor(int)
+
+@param typeId The typeId to be registered as the default type. Must implement ISettingsAccessor
+
+After setting the type via this method, createDefaultAccessor() will create instances of that
+type when called.
+
+@note In order for this to work, the passed type must have an invokable constructor, i.e.
+@code{.cpp}
+Q_INVOKABLE MySettingsAccessor(QObject *parent = nullptr);
+@endcode
+
+@sa ISettingsAccessor::createDefaultAccessor
+*/
+
+/*!
+@fn QtMvvm::ISettingsAccessor::createDefaultAccessor
+
+@param parent The parent object to be passed to to accessor constructor
+@returns A newly created instance of the default accessor type, or nullptr
+
+Constructs and returns a new instance of the default accessor type. The default type is
+QSettingsAccessor, but can be overwritten via setDefaultAccessor(). If the type set like that
+is invalid or cannot be dynamically constructor, nullptr can be returned.
+
+@sa ISettingsAccessor::setDefaultAccessor
+*/
+
+/*!
 @fn QtMvvm::ISettingsAccessor::contains
 
 @param key The key of the settings entry to be checked for existance

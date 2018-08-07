@@ -15,14 +15,14 @@ public:
 
 QSettingsAccessor::QSettingsAccessor(QObject *parent) :
 	QSettingsAccessor{new QSettings{}, parent}
-{
-	d->settings->setParent(this);
-}
+{}
 
 QSettingsAccessor::QSettingsAccessor(QSettings *settings, QObject *parent) :
 	ISettingsAccessor{parent},
 	d{new QSettingsAccessorPrivate{settings}}
-{}
+{
+	d->settings->setParent(this);
+}
 
 QSettingsAccessor::~QSettingsAccessor() = default;
 

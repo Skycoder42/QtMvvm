@@ -13,6 +13,7 @@
 
 namespace QtMvvm {
 
+//! A generic wrapper around ISettingsAccessor used by the @ref settings_generator "qsettingsgenerator"
 template <typename T>
 class SettingsEntry
 {
@@ -21,20 +22,29 @@ class SettingsEntry
 public:
 	SettingsEntry() = default;
 
+	//! Checks if the entry is stored in the settings
 	bool isSet() const;
+	//! Returns the key this entry uses to access the settings
 	QString key() const;
 
+	//! Loads the value from the settings
 	T get() const;
+	//! Stores the passed value in the settings
 	void set(const T &value);
+	//! Removes the entry and all child entries from the settings
 	void reset();
 
+	//! Stores the passed value in the settings
 	SettingsEntry<T> &operator=(const T &value);
+	//! Loads the value from the settings
 	operator T() const;
 
+	//! Adds a method to be called if the entries value changes
 	void addChangeCallback(const std::function<void(T)> &callback);
+	//! Adds a method to be called if the entries value changes, as long as scope exists
 	void addChangeCallback(QObject *scope, const std::function<void(T)> &callback);
 
-	// internal
+	//! @private
 	void setup(QString key, ISettingsAccessor *accessor, QVariant defaultValue = {});
 
 private:
@@ -43,6 +53,7 @@ private:
 	QVariant _default;
 };
 
+//! @private
 template <>
 class SettingsEntry<void>
 {
@@ -51,30 +62,38 @@ class SettingsEntry<void>
 public:
 	inline SettingsEntry() = default;
 
-	// internal
+	//! @private
 	inline void setup(const QString &, ISettingsAccessor *, const QVariant & = {}) {}
 };
 
+//! A helper class used by the @ref settings_generator "qsettingsgenerator" to represent list nodes
 template <typename TType>
 class SettingsListNode
 {
 	Q_DISABLE_COPY(SettingsListNode)
 
 public:
+	//! Entry container to make deferred creation of a new list element possible
 	class Deferred
 	{
 		Q_DISABLE_COPY(Deferred)
 
 	public:
+		//! Move constructor
 		inline Deferred(Deferred &&other) noexcept = default;
+		//! Move assignment operator
 		inline Deferred &operator=(Deferred &&other) noexcept = default;
 		inline ~Deferred() { commit(); }
 
+		//! Returns a reference to the element beeing edited
 		inline TType &element() { return _element; }
 
+		//! Indirection operator
 		inline TType &operator*() { return _element; }
+		//! Member access operator
 		inline TType *operator->() { return &_element; }
 
+		//! Appends the created element to the list
 		inline void commit() { if(!_commited) { _commited = true; _node->commit(_index);} }
 
 	private:
@@ -92,45 +111,76 @@ public:
 		{}
 	};
 
+	//! The iterator class to iterate through the list nodes entries
 	template <typename T>
 	class iterator_base
 	{
 	public:
+		//! @private
 		using iterator_category = std::random_access_iterator_tag;
+		//! @private
 		using difference_type = int;
+		//! @private
 		using value_type = T;
+		//! @private
 		using pointer = value_type*;
+		//! @private
 		using reference = value_type&;
 
+		//! Default constructor
 		inline iterator_base() = default;
+		//! Copy constructor
 		inline iterator_base(const iterator_base<T> &other) = default;
+		//! Copy assignment operator
 		inline iterator_base &operator=(const iterator_base<T> &other) = default;
+		//! Move constructor
 		inline iterator_base(iterator_base<T> &&other) noexcept = default;
+		//! Move assignment operator
 		inline iterator_base &operator=(iterator_base<T> &&other) noexcept = default;
 
+		//! Posfix increment operator
 		inline iterator_base<T> &operator++() { ++_index; return *this; }
+		//! Suffix increment operator
 		inline iterator_base<T> operator++(int) { return iterator_base<T>{_node, _index++}; }
+		//! Posfix decrement operator
 		inline iterator_base<T> &operator--() { --_index; return *this; }
+		//! Suffix decrement operator
 		inline iterator_base<T> operator--(int) { return iterator_base<T>{_node, _index--}; }
 
+		//! Indirection operator
 		inline reference operator*() const { return _node->at(_index); }
+		//! Member access operator
 		inline pointer operator->() const { return &_node->at(_index); }
+		//! Swap operator
 		inline friend void swap(iterator_base<T> &lhs, iterator_base<T> &rhs) noexcept { std::swap(lhs._node, rhs._node); std::swap(lhs._index, rhs._index); }
 
+		//! Equality operator
 		inline friend bool operator==(const iterator_base<T> &lhs, const iterator_base<T> &rhs) { assert(lhs._node == rhs._node); return lhs._index == rhs._index; }
+		//! Inequality operator
 		inline friend bool operator!=(const iterator_base<T> &lhs, const iterator_base<T> &rhs) { assert(lhs._node == rhs._node); return lhs._index != rhs._index; }
+		//! Lesser than operator
 		inline friend bool operator<(const iterator_base<T> &lhs, const iterator_base<T> &rhs) { assert(lhs._node == rhs._node); return lhs._index < rhs._index; }
+		//! Geater than operator
 		inline friend bool operator>(const iterator_base<T> &lhs, const iterator_base<T> &rhs) { assert(lhs._node == rhs._node); return lhs._index > rhs._index; }
+		//! Lesser equal than operator
 		inline friend bool operator<=(const iterator_base<T> &lhs, const iterator_base<T> &rhs) { assert(lhs._node == rhs._node); return lhs._index <= rhs._index; }
+		//! Geater equal than operator
 		inline friend bool operator>=(const iterator_base<T> &lhs, const iterator_base<T> &rhs) { assert(lhs._node == rhs._node); return lhs._index >= rhs._index; }
 
+		//! Compound assignment operator
 		inline iterator_base<T> &operator+=(difference_type delta) { _index += delta; return *this; }
+		//! Addition operator
 		inline friend iterator_base<T> operator+(const iterator_base<T> &iter, difference_type delta) { return iterator_base<T>{iter._node, iter._index + delta}; }
+		//! Addition operator
 		inline friend iterator_base<T> operator+(difference_type delta, const iterator_base<T> &iter) { return iterator_base<T>{iter._node, iter._index + delta}; }
+		//! Compound assignment operator
 		inline iterator_base<T> &operator-=(difference_type delta) { _index -= delta; return *this; }
+		//! Substraction operator
 		inline friend iterator_base<T> operator-(const iterator_base<T> &iter, difference_type delta) { return iterator_base<T>{iter._node, iter._index - delta}; }
+		//! Substraction operator
 		inline friend difference_type operator-(const iterator_base<T> &lhs, const iterator_base<T> &rhs) { assert(lhs._node == rhs._node); return lhs._index - rhs._index; }
 
+		//! Subscript operator
 		inline reference operator[](difference_type delta) const { return _node->at(_index + delta); }
 
 	private:
@@ -145,37 +195,59 @@ public:
 		{}
 	};
 
+	//! Typedef for a read and write iterator
 	using iterator = iterator_base<TType>;
+	//! Typedef for a readonly iterator
 	using const_iterator = iterator_base<const TType>;
 
 	SettingsListNode() = default;
 
+	//! Checks if the entry that represents the list node is stored in the settings
 	bool isSet() const;
+	//! Returns the key this list node uses to access the settings
 	QString key() const;
+	//! Returns the current size of the list, as stored in the settings
 	int size() const;
+	//! @copybrief SettingsListNode::at(int)
 	const TType &at(int index) const;
+	//! Returns a reference to the element at the given position in the list
 	TType &at(int index);
 
+	//! Appends a new element to the list and returns a reference to that entry
 	TType &push();
+	//! Creates a new element and returns it, but does not push it yet
 	Deferred push_deferred();
+	//! Removes count elements from the back of the list from the settings
 	void pop(int count = 1);
+	//! Removes the list and all of its elements from the settings
 	void reset();
 
+	//! @copybrief SettingsListNode::at(int)
 	TType &operator[](int index);
+	//! @copybrief SettingsListNode::at(int)
 	const TType &operator[](int index) const;
 
+	//! returns an iterator pointing to the beginning of the list
 	iterator begin();
+	//! returns an iterator pointing after the end of the list
 	iterator end();
+	//! @copybrief SettingsListNode::begin()
 	const_iterator begin() const;
+	//! @copybrief SettingsListNode::end()
 	const_iterator end() const;
+	//! @copybrief SettingsListNode::begin()
 	const_iterator constBegin() const;
+	//! @copybrief SettingsListNode::end()
 	const_iterator constEnd() const;
 
+	//! Adds a method to be called if the number of elements stored for the list change
 	void addChangeCallback(const std::function<void(int)> &callback); // size
+	//! Adds a method to be called if the number of elements stored for the list change, as long as scope exists
 	void addChangeCallback(QObject *scope, const std::function<void(int)> &callback);
 
-	// internal
+	//! @private
 	void setup(QString key, ISettingsAccessor *accessor, std::function<void(int, TType&)> setupFn);
+	//! @private
 	void commit(int index);
 
 private:

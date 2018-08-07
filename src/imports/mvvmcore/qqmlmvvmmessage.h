@@ -110,23 +110,23 @@ public Q_SLOTS:
 							const QStringList &supportedMimeTypes = {},
 							const QUrl &dir = {});
 
-	Q_REVISION(1) static void getColor(const QJSValue &onResult = {},
-									   const QString &title = {},
-									   const QColor &color = {},
-									   bool argb = false);
+	QTMVVM_REVISION_1 static void getColor(const QJSValue &onResult = {},
+										   const QString &title = {},
+										   const QColor &color = {},
+										   bool argb = false);
 
-	Q_REVISION(1) static QtMvvm::ProgressControl *showProgress(const QString &title = {},
+	QTMVVM_REVISION_1 static QtMvvm::ProgressControl *showProgress(const QString &title = {},
+																   const QString &label = {},
+																   int maximum = 100,
+																   int minimum = 0,
+																   bool allowCancel = true,
+																   int value = 0);
+	QTMVVM_REVISION_1 static QtMvvm::ProgressControl *showIndeterminateProgress(const QString &title = {},
+																				const QString &label = {},
+																				bool allowCancel = true);
+	QTMVVM_REVISION_1 static QtMvvm::ProgressControl *showBusy(const QString &title = {},
 															   const QString &label = {},
-															   int maximum = 100,
-															   int minimum = 0,
-															   bool allowCancel = true,
-															   int value = 0);
-	Q_REVISION(1) static QtMvvm::ProgressControl *showIndeterminateProgress(const QString &title = {},
-																			const QString &label = {},
-																			bool allowCancel = true);
-	Q_REVISION(1) static QtMvvm::ProgressControl *showBusy(const QString &title = {},
-														   const QString &label = {},
-														   bool allowCancel = true);
+															   bool allowCancel = true);
 
 #ifndef DOXYGEN_RUN
 #undef static

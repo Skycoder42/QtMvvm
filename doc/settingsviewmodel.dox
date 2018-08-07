@@ -12,6 +12,25 @@ show<QtMvvm::SettingsViewModel>();
 */
 
 /*!
+@property QtMvvm::SettingsViewModel::accessor
+
+@default{`nullptr` (Initialized by onInit())}
+
+This acccessor is used by all the methods that access settings. This makes it possible to
+simply change the backend that the viewmodel should operate on without reimplementing it, and
+also makes it possible for change signals to be used to dynamically update the gui if the
+settings values change.
+
+@accessors{
+	@readAc{accessor()}
+	@writeAc{setAccessor()}
+	@notifyAc{accessorChanged()}
+}
+
+@sa ISettingsAccessor, SettingsViewModel::showParams
+*/
+
+/*!
 @property QtMvvm::SettingsViewModel::canRestoreDefaults
 
 @default{`true`}
@@ -59,6 +78,14 @@ the default one.
 */
 
 /*!
+@var QtMvvm::SettingsViewModel::paramAccessor
+
+<b>Value:</b> `"accessor"`
+
+@sa SettingsViewModel::showParams
+*/
+
+/*!
 @var QtMvvm::SettingsViewModel::paramSettings
 
 <b>Value:</b> `"settings"`
@@ -75,12 +102,37 @@ the default one.
 */
 
 /*!
-@fn QtMvvm::SettingsViewModel::showParams
+@fn QtMvvm::SettingsViewModel::showParams(ISettingsAccessor*, const QString &)
+
+@param accessor The ISettingsAccessor to operate on. Can be null to use the default accessor
+(QSettingsAccessor)
+@param setupFile The path to a file to be used to create the settings. Can be empty to use the
+default path
+@return A paramater hash to be passed to ViewModel::show
+
+It's a shortcut to generate parameters for the show methods to show a settings viewmodel. Use
+them as:
+
+@code{.cpp}
+show<QtMvvm::SettingsViewModel>(QtMvvm::SettingsViewModel::showParams(...));
+@endcode
+
+@note Unless you need to explicitly set the settings or setup file a normal show without any
+parameters will just do fine.
+
+@sa ViewModel::show, SettingsViewModel::paramAccessor, SettingsViewModel::paramSetupFile
+*/
+
+/*!
+@fn QtMvvm::SettingsViewModel::showParams(QSettings*, const QString &)
 
 @param settings The QSettings to operate on. Can be null to use the default settings
 @param setupFile The path to a file to be used to create the settings. Can be empty to use the
 default path
 @return A paramater hash to be passed to ViewModel::show
+
+This internally creates a QSettingsAccessor that operates on the given settings and sets it
+as the SettingsViewModel::accessor.
 
 It's a shortcut to generate parameters for the show methods to show a settings viewmodel. Use
 them as:
@@ -142,6 +194,23 @@ different source then the normally used QSettings
 */
 
 /*!
+@fn QtMvvm::SettingsViewModel::resetAll
+
+@param setup The setup to search for keys to be resetted
+
+You can call this method from your gui to perform a complete reset of all the settings that
+are visible in the gui. Internally, the method will use SettingsViewModel::restoreConfig to
+create a dialog that asks the user for confirmation, and if he accepts, remove the value of
+all SettingsElements::Entry elements that can be found in the setup by calling resetValue().
+
+If the user accepted the dialog and data was successfully reset, the resetAccepted() signal
+is emitted so the gui can close itself.
+
+@sa SettingsViewModel::restoreConfig, SettingsViewModel::resetAccepted,
+SettingsViewModel::resetValue
+*/
+
+/*!
 @fn QtMvvm::SettingsViewModel::callAction
 
 @param key The key of the entry that triggered the action
@@ -154,3 +223,13 @@ the type documentation for more details.
 
 @sa @ref settings_xml_types_action
 */
+
+/*!
+@fn QtMvvm::SettingsViewModel::resetAccepted
+
+This signal is emitted as the result of a resetAll() that was accepted by the user. As a
+reaction, the settings gui implementation should close itself.
+
+@sa SettingsViewModel::resetAll
+*/
+
