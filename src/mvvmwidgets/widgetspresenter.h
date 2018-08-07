@@ -46,6 +46,7 @@ public:
 	//! @copybrief registerViewExplicitly()
 	static void registerViewExplicitly(const QMetaObject *viewModelType, const QMetaObject *viewType);
 
+	//! Returns the internally used input widget factory
 	static InputWidgetFactory* getInputWidgetFactory();
 
 	void present(ViewModel *viewModel, const QVariantHash &params, QPointer<ViewModel> parent) override;
@@ -77,7 +78,9 @@ protected:
 	virtual void presentInputDialog(const MessageConfig &config, QPointer<MessageResult> result);
 	//! Called to present a dialog of MessageConfig::TypeFileDialog
 	virtual void presentFileDialog(const MessageConfig &config, QPointer<MessageResult> result);
+	//! Called to present a dialog of MessageConfig::TypeColorDialog
 	void presentColorDialog(const MessageConfig &config, const QPointer<MessageResult> &result); //MAJOR make virtual
+	//! Called to present a dialog of MessageConfig::TypeProgressDialog
 	void presentProgressDialog(const MessageConfig &config, const QPointer<MessageResult> &result); //MAJOR make virtual
 	//! Called to present a dialog of a non standard MessageConfig::type
 	virtual void presentOtherDialog(const MessageConfig &config, QPointer<MessageResult> result);
