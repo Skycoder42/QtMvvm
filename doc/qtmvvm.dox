@@ -54,8 +54,11 @@ The following list shows which classes belong to which Qt module, in alphabetica
 <b>Available Types</b>
 - @ref QtMvvm::MessageConfig "MessageConfig" (uncreatable)
 - @ref QtMvvm::MessageResult "MessageResult" (uncreatable)
+- @ref QtMvvm::ProgressControl "ProgressControl" (uncreatable)
 - MvvmBinding
 - Message (singleton)
+- CoreApp (singleton)
+- ServiceRegistry (singleton)
 - @ref QtMvvm::SettingsViewModel "SettingsViewModel" (uncreatable)
 - @ref QtMvvm::ViewModel "ViewModel" (uncreatable)
 */

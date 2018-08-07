@@ -575,6 +575,18 @@ Module {
             Parameter { name: "minimum"; type: "int" }
             Parameter { name: "allowCancel"; type: "bool" }
             Parameter { name: "value"; type: "int" }
+            Parameter { name: "cancelText"; type: "string" }
+        }
+        Method {
+            name: "showProgress"
+            revision: 1
+            type: "QtMvvm::ProgressControl*"
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "label"; type: "string" }
+            Parameter { name: "maximum"; type: "int" }
+            Parameter { name: "minimum"; type: "int" }
+            Parameter { name: "allowCancel"; type: "bool" }
+            Parameter { name: "value"; type: "int" }
         }
         Method {
             name: "showProgress"
@@ -624,6 +636,15 @@ Module {
             Parameter { name: "title"; type: "string" }
             Parameter { name: "label"; type: "string" }
             Parameter { name: "allowCancel"; type: "bool" }
+            Parameter { name: "cancelText"; type: "string" }
+        }
+        Method {
+            name: "showIndeterminateProgress"
+            revision: 1
+            type: "QtMvvm::ProgressControl*"
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "label"; type: "string" }
+            Parameter { name: "allowCancel"; type: "bool" }
         }
         Method {
             name: "showIndeterminateProgress"
@@ -639,6 +660,15 @@ Module {
             Parameter { name: "title"; type: "string" }
         }
         Method { name: "showIndeterminateProgress"; revision: 1; type: "QtMvvm::ProgressControl*" }
+        Method {
+            name: "showBusy"
+            revision: 1
+            type: "QtMvvm::ProgressControl*"
+            Parameter { name: "title"; type: "string" }
+            Parameter { name: "label"; type: "string" }
+            Parameter { name: "allowCancel"; type: "bool" }
+            Parameter { name: "cancelText"; type: "string" }
+        }
         Method {
             name: "showBusy"
             revision: 1
@@ -685,18 +715,18 @@ Module {
         }
         Method {
             name: "registerObject"
-            Parameter { name: "object"; type: "QObject"; isPointer: true }
+            Parameter { name: "service"; type: "QObject"; isPointer: true }
             Parameter { name: "scope"; type: "QtMvvm::QQmlServiceRegistry::DestructionScope" }
             Parameter { name: "weak"; type: "bool" }
         }
         Method {
             name: "registerObject"
-            Parameter { name: "object"; type: "QObject"; isPointer: true }
+            Parameter { name: "service"; type: "QObject"; isPointer: true }
             Parameter { name: "scope"; type: "QtMvvm::QQmlServiceRegistry::DestructionScope" }
         }
         Method {
             name: "registerObject"
-            Parameter { name: "object"; type: "QObject"; isPointer: true }
+            Parameter { name: "service"; type: "QObject"; isPointer: true }
         }
         Method {
             name: "registerObject"

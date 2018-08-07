@@ -133,7 +133,7 @@ consideration where neccessary.
 */
 
 /*!
-@fn QtMvvm::CoreApp::showDialog
+@fn QtMvvm::CoreApp::showDialog(const MessageConfig &)
 
 @param config The configuration of the message to be shown
 @returns A message result to keep track of the shown dialog
@@ -148,7 +148,7 @@ been closed.
 */
 
 /*!
-@fn QtMvvm::CoreApp::safeCastInputType
+@fn QtMvvm::CoreApp::safeCastInputType(const QByteArray &, const QVariant &)
 
 @param type The edit type the given value is supposed to be of
 @param value The value to be cast to the type specified by the edit type

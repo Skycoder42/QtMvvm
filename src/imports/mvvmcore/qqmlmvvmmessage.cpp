@@ -118,23 +118,23 @@ void QtMvvm::QQmlMvvmMessage::getColor(const QJSValue &onResult, const QString &
 		QtMvvm::getColor(title, color, argb);
 }
 
-ProgressControl *QtMvvm::QQmlMvvmMessage::showProgress(const QString &title, const QString &label, int maximum, int minimum, bool allowCancel, int value)
+ProgressControl *QtMvvm::QQmlMvvmMessage::showProgress(const QString &title, const QString &label, int maximum, int minimum, bool allowCancel, int value, const QString &cancelText)
 {
-	auto control = QtMvvm::showProgress(title, label, maximum, minimum, allowCancel, value);
+	auto control = QtMvvm::showProgress(title, label, maximum, minimum, allowCancel, value, cancelText);
 	QQmlEngine::setObjectOwnership(control, QQmlEngine::JavaScriptOwnership);
 	return control;
 }
 
-ProgressControl *QtMvvm::QQmlMvvmMessage::showIndeterminateProgress(const QString &title, const QString &label, bool allowCancel)
+ProgressControl *QtMvvm::QQmlMvvmMessage::showIndeterminateProgress(const QString &title, const QString &label, bool allowCancel, const QString &cancelText)
 {
-	auto control = QtMvvm::showIndeterminateProgress(title, label, allowCancel);
+	auto control = QtMvvm::showIndeterminateProgress(title, label, allowCancel, cancelText);
 	QQmlEngine::setObjectOwnership(control, QQmlEngine::JavaScriptOwnership);
 	return control;
 }
 
-ProgressControl *QtMvvm::QQmlMvvmMessage::showBusy(const QString &title, const QString &label, bool allowCancel)
+ProgressControl *QtMvvm::QQmlMvvmMessage::showBusy(const QString &title, const QString &label, bool allowCancel, const QString &cancelText)
 {
-	auto control = QtMvvm::showBusy(title, label, allowCancel);
+	auto control = QtMvvm::showBusy(title, label, allowCancel, cancelText);
 	QQmlEngine::setObjectOwnership(control, QQmlEngine::JavaScriptOwnership);
 	return control;
 }

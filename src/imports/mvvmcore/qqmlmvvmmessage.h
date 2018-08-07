@@ -19,7 +19,7 @@ namespace de::skycoder42::QtMvvm::Core {
  *
  * @sa QtMvvm::MessageConfig, QtMvvm::CoreApp::showDialog
  */
-class Message : public QtObject
+class Message
 #else
 namespace QtMvvm {
 
@@ -110,23 +110,34 @@ public Q_SLOTS:
 							const QStringList &supportedMimeTypes = {},
 							const QUrl &dir = {});
 
+	//! @brief A QML version of the QtMvvm::getColor method
+	//! @copydoc QtMvvm::getColor(const std::function<void(QColor)> &, const QString &, const QColor &, bool)
 	QTMVVM_REVISION_1 static void getColor(const QJSValue &onResult = {},
 										   const QString &title = {},
 										   const QColor &color = {},
 										   bool argb = false);
 
+	//! @brief A QML version of the QtMvvm::showProgress method
+	//! @copydoc QtMvvm::showProgress(const QString &, const QString &, int, int, bool, int, const QString &)
 	QTMVVM_REVISION_1 static QtMvvm::ProgressControl *showProgress(const QString &title = {},
 																   const QString &label = {},
 																   int maximum = 100,
 																   int minimum = 0,
 																   bool allowCancel = true,
-																   int value = 0);
+																   int value = 0,
+																   const QString &cancelText = {});
+	//! @brief A QML version of the QtMvvm::showIndeterminateProgress method
+	//! @copydoc QtMvvm::showIndeterminateProgress(const QString &, const QString &, bool, const QString &)
 	QTMVVM_REVISION_1 static QtMvvm::ProgressControl *showIndeterminateProgress(const QString &title = {},
 																				const QString &label = {},
-																				bool allowCancel = true);
+																				bool allowCancel = true,
+																				const QString &cancelText = {});
+	//! @brief A QML version of the QtMvvm::showBusy method
+	//! @copydoc QtMvvm::showBusy(const QString &, const QString &, bool, const QString &)
 	QTMVVM_REVISION_1 static QtMvvm::ProgressControl *showBusy(const QString &title = {},
 															   const QString &label = {},
-															   bool allowCancel = true);
+															   bool allowCancel = true,
+															   const QString &cancelText = {});
 
 #ifndef DOXYGEN_RUN
 #undef static

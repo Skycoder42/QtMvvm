@@ -36,7 +36,7 @@ public:
 	//! Checks if a given interface or service is already registered
 	template <typename TInterface>
 	bool isRegistered() const;
-	//! @copybrief ServiceRegistry::isRegistered()
+	//! @copybrief ServiceRegistry::isRegistered() const
 	bool isRegistered(const QByteArray &iid) const;
 
 	//! Register a service for its interface via the type

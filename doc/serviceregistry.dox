@@ -365,14 +365,15 @@ as it is requested for the first time. It is created by calling the given `fn` f
 The function must return an object that implements the interface of `iid`, unless it is the id
 of the service itself. The arguments are passed as object list and are determined by the
 `injectables` parameter. That is a list of iids. When the function is called internally, the
-registry will "inject" all services found by the iids as parameters of this function, comnined
+registry will "inject" all services found by the iids as parameters of this function, combined
 to a list of objects.
 
 If the service is registered as weak, registering another service for the same iid will not
 throw an exception but instead discard (and delete) this one.
 
 @sa QtMvvm::registerInterface, ServiceRegistry::registerObject,
-ServiceRegistry::registerPlugin, ServiceRegistry::serviceObj*/
+ServiceRegistry::registerPlugin, ServiceRegistry::serviceObj
+*/
 
 /*!
 @fn QtMvvm::ServiceRegistry::registerService(QByteArray, QString, QString, DestructionScope, bool)
