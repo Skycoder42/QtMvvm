@@ -8,18 +8,18 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 class AndroidSettingsAccessor {
+	private long address = 0;
+	private SharedPreferences preferences = null;
+	private SharedPreferences.Editor editor = null;
+	private Listener listener = new Listener();
+
 	private class Listener implements SharedPreferences.OnSharedPreferenceChangeListener {
 		@Override
 		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-			if(address != 0 && preferences == sharedPreferences)
+			if(address != 0 && preferences.equals(sharedPreferences))
 				callback(address, key);
 		}
 	}
-
-	long address = 0;
-	SharedPreferences preferences = null;
-	SharedPreferences.Editor editor = null;
-	Listener listener = new Listener();
 
 	private static native void callback(long address, Object key);
 

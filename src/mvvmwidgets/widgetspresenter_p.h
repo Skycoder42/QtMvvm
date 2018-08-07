@@ -12,6 +12,8 @@ namespace QtMvvm {
 
 class WidgetsPresenterPrivate
 {
+	Q_DISABLE_COPY(WidgetsPresenterPrivate)
+
 public:
 	WidgetsPresenterPrivate();
 

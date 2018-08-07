@@ -30,7 +30,11 @@ public:
 
 class MessageResultPrivate
 {
+	Q_DISABLE_COPY(MessageResultPrivate)
+
 public:
+	MessageResultPrivate() = default;
+
 	QMutex mutex;
 	QPointer<QObject> closeObject;
 	QMetaMethod closeMethod;
@@ -41,7 +45,11 @@ public:
 
 class ProgressControlPrivate
 {
+	Q_DISABLE_COPY(ProgressControlPrivate)
+
 public:
+	ProgressControlPrivate() = default;
+
 	bool autoDelete = true;
 #ifdef Q_ATOMIC_INT8_IS_SUPPORTED
 	QAtomicInteger<bool> indeterminate = false;

@@ -11,7 +11,11 @@ namespace QtMvvm {
 
 class ServiceRegistryPrivate
 {
+	Q_DISABLE_COPY(ServiceRegistryPrivate)
+
 public:
+	ServiceRegistryPrivate() = default;
+
 	class ServiceInfo {
 		Q_DISABLE_COPY(ServiceInfo)
 	public:

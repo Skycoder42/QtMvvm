@@ -8,7 +8,11 @@ namespace QtMvvm {
 
 class SettingsViewModelPrivate
 {
+	Q_DISABLE_COPY(SettingsViewModelPrivate)
+
 public:
+	SettingsViewModelPrivate() = default;
+
 	ISettingsSetupLoader *setupLoader = nullptr;
 	ISettingsAccessor *accessor = nullptr;
 

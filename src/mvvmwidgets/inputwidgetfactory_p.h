@@ -8,7 +8,11 @@ namespace QtMvvm {
 
 class InputWidgetFactoryPrivate
 {
+	Q_DISABLE_COPY(InputWidgetFactoryPrivate)
+
 public:
+	InputWidgetFactoryPrivate() = default;
+
 	QHash<QByteArray, std::function<QWidget*(QWidget*)>> simpleWidgets;
 	QHash<QByteArray, QByteArray> aliases;
 };

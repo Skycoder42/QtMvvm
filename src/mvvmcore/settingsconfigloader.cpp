@@ -233,7 +233,7 @@ QException *SettingsConfigException::clone() const
 
 
 
-uint qHash(const std::tuple<QString, QString, QStringList> &key, uint seed)
+uint std::qHash(const std::tuple<QString, QString, QStringList> &key, uint seed)
 {
 	return qHash(std::get<0>(key), seed) ^
 			qHash(std::get<1>(key), seed) ^

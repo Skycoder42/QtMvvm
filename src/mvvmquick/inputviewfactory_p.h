@@ -8,6 +8,8 @@ namespace QtMvvm {
 
 class InputViewFactoryPrivate
 {
+	Q_DISABLE_COPY(InputViewFactoryPrivate)
+
 public:
 	InputViewFactoryPrivate();
 

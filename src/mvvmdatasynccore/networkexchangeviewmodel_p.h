@@ -10,6 +10,8 @@ namespace QtMvvm {
 
 class NetworkExchangeViewModelPrivate
 {
+	Q_DISABLE_COPY(NetworkExchangeViewModelPrivate)
+
 public:
 	static const quint32 ExportRequestCode = 0xb300;
 

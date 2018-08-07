@@ -8,6 +8,8 @@ namespace QtMvvm {
 
 class DataSyncSettingsAccessorPrivate
 {
+	Q_DISABLE_COPY(DataSyncSettingsAccessorPrivate)
+
 public:
 	DataSyncSettingsAccessorPrivate(QtDataSync::DataTypeStore<DataSyncSettingsEntry> *store);
 

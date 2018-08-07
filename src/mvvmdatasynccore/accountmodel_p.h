@@ -8,7 +8,11 @@ namespace QtMvvm {
 
 class AccountModelPrivate
 {
+	Q_DISABLE_COPY(AccountModelPrivate)
+
 public:
+	AccountModelPrivate() = default;
+
 	QtDataSync::AccountManager *accountManager = nullptr;
 	QtDataSync::SyncManager *syncManager = nullptr;
 	QList<QtDataSync::DeviceInfo> devices;

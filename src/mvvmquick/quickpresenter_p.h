@@ -11,9 +11,12 @@ namespace QtMvvm {
 
 class Q_MVVMQUICK_EXPORT QuickPresenterPrivate
 {
+	Q_DISABLE_COPY(QuickPresenterPrivate)
 	friend class QtMvvm::QuickPresenter;
 
 public:
+	QuickPresenterPrivate() = default;
+
 	static QuickPresenter *currentPresenter();
 	static void setQmlPresenter(QObject *presenter);
 

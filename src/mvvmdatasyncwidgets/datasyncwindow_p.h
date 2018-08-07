@@ -12,6 +12,8 @@ namespace QtMvvm {
 
 class DataSyncWindowPrivate
 {
+	Q_DISABLE_COPY(DataSyncWindowPrivate)
+
 public:
 	DataSyncWindowPrivate(ViewModel *viewModel);
 

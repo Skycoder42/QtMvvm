@@ -11,7 +11,11 @@ namespace QtMvvm {
 
 class ExchangeDevicesModelPrivate
 {
+	Q_DISABLE_COPY(ExchangeDevicesModelPrivate)
+
 public:
+	ExchangeDevicesModelPrivate() = default;
+
 	struct LimitedUserInfo : public QtDataSync::UserInfo
 	{
 		LimitedUserInfo(const QtDataSync::UserInfo &info = {});

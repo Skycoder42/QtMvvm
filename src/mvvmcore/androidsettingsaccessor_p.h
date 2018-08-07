@@ -10,6 +10,8 @@ namespace QtMvvm {
 
 class AndroidSettingsAccessorPrivate
 {
+	Q_DISABLE_COPY(AndroidSettingsAccessorPrivate)
+
 public:
 	AndroidSettingsAccessor *q;
 	QAndroidJniObject settings;

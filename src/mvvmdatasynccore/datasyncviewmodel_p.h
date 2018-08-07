@@ -10,6 +10,8 @@ namespace QtMvvm {
 
 class DataSyncViewModelPrivate
 {
+	Q_DISABLE_COPY(DataSyncViewModelPrivate)
+
 public:
 	static const quint32 ExportRequestCode = 0xb201;
 	static const quint32 ChangeRemoteRequestCode = 0xb202;

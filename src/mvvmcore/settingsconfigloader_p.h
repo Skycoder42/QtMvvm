@@ -66,6 +66,10 @@ private:
 
 }
 
+namespace std {
+
 uint qHash(const std::tuple<QString, QString, QStringList> &key, uint seed);
+
+}
 
 #endif // SETTINGSCONFIGLOADER_P_H

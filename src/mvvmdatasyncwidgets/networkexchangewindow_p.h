@@ -12,6 +12,8 @@ namespace QtMvvm {
 
 class NetworkExchangeWindowPrivate
 {
+	Q_DISABLE_COPY(NetworkExchangeWindowPrivate)
+
 public:
 	NetworkExchangeWindowPrivate(ViewModel *viewModel);
 
