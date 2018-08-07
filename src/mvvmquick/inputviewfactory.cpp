@@ -79,6 +79,7 @@ void InputViewFactory::addSimpleDelegate(const QByteArray &type, const QUrl &qml
 
 void InputViewFactory::addFormatter(const QByteArray &type, Formatter *formatter)
 {
+	Q_ASSERT_X(formatter, Q_FUNC_INFO, "formatter must not be null");
 	d->formatters.insert(type, QSharedPointer<Formatter>{formatter});
 }
 

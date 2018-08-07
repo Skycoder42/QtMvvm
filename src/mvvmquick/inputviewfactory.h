@@ -12,6 +12,7 @@
 
 namespace QtMvvm {
 
+//! A class to format the preview text in the delegates
 class Q_MVVMQUICK_EXPORT Formatter
 {
 	Q_DISABLE_COPY(Formatter)
@@ -20,11 +21,13 @@ public:
 	Formatter();
 	virtual ~Formatter();
 
+	//! Is called to format a value to a localized, human readable text
 	virtual QString format(const QString &formatString,
 						   const QVariant &value,
 						   const QVariantMap &viewProperties) const = 0;
 };
 
+//! A very basic formatter that uses QString::arg with the value on the format string
 template <typename T>
 class SimpleFormatter : public Formatter
 {
@@ -50,6 +53,7 @@ public:
 	//! Find the input list delegate URL of the given input type
 	Q_INVOKABLE virtual QUrl getDelegate(const QByteArray &type, const QVariantMap &viewProperties);
 
+	//! Formats the value using the internally registered Formatter for the given type
 	QTMVVM_REVISION_1 Q_INVOKABLE QString format(const QByteArray &type,
 												 const QString &formatString,
 												 const QVariant &value,
@@ -67,8 +71,10 @@ public:
 	//! @copybrief addSimpleDelegate(const QUrl &)
 	Q_INVOKABLE virtual void addSimpleDelegate(const QByteArray &type, const QUrl &qmlFileUrl);
 
+	//! Adds a new Formatter to format delegate preview texts for the given type
 	template <typename TType>
 	inline void addFormatter(Formatter *formatter);
+	//! @copybrief addFormatter(Formatter*)
 	void addFormatter(const QByteArray &type, Formatter *formatter); //MAJOR make virtual
 
 	//! Adds a type name alias for views
@@ -83,8 +89,10 @@ public:
 	//! @copybrief addDelegateAlias()
 	Q_INVOKABLE virtual void addDelegateAlias(const QByteArray &alias, const QByteArray &targetType);
 
+	//! Adds a type name alias for formatters
 	template <typename TAliasType, typename TTargetType>
 	inline void addFormatterAlias();
+	//! @copybrief addFormatterAlias()
 	QTMVVM_REVISION_1 Q_INVOKABLE void addFormatterAlias(const QByteArray &alias, const QByteArray &targetType);
 
 private:

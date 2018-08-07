@@ -247,14 +247,16 @@ create edit views yourself
  Type					| Widgets edit					| Quick edit	| Quick delegate
 ------------------------|-------------------------------|---------------|----------------
  bool					| QCheckBox						| CheckBox		| BoolDelegate
- switch					| -/-							| Switch		| SwitchDelegate
+ switch					| QCheckBox						| Switch		| SwitchDelegate
  QString, string		| QLineEdit						| TextField		| MsgDelegate (*)
  int					| QSpinBox						| SpinBox		| MsgDelegate
  double, number			| QDoubleSpinBox				| DoubleSpinBox	| MsgDelegate
- QDate					| QDateEdit						| -/-			| -/-
- QTime					| QTimeEdit						| -/-			| -/-
- QDateTime, date		| QDateTimeEdit					| -/-			| -/-
- QFont					| QFontComboBox					| FontEdit		| MsgDelegate
+ range (int)			| QSlider						| Slider		| RangeDelegate
+ QDate					| QDateEdit						| DateEdit		| MsgDelegate
+ QTime					| QTimeEdit						| TimeEdit		| MsgDelegate
+ QDateTime, date		| QDateTimeEdit					| DateTimeEdit	| MsgDelegate
+ QColor, color			| ColorButton					| ColorEdit		| ColorDelegate
+ QFont, font			| QFontComboBox					| FontEdit		| MsgDelegate
  QKeySequence			| QKeySequenceEdit				| -/-			| -/-
  QUrl, url				| QLineEdit with QUrlValidator	| UrlField		| MsgDelegate
  selection, list		| QComboBox						| ListEdit		| ListDelegate

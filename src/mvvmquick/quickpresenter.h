@@ -42,6 +42,7 @@ public:
 	//! @copybrief registerViewExplicitly()
 	static void registerViewExplicitly(const QMetaObject *viewModelType, const QUrl &viewUrl);
 
+	//! Returns the internally used input view factory
 	static InputViewFactory* getInputViewFactory();
 
 	void present(ViewModel *viewModel, const QVariantHash &params, QPointer<ViewModel> parent) override;

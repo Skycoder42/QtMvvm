@@ -114,8 +114,8 @@ Module {
         exportMetaObjectRevisions: [0]
         Property { name: "key"; type: "string" }
         Property { name: "dataVersion"; type: "int" }
-        Property { name: "value"; type: "QByteArray" }
-        Property { name: "variantValue"; type: "QVariant" }
+        Property { name: "value"; type: "QVariant" }
+        Property { name: "valueData"; type: "QByteArray" }
     }
     Component {
         name: "QtMvvm::DataSyncSettingsViewModel"

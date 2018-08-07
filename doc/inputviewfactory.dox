@@ -65,6 +65,35 @@ InputViewFactory::addDelegateAlias, InputViewFactory::getInputUrl
 */
 
 /*!
+@fn QtMvvm::InputViewFactory::format
+
+@param type The type to choose a formatter for
+@param formatString Some kind of format string, depending on what the formatter wants here
+@param value The actual value, packet as a variant
+@param viewProperties Additional properies set on the delegate
+@returns The formatted value text
+
+Internally, this method uses the Formatter registered for the given type and then returns
+the result of Formatter::format, invoked with the remaining parameters.
+
+If no formatter was registered for the given type, this method simply returns
+`formatString.arg(value.toString());`
+
+Currently, the following special formatters are set by default.
+
+ types						| formatString semantics
+----------------------------|------------------------
+ int						| A translated string with either `%1`, `%L1` or `%n` as number placeholder. If `%n` is used, "plural-translations" are used
+ list, selection, radiolist	| A translated string with `%1` as placeholder. If the list element is named, that one is used, otherwise the value itself
+ QDateTime, QDate, QTime	| Can either be the integer value of one of Qt::DateFormat or a standard date format string (QDateTime::toString). If neither is the case, the date is formatted using Qt::DefaultLocaleShortDate
+ double						| Uses the SimpleFormatter with double as template argument
+
+All other types use the fallback formatting.
+
+@sa Formatter::format, InputViewFactory::addFormatter, InputViewFactory::addFormatterAlias
+*/
+
+/*!
 @fn QtMvvm::InputViewFactory::addSimpleInput(const QUrl &)
 
 @tparam TType The type to add an input view for
@@ -113,6 +142,30 @@ used as a delegate for a ListView.
 */
 
 /*!
+@fn QtMvvm::InputViewFactory::addFormatter(Formatter*)
+
+@tparam TType The type to add a formatter for
+@param formatter The formatter instance to be added
+
+The formatter must be valid and is registered in the factory. The factory takes ownership of
+the passed formatter. From now on it is used to convert display texts when format() is called.
+
+@sa InputViewFactory::format, InputViewFactory::addFormatterAlias, Formatter
+*/
+
+/*!
+@fn QtMvvm::InputViewFactory::addFormatter(const QByteArray &, Formatter*)
+
+@param type The type to add a formatter for
+@param formatter The formatter instance to be added
+
+The formatter must be valid and is registered in the factory. The factory takes ownership of
+the passed formatter. From now on it is used to convert display texts when format() is called.
+
+@sa InputViewFactory::format, InputViewFactory::addFormatterAlias, Formatter
+*/
+
+/*!
 @fn QtMvvm::InputViewFactory::addInputAlias()
 
 @tparam TAliasType The type to add as a new alias
@@ -156,4 +209,45 @@ If an delegate view for the alias type is requested, one of the target type is c
 instead.
 
 @sa InputViewFactory::getDelegate, InputViewFactory::addSimpleDelegate
+*/
+
+/*!
+@fn QtMvvm::InputViewFactory::addFormatterAlias()
+
+@tparam TAliasType The type to add as a new alias
+@tparam TTargetType The type the alias should be translated to
+
+If a formatter for the alias type is requested for the format() method, the one of the target
+type is used instead.
+
+@sa InputViewFactory::format, InputViewFactory::addFormatter
+*/
+
+/*!
+@fn QtMvvm::InputViewFactory::addFormatterAlias(const QByteArray &, const QByteArray &)
+
+@param alias The type to add as a new alias
+@param targetType The type the alias should be translated to
+
+If a formatter for the alias type is requested for the format() method, the one of the target
+type is used instead.
+
+@sa InputViewFactory::format, InputViewFactory::addFormatter
+*/
+
+
+
+/*!
+@fn QtMvvm::Formatter::format
+
+@param formatString Some kind of format string, depending on what your formatter wants here
+@param value The actual value, packet as a variant
+@param viewProperties Additional properies set on the delegate
+@return A localized, human readable text, the formatted the value based on formatString
+
+formatString can be whatever you need it to be, but typically it is a localized text with a
+placeholder to be replaced with the given value. See InputViewFactory::format for known
+formats.
+
+@sa InputViewFactory::format
 */
