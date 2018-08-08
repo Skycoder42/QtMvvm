@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['yes',['Yes',['../class_qt_mvvm_1_1_message_config.html#ad6b7b271e558619f15c5eb9a3cf78fb8ab14334e8a0b827c2d8005611ab06532d',1,'QtMvvm::MessageConfig']]],
-  ['yestoall',['YesToAll',['../class_qt_mvvm_1_1_message_config.html#ad6b7b271e558619f15c5eb9a3cf78fb8a05d665eede09ca4da26cc6ae967aa7f9',1,'QtMvvm::MessageConfig']]]
+  ['twoway',['TwoWay',['../classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_mvvm_binding.html#a0b01dfe1a8b4a7c6b2d888fd561ed7eea64d301545d44bab378d460a2763b8bd0',1,'de::skycoder42::QtMvvm::Core::MvvmBinding::TwoWay()'],['../class_qt_mvvm_1_1_binding.html#a6a03a1d2ac1775e202aa7ae65fb76315a8248e753de211820e05f5b5e35ad9db8',1,'QtMvvm::Binding::TwoWay()']]]
 ];

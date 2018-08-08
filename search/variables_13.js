@@ -14,11 +14,13 @@ var searchData=
   ['travelmodes',['TravelModes',['https://doc.qt.io/qt-5/qgeorouterequest.html#TravelMode-enum',0,'QGeoRouteRequest']]],
   ['twofish_5feax',['TWOFISH_EAX',['https://skycoder42.github.io/QtDataSync/class_qt_data_sync_1_1_setup.html#addc59762e035504395620d0fde9a3d7ead3d510e7b0347745bc0fb6f00ec638f5',0,'QtDataSync::Setup']]],
   ['twofish_5fgcm',['TWOFISH_GCM',['https://skycoder42.github.io/QtDataSync/class_qt_data_sync_1_1_setup.html#addc59762e035504395620d0fde9a3d7ea8e90f0f9e91bec9a0c6ca767f881873a',0,'QtDataSync::Setup']]],
-  ['type',['type',['../namespace_qt_mvvm_1_1_settings_elements.html#aceec6ba146dd2e3d86125a20c3d58fe8',1,'QtMvvm::SettingsElements::Entry::type()'],['https://doc.qt.io/qt-5/qglobalstatic.html#Type-typedef',0,'QGlobalStatic::Type()'],['https://doc.qt.io/qt-5/qshareddatapointer.html#Type-typedef',0,'QSharedDataPointer::Type()'],['https://doc.qt.io/qt-5/qexplicitlyshareddatapointer.html#Type-typedef',0,'QExplicitlySharedDataPointer::Type()']]],
+  ['type',['Type',['https://doc.qt.io/qt-5/qglobalstatic.html#Type-typedef',0,'QGlobalStatic::Type()'],['https://doc.qt.io/qt-5/qshareddatapointer.html#Type-typedef',0,'QSharedDataPointer::Type()'],['https://doc.qt.io/qt-5/qexplicitlyshareddatapointer.html#Type-typedef',0,'QExplicitlySharedDataPointer::Type()'],['../namespace_qt_mvvm_1_1_settings_elements.html#aceec6ba146dd2e3d86125a20c3d58fe8',1,'QtMvvm::SettingsElements::Entry::type()']]],
+  ['typecolordialog',['TypeColorDialog',['../class_qt_mvvm_1_1_message_config.html#a52011f5904343e09758633a77ea8d2f2',1,'QtMvvm::MessageConfig']]],
   ['typefiledialog',['TypeFileDialog',['../class_qt_mvvm_1_1_message_config.html#a4e605350d96923e7bdf000388fc514f5',1,'QtMvvm::MessageConfig']]],
   ['typeflags',['TypeFlags',['https://doc.qt.io/qt-5/qmetatype.html#TypeFlag-enum',0,'QMetaType']]],
   ['typeinputdialog',['TypeInputDialog',['../class_qt_mvvm_1_1_message_config.html#ae80918dc646fe89d59a1ddfed729d1b7',1,'QtMvvm::MessageConfig']]],
   ['typemessagebox',['TypeMessageBox',['../class_qt_mvvm_1_1_message_config.html#a4bf2b7c1738a86009303fbb07dcad08c',1,'QtMvvm::MessageConfig']]],
   ['typename',['typeName',['https://skycoder42.github.io/QtDataSync/struct_qt_data_sync_1_1_object_key.html#aa11070fb0b83296dc71124257b404aee',0,'QtDataSync::ObjectKey']]],
+  ['typeprogressdialog',['TypeProgressDialog',['../class_qt_mvvm_1_1_message_config.html#a10a4630967ff5b75caf06f6e1157b7e6',1,'QtMvvm::MessageConfig']]],
   ['types',['Types',['https://doc.qt.io/qt-5/qopengldebugmessage.html#Type-enum',0,'QOpenGLDebugMessage']]]
 ];

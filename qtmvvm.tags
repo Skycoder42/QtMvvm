@@ -78,6 +78,20 @@
     </member>
   </compound>
   <compound kind="file">
+    <name>isettingsaccessor.h</name>
+    <path>/home/sky/Programming/QtLibraries/QtMvvm/src/mvvmcore/</path>
+    <filename>isettingsaccessor_8h</filename>
+    <class kind="class">QtMvvm::ISettingsAccessor</class>
+    <namespace>QtMvvm</namespace>
+    <member kind="define">
+      <type>#define</type>
+      <name>QtMvvm_ISettingsAccessorIID</name>
+      <anchorfile>isettingsaccessor_8h.html</anchorfile>
+      <anchor>a3dd9a77077df5be01f3419b4dded11a9</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="file">
     <name>settingssetup.h</name>
     <path>/home/sky/Programming/QtLibraries/QtMvvm/src/mvvmcore/</path>
     <filename>settingssetup_8h</filename>
@@ -96,6 +110,27 @@
       <anchorfile>settingssetup_8h.html</anchorfile>
       <anchor>af1563f0d6fb636b0217430681053ec1c</anchor>
       <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>viewmodel.h</name>
+    <path>/home/sky/Programming/QtLibraries/QtMvvm/src/mvvmcore/</path>
+    <filename>viewmodel_8h</filename>
+    <class kind="class">QtMvvm::ViewModel</class>
+    <namespace>QtMvvm</namespace>
+    <member kind="define">
+      <type>#define</type>
+      <name>QTMVVM_SINGLETON</name>
+      <anchorfile>viewmodel_8h.html</anchorfile>
+      <anchor>a68bd7756c5859a745f1b0de6bb57c9a0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>QTMVVM_CONTAINER_VM</name>
+      <anchorfile>viewmodel_8h.html</anchorfile>
+      <anchor>a5876e53517263b77a22bb849b3976d61</anchor>
+      <arglist>(x)</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -243,6 +278,110 @@
     </member>
   </compound>
   <compound kind="class">
+    <name>QtMvvm::AndroidSettingsAccessor</name>
+    <filename>class_qt_mvvm_1_1_android_settings_accessor.html</filename>
+    <base>QtMvvm::ISettingsAccessor</base>
+    <member kind="enumeration">
+      <type></type>
+      <name>ModeFlag</name>
+      <anchorfile>class_qt_mvvm_1_1_android_settings_accessor.html</anchorfile>
+      <anchor>a276ec59e4084327849f9612a3fd95020</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>Private</name>
+      <anchorfile>class_qt_mvvm_1_1_android_settings_accessor.html</anchorfile>
+      <anchor>a276ec59e4084327849f9612a3fd95020a7d9034a98b8e5133c3df504c1f7d3d06</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>WorldReadable</name>
+      <anchorfile>class_qt_mvvm_1_1_android_settings_accessor.html</anchorfile>
+      <anchor>a276ec59e4084327849f9612a3fd95020aab2709e35cd2df1d1d6c1b5e13a2c4d0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>MultiProcess</name>
+      <anchorfile>class_qt_mvvm_1_1_android_settings_accessor.html</anchorfile>
+      <anchor>a276ec59e4084327849f9612a3fd95020a6907e9a10b0c422a01319ee4798a3c48</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>Private</name>
+      <anchorfile>class_qt_mvvm_1_1_android_settings_accessor.html</anchorfile>
+      <anchor>a276ec59e4084327849f9612a3fd95020a7d9034a98b8e5133c3df504c1f7d3d06</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>WorldReadable</name>
+      <anchorfile>class_qt_mvvm_1_1_android_settings_accessor.html</anchorfile>
+      <anchor>a276ec59e4084327849f9612a3fd95020aab2709e35cd2df1d1d6c1b5e13a2c4d0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>MultiProcess</name>
+      <anchorfile>class_qt_mvvm_1_1_android_settings_accessor.html</anchorfile>
+      <anchor>a276ec59e4084327849f9612a3fd95020a6907e9a10b0c422a01319ee4798a3c48</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>sync</name>
+      <anchorfile>class_qt_mvvm_1_1_android_settings_accessor.html</anchorfile>
+      <anchor>a7721429d149404d281c0a91336ebd39f</anchor>
+      <arglist>() override</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_INVOKABLE</type>
+      <name>AndroidSettingsAccessor</name>
+      <anchorfile>class_qt_mvvm_1_1_android_settings_accessor.html</anchorfile>
+      <anchor>ac40cf5372d213c13e5bb426ec966156d</anchor>
+      <arglist>(QObject *parent=nullptr)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>AndroidSettingsAccessor</name>
+      <anchorfile>class_qt_mvvm_1_1_android_settings_accessor.html</anchorfile>
+      <anchor>a770b29b62e7c9f1598a3e19b71733e92</anchor>
+      <arglist>(const QString &amp;file, QObject *parent=nullptr)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>AndroidSettingsAccessor</name>
+      <anchorfile>class_qt_mvvm_1_1_android_settings_accessor.html</anchorfile>
+      <anchor>ae2377bb941bff0d444826abde33736ff</anchor>
+      <arglist>(const QString &amp;file, Mode mode, QObject *parent=nullptr)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>contains</name>
+      <anchorfile>class_qt_mvvm_1_1_android_settings_accessor.html</anchorfile>
+      <anchor>a9ee66ef63e1184c6ee579941c1244e5c</anchor>
+      <arglist>(const QString &amp;key) const override</arglist>
+    </member>
+    <member kind="function">
+      <type>QVariant</type>
+      <name>load</name>
+      <anchorfile>class_qt_mvvm_1_1_android_settings_accessor.html</anchorfile>
+      <anchor>afc4288378756ae54f0f88524428b4e27</anchor>
+      <arglist>(const QString &amp;key, const QVariant &amp;defaultValue={}) const override</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>save</name>
+      <anchorfile>class_qt_mvvm_1_1_android_settings_accessor.html</anchorfile>
+      <anchor>aa13ba65126cf3518a352b360b90b2ec2</anchor>
+      <arglist>(const QString &amp;key, const QVariant &amp;value) override</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>remove</name>
+      <anchorfile>class_qt_mvvm_1_1_android_settings_accessor.html</anchorfile>
+      <anchor>a7f559355cb9e326b3834c87457d0a00c</anchor>
+      <arglist>(const QString &amp;key) override</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
     <name>QtMvvm::Binding</name>
     <filename>class_qt_mvvm_1_1_binding.html</filename>
     <member kind="enumeration">
@@ -308,6 +447,13 @@
       <arglist>() const</arglist>
     </member>
     <member kind="function">
+      <type></type>
+      <name>operator bool</name>
+      <anchorfile>class_qt_mvvm_1_1_binding.html</anchorfile>
+      <anchor>abb9d7693a1be0de37fccedcd914f54f5</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
       <type>Q_INVOKABLE void</type>
       <name>unbind</name>
       <anchorfile>class_qt_mvvm_1_1_binding.html</anchorfile>
@@ -363,15 +509,86 @@
     </member>
   </compound>
   <compound kind="class">
+    <name>de::skycoder42::QtMvvm::Quick::ColorEdit</name>
+    <filename>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_color_edit.html</filename>
+    <base>QtQuick.Layouts.GridLayout</base>
+    <member kind="property">
+      <type>bool</type>
+      <name>alpha</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_color_edit.html</anchorfile>
+      <anchor>a26a6ef61e179d70241c81c50239d7f40</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>color</type>
+      <name>color</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_color_edit.html</anchorfile>
+      <anchor>ab0df72c91843098b3afbf3b8ef6d934c</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>de::skycoder42::QtMvvm::Quick::ColorHelper</name>
+    <filename>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_color_helper.html</filename>
+    <base>QtQuick.Controls.Control</base>
+    <member kind="property">
+      <type>color</type>
+      <name>highlight</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_color_helper.html</anchorfile>
+      <anchor>aeabc51c1cf0cb5396671013a9ce9e77c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>color</type>
+      <name>text</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_color_helper.html</anchorfile>
+      <anchor>a0d39298044dd0f387d698c8ed9b282bf</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
     <name>de::skycoder42::QtMvvm::Quick::ContrastToolBar</name>
     <filename>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_contrast_tool_bar.html</filename>
     <base>QtQuick.Controls.ToolBar</base>
     <member kind="function">
-      <type>color</type>
+      <type>void</type>
       <name>accentTextColor</name>
       <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_contrast_tool_bar.html</anchorfile>
-      <anchor>ab3b3bf10c68d221c47ae963767389014</anchor>
-      <arglist>(color accentColor, color baseColor)</arglist>
+      <anchor>aa71f91597bb07dc4127daf678fc52467</anchor>
+      <arglist>(accentColor, baseColor)</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>de::skycoder42::QtMvvm::Core::CoreApp</name>
+    <filename>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_core_app.html</filename>
+    <base>QtQml.QtObject</base>
+    <member kind="slot">
+      <type>void</type>
+      <name>show</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_core_app.html</anchorfile>
+      <anchor>a09fccdfb06615211054d2a4ce02a5bb6</anchor>
+      <arglist>(const QString &amp;viewModelName, const QVariantHash &amp;params={}, QtMvvm::ViewModel *parentViewModel=nullptr)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>appStarted</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_core_app.html</anchorfile>
+      <anchor>a7e8e988b7173ca97bd27bc30411d8864</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_INVOKABLE QtMvvm::MessageResult *</type>
+      <name>showDialog</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_core_app.html</anchorfile>
+      <anchor>af097b363ab9aa927efaa6bc5011fc394</anchor>
+      <arglist>(const QtMvvm::MessageConfig &amp;config)</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_INVOKABLE QVariant</type>
+      <name>safeCastInputType</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_core_app.html</anchorfile>
+      <anchor>a5ccb6df42162fe41a305d493911c1f42</anchor>
+      <arglist>(const QString &amp;type, const QVariant &amp;value)</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -424,22 +641,36 @@
       <type>static void</type>
       <name>show</name>
       <anchorfile>class_qt_mvvm_1_1_core_app.html</anchorfile>
-      <anchor>aebc4f32860953bef017659c2d9d6dfdf</anchor>
-      <arglist>(const QVariantHash &amp;params={})</arglist>
+      <anchor>a217da24a389f941bac316016928d30df</anchor>
+      <arglist>(const QVariantHash &amp;params={}, QPointer&lt; ViewModel &gt; parentViewModel=nullptr)</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static void</type>
       <name>show</name>
       <anchorfile>class_qt_mvvm_1_1_core_app.html</anchorfile>
-      <anchor>ade8a043cfb2f8dafeb7fb492a72bc5c4</anchor>
+      <anchor>accff43ffcf17eb9fbe37457ae1c3aba9</anchor>
       <arglist>(const char *viewModelName, const QVariantHash &amp;params={})</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static void</type>
       <name>show</name>
       <anchorfile>class_qt_mvvm_1_1_core_app.html</anchorfile>
-      <anchor>a91299426374d85dee2ae3144185d1a61</anchor>
+      <anchor>ae1949a3d6c276bb7668d1d01a96d392c</anchor>
+      <arglist>(const char *viewModelName, const QVariantHash &amp;params, QPointer&lt; ViewModel &gt; parentViewModel)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static void</type>
+      <name>show</name>
+      <anchorfile>class_qt_mvvm_1_1_core_app.html</anchorfile>
+      <anchor>ab90e0336098599c6af78acc01fcb611f</anchor>
       <arglist>(const QMetaObject *viewModelMetaObject, const QVariantHash &amp;params={})</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static void</type>
+      <name>show</name>
+      <anchorfile>class_qt_mvvm_1_1_core_app.html</anchorfile>
+      <anchor>a9276c30f38adcc0bdc5e12d898262391</anchor>
+      <arglist>(const QMetaObject *viewModelMetaObject, const QVariantHash &amp;params, QPointer&lt; ViewModel &gt; parentViewModel)</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static MessageResult *</type>
@@ -447,6 +678,34 @@
       <anchorfile>class_qt_mvvm_1_1_core_app.html</anchorfile>
       <anchor>a1fb22642bb6150438195f52d1ec2c7d5</anchor>
       <arglist>(const MessageConfig &amp;config)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static QVariant</type>
+      <name>safeCastInputType</name>
+      <anchorfile>class_qt_mvvm_1_1_core_app.html</anchorfile>
+      <anchor>a7a2dba136c90404a96268a52665cbd05</anchor>
+      <arglist>(const QByteArray &amp;type, const QVariant &amp;value)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static void</type>
+      <name>registerInputTypeMapping</name>
+      <anchorfile>class_qt_mvvm_1_1_core_app.html</anchorfile>
+      <anchor>ae85ff5c7004f52baf9f6a2908ef3b41a</anchor>
+      <arglist>(const QByteArray &amp;type)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static void</type>
+      <name>registerInputTypeMapping</name>
+      <anchorfile>class_qt_mvvm_1_1_core_app.html</anchorfile>
+      <anchor>aee90ccb58790970ab249a5749a10f1dc</anchor>
+      <arglist>(const QByteArray &amp;type, int targetType)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static IPresenter *</type>
+      <name>presenter</name>
+      <anchorfile>class_qt_mvvm_1_1_core_app.html</anchorfile>
+      <anchor>abe3dfb743f2fb1103726ad7aa731bba0</anchor>
+      <arglist>()</arglist>
     </member>
     <member kind="function" protection="protected" virtualness="virtual">
       <type>virtual void</type>
@@ -478,6 +737,258 @@
     </member>
   </compound>
   <compound kind="class">
+    <name>QtMvvm::DataSyncSettingsAccessor</name>
+    <filename>class_qt_mvvm_1_1_data_sync_settings_accessor.html</filename>
+    <base>QtMvvm::ISettingsAccessor</base>
+    <member kind="slot">
+      <type>void</type>
+      <name>sync</name>
+      <anchorfile>class_qt_mvvm_1_1_data_sync_settings_accessor.html</anchorfile>
+      <anchor>a26082adb5952b74a20a9bc89f1b704e5</anchor>
+      <arglist>() override</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_INVOKABLE</type>
+      <name>DataSyncSettingsAccessor</name>
+      <anchorfile>class_qt_mvvm_1_1_data_sync_settings_accessor.html</anchorfile>
+      <anchor>a81eb638240ccd8259e58a45e1ae01f3b</anchor>
+      <arglist>(QObject *parent=nullptr)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>DataSyncSettingsAccessor</name>
+      <anchorfile>class_qt_mvvm_1_1_data_sync_settings_accessor.html</anchorfile>
+      <anchor>a9670f77160cc7471eefef15c7e2fe625</anchor>
+      <arglist>(const QString &amp;setupName, QObject *parent=nullptr)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>DataSyncSettingsAccessor</name>
+      <anchorfile>class_qt_mvvm_1_1_data_sync_settings_accessor.html</anchorfile>
+      <anchor>a431d2c4d773d42ccc84be53556e55903</anchor>
+      <arglist>(QtDataSync::DataStore *store, QObject *parent=nullptr)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>DataSyncSettingsAccessor</name>
+      <anchorfile>class_qt_mvvm_1_1_data_sync_settings_accessor.html</anchorfile>
+      <anchor>aa9b119760e3319f5f79e849e40819ee2</anchor>
+      <arglist>(QtDataSync::DataTypeStore&lt; DataSyncSettingsEntry &gt; *store, QObject *parent=nullptr)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>contains</name>
+      <anchorfile>class_qt_mvvm_1_1_data_sync_settings_accessor.html</anchorfile>
+      <anchor>a9dcbae1f1c2bbabc542ce7217ca5a0e0</anchor>
+      <arglist>(const QString &amp;key) const override</arglist>
+    </member>
+    <member kind="function">
+      <type>QVariant</type>
+      <name>load</name>
+      <anchorfile>class_qt_mvvm_1_1_data_sync_settings_accessor.html</anchorfile>
+      <anchor>a8eb38678ce8903e2b8eda844877071f6</anchor>
+      <arglist>(const QString &amp;key, const QVariant &amp;defaultValue) const override</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>save</name>
+      <anchorfile>class_qt_mvvm_1_1_data_sync_settings_accessor.html</anchorfile>
+      <anchor>a65159ee7ea691847f3631800e600f25b</anchor>
+      <arglist>(const QString &amp;key, const QVariant &amp;value) override</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>remove</name>
+      <anchorfile>class_qt_mvvm_1_1_data_sync_settings_accessor.html</anchorfile>
+      <anchor>a4c3d4d2a360aa4dd2db59361ebcbdf55</anchor>
+      <arglist>(const QString &amp;key) override</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>QtMvvm::DataSyncSettingsEntry</name>
+    <filename>struct_qt_mvvm_1_1_data_sync_settings_entry.html</filename>
+    <member kind="function">
+      <type></type>
+      <name>DataSyncSettingsEntry</name>
+      <anchorfile>struct_qt_mvvm_1_1_data_sync_settings_entry.html</anchorfile>
+      <anchor>a16478f6aa453ec54a69b6dbf8387c57f</anchor>
+      <arglist>(const DataSyncSettingsEntry &amp;other)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>DataSyncSettingsEntry</name>
+      <anchorfile>struct_qt_mvvm_1_1_data_sync_settings_entry.html</anchorfile>
+      <anchor>a27819955e9c6bd30ed5aae6b4b4c0dfb</anchor>
+      <arglist>(DataSyncSettingsEntry &amp;&amp;other) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>DataSyncSettingsEntry &amp;</type>
+      <name>operator=</name>
+      <anchorfile>struct_qt_mvvm_1_1_data_sync_settings_entry.html</anchorfile>
+      <anchor>ac4667d4aeec4bba12c5c4940de024a5e</anchor>
+      <arglist>(const DataSyncSettingsEntry &amp;other)</arglist>
+    </member>
+    <member kind="function">
+      <type>DataSyncSettingsEntry &amp;</type>
+      <name>operator=</name>
+      <anchorfile>struct_qt_mvvm_1_1_data_sync_settings_entry.html</anchorfile>
+      <anchor>af361d733db86036f852241c6e52b68bf</anchor>
+      <arglist>(DataSyncSettingsEntry &amp;&amp;other) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>DataSyncSettingsEntry</name>
+      <anchorfile>struct_qt_mvvm_1_1_data_sync_settings_entry.html</anchorfile>
+      <anchor>aa22b1a76d52a581d05bdf7c6a4bcfe45</anchor>
+      <arglist>(QString key, QVariant value)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>DataSyncSettingsEntry</name>
+      <anchorfile>struct_qt_mvvm_1_1_data_sync_settings_entry.html</anchorfile>
+      <anchor>a3117c80c0e51b659599080ed93fbb5c4</anchor>
+      <arglist>(QString key, const T &amp;value)</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>key</name>
+      <anchorfile>struct_qt_mvvm_1_1_data_sync_settings_entry.html</anchorfile>
+      <anchor>aa4d74f4c42fb24b2eb09091b94bfa3da</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>int</type>
+      <name>dataVersion</name>
+      <anchorfile>struct_qt_mvvm_1_1_data_sync_settings_entry.html</anchorfile>
+      <anchor>a7f8b85e8e28af3d3aff4d5e90e5ddc91</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>QVariant</type>
+      <name>value</name>
+      <anchorfile>struct_qt_mvvm_1_1_data_sync_settings_entry.html</anchorfile>
+      <anchor>a7a82e282dfa962fb1d67a7439ebdbb3c</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>T</type>
+      <name>value</name>
+      <anchorfile>struct_qt_mvvm_1_1_data_sync_settings_entry.html</anchorfile>
+      <anchor>a1c9f5d252b5836a7722861a3ca12f457</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setKey</name>
+      <anchorfile>struct_qt_mvvm_1_1_data_sync_settings_entry.html</anchorfile>
+      <anchor>a001e912f187a92234ee0fc9200bb2369</anchor>
+      <arglist>(QString key)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setDataVersion</name>
+      <anchorfile>struct_qt_mvvm_1_1_data_sync_settings_entry.html</anchorfile>
+      <anchor>a5e5cde9432dbcdf61c27bd798e6b57dd</anchor>
+      <arglist>(int dataVersion)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setValue</name>
+      <anchorfile>struct_qt_mvvm_1_1_data_sync_settings_entry.html</anchorfile>
+      <anchor>acfc33b1fbbf1cf3a952e3b1a0012ef00</anchor>
+      <arglist>(QVariant value)</arglist>
+    </member>
+    <member kind="property">
+      <type>QString</type>
+      <name>key</name>
+      <anchorfile>struct_qt_mvvm_1_1_data_sync_settings_entry.html</anchorfile>
+      <anchor>aad61db86454bd92167b9c0b3e5272ed0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>int</type>
+      <name>dataVersion</name>
+      <anchorfile>struct_qt_mvvm_1_1_data_sync_settings_entry.html</anchorfile>
+      <anchor>a5fd6523fd61e928435ef566a07ed3e41</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>QVariant</type>
+      <name>value</name>
+      <anchorfile>struct_qt_mvvm_1_1_data_sync_settings_entry.html</anchorfile>
+      <anchor>a3f36f030ed6cfc13720800ca8559c0ec</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>QByteArray</type>
+      <name>valueData</name>
+      <anchorfile>struct_qt_mvvm_1_1_data_sync_settings_entry.html</anchorfile>
+      <anchor>a7048d770b826164254d837e15fa707ab</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>QtMvvm::DataSyncSettingsViewModel</name>
+    <filename>class_qt_mvvm_1_1_data_sync_settings_view_model.html</filename>
+    <base>QtMvvm::SettingsViewModel</base>
+    <member kind="function">
+      <type>Q_INVOKABLE</type>
+      <name>DataSyncSettingsViewModel</name>
+      <anchorfile>class_qt_mvvm_1_1_data_sync_settings_view_model.html</anchorfile>
+      <anchor>a1eccdd6ca31a98abb7e93f73d74293aa</anchor>
+      <arglist>(QObject *parent=nullptr)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static QVariantHash</type>
+      <name>showParams</name>
+      <anchorfile>class_qt_mvvm_1_1_data_sync_settings_view_model.html</anchorfile>
+      <anchor>a9b47ef271e4e33fba63387222811d9db</anchor>
+      <arglist>(const QString &amp;setup, const QString &amp;setupFile={})</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static QVariantHash</type>
+      <name>showParams</name>
+      <anchorfile>class_qt_mvvm_1_1_data_sync_settings_view_model.html</anchorfile>
+      <anchor>a79a74eef0d3b477f5a8dc745fcec2e33</anchor>
+      <arglist>(QtDataSync::DataStore *dataStore, const QString &amp;setupFile={})</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static QVariantHash</type>
+      <name>showParams</name>
+      <anchorfile>class_qt_mvvm_1_1_data_sync_settings_view_model.html</anchorfile>
+      <anchor>aa9e94f4e7b092195779c7c1d3e1763f5</anchor>
+      <arglist>(QtDataSync::DataTypeStore&lt; DataSyncSettingsEntry &gt; *dataStore, const QString &amp;setupFile={})</arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static const QString</type>
+      <name>paramSetup</name>
+      <anchorfile>class_qt_mvvm_1_1_data_sync_settings_view_model.html</anchorfile>
+      <anchor>a09186c30b1064fa7d4e2df50dd88ab6e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static const QString</type>
+      <name>paramDataStore</name>
+      <anchorfile>class_qt_mvvm_1_1_data_sync_settings_view_model.html</anchorfile>
+      <anchor>a1e168e576a5418c6c2e01108835ff12a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static const QString</type>
+      <name>paramDataTypeStore</name>
+      <anchorfile>class_qt_mvvm_1_1_data_sync_settings_view_model.html</anchorfile>
+      <anchor>a6d64fed7bd305296747e4b0075a678de</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function" protection="protected">
+      <type>void</type>
+      <name>onInit</name>
+      <anchorfile>class_qt_mvvm_1_1_data_sync_settings_view_model.html</anchorfile>
+      <anchor>a35be63e99cd03b98c92699692ea4d829</anchor>
+      <arglist>(const QVariantHash &amp;params) override</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
     <name>de::skycoder42::QtMvvm::DataSync::Quick::DataSyncView</name>
     <filename>classde_1_1skycoder42_1_1_qt_mvvm_1_1_data_sync_1_1_quick_1_1_data_sync_view.html</filename>
     <base>QtQuick.Controls.Page</base>
@@ -497,7 +1008,7 @@
       <type>QMap&lt; QtDataSync::SyncManager::SyncState, QColor &gt;</type>
       <name>ColorMap</name>
       <anchorfile>class_qt_mvvm_1_1_data_sync_view_model.html</anchorfile>
-      <anchor>a39b60ac3c588870064ea2fdb2c59fab6</anchor>
+      <anchor>a27a2d028f720d4d0545c050be34f02c1</anchor>
       <arglist></arglist>
     </member>
     <member kind="slot">
@@ -808,6 +1319,97 @@
     </member>
   </compound>
   <compound kind="class">
+    <name>de::skycoder42::QtMvvm::Quick::DateEdit</name>
+    <filename>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_date_edit.html</filename>
+    <base>QtQuick.ListView</base>
+    <member kind="property">
+      <type>date</type>
+      <name>firstDate</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_date_edit.html</anchorfile>
+      <anchor>a7bc90999fb831c23e3520f161b1db221</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>date</type>
+      <name>lastDate</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_date_edit.html</anchorfile>
+      <anchor>a510ace0d805b5faa2190810afebf3761</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>date</type>
+      <name>date</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_date_edit.html</anchorfile>
+      <anchor>a4581375d23d542296cdac3e6ba88a0c4</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>de::skycoder42::QtMvvm::Quick::DecorLabel</name>
+    <filename>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_decor_label.html</filename>
+    <base>QtQuick.Controls.Label</base>
+    <member kind="property">
+      <type>Item</type>
+      <name>edit</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_decor_label.html</anchorfile>
+      <anchor>ac4d715cbc8e157fd8502b7ae29a11dc7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>bool</type>
+      <name>editHasFocus</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_decor_label.html</anchorfile>
+      <anchor>a16085fc97150f586ce1ec9b80a94e765</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>QtMvvm::SettingsListNode::Deferred</name>
+    <filename>class_qt_mvvm_1_1_settings_list_node_1_1_deferred.html</filename>
+    <member kind="function">
+      <type></type>
+      <name>Deferred</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1_deferred.html</anchorfile>
+      <anchor>a6117e362972472a9142ee94ed1c3fa94</anchor>
+      <arglist>(Deferred &amp;&amp;other) noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>Deferred &amp;</type>
+      <name>operator=</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1_deferred.html</anchorfile>
+      <anchor>afb2b1fb8e0f2007c99f6aa39db976e38</anchor>
+      <arglist>(Deferred &amp;&amp;other) noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>TType &amp;</type>
+      <name>element</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1_deferred.html</anchorfile>
+      <anchor>a0cc5de41314fddcbdeb4fd92c0f74281</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>TType &amp;</type>
+      <name>operator*</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1_deferred.html</anchorfile>
+      <anchor>a9e6a55dac7183ae6189280586f43d4bf</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>TType *</type>
+      <name>operator-&gt;</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1_deferred.html</anchorfile>
+      <anchor>af499dc42d5fd90acb2901e8db23f0c60</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>commit</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1_deferred.html</anchorfile>
+      <anchor>a2e3c13d3ecaff8ec25b490e297628715</anchor>
+      <arglist>()</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
     <name>de::skycoder42::QtMvvm::Quick::DialogPresenter</name>
     <filename>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_dialog_presenter.html</filename>
     <base>QtQml.QtObject</base>
@@ -846,11 +1448,32 @@
       <anchor>a0ea0eff8fa12883f77d35cef2dea3fa9</anchor>
       <arglist>(MessageConfig config, MessageResult result)</arglist>
     </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>createColor</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_dialog_presenter.html</anchorfile>
+      <anchor>a72e37478af0846b9c957f9382fd8c0c0</anchor>
+      <arglist>(MessageConfig config, MessageResult result)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>createProgress</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_dialog_presenter.html</anchorfile>
+      <anchor>a6dd68304c424ab8f2dd1351d713782b1</anchor>
+      <arglist>(MessageConfig config, MessageResult result)</arglist>
+    </member>
     <member kind="property">
       <type>Item</type>
       <name>rootItem</name>
       <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_dialog_presenter.html</anchorfile>
       <anchor>a83288cac33e84cb52cd1c940cea437b1</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>bool</type>
+      <name>empty</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_dialog_presenter.html</anchorfile>
+      <anchor>a1f30b0dfcc4c368b30b9c4f4d2d7e5eb</anchor>
       <arglist></arglist>
     </member>
     <member kind="property">
@@ -886,6 +1509,13 @@
       <name>_folderComponent</name>
       <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_dialog_presenter.html</anchorfile>
       <anchor>a89086cddf56a8575d870b9ac48411288</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>Component</type>
+      <name>_progressComponent</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_dialog_presenter.html</anchorfile>
+      <anchor>adafbb7ec18f4de581c4a115ff9a40834</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -1380,6 +2010,17 @@
       <arglist></arglist>
     </member>
   </compound>
+  <compound kind="class">
+    <name>QtMvvm::Formatter</name>
+    <filename>class_qt_mvvm_1_1_formatter.html</filename>
+    <member kind="function" virtualness="pure">
+      <type>virtual QString</type>
+      <name>format</name>
+      <anchorfile>class_qt_mvvm_1_1_formatter.html</anchorfile>
+      <anchor>a05b3d40f352bb939321b75fd908ebc5e</anchor>
+      <arglist>(const QString &amp;formatString, const QVariant &amp;value, const QVariantMap &amp;viewProperties) const =0</arglist>
+    </member>
+  </compound>
   <compound kind="struct">
     <name>QtMvvm::SettingsElements::Group</name>
     <filename>namespace_qt_mvvm_1_1_settings_elements.html</filename>
@@ -1446,6 +2087,13 @@
       <arglist>(const QByteArray &amp;type, const QVariantMap &amp;viewProperties)</arglist>
     </member>
     <member kind="function">
+      <type>QTMVVM_REVISION_1 Q_INVOKABLE QString</type>
+      <name>format</name>
+      <anchorfile>class_qt_mvvm_1_1_input_view_factory.html</anchorfile>
+      <anchor>a72023fe9a6c9b5863c59c41d7cc080e6</anchor>
+      <arglist>(const QByteArray &amp;type, const QString &amp;formatString, const QVariant &amp;value, const QVariantMap &amp;viewProperties)</arglist>
+    </member>
+    <member kind="function">
       <type>void</type>
       <name>addSimpleInput</name>
       <anchorfile>class_qt_mvvm_1_1_input_view_factory.html</anchorfile>
@@ -1475,6 +2123,20 @@
     </member>
     <member kind="function">
       <type>void</type>
+      <name>addFormatter</name>
+      <anchorfile>class_qt_mvvm_1_1_input_view_factory.html</anchorfile>
+      <anchor>a118e83c4628b8aba11f797abf0a2b0d6</anchor>
+      <arglist>(Formatter *formatter)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>addFormatter</name>
+      <anchorfile>class_qt_mvvm_1_1_input_view_factory.html</anchorfile>
+      <anchor>a0635c495cd9b72523d14c1838b846e0a</anchor>
+      <arglist>(const QByteArray &amp;type, Formatter *formatter)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
       <name>addInputAlias</name>
       <anchorfile>class_qt_mvvm_1_1_input_view_factory.html</anchorfile>
       <anchor>a6bb8b514f4ef53bd9df718956953056f</anchor>
@@ -1499,6 +2161,20 @@
       <name>addDelegateAlias</name>
       <anchorfile>class_qt_mvvm_1_1_input_view_factory.html</anchorfile>
       <anchor>a7334b8d5008ce851196d7413339166be</anchor>
+      <arglist>(const QByteArray &amp;alias, const QByteArray &amp;targetType)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>addFormatterAlias</name>
+      <anchorfile>class_qt_mvvm_1_1_input_view_factory.html</anchorfile>
+      <anchor>a2c071f8b25e77f1355488040a41cf156</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>QTMVVM_REVISION_1 Q_INVOKABLE void</type>
+      <name>addFormatterAlias</name>
+      <anchorfile>class_qt_mvvm_1_1_input_view_factory.html</anchorfile>
+      <anchor>ad30d88e3005eb29f677aaca6096a220c</anchor>
       <arglist>(const QByteArray &amp;alias, const QByteArray &amp;targetType)</arglist>
     </member>
   </compound>
@@ -1579,6 +2255,92 @@
     </member>
   </compound>
   <compound kind="class">
+    <name>QtMvvm::ISettingsAccessor</name>
+    <filename>class_qt_mvvm_1_1_i_settings_accessor.html</filename>
+    <base>QObject</base>
+    <member kind="slot" virtualness="pure">
+      <type>virtual void</type>
+      <name>sync</name>
+      <anchorfile>class_qt_mvvm_1_1_i_settings_accessor.html</anchorfile>
+      <anchor>a3e322b7e806d84867b3a21028dcc0c57</anchor>
+      <arglist>()=0</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>entryChanged</name>
+      <anchorfile>class_qt_mvvm_1_1_i_settings_accessor.html</anchorfile>
+      <anchor>aa4b7f202e3a17227e6ebb1585948a7ed</anchor>
+      <arglist>(const QString &amp;key, const QVariant &amp;value)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>entryRemoved</name>
+      <anchorfile>class_qt_mvvm_1_1_i_settings_accessor.html</anchorfile>
+      <anchor>a2d3d6c82facfcf1782d2924e18854594</anchor>
+      <arglist>(const QString &amp;key)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>ISettingsAccessor</name>
+      <anchorfile>class_qt_mvvm_1_1_i_settings_accessor.html</anchorfile>
+      <anchor>a76e65d77ed0c0787ea4592862fa8c96c</anchor>
+      <arglist>(QObject *parent=nullptr)</arglist>
+    </member>
+    <member kind="function" virtualness="pure">
+      <type>virtual bool</type>
+      <name>contains</name>
+      <anchorfile>class_qt_mvvm_1_1_i_settings_accessor.html</anchorfile>
+      <anchor>ac57843f029b52ebe02bfa7a0a6c27fc3</anchor>
+      <arglist>(const QString &amp;key) const =0</arglist>
+    </member>
+    <member kind="function" virtualness="pure">
+      <type>virtual QVariant</type>
+      <name>load</name>
+      <anchorfile>class_qt_mvvm_1_1_i_settings_accessor.html</anchorfile>
+      <anchor>ac3cda834c6c9ed5377443aa28c32f45d</anchor>
+      <arglist>(const QString &amp;key, const QVariant &amp;defaultValue={}) const =0</arglist>
+    </member>
+    <member kind="function" virtualness="pure">
+      <type>virtual void</type>
+      <name>save</name>
+      <anchorfile>class_qt_mvvm_1_1_i_settings_accessor.html</anchorfile>
+      <anchor>ace9a0863e190c091a001fc1ff85e0930</anchor>
+      <arglist>(const QString &amp;key, const QVariant &amp;value)=0</arglist>
+    </member>
+    <member kind="function" virtualness="pure">
+      <type>virtual void</type>
+      <name>remove</name>
+      <anchorfile>class_qt_mvvm_1_1_i_settings_accessor.html</anchorfile>
+      <anchor>a9c2fe8dd7eaa0326fdb542d1219c7531</anchor>
+      <arglist>(const QString &amp;key)=0</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static void</type>
+      <name>setDefaultAccessor</name>
+      <anchorfile>class_qt_mvvm_1_1_i_settings_accessor.html</anchorfile>
+      <anchor>ac6bafd34e05d7def5fbe11b8f86d0256</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static void</type>
+      <name>setDefaultAccessor</name>
+      <anchorfile>class_qt_mvvm_1_1_i_settings_accessor.html</anchorfile>
+      <anchor>a473d87e32c882bb02d58a1512980c93a</anchor>
+      <arglist>(int typeId)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static ISettingsAccessor *</type>
+      <name>createDefaultAccessor</name>
+      <anchorfile>class_qt_mvvm_1_1_i_settings_accessor.html</anchorfile>
+      <anchor>a85f5312dcfb58bd332b02fe9c51051e1</anchor>
+      <arglist>(QObject *parent=nullptr)</arglist>
+    </member>
+    <docanchor file="class_qt_mvvm_1_1_i_settings_accessor" title="Semantics of keys">ISettingsAccessor_keys</docanchor>
+    <docanchor file="class_qt_mvvm_1_1_i_settings_accessor" title="Storing data">ISettingsAccessor_storing</docanchor>
+    <docanchor file="class_qt_mvvm_1_1_i_settings_accessor" title="Change signals">ISettingsAccessor_signals</docanchor>
+    <docanchor file="class_qt_mvvm_1_1_i_settings_accessor" title="Available implementations">ISettingsAccessor_impl</docanchor>
+  </compound>
+  <compound kind="class">
     <name>QtMvvm::ISettingsSetupLoader</name>
     <filename>class_qt_mvvm_1_1_i_settings_setup_loader.html</filename>
     <member kind="function" virtualness="pure">
@@ -1594,6 +2356,186 @@
       <anchorfile>class_qt_mvvm_1_1_i_settings_setup_loader.html</anchorfile>
       <anchor>a75b197a1c259e4a7a23498f594a9ec0c</anchor>
       <arglist>(const QString &amp;filePath, const QString &amp;frontend, const QFileSelector *selector) const =0</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>QtMvvm::SettingsListNode::iterator_base</name>
+    <filename>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</filename>
+    <templarg>T</templarg>
+    <member kind="function">
+      <type></type>
+      <name>iterator_base</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>a3a20b13a24c5969646a19046bab67450</anchor>
+      <arglist>()=default</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>iterator_base</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>ade6be6702563fae225c56fbb79eba40a</anchor>
+      <arglist>(const iterator_base&lt; T &gt; &amp;other)=default</arglist>
+    </member>
+    <member kind="function">
+      <type>iterator_base &amp;</type>
+      <name>operator=</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>a77505ea249d87ac103d7c0030c6e7e59</anchor>
+      <arglist>(const iterator_base&lt; T &gt; &amp;other)=default</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>iterator_base</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>a5bffabd252a42a777215a269a4a60893</anchor>
+      <arglist>(iterator_base&lt; T &gt; &amp;&amp;other) noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>iterator_base &amp;</type>
+      <name>operator=</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>a747c6c004eef8ea20f3d3e76b08ece4b</anchor>
+      <arglist>(iterator_base&lt; T &gt; &amp;&amp;other) noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>iterator_base&lt; T &gt; &amp;</type>
+      <name>operator++</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>a334f8b89ecc93d29241f1f67efdf54e2</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>iterator_base&lt; T &gt;</type>
+      <name>operator++</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>a84f02e223d6b5bac1c1c4509f6427490</anchor>
+      <arglist>(int)</arglist>
+    </member>
+    <member kind="function">
+      <type>iterator_base&lt; T &gt; &amp;</type>
+      <name>operator--</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>aee60e0f19d7ce1d4333e027f2866938f</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>iterator_base&lt; T &gt;</type>
+      <name>operator--</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>ad1b7286718420ed60727731576c1cf64</anchor>
+      <arglist>(int)</arglist>
+    </member>
+    <member kind="function">
+      <type>reference</type>
+      <name>operator*</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>afd5a0fdf5e4e7ddab7656b2a6cbccf74</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>pointer</type>
+      <name>operator-&gt;</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>a1a0cae5724afc6f093c6d8d3282c0f15</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>iterator_base&lt; T &gt; &amp;</type>
+      <name>operator+=</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>a21a97014a323f24884da838d9b8f8a2b</anchor>
+      <arglist>(difference_type delta)</arglist>
+    </member>
+    <member kind="function">
+      <type>iterator_base&lt; T &gt; &amp;</type>
+      <name>operator-=</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>a889a83d0a993dadf6967564707ce4bf2</anchor>
+      <arglist>(difference_type delta)</arglist>
+    </member>
+    <member kind="function">
+      <type>reference</type>
+      <name>operator[]</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>ace9086b650769f5817824cc3ac622e8f</anchor>
+      <arglist>(difference_type delta) const</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend void</type>
+      <name>swap</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>a358012f0dfd1f26fc250cf739255e246</anchor>
+      <arglist>(iterator_base&lt; T &gt; &amp;lhs, iterator_base&lt; T &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend bool</type>
+      <name>operator==</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>a2ee4a1d95606f922395865e6100ce3eb</anchor>
+      <arglist>(const iterator_base&lt; T &gt; &amp;lhs, const iterator_base&lt; T &gt; &amp;rhs)</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend bool</type>
+      <name>operator!=</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>ac04888f611bba5cc162b9c6535eb2151</anchor>
+      <arglist>(const iterator_base&lt; T &gt; &amp;lhs, const iterator_base&lt; T &gt; &amp;rhs)</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend bool</type>
+      <name>operator&lt;</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>a49735d202853317cff83d45b90411b06</anchor>
+      <arglist>(const iterator_base&lt; T &gt; &amp;lhs, const iterator_base&lt; T &gt; &amp;rhs)</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend bool</type>
+      <name>operator&gt;</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>af84ebccefca42a42ea653c5752ef95c6</anchor>
+      <arglist>(const iterator_base&lt; T &gt; &amp;lhs, const iterator_base&lt; T &gt; &amp;rhs)</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend bool</type>
+      <name>operator&lt;=</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>a98ebe8c28c42e6dd4c9d8332254ca23c</anchor>
+      <arglist>(const iterator_base&lt; T &gt; &amp;lhs, const iterator_base&lt; T &gt; &amp;rhs)</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend bool</type>
+      <name>operator&gt;=</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>a1aed30cd7ed4df5a8a414623bf7883f9</anchor>
+      <arglist>(const iterator_base&lt; T &gt; &amp;lhs, const iterator_base&lt; T &gt; &amp;rhs)</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend iterator_base&lt; T &gt;</type>
+      <name>operator+</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>a774bd706544e1b7c4006713ba3e05c36</anchor>
+      <arglist>(const iterator_base&lt; T &gt; &amp;iter, difference_type delta)</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend iterator_base&lt; T &gt;</type>
+      <name>operator+</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>a889c2266b10a525bc828ada7c7e3b9f8</anchor>
+      <arglist>(difference_type delta, const iterator_base&lt; T &gt; &amp;iter)</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend iterator_base&lt; T &gt;</type>
+      <name>operator-</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>a979203873ebff0699e1b85ada2b49fd7</anchor>
+      <arglist>(const iterator_base&lt; T &gt; &amp;iter, difference_type delta)</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend difference_type</type>
+      <name>operator-</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node_1_1iterator__base.html</anchorfile>
+      <anchor>ab54a0675ab2bcae11f3d27de2f4f51ae</anchor>
+      <arglist>(const iterator_base&lt; T &gt; &amp;lhs, const iterator_base&lt; T &gt; &amp;rhs)</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -1688,6 +2630,34 @@
       <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_message.html</anchorfile>
       <anchor>ab1db0397b0561307dc7feaec85ba969a</anchor>
       <arglist>(const QJSValue &amp;onResult, const QString &amp;title={}, const QStringList &amp;supportedMimeTypes={}, const QUrl &amp;dir={})</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static QTMVVM_REVISION_1 void</type>
+      <name>getColor</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_message.html</anchorfile>
+      <anchor>a77cf4d64c0b68deb6fc8cab0229a42f0</anchor>
+      <arglist>(const QJSValue &amp;onResult={}, const QString &amp;title={}, const QColor &amp;color={}, bool argb=false)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static QTMVVM_REVISION_1 QtMvvm::ProgressControl *</type>
+      <name>showProgress</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_message.html</anchorfile>
+      <anchor>a1d3f0c3b4adbfd6647e6af5c3b268fe5</anchor>
+      <arglist>(const QString &amp;title={}, const QString &amp;label={}, int maximum=100, int minimum=0, bool allowCancel=true, int value=0, const QString &amp;cancelText={})</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static QTMVVM_REVISION_1 QtMvvm::ProgressControl *</type>
+      <name>showIndeterminateProgress</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_message.html</anchorfile>
+      <anchor>a73892779e054f07f8186db19958c6ff4</anchor>
+      <arglist>(const QString &amp;title={}, const QString &amp;label={}, bool allowCancel=true, const QString &amp;cancelText={})</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static QTMVVM_REVISION_1 QtMvvm::ProgressControl *</type>
+      <name>showBusy</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_message.html</anchorfile>
+      <anchor>a2f3a33999c3035d747f91b6420a63f4f</anchor>
+      <arglist>(const QString &amp;title={}, const QString &amp;label={}, bool allowCancel=true, const QString &amp;cancelText={})</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -1943,11 +2913,25 @@
       <arglist>(const MessageConfig &amp;other)</arglist>
     </member>
     <member kind="function">
+      <type></type>
+      <name>MessageConfig</name>
+      <anchorfile>class_qt_mvvm_1_1_message_config.html</anchorfile>
+      <anchor>a0780c64586baab377deb89b600c7c719</anchor>
+      <arglist>(MessageConfig &amp;&amp;other) noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>MessageConfig &amp;</type>
       <name>operator=</name>
       <anchorfile>class_qt_mvvm_1_1_message_config.html</anchorfile>
       <anchor>a4d29a9138d098a216b7d70bb88217cc7</anchor>
       <arglist>(const MessageConfig &amp;other)</arglist>
+    </member>
+    <member kind="function">
+      <type>MessageConfig &amp;</type>
+      <name>operator=</name>
+      <anchorfile>class_qt_mvvm_1_1_message_config.html</anchorfile>
+      <anchor>a43e1a607a379ee2991b4b44350992516</anchor>
+      <arglist>(MessageConfig &amp;&amp;other) noexcept</arglist>
     </member>
     <member kind="function">
       <type>QByteArray</type>
@@ -2042,6 +3026,13 @@
     </member>
     <member kind="function">
       <type>MessageConfig &amp;</type>
+      <name>addButton</name>
+      <anchorfile>class_qt_mvvm_1_1_message_config.html</anchorfile>
+      <anchor>a63154649250b4e199c4e862ee139f8cb</anchor>
+      <arglist>(StandardButton button)</arglist>
+    </member>
+    <member kind="function">
+      <type>MessageConfig &amp;</type>
       <name>setButtonTexts</name>
       <anchorfile>class_qt_mvvm_1_1_message_config.html</anchorfile>
       <anchor>a372a5460a4a9e026c76636f45c6cd85d</anchor>
@@ -2112,6 +3103,20 @@
     </member>
     <member kind="variable" static="yes">
       <type>static const QByteArray</type>
+      <name>TypeColorDialog</name>
+      <anchorfile>class_qt_mvvm_1_1_message_config.html</anchorfile>
+      <anchor>a52011f5904343e09758633a77ea8d2f2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static const QByteArray</type>
+      <name>TypeProgressDialog</name>
+      <anchorfile>class_qt_mvvm_1_1_message_config.html</anchorfile>
+      <anchor>a10a4630967ff5b75caf06f6e1157b7e6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static const QByteArray</type>
       <name>SubTypeInformation</name>
       <anchorfile>class_qt_mvvm_1_1_message_config.html</anchorfile>
       <anchor>adee8c12449fe06a32ea15685110fcaa9</anchor>
@@ -2171,6 +3176,34 @@
       <name>SubTypeSaveFile</name>
       <anchorfile>class_qt_mvvm_1_1_message_config.html</anchorfile>
       <anchor>ac1f47659b3654bceabe0214f509574fd</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static const QByteArray</type>
+      <name>SubTypeRgb</name>
+      <anchorfile>class_qt_mvvm_1_1_message_config.html</anchorfile>
+      <anchor>abad192e36a439f33c8f72d7474fd5f8d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static const QByteArray</type>
+      <name>SubTypeArgb</name>
+      <anchorfile>class_qt_mvvm_1_1_message_config.html</anchorfile>
+      <anchor>a7f078faf35123d1016921a60b1f26482</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static const QByteArray</type>
+      <name>SubTypeProgress</name>
+      <anchorfile>class_qt_mvvm_1_1_message_config.html</anchorfile>
+      <anchor>a96876fe24d0294b0db581565fb353e3b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static const QByteArray</type>
+      <name>SubTypeBusy</name>
+      <anchorfile>class_qt_mvvm_1_1_message_config.html</anchorfile>
+      <anchor>a9bde09334a8962a858e9029767be848f</anchor>
       <arglist></arglist>
     </member>
     <member kind="property">
@@ -2252,6 +3285,20 @@
     </member>
     <member kind="variable" static="yes">
       <type>static const QByteArray</type>
+      <name>TypeColorDialog</name>
+      <anchorfile>class_qt_mvvm_1_1_message_config.html</anchorfile>
+      <anchor>a52011f5904343e09758633a77ea8d2f2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static const QByteArray</type>
+      <name>TypeProgressDialog</name>
+      <anchorfile>class_qt_mvvm_1_1_message_config.html</anchorfile>
+      <anchor>a10a4630967ff5b75caf06f6e1157b7e6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static const QByteArray</type>
       <name>SubTypeInformation</name>
       <anchorfile>class_qt_mvvm_1_1_message_config.html</anchorfile>
       <anchor>adee8c12449fe06a32ea15685110fcaa9</anchor>
@@ -2311,6 +3358,34 @@
       <name>SubTypeSaveFile</name>
       <anchorfile>class_qt_mvvm_1_1_message_config.html</anchorfile>
       <anchor>ac1f47659b3654bceabe0214f509574fd</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static const QByteArray</type>
+      <name>SubTypeRgb</name>
+      <anchorfile>class_qt_mvvm_1_1_message_config.html</anchorfile>
+      <anchor>abad192e36a439f33c8f72d7474fd5f8d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static const QByteArray</type>
+      <name>SubTypeArgb</name>
+      <anchorfile>class_qt_mvvm_1_1_message_config.html</anchorfile>
+      <anchor>a7f078faf35123d1016921a60b1f26482</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static const QByteArray</type>
+      <name>SubTypeProgress</name>
+      <anchorfile>class_qt_mvvm_1_1_message_config.html</anchorfile>
+      <anchor>a96876fe24d0294b0db581565fb353e3b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static const QByteArray</type>
+      <name>SubTypeBusy</name>
+      <anchorfile>class_qt_mvvm_1_1_message_config.html</anchorfile>
+      <anchor>a9bde09334a8962a858e9029767be848f</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -2443,6 +3518,39 @@
       <anchorfile>class_qt_mvvm_1_1_message_result.html</anchorfile>
       <anchor>a0edfab9b96da40e11700a1bf7f0613d3</anchor>
       <arglist>(QtMvvm::MessageConfig::StandardButton button, const QVariant &amp;result)</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>de::skycoder42::QtMvvm::Quick::MsgDelegate</name>
+    <filename>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_msg_delegate.html</filename>
+    <base>QtQuick.Controls.ItemDelegate</base>
+    <member kind="signal">
+      <type>void</type>
+      <name>showInput</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_msg_delegate.html</anchorfile>
+      <anchor>a45219cdd29ee5dc1a614877d2c3b34b0</anchor>
+      <arglist>(string key, string title, string type, var defaultValue, var properties)</arglist>
+    </member>
+    <member kind="property">
+      <type>Component</type>
+      <name>indicatorComponent</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_msg_delegate.html</anchorfile>
+      <anchor>ab4100117e5de00ef86f98ea9cf6545ad</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>url</type>
+      <name>indicatorSource</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_msg_delegate.html</anchorfile>
+      <anchor>a38c406c9708691509f38c77ebafa27d0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>string</type>
+      <name>editDialogType</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_msg_delegate.html</anchorfile>
+      <anchor>a37b4cecef9e5367e2f421aafa0fae07d</anchor>
+      <arglist></arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -2726,9 +3834,9 @@
     </member>
     <member kind="function">
       <type>bool</type>
-      <name>active</name>
+      <name>isActive</name>
       <anchorfile>class_qt_mvvm_1_1_network_exchange_view_model.html</anchorfile>
-      <anchor>abfff133bacccb3d0fa83b3264bdf7e70</anchor>
+      <anchor>a772708c48e8609f439e15ad760a34c2f</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
@@ -2865,6 +3973,13 @@
       <name>rootItem</name>
       <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_popup_presenter.html</anchorfile>
       <anchor>ad8227e0fbde561a088ca8639af5e4746</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>bool</type>
+      <name>empty</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_popup_presenter.html</anchorfile>
+      <anchor>a309e2a4a73b2144f7c5501cccb576254</anchor>
       <arglist></arglist>
     </member>
     <member kind="property">
@@ -3008,6 +4123,310 @@
     </member>
   </compound>
   <compound kind="class">
+    <name>QtMvvm::ProgressControl</name>
+    <filename>class_qt_mvvm_1_1_progress_control.html</filename>
+    <base>QObject</base>
+    <member kind="slot">
+      <type>void</type>
+      <name>close</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>aafdb91e79cc2e53c6f37cd567e0ae25f</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>updateLabel</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>ab3fe0978f56c25d7f4b131ade51dada3</anchor>
+      <arglist>(const QString &amp;text)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>setAutoDelete</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>ab7bc84303f55fa54fb8e0b5be17505d4</anchor>
+      <arglist>(bool autoDelete)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>setIndeterminate</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>a341e6a9b1f29d9970f5dd3a4dcaf1632</anchor>
+      <arglist>(bool indeterminate)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>setMinimum</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>a751ae33547a2f08c123d6446a926170c</anchor>
+      <arglist>(int minimum)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>setMaximum</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>ad34c9ed1408054e1d11faf40be52db68</anchor>
+      <arglist>(int maximum)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>setProgress</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>a8a7748855e8c6d3d1dd4ac6c282a4926</anchor>
+      <arglist>(int progress)</arglist>
+    </member>
+    <member kind="slot">
+      <type>void</type>
+      <name>setProgress</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>ace255923574798f8839ed9d680358fe4</anchor>
+      <arglist>(double progressPercent)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>autoDeleteChanged</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>a95cbd45e03236e2bee9a5fcb81613529</anchor>
+      <arglist>(bool autoDelete, QPrivateSignal)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>indeterminateChanged</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>aa15a408c0f6ef85a26dcc909a8cbf5a1</anchor>
+      <arglist>(bool indeterminate, QPrivateSignal)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>minimumChanged</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>a956d436c960712d85294e790058cb16b</anchor>
+      <arglist>(int minimum, QPrivateSignal)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>maximumChanged</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>ab83daf8f51d9ae9ef93a30a40f81fd71</anchor>
+      <arglist>(int maximum, QPrivateSignal)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>progressChanged</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>a6aa2b3e4f9d25800620c071d6ce78061</anchor>
+      <arglist>(int progress, QPrivateSignal)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>canceled</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>a88ffe5229ea21cbdc002a8455c5de3ba</anchor>
+      <arglist>(QtMvvm::MessageConfig::StandardButton btn, QPrivateSignal)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>closed</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>ad387245ade12917da57a654f6db20f65</anchor>
+      <arglist>(QPrivateSignal)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>changeLabel</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>ac767574b8448375ff23d951b656abfc4</anchor>
+      <arglist>(const QString &amp;text, QPrivateSignal)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>closeRequested</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>a29511fd2157047de58c4dc809c5a8da4</anchor>
+      <arglist>(QPrivateSignal)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>ProgressControl</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>a9481274e4ef9e72362cc9a5500766936</anchor>
+      <arglist>(QObject *parent=nullptr)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>autoDelete</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>aa10f066e3c40a732e01bdb680ce2e76b</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>isIndeterminate</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>ae7d20d523ca2c3859754eb174e1a696c</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>int</type>
+      <name>minimum</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>a03fda90b097140012577b0a92230079c</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>int</type>
+      <name>maximum</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>a7f777999a701571bfdccdcb49a493543</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>int</type>
+      <name>progress</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>a26ef52bafaa2f966248d26d28124d35e</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_INVOKABLE void</type>
+      <name>requestCancel</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>ab1ac9d42f8b103ebef5edbfdac7fe1c6</anchor>
+      <arglist>(QtMvvm::MessageConfig::StandardButton btn)</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_INVOKABLE void</type>
+      <name>notifyClosed</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>a9a14b961309f22250109623ec71bffd8</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="property">
+      <type>bool</type>
+      <name>autoDelete</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>adbaf1567ff6ad1e69bfc9d27aa1e0712</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>bool</type>
+      <name>indeterminate</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>adf029aeb9c8ef34cccfd2b71d0abeb0c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>int</type>
+      <name>minimum</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>ab8a45a01e520440cbcb5d396ed4cee55</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>int</type>
+      <name>maximum</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>a234370beca6ff3f7cb97e2302ec32c60</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>int</type>
+      <name>progress</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>a0f1f52d85173b027504398d57d856ae2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type>Q_INVOKABLE void</type>
+      <name>requestCancel</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>ab1ac9d42f8b103ebef5edbfdac7fe1c6</anchor>
+      <arglist>(QtMvvm::MessageConfig::StandardButton btn)</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_INVOKABLE void</type>
+      <name>notifyClosed</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>a9a14b961309f22250109623ec71bffd8</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>changeLabel</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>ac767574b8448375ff23d951b656abfc4</anchor>
+      <arglist>(const QString &amp;text, QPrivateSignal)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>closeRequested</name>
+      <anchorfile>class_qt_mvvm_1_1_progress_control.html</anchorfile>
+      <anchor>a29511fd2157047de58c4dc809c5a8da4</anchor>
+      <arglist>(QPrivateSignal)</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>QtMvvm::QSettingsAccessor</name>
+    <filename>class_qt_mvvm_1_1_q_settings_accessor.html</filename>
+    <base>QtMvvm::ISettingsAccessor</base>
+    <member kind="slot">
+      <type>void</type>
+      <name>sync</name>
+      <anchorfile>class_qt_mvvm_1_1_q_settings_accessor.html</anchorfile>
+      <anchor>a2f56da7b8a1ce5e8a1d921e583d5ece7</anchor>
+      <arglist>() override</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_INVOKABLE</type>
+      <name>QSettingsAccessor</name>
+      <anchorfile>class_qt_mvvm_1_1_q_settings_accessor.html</anchorfile>
+      <anchor>a843ef47150d9da217786afcb7766d834</anchor>
+      <arglist>(QObject *parent=nullptr)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>QSettingsAccessor</name>
+      <anchorfile>class_qt_mvvm_1_1_q_settings_accessor.html</anchorfile>
+      <anchor>a0b551ba9888200805e27f7674e975784</anchor>
+      <arglist>(QSettings *settings, QObject *parent=nullptr)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>contains</name>
+      <anchorfile>class_qt_mvvm_1_1_q_settings_accessor.html</anchorfile>
+      <anchor>af56acad8a73e1f41051bc41008af2c79</anchor>
+      <arglist>(const QString &amp;key) const override</arglist>
+    </member>
+    <member kind="function">
+      <type>QVariant</type>
+      <name>load</name>
+      <anchorfile>class_qt_mvvm_1_1_q_settings_accessor.html</anchorfile>
+      <anchor>a0ce4f634a13d52f9499ad5e3ee957a36</anchor>
+      <arglist>(const QString &amp;key, const QVariant &amp;defaultValue) const override</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>save</name>
+      <anchorfile>class_qt_mvvm_1_1_q_settings_accessor.html</anchorfile>
+      <anchor>aa6d19849dd2371dc6b38254637d2767e</anchor>
+      <arglist>(const QString &amp;key, const QVariant &amp;value) override</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>remove</name>
+      <anchorfile>class_qt_mvvm_1_1_q_settings_accessor.html</anchorfile>
+      <anchor>a383b9b82a8d6fc64f94359d6069e2776</anchor>
+      <arglist>(const QString &amp;key) override</arglist>
+    </member>
+    <member kind="function">
+      <type>QSettings *</type>
+      <name>settings</name>
+      <anchorfile>class_qt_mvvm_1_1_q_settings_accessor.html</anchorfile>
+      <anchor>a73a7346cb12b0165ad50156c9827598b</anchor>
+      <arglist>() const</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
     <name>de::skycoder42::QtMvvm::Quick::QtMvvmApp</name>
     <filename>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_qt_mvvm_app.html</filename>
     <base>QtQuick.Controls.ApplicationWindow</base>
@@ -3106,6 +4525,13 @@
       <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_quick_presenter.html</anchorfile>
       <anchor>a000729688f0284f5ef8c0f69fa25ab85</anchor>
       <arglist>(const QStringList &amp;mimeTypes) const</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>QTMVVM_REVISION_1 static Q_INVOKABLE QColor</type>
+      <name>accentTextColor</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_quick_presenter.html</anchorfile>
+      <anchor>ac087af8374d8d3820ba6e83f1cab5c82</anchor>
+      <arglist>(const QColor &amp;accentColor, const QColor &amp;baseColor) const</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static void</type>
@@ -3246,6 +4672,13 @@
       <anchor>a12c4ac8489b840d6c86a7d63932d1ce0</anchor>
       <arglist>(const QMetaObject *viewModelType, const QUrl &amp;viewUrl)</arglist>
     </member>
+    <member kind="function" static="yes">
+      <type>static InputViewFactory *</type>
+      <name>getInputViewFactory</name>
+      <anchorfile>class_qt_mvvm_1_1_quick_presenter.html</anchorfile>
+      <anchor>a90649d3906d04e51f7f332377b9e62da</anchor>
+      <arglist>()</arglist>
+    </member>
     <member kind="function" protection="protected" virtualness="virtual">
       <type>virtual QUrl</type>
       <name>findViewUrl</name>
@@ -3284,6 +4717,149 @@
       <name>toolTip</name>
       <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_round_action_button.html</anchorfile>
       <anchor>af3b1358674fc93a6b8a68b107f68cb98</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>de::skycoder42::QtMvvm::Quick::RoundMenuButton</name>
+    <filename>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_round_menu_button.html</filename>
+    <base>QtQuick.Item</base>
+    <member kind="property">
+      <type>string</type>
+      <name>text</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_round_menu_button.html</anchorfile>
+      <anchor>a46f55fc89623c3330c76e2231ceac28b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>Icon</type>
+      <name>icon</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_round_menu_button.html</anchorfile>
+      <anchor>abd22a6f539de29b3e0d49f49d4831e6d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>bool</type>
+      <name>checked</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_round_menu_button.html</anchorfile>
+      <anchor>a8cc699b499d21f5680ba9eaea02cfb96</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>real</type>
+      <name>buttonSpacing</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_round_menu_button.html</anchorfile>
+      <anchor>a952dc13ac18cd78e576f5a270659ac5b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>real</type>
+      <name>expansionAngle</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_round_menu_button.html</anchorfile>
+      <anchor>ae5cf447531e5b7d61f28869d89fac2df</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>size</type>
+      <name>subButtonSize</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_round_menu_button.html</anchorfile>
+      <anchor>aa0ae0b32aaedcf6671545a40989e6ebc</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>bool</type>
+      <name>stickyToolTips</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_round_menu_button.html</anchorfile>
+      <anchor>a6e19adb4058639461f4c2dc602654bd3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>bool</type>
+      <name>invertToolTipDirection</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_round_menu_button.html</anchorfile>
+      <anchor>a6e5b65a28d1b0010045d05a102625694</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>RoundActionButton</type>
+      <name>rootButton</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_round_menu_button.html</anchorfile>
+      <anchor>a9556a39a771a6bfc765904bf2812970f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>list&lt; Action &gt;</type>
+      <name>actions</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_round_menu_button.html</anchorfile>
+      <anchor>ab4d40e5c30fc96b0af19de4c98b2ab34</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>de::skycoder42::QtMvvm::Quick::SearchBar</name>
+    <filename>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_search_bar.html</filename>
+    <base>QtQuick.Item</base>
+    <member kind="function">
+      <type>void</type>
+      <name>showTitle</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_search_bar.html</anchorfile>
+      <anchor>a424f759c378bb91e7e0babc9080e1bde</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>showSearchBar</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_search_bar.html</anchorfile>
+      <anchor>a4c5fdc0ef65a5999132fcb12a0df95ee</anchor>
+      <arglist>(string text)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>toggleSearchState</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_search_bar.html</anchorfile>
+      <anchor>a73666a31cc87d178b4b2aea09b837c90</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="property">
+      <type>string</type>
+      <name>title</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_search_bar.html</anchorfile>
+      <anchor>a63a5c34c872205f7adc35218dbbd51e0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>bool</type>
+      <name>allowSearch</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_search_bar.html</anchorfile>
+      <anchor>afde5244266257c07bc4b200b359ab360</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>string</type>
+      <name>searchToolTip</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_search_bar.html</anchorfile>
+      <anchor>a24bd23f06651eb873ef201f2315c0f25</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>bool</type>
+      <name>inSearchMode</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_search_bar.html</anchorfile>
+      <anchor>a15ff25437d8bffba4d92797630990be9</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>string</type>
+      <name>searchText</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_search_bar.html</anchorfile>
+      <anchor>aee021ebb88a7b793ca1bf9d3aeec5528</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>ActionButton</type>
+      <name>searchButton</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_search_bar.html</anchorfile>
+      <anchor>a877ce305c285a69845155c6515a8c375</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -3406,8 +4982,165 @@
     </member>
   </compound>
   <compound kind="class">
+    <name>de::skycoder42::QtMvvm::Core::ServiceRegistry</name>
+    <filename>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_service_registry.html</filename>
+    <base>QtQml.QtObject</base>
+    <member kind="enumeration">
+      <type></type>
+      <name>DestructionScope</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_service_registry.html</anchorfile>
+      <anchor>aaa4e84f7e3dc68b99ecba72d9ecf5aaa</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>DestroyOnAppQuit</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_service_registry.html</anchorfile>
+      <anchor>aaa4e84f7e3dc68b99ecba72d9ecf5aaaa8c09aab62b425a0bd15c91f939de832a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>DestroyOnAppDestroy</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_service_registry.html</anchorfile>
+      <anchor>aaa4e84f7e3dc68b99ecba72d9ecf5aaaa05e9854b5a048134cfeb59f9af0ca99e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>DestroyOnRegistryDestroy</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_service_registry.html</anchorfile>
+      <anchor>aaa4e84f7e3dc68b99ecba72d9ecf5aaaa6ed864a7910906ac42791b09dd76921e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>DestroyNever</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_service_registry.html</anchorfile>
+      <anchor>aaa4e84f7e3dc68b99ecba72d9ecf5aaaa3475008c7daa7f1e73da2f49288db205</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>DestroyOnAppQuit</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_service_registry.html</anchorfile>
+      <anchor>aaa4e84f7e3dc68b99ecba72d9ecf5aaaa8c09aab62b425a0bd15c91f939de832a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>DestroyOnAppDestroy</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_service_registry.html</anchorfile>
+      <anchor>aaa4e84f7e3dc68b99ecba72d9ecf5aaaa05e9854b5a048134cfeb59f9af0ca99e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>DestroyOnRegistryDestroy</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_service_registry.html</anchorfile>
+      <anchor>aaa4e84f7e3dc68b99ecba72d9ecf5aaaa6ed864a7910906ac42791b09dd76921e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>DestroyNever</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_service_registry.html</anchorfile>
+      <anchor>aaa4e84f7e3dc68b99ecba72d9ecf5aaaa3475008c7daa7f1e73da2f49288db205</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type>Q_INVOKABLE bool</type>
+      <name>isRegistered</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_service_registry.html</anchorfile>
+      <anchor>a3b2d596b13d8b13f8230a576c34c5fdd</anchor>
+      <arglist>(const QString &amp;iid) const</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_INVOKABLE void</type>
+      <name>registerObject</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_service_registry.html</anchorfile>
+      <anchor>ad537012dccb353fefb09e58c33971504</anchor>
+      <arglist>(QObject *service, QtMvvm::QQmlServiceRegistry::DestructionScope scope=DestroyOnAppQuit, bool weak=false)</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_INVOKABLE void</type>
+      <name>registerObject</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_service_registry.html</anchorfile>
+      <anchor>ab4ba687dc76be7a5d886f9bdd162385b</anchor>
+      <arglist>(const QString &amp;iid, const QJSValue &amp;function, bool weak=false)</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_INVOKABLE void</type>
+      <name>registerObject</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_service_registry.html</anchorfile>
+      <anchor>a4c957a708e27a94efead0d756b988619</anchor>
+      <arglist>(const QUrl &amp;componentUrl, bool weak=false)</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_INVOKABLE void</type>
+      <name>registerPlugin</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_service_registry.html</anchorfile>
+      <anchor>a6a58f9f633063246aa30a7611a532422</anchor>
+      <arglist>(const QString &amp;iid, QString pluginType={}, QString pluginKey={}, DestructionScope scope=DestroyOnAppDestroy, bool weak=false)</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_INVOKABLE QObject *</type>
+      <name>service</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_core_1_1_service_registry.html</anchorfile>
+      <anchor>af7eeca8258948859c432b4bab59a0831</anchor>
+      <arglist>(const QString &amp;iid)</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
     <name>QtMvvm::ServiceRegistry</name>
     <filename>class_qt_mvvm_1_1_service_registry.html</filename>
+    <member kind="enumeration">
+      <type></type>
+      <name>DestructionScope</name>
+      <anchorfile>class_qt_mvvm_1_1_service_registry.html</anchorfile>
+      <anchor>aff6b990faf118b6305c6d6cd4cacb276</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>DestroyOnAppQuit</name>
+      <anchorfile>class_qt_mvvm_1_1_service_registry.html</anchorfile>
+      <anchor>aff6b990faf118b6305c6d6cd4cacb276a7aac3331077c91c6ae5fe677b91b35c6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>DestroyOnAppDestroy</name>
+      <anchorfile>class_qt_mvvm_1_1_service_registry.html</anchorfile>
+      <anchor>aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>DestroyOnRegistryDestroy</name>
+      <anchorfile>class_qt_mvvm_1_1_service_registry.html</anchorfile>
+      <anchor>aff6b990faf118b6305c6d6cd4cacb276a2cf5729a4b8c072676f052b361c6397b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>DestroyNever</name>
+      <anchorfile>class_qt_mvvm_1_1_service_registry.html</anchorfile>
+      <anchor>aff6b990faf118b6305c6d6cd4cacb276aab3fbc747b7a7ba03fa19fe2d50704f7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>DestroyOnAppQuit</name>
+      <anchorfile>class_qt_mvvm_1_1_service_registry.html</anchorfile>
+      <anchor>aff6b990faf118b6305c6d6cd4cacb276a7aac3331077c91c6ae5fe677b91b35c6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>DestroyOnAppDestroy</name>
+      <anchorfile>class_qt_mvvm_1_1_service_registry.html</anchorfile>
+      <anchor>aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>DestroyOnRegistryDestroy</name>
+      <anchorfile>class_qt_mvvm_1_1_service_registry.html</anchorfile>
+      <anchor>aff6b990faf118b6305c6d6cd4cacb276a2cf5729a4b8c072676f052b361c6397b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="enumvalue">
+      <name>DestroyNever</name>
+      <anchorfile>class_qt_mvvm_1_1_service_registry.html</anchorfile>
+      <anchor>aff6b990faf118b6305c6d6cd4cacb276aab3fbc747b7a7ba03fa19fe2d50704f7</anchor>
+      <arglist></arglist>
+    </member>
     <member kind="function">
       <type>bool</type>
       <name>isRegistered</name>
@@ -3426,57 +5159,71 @@
       <type>void</type>
       <name>registerInterface</name>
       <anchorfile>class_qt_mvvm_1_1_service_registry.html</anchorfile>
-      <anchor>abacfa0d81764df255df41e4ccf175ad8</anchor>
-      <arglist>(bool weak=false)</arglist>
+      <anchor>ab683dc8ccbb0e0198f0d5664b1f1f9ca</anchor>
+      <arglist>(DestructionScope scope=DestroyOnAppDestroy, bool weak=false)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>registerInterface</name>
       <anchorfile>class_qt_mvvm_1_1_service_registry.html</anchorfile>
-      <anchor>aa06f0c25e8238e7740a4f4ec09569a87</anchor>
-      <arglist>(const TFunc &amp;fn, bool weak=false)</arglist>
+      <anchor>afb4dc088a24802160d9f9f01f69eaa2d</anchor>
+      <arglist>(TFunc fn, DestructionScope scope=DestroyOnAppDestroy, bool weak=false)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>registerInterface</name>
       <anchorfile>class_qt_mvvm_1_1_service_registry.html</anchorfile>
-      <anchor>afad92a0b52150125c010913e3365d1ab</anchor>
-      <arglist>(TService *service, bool weak=false)</arglist>
+      <anchor>a7e0928c964a40cb88495c764d0b8627c</anchor>
+      <arglist>(TService *service, DestructionScope scope=DestroyOnAppDestroy, bool weak=false)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>registerObject</name>
       <anchorfile>class_qt_mvvm_1_1_service_registry.html</anchorfile>
-      <anchor>a9c2f2166f4ecbd4b2f3ae0d0e4165ab5</anchor>
-      <arglist>(bool weak=false)</arglist>
+      <anchor>ada266f18e940d48ac4030093955c55f9</anchor>
+      <arglist>(DestructionScope scope=DestroyOnAppDestroy, bool weak=false)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>registerObject</name>
       <anchorfile>class_qt_mvvm_1_1_service_registry.html</anchorfile>
-      <anchor>afaa2b66fdb3ead00d6b52ef0df4c4f61</anchor>
-      <arglist>(const TFunc &amp;fn, bool weak=false)</arglist>
+      <anchor>abf7c09845abe552aa47206413ad983f8</anchor>
+      <arglist>(TFunc fn, DestructionScope scope=DestroyOnAppDestroy, bool weak=false)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>registerObject</name>
       <anchorfile>class_qt_mvvm_1_1_service_registry.html</anchorfile>
-      <anchor>a25ae0f6bd651835d90455d5540ea533b</anchor>
-      <arglist>(TService *service, bool weak=false)</arglist>
+      <anchor>a3cc1bdd66d9ac15b26e22bf1a8a39fd8</anchor>
+      <arglist>(TService *service, DestructionScope scope=DestroyOnAppDestroy, bool weak=false)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>registerPlugin</name>
+      <anchorfile>class_qt_mvvm_1_1_service_registry.html</anchorfile>
+      <anchor>a24ea425f41f3919488e23c342193626f</anchor>
+      <arglist>(QString pluginType={}, QString pluginKey={}, DestructionScope scope=DestroyOnAppDestroy, bool weak=false)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>registerService</name>
       <anchorfile>class_qt_mvvm_1_1_service_registry.html</anchorfile>
-      <anchor>a6d904ac2abf387eb877dae3aad801848</anchor>
-      <arglist>(const QByteArray &amp;iid, const QMetaObject *metaObject, bool weak=false)</arglist>
+      <anchor>a9fa590672277212bc246251b4a0f7f86</anchor>
+      <arglist>(const QByteArray &amp;iid, const QMetaObject *metaObject, DestructionScope scope=DestroyOnAppDestroy, bool weak=false)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>registerService</name>
       <anchorfile>class_qt_mvvm_1_1_service_registry.html</anchorfile>
-      <anchor>a342a6e90115c9a3657877c31ead01c56</anchor>
-      <arglist>(const QByteArray &amp;iid, const std::function&lt; QObject *(const QObjectList &amp;)&gt; &amp;fn, QByteArrayList injectables, bool weak=false)</arglist>
+      <anchor>a9f060ea798dc0b476107cbeb7d2fde9b</anchor>
+      <arglist>(const QByteArray &amp;iid, const std::function&lt; QObject *(const QObjectList &amp;)&gt; &amp;fn, QByteArrayList injectables, DestructionScope scope=DestroyOnAppDestroy, bool weak=false)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>registerService</name>
+      <anchorfile>class_qt_mvvm_1_1_service_registry.html</anchorfile>
+      <anchor>a4c75160366482ccae7085aac6821fead</anchor>
+      <arglist>(QByteArray iid, QString pluginType={}, QString pluginKey={}, DestructionScope scope=DestroyOnAppDestroy, bool weak=false)</arglist>
     </member>
     <member kind="function">
       <type>TInterface *</type>
@@ -3548,6 +5295,228 @@
     </member>
   </compound>
   <compound kind="class">
+    <name>QtMvvm::SettingsEntry</name>
+    <filename>class_qt_mvvm_1_1_settings_entry.html</filename>
+    <templarg>T</templarg>
+    <member kind="function">
+      <type>bool</type>
+      <name>isSet</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_entry.html</anchorfile>
+      <anchor>a472f6f0e30294ed960a7504384aa51b6</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>key</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_entry.html</anchorfile>
+      <anchor>aadcf907bad726d60a474008d58344da4</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>T</type>
+      <name>get</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_entry.html</anchorfile>
+      <anchor>a99230b611983fb72ca3b65c9ac34e2fd</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>set</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_entry.html</anchorfile>
+      <anchor>a23efc7c45f1f02f4e7b280f9a4ec68d7</anchor>
+      <arglist>(const T &amp;value)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>reset</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_entry.html</anchorfile>
+      <anchor>a7d79faf59f10763f0a8fa3ea854f985b</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>SettingsEntry&lt; T &gt; &amp;</type>
+      <name>operator=</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_entry.html</anchorfile>
+      <anchor>ac84435eb0308f12f4159001c6b437fa1</anchor>
+      <arglist>(const T &amp;value)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator T</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_entry.html</anchorfile>
+      <anchor>a45c26e6ab0e1f7227e3d8146cd6bb47b</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>addChangeCallback</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_entry.html</anchorfile>
+      <anchor>a334688185de9b56cf2702def7aa01c17</anchor>
+      <arglist>(const std::function&lt; void(T)&gt; &amp;callback)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>addChangeCallback</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_entry.html</anchorfile>
+      <anchor>a3f3996b9823c25acebb0ac70a673a1f1</anchor>
+      <arglist>(QObject *scope, const std::function&lt; void(T)&gt; &amp;callback)</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>QtMvvm::SettingsListNode</name>
+    <filename>class_qt_mvvm_1_1_settings_list_node.html</filename>
+    <templarg>TType</templarg>
+    <class kind="class">QtMvvm::SettingsListNode::Deferred</class>
+    <class kind="class">QtMvvm::SettingsListNode::iterator_base</class>
+    <member kind="typedef">
+      <type>iterator_base&lt; TType &gt;</type>
+      <name>iterator</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node.html</anchorfile>
+      <anchor>ae87030e168460c029474d649ece64279</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>iterator_base&lt; const TType &gt;</type>
+      <name>const_iterator</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node.html</anchorfile>
+      <anchor>a89ed6f70455a2bf57f28b344c0231f1f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>isSet</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node.html</anchorfile>
+      <anchor>addbfb2d41deb8037f532aea5ac2761ea</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>QString</type>
+      <name>key</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node.html</anchorfile>
+      <anchor>a6c380df94538a7d2dba903f964757387</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>int</type>
+      <name>size</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node.html</anchorfile>
+      <anchor>a75aeae5279c7f4488496d0d5dd5800c7</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const TType &amp;</type>
+      <name>at</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node.html</anchorfile>
+      <anchor>afe5c1758181ecfe1be4c2bf70ad0e6f4</anchor>
+      <arglist>(int index) const</arglist>
+    </member>
+    <member kind="function">
+      <type>TType &amp;</type>
+      <name>at</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node.html</anchorfile>
+      <anchor>ad4b86a29e30eb6286cc01882878dda08</anchor>
+      <arglist>(int index)</arglist>
+    </member>
+    <member kind="function">
+      <type>TType &amp;</type>
+      <name>push</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node.html</anchorfile>
+      <anchor>a42219dd77b9aef6dd736b717022c6d4d</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>Deferred</type>
+      <name>push_deferred</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node.html</anchorfile>
+      <anchor>a98af538ae9bbed11f4abdf00e568316b</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>pop</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node.html</anchorfile>
+      <anchor>a4a208bf725a9cc81a23d6d6fce17c8a4</anchor>
+      <arglist>(int count=1)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>reset</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node.html</anchorfile>
+      <anchor>ac76bcf26138c18ca86f8c9d5416dd667</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>TType &amp;</type>
+      <name>operator[]</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node.html</anchorfile>
+      <anchor>a15cbf1aaf5d98229753e630e8ac46199</anchor>
+      <arglist>(int index)</arglist>
+    </member>
+    <member kind="function">
+      <type>const TType &amp;</type>
+      <name>operator[]</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node.html</anchorfile>
+      <anchor>a6ba0a43422ed7d3dfd34510a1c90f099</anchor>
+      <arglist>(int index) const</arglist>
+    </member>
+    <member kind="function">
+      <type>iterator</type>
+      <name>begin</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node.html</anchorfile>
+      <anchor>a3a5192b741c1fdb88b4ad0c046442bda</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>iterator</type>
+      <name>end</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node.html</anchorfile>
+      <anchor>ad300009183c362b4dd2b83de85ce1361</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>const_iterator</type>
+      <name>begin</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node.html</anchorfile>
+      <anchor>ab3cb7eba74ab2be7fa4384210492b32d</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const_iterator</type>
+      <name>end</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node.html</anchorfile>
+      <anchor>afa1dc1bac89a25ada68438b3cd240ef6</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const_iterator</type>
+      <name>constBegin</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node.html</anchorfile>
+      <anchor>a3747329a614abe8b097935122ca6c8a2</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const_iterator</type>
+      <name>constEnd</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node.html</anchorfile>
+      <anchor>ae5ce381b1ce940ac2a11f849e3350e8b</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>addChangeCallback</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node.html</anchorfile>
+      <anchor>ab3d3b29bc3b617e65e3acf879eb24c98</anchor>
+      <arglist>(const std::function&lt; void(int)&gt; &amp;callback)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>addChangeCallback</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_list_node.html</anchorfile>
+      <anchor>acb27dd1c7efb1010593812a496698e0b</anchor>
+      <arglist>(QObject *scope, const std::function&lt; void(int)&gt; &amp;callback)</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
     <name>QtMvvm::SettingsLoaderException</name>
     <filename>class_qt_mvvm_1_1_settings_loader_exception.html</filename>
     <base>QException</base>
@@ -3561,13 +5530,6 @@
       <name>closeAction</name>
       <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_settings_view.html</anchorfile>
       <anchor>a9408c07c8e8e661126c8ee6db2fea635</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>toggleSearchState</name>
-      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_settings_view.html</anchorfile>
-      <anchor>a6bfbc4f8b30bcd069779150adddc32ae</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="property">
@@ -3597,11 +5559,25 @@
       <arglist>(const QString &amp;key, const QVariantMap &amp;parameters)</arglist>
     </member>
     <member kind="slot">
+      <type>QTMVVM_REVISION_1 void</type>
+      <name>setAccessor</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_view_model.html</anchorfile>
+      <anchor>a60149430e68d125f61841756e3cde33e</anchor>
+      <arglist>(QtMvvm::ISettingsAccessor *accessor)</arglist>
+    </member>
+    <member kind="slot">
       <type>void</type>
       <name>setSettingsSetupLoader</name>
       <anchorfile>class_qt_mvvm_1_1_settings_view_model.html</anchorfile>
       <anchor>a3e92e19da41a238b723424fbc4bfffea</anchor>
       <arglist>(QtMvvm::ISettingsSetupLoader *settingsSetupLoader)</arglist>
+    </member>
+    <member kind="signal">
+      <type>QTMVVM_REVISION_1 void</type>
+      <name>accessorChanged</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_view_model.html</anchorfile>
+      <anchor>ad7f1915bf91612d519cc9fb997ddba3a</anchor>
+      <arglist>(QtMvvm::ISettingsAccessor *accessor)</arglist>
     </member>
     <member kind="signal">
       <type>void</type>
@@ -3617,12 +5593,33 @@
       <anchor>a0d0326f7501dfcbcedc0611e3cec33a0</anchor>
       <arglist>()</arglist>
     </member>
+    <member kind="signal">
+      <type>QTMVVM_REVISION_1 void</type>
+      <name>valueChanged</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_view_model.html</anchorfile>
+      <anchor>a649b6e589a731d8d1ebc978818a73a4f</anchor>
+      <arglist>(const QString &amp;key)</arglist>
+    </member>
+    <member kind="signal">
+      <type>QTMVVM_REVISION_1 void</type>
+      <name>resetAccepted</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_view_model.html</anchorfile>
+      <anchor>a74cfe5450367a6bf7047043ce6ee0e7b</anchor>
+      <arglist>(QPrivateSignal)</arglist>
+    </member>
     <member kind="function">
       <type>Q_INVOKABLE</type>
       <name>SettingsViewModel</name>
       <anchorfile>class_qt_mvvm_1_1_settings_view_model.html</anchorfile>
       <anchor>a96bb7313dc12d129f588db7a80563884</anchor>
       <arglist>(QObject *parent=nullptr)</arglist>
+    </member>
+    <member kind="function">
+      <type>QtMvvm::ISettingsAccessor *</type>
+      <name>accessor</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_view_model.html</anchorfile>
+      <anchor>a50fb87e02d420f9979df99b8d106745c</anchor>
+      <arglist>() const</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual bool</type>
@@ -3680,12 +5677,33 @@
       <anchor>ae6c8e4b7aac233113db630c1403567d8</anchor>
       <arglist>(const QString &amp;key)</arglist>
     </member>
+    <member kind="function">
+      <type>QTMVVM_REVISION_1 Q_INVOKABLE void</type>
+      <name>resetAll</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_view_model.html</anchorfile>
+      <anchor>a0aed2ae7dba7996edf4cbb30b9fbd917</anchor>
+      <arglist>(const SettingsElements::Setup &amp;setup)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static QVariantHash</type>
+      <name>showParams</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_view_model.html</anchorfile>
+      <anchor>a746b88bdb63f89311ad7b8ca63f1f5ff</anchor>
+      <arglist>(ISettingsAccessor *accessor, const QString &amp;setupFile={})</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static QVariantHash</type>
       <name>showParams</name>
       <anchorfile>class_qt_mvvm_1_1_settings_view_model.html</anchorfile>
       <anchor>a4c4aed6073b1821ba440a0cad64e27e4</anchor>
       <arglist>(QSettings *settings, const QString &amp;setupFile={})</arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static const QString</type>
+      <name>paramAccessor</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_view_model.html</anchorfile>
+      <anchor>a4290295bdabe6916252cd4002bb0a692</anchor>
+      <arglist></arglist>
     </member>
     <member kind="variable" static="yes">
       <type>static const QString</type>
@@ -3707,6 +5725,13 @@
       <anchorfile>class_qt_mvvm_1_1_settings_view_model.html</anchorfile>
       <anchor>a320e7141b1ca4a5fd42becd577d4683b</anchor>
       <arglist>(const QVariantHash &amp;params) override</arglist>
+    </member>
+    <member kind="property">
+      <type>QtMvvm::ISettingsAccessor</type>
+      <name>accessor</name>
+      <anchorfile>class_qt_mvvm_1_1_settings_view_model.html</anchorfile>
+      <anchor>ab49fec01ec5201ceb56713525117b359</anchor>
+      <arglist></arglist>
     </member>
     <member kind="property">
       <type>bool</type>
@@ -3757,6 +5782,92 @@
     </member>
   </compound>
   <compound kind="class">
+    <name>QtMvvm::SimpleFormatter</name>
+    <filename>class_qt_mvvm_1_1_simple_formatter.html</filename>
+    <templarg></templarg>
+    <base>QtMvvm::Formatter</base>
+    <member kind="function">
+      <type>QString</type>
+      <name>format</name>
+      <anchorfile>class_qt_mvvm_1_1_simple_formatter.html</anchorfile>
+      <anchor>a983f335597dd9e78a4c3cf9da85ab895</anchor>
+      <arglist>(const QString &amp;formatString, const QVariant &amp;value, const QVariantMap &amp;viewProperties) const override</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>de::skycoder42::QtMvvm::Quick::TimeEdit</name>
+    <filename>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_time_edit.html</filename>
+    <base>QtQuick.Layouts.RowLayout</base>
+    <member kind="property">
+      <type>date</type>
+      <name>time</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_time_edit.html</anchorfile>
+      <anchor>ab9decf3388fd84a83db74b5bfdfb1161</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>bool</type>
+      <name>showHours</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_time_edit.html</anchorfile>
+      <anchor>a45e4a74d384e52b60d3f8f271307dab9</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>bool</type>
+      <name>showMinutes</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_time_edit.html</anchorfile>
+      <anchor>a914a6c0bbb2b77f68a36edbb7ad108e3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>bool</type>
+      <name>showSeconds</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_time_edit.html</anchorfile>
+      <anchor>af2f7534b5ac79964a75a5c43a69ac1de</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>bool</type>
+      <name>use24HourFormat</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_time_edit.html</anchorfile>
+      <anchor>adab21eb4aebc31b823421664aacbe28a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>int</type>
+      <name>hours</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_time_edit.html</anchorfile>
+      <anchor>aae183bf75af5721305e989ae0f4f9b04</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>int</type>
+      <name>minutes</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_time_edit.html</anchorfile>
+      <anchor>a335a6ed6c144e234c057691ab24f83cf</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>int</type>
+      <name>seconds</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_time_edit.html</anchorfile>
+      <anchor>a742a2cf6dcee2f203166694823965b20</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>de::skycoder42::QtMvvm::Quick::TintIcon</name>
+    <filename>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_tint_icon.html</filename>
+    <base>QtQuick.Item</base>
+    <member kind="property">
+      <type>Icon</type>
+      <name>icon</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_tint_icon.html</anchorfile>
+      <anchor>a56e668b0b8e31709a6b084b26a41b55b</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
     <name>de::skycoder42::QtMvvm::Quick::ToolBarLabel</name>
     <filename>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_tool_bar_label.html</filename>
     <base>QtQuick.Controls.Label</base>
@@ -3785,6 +5896,13 @@
       <anchorfile>class_qt_mvvm_1_1_view_model.html</anchorfile>
       <anchor>ac411a428c622bf6cf9b0b594de23d81f</anchor>
       <arglist>(const QVariant &amp;result)</arglist>
+    </member>
+    <member kind="signal">
+      <type>QTMVVM_REVISION_1 void</type>
+      <name>instanceInvoked</name>
+      <anchorfile>class_qt_mvvm_1_1_view_model.html</anchorfile>
+      <anchor>aac43c9f8e10500afb8d72d6c39590d3b</anchor>
+      <arglist>(const QVariantHash &amp;params, QPrivateSignal)</arglist>
     </member>
     <member kind="function">
       <type></type>
@@ -3834,6 +5952,90 @@
       <anchorfile>class_qt_mvvm_1_1_view_model.html</anchorfile>
       <anchor>a08d21a1940935bc703bcfb50dc6656e4</anchor>
       <arglist>(quint32 requestCode, const QMetaObject *viewMetaObject, const QVariantHash &amp;params={}) const</arglist>
+    </member>
+    <docanchor file="class_qt_mvvm_1_1_view_model" title="&quot;Singleton Viewmodels&quot;">qtmvvm_viewmodel_singleton</docanchor>
+    <docanchor file="class_qt_mvvm_1_1_view_model" title="&quot;Container Viewmodels&quot;">qtmvvm_viewmodel_container</docanchor>
+  </compound>
+  <compound kind="class">
+    <name>de::skycoder42::QtMvvm::Quick::ViewPlaceholder</name>
+    <filename>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_view_placeholder.html</filename>
+    <base>QtQuick.Item</base>
+    <member kind="slot">
+      <type>void</type>
+      <name>discardView</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_view_placeholder.html</anchorfile>
+      <anchor>a769b7a30f07009d5f1a805c1f5a92f2d</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>autoResizeViewChanged</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_view_placeholder.html</anchorfile>
+      <anchor>ab3219275fbdd3edf396ee20c28f86a8d</anchor>
+      <arglist>(bool autoResizeView)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>replaceViewsChanged</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_view_placeholder.html</anchorfile>
+      <anchor>a5cc77bd6849ca5485fe46aa50acd58ba</anchor>
+      <arglist>(bool replaceViews)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>closeViewOnActionChanged</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_view_placeholder.html</anchorfile>
+      <anchor>a6a2b139b37cba226826a76c8c2bfee8e</anchor>
+      <arglist>(bool closeViewOnAction)</arglist>
+    </member>
+    <member kind="signal">
+      <type>void</type>
+      <name>loadedViewChanged</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_view_placeholder.html</anchorfile>
+      <anchor>a1e7135de09bad069864257bc0c8ce84e</anchor>
+      <arglist>(QQuickItem *loadedView)</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_INVOKABLE bool</type>
+      <name>presentItem</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_view_placeholder.html</anchorfile>
+      <anchor>ac7804d015294164e52a629190bb6fe4f</anchor>
+      <arglist>(QQuickItem *item)</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_INVOKABLE bool</type>
+      <name>closeAction</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_view_placeholder.html</anchorfile>
+      <anchor>ac03e038b4c4a2638ac9bef70a37417e0</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="property">
+      <type>bool</type>
+      <name>autoResizeView</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_view_placeholder.html</anchorfile>
+      <anchor>a85eae55897353f80954c804848bf454e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>bool</type>
+      <name>replaceViews</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_view_placeholder.html</anchorfile>
+      <anchor>a6324054ae8d1515e211fbd06a1193608</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>bool</type>
+      <name>closeViewOnAction</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_view_placeholder.html</anchorfile>
+      <anchor>a41082b0708730b1e09f2ae4b48c1f4a3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="property">
+      <type>QQuickItem</type>
+      <name>loadedView</name>
+      <anchorfile>classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_view_placeholder.html</anchorfile>
+      <anchor>a3f7abc7c57889b9ffda923ae9d95d50f</anchor>
+      <arglist></arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -3918,6 +6120,13 @@
       <anchor>abca0029daffb05a12f28f2594a0c023f</anchor>
       <arglist>(const QMetaObject *viewModelType, const QMetaObject *viewType)</arglist>
     </member>
+    <member kind="function" static="yes">
+      <type>static InputWidgetFactory *</type>
+      <name>getInputWidgetFactory</name>
+      <anchorfile>class_qt_mvvm_1_1_widgets_presenter.html</anchorfile>
+      <anchor>afd96ada3af82e56c014ed647172dd700</anchor>
+      <arglist>()</arglist>
+    </member>
     <member kind="function" protection="protected" virtualness="virtual">
       <type>virtual const QMetaObject *</type>
       <name>findWidgetMetaObject</name>
@@ -3960,6 +6169,20 @@
       <anchor>af85b64638d159a4d48be42ae332dc821</anchor>
       <arglist>(const MessageConfig &amp;config, QPointer&lt; MessageResult &gt; result)</arglist>
     </member>
+    <member kind="function" protection="protected">
+      <type>void</type>
+      <name>presentColorDialog</name>
+      <anchorfile>class_qt_mvvm_1_1_widgets_presenter.html</anchorfile>
+      <anchor>ae03aaaba667e8145ab4430f024036ced</anchor>
+      <arglist>(const MessageConfig &amp;config, const QPointer&lt; MessageResult &gt; &amp;result)</arglist>
+    </member>
+    <member kind="function" protection="protected">
+      <type>void</type>
+      <name>presentProgressDialog</name>
+      <anchorfile>class_qt_mvvm_1_1_widgets_presenter.html</anchorfile>
+      <anchor>aad18aedf30eca09222289540e7452b33</anchor>
+      <arglist>(const MessageConfig &amp;config, const QPointer&lt; MessageResult &gt; &amp;result)</arglist>
+    </member>
     <member kind="function" protection="protected" virtualness="virtual">
       <type>virtual void</type>
       <name>presentOtherDialog</name>
@@ -3978,8 +6201,10 @@
   <compound kind="namespace">
     <name>de::skycoder42::QtMvvm::Core</name>
     <filename>namespacede_1_1skycoder42_1_1_qt_mvvm_1_1_core.html</filename>
+    <class kind="class">de::skycoder42::QtMvvm::Core::CoreApp</class>
     <class kind="class">de::skycoder42::QtMvvm::Core::Message</class>
     <class kind="class">de::skycoder42::QtMvvm::Core::MvvmBinding</class>
+    <class kind="class">de::skycoder42::QtMvvm::Core::ServiceRegistry</class>
   </compound>
   <compound kind="namespace">
     <name>de::skycoder42::QtMvvm::DataSync::Core</name>
@@ -3996,12 +6221,17 @@
     <filename>namespacede_1_1skycoder42_1_1_qt_mvvm_1_1_quick.html</filename>
     <class kind="class">de::skycoder42::QtMvvm::Quick::ActionButton</class>
     <class kind="class">de::skycoder42::QtMvvm::Quick::AlertDialog</class>
+    <class kind="class">de::skycoder42::QtMvvm::Quick::ColorEdit</class>
+    <class kind="class">de::skycoder42::QtMvvm::Quick::ColorHelper</class>
     <class kind="class">de::skycoder42::QtMvvm::Quick::ContrastToolBar</class>
+    <class kind="class">de::skycoder42::QtMvvm::Quick::DateEdit</class>
+    <class kind="class">de::skycoder42::QtMvvm::Quick::DecorLabel</class>
     <class kind="class">de::skycoder42::QtMvvm::Quick::DialogPresenter</class>
     <class kind="class">de::skycoder42::QtMvvm::Quick::FileChooser</class>
     <class kind="class">de::skycoder42::QtMvvm::Quick::FileDialog</class>
     <class kind="class">de::skycoder42::QtMvvm::Quick::FolderDialog</class>
     <class kind="class">de::skycoder42::QtMvvm::Quick::MenuButton</class>
+    <class kind="class">de::skycoder42::QtMvvm::Quick::MsgDelegate</class>
     <class kind="class">de::skycoder42::QtMvvm::Quick::PopupPresenter</class>
     <class kind="class">de::skycoder42::QtMvvm::Quick::PresenterProgress</class>
     <class kind="class">de::skycoder42::QtMvvm::Quick::PresentingDrawer</class>
@@ -4009,37 +6239,53 @@
     <class kind="class">de::skycoder42::QtMvvm::Quick::QtMvvmApp</class>
     <class kind="class">de::skycoder42::QtMvvm::Quick::QuickPresenter</class>
     <class kind="class">de::skycoder42::QtMvvm::Quick::RoundActionButton</class>
+    <class kind="class">de::skycoder42::QtMvvm::Quick::RoundMenuButton</class>
+    <class kind="class">de::skycoder42::QtMvvm::Quick::SearchBar</class>
     <class kind="class">de::skycoder42::QtMvvm::Quick::SettingsView</class>
+    <class kind="class">de::skycoder42::QtMvvm::Quick::TimeEdit</class>
+    <class kind="class">de::skycoder42::QtMvvm::Quick::TintIcon</class>
     <class kind="class">de::skycoder42::QtMvvm::Quick::ToolBarLabel</class>
+    <class kind="class">de::skycoder42::QtMvvm::Quick::ViewPlaceholder</class>
   </compound>
   <compound kind="namespace">
     <name>QtMvvm</name>
     <filename>namespace_qt_mvvm.html</filename>
     <namespace>QtMvvm::SettingsElements</namespace>
     <class kind="class">QtMvvm::AccountModel</class>
+    <class kind="class">QtMvvm::AndroidSettingsAccessor</class>
     <class kind="class">QtMvvm::Binding</class>
     <class kind="class">QtMvvm::CoreApp</class>
+    <class kind="class">QtMvvm::DataSyncSettingsAccessor</class>
+    <class kind="class">QtMvvm::DataSyncSettingsEntry</class>
+    <class kind="class">QtMvvm::DataSyncSettingsViewModel</class>
     <class kind="class">QtMvvm::DataSyncViewModel</class>
     <class kind="class">QtMvvm::DataSyncWindow</class>
     <class kind="class">QtMvvm::ExchangeDevicesModel</class>
+    <class kind="class">QtMvvm::Formatter</class>
     <class kind="class">QtMvvm::InputViewFactory</class>
     <class kind="class">QtMvvm::InputWidgetFactory</class>
     <class kind="class">QtMvvm::IPresenter</class>
     <class kind="class">QtMvvm::IPresentingView</class>
+    <class kind="class">QtMvvm::ISettingsAccessor</class>
     <class kind="class">QtMvvm::ISettingsSetupLoader</class>
     <class kind="class">QtMvvm::MessageConfig</class>
     <class kind="class">QtMvvm::MessageResult</class>
     <class kind="class">QtMvvm::NetworkExchangeViewModel</class>
     <class kind="class">QtMvvm::NetworkExchangeWindow</class>
     <class kind="class">QtMvvm::PresenterException</class>
+    <class kind="class">QtMvvm::ProgressControl</class>
+    <class kind="class">QtMvvm::QSettingsAccessor</class>
     <class kind="class">QtMvvm::QuickPresenter</class>
     <class kind="class">QtMvvm::ServiceConstructionException</class>
     <class kind="class">QtMvvm::ServiceDependencyException</class>
     <class kind="class">QtMvvm::ServiceExistsException</class>
     <class kind="class">QtMvvm::ServiceRegistry</class>
     <class kind="class">QtMvvm::SettingsDialog</class>
+    <class kind="class">QtMvvm::SettingsEntry</class>
+    <class kind="class">QtMvvm::SettingsListNode</class>
     <class kind="class">QtMvvm::SettingsLoaderException</class>
     <class kind="class">QtMvvm::SettingsViewModel</class>
+    <class kind="class">QtMvvm::SimpleFormatter</class>
     <class kind="class">QtMvvm::ViewModel</class>
     <class kind="class">QtMvvm::WidgetsPresenter</class>
     <member kind="function">
@@ -4303,6 +6549,76 @@
     </member>
     <member kind="function">
       <type>Q_MVVMCORE_EXPORT MessageResult *</type>
+      <name>getColor</name>
+      <anchorfile>namespace_qt_mvvm.html</anchorfile>
+      <anchor>a43005879ba883058bcdfeb62f45bcdda</anchor>
+      <arglist>(const QString &amp;title={}, const QColor &amp;color={}, bool argb=false)</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_MVVMCORE_EXPORT void</type>
+      <name>getColor</name>
+      <anchorfile>namespace_qt_mvvm.html</anchorfile>
+      <anchor>a4e71d967990411bddd67efacb10119da</anchor>
+      <arglist>(QObject *scope, const std::function&lt; void(QColor)&gt; &amp;onResult, const QString &amp;title={}, const QColor &amp;color={}, bool argb=false)</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_MVVMCORE_EXPORT void</type>
+      <name>getColor</name>
+      <anchorfile>namespace_qt_mvvm.html</anchorfile>
+      <anchor>a97363c6841b94e54c7c10d7058de010f</anchor>
+      <arglist>(const std::function&lt; void(QColor)&gt; &amp;onResult, const QString &amp;title={}, const QColor &amp;color={}, bool argb=false)</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_MVVMCORE_EXPORT MessageResult *</type>
+      <name>showProgress</name>
+      <anchorfile>namespace_qt_mvvm.html</anchorfile>
+      <anchor>a2ea74c753e84d664012feb79d37a059b</anchor>
+      <arglist>(const QString &amp;title, const QString &amp;label, ProgressControl *control, bool allowCancel=true, bool isBusy=false, const QString &amp;cancelText={})</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_MVVMCORE_EXPORT ProgressControl *</type>
+      <name>showProgress</name>
+      <anchorfile>namespace_qt_mvvm.html</anchorfile>
+      <anchor>a44667254026b2ba5da3bf6f2237ec263</anchor>
+      <arglist>(QObject *scope, const QString &amp;title={}, const QString &amp;label={}, int maximum=100, int minimum=0, bool allowCancel=true, int value=0, const QString &amp;cancelText={})</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_MVVMCORE_EXPORT ProgressControl *</type>
+      <name>showProgress</name>
+      <anchorfile>namespace_qt_mvvm.html</anchorfile>
+      <anchor>acdc74a1ec3c51a205640faadaab014b4</anchor>
+      <arglist>(const QString &amp;title={}, const QString &amp;label={}, int maximum=100, int minimum=0, bool allowCancel=true, int value=0, const QString &amp;cancelText={})</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_MVVMCORE_EXPORT ProgressControl *</type>
+      <name>showIndeterminateProgress</name>
+      <anchorfile>namespace_qt_mvvm.html</anchorfile>
+      <anchor>ad5a924ba1d214f8f1f19fbe270a2248b</anchor>
+      <arglist>(QObject *scope, const QString &amp;title={}, const QString &amp;label={}, bool allowCancel=true, const QString &amp;cancelText={})</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_MVVMCORE_EXPORT ProgressControl *</type>
+      <name>showIndeterminateProgress</name>
+      <anchorfile>namespace_qt_mvvm.html</anchorfile>
+      <anchor>a378387f14d434a177ee9895f86b1b0d9</anchor>
+      <arglist>(const QString &amp;title={}, const QString &amp;label={}, bool allowCancel=true, const QString &amp;cancelText={})</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_MVVMCORE_EXPORT ProgressControl *</type>
+      <name>showBusy</name>
+      <anchorfile>namespace_qt_mvvm.html</anchorfile>
+      <anchor>acfc8b840bbb75e688dced479510d9b98</anchor>
+      <arglist>(QObject *scope, const QString &amp;title={}, const QString &amp;label={}, bool allowCancel=true, const QString &amp;cancelText={})</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_MVVMCORE_EXPORT ProgressControl *</type>
+      <name>showBusy</name>
+      <anchorfile>namespace_qt_mvvm.html</anchorfile>
+      <anchor>a6a4f7a85680e6565241aefc94b53037f</anchor>
+      <arglist>(const QString &amp;title={}, const QString &amp;label={}, bool allowCancel=true, const QString &amp;cancelText={})</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_MVVMCORE_EXPORT MessageResult *</type>
       <name>information</name>
       <anchorfile>namespace_qt_mvvm.html</anchorfile>
       <anchor>aa455b495d75883cc529f5a4c47d567d5</anchor>
@@ -4518,6 +6834,76 @@
       <anchor>a63494057897be0941ce1b718b8f3c4a9</anchor>
       <arglist>(const std::function&lt; void(QUrl)&gt; &amp;onResult, const QString &amp;title={}, const QStringList &amp;supportedMimeTypes={}, const QUrl &amp;dir={})</arglist>
     </member>
+    <member kind="function">
+      <type>Q_MVVMCORE_EXPORT MessageResult *</type>
+      <name>getColor</name>
+      <anchorfile>namespace_qt_mvvm.html</anchorfile>
+      <anchor>a43005879ba883058bcdfeb62f45bcdda</anchor>
+      <arglist>(const QString &amp;title={}, const QColor &amp;color={}, bool argb=false)</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_MVVMCORE_EXPORT void</type>
+      <name>getColor</name>
+      <anchorfile>namespace_qt_mvvm.html</anchorfile>
+      <anchor>a4e71d967990411bddd67efacb10119da</anchor>
+      <arglist>(QObject *scope, const std::function&lt; void(QColor)&gt; &amp;onResult, const QString &amp;title={}, const QColor &amp;color={}, bool argb=false)</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_MVVMCORE_EXPORT void</type>
+      <name>getColor</name>
+      <anchorfile>namespace_qt_mvvm.html</anchorfile>
+      <anchor>a97363c6841b94e54c7c10d7058de010f</anchor>
+      <arglist>(const std::function&lt; void(QColor)&gt; &amp;onResult, const QString &amp;title={}, const QColor &amp;color={}, bool argb=false)</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_MVVMCORE_EXPORT MessageResult *</type>
+      <name>showProgress</name>
+      <anchorfile>namespace_qt_mvvm.html</anchorfile>
+      <anchor>a2ea74c753e84d664012feb79d37a059b</anchor>
+      <arglist>(const QString &amp;title, const QString &amp;label, ProgressControl *control, bool allowCancel=true, bool isBusy=false, const QString &amp;cancelText={})</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_MVVMCORE_EXPORT ProgressControl *</type>
+      <name>showProgress</name>
+      <anchorfile>namespace_qt_mvvm.html</anchorfile>
+      <anchor>a44667254026b2ba5da3bf6f2237ec263</anchor>
+      <arglist>(QObject *scope, const QString &amp;title={}, const QString &amp;label={}, int maximum=100, int minimum=0, bool allowCancel=true, int value=0, const QString &amp;cancelText={})</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_MVVMCORE_EXPORT ProgressControl *</type>
+      <name>showProgress</name>
+      <anchorfile>namespace_qt_mvvm.html</anchorfile>
+      <anchor>acdc74a1ec3c51a205640faadaab014b4</anchor>
+      <arglist>(const QString &amp;title={}, const QString &amp;label={}, int maximum=100, int minimum=0, bool allowCancel=true, int value=0, const QString &amp;cancelText={})</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_MVVMCORE_EXPORT ProgressControl *</type>
+      <name>showIndeterminateProgress</name>
+      <anchorfile>namespace_qt_mvvm.html</anchorfile>
+      <anchor>ad5a924ba1d214f8f1f19fbe270a2248b</anchor>
+      <arglist>(QObject *scope, const QString &amp;title={}, const QString &amp;label={}, bool allowCancel=true, const QString &amp;cancelText={})</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_MVVMCORE_EXPORT ProgressControl *</type>
+      <name>showIndeterminateProgress</name>
+      <anchorfile>namespace_qt_mvvm.html</anchorfile>
+      <anchor>a378387f14d434a177ee9895f86b1b0d9</anchor>
+      <arglist>(const QString &amp;title={}, const QString &amp;label={}, bool allowCancel=true, const QString &amp;cancelText={})</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_MVVMCORE_EXPORT ProgressControl *</type>
+      <name>showBusy</name>
+      <anchorfile>namespace_qt_mvvm.html</anchorfile>
+      <anchor>acfc8b840bbb75e688dced479510d9b98</anchor>
+      <arglist>(QObject *scope, const QString &amp;title={}, const QString &amp;label={}, bool allowCancel=true, const QString &amp;cancelText={})</arglist>
+    </member>
+    <member kind="function">
+      <type>Q_MVVMCORE_EXPORT ProgressControl *</type>
+      <name>showBusy</name>
+      <anchorfile>namespace_qt_mvvm.html</anchorfile>
+      <anchor>a6a4f7a85680e6565241aefc94b53037f</anchor>
+      <arglist>(const QString &amp;title={}, const QString &amp;label={}, bool allowCancel=true, const QString &amp;cancelText={})</arglist>
+    </member>
   </compound>
   <compound kind="namespace">
     <name>QtMvvm::SettingsElements</name>
@@ -4534,6 +6920,49 @@
     <filename>images_page</filename>
     <docanchor file="images_page" title="Primary QtMvvm modules">images_page_main</docanchor>
     <docanchor file="images_page" title="Datasync QtMvvm modules">images_page_datasync</docanchor>
+  </compound>
+  <compound kind="page">
+    <name>settings_generator</name>
+    <title>The qsettingsgenerator Tool</title>
+    <filename>settings_generator</filename>
+    <docanchor file="settings_generator" title="Features">settings_generator_features</docanchor>
+    <docanchor file="settings_generator" title="Usage">settings_generator_usage</docanchor>
+    <docanchor file="settings_generator" title="Example">settings_generator_usage_example</docanchor>
+    <docanchor file="settings_generator" title="QML-Bindings">settings_generator_qml</docanchor>
+    <docanchor file="settings_generator" title="XML-Format Documentation">settings_generator_format</docanchor>
+    <docanchor file="settings_generator" title="Elements">settings_generator_elements</docanchor>
+    <docanchor file="settings_generator" title="Settings">settings_generator_elements_Settings</docanchor>
+    <docanchor file="settings_generator" title="Attributes">settings_generator_elements_Settings_attributes</docanchor>
+    <docanchor file="settings_generator" title="Child elements">settings_generator_elements_Settings_children</docanchor>
+    <docanchor file="settings_generator" title="Include">settings_generator_elements_Include</docanchor>
+    <docanchor file="settings_generator" title="Attributes">settings_generator_elements_Include_attributes</docanchor>
+    <docanchor file="settings_generator" title="Content">settings_generator_elements_Include_children</docanchor>
+    <docanchor file="settings_generator" title="Backend">settings_generator_elements_Backend</docanchor>
+    <docanchor file="settings_generator" title="Attributes">settings_generator_elements_Backend_attributes</docanchor>
+    <docanchor file="settings_generator" title="Child elements">settings_generator_elements_Backend_children</docanchor>
+    <docanchor file="settings_generator" title="Param">settings_generator_elements_Param</docanchor>
+    <docanchor file="settings_generator" title="Attributes">settings_generator_elements_Param_attributes</docanchor>
+    <docanchor file="settings_generator" title="Content">settings_generator_elements_Param_children</docanchor>
+    <docanchor file="settings_generator" title="Qml">settings_generator_elements_Qml</docanchor>
+    <docanchor file="settings_generator" title="Attributes">settings_generator_elements_Qml_attributes</docanchor>
+    <docanchor file="settings_generator" title="TypeMapping">settings_generator_elements_TypeMapping</docanchor>
+    <docanchor file="settings_generator" title="Attributes">settings_generator_elements_TypeMapping_attributes</docanchor>
+    <docanchor file="settings_generator" title="NodeContent Elements">settings_generator_elements_NodeContent</docanchor>
+    <docanchor file="settings_generator" title="Node">settings_generator_elements_Node</docanchor>
+    <docanchor file="settings_generator" title="Attributes">settings_generator_elements_Node_attributes</docanchor>
+    <docanchor file="settings_generator" title="Child elements">settings_generator_elements_Node_children</docanchor>
+    <docanchor file="settings_generator" title="Entry">settings_generator_elements_Entry</docanchor>
+    <docanchor file="settings_generator" title="Attributes">settings_generator_elements_Entry_attributes</docanchor>
+    <docanchor file="settings_generator" title="Additional Child elements">settings_generator_elements_Entry_children</docanchor>
+    <docanchor file="settings_generator" title="ListNode">settings_generator_elements_ListNode</docanchor>
+    <docanchor file="settings_generator" title="ImportType">settings_generator_elements_ImportType</docanchor>
+    <docanchor file="settings_generator" title="Attributes">settings_generator_elements_ImportType_attributes</docanchor>
+    <docanchor file="settings_generator" title="Content">settings_generator_elements_ImportType_children</docanchor>
+    <docanchor file="settings_generator" title="XML-Types">settings_generator_values</docanchor>
+    <docanchor file="settings_generator" title="InstanceScope">settings_generator_values_InstanceScope</docanchor>
+    <docanchor file="settings_generator" title="QmlRegistrationMode">settings_generator_values_QmlRegistrationMode</docanchor>
+    <docanchor file="settings_generator" title="Sample settings generator XML file">settings_generator_sample</docanchor>
+    <docanchor file="settings_xml" title="The XSD for the settings files">settings_xml_xsd</docanchor>
   </compound>
   <compound kind="page">
     <name>settings_xml</name>

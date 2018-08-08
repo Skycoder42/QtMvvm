@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">QtMvvm
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.1.0</span>
    </div>
    <div id="projectbrief">A mvvm oriented library for Qt, to create Projects for Widgets and Quick in parallel</div>
   </td>
@@ -100,6 +100,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad2adb445f984744db703b2554952b36e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_binding.html#ad2adb445f984744db703b2554952b36e">isValid</a> () const</td></tr>
 <tr class="memdesc:ad2adb445f984744db703b2554952b36e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specifies whether the binding is a valid and active binding.  <a href="#ad2adb445f984744db703b2554952b36e">More...</a><br /></td></tr>
 <tr class="separator:ad2adb445f984744db703b2554952b36e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb9d7693a1be0de37fccedcd914f54f5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_binding.html#abb9d7693a1be0de37fccedcd914f54f5">operator bool</a> () const</td></tr>
+<tr class="memdesc:abb9d7693a1be0de37fccedcd914f54f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specifies whether the binding is a valid and active binding.  <a href="#abb9d7693a1be0de37fccedcd914f54f5">More...</a><br /></td></tr>
+<tr class="separator:abb9d7693a1be0de37fccedcd914f54f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc595c43c2be664a66f9f178a4663b2a"><td class="memItemLeft" align="right" valign="top"><a id="abc595c43c2be664a66f9f178a4663b2a"></a>
 Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_binding.html#abc595c43c2be664a66f9f178a4663b2a">unbind</a> ()</td></tr>
 <tr class="memdesc:abc595c43c2be664a66f9f178a4663b2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove the binding by disconnecting all change signals. <br /></td></tr>
@@ -164,6 +167,28 @@ Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el
 
 </div>
 </div>
+<a id="abb9d7693a1be0de37fccedcd914f54f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb9d7693a1be0de37fccedcd914f54f5">&#9670;&nbsp;</a></span>operator bool()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QtMvvm::Binding::operator bool </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Specifies whether the binding is a valid and active binding. </p>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> If the binding is valid and active, <code>false</code> if invalid or already unbound</dd></dl>
+<p>A binding is considered valid is if has successfully been set up and has not been unbound yet. A valid binding means view and viewModel are valid can the properties could be found.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_mvvm_1_1_binding.html#abc595c43c2be664a66f9f178a4663b2a" title="Remove the binding by disconnecting all change signals. ">Binding::unbind</a>, <a class="el" href="namespace_qt_mvvm.html#affee350f1bec121b95759bb02a4df50f" title="Create a multidirectional binding between properties. ">bind()</a> </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="binding_8h_source.html">binding.h</a></li>
 <li>binding.dox</li>
@@ -171,7 +196,7 @@ Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 14 2018 16:19:59 for QtMvvm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Aug 8 2018 19:15:45 for QtMvvm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.14
 </small></address>

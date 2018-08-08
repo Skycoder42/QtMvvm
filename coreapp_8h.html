@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">QtMvvm
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.1.0</span>
    </div>
    <div id="projectbrief">A mvvm oriented library for Qt, to create Projects for Widgets and Quick in parallel</div>
   </td>
@@ -135,17 +135,17 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> _setup_ ## T ## _hook() { \</div><div class="line">        static_assert(std::is_base_of&lt;QtMvvm::CoreApp, T&gt;::value, <span class="stringliteral">&quot;QTMVVM_REGISTER_CORE_APP must be used with a class that extends QtMvvm::CoreApp&quot;</span>); \</div><div class="line">        auto app = <span class="keyword">new</span> T(<span class="keyword">nullptr</span>); \</div><div class="line">        app-&gt;registerApp(); \</div><div class="line">    } \</div><div class="line">    Q_COREAPP_STARTUP_FUNCTION(_setup_ ## T ## _hook)</div></div><!-- fragment -->
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">namespace </span>{\</div><div class="line">    void __setup_ ## T ## _hook() { \</div><div class="line">        static_assert(std::is_base_of&lt;QtMvvm::CoreApp, T&gt;::value, <span class="stringliteral">&quot;QTMVVM_REGISTER_CORE_APP must be used with a class that extends QtMvvm::CoreApp&quot;</span>); \</div><div class="line">        auto app = <span class="keyword">new</span> T(<span class="keyword">nullptr</span>); \</div><div class="line">        app-&gt;registerApp(); \</div><div class="line">    } \</div><div class="line">    } \</div><div class="line">    Q_COREAPP_STARTUP_FUNCTION(__setup_ ## T ## _hook)</div></div><!-- fragment -->
 <p>Registers you custom CoreApp class as CoreApp to be used. </p>
 
-<p class="definition">Definition at line <a class="el" href="coreapp_8h_source.html#l00084">84</a> of file <a class="el" href="coreapp_8h_source.html">coreapp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="coreapp_8h_source.html#l00106">106</a> of file <a class="el" href="coreapp_8h_source.html">coreapp.h</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 14 2018 16:19:58 for QtMvvm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Aug 8 2018 19:15:45 for QtMvvm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.14
 </small></address>

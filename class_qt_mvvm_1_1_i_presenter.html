@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">QtMvvm
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.1.0</span>
    </div>
    <div id="projectbrief">A mvvm oriented library for Qt, to create Projects for Widgets and Quick in parallel</div>
   </td>
@@ -98,7 +98,7 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6bf902cf14d45c44fdcf78743d4e71a7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_i_presenter.html#a6bf902cf14d45c44fdcf78743d4e71a7">present</a> (<a class="el" href="class_qt_mvvm_1_1_view_model.html">ViewModel</a> *viewModel, const QVariantHash &amp;params, <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qpointer.html">QPointer</a>&lt; <a class="el" href="class_qt_mvvm_1_1_view_model.html">ViewModel</a> &gt; parent=nullptr)=0</td></tr>
+<tr class="memitem:a6bf902cf14d45c44fdcf78743d4e71a7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_i_presenter.html#a6bf902cf14d45c44fdcf78743d4e71a7">present</a> (<a class="el" href="class_qt_mvvm_1_1_view_model.html">ViewModel</a> *viewModel, const QVariantHash &amp;params, <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qpointer.html">QPointer</a>&lt; <a class="el" href="class_qt_mvvm_1_1_view_model.html">ViewModel</a> &gt; parent=nullptr)=0</td></tr>
 <tr class="memdesc:a6bf902cf14d45c44fdcf78743d4e71a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called to present a viewmodel.  <a href="#a6bf902cf14d45c44fdcf78743d4e71a7">More...</a><br /></td></tr>
 <tr class="separator:a6bf902cf14d45c44fdcf78743d4e71a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e2921a23d4a8513a80526141f79b4d1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_i_presenter.html#a6e2921a23d4a8513a80526141f79b4d1">showDialog</a> (const <a class="el" href="class_qt_mvvm_1_1_message_config.html">MessageConfig</a> &amp;config, <a class="el" href="class_qt_mvvm_1_1_message_result.html">MessageResult</a> *result)=0</td></tr>
@@ -108,7 +108,7 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The interface for a GUI view presenter. </p>
 <p>This class is what you need to implement if you want to create your own GUI frontend for mvvm. Once you created your custom presenter class, register it as service before calling <a class="el" href="class_qt_mvvm_1_1_core_app.html#afb4cd9046e73ed2bca0884c7d0032470" title="Boots up the app and starts the mvvm presenting. ">CoreApp::bootApp()</a> (Or entering the eventloop, in case of automatic startup, like with <a class="el" href="coreapp_8h.html#aab7ff1f0090a9c98ecb7863f0d4c8af5" title="Registers you custom CoreApp class as CoreApp to be used. ">QTMVVM_REGISTER_CORE_APP</a>)</p>
-<p>To register it, it is recommended to use a startup hook like this: </p><div class="fragment"><div class="line"><span class="keywordtype">void</span> myPresenterInit()</div><div class="line">{</div><div class="line">    <a class="code" href="class_qt_mvvm_1_1_service_registry.html#aabda69c79dc04cebfd2ebaea25e9ee62">QtMvvm::ServiceRegistry::instance</a>()-&gt;<a class="code" href="class_qt_mvvm_1_1_service_registry.html#abacfa0d81764df255df41e4ccf175ad8">registerInterface</a>&lt;<a class="code" href="class_qt_mvvm_1_1_i_presenter.html">QtMvvm::IPresenter</a>, MyPresenter&gt;();</div><div class="line">}</div><div class="line">Q_COREAPP_STARTUP_FUNCTION(myPresenterInit)</div></div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="ipresenter_8h.html#ace4560167ef93b1f5d79f1b17ec701c7" title="The IID of the QtMvvm::IPresenter class. ">QtMvvm_IPresenterIid</a> </dd></dl>
+<p>To register it, it is recommended to use a startup hook like this: </p><div class="fragment"><div class="line"><span class="keywordtype">void</span> myPresenterInit()</div><div class="line">{</div><div class="line">    <a class="code" href="class_qt_mvvm_1_1_service_registry.html#aabda69c79dc04cebfd2ebaea25e9ee62">QtMvvm::ServiceRegistry::instance</a>()-&gt;<a class="code" href="class_qt_mvvm_1_1_service_registry.html#ab683dc8ccbb0e0198f0d5664b1f1f9ca">registerInterface</a>&lt;<a class="code" href="class_qt_mvvm_1_1_i_presenter.html">QtMvvm::IPresenter</a>, MyPresenter&gt;();</div><div class="line">}</div><div class="line">Q_COREAPP_STARTUP_FUNCTION(myPresenterInit)</div></div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="ipresenter_8h.html#ace4560167ef93b1f5d79f1b17ec701c7" title="The IID of the QtMvvm::IPresenter class. ">QtMvvm_IPresenterIid</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="ipresenter_8h_source.html#l00036">36</a> of file <a class="el" href="ipresenter_8h_source.html">ipresenter.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
@@ -136,7 +136,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qpointer.html">QPointer</a>&lt; <a class="el" href="class_qt_mvvm_1_1_view_model.html">ViewModel</a> &gt;&#160;</td>
+          <td class="paramtype"><a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qpointer.html">QPointer</a>&lt; <a class="el" href="class_qt_mvvm_1_1_view_model.html">ViewModel</a> &gt;&#160;</td>
           <td class="paramname"><em>parent</em> = <code>nullptr</code>&#160;</td>
         </tr>
         <tr>
@@ -171,7 +171,7 @@ Public Member Functions</h2></td></tr>
 <ol type="1">
 <li>Find and create a view for the viewmodel</li>
 <li>Use the view of the parent viewModel to make the new view a child of that parent view</li>
-<li>Make the viewmodel a child of the view (via <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qobject.html#setParent">QObject::setParent</a>)</li>
+<li>Make the viewmodel a child of the view (via <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qobject.html#setParent">QObject::setParent</a>)</li>
 <li>Call the viewmodels <a class="el" href="class_qt_mvvm_1_1_view_model.html#aed696c49a28b9615d3433c6a27006c70" title="Called by the presenter to initialize the viewmodel. ">ViewModel::onInit</a> method with the given parameters</li>
 <li>Find a presentation method for the view (based on the view/viewmodel and/or parent)</li>
 <li>Show the view to the user</li>
@@ -249,7 +249,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 14 2018 16:19:59 for QtMvvm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Aug 8 2018 19:15:45 for QtMvvm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.14
 </small></address>

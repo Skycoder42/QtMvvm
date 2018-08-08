@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">QtMvvm
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.1.0</span>
    </div>
    <div id="projectbrief">A mvvm oriented library for Qt, to create Projects for Widgets and Quick in parallel</div>
   </td>
@@ -67,7 +67,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>de</b></li><li class="navelem"><b>skycoder42</b></li><li class="navelem"><b>QtMvvm</b></li><li class="navelem"><a class="el" href="namespacede_1_1skycoder42_1_1_qt_mvvm_1_1_quick.html">Quick</a></li><li class="navelem"><a class="el" href="classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_presenting_stack_view.html">PresentingStackView</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespacede_1_1skycoder42_1_1_qt_rest_client.html">de</a></li><li class="navelem"><a class="el" href="namespacede_1_1skycoder42_1_1_qt_rest_client.html">skycoder42</a></li><li class="navelem"><b>QtMvvm</b></li><li class="navelem"><a class="el" href="namespacede_1_1skycoder42_1_1_qt_mvvm_1_1_quick.html">Quick</a></li><li class="navelem"><a class="el" href="classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_presenting_stack_view.html">PresentingStackView</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -90,7 +90,7 @@ $(function() {
  <div class="center">
   <img src="classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_presenting_stack_view.png" usemap="#de::skycoder42::QtMvvm::Quick::PresentingStackView_map" alt=""/>
   <map id="de::skycoder42::QtMvvm::Quick::PresentingStackView_map" name="de::skycoder42::QtMvvm::Quick::PresentingStackView_map">
-<area target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtquickcontrols2/qtquickcontrols2.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qml-qtquick-controls2-stackview.html" alt="QtQuick.Controls.StackView" shape="rect" coords="0,0,315,24"/>
+<area target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtquickcontrols2/qtquickcontrols2.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qml-qtquick-controls2-stackview.html" alt="QtQuick.Controls.StackView" shape="rect" coords="0,0,315,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -128,9 +128,9 @@ var&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A presentation helper that can present standard mvvm views. </p>
-<dl class="section since"><dt>Since</dt><dd>1.0 <br />
+<dl class="section since"><dt>Since</dt><dd>1.1 <br />
 </dd></dl>
-<p>You can use this class as presenter for normale views in case you create your own root presenter instead of using the <a class="el" href="classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_qt_mvvm_app.html" title="An application root window that is a full fledged QML presenter. ">QtMvvmApp</a>. This partial presenter can handle any view that extends the <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtquick/qtquick.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qml-qtquick-item.html">Item</a> type. Use it as follows:</p>
+<p>You can use this class as presenter for normale views in case you create your own root presenter instead of using the <a class="el" href="classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_qt_mvvm_app.html" title="An application root window that is a full fledged QML presenter. ">QtMvvmApp</a>. This partial presenter can handle any view that extends the <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtquick/qtquick.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qml-qtquick-item.html">Item</a> type. Use it as follows:</p>
 <div class="fragment"><div class="line">MyPresenter {</div><div class="line">    id: _root</div><div class="line"></div><div class="line">    PresentingStackView {</div><div class="line">        id: _rootStack</div><div class="line">        anchors.fill: parent</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">function</span> <a class="code" href="classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_presenting_stack_view.html#a3d08cea2a5c187fc58179e9ac52ae385">presentItem</a>(item) {</div><div class="line">        <span class="keywordflow">return</span> _rootStack.presentItem(item);</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">function</span> <a class="code" href="classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_presenting_stack_view.html#afcd812a6dc011d79259c67cfa09b1488">closeAction</a>() {</div><div class="line">        var closed = <span class="keyword">false</span>;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">        <span class="keywordflow">if</span>(!closed)</div><div class="line">            closed = _rootStack.closeAction();</div><div class="line">        <span class="comment">// ...</span></div><div class="line">        <span class="keywordflow">return</span> closed;</div><div class="line">    }</div><div class="line">}</div></div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_qt_mvvm_app.html" title="An application root window that is a full fledged QML presenter. ">QtMvvmApp</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_presenting_stack_view_8qml_source.html#l00039">39</a> of file <a class="el" href="_presenting_stack_view_8qml_source.html">PresentingStackView.qml</a>.</p>
@@ -183,7 +183,7 @@ var&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if successfully presented, <code>false</code> if not</dd></dl>
 <p>Use this method in your main presenter to present items via this sub presenter.</p>
 <p>If the presented item has a boolean property named <code>presentAsRoot</code>, the item will replace all contents on the stack instead of beeing pushed on it.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_qt_mvvm_app.html#a0c5e95368b641f62c7d679e9bce97306" title="The presenting method to present a view. ">QtMvvmApp::presentItem</a>, <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtquick/qtquick.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qml-qtquick-item.html">Item</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_qt_mvvm_app.html#a0c5e95368b641f62c7d679e9bce97306" title="The presenting method to present a view. ">QtMvvmApp::presentItem</a>, <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtquick/qtquick.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qml-qtquick-item.html">Item</a> </dd></dl>
 
 </div>
 </div>
@@ -222,7 +222,7 @@ var&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if a view was closed, <code>false</code> if not</dd></dl>
-<p>Use this method instead of the <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtquickcontrols2/qtquickcontrols2.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qml-qtquick-controls2-stackview.html">pop()</a> method. It will not only pop the top level view, but also delete it. This is recommened to do for views presented.</p>
+<p>Use this method instead of the <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtquickcontrols2/qtquickcontrols2.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qml-qtquick-controls2-stackview.html">pop()</a> method. It will not only pop the top level view, but also delete it. This is recommened to do for views presented.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_presenting_stack_view.html#afcd812a6dc011d79259c67cfa09b1488" title="Can be called to try to close the presenters current top level view. ">PresentingStackView::closeAction</a>, <a class="el" href="classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_presenting_stack_view.html#ab28ffa8e7fe5e13447fcd858583dc1c3" title="replace and delete views ">PresentingStackView::safeReplace</a> </dd></dl>
 
 </div>
@@ -276,7 +276,7 @@ var&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if the replacement was successful, <code>false</code> if not</dd></dl>
-<p>Use this method instead of the <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtquickcontrols2/qtquickcontrols2.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qml-qtquick-controls2-stackview.html">replace()</a> method. It will not only replace the replaced views, but also delete them. This is recommened to do for views presented.</p>
+<p>Use this method instead of the <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtquickcontrols2/qtquickcontrols2.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qml-qtquick-controls2-stackview.html">replace()</a> method. It will not only replace the replaced views, but also delete them. This is recommened to do for views presented.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_presenting_stack_view.html#afcd812a6dc011d79259c67cfa09b1488" title="Can be called to try to close the presenters current top level view. ">PresentingStackView::closeAction</a>, <a class="el" href="classde_1_1skycoder42_1_1_qt_mvvm_1_1_quick_1_1_presenting_stack_view.html#a96dcb2aed19c1a06505c6d5a53128ca6" title="Pop and delete a view. ">PresentingStackView::safePop</a> </dd></dl>
 
 </div>
@@ -348,7 +348,7 @@ var&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 14 2018 16:19:59 for QtMvvm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Aug 8 2018 19:15:45 for QtMvvm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.14
 </small></address>

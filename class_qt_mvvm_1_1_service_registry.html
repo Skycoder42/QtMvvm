@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">QtMvvm
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.1.0</span>
    </div>
    <div id="projectbrief">A mvvm oriented library for Qt, to create Projects for Widgets and Quick in parallel</div>
   </td>
@@ -72,6 +72,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="class_qt_mvvm_1_1_service_registry-members.html">List of all members</a>  </div>
@@ -85,6 +86,16 @@ $(function() {
 
 <p><code>#include &lt;<a class="el" href="serviceregistry_8h_source.html">serviceregistry.h</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:aff6b990faf118b6305c6d6cd4cacb276"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">DestructionScope</a> { <a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a7aac3331077c91c6ae5fe677b91b35c6">DestroyOnAppQuit</a> = 1, 
+<a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45">DestroyOnAppDestroy</a> = 2, 
+<a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a2cf5729a4b8c072676f052b361c6397b">DestroyOnRegistryDestroy</a> = 3, 
+<a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276aab3fbc747b7a7ba03fa19fe2d50704f7">DestroyNever</a> = 127
+ }</td></tr>
+<tr class="memdesc:aff6b990faf118b6305c6d6cd4cacb276"><td class="mdescLeft">&#160;</td><td class="mdescRight">A scope to indicate when a service should be deleted.  <a href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">More...</a><br /></td></tr>
+<tr class="separator:aff6b990faf118b6305c6d6cd4cacb276"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a2fddc2077d76404550f037dfbd9029ca"><td class="memTemplParams" colspan="2"><a id="a2fddc2077d76404550f037dfbd9029ca"></a>
@@ -93,54 +104,67 @@ template&lt;typename TInterface &gt; </td></tr>
 <tr class="memdesc:a2fddc2077d76404550f037dfbd9029ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a given interface or service is already registered. <br /></td></tr>
 <tr class="separator:a2fddc2077d76404550f037dfbd9029ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a33106199077763388fabff116dc190e2"><td class="memItemLeft" align="right" valign="top"><a id="a33106199077763388fabff116dc190e2"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a33106199077763388fabff116dc190e2">isRegistered</a> (const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearray.html">QByteArray</a> &amp;iid) const</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a33106199077763388fabff116dc190e2">isRegistered</a> (const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearray.html">QByteArray</a> &amp;iid) const</td></tr>
 <tr class="memdesc:a33106199077763388fabff116dc190e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a given interface or service is already registered. <br /></td></tr>
 <tr class="separator:a33106199077763388fabff116dc190e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abacfa0d81764df255df41e4ccf175ad8"><td class="memTemplParams" colspan="2">template&lt;typename TInterface , typename TService &gt; </td></tr>
-<tr class="memitem:abacfa0d81764df255df41e4ccf175ad8"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#abacfa0d81764df255df41e4ccf175ad8">registerInterface</a> (bool weak=false)</td></tr>
-<tr class="memdesc:abacfa0d81764df255df41e4ccf175ad8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a service for its interface via the type.  <a href="#abacfa0d81764df255df41e4ccf175ad8">More...</a><br /></td></tr>
-<tr class="separator:abacfa0d81764df255df41e4ccf175ad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa06f0c25e8238e7740a4f4ec09569a87"><td class="memTemplParams" colspan="2">template&lt;typename TInterface , typename TService , typename TFunc &gt; </td></tr>
-<tr class="memitem:aa06f0c25e8238e7740a4f4ec09569a87"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#aa06f0c25e8238e7740a4f4ec09569a87">registerInterface</a> (const TFunc &amp;fn, bool weak=false)</td></tr>
-<tr class="memdesc:aa06f0c25e8238e7740a4f4ec09569a87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a service for its interface via a constructor function.  <a href="#aa06f0c25e8238e7740a4f4ec09569a87">More...</a><br /></td></tr>
-<tr class="separator:aa06f0c25e8238e7740a4f4ec09569a87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afad92a0b52150125c010913e3365d1ab"><td class="memTemplParams" colspan="2">template&lt;typename TInterface , typename TService &gt; </td></tr>
-<tr class="memitem:afad92a0b52150125c010913e3365d1ab"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#afad92a0b52150125c010913e3365d1ab">registerInterface</a> (TService *<a class="el" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31">service</a>, bool weak=false)</td></tr>
-<tr class="memdesc:afad92a0b52150125c010913e3365d1ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a service for its interface via an already existing instance.  <a href="#afad92a0b52150125c010913e3365d1ab">More...</a><br /></td></tr>
-<tr class="separator:afad92a0b52150125c010913e3365d1ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c2f2166f4ecbd4b2f3ae0d0e4165ab5"><td class="memTemplParams" colspan="2">template&lt;typename TService &gt; </td></tr>
-<tr class="memitem:a9c2f2166f4ecbd4b2f3ae0d0e4165ab5"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a9c2f2166f4ecbd4b2f3ae0d0e4165ab5">registerObject</a> (bool weak=false)</td></tr>
-<tr class="memdesc:a9c2f2166f4ecbd4b2f3ae0d0e4165ab5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a service via its type.  <a href="#a9c2f2166f4ecbd4b2f3ae0d0e4165ab5">More...</a><br /></td></tr>
-<tr class="separator:a9c2f2166f4ecbd4b2f3ae0d0e4165ab5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afaa2b66fdb3ead00d6b52ef0df4c4f61"><td class="memTemplParams" colspan="2">template&lt;typename TService , typename TFunc &gt; </td></tr>
-<tr class="memitem:afaa2b66fdb3ead00d6b52ef0df4c4f61"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#afaa2b66fdb3ead00d6b52ef0df4c4f61">registerObject</a> (const TFunc &amp;fn, bool weak=false)</td></tr>
-<tr class="memdesc:afaa2b66fdb3ead00d6b52ef0df4c4f61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a service via a constructor function.  <a href="#afaa2b66fdb3ead00d6b52ef0df4c4f61">More...</a><br /></td></tr>
-<tr class="separator:afaa2b66fdb3ead00d6b52ef0df4c4f61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25ae0f6bd651835d90455d5540ea533b"><td class="memTemplParams" colspan="2">template&lt;typename TService &gt; </td></tr>
-<tr class="memitem:a25ae0f6bd651835d90455d5540ea533b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a25ae0f6bd651835d90455d5540ea533b">registerObject</a> (TService *<a class="el" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31">service</a>, bool weak=false)</td></tr>
-<tr class="memdesc:a25ae0f6bd651835d90455d5540ea533b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a service via an already existing instance.  <a href="#a25ae0f6bd651835d90455d5540ea533b">More...</a><br /></td></tr>
-<tr class="separator:a25ae0f6bd651835d90455d5540ea533b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d904ac2abf387eb877dae3aad801848"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a6d904ac2abf387eb877dae3aad801848">registerService</a> (const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearray.html">QByteArray</a> &amp;iid, const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qmetaobject.html">QMetaObject</a> *metaObject, bool weak=false)</td></tr>
-<tr class="memdesc:a6d904ac2abf387eb877dae3aad801848"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a service by an iid via their metadata.  <a href="#a6d904ac2abf387eb877dae3aad801848">More...</a><br /></td></tr>
-<tr class="separator:a6d904ac2abf387eb877dae3aad801848"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a342a6e90115c9a3657877c31ead01c56"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a342a6e90115c9a3657877c31ead01c56">registerService</a> (const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearray.html">QByteArray</a> &amp;iid, const std::function&lt; <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *(const QObjectList &amp;)&gt; &amp;fn, <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearraylist.html">QByteArrayList</a> injectables, bool weak=false)</td></tr>
-<tr class="memdesc:a342a6e90115c9a3657877c31ead01c56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a service by an iid via a generalized constructor function.  <a href="#a342a6e90115c9a3657877c31ead01c56">More...</a><br /></td></tr>
-<tr class="separator:a342a6e90115c9a3657877c31ead01c56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab683dc8ccbb0e0198f0d5664b1f1f9ca"><td class="memTemplParams" colspan="2">template&lt;typename TInterface , typename TService &gt; </td></tr>
+<tr class="memitem:ab683dc8ccbb0e0198f0d5664b1f1f9ca"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#ab683dc8ccbb0e0198f0d5664b1f1f9ca">registerInterface</a> (<a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">DestructionScope</a> scope=<a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45">DestroyOnAppDestroy</a>, bool weak=false)</td></tr>
+<tr class="memdesc:ab683dc8ccbb0e0198f0d5664b1f1f9ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a service for its interface via the type.  <a href="#ab683dc8ccbb0e0198f0d5664b1f1f9ca">More...</a><br /></td></tr>
+<tr class="separator:ab683dc8ccbb0e0198f0d5664b1f1f9ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb4dc088a24802160d9f9f01f69eaa2d"><td class="memTemplParams" colspan="2">template&lt;typename TInterface , typename TService , typename TFunc &gt; </td></tr>
+<tr class="memitem:afb4dc088a24802160d9f9f01f69eaa2d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#afb4dc088a24802160d9f9f01f69eaa2d">registerInterface</a> (TFunc fn, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">DestructionScope</a> scope=<a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45">DestroyOnAppDestroy</a>, bool weak=false)</td></tr>
+<tr class="memdesc:afb4dc088a24802160d9f9f01f69eaa2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a service for its interface via a constructor function.  <a href="#afb4dc088a24802160d9f9f01f69eaa2d">More...</a><br /></td></tr>
+<tr class="separator:afb4dc088a24802160d9f9f01f69eaa2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e0928c964a40cb88495c764d0b8627c"><td class="memTemplParams" colspan="2">template&lt;typename TInterface , typename TService &gt; </td></tr>
+<tr class="memitem:a7e0928c964a40cb88495c764d0b8627c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a7e0928c964a40cb88495c764d0b8627c">registerInterface</a> (TService *<a class="el" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31">service</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">DestructionScope</a> scope=<a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45">DestroyOnAppDestroy</a>, bool weak=false)</td></tr>
+<tr class="memdesc:a7e0928c964a40cb88495c764d0b8627c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a service for its interface via an already existing instance.  <a href="#a7e0928c964a40cb88495c764d0b8627c">More...</a><br /></td></tr>
+<tr class="separator:a7e0928c964a40cb88495c764d0b8627c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada266f18e940d48ac4030093955c55f9"><td class="memTemplParams" colspan="2">template&lt;typename TService &gt; </td></tr>
+<tr class="memitem:ada266f18e940d48ac4030093955c55f9"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#ada266f18e940d48ac4030093955c55f9">registerObject</a> (<a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">DestructionScope</a> scope=<a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45">DestroyOnAppDestroy</a>, bool weak=false)</td></tr>
+<tr class="memdesc:ada266f18e940d48ac4030093955c55f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a service via its type.  <a href="#ada266f18e940d48ac4030093955c55f9">More...</a><br /></td></tr>
+<tr class="separator:ada266f18e940d48ac4030093955c55f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf7c09845abe552aa47206413ad983f8"><td class="memTemplParams" colspan="2">template&lt;typename TService , typename TFunc &gt; </td></tr>
+<tr class="memitem:abf7c09845abe552aa47206413ad983f8"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#abf7c09845abe552aa47206413ad983f8">registerObject</a> (TFunc fn, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">DestructionScope</a> scope=<a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45">DestroyOnAppDestroy</a>, bool weak=false)</td></tr>
+<tr class="memdesc:abf7c09845abe552aa47206413ad983f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a service via a constructor function.  <a href="#abf7c09845abe552aa47206413ad983f8">More...</a><br /></td></tr>
+<tr class="separator:abf7c09845abe552aa47206413ad983f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cc1bdd66d9ac15b26e22bf1a8a39fd8"><td class="memTemplParams" colspan="2">template&lt;typename TService &gt; </td></tr>
+<tr class="memitem:a3cc1bdd66d9ac15b26e22bf1a8a39fd8"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a3cc1bdd66d9ac15b26e22bf1a8a39fd8">registerObject</a> (TService *<a class="el" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31">service</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">DestructionScope</a> scope=<a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45">DestroyOnAppDestroy</a>, bool weak=false)</td></tr>
+<tr class="memdesc:a3cc1bdd66d9ac15b26e22bf1a8a39fd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a service via an already existing instance.  <a href="#a3cc1bdd66d9ac15b26e22bf1a8a39fd8">More...</a><br /></td></tr>
+<tr class="separator:a3cc1bdd66d9ac15b26e22bf1a8a39fd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24ea425f41f3919488e23c342193626f"><td class="memTemplParams" colspan="2">template&lt;typename TInterface &gt; </td></tr>
+<tr class="memitem:a24ea425f41f3919488e23c342193626f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a24ea425f41f3919488e23c342193626f">registerPlugin</a> (<a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qstring.html">QString</a> pluginType={}, <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qstring.html">QString</a> pluginKey={}, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">DestructionScope</a> scope=<a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45">DestroyOnAppDestroy</a>, bool weak=false)</td></tr>
+<tr class="memdesc:a24ea425f41f3919488e23c342193626f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a service via specifing a plugin to be loaded.  <a href="#a24ea425f41f3919488e23c342193626f">More...</a><br /></td></tr>
+<tr class="separator:a24ea425f41f3919488e23c342193626f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fa590672277212bc246251b4a0f7f86"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a9fa590672277212bc246251b4a0f7f86">registerService</a> (const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearray.html">QByteArray</a> &amp;iid, const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qmetaobject.html">QMetaObject</a> *metaObject, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">DestructionScope</a> scope=<a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45">DestroyOnAppDestroy</a>, bool weak=false)</td></tr>
+<tr class="memdesc:a9fa590672277212bc246251b4a0f7f86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a service by an iid via their metadata.  <a href="#a9fa590672277212bc246251b4a0f7f86">More...</a><br /></td></tr>
+<tr class="separator:a9fa590672277212bc246251b4a0f7f86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0097c3d3a9ac4261731b60b5a14b4d9e"><td class="memItemLeft" align="right" valign="top"><a id="a0097c3d3a9ac4261731b60b5a14b4d9e"></a>
+Q_DECL_DEPRECATED void&#160;</td><td class="memItemRight" valign="bottom"><b>registerService</b> (const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearray.html">QByteArray</a> &amp;iid, const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qmetaobject.html">QMetaObject</a> *metaObject, bool weak)</td></tr>
+<tr class="separator:a0097c3d3a9ac4261731b60b5a14b4d9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f060ea798dc0b476107cbeb7d2fde9b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a9f060ea798dc0b476107cbeb7d2fde9b">registerService</a> (const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearray.html">QByteArray</a> &amp;iid, const std::function&lt; <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *(const QObjectList &amp;)&gt; &amp;fn, <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearraylist.html">QByteArrayList</a> injectables, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">DestructionScope</a> scope=<a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45">DestroyOnAppDestroy</a>, bool weak=false)</td></tr>
+<tr class="memdesc:a9f060ea798dc0b476107cbeb7d2fde9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a service by an iid via a generalized constructor function.  <a href="#a9f060ea798dc0b476107cbeb7d2fde9b">More...</a><br /></td></tr>
+<tr class="separator:a9f060ea798dc0b476107cbeb7d2fde9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66d59994d73484f730d44fa7b9c19f16"><td class="memItemLeft" align="right" valign="top"><a id="a66d59994d73484f730d44fa7b9c19f16"></a>
+Q_DECL_DEPRECATED void&#160;</td><td class="memItemRight" valign="bottom"><b>registerService</b> (const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearray.html">QByteArray</a> &amp;iid, const std::function&lt; <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *(const QObjectList &amp;)&gt; &amp;fn, <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearraylist.html">QByteArrayList</a> injectables, bool weak)</td></tr>
+<tr class="separator:a66d59994d73484f730d44fa7b9c19f16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c75160366482ccae7085aac6821fead"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a4c75160366482ccae7085aac6821fead">registerService</a> (<a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearray.html">QByteArray</a> iid, <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qstring.html">QString</a> pluginType={}, <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qstring.html">QString</a> pluginKey={}, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">DestructionScope</a> scope=<a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45">DestroyOnAppDestroy</a>, bool weak=false)</td></tr>
+<tr class="memdesc:a4c75160366482ccae7085aac6821fead"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a service by an iid via specifing a plugin to be loaded.  <a href="#a4c75160366482ccae7085aac6821fead">More...</a><br /></td></tr>
+<tr class="separator:a4c75160366482ccae7085aac6821fead"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54085d3bac2c39f58c46165827686a31"><td class="memTemplParams" colspan="2">template&lt;typename TInterface &gt; </td></tr>
 <tr class="memitem:a54085d3bac2c39f58c46165827686a31"><td class="memTemplItemLeft" align="right" valign="top">TInterface *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31">service</a> ()</td></tr>
 <tr class="memdesc:a54085d3bac2c39f58c46165827686a31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the service for the given interface.  <a href="#a54085d3bac2c39f58c46165827686a31">More...</a><br /></td></tr>
 <tr class="separator:a54085d3bac2c39f58c46165827686a31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abff2c6776647fdb377860a3c3cca9080"><td class="memItemLeft" align="right" valign="top"><a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#abff2c6776647fdb377860a3c3cca9080">serviceObj</a> (const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearray.html">QByteArray</a> &amp;iid)</td></tr>
+<tr class="memitem:abff2c6776647fdb377860a3c3cca9080"><td class="memItemLeft" align="right" valign="top"><a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#abff2c6776647fdb377860a3c3cca9080">serviceObj</a> (const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearray.html">QByteArray</a> &amp;iid)</td></tr>
 <tr class="memdesc:abff2c6776647fdb377860a3c3cca9080"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the service for the given iid.  <a href="#abff2c6776647fdb377860a3c3cca9080">More...</a><br /></td></tr>
 <tr class="separator:abff2c6776647fdb377860a3c3cca9080"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c3bf4e06311d321bdea7e78a4899769"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a6c3bf4e06311d321bdea7e78a4899769">injectServices</a> (<a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *object)</td></tr>
+<tr class="memitem:a6c3bf4e06311d321bdea7e78a4899769"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a6c3bf4e06311d321bdea7e78a4899769">injectServices</a> (<a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *object)</td></tr>
 <tr class="memdesc:a6c3bf4e06311d321bdea7e78a4899769"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inject services for all injectable properties on object.  <a href="#a6c3bf4e06311d321bdea7e78a4899769">More...</a><br /></td></tr>
 <tr class="separator:a6c3bf4e06311d321bdea7e78a4899769"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3db366f49af65a3b7b79a5494bb69f19"><td class="memTemplParams" colspan="2">template&lt;typename TClass &gt; </td></tr>
-<tr class="memitem:a3db366f49af65a3b7b79a5494bb69f19"><td class="memTemplItemLeft" align="right" valign="top">TClass *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a3db366f49af65a3b7b79a5494bb69f19">constructInjected</a> (<a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *parent=nullptr)</td></tr>
+<tr class="memitem:a3db366f49af65a3b7b79a5494bb69f19"><td class="memTemplItemLeft" align="right" valign="top">TClass *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a3db366f49af65a3b7b79a5494bb69f19">constructInjected</a> (<a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *parent=nullptr)</td></tr>
 <tr class="memdesc:a3db366f49af65a3b7b79a5494bb69f19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a new instance of TClass with properties injected.  <a href="#a3db366f49af65a3b7b79a5494bb69f19">More...</a><br /></td></tr>
 <tr class="separator:a3db366f49af65a3b7b79a5494bb69f19"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18479634e9d4ba58ed03231ecf006c48"><td class="memItemLeft" align="right" valign="top"><a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a18479634e9d4ba58ed03231ecf006c48">constructInjected</a> (const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qmetaobject.html">QMetaObject</a> *metaObject, <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *parent=nullptr)</td></tr>
+<tr class="memitem:a18479634e9d4ba58ed03231ecf006c48"><td class="memItemLeft" align="right" valign="top"><a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a18479634e9d4ba58ed03231ecf006c48">constructInjected</a> (const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qmetaobject.html">QMetaObject</a> *metaObject, <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *parent=nullptr)</td></tr>
 <tr class="memdesc:a18479634e9d4ba58ed03231ecf006c48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a new instance of metaObject with properties injected.  <a href="#a18479634e9d4ba58ed03231ecf006c48">More...</a><br /></td></tr>
 <tr class="separator:a18479634e9d4ba58ed03231ecf006c48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -156,11 +180,40 @@ static <a class="el" href="class_qt_mvvm_1_1_service_registry.html">ServiceRegis
 <p>This is the class responsible for the dependency injection (DI) part. All services registered with the registry are available for DI. When using lazy initialization, services themselves can also have dependencies to be injected. When the registry creates them it will automatically inject them. Automatic DI is also done for <a class="el" href="class_qt_mvvm_1_1_view_model.html" title="The base class for all viewmodels. ">ViewModel</a> created by the <a class="el" href="class_qt_mvvm_1_1_core_app.html" title="A logicaly application object to drive the mvvm application from the core part. ">CoreApp</a>.</p>
 <dl class="section note"><dt>Note</dt><dd>If a service has a slot named <code>qtmvvm_init()</code> it is called automatically by the registry right after all dependant services have been injected.</dd></dl>
 <p>The following example shows how to use DI. The first shows how to use it with a simple, interface-less service for an already created object:</p>
-<div class="fragment"><div class="line"><span class="comment">// service.h</span></div><div class="line"><span class="keyword">class </span>Service : <span class="keyword">public</span> <a class="codeRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a></div><div class="line">{</div><div class="line">    Q_OBJECT</div><div class="line"></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    Q_INVOKABLE <span class="keyword">explicit</span> Service(<a class="codeRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *parent = <span class="keyword">nullptr</span>); <span class="comment">//required signature</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> Q_SLOTS:</div><div class="line">    <span class="keywordtype">void</span> baum();</div><div class="line">    <span class="keywordtype">void</span> qtmvvm_init(); <span class="comment">//is called by the registry</span></div><div class="line">};</div><div class="line"></div><div class="line"><span class="comment">// myclass.h</span></div><div class="line"><span class="keyword">class </span>MyClass : <span class="keyword">public</span> <a class="codeRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a></div><div class="line">{</div><div class="line">    Q_OBJECT</div><div class="line"></div><div class="line">    <a class="code" href="injection_8h.html#a6fae8ec64f64d9ef355df8d23d1daa6f">QTMVVM_INJECT_PROP</a>(Service*, <a class="code" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31">service</a>, _service)</div><div class="line"></div><div class="line">    <span class="comment">//...</span></div><div class="line"><span class="keyword">private</span>:</div><div class="line">    Service *_service;</div><div class="line">};</div><div class="line"></div><div class="line"><span class="comment">//main.cpp</span></div><div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> *argv[])</div><div class="line">{</div><div class="line">    <a class="codeRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtwidgets/qtwidgets.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qapplication.html">QApplication</a> a(argc, argv);</div><div class="line">    <a class="code" href="class_qt_mvvm_1_1_service_registry.html#aabda69c79dc04cebfd2ebaea25e9ee62">QtMvvm::ServiceRegistry::instance</a>()-&gt;<a class="code" href="class_qt_mvvm_1_1_service_registry.html#a9c2f2166f4ecbd4b2f3ae0d0e4165ab5">registerObject</a>&lt;Service&gt;();</div><div class="line"></div><div class="line">    <span class="comment">//...</span></div><div class="line"></div><div class="line">    <span class="keyword">auto</span> myObj = <span class="keyword">new</span> MyClass(parent);</div><div class="line">    <a class="code" href="class_qt_mvvm_1_1_service_registry.html#aabda69c79dc04cebfd2ebaea25e9ee62">QtMvvm::ServiceRegistry::instance</a>()-&gt;<a class="code" href="class_qt_mvvm_1_1_service_registry.html#a6c3bf4e06311d321bdea7e78a4899769">injectServices</a>(myObj);</div><div class="line">    <span class="comment">// _service is now initialized via a valid Service</span></div><div class="line">}</div></div><!-- fragment --><p>The second example shows how to use it for interface based services and on objects that are created via the registry:</p>
-<div class="fragment"><div class="line"><span class="comment">// iservice.h</span></div><div class="line"><span class="keyword">class </span>IService</div><div class="line">{</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="keyword">virtual</span> <span class="keyword">inline</span> ~IService() = <span class="keywordflow">default</span>;</div><div class="line"></div><div class="line"><span class="keyword">public</span> Q_SLOTS:</div><div class="line">    <span class="keyword">virtual</span> <span class="keywordtype">void</span> baum() = 0;</div><div class="line">};</div><div class="line"></div><div class="line"><span class="preprocessor">#define IServiceIid &quot;com.example.myapp.IService&quot;</span></div><div class="line">Q_DECLARE_INTERFACE(IService, IServiceIid)</div><div class="line"></div><div class="line"><span class="comment">// service.h</span></div><div class="line"><span class="keyword">class </span>Service : <span class="keyword">public</span> <a class="codeRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a>, <span class="keyword">public</span> IService</div><div class="line">{</div><div class="line">    Q_OBJECT</div><div class="line">    Q_INTERFACES(IService)</div><div class="line"></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    Q_INVOKABLE <span class="keyword">explicit</span> Service(<a class="codeRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *parent = <span class="keyword">nullptr</span>); <span class="comment">//required signature</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> Q_SLOTS:</div><div class="line">    <span class="keywordtype">void</span> baum() <span class="keyword">override</span>;</div><div class="line">    <span class="keywordtype">void</span> qtmvvm_init(); <span class="comment">//is called by the registry</span></div><div class="line">};</div><div class="line"></div><div class="line"><span class="comment">// myclass.h</span></div><div class="line"><span class="keyword">class </span>MyClass : <span class="keyword">public</span> <a class="codeRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a></div><div class="line">{</div><div class="line">    Q_OBJECT</div><div class="line"></div><div class="line">    <a class="code" href="injection_8h.html#a6fae8ec64f64d9ef355df8d23d1daa6f">QTMVVM_INJECT_PROP</a>(IService*, <a class="code" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31">service</a>, _service)</div><div class="line"></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    Q_INVOKABLE MyClass(<a class="codeRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *parent = <span class="keyword">nullptr</span>); <span class="comment">//required signature</span></div><div class="line"></div><div class="line">    <span class="comment">//...</span></div><div class="line"><span class="keyword">private</span>:</div><div class="line">    IService *_service;</div><div class="line">};</div><div class="line"></div><div class="line"><span class="comment">//main.cpp</span></div><div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> *argv[])</div><div class="line">{</div><div class="line">    <a class="codeRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtwidgets/qtwidgets.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qapplication.html">QApplication</a> a(argc, argv);</div><div class="line">    QtMvvm::registerInterfaceConverter&lt;IService&gt;();</div><div class="line">    <a class="code" href="class_qt_mvvm_1_1_service_registry.html#aabda69c79dc04cebfd2ebaea25e9ee62">QtMvvm::ServiceRegistry::instance</a>()-&gt;<a class="code" href="class_qt_mvvm_1_1_service_registry.html#abacfa0d81764df255df41e4ccf175ad8">registerInterface</a>&lt;IService, Service&gt;();</div><div class="line"></div><div class="line">    <span class="comment">//...</span></div><div class="line"></div><div class="line">    <span class="keyword">auto</span> myObj = <a class="code" href="class_qt_mvvm_1_1_service_registry.html#aabda69c79dc04cebfd2ebaea25e9ee62">QtMvvm::ServiceRegistry::instance</a>()-&gt;<a class="code" href="class_qt_mvvm_1_1_service_registry.html#a3db366f49af65a3b7b79a5494bb69f19">constructInjected</a>&lt;MyClass&gt;();</div><div class="line">    <span class="comment">// _service is now initialized via a valid IService</span></div><div class="line">}</div></div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="namespace_qt_mvvm.html#ada3398eab54e79982c27bb4b7d8e4b9f" title="Registers QVariant converters from QObject to an interface type registered with Q_DECLARE_INTERFACE. ">QtMvvm::registerInterfaceConverter</a>, <a class="el" href="injection_8h.html#a0a6e278ad53a06df6f32b1b636ec6151" title="Mark a property for injection. ">QTMVVM_INJECT</a>, <a class="el" href="injection_8h.html#a6fae8ec64f64d9ef355df8d23d1daa6f" title="Create a for injection marked property based on a member. ">QTMVVM_INJECT_PROP</a>, <a class="el" href="class_qt_mvvm_1_1_view_model.html" title="The base class for all viewmodels. ">ViewModel</a> </dd></dl>
+<div class="fragment"><div class="line"><span class="comment">// service.h</span></div><div class="line"><span class="keyword">class </span>Service : <span class="keyword">public</span> <a class="codeRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a></div><div class="line">{</div><div class="line">    Q_OBJECT</div><div class="line"></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    Q_INVOKABLE <span class="keyword">explicit</span> Service(<a class="codeRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *parent = <span class="keyword">nullptr</span>); <span class="comment">//required signature</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> Q_SLOTS:</div><div class="line">    <span class="keywordtype">void</span> baum();</div><div class="line">    <span class="keywordtype">void</span> qtmvvm_init(); <span class="comment">//is called by the registry</span></div><div class="line">};</div><div class="line"></div><div class="line"><span class="comment">// myclass.h</span></div><div class="line"><span class="keyword">class </span>MyClass : <span class="keyword">public</span> <a class="codeRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a></div><div class="line">{</div><div class="line">    Q_OBJECT</div><div class="line"></div><div class="line">    <a class="code" href="injection_8h.html#a6fae8ec64f64d9ef355df8d23d1daa6f">QTMVVM_INJECT_PROP</a>(Service*, <a class="code" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31">service</a>, _service)</div><div class="line"></div><div class="line">    <span class="comment">//...</span></div><div class="line"><span class="keyword">private</span>:</div><div class="line">    Service *_service;</div><div class="line">};</div><div class="line"></div><div class="line"><span class="comment">//main.cpp</span></div><div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> *argv[])</div><div class="line">{</div><div class="line">    <a class="codeRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtwidgets/qtwidgets.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qapplication.html">QApplication</a> a(argc, argv);</div><div class="line">    <a class="code" href="class_qt_mvvm_1_1_service_registry.html#aabda69c79dc04cebfd2ebaea25e9ee62">QtMvvm::ServiceRegistry::instance</a>()-&gt;<a class="code" href="class_qt_mvvm_1_1_service_registry.html#ada266f18e940d48ac4030093955c55f9">registerObject</a>&lt;Service&gt;();</div><div class="line"></div><div class="line">    <span class="comment">//...</span></div><div class="line"></div><div class="line">    <span class="keyword">auto</span> myObj = <span class="keyword">new</span> MyClass(parent);</div><div class="line">    <a class="code" href="class_qt_mvvm_1_1_service_registry.html#aabda69c79dc04cebfd2ebaea25e9ee62">QtMvvm::ServiceRegistry::instance</a>()-&gt;<a class="code" href="class_qt_mvvm_1_1_service_registry.html#a6c3bf4e06311d321bdea7e78a4899769">injectServices</a>(myObj);</div><div class="line">    <span class="comment">// _service is now initialized via a valid Service</span></div><div class="line">}</div></div><!-- fragment --><p>The second example shows how to use it for interface based services and on objects that are created via the registry:</p>
+<div class="fragment"><div class="line"><span class="comment">// iservice.h</span></div><div class="line"><span class="keyword">class </span>IService</div><div class="line">{</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="keyword">virtual</span> <span class="keyword">inline</span> ~IService() = <span class="keywordflow">default</span>;</div><div class="line"></div><div class="line"><span class="keyword">public</span> Q_SLOTS:</div><div class="line">    <span class="keyword">virtual</span> <span class="keywordtype">void</span> baum() = 0;</div><div class="line">};</div><div class="line"></div><div class="line"><span class="preprocessor">#define IServiceIid &quot;com.example.myapp.IService&quot;</span></div><div class="line">Q_DECLARE_INTERFACE(IService, IServiceIid)</div><div class="line"></div><div class="line"><span class="comment">// service.h</span></div><div class="line"><span class="keyword">class </span>Service : <span class="keyword">public</span> <a class="codeRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a>, <span class="keyword">public</span> IService</div><div class="line">{</div><div class="line">    Q_OBJECT</div><div class="line">    Q_INTERFACES(IService)</div><div class="line"></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    Q_INVOKABLE <span class="keyword">explicit</span> Service(<a class="codeRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *parent = <span class="keyword">nullptr</span>); <span class="comment">//required signature</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> Q_SLOTS:</div><div class="line">    <span class="keywordtype">void</span> baum() <span class="keyword">override</span>;</div><div class="line">    <span class="keywordtype">void</span> qtmvvm_init(); <span class="comment">//is called by the registry</span></div><div class="line">};</div><div class="line"></div><div class="line"><span class="comment">// myclass.h</span></div><div class="line"><span class="keyword">class </span>MyClass : <span class="keyword">public</span> <a class="codeRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a></div><div class="line">{</div><div class="line">    Q_OBJECT</div><div class="line"></div><div class="line">    <a class="code" href="injection_8h.html#a6fae8ec64f64d9ef355df8d23d1daa6f">QTMVVM_INJECT_PROP</a>(IService*, <a class="code" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31">service</a>, _service)</div><div class="line"></div><div class="line"><span class="keyword">public</span>:</div><div class="line">    Q_INVOKABLE MyClass(<a class="codeRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *parent = <span class="keyword">nullptr</span>); <span class="comment">//required signature</span></div><div class="line"></div><div class="line">    <span class="comment">//...</span></div><div class="line"><span class="keyword">private</span>:</div><div class="line">    IService *_service;</div><div class="line">};</div><div class="line"></div><div class="line"><span class="comment">//main.cpp</span></div><div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> *argv[])</div><div class="line">{</div><div class="line">    <a class="codeRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtwidgets/qtwidgets.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qapplication.html">QApplication</a> a(argc, argv);</div><div class="line">    QtMvvm::registerInterfaceConverter&lt;IService&gt;();</div><div class="line">    <a class="code" href="class_qt_mvvm_1_1_service_registry.html#aabda69c79dc04cebfd2ebaea25e9ee62">QtMvvm::ServiceRegistry::instance</a>()-&gt;<a class="code" href="class_qt_mvvm_1_1_service_registry.html#ab683dc8ccbb0e0198f0d5664b1f1f9ca">registerInterface</a>&lt;IService, Service&gt;();</div><div class="line"></div><div class="line">    <span class="comment">//...</span></div><div class="line"></div><div class="line">    <span class="keyword">auto</span> myObj = <a class="code" href="class_qt_mvvm_1_1_service_registry.html#aabda69c79dc04cebfd2ebaea25e9ee62">QtMvvm::ServiceRegistry::instance</a>()-&gt;<a class="code" href="class_qt_mvvm_1_1_service_registry.html#a3db366f49af65a3b7b79a5494bb69f19">constructInjected</a>&lt;MyClass&gt;();</div><div class="line">    <span class="comment">// _service is now initialized via a valid IService</span></div><div class="line">}</div></div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="namespace_qt_mvvm.html#ada3398eab54e79982c27bb4b7d8e4b9f" title="Registers QVariant converters from QObject to an interface type registered with Q_DECLARE_INTERFACE. ">QtMvvm::registerInterfaceConverter</a>, <a class="el" href="injection_8h.html#a0a6e278ad53a06df6f32b1b636ec6151" title="Mark a property for injection. ">QTMVVM_INJECT</a>, <a class="el" href="injection_8h.html#a6fae8ec64f64d9ef355df8d23d1daa6f" title="Create a for injection marked property based on a member. ">QTMVVM_INJECT_PROP</a>, <a class="el" href="class_qt_mvvm_1_1_view_model.html" title="The base class for all viewmodels. ">ViewModel</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="serviceregistry_8h_source.html#l00017">17</a> of file <a class="el" href="serviceregistry_8h_source.html">serviceregistry.h</a>.</p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="aff6b990faf118b6305c6d6cd4cacb276"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff6b990faf118b6305c6d6cd4cacb276">&#9670;&nbsp;</a></span>DestructionScope</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">QtMvvm::ServiceRegistry::DestructionScope</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A scope to indicate when a service should be deleted. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aff6b990faf118b6305c6d6cd4cacb276a7aac3331077c91c6ae5fe677b91b35c6"></a>DestroyOnAppQuit&#160;</td><td class="fielddoc"><p>Destroy when the <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qcoreapplication.html#aboutToQuit">QCoreApplication::aboutToQuit</a> signal is emitted. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45"></a>DestroyOnAppDestroy&#160;</td><td class="fielddoc"><p>Destroy as soon as the <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qcoreapplication.html">QCoreApplication</a> gets destroyed (typically end of main) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aff6b990faf118b6305c6d6cd4cacb276a2cf5729a4b8c072676f052b361c6397b"></a>DestroyOnRegistryDestroy&#160;</td><td class="fielddoc"><p>Destroy together with the service registry instance (static memory, unspecified order!) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aff6b990faf118b6305c6d6cd4cacb276aab3fbc747b7a7ba03fa19fe2d50704f7"></a>DestroyNever&#160;</td><td class="fielddoc"><p>Never destroy the instance. </p>
+</td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="serviceregistry_8h_source.html#l00021">21</a> of file <a class="el" href="serviceregistry_8h_source.html">serviceregistry.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a id="a3db366f49af65a3b7b79a5494bb69f19"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3db366f49af65a3b7b79a5494bb69f19">&#9670;&nbsp;</a></span>constructInjected() <span class="overload">[1/2]</span></h2>
 
@@ -172,7 +225,7 @@ template&lt;typename TClass &gt; </div>
         <tr>
           <td class="memname">QtMvvm::ServiceRegistry::constructInjected </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *&#160;</td>
+          <td class="paramtype"><a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *&#160;</td>
           <td class="paramname"><em>parent</em> = <code>nullptr</code></td><td>)</td>
           <td></td>
         </tr>
@@ -182,7 +235,7 @@ template&lt;typename TClass &gt; </div>
 <p>Constructs a new instance of TClass with properties injected. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">TClass</td><td>The type of object to be created, must extend <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> </td></tr>
+    <tr><td class="paramname">TClass</td><td>The type of object to be created, must extend <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -200,10 +253,10 @@ template&lt;typename TClass &gt; </div>
   </dd>
 </dl>
 <p>First the method creates a new instance of TClass, then loads all services that are needed to inject into properties of the object that are marked for injection via <a class="el" href="injection_8h.html#a0a6e278ad53a06df6f32b1b636ec6151" title="Mark a property for injection. ">QTMVVM_INJECT</a>. If any lazy service has not been created yet, it is created on the fly and then injected. The returned object is parented to the parent object. If that is null it is owned by the caller.</p>
-<dl class="section attention"><dt>Attention</dt><dd>For this to work, the TClass must have an invokable constructor with the following signature: <code>Q_INVOKABLE explicit TClass(<a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *parent = nullptr);</code></dd></dl>
+<dl class="section attention"><dt>Attention</dt><dd>For this to work, the TClass must have an invokable constructor with the following signature: <code>Q_INVOKABLE explicit TClass(<a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *parent = nullptr);</code></dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a6c3bf4e06311d321bdea7e78a4899769" title="Inject services for all injectable properties on object. ">ServiceRegistry::injectServices</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31" title="Returns the service for the given interface. ">ServiceRegistry::service</a>, <a class="el" href="injection_8h.html#a0a6e278ad53a06df6f32b1b636ec6151" title="Mark a property for injection. ">QTMVVM_INJECT</a>, <a class="el" href="injection_8h.html#a6fae8ec64f64d9ef355df8d23d1daa6f" title="Create a for injection marked property based on a member. ">QTMVVM_INJECT_PROP</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="serviceregistry_8h_source.html#l00219">219</a> of file <a class="el" href="serviceregistry_8h_source.html">serviceregistry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="serviceregistry_8h_source.html#l00254">254</a> of file <a class="el" href="serviceregistry_8h_source.html">serviceregistry.h</a>.</p>
 
 </div>
 </div>
@@ -216,13 +269,13 @@ template&lt;typename TClass &gt; </div>
         <tr>
           <td class="memname">QtMvvm::ServiceRegistry::constructInjected </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qmetaobject.html">QMetaObject</a> *&#160;</td>
+          <td class="paramtype">const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qmetaobject.html">QMetaObject</a> *&#160;</td>
           <td class="paramname"><em>metaObject</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *&#160;</td>
+          <td class="paramtype"><a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *&#160;</td>
           <td class="paramname"><em>parent</em> = <code>nullptr</code>&#160;</td>
         </tr>
         <tr>
@@ -236,7 +289,7 @@ template&lt;typename TClass &gt; </div>
 <p>Constructs a new instance of metaObject with properties injected. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">metaObject</td><td>The metaobject of object type to be created, must extend <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> </td></tr>
+    <tr><td class="paramname">metaObject</td><td>The metaobject of object type to be created, must extend <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> </td></tr>
     <tr><td class="paramname">parent</td><td>The parent object of the created object </td></tr>
   </table>
   </dd>
@@ -249,7 +302,7 @@ template&lt;typename TClass &gt; </div>
   </dd>
 </dl>
 <p>First the method creates a new instance of metaObject, then loads all services that are needed to inject into properties of the object that are marked for injection via <a class="el" href="injection_8h.html#a0a6e278ad53a06df6f32b1b636ec6151" title="Mark a property for injection. ">QTMVVM_INJECT</a>. If any lazy service has not been created yet, it is created on the fly and then injected. The returned object is parented to the parent object. If that is null it is owned by the caller.</p>
-<dl class="section attention"><dt>Attention</dt><dd>For this to work, the class defined by metaObject must have an invokable constructor with the following signature: <code>Q_INVOKABLE explicit TClass(<a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *parent = nullptr);</code></dd></dl>
+<dl class="section attention"><dt>Attention</dt><dd>For this to work, the class defined by metaObject must have an invokable constructor with the following signature: <code>Q_INVOKABLE explicit TClass(<a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *parent = nullptr);</code></dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a6c3bf4e06311d321bdea7e78a4899769" title="Inject services for all injectable properties on object. ">ServiceRegistry::injectServices</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31" title="Returns the service for the given interface. ">ServiceRegistry::service</a>, <a class="el" href="injection_8h.html#a0a6e278ad53a06df6f32b1b636ec6151" title="Mark a property for injection. ">QTMVVM_INJECT</a>, <a class="el" href="injection_8h.html#a6fae8ec64f64d9ef355df8d23d1daa6f" title="Create a for injection marked property based on a member. ">QTMVVM_INJECT_PROP</a> </dd></dl>
 
 </div>
@@ -263,7 +316,7 @@ template&lt;typename TClass &gt; </div>
         <tr>
           <td class="memname">QtMvvm::ServiceRegistry::injectServices </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *&#160;</td>
+          <td class="paramtype"><a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *&#160;</td>
           <td class="paramname"><em>object</em></td><td>)</td>
           <td></td>
         </tr>
@@ -288,8 +341,8 @@ template&lt;typename TClass &gt; </div>
 
 </div>
 </div>
-<a id="abacfa0d81764df255df41e4ccf175ad8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abacfa0d81764df255df41e4ccf175ad8">&#9670;&nbsp;</a></span>registerInterface() <span class="overload">[1/3]</span></h2>
+<a id="ab683dc8ccbb0e0198f0d5664b1f1f9ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab683dc8ccbb0e0198f0d5664b1f1f9ca">&#9670;&nbsp;</a></span>registerInterface() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -299,9 +352,19 @@ template&lt;typename TInterface , typename TService &gt; </div>
         <tr>
           <td class="memname">QtMvvm::ServiceRegistry::registerInterface </td>
           <td>(</td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>weak</em> = <code>false</code></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">DestructionScope</a>&#160;</td>
+          <td class="paramname"><em>scope</em> = <code><a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45">DestroyOnAppDestroy</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>weak</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -310,12 +373,13 @@ template&lt;typename TInterface , typename TService &gt; </div>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">TInterface</td><td>The interface type to register the service for </td></tr>
-    <tr><td class="paramname">TService</td><td>The service to be registered for that interface. Must extend <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> and implement TInterface </td></tr>
+    <tr><td class="paramname">TService</td><td>The service to be registered for that interface. Must extend <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> and implement TInterface </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">scope</td><td>The scope at which the service instance should be destroyed </td></tr>
     <tr><td class="paramname">weak</td><td>Specifies if the registration should be a weak one or a normal one </td></tr>
   </table>
   </dd>
@@ -328,15 +392,15 @@ template&lt;typename TInterface , typename TService &gt; </div>
 </dl>
 <p>If the function returns successfully, from now on a service of the given type can be accessed via the registry for the interface. The service is lazy initialized an will be created as soon as it is requested for the first time. If it has any injectable properties, they will be automatically injected on construction.</p>
 <p>If the service is registered as weak, registering another service for the same interface will not throw an exception but instead discard (and delete) this one.</p>
-<dl class="section attention"><dt>Attention</dt><dd>Make shure to register TInterface via <a class="el" href="namespace_qt_mvvm.html#ada3398eab54e79982c27bb4b7d8e4b9f" title="Registers QVariant converters from QObject to an interface type registered with Q_DECLARE_INTERFACE. ">QtMvvm::registerInterfaceConverter</a>, otherwise injection for the interface is not possible. In addition to this, TService must have an invokable constructor with the following signature: <code>Q_INVOKABLE explicit TService(<a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *parent = nullptr);</code></dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a9c2f2166f4ecbd4b2f3ae0d0e4165ab5" title="Register a service via its type. ">ServiceRegistry::registerObject</a>, <a class="el" href="namespace_qt_mvvm.html#ada3398eab54e79982c27bb4b7d8e4b9f" title="Registers QVariant converters from QObject to an interface type registered with Q_DECLARE_INTERFACE. ">QtMvvm::registerInterfaceConverter</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a6d904ac2abf387eb877dae3aad801848" title="Register a service by an iid via their metadata. ">ServiceRegistry::registerService</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31" title="Returns the service for the given interface. ">ServiceRegistry::service</a> </dd></dl>
+<dl class="section attention"><dt>Attention</dt><dd>Make shure to register TInterface via <a class="el" href="namespace_qt_mvvm.html#ada3398eab54e79982c27bb4b7d8e4b9f" title="Registers QVariant converters from QObject to an interface type registered with Q_DECLARE_INTERFACE. ">QtMvvm::registerInterfaceConverter</a>, otherwise injection for the interface is not possible. In addition to this, TService must have an invokable constructor with the following signature: <code>Q_INVOKABLE explicit TService(<a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *parent = nullptr);</code></dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a24ea425f41f3919488e23c342193626f" title="Register a service via specifing a plugin to be loaded. ">ServiceRegistry::registerPlugin</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#ada266f18e940d48ac4030093955c55f9" title="Register a service via its type. ">ServiceRegistry::registerObject</a>, <a class="el" href="namespace_qt_mvvm.html#ada3398eab54e79982c27bb4b7d8e4b9f" title="Registers QVariant converters from QObject to an interface type registered with Q_DECLARE_INTERFACE. ">QtMvvm::registerInterfaceConverter</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a9fa590672277212bc246251b4a0f7f86" title="Register a service by an iid via their metadata. ">ServiceRegistry::registerService</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31" title="Returns the service for the given interface. ">ServiceRegistry::service</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="serviceregistry_8h_source.html#l00155">155</a> of file <a class="el" href="serviceregistry_8h_source.html">serviceregistry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="serviceregistry_8h_source.html#l00184">184</a> of file <a class="el" href="serviceregistry_8h_source.html">serviceregistry.h</a>.</p>
 
 </div>
 </div>
-<a id="aa06f0c25e8238e7740a4f4ec09569a87"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa06f0c25e8238e7740a4f4ec09569a87">&#9670;&nbsp;</a></span>registerInterface() <span class="overload">[2/3]</span></h2>
+<a id="afb4dc088a24802160d9f9f01f69eaa2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb4dc088a24802160d9f9f01f69eaa2d">&#9670;&nbsp;</a></span>registerInterface() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -346,8 +410,14 @@ template&lt;typename TInterface , typename TService , typename TFunc &gt; </div>
         <tr>
           <td class="memname">QtMvvm::ServiceRegistry::registerInterface </td>
           <td>(</td>
-          <td class="paramtype">const TFunc &amp;&#160;</td>
+          <td class="paramtype">TFunc&#160;</td>
           <td class="paramname"><em>fn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">DestructionScope</a>&#160;</td>
+          <td class="paramname"><em>scope</em> = <code><a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45">DestroyOnAppDestroy</a></code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -367,7 +437,7 @@ template&lt;typename TInterface , typename TService , typename TFunc &gt; </div>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">TInterface</td><td>The interface type to register the service for </td></tr>
-    <tr><td class="paramname">TService</td><td>The service to be registered for that interface. Must extend <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> and implement TInterface </td></tr>
+    <tr><td class="paramname">TService</td><td>The service to be registered for that interface. Must extend <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> and implement TInterface </td></tr>
     <tr><td class="paramname">TFunc</td><td>The function type of the <code>fn</code> parameter. </td></tr>
   </table>
   </dd>
@@ -375,6 +445,7 @@ template&lt;typename TInterface , typename TService , typename TFunc &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">fn</td><td>The function to be called to construct the service </td></tr>
+    <tr><td class="paramname">scope</td><td>The scope at which the service instance should be destroyed </td></tr>
     <tr><td class="paramname">weak</td><td>Specifies if the registration should be a weak one or a normal one </td></tr>
   </table>
   </dd>
@@ -389,14 +460,14 @@ template&lt;typename TInterface , typename TService , typename TFunc &gt; </div>
 <p><code>fn</code> must have the following signature: </p><div class="fragment"><div class="line">TService *fn(...);</div></div><!-- fragment --><p> TService is the template parameter of this function. The arguments are variable, but if arguments are present, they all must be pointers of types that are injectable via the registry. When the function is called internally, the registry will "inject" all services as parameters of this function.</p>
 <p>If the service is registered as weak, registering another service for the same interface will not throw an exception but instead discard (and delete) this one.</p>
 <dl class="section attention"><dt>Attention</dt><dd>Make shure to register TInterface via <a class="el" href="namespace_qt_mvvm.html#ada3398eab54e79982c27bb4b7d8e4b9f" title="Registers QVariant converters from QObject to an interface type registered with Q_DECLARE_INTERFACE. ">QtMvvm::registerInterfaceConverter</a>, otherwise injection for the interface is not possible.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a9c2f2166f4ecbd4b2f3ae0d0e4165ab5" title="Register a service via its type. ">ServiceRegistry::registerObject</a>, <a class="el" href="namespace_qt_mvvm.html#ada3398eab54e79982c27bb4b7d8e4b9f" title="Registers QVariant converters from QObject to an interface type registered with Q_DECLARE_INTERFACE. ">QtMvvm::registerInterfaceConverter</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a6d904ac2abf387eb877dae3aad801848" title="Register a service by an iid via their metadata. ">ServiceRegistry::registerService</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31" title="Returns the service for the given interface. ">ServiceRegistry::service</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a24ea425f41f3919488e23c342193626f" title="Register a service via specifing a plugin to be loaded. ">ServiceRegistry::registerPlugin</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#ada266f18e940d48ac4030093955c55f9" title="Register a service via its type. ">ServiceRegistry::registerObject</a>, <a class="el" href="namespace_qt_mvvm.html#ada3398eab54e79982c27bb4b7d8e4b9f" title="Registers QVariant converters from QObject to an interface type registered with Q_DECLARE_INTERFACE. ">QtMvvm::registerInterfaceConverter</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a9fa590672277212bc246251b4a0f7f86" title="Register a service by an iid via their metadata. ">ServiceRegistry::registerService</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31" title="Returns the service for the given interface. ">ServiceRegistry::service</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="serviceregistry_8h_source.html#l00162">162</a> of file <a class="el" href="serviceregistry_8h_source.html">serviceregistry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="serviceregistry_8h_source.html#l00191">191</a> of file <a class="el" href="serviceregistry_8h_source.html">serviceregistry.h</a>.</p>
 
 </div>
 </div>
-<a id="afad92a0b52150125c010913e3365d1ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afad92a0b52150125c010913e3365d1ab">&#9670;&nbsp;</a></span>registerInterface() <span class="overload">[3/3]</span></h2>
+<a id="a7e0928c964a40cb88495c764d0b8627c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e0928c964a40cb88495c764d0b8627c">&#9670;&nbsp;</a></span>registerInterface() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -408,6 +479,12 @@ template&lt;typename TInterface , typename TService &gt; </div>
           <td>(</td>
           <td class="paramtype">TService *&#160;</td>
           <td class="paramname"><em>service</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">DestructionScope</a>&#160;</td>
+          <td class="paramname"><em>scope</em> = <code><a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45">DestroyOnAppDestroy</a></code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -427,13 +504,14 @@ template&lt;typename TInterface , typename TService &gt; </div>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">TInterface</td><td>The interface type to register the service for </td></tr>
-    <tr><td class="paramname">TService</td><td>The service to be registered for that interface. Must extend <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> and implement TInterface </td></tr>
+    <tr><td class="paramname">TService</td><td>The service to be registered for that interface. Must extend <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> and implement TInterface </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">service</td><td>The service instance to be registered as service </td></tr>
+    <tr><td class="paramname">scope</td><td>The scope at which the service instance should be destroyed </td></tr>
     <tr><td class="paramname">weak</td><td>Specifies if the registration should be a weak one or a normal one </td></tr>
   </table>
   </dd>
@@ -447,14 +525,14 @@ template&lt;typename TInterface , typename TService &gt; </div>
 <p>If the function returns successfully, from now on a service of the given type can be accessed via the registry for the interface. The service instance is from that point on owned by the registry. No DI is performed on the passed service.</p>
 <p>If the service is registered as weak, registering another service for the same interface will not throw an exception but instead discard (and delete) this one.</p>
 <dl class="section attention"><dt>Attention</dt><dd>Make shure to register TInterface via <a class="el" href="namespace_qt_mvvm.html#ada3398eab54e79982c27bb4b7d8e4b9f" title="Registers QVariant converters from QObject to an interface type registered with Q_DECLARE_INTERFACE. ">QtMvvm::registerInterfaceConverter</a>, otherwise injection for the interface is not possible.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a9c2f2166f4ecbd4b2f3ae0d0e4165ab5" title="Register a service via its type. ">ServiceRegistry::registerObject</a>, <a class="el" href="namespace_qt_mvvm.html#ada3398eab54e79982c27bb4b7d8e4b9f" title="Registers QVariant converters from QObject to an interface type registered with Q_DECLARE_INTERFACE. ">QtMvvm::registerInterfaceConverter</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a6d904ac2abf387eb877dae3aad801848" title="Register a service by an iid via their metadata. ">ServiceRegistry::registerService</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31" title="Returns the service for the given interface. ">ServiceRegistry::service</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a24ea425f41f3919488e23c342193626f" title="Register a service via specifing a plugin to be loaded. ">ServiceRegistry::registerPlugin</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#ada266f18e940d48ac4030093955c55f9" title="Register a service via its type. ">ServiceRegistry::registerObject</a>, <a class="el" href="namespace_qt_mvvm.html#ada3398eab54e79982c27bb4b7d8e4b9f" title="Registers QVariant converters from QObject to an interface type registered with Q_DECLARE_INTERFACE. ">QtMvvm::registerInterfaceConverter</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a9fa590672277212bc246251b4a0f7f86" title="Register a service by an iid via their metadata. ">ServiceRegistry::registerService</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31" title="Returns the service for the given interface. ">ServiceRegistry::service</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="serviceregistry_8h_source.html#l00171">171</a> of file <a class="el" href="serviceregistry_8h_source.html">serviceregistry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="serviceregistry_8h_source.html#l00200">200</a> of file <a class="el" href="serviceregistry_8h_source.html">serviceregistry.h</a>.</p>
 
 </div>
 </div>
-<a id="a9c2f2166f4ecbd4b2f3ae0d0e4165ab5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9c2f2166f4ecbd4b2f3ae0d0e4165ab5">&#9670;&nbsp;</a></span>registerObject() <span class="overload">[1/3]</span></h2>
+<a id="ada266f18e940d48ac4030093955c55f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada266f18e940d48ac4030093955c55f9">&#9670;&nbsp;</a></span>registerObject() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -464,9 +542,19 @@ template&lt;typename TService &gt; </div>
         <tr>
           <td class="memname">QtMvvm::ServiceRegistry::registerObject </td>
           <td>(</td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>weak</em> = <code>false</code></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">DestructionScope</a>&#160;</td>
+          <td class="paramname"><em>scope</em> = <code><a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45">DestroyOnAppDestroy</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>weak</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -474,12 +562,13 @@ template&lt;typename TService &gt; </div>
 <p>Register a service via its type. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">TService</td><td>The service to be registered by its own type. Must extend <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> </td></tr>
+    <tr><td class="paramname">TService</td><td>The service to be registered by its own type. Must extend <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">scope</td><td>The scope at which the service instance should be destroyed </td></tr>
     <tr><td class="paramname">weak</td><td>Specifies if the registration should be a weak one or a normal one </td></tr>
   </table>
   </dd>
@@ -492,15 +581,15 @@ template&lt;typename TService &gt; </div>
 </dl>
 <p>If the function returns successfully, from now on a service of the given type can be accessed via the registry. The service is lazy initialized an will be created as soon as it is requested for the first time. If it has any injectable properties, they will be automatically injected on construction.</p>
 <p>If the service is registered as weak, registering another service for the same TService will not throw an exception but instead discard (and delete) this one.</p>
-<dl class="section attention"><dt>Attention</dt><dd>In order to be able to create the service, TService must have an invokable constructor with the following signature: <code>Q_INVOKABLE explicit TService(<a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *parent = nullptr);</code></dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_mvvm_1_1_service_registry.html#abacfa0d81764df255df41e4ccf175ad8" title="Register a service for its interface via the type. ">ServiceRegistry::registerInterface</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a6d904ac2abf387eb877dae3aad801848" title="Register a service by an iid via their metadata. ">ServiceRegistry::registerService</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31" title="Returns the service for the given interface. ">ServiceRegistry::service</a> </dd></dl>
+<dl class="section attention"><dt>Attention</dt><dd>In order to be able to create the service, TService must have an invokable constructor with the following signature: <code>Q_INVOKABLE explicit TService(<a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *parent = nullptr);</code></dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_mvvm_1_1_service_registry.html#ab683dc8ccbb0e0198f0d5664b1f1f9ca" title="Register a service for its interface via the type. ">ServiceRegistry::registerInterface</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a24ea425f41f3919488e23c342193626f" title="Register a service via specifing a plugin to be loaded. ">ServiceRegistry::registerPlugin</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a9fa590672277212bc246251b4a0f7f86" title="Register a service by an iid via their metadata. ">ServiceRegistry::registerService</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31" title="Returns the service for the given interface. ">ServiceRegistry::service</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="serviceregistry_8h_source.html#l00185">185</a> of file <a class="el" href="serviceregistry_8h_source.html">serviceregistry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="serviceregistry_8h_source.html#l00214">214</a> of file <a class="el" href="serviceregistry_8h_source.html">serviceregistry.h</a>.</p>
 
 </div>
 </div>
-<a id="afaa2b66fdb3ead00d6b52ef0df4c4f61"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afaa2b66fdb3ead00d6b52ef0df4c4f61">&#9670;&nbsp;</a></span>registerObject() <span class="overload">[2/3]</span></h2>
+<a id="abf7c09845abe552aa47206413ad983f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf7c09845abe552aa47206413ad983f8">&#9670;&nbsp;</a></span>registerObject() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -510,8 +599,14 @@ template&lt;typename TService , typename TFunc &gt; </div>
         <tr>
           <td class="memname">QtMvvm::ServiceRegistry::registerObject </td>
           <td>(</td>
-          <td class="paramtype">const TFunc &amp;&#160;</td>
+          <td class="paramtype">TFunc&#160;</td>
           <td class="paramname"><em>fn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">DestructionScope</a>&#160;</td>
+          <td class="paramname"><em>scope</em> = <code><a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45">DestroyOnAppDestroy</a></code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -530,7 +625,7 @@ template&lt;typename TService , typename TFunc &gt; </div>
 <p>Register a service via a constructor function. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">TService</td><td>The service to be registered by its own type. Must extend <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> </td></tr>
+    <tr><td class="paramname">TService</td><td>The service to be registered by its own type. Must extend <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> </td></tr>
     <tr><td class="paramname">TFunc</td><td>The function type of the <code>fn</code> parameter. </td></tr>
   </table>
   </dd>
@@ -538,6 +633,7 @@ template&lt;typename TService , typename TFunc &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">fn</td><td>The function to be called to construct the service </td></tr>
+    <tr><td class="paramname">scope</td><td>The scope at which the service instance should be destroyed </td></tr>
     <tr><td class="paramname">weak</td><td>Specifies if the registration should be a weak one or a normal one </td></tr>
   </table>
   </dd>
@@ -551,14 +647,14 @@ template&lt;typename TService , typename TFunc &gt; </div>
 <p>If the function returns successfully, from now on a service of the given type can be accessed via the registry. The service is lazy initialized an will be created as soon as it is requested for the first time. It is created by calling the given <code>fn</code> function.</p>
 <p><code>fn</code> must have the following signature: </p><div class="fragment"><div class="line">TService *fn(...);</div></div><!-- fragment --><p> TService is the template parameter of this function. The arguments are variable, but if arguments are present, they all must be pointers of types that are injectable via theregistry. When the function is called internally, the registry will "inject" all services as parameters of this function.</p>
 <p>If the service is registered as weak, registering another service for the same TService will not throw an exception but instead discard (and delete) this one.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_mvvm_1_1_service_registry.html#abacfa0d81764df255df41e4ccf175ad8" title="Register a service for its interface via the type. ">ServiceRegistry::registerInterface</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a6d904ac2abf387eb877dae3aad801848" title="Register a service by an iid via their metadata. ">ServiceRegistry::registerService</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31" title="Returns the service for the given interface. ">ServiceRegistry::service</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_mvvm_1_1_service_registry.html#ab683dc8ccbb0e0198f0d5664b1f1f9ca" title="Register a service for its interface via the type. ">ServiceRegistry::registerInterface</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a24ea425f41f3919488e23c342193626f" title="Register a service via specifing a plugin to be loaded. ">ServiceRegistry::registerPlugin</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a9fa590672277212bc246251b4a0f7f86" title="Register a service by an iid via their metadata. ">ServiceRegistry::registerService</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31" title="Returns the service for the given interface. ">ServiceRegistry::service</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="serviceregistry_8h_source.html#l00192">192</a> of file <a class="el" href="serviceregistry_8h_source.html">serviceregistry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="serviceregistry_8h_source.html#l00221">221</a> of file <a class="el" href="serviceregistry_8h_source.html">serviceregistry.h</a>.</p>
 
 </div>
 </div>
-<a id="a25ae0f6bd651835d90455d5540ea533b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a25ae0f6bd651835d90455d5540ea533b">&#9670;&nbsp;</a></span>registerObject() <span class="overload">[3/3]</span></h2>
+<a id="a3cc1bdd66d9ac15b26e22bf1a8a39fd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3cc1bdd66d9ac15b26e22bf1a8a39fd8">&#9670;&nbsp;</a></span>registerObject() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -570,6 +666,12 @@ template&lt;typename TService &gt; </div>
           <td>(</td>
           <td class="paramtype">TService *&#160;</td>
           <td class="paramname"><em>service</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">DestructionScope</a>&#160;</td>
+          <td class="paramname"><em>scope</em> = <code><a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45">DestroyOnAppDestroy</a></code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -588,13 +690,14 @@ template&lt;typename TService &gt; </div>
 <p>Register a service via an already existing instance. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">TService</td><td>The service to be registered by its own type. Must extend <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> </td></tr>
+    <tr><td class="paramname">TService</td><td>The service to be registered by its own type. Must extend <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">service</td><td>The service instance to be registered as service </td></tr>
+    <tr><td class="paramname">scope</td><td>The scope at which the service instance should be destroyed </td></tr>
     <tr><td class="paramname">weak</td><td>Specifies if the registration should be a weak one or a normal one </td></tr>
   </table>
   </dd>
@@ -608,14 +711,87 @@ template&lt;typename TService &gt; </div>
 <p>If the function returns successfully, from now on a service of the given type can be accessed via the registry. The service instance is from that point on owned by the registry. No DI is performed on the passed service.</p>
 <p>If the service is registered as weak, registering another service for the same TService will not throw an exception but instead discard (and delete) this one.</p>
 <dl class="section attention"><dt>Attention</dt><dd>Make shure to register TInterface via <a class="el" href="namespace_qt_mvvm.html#ada3398eab54e79982c27bb4b7d8e4b9f" title="Registers QVariant converters from QObject to an interface type registered with Q_DECLARE_INTERFACE. ">QtMvvm::registerInterfaceConverter</a>, otherwise injection for the interface is not possible.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_mvvm_1_1_service_registry.html#abacfa0d81764df255df41e4ccf175ad8" title="Register a service for its interface via the type. ">ServiceRegistry::registerInterface</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a6d904ac2abf387eb877dae3aad801848" title="Register a service by an iid via their metadata. ">ServiceRegistry::registerService</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31" title="Returns the service for the given interface. ">ServiceRegistry::service</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_mvvm_1_1_service_registry.html#ab683dc8ccbb0e0198f0d5664b1f1f9ca" title="Register a service for its interface via the type. ">ServiceRegistry::registerInterface</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a24ea425f41f3919488e23c342193626f" title="Register a service via specifing a plugin to be loaded. ">ServiceRegistry::registerPlugin</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a9fa590672277212bc246251b4a0f7f86" title="Register a service by an iid via their metadata. ">ServiceRegistry::registerService</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31" title="Returns the service for the given interface. ">ServiceRegistry::service</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="serviceregistry_8h_source.html#l00201">201</a> of file <a class="el" href="serviceregistry_8h_source.html">serviceregistry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="serviceregistry_8h_source.html#l00230">230</a> of file <a class="el" href="serviceregistry_8h_source.html">serviceregistry.h</a>.</p>
 
 </div>
 </div>
-<a id="a6d904ac2abf387eb877dae3aad801848"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6d904ac2abf387eb877dae3aad801848">&#9670;&nbsp;</a></span>registerService() <span class="overload">[1/2]</span></h2>
+<a id="a24ea425f41f3919488e23c342193626f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24ea425f41f3919488e23c342193626f">&#9670;&nbsp;</a></span>registerPlugin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename TInterface &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">QtMvvm::ServiceRegistry::registerPlugin </td>
+          <td>(</td>
+          <td class="paramtype"><a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qstring.html">QString</a>&#160;</td>
+          <td class="paramname"><em>pluginType</em> = <code>{}</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qstring.html">QString</a>&#160;</td>
+          <td class="paramname"><em>pluginKey</em> = <code>{}</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">DestructionScope</a>&#160;</td>
+          <td class="paramname"><em>scope</em> = <code><a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45">DestroyOnAppDestroy</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>weak</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Register a service via specifing a plugin to be loaded. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TInterface</td><td>The interface type to register the service for </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pluginType</td><td>The kind of plugin to be loaded. Corresponds to the subdirectoy to find the plugin in </td></tr>
+    <tr><td class="paramname">pluginKey</td><td>The key to select the plugin by, if multiple are available </td></tr>
+    <tr><td class="paramname">scope</td><td>The scope at which the service instance should be destroyed </td></tr>
+    <tr><td class="paramname">weak</td><td>Specifies if the registration should be a weak one or a normal one </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="class_qt_mvvm_1_1_service_exists_exception.html" title="Is thrown if a service is beeing registered that is already registered. ">ServiceExistsException</a></td><td>If a non-weak service has already been registered for TInterface</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>If the function returns successfully, from now on a service of the given type can be accessed via the registry for the interface. The service is lazy initialized an will be created as soon as it is requested for the first time. If it has any injectable properties, they will be automatically injected on construction.</p>
+<p>If the service is registered as weak, registering another service for the same interface will not throw an exception but instead discard (and delete) this one.</p>
+<p>To actually create the instance, the registry will try to find a matching plugin to load and instanciate it. The two parameters, pluginType and pluginKey are used to select a plugin.</p>
+<p>pluginType referes to the kind of plugin, i.e. "imageformats", "platforms", ... The value can either be a relative path, which means it is resolved relative to the standard plugin directories the application uses to find <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qt.html">Qt</a> plugins (pluginType can be empty to directly look in the root folders). If the path is absolute, only that absolute folder is searched. For both cases, the search is non-recursive.</p>
+<p>pluginKey is a key to select the actual plugin files from all the plugins available in the folder identified by pluginType. For that, the "Key" property of the metadata of each plugin is checked to find one that has the given key in the list. If not specified, one of the available plugins is randomly choosen.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_mvvm_1_1_service_registry.html#ab683dc8ccbb0e0198f0d5664b1f1f9ca" title="Register a service for its interface via the type. ">ServiceRegistry::registerInterface</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#ada266f18e940d48ac4030093955c55f9" title="Register a service via its type. ">ServiceRegistry::registerObject</a>, <a class="el" href="namespace_qt_mvvm.html#ada3398eab54e79982c27bb4b7d8e4b9f" title="Registers QVariant converters from QObject to an interface type registered with Q_DECLARE_INTERFACE. ">QtMvvm::registerInterfaceConverter</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a9fa590672277212bc246251b4a0f7f86" title="Register a service by an iid via their metadata. ">ServiceRegistry::registerService</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a54085d3bac2c39f58c46165827686a31" title="Returns the service for the given interface. ">ServiceRegistry::service</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="serviceregistry_8h_source.html#l00242">242</a> of file <a class="el" href="serviceregistry_8h_source.html">serviceregistry.h</a>.</p>
+
+</div>
+</div>
+<a id="a9fa590672277212bc246251b4a0f7f86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9fa590672277212bc246251b4a0f7f86">&#9670;&nbsp;</a></span>registerService() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -623,14 +799,20 @@ template&lt;typename TService &gt; </div>
         <tr>
           <td class="memname">QtMvvm::ServiceRegistry::registerService </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearray.html">QByteArray</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearray.html">QByteArray</a> &amp;&#160;</td>
           <td class="paramname"><em>iid</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qmetaobject.html">QMetaObject</a> *&#160;</td>
+          <td class="paramtype">const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qmetaobject.html">QMetaObject</a> *&#160;</td>
           <td class="paramname"><em>metaObject</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">DestructionScope</a>&#160;</td>
+          <td class="paramname"><em>scope</em> = <code><a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45">DestroyOnAppDestroy</a></code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -650,7 +832,8 @@ template&lt;typename TService &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">iid</td><td>The interface id of the type to register the service for </td></tr>
-    <tr><td class="paramname">metaObject</td><td>The metaobject of the service to be registered for that interface. Must extend <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> and implement the interface of <code>iid</code>, unless it is the id of the service itself </td></tr>
+    <tr><td class="paramname">metaObject</td><td>The metaobject of the service to be registered for that interface. Must extend <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> and implement the interface of <code>iid</code>, unless it is the id of the service itself </td></tr>
+    <tr><td class="paramname">scope</td><td>The scope at which the service instance should be destroyed </td></tr>
     <tr><td class="paramname">weak</td><td>Specifies if the registration should be a weak one or a normal one </td></tr>
   </table>
   </dd>
@@ -663,13 +846,13 @@ template&lt;typename TService &gt; </div>
 </dl>
 <p>If the function returns successfully, from now on a service of the given metobject can be accessed via the registry for the iid. The service is lazy initialized an will be created as soon as it is requested for the first time. If it has any injectable properties, they will be automatically injected on construction.</p>
 <p>If the service is registered as weak, registering another service for the same iid will not throw an exception but instead discard (and delete) this one.</p>
-<dl class="section attention"><dt>Attention</dt><dd>In order to be able to create the service, the class defined by the metaobject must have an invokable constructor with the following signature: <code>Q_INVOKABLE explicit Service(<a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *parent = nullptr);</code></dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a9c2f2166f4ecbd4b2f3ae0d0e4165ab5" title="Register a service via its type. ">ServiceRegistry::registerObject</a>, QtMvvm::registerInterface, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#abff2c6776647fdb377860a3c3cca9080" title="Returns the service for the given iid. ">ServiceRegistry::serviceObj</a> </dd></dl>
+<dl class="section attention"><dt>Attention</dt><dd>In order to be able to create the service, the class defined by the metaobject must have an invokable constructor with the following signature: <code>Q_INVOKABLE explicit Service(<a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *parent = nullptr);</code></dd></dl>
+<dl class="section see"><dt>See also</dt><dd>QtMvvm::registerInterface, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#ada266f18e940d48ac4030093955c55f9" title="Register a service via its type. ">ServiceRegistry::registerObject</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a24ea425f41f3919488e23c342193626f" title="Register a service via specifing a plugin to be loaded. ">ServiceRegistry::registerPlugin</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#abff2c6776647fdb377860a3c3cca9080" title="Returns the service for the given iid. ">ServiceRegistry::serviceObj</a> </dd></dl>
 
 </div>
 </div>
-<a id="a342a6e90115c9a3657877c31ead01c56"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a342a6e90115c9a3657877c31ead01c56">&#9670;&nbsp;</a></span>registerService() <span class="overload">[2/2]</span></h2>
+<a id="a9f060ea798dc0b476107cbeb7d2fde9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f060ea798dc0b476107cbeb7d2fde9b">&#9670;&nbsp;</a></span>registerService() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -677,20 +860,26 @@ template&lt;typename TService &gt; </div>
         <tr>
           <td class="memname">QtMvvm::ServiceRegistry::registerService </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearray.html">QByteArray</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearray.html">QByteArray</a> &amp;&#160;</td>
           <td class="paramname"><em>iid</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::function&lt; <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *(const QObjectList &amp;)&gt; &amp;&#160;</td>
+          <td class="paramtype">const std::function&lt; <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtautoupdater/qtautoupdater.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/class_q_object.html">QObject</a> *(const QObjectList &amp;)&gt; &amp;&#160;</td>
           <td class="paramname"><em>fn</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearraylist.html">QByteArrayList</a>&#160;</td>
+          <td class="paramtype"><a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearraylist.html">QByteArrayList</a>&#160;</td>
           <td class="paramname"><em>injectables</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">DestructionScope</a>&#160;</td>
+          <td class="paramname"><em>scope</em> = <code><a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45">DestroyOnAppDestroy</a></code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -712,6 +901,7 @@ template&lt;typename TService &gt; </div>
     <tr><td class="paramname">iid</td><td>The interface id of the type to register the service for </td></tr>
     <tr><td class="paramname">fn</td><td>The function to be called to construct the service </td></tr>
     <tr><td class="paramname">injectables</td><td>The iids of the parameters to be passed to <code>fn</code> </td></tr>
+    <tr><td class="paramname">scope</td><td>The scope at which the service instance should be destroyed </td></tr>
     <tr><td class="paramname">weak</td><td>Specifies if the registration should be a weak one or a normal one </td></tr>
   </table>
   </dd>
@@ -723,9 +913,79 @@ template&lt;typename TService &gt; </div>
   </dd>
 </dl>
 <p>If the function returns successfully, from now on a service of the given type can be accessed via the registry for the interface. The service is lazy initialized an will be created as soon as it is requested for the first time. It is created by calling the given <code>fn</code> function.</p>
-<p>The function must return an object that implements the interface of <code>iid</code>, unless it is the id of the service itself. The arguments are passed as object list and are determined by the <code>injectables</code> parameter. That is a list of iids. When the function is called internally, the registry will "inject" all services found by the iids as parameters of this function, comnined to a list of objects.</p>
+<p>The function must return an object that implements the interface of <code>iid</code>, unless it is the id of the service itself. The arguments are passed as object list and are determined by the <code>injectables</code> parameter. That is a list of iids. When the function is called internally, the registry will "inject" all services found by the iids as parameters of this function, combined to a list of objects.</p>
 <p>If the service is registered as weak, registering another service for the same iid will not throw an exception but instead discard (and delete) this one.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a9c2f2166f4ecbd4b2f3ae0d0e4165ab5" title="Register a service via its type. ">ServiceRegistry::registerObject</a>, QtMvvm::registerInterface, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#abff2c6776647fdb377860a3c3cca9080" title="Returns the service for the given iid. ">ServiceRegistry::serviceObj</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd>QtMvvm::registerInterface, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#ada266f18e940d48ac4030093955c55f9" title="Register a service via its type. ">ServiceRegistry::registerObject</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a24ea425f41f3919488e23c342193626f" title="Register a service via specifing a plugin to be loaded. ">ServiceRegistry::registerPlugin</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#abff2c6776647fdb377860a3c3cca9080" title="Returns the service for the given iid. ">ServiceRegistry::serviceObj</a> </dd></dl>
+
+</div>
+</div>
+<a id="a4c75160366482ccae7085aac6821fead"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c75160366482ccae7085aac6821fead">&#9670;&nbsp;</a></span>registerService() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QtMvvm::ServiceRegistry::registerService </td>
+          <td>(</td>
+          <td class="paramtype"><a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearray.html">QByteArray</a>&#160;</td>
+          <td class="paramname"><em>iid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qstring.html">QString</a>&#160;</td>
+          <td class="paramname"><em>pluginType</em> = <code>{}</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qstring.html">QString</a>&#160;</td>
+          <td class="paramname"><em>pluginKey</em> = <code>{}</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276">DestructionScope</a>&#160;</td>
+          <td class="paramname"><em>scope</em> = <code><a class="el" href="class_qt_mvvm_1_1_service_registry.html#aff6b990faf118b6305c6d6cd4cacb276a7a43a0e97844c62bf966b828fb2b7b45">DestroyOnAppDestroy</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>weak</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Register a service by an iid via specifing a plugin to be loaded. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">iid</td><td>The interface id of the type to register the service for </td></tr>
+    <tr><td class="paramname">pluginType</td><td>The kind of plugin to be loaded. Corresponds to the subdirectoy to find the plugin in </td></tr>
+    <tr><td class="paramname">pluginKey</td><td>The key to select the plugin by, if multiple are available </td></tr>
+    <tr><td class="paramname">scope</td><td>The scope at which the service instance should be destroyed </td></tr>
+    <tr><td class="paramname">weak</td><td>Specifies if the registration should be a weak one or a normal one </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="class_qt_mvvm_1_1_service_exists_exception.html" title="Is thrown if a service is beeing registered that is already registered. ">ServiceExistsException</a></td><td>If a non-weak service has already been registered for the iid</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>If the function returns successfully, from now on a service of the given type can be accessed via the registry for the interface. The service is lazy initialized an will be created as soon as it is requested for the first time. If it has any injectable properties, they will be automatically injected on construction.</p>
+<p>If the service is registered as weak, registering another service for the same interface will not throw an exception but instead discard (and delete) this one.</p>
+<p>To actually create the instance, the registry will try to find a matching plugin to load and instanciate it. The two parameters, pluginType and pluginKey are used to select a plugin.</p>
+<p>pluginType referes to the kind of plugin, i.e. "imageformats", "platforms", ... The value can either be a relative path, which means it is resolved relative to the standard plugin directories the application uses to find <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qt.html">Qt</a> plugins (pluginType can be empty to directly look in the root folders). If the path is absolute, only that absolute folder is searched. For both cases, the search is non-recursive.</p>
+<p>pluginKey is a key to select the actual plugin files from all the plugins available in the folder identified by pluginType. For that, the "Key" property of the metadata of each plugin is checked to find one that has the given key in the list. If not specified, one of the available plugins is randomly choosen.</p>
+<dl class="section see"><dt>See also</dt><dd>QtMvvm::registerInterface, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#ada266f18e940d48ac4030093955c55f9" title="Register a service via its type. ">ServiceRegistry::registerObject</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a24ea425f41f3919488e23c342193626f" title="Register a service via specifing a plugin to be loaded. ">ServiceRegistry::registerPlugin</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#abff2c6776647fdb377860a3c3cca9080" title="Returns the service for the given iid. ">ServiceRegistry::serviceObj</a> </dd></dl>
 
 </div>
 </div>
@@ -761,10 +1021,10 @@ template&lt;typename TInterface &gt; </div>
   </dd>
 </dl>
 <p>If the service is lazy inizialized and not created yet, the registry will do so. The returned service is owned by the registry. Be careful with weak services, as they may be deleted at any time. For normal services, this is never the case.</p>
-<dl class="section note"><dt>Note</dt><dd>TInterface can either be an actual interface or a service type, depending on what you registered it for (i.e. TInterface of the <a class="el" href="class_qt_mvvm_1_1_service_registry.html#abacfa0d81764df255df41e4ccf175ad8" title="Register a service for its interface via the type. ">registerInterface()</a> method and TService of the <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a9c2f2166f4ecbd4b2f3ae0d0e4165ab5" title="Register a service via its type. ">registerObject()</a> method</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a9c2f2166f4ecbd4b2f3ae0d0e4165ab5" title="Register a service via its type. ">ServiceRegistry::registerObject</a>, QtMvvm::registerInterface, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#abff2c6776647fdb377860a3c3cca9080" title="Returns the service for the given iid. ">ServiceRegistry::serviceObj</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a6c3bf4e06311d321bdea7e78a4899769" title="Inject services for all injectable properties on object. ">ServiceRegistry::injectServices</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a3db366f49af65a3b7b79a5494bb69f19" title="Constructs a new instance of TClass with properties injected. ">ServiceRegistry::constructInjected</a> </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>TInterface can either be an actual interface or a service type, depending on what you registered it for (i.e. TInterface of the <a class="el" href="class_qt_mvvm_1_1_service_registry.html#ab683dc8ccbb0e0198f0d5664b1f1f9ca" title="Register a service for its interface via the type. ">registerInterface()</a> method and TService of the <a class="el" href="class_qt_mvvm_1_1_service_registry.html#ada266f18e940d48ac4030093955c55f9" title="Register a service via its type. ">registerObject()</a> method</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_mvvm_1_1_service_registry.html#ada266f18e940d48ac4030093955c55f9" title="Register a service via its type. ">ServiceRegistry::registerObject</a>, QtMvvm::registerInterface, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#abff2c6776647fdb377860a3c3cca9080" title="Returns the service for the given iid. ">ServiceRegistry::serviceObj</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a6c3bf4e06311d321bdea7e78a4899769" title="Inject services for all injectable properties on object. ">ServiceRegistry::injectServices</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a3db366f49af65a3b7b79a5494bb69f19" title="Constructs a new instance of TClass with properties injected. ">ServiceRegistry::constructInjected</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="serviceregistry_8h_source.html#l00213">213</a> of file <a class="el" href="serviceregistry_8h_source.html">serviceregistry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="serviceregistry_8h_source.html#l00248">248</a> of file <a class="el" href="serviceregistry_8h_source.html">serviceregistry.h</a>.</p>
 
 </div>
 </div>
@@ -777,7 +1037,7 @@ template&lt;typename TInterface &gt; </div>
         <tr>
           <td class="memname">QtMvvm::ServiceRegistry::serviceObj </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.10.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearray.html">QByteArray</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" target="_blank" doxygen="/home/sky/Qt/Docs/Qt-5.11.1/qtcore/qtcore.tags:https://doc.qt.io/qt-5/" href="https://doc.qt.io/qt-5/qbytearray.html">QByteArray</a> &amp;&#160;</td>
           <td class="paramname"><em>iid</em></td><td>)</td>
           <td></td>
         </tr>
@@ -800,7 +1060,7 @@ template&lt;typename TInterface &gt; </div>
 </dl>
 <p>If the service is lazy inizialized and not created yet, the registry will do so. The returned service is owned by the registry. Be careful with weak services, as they may be deleted at any time. For normal services, this is never the case.</p>
 <dl class="section note"><dt>Note</dt><dd>iid must be the identity the service has been registered for. This depends on the type itself and how it was registered.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a6d904ac2abf387eb877dae3aad801848" title="Register a service by an iid via their metadata. ">ServiceRegistry::registerService</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#abff2c6776647fdb377860a3c3cca9080" title="Returns the service for the given iid. ">ServiceRegistry::serviceObj</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a6c3bf4e06311d321bdea7e78a4899769" title="Inject services for all injectable properties on object. ">ServiceRegistry::injectServices</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a3db366f49af65a3b7b79a5494bb69f19" title="Constructs a new instance of TClass with properties injected. ">ServiceRegistry::constructInjected</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_qt_mvvm_1_1_service_registry.html#a9fa590672277212bc246251b4a0f7f86" title="Register a service by an iid via their metadata. ">ServiceRegistry::registerService</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#abff2c6776647fdb377860a3c3cca9080" title="Returns the service for the given iid. ">ServiceRegistry::serviceObj</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a6c3bf4e06311d321bdea7e78a4899769" title="Inject services for all injectable properties on object. ">ServiceRegistry::injectServices</a>, <a class="el" href="class_qt_mvvm_1_1_service_registry.html#a3db366f49af65a3b7b79a5494bb69f19" title="Constructs a new instance of TClass with properties injected. ">ServiceRegistry::constructInjected</a> </dd></dl>
 
 </div>
 </div>
@@ -811,7 +1071,7 @@ template&lt;typename TInterface &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 14 2018 16:19:59 for QtMvvm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Aug 8 2018 19:15:45 for QtMvvm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.14
 </small></address>
