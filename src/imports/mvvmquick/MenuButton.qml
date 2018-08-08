@@ -23,7 +23,7 @@ import de.skycoder42.QtMvvm.Quick 1.1
  * }
  * @endcode
  *
- * @sa ContrastToolBar
+ * @sa RoundActionButton
  */
 ActionButton {
 	id: _menuButton
@@ -39,7 +39,6 @@ ActionButton {
 	 *
 	 * @accessors{
 	 *	@memberAc{moreMenu}
-	 *  @notifyAc{moreMenuChanged()}
 	 *	@readonlyAc
 	 * }
 	 *

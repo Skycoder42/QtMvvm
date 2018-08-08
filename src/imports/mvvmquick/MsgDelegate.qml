@@ -3,14 +3,73 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import de.skycoder42.QtMvvm.Quick 1.1
 
+/*! @brief A basic input delegate for the QtMvvm::SettingsViewModel
+ *
+ * @extends QtQuick.Controls.ItemDelegate
+ *
+ * This delegate will simply display the standard settings properties and a simple value
+ * preview text based on the formatter. When pressed, it shows an input dialog for the
+ * delegates type to edit the value.
+ *
+ * You can extend this delegate if you want to have a custom value indicator, but keep the
+ * editing mechanism.
+ *
+ * Available roles are:
+ *
+ * - group
+ * - key
+ * - type
+ * - title
+ * - tooltip
+ * - delegateUrl
+ * - inputValue
+ * - properties
+ * - preview
+ */
 ItemDelegate {
 	id: _msgDelegate
 
+	/*! @brief type:Component A @ref QtQml.Component "Component" to be shown as the indicator
+	 *
+	 * @default{`undefined`}
+	 *
+	 * @accessors{
+	 *	@memberAc{indicatorComponent}
+	 *  @notifyAc{indicatorComponentChanged()}
+	 * }
+	 *
+	 * @sa @ref QtQuick.Loader "Loader.sourceComponent"
+	 */
 	property alias indicatorComponent: _indicator.sourceComponent
+	/*! @brief type:url A url to be shown as the indicator
+	 *
+	 * @default{`undefined`}
+	 *
+	 * @accessors{
+	 *	@memberAc{indicatorSource}
+	 *  @notifyAc{indicatorSourceChanged()}
+	 * }
+	 *
+	 * @sa @ref QtQuick.Loader "Loader.source"
+	 */
 	property alias indicatorSource: _indicator.source
 
+	/*! @brief The type id of the edit dialog to be shown
+	 *
+	 * @default{`model.type`}
+	 *
+	 * Normally, the type of the input dialog is the same as the delegates type. But in case
+	 * you want to show a different kind of dialog, you can do so by setting this property to
+	 * the target type.
+	 *
+	 * @accessors{
+	 *	@memberAc{editDialogType}
+	 *  @notifyAc{editDialogTypeChanged()}
+	 * }
+	 */
 	property string editDialogType: type
 
+	//! @private Internal signal
 	signal showInput(string key, string title, string type, var defaultValue, var properties);
 
 	text: title

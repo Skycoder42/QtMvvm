@@ -49,7 +49,7 @@ The following list shows which classes belong to which Qt module, in alphabetica
 @brief The QML import for the QtMvvmCore QML module
 
 <b>Current Version</b><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1
 
 <b>Available Types</b>
 - @ref QtMvvm::MessageConfig "MessageConfig" (uncreatable)
@@ -68,12 +68,14 @@ The following list shows which classes belong to which Qt module, in alphabetica
 @brief The QML import for the QtMvvmQuick QML module
 
 <b>Current Version</b><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1
 
 <b>Available Types</b>
 - @ref QtMvvm::InputViewFactory "InputViewFactory" (uncreatable)
 - QuickPresenter (singleton)
 - FileChooser
+- ViewPlaceholder
+- ColorHelper
 - AlertDialog
 - ContrastToolBar
 - ToolBarLabel
@@ -82,6 +84,14 @@ The following list shows which classes belong to which Qt module, in alphabetica
 - MenuButton
 - FileDialog
 - FolderDialog
+- TintIcon
+- SearchBar
+- RoundMenuButton
+- DecorLabel
+- MsgDelegate
+- TimeEdit
+- DateEdit
+- ColorEdit
 - PresenterProgress
 - PresentingStackView
 - PopupPresenter
@@ -96,7 +106,7 @@ The following list shows which classes belong to which Qt module, in alphabetica
 @brief The QML import for the QtMvvmDataSyncCore QML module
 
 <b>Current Version</b><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1
 
 <b>Available Types</b>
 - @ref QtMvvm::AccountModel "AccountModel"
@@ -115,7 +125,7 @@ The following list shows which classes belong to which Qt module, in alphabetica
 @brief The QML import for the QtMvvmDataSyncQuick QML module
 
 <b>Current Version</b><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1
 
 <b>Available Types</b>
 - DataSyncView

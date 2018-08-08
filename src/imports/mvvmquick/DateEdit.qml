@@ -4,23 +4,66 @@ import QtQuick.Layouts 1.3
 import Qt.labs.calendar 1.0
 import de.skycoder42.QtMvvm.Quick 1.1
 
+/*! @brief A edit view to edit dates by using a calendar
+ *
+ * @extends QtQuick.ListView
+ *
+ * You can use this edit if you want to let the user select a date. You can use the properties
+ * to control wich tumblers are shown and which format they use.
+ *
+ * @note This edit currently uses Qt.labs.calendar - an experimental module, and thus might
+ * not always function perfectly or break after Qt updates
+ */
 ListView {
 	id: _calenderList
 
+	/*! @brief The smallest possible date the user can select
+	 *
+	 * @default{`new Date(1970, 0, 1)`}
+	 *
+	 * @note Only the date-componente of the date object is used.
+	 *
+	 * @accessors{
+	 *	@memberAc{firstDate}
+	 *  @notifyAc{firstDateChanged()}
+	 * }
+	 */
 	property date firstDate: new Date(1970, 0, 1)
+	/*! @brief The highest possible date the user can select
+	 *
+	 * @default{`new Date(9999, 11, 31)`}
+	 *
+	 * @note Only the date-componente of the date object is used.
+	 *
+	 * @accessors{
+	 *	@memberAc{lastDate}
+	 *  @notifyAc{lastDateChanged()}
+	 * }
+	 */
 	property date lastDate: new Date(9999, 11, 31)
-	property date date: today();
-
-	function today() {
-		var cDate = new Date();
-		cDate.setHours(0, 0, 0, 0, 0);
-		return cDate;
-	}
+	/*! @brief The date currently displayed and edited
+	 *
+	 * @default{`new Date()`}
+	 *
+	 * @note Only the date-componente of the date object is used.
+	 *
+	 * @accessors{
+	 *	@memberAc{date}
+	 *  @notifyAc{dateChanged()}
+	 * }
+	 */
+	property date date: _p.today();
 
 	QtObject {
 		id: _p
 
 		property bool _skipNextFocus: false
+
+		function today() {
+			var cDate = new Date();
+			cDate.setHours(0, 0, 0, 0, 0);
+			return cDate;
+		}
 
 		function focusDate() {
 			if(_skipNextFocus)

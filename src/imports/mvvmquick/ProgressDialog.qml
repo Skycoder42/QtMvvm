@@ -23,9 +23,12 @@ MsgBoxBase {
 			msgResult.setCloseTarget(_progressDialog, "finish()");
 	}
 
-	function finish() {
+	onClosed: {
 		if(progressControl)
-			notifyClosed.notifyClosed();
+			Qt.callLater(progressControl.notifyClosed);
+	}
+
+	function finish() {
 		if(msgResult) {
 			msgResult.complete(_cancelAction);
 			msgResult = null;
@@ -34,7 +37,7 @@ MsgBoxBase {
 	}
 
 	function tryCancel(button) {
-		if(_cancelAction == MessageConfig.NoButton) {
+		if(_cancelAction === MessageConfig.NoButton) {
 			_cancelAction = button;
 			footer.enabled = false;
 			if(progressControl)

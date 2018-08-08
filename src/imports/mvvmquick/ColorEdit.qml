@@ -5,6 +5,14 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import de.skycoder42.QtMvvm.Quick 1.1
 
+/*! @brief A edit view to edit colors by using a color picker
+ *
+ * @extends QtQuick.Layouts.GridLayout
+ *
+ * You can use this edit if you want to let the user select a color. It is made out of three
+ * sliders to control hue, saturation and value and a TextField to enter a hex color code,
+ * next to a small box that previews the color
+ */
 GridLayout {
 	id: _colorPicker
 	columns: 2
@@ -14,7 +22,28 @@ GridLayout {
 		id: helper
 	}
 
+	/*! @brief Specifies whether the alpha channel can be edited
+	 *
+	 * @default{`false`}
+	 *
+	 * If set to true, the user can enter a hex color string with an additional alpha value.
+	 * The sliders are uneffected from this property
+	 *
+	 * @accessors{
+	 *	@memberAc{alpha}
+	 *  @notifyAc{alphaChanged()}
+	 * }
+	 */
 	property bool alpha: false
+	/*! @brief The color currently displayed and edited
+	 *
+	 * @default{`undefined`}
+	 *
+	 * @accessors{
+	 *	@memberAc{color}
+	 *  @notifyAc{colorChanged()}
+	 * }
+	 */
 	property color color
 	onColorChanged: {
 		if(!_p.changing){

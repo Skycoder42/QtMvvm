@@ -900,13 +900,14 @@ RECURSIVE              = YES
 EXCLUDE                = ../src/3rdparty \
 						 ../src/plugins \
 						 ../src/imports/mvvmquick/settingsuibuilder.h \
-						 ../src/imports/mvvmquick/TintIcon.qml \
 						 ../src/imports/mvvmquick/MsgBoxBase.qml \
 						 ../src/imports/mvvmquick/MsgBox.qml \
+						 ../src/imports/mvvmquick/ProgressDialog.qml \
 						 ../src/imports/mvvmquick/InputDialog.qml \
 						 ../src/imports/mvvmquick/ListSection.qml \
 						 ../src/imports/mvvmquick/OverviewListView.qml \
 						 ../src/imports/mvvmquick/SectionListView.qml \
+						 ../src/imports/mvvmquick/TimeTumbler.qml \
 						 ../src/imports/mvvmquick/AndroidFileDialog.qml \
 						 ../src/imports/mvvmquick/AndroidFolderDialog.qml \
 						 ../src/imports/mvvmdatasyncquick/SubButton.qml \
@@ -936,7 +937,8 @@ EXCLUDE_PATTERNS       = moc_* \
 						 *.cpp \
 						 */src/mvvmquick/*.qml \
 						 */src/mvvmdatasyncquick/*.qml \
-						 */imports/mvvmquick/*model.h
+						 */imports/mvvmquick/*model.h \
+						 */imports/mvvmquick/*10.qml
 
 # The EXCLUDE_SYMBOLS tag can be used to specify one or more symbol names
 # (namespaces, classes, functions, etc.) that should be excluded from the
@@ -972,20 +974,25 @@ EXCLUDE_SYMBOLS        = QtMvvm::__helpertypes \
 						 QPaintEngineEx \
 						 QQmlExtensionInterface \
 						 QTechniqueFilter \
+						 QAbstractXmlReceiver \
 						 \
 						 ApplicationWindow \
+						 Control \
 						 Dialog \
 						 Drawer \
+						 GridLayout \
 						 Item \
+						 ItemDelegate \
 						 Label \
 						 ListView \
 						 Page \
 						 ProgressBar \
 						 QtObject \
 						 RoundButton \
+						 RowLayout \
 						 StackView \
 						 ToolBar \
-						 ToolButton
+						 ToolButton \
 
 # The EXAMPLE_PATH tag can be used to specify one or more files or directories
 # that contain example code fragments that are included (see the \include

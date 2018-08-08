@@ -17,7 +17,7 @@ ToolBar {
 
 	height: 56
 
-	// @copydoc QuickPresenter::accentTextColor
+	//! @copydoc QuickPresenter::accentTextColor
 	function accentTextColor(accentColor, baseColor) {
 		return QuickPresenter.accentTextColor(accentColor, baseColor);
 	}

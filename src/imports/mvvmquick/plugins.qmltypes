@@ -8,6 +8,7 @@ import QtQuick.tooling 1.2
 
 Module {
     dependencies: [
+        "Qt.labs.calendar 1.0",
         "Qt.labs.platform 1.0",
         "QtGraphicalEffects 1.0",
         "QtQml 2.2",

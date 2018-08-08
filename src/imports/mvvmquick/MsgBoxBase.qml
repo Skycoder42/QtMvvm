@@ -12,7 +12,7 @@ AlertDialog {
 	property MessageResult msgResult
 
 	property alias iconVisible: _icon.visible
-	property alias iconSource: _icon.source
+	property alias iconSource: _icon.icon.source
 	property bool autoHandleBtns: true
 
 	signal buttonClicked(int button)

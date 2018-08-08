@@ -5,6 +5,7 @@ typeinfo plugins.qmltypes
 depends QtQuick 2.10
 depends QtGraphicalEffects 1.0
 depends Qt.labs.platform 1.0
+depends Qt.labs.calendar 1.0
 depends de.skycoder42.QtMvvm.Core 1.0
 
 internal MsgBoxBase MsgBoxBase.qml
@@ -13,8 +14,8 @@ internal InputDialog InputDialog.qml
 internal ProgressDialog ProgressDialog.qml
 
 internal ListSection ListSection.qml
-internal SectionListView SectionListView.qml
 internal OverviewListView OverviewListView.qml
+internal SectionListView SectionListView.qml
 
 internal TimeTumbler TimeTumbler.qml
 
@@ -26,8 +27,8 @@ ToolBarLabel 1.0 ToolBarLabel.qml
 ActionButton 1.0 ActionButton.qml
 RoundActionButton 1.0 RoundActionButton.qml
 MenuButton 1.0 MenuButton.qml
-TintIcon 1.1 TintIcon.qml
 
+TintIcon 1.1 TintIcon.qml
 SearchBar 1.1 SearchBar.qml
 RoundMenuButton 1.1 RoundMenuButton.qml
 DecorLabel 1.1 DecorLabel.qml
@@ -37,15 +38,15 @@ DateEdit 1.1 DateEdit.qml
 ColorEdit 1.1 ColorEdit.qml
 
 PresenterProgress 1.0 PresenterProgress.qml
-PresentingStackView 1.0 PresentingStackView.qml
-PresentingStackView 1.1 PresentingStackView11.qml
-PopupPresenter 1.0 PopupPresenter.qml
-PopupPresenter 1.1 PopupPresenter11.qml
-DialogPresenter 1.0 DialogPresenter.qml
-DialogPresenter 1.1 DialogPresenter11.qml
+PresentingStackView 1.0 PresentingStackView10.qml
+PresentingStackView 1.1 PresentingStackView.qml
+PopupPresenter 1.0 PopupPresenter10.qml
+PopupPresenter 1.1 PopupPresenter.qml
+DialogPresenter 1.0 DialogPresenter10.qml
+DialogPresenter 1.1 DialogPresenter.qml
 PresentingDrawer 1.0 PresentingDrawer.qml
 
 SettingsView 1.0 SettingsView.qml
 
-QtMvvmApp 1.0 QtMvvmApp.qml
-QtMvvmApp 1.1 QtMvvmApp11.qml
+QtMvvmApp 1.0 QtMvvmApp10.qml
+QtMvvmApp 1.1 QtMvvmApp.qml

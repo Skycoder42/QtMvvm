@@ -13,7 +13,8 @@ import de.skycoder42.QtMvvm.Quick 1.1
  * dialog message type
  *
  * @note On Android, the dialog extends the FileChooser. For all other platforms, it extends
- * the @ref Qt.labs.platform.FolderDialog "Qt labs FolderDialog"
+ * the @ref Qt.labs.platform.FolderDialog "Qt labs FolderDialog" - an experimental module, and
+ * thus might not always function perfectly or break after Qt updates
  */
 Labs.FolderDialog {
 	id: _folderDialog
