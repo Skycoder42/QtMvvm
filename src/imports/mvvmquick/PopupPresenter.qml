@@ -54,7 +54,23 @@ QtObject {
 	 * }
 	 */
 	property Item rootItem: null
-	
+
+	/*! @brief Checks if the presenter has no open popups
+	 *
+	 * @default{`false`}
+	 *
+	 * As soon as there is at least a single open popup, this property gets false. Only when
+	 * no popups are show is it true. This property is always updated from within the
+	 * closeAction() method, so you can be shure that it is true after the last popup was
+	 * closed that way.
+	 *
+	 * @accessors{
+	 *	@memberAc{empty}
+	 *  @notifyAc{emptyChanged()}
+	 * }
+	 */
+	readonly property bool empty: _popups.length == 0
+
 	//! Internal property
 	property var _popups: []
 
@@ -92,6 +108,10 @@ QtObject {
 	 */
 	function closeAction() {
 		if(_popups.length > 0) {
+			if(typeof _popups[_popups.length - 1].closeAction == "function") {
+				if(_popups[_popups.length - 1].closeAction())
+					return true;
+			}
 			_popups[_popups.length - 1].close();
 			return true;
 		} else

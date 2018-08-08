@@ -113,10 +113,14 @@ StackView {
 				return true;
 		}
 
-		if(_presenterStack.safePop())
-			return true;
-		else
+		if(_presenterStack.depth <= 1)
 			return false;
+		else {
+			if(_presenterStack.safePop())
+				return true;
+			else
+				return false;
+		}
 	}
 
 	/*! @brief Pop and delete a view

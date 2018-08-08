@@ -1,7 +1,7 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
-import de.skycoder42.QtMvvm.Core 1.0
-import de.skycoder42.QtMvvm.Quick 1.0
+import de.skycoder42.QtMvvm.Core 1.1
+import de.skycoder42.QtMvvm.Quick 1.1
 
 /*! @brief A presentation helper that can present generic mvvm dialogs
  *
@@ -56,6 +56,22 @@ QtObject {
 	 */
 	property Item rootItem: null
 
+	/*! @brief Checks if the presenter has no open dialogs
+	 *
+	 * @default{`false`}
+	 *
+	 * As soon as there is at least a single open dialog, this property gets false. Only when
+	 * no dialogs are show is it true. This property is always updated from within the
+	 * closeAction() method, so you can be shure that it is true after the last dialog was
+	 * closed that way.
+	 *
+	 * @accessors{
+	 *	@memberAc{empty}
+	 *  @notifyAc{emptyChanged()}
+	 * }
+	 */
+	readonly property bool empty: _popups.length == 0
+
 	/*! @brief The primary presenting method to present a dialog
 	 *
 	 * @param type:MessageConfig config The message configuration to create a dialog of
@@ -67,12 +83,16 @@ QtObject {
 	 * @sa QtMvvm::MessageConfig, QtMvvm::MessageResult, QtMvvmApp::showDialog
 	 */
 	function showDialog(config, result) {
-		if(config.type == "msgbox")
+		if(config.type === "msgbox")
 			return createMsgBox(config, result)
-		else if(config.type == "input")
+		else if(config.type === "input")
 			return createInput(config, result)
-		else if(config.type == "file")
+		else if(config.type === "file")
 			return createFile(config, result)
+		else if(config.type === "color")
+			return createColor(config, result)
+		else if(config.type === "progress")
+			return createProgress(config, result)
 		else
 			return false;
 	}
@@ -88,6 +108,10 @@ QtObject {
 	 */
 	function closeAction() {
 		if(_popups.length > 0) {
+			if(typeof _popups[_popups.length - 1].closeAction == "function") {
+				if(_popups[_popups.length - 1].closeAction())
+					return true;
+			}
 			_popups[_popups.length - 1].reject();
 			return true;
 		} else
@@ -168,6 +192,24 @@ QtObject {
 		}
 	}
 
+	//! Internal property
+	property Component _progressComponent: ProgressDialog {
+		id: __progress
+
+		onClosed: {
+			var index = _popups.indexOf(__progress);
+			if(index > -1) {
+				__progress.destroy();
+				_dialogPresenter._popups.splice(index, 1);
+			}
+		}
+
+		Component.onCompleted: {
+			_popups.push(__progress)
+			__progress.open()
+		}
+	}
+
 	/*! @brief Method present a dialog of the QtMvvm::MessageConfig::TypeMessageBox
 	 *
 	 * @param type:MessageConfig config The message configuration to create a dialog of
@@ -225,10 +267,49 @@ QtObject {
 		props["msgConfig"] = config;
 		props["msgResult"] = result;
 		var incubator = null;
-		if(config.subType == "folder")
+		if(config.subType === "folder")
 			incubator = _folderComponent.incubateObject(rootItem, props, Qt.Synchronous);
 		else
 			incubator = _fileComponent.incubateObject(rootItem, props, Qt.Synchronous);
+		return incubator.status !== Component.Error;
+	}
+
+	/*! @brief Method present a dialog of the QtMvvm::MessageConfig::TypeColorDialog
+	 *
+	 * @param type:MessageConfig config The message configuration to create a dialog of
+	 * @param type:MessageResult result The result to report the dialog result to
+	 * @return type:bool `true` if successfully presented, `false` if not
+	 *
+	 * Used by the showDialog() method to show a dialog of the color dialog type. You can use
+	 * it yourself if you want to extend the presenter and still keep the default dialogs it
+	 * supports.
+	 *
+	 * @sa DialogPresenter::showDialog
+	 */
+	function createColor(config, result) {
+		config.viewProperties["alpha"] = (config.subType === "argb");
+		config.type = "input";
+		config.subType = "QColor";
+		return createInput(config, result);
+	}
+
+	/*! @brief Method present a dialog of the QtMvvm::MessageConfig::TypeProgressDialog
+	 *
+	 * @param type:MessageConfig config The message configuration to create a dialog of
+	 * @param type:MessageResult result The result to report the dialog result to
+	 * @return type:bool `true` if successfully presented, `false` if not
+	 *
+	 * Used by the showDialog() method to show a dialog of the progress dialog type. You can
+	 * use it yourself if you want to extend the presenter and still keep the default dialogs
+	 * it supports.
+	 *
+	 * @sa DialogPresenter::showDialog
+	 */
+	function createProgress(config, result) {
+		var props = config.viewProperties;
+		props["msgConfig"] = config;
+		props["msgResult"] = result;
+		var incubator = _progressComponent.incubateObject(rootItem, props, Qt.Synchronous);
 		return incubator.status !== Component.Error;
 	}
 }

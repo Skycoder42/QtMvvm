@@ -54,10 +54,7 @@ QtObject {
 	 * }
 	 */
 	property Item rootItem: null
-
-	//TODO document
-	readonly property bool empty: _popups.length == 0
-
+	
 	//! Internal property
 	property var _popups: []
 
@@ -95,10 +92,6 @@ QtObject {
 	 */
 	function closeAction() {
 		if(_popups.length > 0) {
-			if(typeof _popups[_popups.length - 1].closeAction == "function") {
-				if(_popups[_popups.length - 1].closeAction())
-					return true;
-			}
 			_popups[_popups.length - 1].close();
 			return true;
 		} else
