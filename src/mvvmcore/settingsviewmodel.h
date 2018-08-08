@@ -91,7 +91,7 @@ Q_SIGNALS:
 	void beginLoadSetup();
 
 	//! Signal to be emitted whenver a value in the settings is changed or removed to update the GUI
-	QTMVVM_REVISION_1 void valueChanged(const QString &key); //TODO add to save/reset doc
+	QTMVVM_REVISION_1 void valueChanged(const QString &key);
 	//! Is emitted when the user accepted the reset triggered by resetAll()
 	QTMVVM_REVISION_1 void resetAccepted(QPrivateSignal);
 

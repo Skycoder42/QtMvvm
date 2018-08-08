@@ -23,7 +23,6 @@ QUrl InputViewFactory::getInputUrl(const QByteArray &type, const QVariantMap &vi
 {
 	Q_UNUSED(viewProperties)
 
-	//TODO document all types
 	QUrl url;
 	if(d->inputAliases.contains(type))
 		url = getInputUrl(d->inputAliases.value(type), viewProperties);

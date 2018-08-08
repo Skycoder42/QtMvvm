@@ -164,8 +164,8 @@ proceed without error checking and show an empty settings dialog.
 @param defaultValue a default value to return in case the value is not found in the settings
 @returns The value found under the given key
 
-You can override this method if you want to support loading and saving settings from a
-different source then the normally used QSettings
+You can override this method if you want to support loading and saving settings from something
+different than a ISettingsAccessor
 
 @sa SettingsViewModel::saveValue, SettingsViewModel::resetValue
 */
@@ -176,8 +176,9 @@ different source then the normally used QSettings
 @param key The full key of the settings entry to be saved
 @param value The value to be stored under the key
 
-You can override this method if you want to support loading and saving settings from a
-different source then the normally used QSettings
+You can override this method if you want to support loading and saving settings from something
+different than a ISettingsAccessor. if you do so, you must emit the valueChanged() signal
+from this method to indicate that the data was changed.
 
 @sa SettingsViewModel::loadValue, SettingsViewModel::resetValue
 */
@@ -187,8 +188,9 @@ different source then the normally used QSettings
 
 @param key The full key of the settings entry to be resetted
 
-You can override this method if you want to support loading and saving settings from a
-different source then the normally used QSettings
+You can override this method if you want to support loading and saving settings from something
+different than a ISettingsAccessor. if you do so, you must emit the valueChanged() signal
+from this method to indicate that the data was changed.
 
 @sa SettingsViewModel::loadValue, SettingsViewModel::saveValue
 */

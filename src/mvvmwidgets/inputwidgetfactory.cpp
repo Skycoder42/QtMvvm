@@ -30,7 +30,6 @@ InputWidgetFactory::~InputWidgetFactory() = default;
 
 QWidget *InputWidgetFactory::createInput(const QByteArray &type, QWidget *parent, const QVariantMap &viewProperties)
 {
-	//TODO document all types
 	QWidget *widget = nullptr;
 	if(d->aliases.contains(type))
 		return createInput(d->aliases.value(type), parent, viewProperties);
