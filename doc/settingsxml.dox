@@ -9,18 +9,24 @@ QtMvvm::ISettingsSetupLoader. The files are read via that service and mapped to
 QtMvvm::SettingsElements::Setup.
 
 @section settings_xml_translator Translations
-All the settings files you have can be easily translated via a standard ts/qm file. In order for
-this to work, all you have to do is add the following lines to your pro file:
+All the settings files you have can be easily translated via a standard ts/qm file. The following
+explains how exactly.
+
+The mvvm core module comes with a special make taget, called `lupdate` that will automatically
+run lupdate when your sources change to update the TRANSLATIONS files. To not run this automatically,
+call qmake with `qmake CONFIG+=no_auto_lupdate ...`. In both cases, you can always run `make lupdate`
+to explicitly update the dependencies.
+
+With this step enabled, the only thing left to do is to add the settings xml file to the translation
+targets so it gets included as a source when running the lupdate target. To do so, simply add it
+to the `SETTINGS_TRANSLATIONS` qmake variable:
 
 @code{.pro}
-QTMVVM_TS_SETTINGS += settings.xml
-_never_true_condition: SOURCES += $$files($$PWD/.ts-dummy/*)
-PRE_TARGETDEPS += qtmvvm-tsgen #optional
+SETTINGS_TRANSLATIONS += settings.xml
 @endcode
 
-This will automatically generate a dummy cpp file in the `.ts-dummy` folder for each file
-added to the `QTMVVM_TS_SETTINGS` variable. These files contain dummy code that will then be
-read by lupdate automatically and added to all your ts files.
+This will internally generate a cpp file that is parsed and included in lupdate when running it
+via the builtin lupdate target.
 
 @section settings_xml_elements Elements
 The possible elements of such a file
@@ -162,6 +168,7 @@ long as for the last two their type is `object`
  key	| string						| <i>Required</i>	| no			| The key of the property
  type	| @ref settings_xml_types_type	| <i>Required</i>	| no			| The type of the properties value
  tr		| bool							| `false`			| no			| Specify whether the properties value (content) should be translated. Does not apply to `list` or `object` types
+ ztr	| bool							| `false`			| no			| Like tr, but does not translate the text, only generate the translation in the ts file
 
 
 @subsubsection settings_xml_elements_property_elements Content
@@ -185,6 +192,7 @@ same.
 --------|-------------------------------|-------------------|---------------|-------------
  type	| @ref settings_xml_types_type	| <i>Required</i>	| no			| The type of the list element
  tr		| bool							| `false`			| no			| Specify whether the element value (content) should be translated. Does not apply to `list` or `object` types
+ ztr	| bool							| `false`			| no			| Like tr, but does not translate the text, only generate the translation in the ts file
 
 @subsubsection settings_xml_elements_element_elements Content
 The content depend on the `type` attribute. The following tables shows which type leads
@@ -206,9 +214,11 @@ element must be a `<Group>` element (Each element that support includes as one c
 marked as primary). It is possible to specify an include element in another included document.
 
 @subsubsection settings_xml_elements_include_attribs Attributes
- Name		| Type	| Default	| Translated	| Description
-------------|-------|-----------|---------------|-------------
- optional	| bool	| `false`	| no			| An optional include. If the file cannot be found it is skipped instead of aborting with an error
+ Name		| Type									| Default		| Translated	| Description
+------------|---------------------------------------|---------------|---------------|-------------
+ optional	| bool									| `false`		| no			| An optional include. If the file cannot be found it is skipped instead of aborting with an error
+ frontends	| @ref settings_xml_types_descriptor	| <i>Empty</i>	| no			| @copybrief QtMvvm::SettingsElements::Entry::frontends
+ selectors	| @ref settings_xml_types_descriptor	| <i>Empty</i>	| no			| @copybrief QtMvvm::SettingsElements::Entry::selectors
 
 @subsubsection settings_xml_elements_include_elements Content
 The content of the include element must be a path to an XML file to be read as include. If the
@@ -300,4 +310,10 @@ The following code block is a sample settings XML file. It is the same that is b
 the example application.
 
 @include settings.xml
+
+@section settings_xml_xsd The XSD for the settings files
+The following file is the XSD the parser operates on. You can use it to verify your settings
+xml files.
+
+@include settingsconfig.xsd
 */

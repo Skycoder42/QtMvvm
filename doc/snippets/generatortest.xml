@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Settings name="TestSettings"
+		  prefix="SOME_EXPORT"
+		  baseKey="tests"
+		  scope="DestroyOnAppQuit">
+	<Include>QtCore/QDateTime</Include>
+	<Include local="false">QtCore/QUrl</Include>
+	<Include local="true">testbackend.h</Include>
+
+	<Backend class="TestBackend">
+		<Param type="QString" asStr="true">Test Backend</Param>
+		<Param type="int">42</Param>
+	</Backend>
+
+	<TypeMapping key="range" type="int"/>
+
+	<Node key="emptyNode"/>
+	<Entry key="emptyEntry"
+		   type="bool"/>
+	<Entry key="advancedEntry"
+		   type="QString"
+		   qmlGroupKey="qmlAdvancedEntry"
+		   default="Hello World"
+		   tr="true"
+		   trContext="some_context"/>
+	<Entry key="codeEntry"
+		   type="QUrl">
+		<Code>QUrl::fromLocalFile(QStringLiteral("/path/to/something"))</Code>
+	</Entry>
+
+	<Node key="parentNode">
+		<Node key="emptyChildNode"/>
+		<Node key="fullChildNode">
+			<Entry key="replaceEntry"
+				   type="range"
+				   default="42"/>
+		</Node>
+		<Entry key="parentEntry"
+			   type="bool"
+			   default="true">
+			<Node key="subNode"/>
+			<Entry key="nodeWithCodeEntry"
+				   type="int">
+				<Node key="someNode"/>
+				<Code>
+					qRound(42.8)
+				</Code>
+			</Entry>
+			<Entry key="leafEntry"
+				   type="QString"
+				   default="translate me"
+				   tr="true"/>
+		</Entry>
+	</Node>
+
+	<Entry key="voidEntry"
+		   type="void"/>
+	<Entry key="variantEntry"
+		   type="QVariant"/>
+	<Entry key="simpleListEntry"
+		   type="QList&lt;int&gt;">
+		<Code>{42}</Code>
+	</Entry>
+
+	<ListNode key="listNode">
+		<Entry key="simpleChild"
+			   type="bool"/>
+		<Node key="someNode">
+			<Entry key="deepChild"
+				   type="int"
+				   default="22"/>
+			<Entry key="deepParent"
+				   type="QString"
+				   default="___">
+				<Entry key="simpleChild"
+					   type="bool"
+					   default="true"/>
+			</Entry>
+		</Node>
+		<ListNode key="childList">
+			<Entry key="valueEntry"
+				   type="double"
+				   default="4.2"/>
+		</ListNode>
+	</ListNode>
+</Settings>

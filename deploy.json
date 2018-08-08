@@ -20,5 +20,8 @@
 	"installs": {
 		"ProjectTemplate": "Tools/QtCreator/share/qtcreator/templates/wizards/projects/qtmvvm",
 		"qbs/Qt/settingsgenerator": "Tools/QtCreator/share/qtcreator/qbs/share/qbs/modules/Qt/settingsgenerator"
-	}
+	},
+	"hostbuilds": [
+		"bin/qsettingsgenerator*"
+	]
 }

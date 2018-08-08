@@ -100,9 +100,7 @@
 
 	<xs:complexType name="ListNodeType" qxg:declare="true">
 		<xs:complexContent>
-			<xs:extension base="NodeType">
-				<xs:attribute name="listEntry" type="xs:boolean" default="false" use="optional"/>
-			</xs:extension>
+			<xs:extension base="NodeType"/>
 		</xs:complexContent>
 	</xs:complexType>
 

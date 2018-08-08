@@ -42,7 +42,7 @@ SOURCES += \
 	settingsconfigloader.cpp
 
 android {
-	#QT += androidextras
+	QT += androidextras
 
 	HEADERS += \
 		androidsettingsaccessor.h \

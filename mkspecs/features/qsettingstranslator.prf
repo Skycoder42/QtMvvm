@@ -31,7 +31,7 @@ QSETTINGSTRANSLATOR_DIR = $$QSETTINGSTRANSLATOR_DIR$$SUFFIX
 	lupdate_trcond_c.variable_out = TRANSLATIONS_CONDITION
 	lupdate_trcond_c.commands = echo created > ${QMAKE_FILE_OUT}
 	lupdate_trcond_c.output = $$QSETTINGSTRANSLATOR_DIR/trcond.cpp
-	lupdate_trcond_c.CONFIG += combine no_link
+	lupdate_trcond_c.CONFIG += combine no_link explicit_dependencies
 	QMAKE_EXTRA_COMPILERS += lupdate_trcond_c
 
 	lupdate_fakepri_c.name = fakepri ${QMAKE_FILE_IN}

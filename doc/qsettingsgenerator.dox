@@ -1,0 +1,336 @@
+/*!
+@page settings_generator The qsettingsgenerator Tool
+@brief A tool to generate static, typesafe settings access without having to type key strings
+
+@tableofcontents
+
+The general idea is that instead of this:
+@code{.cpp}
+QSettins settings;
+int value = settings.value("my/key", 42).toInt();
+@endcode
+
+You create a settings file like this:
+@code{.xml}
+<Settings name="Settings">
+	<Node key="my">
+		<Entry key="key" type="int" default="42"/>
+	</Node>
+</Settings>
+@endcode
+
+And can now access the data like this:
+@code{.cpp}
+int value = Settings::instance()->my.key;
+@endcode
+
+So in summary: First, using QSettings requires you to type in
+strings as keys - which cannot be checked by the compiler. With this tool you get a c++ member
+hirachie instead - which is checked by the compiler and thus typo free. Also, the values in
+the settings are made statically typed by using this generator. The second point was to support
+multiple backends, not only QSettings, without having to change the frontend code.
+
+@section settings_generator_features Features
+- Access settings via code - no more typos and redundant strings!
+- Static typing gives additionl saftey and is easier to use (no `.toType()` calls needed)
+- Default values in one single, central place - less error prone and easier to maintain
+	- Can be specified as strings in the xml
+	- Can be specified as C++ code in the xml
+- Use as a global single instance or create local instances
+- Support for custom settings backends instead of QSettings alone
+	- QtMvvm::QSettingsAccessor for usage with QSettings (the default)
+	- QtMvvm::DataSyncSettingsAccessor to sync settings via [QtDataSync](https://github.com/Skycoder42/QtDataSync)
+	- QtMvvm::AndroidSettingsAccessor (android only) to access the SharedPreferences
+- Can be used as an injectable service
+
+@section settings_generator_usage Usage
+Using QtMvvmCore adds a custom qmake compiler to you project. All you need to do is to create the settings xml
+definition and then add it to the pro file as `SETTINGS_DEFINITIONS += mysettings.xml`. This will create a header
+named "mysettings.h" you can include. That header contains the C++ generated settings class to access the settings.
+
+@subsection settings_generator_usage_example Example
+Create a pro file with and add the lines:
+@code{.pro}
+QT += mvvmcore
+
+SETTINGS_DEFINITIONS += mysettings.xml
+@endcode
+
+Create a file named `mysettings.xml` and fill it:
+@code{.xml}
+<?xml version="1.0" encoding="UTF-8" ?>
+<Settings name="MySettings">
+	<Node key="my">
+		<Entry key="key" type="int" default="42"/>
+	</Node>
+</Settings>
+@endcode
+
+Finally, adjust you main to look like this:
+@code{.cpp}
+#include <QCoreApplication>
+#include <QDebug>
+#include "mysettings.h"
+
+int main(int argc, char *argv[])
+{
+	QCoreApplication a(argc, argv);
+
+	int myKey = MySettings::instance()->my.key;
+	qDebug() << myKey;
+
+	return 0;
+}
+@endcode
+
+@section settings_generator_qml QML-Bindings
+The tool can also generate QML-Bindings, so you can access the settings in the same way from
+QML. To do so, add to your pro file (in addition to `SETTINGS_DEFINITIONS`):
+@code{.pro}
+QML_SETTINGS_DEFINITIONS += mysettings.xml
+@endcode
+
+And also add some QML metadata using the Qml element in the settings
+@code{.xml}
+<?xml version="1.0" encoding="UTF-8" ?>
+<Settings name="MySettings">
+	<Qml uri="com.example.settings"
+		 major="1"
+		 minor="0"/>
+	<!-- ... -->
+</Settings>
+@endcode
+
+And with that, you can use the specified uri to access the settings from QML:
+@code{.qml}
+import com.example.settings 1.0
+
+SomeItem {
+	someProperty: MySettings.my.key
+}
+@endcode
+
+@section settings_generator_format XML-Format Documentation
+The following sections document the different elements and attributes in the XML format used
+by the generator.
+
+@subsection settings_generator_elements Elements
+The possible elements of such a file.
+
+@subsubsection settings_generator_elements_Settings Settings
+The root Element of the XML document. It defines meta-stuff and the actual nodes and entries.
+
+@paragraph settings_generator_elements_Settings_attributes Attributes
+ Name		| Type											| Default/Required		| Description
+------------|-----------------------------------------------|-----------------------|-------------
+ name		| string										| _filename_			| The C++ class name of the generated class
+ prefix		| string										| _empty_				| Specify an export macro. The value is put before the class definition, if you want to export the generated class from a dynamic library
+ baseKey	| string										| _empty_				| A base settings key that is prepended to all keys
+ scope		| @ref settings_generator_values_InstanceScope	| DestroyOnAppDestroy	| The destruction scope of the create service instance
+
+@paragraph settings_generator_elements_Settings_children Child elements
+ Name			| XML-Type										| Limits	| Description
+----------------|-----------------------------------------------|-----------|-------------
+ Include		| @ref settings_generator_elements_Include		| 0 - ∞		| A header file to be included
+ Backend		| @ref settings_generator_elements_Backend		| 0 - 1		| The definition of the settings backend to use
+ Qml			| @ref settings_generator_elements_Qml			| 0 - 1		| Special configuration parameters for the QML bindings
+ TypeMapping	| @ref settings_generator_elements_TypeMapping	| 0 - ∞		| Type mappings to map abstract type names to C++ types
+ &lt;node&gt;	| @ref settings_generator_elements_NodeContent	| 0 - ∞		| General "node-like" elements, that can be inside any node-like element
+
+@subsubsection settings_generator_elements_Include Include
+Describes a file to be included via a c++ include directive. You can use them if you want to
+make use of special classes in your generated classes. Both global includes (#include <header>)
+and local includes (#include "header") are supported.<br/>
+
+@paragraph settings_generator_elements_Include_attributes Attributes
+ Name	| Type	| Default/Required	| Description
+--------|-------|-------------------|-------------
+ local	| bool	| false				| Specifies whether the include is a global or a local include
+
+@paragraph settings_generator_elements_Include_children Content
+The content of this element must be a string. More specific the header to be included. It
+becomes the content of the include directive. Specifiy it without the braces or quores, as thoes
+are added automatically.
+
+@subsubsection settings_generator_elements_Backend Backend
+The backend element can be used to select a different QtMvvm::ISettingsAccessor instead of the
+standard QtMvvm::QSettingsAccessor.
+
+@paragraph settings_generator_elements_Backend_attributes Attributes
+ Name	| Type		| Default/Required	| Description
+--------|-----------|-------------------|-------------
+ class	| string	| _required_		| The C++ class name of the backend to be used. Must be a class that implements QtMvvm::ISettingsAccessor
+
+@paragraph settings_generator_elements_Backend_children Child elements
+ Name	| XML-Type									| Limits	| Description
+--------|-------------------------------------------|-----------|-------------
+ Param	| @ref settings_generator_elements_Param	| 0 - ∞		| A parameter to be passed to the backends constructor, before the QObject* parent
+
+@subsubsection settings_generator_elements_Param Param
+A generic parameter to be passed to C++ method.
+
+@paragraph settings_generator_elements_Param_attributes Attributes
+ Name	| Type		| Default/Required	| Description
+--------|-----------|-------------------|-------------
+ type	| string	| _required_		| The C++ class name of type of the parameter.
+ asStr	| bool		| false				| Specify how the element content should be interpreted
+
+@paragraph settings_generator_elements_Param_children Content
+The content of a param represents the value of the parameter. How the content is interpreted
+depends on the asStr attribute.
+
+If it is set to false (the default), the content must be c++ code and is copied to the generated
+class as is. The code must be an expression that evalutes to a single value that is implicitly
+convertible to the given type. If type was for example int, valid expressions could be:
+
+@code{.xml}
+<Param type="int">-1</Param>
+<Param type="int">10 + 20</Param>
+<Param type="int">qRand()</Param>
+@endcode
+
+If set to true, the content is assumed to be a string. You don't need to specify quotation
+marks around the string. That string is used to initialize a QVariant that is then converted to
+type - in other words, the type you use must be variant convertible from a string. This can be
+used to, for example, create a QDate from a string with the value of
+`<Param type="QDate" asStr="true">2018-05-09</Param>`.<br/>
+
+@subsubsection settings_generator_elements_Qml Qml
+The Qml element contains special properties that are only used for QML binding generation.
+
+@paragraph settings_generator_elements_Qml_attributes Attributes
+ Name		| Type													| Default/Required	| Description
+------------|-------------------------------------------------------|-------------------|-------------
+ uri		| string												| _required_		| The QML-Import URI for the QML module
+ major		| int													| 1					| The major version of the generated module
+ minor		| int													| 0					| The minor version of the generated module
+ type		| @ref settings_generator_values_QmlRegistrationMode	| Singleton			| The mode on how to register the instance in QML
+ register	| bool													| true				| Specify, if the type should be registered automatically
+ header		| string												| _empty_			| A custom path to the generate C++-Code of the settings generator, if it can't be the default path
+
+@subsubsection settings_generator_elements_TypeMapping TypeMapping
+Type mappings allow you to specify the C++-type of an arbitrary type to be replaced by in the
+generated code. This can be useful when importing a @ref settings_xml "Settings-XML" file.
+
+@paragraph settings_generator_elements_TypeMapping_attributes Attributes
+ Name	| Type		| Default/Required	| Description
+--------|-----------|-------------------|-------------
+ key	| string	| _required_		| The fake type name
+ type	| string	| _required_		| The C++-type to replace it with
+
+@subsubsection settings_generator_elements_NodeContent NodeContent Elements
+Elements that have the NodeContent as child type can have a combination of the following
+actual child elements. Can can be unordered and mixed in any way:
+
+- @ref settings_generator_elements_Node
+- @ref settings_generator_elements_Entry
+- @ref settings_generator_elements_ListNode
+- @ref settings_generator_elements_Import
+
+@subsubsection settings_generator_elements_Node Node
+The node represents a sub-group within the settings. All elements within the node will have
+the node's key prepended to their key (seperated by a `/`)
+
+@paragraph settings_generator_elements_Node_attributes Attributes
+ Name	| Type		| Default/Required	| Description
+--------|-----------|-------------------|-------------
+ key	| string	| _required_		| The name (and group key) of the node
+
+@paragraph settings_generator_elements_Node_children Child elements
+ Name			| XML-Type										| Limits	| Description
+----------------|-----------------------------------------------|-----------|-------------
+ &lt;node&gt;	| @ref settings_generator_elements_NodeContent	| 0 - ∞		| General "node-like" elements, that can be inside any node-like element
+
+@subsubsection settings_generator_elements_Entry Entry
+The Entry element is an extension of the @ref settings_generator_elements_Node type. This
+means it's the same as a Node, but with additional properties.
+
+The entry represents a leaf entry in the settings, with a value that can be loaded and stored
+from the settings via the entry's key (within the node subgroups). Entries themselves can also
+be used as a node as well, and thus contain child elements, too.
+
+The default value can be specified in 2 ways. Either as a string (via the attribute) that is
+converted to the target type using QVariant, or via the `<Code>` child element, that contains
+actual C++-Code that evaluates to a default value.
+
+@sa QtMvvm::SettingsEntry
+
+@paragraph settings_generator_elements_Entry_attributes Attributes
+ Name		| Type		| Default/Required	| Description
+------------|-----------|-------------------|-------------
+type		| string	| _required_		| The C++-type that this entry saves and loads. Can be a virtual type, that is resolved by a @ref settings_generator_elements_TypeMapping
+qmlGroupKey	| string	| `<key>Group`		| The name the property that holds the entries sub-nodes for the QML binding
+default		| string	| _empty_			| A default value (as string) to be returned if the entry is not stored in the settings
+tr			| bool		| false				| Specify whether the default value should be translated
+trContext	| string	| _filename_		| A custom translation context to use instead of the filename
+
+@paragraph settings_generator_elements_Entry_children Additional Child elements
+ Name	| XML-Type								| Limits	| Description
+--------|---------------------------------------|-----------|-------------
+ Code	| @ref settings_generator_elements_Code	| 0 - 1		| C++-Code to create a default value
+
+@subsubsection settings_generator_elements_ListNode ListNode
+The ListNode element is an extension of the @ref settings_generator_elements_Node type. This
+means it's the same as a Node, but with additional properties.
+
+The ListNode is a special node that allows you to easily store lists of elements. All children
+that are defined within a listnode are part of the "array elements", so you will access
+elements in a list node via `listNode[2].group.entry` and can append and remove elements from
+that list.
+
+@sa QtMvvm::SettingsListNode
+
+@subsubsection settings_generator_elements_ImportType ImportType
+The Imports allow you to include other files within this one as sub elements. You can include
+either a Settings-Generator-XML (this file) or a @ref settings_xml "Settings-XML". The
+imported file is then treated like it's contents where simply defined instead of the import
+element, allowing seemless combination of different files.
+
+You can use the rootNode to instead of importing the root element in the importet file, go
+down to the node that matches the key defined by rootNode and only import that part.
+
+@paragraph settings_generator_elements_ImportType_attributes Attributes
+ Name		| Type		| Default/Required	| Description
+------------|-----------|-------------------|-------------
+ required	| bool		| true				| Specify, if the import is required or optional
+ rootNode	| string	| _empty_			| A root node withing the imported file to use as a starting point
+
+@paragraph settings_generator_elements_ImportType_children Content
+The content of the element is a string - the path to the file to be imported. If the path is
+a relative path, it is resolved relative to the file that is importing it, aka "this" file.
+
+@subsection settings_generator_values XML-Types
+The XML-Types are not elements, but values of attributes etc. that have been defined for the
+file.
+
+@subsubsection settings_generator_values_InstanceScope InstanceScope
+InstanceScope is a simple enum with the following allowed values:
+
+ Name						| Description
+----------------------------|-------------
+ DestroyOnAppQuit			| Sets the scope of the created mvvm service to QtMvvm::ServiceRegistry::DestroyOnAppQuit
+ DestroyOnAppDestroy		| Sets the scope of the created mvvm service to QtMvvm::ServiceRegistry::DestroyOnAppDestroy
+ DestroyOnRegistryDestroy	| Sets the scope of the created mvvm service to QtMvvm::ServiceRegistry::DestroyOnRegistryDestroy
+ DestroyNever				| Sets the scope of the created mvvm service to QtMvvm::ServiceRegistry::DestroyNever
+
+@subsubsection settings_generator_values_QmlRegistrationMode QmlRegistrationMode
+InstanceScope is a simple enum with the following allowed values:
+
+ Name			| Description
+----------------|-------------
+ Singleton		| Register the QML type as a singleton instance
+ Uncreatable	| Register the QML type as a uncreatable type
+ Creatable		| Register the QML type as a normal, constructable type
+
+@section settings_generator_sample Sample settings generator XML file
+The following code block is a sample of a settings generator XML file. It's a little bigger to
+show of the capabilities
+
+@include generatortest.xml
+
+@section settings_xml_xsd The XSD for the settings files
+The following file is the XSD the parser operates on. You can use it to verify your settings
+xml files.
+
+@include qsettingsgenerator.xsd
+*/
