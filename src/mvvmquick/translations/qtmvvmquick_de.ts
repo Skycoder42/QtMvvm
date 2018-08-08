@@ -36,7 +36,7 @@
 <context>
     <name>SearchBar</name>
     <message>
-        <location filename="../../imports/mvvmquick/SearchBar.qml" line="+72"/>
+        <location filename="../../imports/mvvmquick/SearchBar.qml" line="+158"/>
         <source>Search…</source>
         <translation>Suchen…</translation>
     </message>
@@ -44,25 +44,7 @@
 <context>
     <name>SettingsView</name>
     <message>
-        <location filename="../../imports/mvvmquick/SettingsView.qml" line="+80"/>
-        <source>Settings</source>
-        <translation>Einstellungen</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Search in settings</source>
-        <translation>In Einstellungen suchen</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Restore settings</source>
-        <translation>Standards wiederherstellen</translation>
-    </message>
-</context>
-<context>
-    <name>SettingsView11</name>
-    <message>
-        <location filename="../../imports/mvvmquick/SettingsView11.qml" line="+75"/>
+        <location filename="../../imports/mvvmquick/SettingsView.qml" line="+75"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
@@ -80,7 +62,7 @@
 <context>
     <name>TimeEdit</name>
     <message>
-        <location filename="../../imports/mvvmquick/TimeEdit.qml" line="+69"/>
+        <location filename="../../imports/mvvmquick/TimeEdit.qml" line="+161"/>
         <location line="+21"/>
         <source>:</source>
         <translation>:</translation>

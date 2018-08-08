@@ -27,8 +27,7 @@ SOURCES += \
 RESOURCES += \
 	sample_core.qrc
 
-QTMVVM_TS_SETTINGS += settings.xml
-_never_true_condition: SOURCES += $$files($$PWD/.ts-dummy/*)
+SETTINGS_TRANSLATIONS += settings.xml
 
 TRANSLATIONS += samplecore_de.ts
 DISTFILES += $$TRANSLATIONS

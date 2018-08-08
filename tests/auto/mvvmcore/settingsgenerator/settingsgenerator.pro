@@ -18,6 +18,7 @@ SETTINGS_DEFINITIONS += \
 	generatortest.xml \
 	importtest.xml
 
+# CONFIG += no_auto_lupdate
 SETTINGS_TRANSLATIONS += \
 	translatortest.xml
 
