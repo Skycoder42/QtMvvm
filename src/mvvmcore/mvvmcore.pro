@@ -63,6 +63,8 @@ TRANSLATIONS += \
 DISTFILES += $$TRANSLATIONS
 
 load(qt_module)
+gen_headers.files += $$absolute_path(ViewModel, $$INC_PATH/include/$$MODULE_INCNAME)
+message($$gen_headers.files)
 
 qpmx_ts_target.path = $$[QT_INSTALL_TRANSLATIONS]
 qpmx_ts_target.depends += lrelease
