@@ -69,11 +69,11 @@ Labs.FileDialog {
 	modality: Qt.WindowModal
 	folder: msgConfig.defaultValue
 	fileMode: {
-		if(msgConfig.subType === "open")
+		if(msgConfig.subType == "open")
 			return Labs.FileDialog.OpenFile;
-		else if(msgConfig.subType === "files")
+		else if(msgConfig.subType == "files")
 			return Labs.FileDialog.OpenFiles;
-		else if(msgConfig.subType === "save")
+		else if(msgConfig.subType == "save")
 			return Labs.FileDialog.SaveFile;
 		else {
 			return Labs.FileDialog.OpenFile; //fallback
@@ -88,7 +88,7 @@ Labs.FileDialog {
 
 	onAccepted: {
 		if(msgResult) {
-			if(msgConfig.subType === "files")
+			if(msgConfig.subType == "files")
 				msgResult.result = _fileDialog.files;
 			else
 				msgResult.result = _fileDialog.file;

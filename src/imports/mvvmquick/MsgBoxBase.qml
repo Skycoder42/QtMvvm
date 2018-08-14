@@ -88,7 +88,7 @@ AlertDialog {
 				_msgBoxBase.buttonClicked(button);
 				if(msgResult && autoHandleBtns) {
 					_allBtns.forEach(function(sBtn) {
-						if(button === standardButton(sBtn)) {
+						if(button == standardButton(sBtn)) {
 							msgResult.complete(sBtn);
 							msgResult = null;
 							_msgBoxBase.done(sBtn);

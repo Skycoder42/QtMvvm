@@ -83,15 +83,15 @@ QtObject {
 	 * @sa QtMvvm::MessageConfig, QtMvvm::MessageResult, QtMvvmApp::showDialog
 	 */
 	function showDialog(config, result) {
-		if(config.type === "msgbox")
+		if(config.type == "msgbox")
 			return createMsgBox(config, result)
-		else if(config.type === "input")
+		else if(config.type == "input")
 			return createInput(config, result)
-		else if(config.type === "file")
+		else if(config.type == "file")
 			return createFile(config, result)
-		else if(config.type === "color")
+		else if(config.type == "color")
 			return createColor(config, result)
-		else if(config.type === "progress")
+		else if(config.type == "progress")
 			return createProgress(config, result)
 		else
 			return false;
@@ -267,7 +267,7 @@ QtObject {
 		props["msgConfig"] = config;
 		props["msgResult"] = result;
 		var incubator = null;
-		if(config.subType === "folder")
+		if(config.subType == "folder")
 			incubator = _folderComponent.incubateObject(rootItem, props, Qt.Synchronous);
 		else
 			incubator = _fileComponent.incubateObject(rootItem, props, Qt.Synchronous);
@@ -287,7 +287,7 @@ QtObject {
 	 * @sa DialogPresenter::showDialog
 	 */
 	function createColor(config, result) {
-		config.viewProperties["alpha"] = (config.subType === "argb");
+		config.viewProperties["alpha"] = (config.subType == "argb");
 		config.type = "input";
 		config.subType = "QColor";
 		return createInput(config, result);

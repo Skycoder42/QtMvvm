@@ -37,7 +37,7 @@ MsgBoxBase {
 	}
 
 	function tryCancel(button) {
-		if(_cancelAction === MessageConfig.NoButton) {
+		if(_cancelAction == MessageConfig.NoButton) {
 			_cancelAction = button;
 			footer.enabled = false;
 			if(progressControl)
