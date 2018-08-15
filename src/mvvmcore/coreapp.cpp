@@ -288,7 +288,7 @@ const QMetaObject *CoreAppPrivate::getContainer(const QMetaObject *metaObject) c
 			throw PresenterException {
 				QByteArrayLiteral("Unabled to find the qtmvvm_container_viewmodel of type \"") + cInfo.value() +
 				QByteArrayLiteral("\" for viewmodel of type \"") + metaObject->className() +
-				QByteArrayLiteral("\" - Make shure to register the container via qRegisterMetaType<") + cInfo.value() +
+				QByteArrayLiteral("\" - Make sure to register the container via qRegisterMetaType<") + cInfo.value() +
 				QByteArrayLiteral("*>()")
 			};
 		}

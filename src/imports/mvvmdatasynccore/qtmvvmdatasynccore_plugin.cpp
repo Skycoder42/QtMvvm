@@ -37,6 +37,6 @@ void QtMvvmDataSyncCoreDeclarativeModule::registerTypes(const char *uri)
 	qmlRegisterUncreatableType<QtMvvm::DataSyncSettingsEntry>(uri, 1, 1, "DataSyncSettingsEntry", QStringLiteral("Q_GADGETs cannot be created from QML"));
 	qmlRegisterUncreatableType<QtMvvm::DataSyncSettingsViewModel>(uri, 1, 1, "DataSyncSettingsViewModel", QStringLiteral("ViewModels cannot be created from QML"));
 
-	// Check to make shure no module update is forgotten
+	// Check to make sure no module update is forgotten
 	static_assert(VERSION_MAJOR == 1 && VERSION_MINOR == 1, "QML module version needs to be updated");
 }

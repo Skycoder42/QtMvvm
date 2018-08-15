@@ -134,7 +134,7 @@ automatically injected on construction.
 If the service is registered as weak, registering another service for the same interface will
 not throw an exception but instead discard (and delete) this one.
 
-@attention Make shure to register TInterface via QtMvvm::registerInterfaceConverter, otherwise
+@attention Make sure to register TInterface via QtMvvm::registerInterfaceConverter, otherwise
 injection for the interface is not possible. In addition to this, TService must have an
 invokable constructor with the following signature:
 `Q_INVOKABLE explicit TService(QObject *parent = nullptr);`
@@ -172,7 +172,7 @@ of this function.
 If the service is registered as weak, registering another service for the same interface will
 not throw an exception but instead discard (and delete) this one.
 
-@attention Make shure to register TInterface via QtMvvm::registerInterfaceConverter, otherwise
+@attention Make sure to register TInterface via QtMvvm::registerInterfaceConverter, otherwise
 injection for the interface is not possible.
 
 @sa ServiceRegistry::registerPlugin, ServiceRegistry::registerObject,
@@ -198,7 +198,7 @@ registry. No DI is performed on the passed service.
 If the service is registered as weak, registering another service for the same interface will
 not throw an exception but instead discard (and delete) this one.
 
-@attention Make shure to register TInterface via QtMvvm::registerInterfaceConverter, otherwise
+@attention Make sure to register TInterface via QtMvvm::registerInterfaceConverter, otherwise
 injection for the interface is not possible.
 
 @sa ServiceRegistry::registerPlugin, ServiceRegistry::registerObject,
@@ -276,7 +276,7 @@ performed on the passed service.
 If the service is registered as weak, registering another service for the same TService will
 not throw an exception but instead discard (and delete) this one.
 
-@attention Make shure to register TInterface via QtMvvm::registerInterfaceConverter, otherwise
+@attention Make sure to register TInterface via QtMvvm::registerInterfaceConverter, otherwise
 injection for the interface is not possible.
 
 @sa ServiceRegistry::registerInterface, ServiceRegistry::registerPlugin,

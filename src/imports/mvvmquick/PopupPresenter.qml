@@ -61,7 +61,7 @@ QtObject {
 	 *
 	 * As soon as there is at least a single open popup, this property gets false. Only when
 	 * no popups are show is it true. This property is always updated from within the
-	 * closeAction() method, so you can be shure that it is true after the last popup was
+	 * closeAction() method, so you can be sure that it is true after the last popup was
 	 * closed that way.
 	 *
 	 * @accessors{

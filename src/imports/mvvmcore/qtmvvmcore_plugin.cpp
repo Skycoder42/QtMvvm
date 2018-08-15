@@ -57,6 +57,6 @@ void QtMvvmCoreDeclarativeModule::registerTypes(const char *uri)
 	qmlRegisterSingletonType<QtMvvm::QQmlServiceRegistry>(uri, 1, 1, "ServiceRegistry", createRegistrySingleton);
 	qmlRegisterSingletonType<QtMvvm::QQmlCoreApp>(uri, 1, 1, "CoreApp", createCoreAppSingleton);
 
-	// Check to make shure no module update is forgotten
+	// Check to make sure no module update is forgotten
 	static_assert(VERSION_MAJOR == 1 && VERSION_MINOR == 1, "QML module version needs to be updated");
 }
