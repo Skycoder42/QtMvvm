@@ -26,6 +26,6 @@ void QtMvvmDataSyncQuickDeclarativeModule::registerTypes(const char *uri)
 	//Version 1.1
 	qmlRegisterModule(uri, 1, 1);
 
-	// Check to make shure no module update is forgotten
+	// Check to make sure no module update is forgotten
 	static_assert(VERSION_MAJOR == 1 && VERSION_MINOR == 1, "QML module version needs to be updated");
 }

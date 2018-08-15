@@ -6,7 +6,7 @@ import QtQuick.Window 2.2
  *
  * @extends QtQuick.Controls.Dialog
  *
- * @details This version basically adjusts size and makes shure the dialog always appears in
+ * @details This version basically adjusts size and makes sure the dialog always appears in
  * center of the application. It even takes a possible input method into accout
  */
 Dialog {

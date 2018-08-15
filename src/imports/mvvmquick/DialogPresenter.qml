@@ -62,7 +62,7 @@ QtObject {
 	 *
 	 * As soon as there is at least a single open dialog, this property gets false. Only when
 	 * no dialogs are show is it true. This property is always updated from within the
-	 * closeAction() method, so you can be shure that it is true after the last dialog was
+	 * closeAction() method, so you can be sure that it is true after the last dialog was
 	 * closed that way.
 	 *
 	 * @accessors{

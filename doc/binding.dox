@@ -50,7 +50,7 @@ To control the directions, i.e. which properties should trigger an update on cha
 only get updated, use the `type` parameter.
 
 @attention Unlike the QML variant, this binding **does not handle binding loops**. THis means if
-you use a two way binding, make shure change signals are only emitted when the value does actually
+you use a two way binding, make sure change signals are only emitted when the value does actually
 change. Otherwise your application is caught up in a binding loop and will eventually crash. Using
 two seperate one way bindings will not prevent this.
 

@@ -124,7 +124,7 @@ it is presented as QMdiSubWindow. For all other cases, showForeground() is calle
 @param view The view to be presented
 
 This method is called by tryPresent() to simply show a standard window. The method however
-does not only show the window, but also makes shure it becomes the currently active
+does not only show the window, but also makes sure it becomes the currently active
 foreground window.
 
 @sa WidgetsPresenter::tryPresent

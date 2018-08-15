@@ -120,7 +120,7 @@ QObject *ServiceRegistryPrivate::constructInjectedLocked(const QMetaObject *meta
 	if(!instance) {
 		throw ServiceConstructionException(QByteArrayLiteral("Failed to construct object of type ") +
 										   metaObject->className() +
-										   QByteArrayLiteral(" - make shure there is an invokable constructor of the format: Q_INVOKABLE MyClass(QObject*)"));
+										   QByteArrayLiteral(" - make sure there is an invokable constructor of the format: Q_INVOKABLE MyClass(QObject*)"));
 	}
 
 	try {

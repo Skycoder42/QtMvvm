@@ -120,7 +120,7 @@ The most important part is to know how to add new ViewModels and Views.
 
 #### Create the ViewModel
 - Add a new c++ class to your core project. Let it inherit from `QtMvvm::ViewModel`
-- Make shure the Constructor has the following signature: `Q_INVOKABLE MyClass(QObject *parent);`
+- Make sure the Constructor has the following signature: `Q_INVOKABLE MyClass(QObject *parent);`
 - See [`examples/mvvmcore/SampleCore/sampleviewmodel.h`](examples/mvvmcore/SampleCore/sampleviewmodel.h) for an example ViewModel
 
 #### Create the View for QtWidgets
