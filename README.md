@@ -115,6 +115,12 @@ Follow the setup to create the project. You can select the GUI-frontends you wan
 
 For more Details on these classes, check the [Documentation](https://skycoder42.github.io/QtMvvm/).
 
+**Important:** Due to [QTBUG-69963](https://bugreports.qt.io/browse/QTBUG-69963), you must always link to QtMvvmQuick when creating a QtQuick application for windows (See Issue #1). Since windows optimizes library and only links them if referenced at least once, simply add the line
+```.cpp
+QtMvvm::QuickPresenter::getInputViewFactory(); //Workaround for QTBUG-69963
+```
+to your `main.cpp` and it should work as expected
+
 ### Adding new ViewModels and Views
 The most important part is to know how to add new ViewModels and Views.
 

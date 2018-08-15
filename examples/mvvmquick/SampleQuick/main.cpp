@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
 	QApplication app(argc, argv);
 	qDebug() << QQuickStyle::availableStyles() << QQuickStyle::name();
 
+	QtMvvm::QuickPresenter::getInputViewFactory(); //Workaround for QTBUG-69963
 	coreApp->setShowDrawer(true);
 
 	qmlRegisterUncreatableType<SampleViewModel>("de.skycoder42.QtMvvm.Sample", 1, 1, "SampleViewModel", QStringLiteral("ViewModels cannot be created"));
