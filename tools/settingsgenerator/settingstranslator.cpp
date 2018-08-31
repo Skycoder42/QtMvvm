@@ -51,6 +51,7 @@ void SettingsTranslator::writeTranslations(const SettingsConfigType &settings, c
 	_src << "}\n\n"
 		 << "}\n";
 
+	_src.flush();
 	_srcFile.close();
 }
 

@@ -23,11 +23,13 @@ void CppSettingsGenerator::process(const QString &inPath)
 	if(!_hdrFile.open(QIODevice::WriteOnly | QIODevice::Text))
 		throw FileException{_hdrFile};
 	writeHeader(settings);
+	_hdr.flush();
 	_hdrFile.close();
 
 	if(!_srcFile.open(QIODevice::WriteOnly | QIODevice::Text))
 		throw FileException{_srcFile};
 	writeSource(settings);
+	_src.flush();
 	_srcFile.close();
 }
 

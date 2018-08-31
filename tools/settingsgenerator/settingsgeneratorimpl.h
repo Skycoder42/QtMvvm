@@ -2,7 +2,6 @@
 #define SETTINGSGENERATOR_H
 
 #include <QFile>
-#include <QTextStream>
 
 #include "qsettingsgenerator.h"
 #include "settingsconfigimpl_p.h"

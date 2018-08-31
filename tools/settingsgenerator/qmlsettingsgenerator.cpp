@@ -24,11 +24,13 @@ void QmlSettingsGenerator::process(const QString &inPath)
 	if(!_hdrFile.open(QIODevice::WriteOnly | QIODevice::Text))
 		throw FileException{_hdrFile};
 	auto typeNum = writeHeader(settings, QFileInfo{inPath}.completeBaseName() + QStringLiteral(".h"));
+	_hdr.flush();
 	_hdrFile.close();
 
 	if(!_srcFile.open(QIODevice::WriteOnly | QIODevice::Text))
 		throw FileException{_srcFile};
 	writeSource(settings, typeNum);
+	_src.flush();
 	_srcFile.close();
 }
 

@@ -4,6 +4,7 @@
 #include "settingsgeneratorimpl.h"
 #include <tuple>
 #include <QSet>
+#include <QTextStream>
 
 class QmlSettingsGenerator : public SettingsGeneratorImpl
 {

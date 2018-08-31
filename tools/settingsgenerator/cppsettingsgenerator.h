@@ -2,6 +2,7 @@
 #define CPPSETTINGSGENERATOR_H
 
 #include "settingsgeneratorimpl.h"
+#include <QTextStream>
 
 class CppSettingsGenerator : public SettingsGeneratorImpl
 {
