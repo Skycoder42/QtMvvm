@@ -106,7 +106,7 @@
 <context>
     <name>settings.xml</name>
     <message>
-        <location filename="../../../../build-qtmvvm-Desktop_Qt_5_11_1_GCC_64bit-Debug/examples/mvvmcore/SampleCore/.tr-dummies/settings.tsdummy.cpp" line="+7"/>
+        <location filename="../../../../build-qtmvvm-Desktop_Qt_5_11_2_GCC_64bit-Debug/examples/mvvmcore/SampleCore/.tr-dummies/settings.tsdummy.cpp" line="+7"/>
         <source>&amp;Check me</source>
         <translation type="unfinished"></translation>
     </message>
