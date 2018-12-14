@@ -206,7 +206,7 @@ QVariant AndroidSettingsAccessorPrivate::convertFromJava(const QAndroidJniObject
 	if(env->IsInstanceOf(object.object(), intClass.object<jclass>()))
 		return object.callMethod<jint>("intValue","()I");
 	else if(env->IsInstanceOf(object.object(), longClass.object<jclass>()))
-		return object.callMethod<jlong>("longValue","()J");
+		return static_cast<qlonglong>(object.callMethod<jlong>("longValue","()J"));
 	else if(env->IsInstanceOf(object.object(), floatClass.object<jclass>()))
 		return object.callMethod<jfloat>("floatValue","()F");
 	else if(env->IsInstanceOf(object.object(), boolClass.object<jclass>()))
