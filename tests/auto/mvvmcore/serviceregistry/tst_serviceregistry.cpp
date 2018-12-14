@@ -9,6 +9,10 @@
 #include "plugintestinterface.h"
 using namespace QtMvvm;
 
+#if !defined(Q_CC_GNU) || !defined(Q_OS_WIN) || defined(QT_NO_DEBUG)
+#define NO_MINGW_DEBUG_BUILD
+#endif
+
 class ServiceRegistryTest : public QObject
 {
 	Q_OBJECT
@@ -19,7 +23,9 @@ private Q_SLOTS:
 	void testDepedencyConstructions();
 	void testInjection();
 
+#ifdef NO_MINGW_DEBUG_BUILD
 	void testPluginRegistration();
+#endif
 
 	void testDestructionScopes();
 
@@ -156,6 +162,7 @@ void ServiceRegistryTest::testInjection()
 	}
 }
 
+#ifdef NO_MINGW_DEBUG_BUILD
 void ServiceRegistryTest::testPluginRegistration()
 {
 	try {
@@ -185,6 +192,7 @@ void ServiceRegistryTest::testPluginRegistration()
 #endif
 	}
 }
+#endif
 
 void ServiceRegistryTest::testDestructionScopes()
 {
