@@ -5,10 +5,14 @@
 
 #include "qtmvvmcore_helpertypes.h"
 
-#if defined(QT_BUILD_MVVMCORE_LIB)
-#	define Q_MVVMCORE_EXPORT Q_DECL_EXPORT
+#ifndef QT_STATIC
+#  if defined(QT_BUILD_MVVMCORE_LIB)
+#    define Q_MVVMCORE_EXPORT Q_DECL_EXPORT
+#  else
+#    define Q_MVVMCORE_EXPORT Q_DECL_IMPORT
+#  endif
 #else
-#	define Q_MVVMCORE_EXPORT Q_DECL_IMPORT
+#  define Q_MVVMCORE_EXPORT
 #endif
 
 #ifndef QTMVVM_REVISION_1
