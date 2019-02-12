@@ -25,7 +25,8 @@ HEADERS += \
 	isettingsaccessor.h \
 	qsettingsaccessor.h \
 	settingsentry.h \
-	settingsconfigloader_p.h
+	settingsconfigloader_p.h \
+    exception.h
 
 SOURCES += \
 	viewmodel.cpp \

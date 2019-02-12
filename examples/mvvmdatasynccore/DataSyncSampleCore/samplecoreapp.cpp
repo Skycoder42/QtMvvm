@@ -29,7 +29,7 @@ int SampleCoreApp::startApp(const QStringList &arguments)
 				.create();
 		show<SampleViewModel>();
 		return EXIT_SUCCESS;
-	} catch (QException &e) {
+	} catch (std::exception &e) {
 		qCritical() << e.what();
 		return EXIT_FAILURE;
 	}

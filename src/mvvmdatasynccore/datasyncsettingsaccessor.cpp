@@ -1,6 +1,7 @@
 #include "datasyncsettingsaccessor.h"
 #include "datasyncsettingsaccessor_p.h"
 #include <QtCore/QRegularExpression>
+#include <QtMvvmCore/exception.h>
 
 #undef logDebug
 #undef logInfo
@@ -40,7 +41,7 @@ bool DataSyncSettingsAccessor::contains(const QString &key) const
 {
 	try {
 		return d->store->keys().contains(key);
-	} catch(QException &e) {
+	} catch (QTMVVM_EXCEPTION_BASE &e) {
 		logCritical() << "Failed to check if entry" << key << "exists with error:"
 					  << e.what();
 		return false;
@@ -54,7 +55,7 @@ QVariant DataSyncSettingsAccessor::load(const QString &key, const QVariant &defa
 	} catch (QtDataSync::NoDataException &e) {
 		Q_UNUSED(e)
 		return defaultValue;
-	} catch (QException &e) {
+	} catch (QTMVVM_EXCEPTION_BASE &e) {
 		logCritical() << "Failed to load entry" << key << "from datasync settings with error:"
 					  << e.what();
 		return defaultValue;
@@ -65,7 +66,7 @@ void DataSyncSettingsAccessor::save(const QString &key, const QVariant &value)
 {
 	try {
 		d->store->save({key, value});
-	} catch (QException &e) {
+	} catch (QTMVVM_EXCEPTION_BASE &e) {
 		logCritical() << "Failed to save entry" << key << "to datasync settings with error:"
 					  << e.what();
 	}
@@ -81,7 +82,7 @@ void DataSyncSettingsAccessor::remove(const QString &key)
 		for(const auto &rmKey : rmKeys)
 			d->store->remove(rmKey);
 		d->store->remove(key);
-	} catch (QException &e) {
+	} catch (QTMVVM_EXCEPTION_BASE &e) {
 		logCritical() << "Failed to remove entry" << key << "from datasync settings with error:"
 					  << e.what();
 	}

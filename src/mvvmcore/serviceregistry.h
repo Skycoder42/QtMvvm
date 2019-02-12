@@ -5,10 +5,10 @@
 
 #include <QtCore/qscopedpointer.h>
 #include <QtCore/qvariant.h>
-#include <QtCore/qexception.h>
 
 #include "QtMvvmCore/qtmvvmcore_global.h"
 #include "QtMvvmCore/injection.h"
+#include "QtMvvmCore/exception.h"
 
 namespace QtMvvm {
 
@@ -108,7 +108,7 @@ private:
 };
 
 //! Is thrown if a service is beeing registered that is already registered
-class Q_MVVMCORE_EXPORT ServiceExistsException : public QException
+class Q_MVVMCORE_EXPORT ServiceExistsException : public QTMVVM_EXCEPTION_BASE
 {
 public:
 	//! @private
@@ -118,9 +118,9 @@ public:
 	const char *what() const noexcept override;
 
 	//! @inherit{QException::raise}
-	void raise() const override;
+	virtual void raise() const QTMVVM_EXCEPTION_OR;
 	//! @inherit{QException::clone}
-	QException *clone() const override;
+	virtual QTMVVM_EXCEPTION_BASE *clone() const QTMVVM_EXCEPTION_OR;
 
 protected:
 	//! @private
@@ -131,7 +131,7 @@ protected:
 };
 
 //! Is thrown in case the construction of a service has failed
-class Q_MVVMCORE_EXPORT ServiceConstructionException : public QException
+class Q_MVVMCORE_EXPORT ServiceConstructionException : public QTMVVM_EXCEPTION_BASE
 {
 public:
 	//! @private
@@ -141,9 +141,9 @@ public:
 	const char *what() const noexcept override;
 
 	//! @inherit{QException::raise}
-	void raise() const override;
+	virtual void raise() const QTMVVM_EXCEPTION_OR;
 	//! @inherit{QException::clone}
-	QException *clone() const override;
+	virtual QTMVVM_EXCEPTION_BASE *clone() const QTMVVM_EXCEPTION_OR;
 
 protected:
 	//! @private
@@ -161,7 +161,7 @@ public:
 	ServiceDependencyException(const QByteArray &iid);
 
 	void raise() const override;
-	QException *clone() const override;
+	QTMVVM_EXCEPTION_BASE *clone() const override;
 
 protected:
 	//! @private

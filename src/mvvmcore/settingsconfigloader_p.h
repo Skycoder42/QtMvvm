@@ -6,6 +6,7 @@
 
 #include "qtmvvmcore_global.h"
 #include "settingssetup.h"
+#include "exception.h"
 
 #include <settingsconfigimpl_p.h>
 
@@ -57,8 +58,8 @@ public:
 
 	const char *what() const noexcept override;
 
-	void raise() const override;
-	QException *clone() const override;
+	void raise() const QTMVVM_EXCEPTION_OR;
+	QTMVVM_EXCEPTION_BASE *clone() const QTMVVM_EXCEPTION_OR;
 
 private:
 	const QByteArray _what;

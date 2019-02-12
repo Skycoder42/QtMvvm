@@ -251,7 +251,7 @@ void CoreAppPrivate::showDialog(const MessageConfig &config, MessageResult *resu
 		try {
 			presenter->showDialog(config, result);
 			logDebug() << "Successfully presented dialog of type" << config.type();
-		} catch(QException &e) {
+		} catch(QTMVVM_EXCEPTION_BASE &e) {
 			logCritical() << "Failed to show dialog for type"
 						  << config.type() << ":" << config.subType()
 						  << "with error:"
@@ -368,7 +368,7 @@ QPointer<ViewModel> CoreAppPrivate::showViewModelWithReturn(const QMetaObject *m
 			if(isSingle)
 				singleInstances.insert(metaObject, vm);
 			return vm;
-		} catch(QException &e) {
+		} catch(QTMVVM_EXCEPTION_BASE &e) {
 			logCritical() << "Failed to present viewmodel of type"
 						  << metaObject->className()
 						  << "with error:"

@@ -1,16 +1,15 @@
 #ifndef QTMVVM_IPRESENTER_H
 #define QTMVVM_IPRESENTER_H
 
-#include <QtCore/qexception.h>
-
 #include "QtMvvmCore/qtmvvmcore_global.h"
 #include "QtMvvmCore/viewmodel.h"
 #include "QtMvvmCore/message.h"
+#include "QtMvvmCore/exception.h"
 
 namespace QtMvvm {
 
 //! An exception to be thrown from the presenter if presenting fails
-class Q_MVVMCORE_EXPORT PresenterException : public QException
+class Q_MVVMCORE_EXPORT PresenterException : public QTMVVM_EXCEPTION_BASE
 {
 public:
 	//! Constructor with an error message
@@ -20,9 +19,9 @@ public:
 	const char *what() const noexcept override;
 
 	//! @inherit{QException::raise}
-	void raise() const override;
+	virtual void raise() const QTMVVM_EXCEPTION_OR;
 	//! @inherit{QException::clone}
-	QException *clone() const override;
+	virtual QTMVVM_EXCEPTION_BASE *clone() const QTMVVM_EXCEPTION_OR;
 
 protected:
 	//! @private

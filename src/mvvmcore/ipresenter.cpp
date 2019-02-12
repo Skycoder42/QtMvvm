@@ -19,7 +19,7 @@ void PresenterException::raise() const
 	throw (*this);
 }
 
-QException *PresenterException::clone() const
+QTMVVM_EXCEPTION_BASE *PresenterException::clone() const
 {
 	return new PresenterException(this);
 }

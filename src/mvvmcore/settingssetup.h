@@ -6,9 +6,9 @@
 #include <QtCore/qurl.h>
 #include <QtCore/qobject.h>
 #include <QtCore/qfileselector.h>
-#include <QtCore/qexception.h>
 
 #include "QtMvvmCore/qtmvvmcore_global.h"
+#include "QtMvvmCore/exception.h"
 
 namespace QtMvvm {
 
@@ -109,7 +109,7 @@ struct Setup
 }
 
 //! An exception throw in case loading a settings setup went wrong
-class SettingsLoaderException : public QException {};
+class SettingsLoaderException : public QTMVVM_EXCEPTION_BASE {};
 
 //! An interface for a generic settings setup loader
 class ISettingsSetupLoader

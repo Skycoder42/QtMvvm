@@ -226,7 +226,7 @@ void SettingsConfigException::raise() const
 	throw *this;
 }
 
-QException *SettingsConfigException::clone() const
+QTMVVM_EXCEPTION_BASE *SettingsConfigException::clone() const
 {
 	return new SettingsConfigException{_what};
 }

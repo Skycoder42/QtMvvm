@@ -25,6 +25,9 @@ matrix:
         - BUILD_EXAMPLES=true
     - os: linux
       env:
+        - PLATFORM=emscripten
+    - os: linux
+      env:
         - PLATFORM=android_arm64_v8a
     - os: linux
       env:

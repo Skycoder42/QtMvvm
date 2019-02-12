@@ -7,21 +7,22 @@
 #include <QtCore/QDirIterator>
 #include <QtCore/QMetaMethod>
 
+#include <QtMvvmCore/exception.h>
+
 #include <QtQml/qqml.h>
 
 #include <QtMvvmCore/private/qtmvvm_logging_p.h>
 
 #include <qurlvalidator.h>
-namespace {
 
-void qtMvvmQuickInit()
+static void qtMvvmQuickInit()
 {
 	qmlRegisterType<QUrlValidator>("de.skycoder42.QtMvvm.Quick.Private", 1, 0, "UrlValidator");
 	QtMvvm::ServiceRegistry::instance()->registerObject<QtMvvm::InputViewFactory>(QtMvvm::ServiceRegistry::DestroyOnAppDestroy, true);
 	QtMvvm::ServiceRegistry::instance()->registerInterface<QtMvvm::IPresenter, QtMvvm::QuickPresenter>(QtMvvm::ServiceRegistry::DestroyOnAppDestroy, true);
 }
 
-void initResources()
+static void initResources()
 {
 #ifdef QT_STATIC
 	qtMvvmQuickInit();
@@ -29,7 +30,6 @@ void initResources()
 #endif
 }
 
-}
 Q_COREAPP_STARTUP_FUNCTION(qtMvvmQuickInit)
 
 using namespace QtMvvm;
@@ -223,7 +223,7 @@ QuickPresenter *QuickPresenterPrivate::currentPresenter()
 				   "Cannot register views if the current presenter does not extend QtMvvm::QuickPresenter");
 #endif
 		return static_cast<QuickPresenter*>(ServiceRegistry::instance()->service<IPresenter>());
-	} catch(QException &e) {
+	} catch (QTMVVM_EXCEPTION_BASE &e) {
 		qFatal("%s", e.what());
 	}
 }

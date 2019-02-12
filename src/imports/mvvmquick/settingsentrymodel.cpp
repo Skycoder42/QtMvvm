@@ -168,8 +168,7 @@ SettingsEntryModel::EntryInfo::EntryInfo(SettingsElements::Entry entry, QUrl del
 	group(std::move(group))
 {
 	static const QRegularExpression nameRegex(QStringLiteral("&(?!&)"),
-											  QRegularExpression::DontCaptureOption |
-											  QRegularExpression::OptimizeOnFirstUsageOption);
+											  QRegularExpression::DontCaptureOption);
 	title.remove(nameRegex);
 	this->group.entries.clear();
 }

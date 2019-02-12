@@ -335,7 +335,7 @@ void ServiceExistsException::raise() const
 	throw (*this);
 }
 
-QException *ServiceExistsException::clone() const
+QTMVVM_EXCEPTION_BASE *ServiceExistsException::clone() const
 {
 	return new ServiceExistsException(this);
 }
@@ -360,7 +360,7 @@ void ServiceConstructionException::raise() const
 	throw (*this);
 }
 
-QException *ServiceConstructionException::clone() const
+QTMVVM_EXCEPTION_BASE *ServiceConstructionException::clone() const
 {
 	return new ServiceConstructionException(this);
 }
@@ -380,7 +380,7 @@ void ServiceDependencyException::raise() const
 	throw (*this);
 }
 
-QException *ServiceDependencyException::clone() const
+QTMVVM_EXCEPTION_BASE *ServiceDependencyException::clone() const
 {
 	return new ServiceDependencyException(this);
 }

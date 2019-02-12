@@ -22,28 +22,26 @@
 #include <QtWidgets/QColorDialog>
 
 #include <QtMvvmCore/CoreApp>
+#include <QtMvvmCore/exception.h>
 #include <QtMvvmCore/private/qtmvvm_logging_p.h>
 
 #include <dialogmaster.h>
 #include <qurlvalidator.h>
 
-namespace {
-
-void qtMvvmWidgetsInit()
+static void qtMvvmWidgetsInit()
 {
 	QtMvvm::ServiceRegistry::instance()->registerObject<QtMvvm::InputWidgetFactory>(QtMvvm::ServiceRegistry::DestroyOnAppDestroy, true);
 	QtMvvm::ServiceRegistry::instance()->registerInterface<QtMvvm::IPresenter, QtMvvm::WidgetsPresenter>(QtMvvm::ServiceRegistry::DestroyOnAppDestroy, true);
 }
 
-void initResources()
+static void initResources()
 {
 #ifdef QT_STATIC
 	qtMvvmWidgetsInit();
-	Q_INIT_RESOURCE(qtmvvmsettingswidgets_module);
+	Q_INIT_RESOURCE(qtmvvmwidgets_module);
 #endif
 }
 
-}
 Q_COREAPP_STARTUP_FUNCTION(qtMvvmWidgetsInit)
 
 using namespace QtMvvm;
@@ -508,7 +506,7 @@ WidgetsPresenter *WidgetsPresenterPrivate::currentPresenter()
 				   "Cannot register widgets if the current presenter does not extend QtMvvm::WidgetsPresenter");
 #endif
 		return static_cast<WidgetsPresenter*>(ServiceRegistry::instance()->service<IPresenter>());
-	} catch(QException &e) {
+	} catch (QTMVVM_EXCEPTION_BASE &e) {
 		qFatal("%s", e.what());
 	}
 }
