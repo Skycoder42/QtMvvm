@@ -134,8 +134,7 @@ QObject *ServiceRegistryPrivate::constructInjectedLocked(const QMetaObject *meta
 
 void ServiceRegistryPrivate::injectLocked(QObject *object)
 {
-	static QRegularExpression nameRegex(QStringLiteral(R"__(^__qtmvvm_inject_(.+)$)__"),
-										QRegularExpression::OptimizeOnFirstUsageOption);
+	static QRegularExpression nameRegex(QStringLiteral(R"__(^__qtmvvm_inject_(.+)$)__"));
 
 	auto metaObject = object->metaObject();
 	for(auto i = 0; i < metaObject->propertyCount(); i++) {

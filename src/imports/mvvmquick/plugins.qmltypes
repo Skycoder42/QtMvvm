@@ -10,10 +10,10 @@ Module {
     dependencies: [
         "Qt.labs.calendar 1.0",
         "Qt.labs.platform 1.0",
-        "QtGraphicalEffects 1.0",
+        "QtGraphicalEffects 1.12",
         "QtQml 2.2",
-        "QtQuick 2.8",
-        "QtQuick.Window 2.1",
+        "QtQuick 2.12",
+        "QtQuick.Window 2.12",
         "de.skycoder42.QtMvvm.Core 1.0"
     ]
     Component {
