@@ -60,16 +60,9 @@ TRANSLATIONS += \
 	translations/qtmvvmcore_de.ts \
 	translations/qtmvvmcore_template.ts
 
-DISTFILES += $$TRANSLATIONS
-
 load(qt_module)
 lib_bundle: FRAMEWORK_HEADERS.files += $$absolute_path(ViewModel, $$INC_PATH/include/$$MODULE_INCNAME)
 else: gen_headers.files += $$absolute_path(ViewModel, $$INC_PATH/include/$$MODULE_INCNAME)
-lib_bundle: message($$FRAMEWORK_HEADERS.files)
-else: message($$gen_headers.files)
-
-qpmx_ts_target.path = $$[QT_INSTALL_TRANSLATIONS]
-qpmx_ts_target.depends += lrelease
 
 FEATURES += \
 	../../mkspecs/features/qsettingsgenerator.prf \
@@ -78,7 +71,10 @@ FEATURES += \
 features.files = $$FEATURES
 features.path = $$[QT_HOST_DATA]/mkspecs/features/
 
-INSTALLS += qpmx_ts_target features
+INSTALLS += features
+
+CONFIG += lrelease
+QM_FILES_INSTALL_PATH = $$[QT_INSTALL_TRANSLATIONS]
 
 win32 {
 	QMAKE_TARGET_PRODUCT = "$$TARGET"
@@ -88,11 +84,8 @@ win32 {
 	QMAKE_TARGET_BUNDLE_PREFIX = "com.skycoder42."
 }
 
-!ReleaseBuild:!DebugBuild:!system(qpmx -d $$shell_quote($$_PRO_FILE_PWD_) --qmake-run init $$QPMX_EXTRA_OPTIONS $$shell_quote($$QMAKE_QMAKE) $$shell_quote($$OUT_PWD)): error(qpmx initialization failed. Check the compilation log for details.)
-else: include($$OUT_PWD/qpmx_generated.pri)
-
-qpmx_ts_target.files -= $$OUT_PWD/$$QPMX_WORKINGDIR/qtmvvmcore_template.qm
-qpmx_ts_target.files += translations/qtmvvmcore_template.ts
+QDEP_DEPENDS += \
+	Skycoder42/QPluginFactory@1.5.0
 
 # source include for lupdate
 never_true_for_lupdate {
@@ -100,4 +93,8 @@ never_true_for_lupdate {
 		$$files(../imports/mvvmcore/*.qml)
 }
 
-mingw: LIBS_PRIVATE += -lQt5Gui -lQt5Core
+!load(qdep):error("Failed to load qdep feature! Run 'qdep prfgen --qmake $$QMAKE_QMAKE' to create it.")
+
+#replace template qm by ts
+QM_FILES -= $$__qdep_lrelease_real_dir/qtmvvmcore_template.qm
+QM_FILES += translations/qtmvvmcore_template.ts

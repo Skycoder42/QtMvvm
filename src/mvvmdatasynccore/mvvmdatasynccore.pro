@@ -36,12 +36,11 @@ TRANSLATIONS += \
 	translations/qtmvvmdatasynccore_de.ts \
 	translations/qtmvvmdatasynccore_template.ts
 
-DISTFILES += $$TRANSLATIONS \
+DISTFILES += \
 	application-x-datasync-account-data.xml
 
-qpmx_ts_target.path = $$[QT_INSTALL_TRANSLATIONS]
-qpmx_ts_target.depends += lrelease
-INSTALLS += qpmx_ts_target
+CONFIG += lrelease
+QM_FILES_INSTALL_PATH = $$[QT_INSTALL_TRANSLATIONS]
 
 load(qt_module)
 
@@ -53,16 +52,19 @@ win32 {
 	QMAKE_TARGET_BUNDLE_PREFIX = "com.skycoder42."
 }
 
-!ReleaseBuild:!DebugBuild:!system(qpmx -d $$shell_quote($$_PRO_FILE_PWD_) --qmake-run init $$QPMX_EXTRA_OPTIONS $$shell_quote($$QMAKE_QMAKE) $$shell_quote($$OUT_PWD)): error(qpmx initialization failed. Check the compilation log for details.)
-else: include($$OUT_PWD/qpmx_generated.pri)
-
-qpmx_ts_target.files -= $$OUT_PWD/$$QPMX_WORKINGDIR/qtmvvmdatasynccore_template.qm
-qpmx_ts_target.files += translations/qtmvvmdatasynccore_template.ts
+android: QDEP_DEPENDS += Skycoder42/AndroidContentDevice@1.0.0
 
 # source include for lupdate
 never_true_for_lupdate {
 	SOURCES += $$files(../imports/mvvmdatasynccore/*.cpp) \
 		$$files(../imports/mvvmdatasynccore/*.qml)
 }
+
+!load(qdep):error("Failed to load qdep feature! Run 'qdep prfgen --qmake $$QMAKE_QMAKE' to create it.")
+
+#replace template qm by ts
+QM_FILES -= $$__qdep_lrelease_real_dir/qtmvvmdatasynccore_template.qm
+QM_FILES += translations/qtmvvmdatasynccore_template.ts
+
 
 

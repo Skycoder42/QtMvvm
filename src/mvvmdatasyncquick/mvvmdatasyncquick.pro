@@ -15,13 +15,10 @@ TRANSLATIONS += \
 	translations/qtmvvmdatasyncquick_de.ts \
 	translations/qtmvvmdatasyncquick_template.ts
 
-DISTFILES += $$TRANSLATIONS
-
-qpmx_ts_target.path = $$[QT_INSTALL_TRANSLATIONS]
-qpmx_ts_target.depends += lrelease
-INSTALLS += qpmx_ts_target
-
 load(qt_module)
+
+CONFIG += lrelease
+QM_FILES_INSTALL_PATH = $$[QT_INSTALL_TRANSLATIONS]
 
 win32 {
 	QMAKE_TARGET_PRODUCT = "$$TARGET"
@@ -31,15 +28,15 @@ win32 {
 	QMAKE_TARGET_BUNDLE_PREFIX = "com.skycoder42."
 }
 
-!ReleaseBuild:!DebugBuild:!system(qpmx -d $$shell_quote($$_PRO_FILE_PWD_) --qmake-run init $$QPMX_EXTRA_OPTIONS $$shell_quote($$QMAKE_QMAKE) $$shell_quote($$OUT_PWD)): error(qpmx initialization failed. Check the compilation log for details.)
-else: include($$OUT_PWD/qpmx_generated.pri)
-
-qpmx_ts_target.files -= $$OUT_PWD/$$QPMX_WORKINGDIR/qtmvvmdatasyncquick_template.qm
-qpmx_ts_target.files += translations/qtmvvmdatasyncquick_template.ts
-
 # source include for lupdate
 never_true_for_lupdate {
 	SOURCES += $$files(../imports/mvvmdatasyncquick/*.cpp) \
 		$$files(../imports/mvvmdatasyncquick/*.qml)
 }
+
+!load(qdep):error("Failed to load qdep feature! Run 'qdep prfgen --qmake $$QMAKE_QMAKE' to create it.")
+
+#replace template qm by ts
+QM_FILES -= $$__qdep_lrelease_real_dir/qtmvvmdatasyncquick_template.qm
+QM_FILES += translations/qtmvvmdatasyncquick_template.ts
 

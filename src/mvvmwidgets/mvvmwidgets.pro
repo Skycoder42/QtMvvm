@@ -13,9 +13,9 @@ HEADERS += \
 	inputwidgetfactory_p.h \
 	settingsdialog_p.h \
 	settingsdialog.h \
-    tooltipslider_p.h \
-    coloredit_p.h \
-    progressdialog_p.h
+	tooltipslider_p.h \
+	coloredit_p.h \
+	progressdialog_p.h
 
 SOURCES += \
 	widgetspresenter.cpp \
@@ -23,9 +23,9 @@ SOURCES += \
 	selectcombobox.cpp \
 	inputwidgetfactory.cpp \
 	settingsdialog.cpp \
-    tooltipslider.cpp \
-    coloredit.cpp \
-    progressdialog.cpp
+	tooltipslider.cpp \
+	coloredit.cpp \
+	progressdialog.cpp
 
 FORMS += \
 	settingsdialog.ui
@@ -37,11 +37,8 @@ TRANSLATIONS += \
 	translations/qtmvvmwidgets_de.ts \
 	translations/qtmvvmwidgets_template.ts
 
-DISTFILES += $$TRANSLATIONS
-
-qpmx_ts_target.path = $$[QT_INSTALL_TRANSLATIONS]
-qpmx_ts_target.depends += lrelease
-INSTALLS += qpmx_ts_target
+CONFIG += lrelease
+QM_FILES_INSTALL_PATH = $$[QT_INSTALL_TRANSLATIONS]
 
 load(qt_module)
 
@@ -53,10 +50,12 @@ win32 {
 	QMAKE_TARGET_BUNDLE_PREFIX = "com.skycoder42."
 }
 
-!ReleaseBuild:!DebugBuild:!system(qpmx -d $$shell_quote($$_PRO_FILE_PWD_) --qmake-run init $$QPMX_EXTRA_OPTIONS $$shell_quote($$QMAKE_QMAKE) $$shell_quote($$OUT_PWD)): error(qpmx initialization failed. Check the compilation log for details.)
-else: include($$OUT_PWD/qpmx_generated.pri)
+QDEP_DEPENDS += \
+	Skycoder42/DialogMaster@1.4.0 \
+	Skycoder42/QUrlValidator@1.2.0
 
-qpmx_ts_target.files -= $$OUT_PWD/$$QPMX_WORKINGDIR/qtmvvmwidgets_template.qm
-qpmx_ts_target.files += translations/qtmvvmwidgets_template.ts
+!load(qdep):error("Failed to load qdep feature! Run 'qdep prfgen --qmake $$QMAKE_QMAKE' to create it.")
 
-mingw: LIBS_PRIVATE += -lQt5Widgets -lQt5Gui -lQt5Core
+#replace template qm by ts
+QM_FILES -= $$__qdep_lrelease_real_dir/qtmvvmwidgets_template.qm
+QM_FILES += translations/qtmvvmwidgets_template.ts
