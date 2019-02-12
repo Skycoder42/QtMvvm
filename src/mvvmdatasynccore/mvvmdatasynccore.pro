@@ -52,7 +52,7 @@ win32 {
 	QMAKE_TARGET_BUNDLE_PREFIX = "com.skycoder42."
 }
 
-android: QDEP_DEPENDS += Skycoder42/AndroidContentDevice@1.0.0
+android: QDEP_DEPENDS += Skycoder42/AndroidContentDevice@1.1.0
 
 # source include for lupdate
 never_true_for_lupdate {
