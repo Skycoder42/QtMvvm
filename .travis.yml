@@ -26,6 +26,7 @@ matrix:
     - os: linux
       env:
         - PLATFORM=emscripten
+        - DOCKER_IMAGE=common
     - os: linux
       env:
         - PLATFORM=android_arm64_v8a
