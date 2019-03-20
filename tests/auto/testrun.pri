@@ -3,6 +3,10 @@ win32:!ReleaseBuild:!DebugBuild {
 	runtarget.CONFIG = recursive
 	runtarget.recurse_target = run-tests
 	QMAKE_EXTRA_TARGETS += runtarget
+} else:disable_testrun {
+	runtarget.target = run-tests
+	runtarget.depends += $(DESTDIR_TARGET)
+	QMAKE_EXTRA_TARGETS += runtarget
 } else {
 	oneshell.target = .ONESHELL
 	QMAKE_EXTRA_TARGETS += oneshell

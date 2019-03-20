@@ -24,4 +24,5 @@ DISTFILES += \
 importFiles.path = .
 DEPLOYMENT += importFiles
 
+win32:msvc:CONFIG(debug, debug|release): CONFIG += disable_testrun
 include(../../testrun.pri)
