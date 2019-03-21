@@ -44,6 +44,7 @@ install:
   - .\qtmodules-travis\ci\win\setup.bat
 
 build_script:
+  - if "%PLATFORM%" == "mingw73_32" set NO_TESTS=true
   - .\qtmodules-travis\ci\win\build.bat
 
 after_build:
