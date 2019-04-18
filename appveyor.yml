@@ -5,7 +5,7 @@ image:
 version: build-{build}
 
 environment:
-  QT_VER: 5.12.2
+  QT_VER: 5.12.3
   EXTRA_MODULES: .skycoder42.datasync
   MAKE_RUN_TESTS: true
   TARGET_NAME: qtmvvm
